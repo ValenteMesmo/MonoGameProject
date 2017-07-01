@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace GameCore
 {

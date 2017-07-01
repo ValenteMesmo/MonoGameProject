@@ -5,7 +5,7 @@ using System;
 
 namespace GameCore
 {
-    public class World
+    internal class World
     {
         public readonly InputRepository PlayerInputs;
         public const int SPACE_BETWEEN_THINGS = 4;
@@ -13,13 +13,11 @@ namespace GameCore
         public bool Stopped { get; set; }
 
         private int sleep;
-
-        private List<ICauseCollisions> CollidersToUseOnRenderThread;
-
-        private List<SomethingThatUpdates> Updates;
-        private List<ICauseCollisions> Colliders;
-        private List<TouchableThing> Touchables;
         private readonly TouchInputHandler TouchInputHandler;
+
+        internal List<SomethingThatUpdates> Updates = new List<SomethingThatUpdates>();
+        internal List<ICauseCollisions> Colliders = new List<ICauseCollisions>();
+        internal List<TouchableThing> Touchables = new List<TouchableThing>();
 
         public World(
             Camera2d Camera2d
@@ -60,29 +58,27 @@ namespace GameCore
                 Touchables.Remove(thing as TouchableThing);
         }
 
-        public IEnumerable<ICauseCollisions> GetColliders()
+        internal List<ICauseCollisions> GetColliders()
         {
-            return CollidersToUseOnRenderThread;
+            return Colliders;
         }
 
+        List<string> aaa = new List<string>();
         internal IEnumerable<string> GetAudios()
         {
-            throw new NotImplementedException();
+            return aaa;
+            //throw new NotImplementedException();
         }
 
+        List<object> bbb = new List<object>();
         internal IEnumerable<object> GetAnimations()
         {
-            throw new NotImplementedException();
+            return bbb;
+            //throw new NotImplementedException();
         }
 
         public void Update()
         {
-            lock (CollidersToUseOnRenderThread)
-            {
-                //Destination array was not long enough. Check destIndex and length, and the array's lower bounds.'
-                CollidersToUseOnRenderThread = Colliders.ToList();
-            }
-
             if (Stopped)
                 return;
 
@@ -140,5 +136,6 @@ namespace GameCore
             Colliders.Clear();
             Touchables.Clear();
         }
+
     }
 }

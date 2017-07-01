@@ -6,7 +6,7 @@ namespace GameCore
 {
     public interface ILoadContents
     {
-        Dictionary<string, Texture2D> LoadTextures();
-        Dictionary<string, SoundEffect> LoadSoundEffects();
+        IEnumerable<string> GetTextureNames();
+        IEnumerable<string> GetSoundNames();
     }
 }
