@@ -79,7 +79,7 @@ namespace GameCore
             Things.SelectMany(thing => thing.Colliders)
                 .ToList()
                 .ForEachCombination(
-                    IColliderExtensions.HandleHorizontalCollision);
+                    ColliderExtensions.HandleHorizontalCollision);
 
             Things.ForEach(thing =>
                 thing.Colliders.ForEach(collider =>
@@ -88,7 +88,7 @@ namespace GameCore
             Things.SelectMany(thing => thing.Colliders)
                 .ToList()
                 .ForEachCombination(
-                    IColliderExtensions.HandleVerticalCollision);
+                    ColliderExtensions.HandleVerticalCollision);
         }
 
         public void Clear()

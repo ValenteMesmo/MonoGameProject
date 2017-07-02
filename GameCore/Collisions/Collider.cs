@@ -15,24 +15,4 @@
         public int HorizontalSpeed { get; set; }
         public int VerticalSpeed { get; set; }
     }
-
-    public interface IHandleTopCollisions
-    {
-        void Handle(Collider other);
-    }
-
-    public interface IHandleBotCollisions
-    {
-        void Handle(Collider other);
-    }
-
-    public interface IHandleLeftCollisions
-    {
-        void Handle(Collider other);
-    }
-
-    public interface IHandleRightCollisions
-    {
-        void Handle(Collider other);
-    }
 }

@@ -42,22 +42,25 @@
     <Compile Include="AndroidStuff.cs" />
     <Compile Include="BaseGame.cs" />
     <Compile Include="Camera2D.cs" />
-    <Compile Include="Extensions\IColliderExtensions.cs" />
+    <Compile Include="Collisions\Collider.cs" />
+    <Compile Include="Collisions\CollisionResult.cs" />
+    <Compile Include="Collisions\ColliderExtensions.cs" />
+    <Compile Include="Collisions\IHandleBotCollisions.cs" />
+    <Compile Include="Collisions\IHandleLeftCollisions.cs" />
+    <Compile Include="Collisions\IHandleRightCollisions.cs" />
+    <Compile Include="Collisions\IHandleTopCollisions.cs" />
+    <Compile Include="Extensions\IHaveDimensions.cs" />
     <Compile Include="Extensions\IListExtensions.cs" />
     <Compile Include="Game.cs" />
-    <Compile Include="Interfaces\ILoadContents.cs" />
+    <Compile Include="ILoadContents.cs" />
     <Compile Include="InputRepository.cs" />
-    <Compile Include="Interfaces\SomethingThatUpdates.cs" />
+    <Compile Include="UpdateHandler.cs" />
     <Compile Include="TouchInputHandler.cs" />
     <Compile Include="World.cs" />
-    <Compile Include="Interfaces\SomethingThatCollides.cs" />
-    <Compile Include="Interfaces\SomethingWithPosition.cs" />
-    <Compile Include="Interfaces\Something.cs" />
-    <Compile Include="Interfaces\TouchableThing.cs" />
+    <Compile Include="Thing.cs" />
+    <Compile Include="IHandleTouchInputs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Implementations\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

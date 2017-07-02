@@ -3,27 +3,7 @@ using System;
 
 namespace GameCore
 {
-    public interface IHaveDimensions
-    {
-        Thing Parent { get; }
-        int X { get; set; }
-        int Y { get; set; }
-        int Width { get; set; }
-        int Height { get; set; }
-    }
-
-    //TODO:
-    public enum CollisionResult
-    {
-        Nope
-       , Left
-       , Right
-       , Top
-       , Bottom
-    }
-
-    //TODO: rename
-    public static class IColliderExtensions
+    public static class ColliderExtensions
     {
         public static CollisionResult IsColliding(this Collider A, Collider B)
         {
