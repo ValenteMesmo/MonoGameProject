@@ -1,6 +1,6 @@
 ﻿namespace GameCore.Interfaces
 {
-    public interface TouchableThing : SomethingWithPosition
+    public interface IHandleTouchInputs : IHaveDimensions
     {
         void TouchEnded();
         void TouchBegin();

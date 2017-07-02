@@ -15,9 +15,7 @@ namespace GameCore
         private int sleep;
         private readonly TouchInputHandler TouchInputHandler;
 
-        internal List<SomethingThatUpdates> Updates = new List<SomethingThatUpdates>();
-        internal List<ICauseCollisions> Colliders = new List<ICauseCollisions>();
-        internal List<TouchableThing> Touchables = new List<TouchableThing>();
+        internal List<Thing> Things = new List<Thing>();
 
         public World(
             Camera2d Camera2d
@@ -38,43 +36,14 @@ namespace GameCore
             sleep = 6;
         }
 
-        public void Add(Something thing)
+        public void Add(Thing thing)
         {
-            if (thing is SomethingThatUpdates)
-                Updates.Add(thing as SomethingThatUpdates);
-            if (thing is ICauseCollisions)
-                Colliders.Add(thing as ICauseCollisions);
-            if (thing is TouchableThing)
-                Touchables.Add(thing as TouchableThing);
+            Things.Add(thing);
         }
 
-        public void Remove(Something thing)
+        public void Remove(Thing thing)
         {
-            if (thing is SomethingThatUpdates)
-                Updates.Remove(thing as SomethingThatUpdates);
-            if (thing is ICauseCollisions)
-                Colliders.Remove(thing as ICauseCollisions);
-            if (thing is TouchableThing)
-                Touchables.Remove(thing as TouchableThing);
-        }
-
-        internal List<ICauseCollisions> GetColliders()
-        {
-            return Colliders;
-        }
-
-        List<string> aaa = new List<string>();
-        internal IEnumerable<string> GetAudios()
-        {
-            return aaa;
-            //throw new NotImplementedException();
-        }
-
-        List<object> bbb = new List<object>();
-        internal IEnumerable<object> GetAnimations()
-        {
-            return bbb;
-            //throw new NotImplementedException();
+            Things.Remove(thing);
         }
 
         public void Update()
@@ -82,14 +51,11 @@ namespace GameCore
             if (Stopped)
                 return;
 
-            foreach (var item in Colliders)
-            {
-                item.RenderX = item.X;
-                item.RenderY = item.Y;
-            }
-
             PlayerInputs.Update();
-            TouchInputHandler.Handle(Touchables);
+
+            Things.ForEach(thing =>
+                TouchInputHandler.Handle(thing.Touchables)
+            );
 
             if (sleep > 0)
             {
@@ -97,44 +63,37 @@ namespace GameCore
                 return;
             }
 
-            {
-                var currentUpdates = Updates.ToList();
-                foreach (var item in currentUpdates)
-                {
-                    item.Update();
-                }
-            }
+            Things.ForEach(thing =>
+                thing.Updates.ForEach(update =>
+                    update.Update()));
 
-            foreach (var item in Colliders)
-            {
-                item.MoveHorizontally();
-            }
+            Things.ForEach(thing =>
+                thing.Colliders.ForEach(collider =>
+                    collider.MoveHorizontally()));
 
             //TODO: QuadTree
             //https://github.com/ChevyRay/QuadTree
             //https://gamedevelopment.tutsplus.com/tutorials/quick-tip-use-quadtrees-to-detect-likely-collisions-in-2d-space--gamedev-374
 
-            var currentColliders = Colliders.ToList();
+            //TODO: mover esse selectmany tolist para cima. fazer uma vez só
+            Things.SelectMany(thing => thing.Colliders)
+                .ToList()
+                .ForEachCombination(
+                    IColliderExtensions.HandleHorizontalCollision);
 
-            currentColliders.ForEachCombination(
-                IColliderExtensions
-                    .HandleHorizontalCollision);
+            Things.ForEach(thing =>
+                thing.Colliders.ForEach(collider =>
+                    collider.MoveVertically()));
 
-            foreach (var item in currentColliders)
-            {
-                item.MoveVertically();
-            }
-
-            currentColliders.ForEachCombination(
-                IColliderExtensions
-                    .HandleVerticalCollision);
+            Things.SelectMany(thing => thing.Colliders)
+                .ToList()
+                .ForEachCombination(
+                    IColliderExtensions.HandleVerticalCollision);
         }
 
         public void Clear()
         {
-            Updates.Clear();
-            Colliders.Clear();
-            Touchables.Clear();
+            Things.Clear();
         }
 
     }

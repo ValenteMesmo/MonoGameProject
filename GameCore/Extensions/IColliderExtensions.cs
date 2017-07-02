@@ -3,6 +3,15 @@ using System;
 
 namespace GameCore
 {
+    public interface IHaveDimensions
+    {
+        Thing Parent { get; }
+        int X { get; set; }
+        int Y { get; set; }
+        int Width { get; set; }
+        int Height { get; set; }
+    }
+
     //TODO:
     public enum CollisionResult
     {
@@ -16,7 +25,7 @@ namespace GameCore
     //TODO: rename
     public static class IColliderExtensions
     {
-        public static CollisionResult IsColliding(this ICauseCollisions A, ICauseCollisions B)
+        public static CollisionResult IsColliding(this Collider A, Collider B)
         {
             var w = 0.5f * (A.Width + B.Width);
             var h = 0.5f * (A.Height + B.Height);
@@ -57,49 +66,49 @@ namespace GameCore
             return CollisionResult.Nope;
         }
 
-        public static int Left(this SomethingWithPosition a)
+        public static int Left(this IHaveDimensions a)
         {
-            return a.X;
+            return a.Parent.X + a.X;
         }
 
-        public static int Right(this SomethingWithPosition a)
+        public static int Right(this IHaveDimensions a)
         {
-            return a.X + a.Width;
+            return a.Parent.X + a.X + a.Width;
         }
 
-        public static int Top(this SomethingWithPosition a)
+        public static int Top(this IHaveDimensions a)
         {
-            return a.Y;
+            return a.Parent.Y + a.Y;
         }
 
-        public static int Bottom(this SomethingWithPosition a)
+        public static int Bottom(this IHaveDimensions a)
         {
-            return a.Y + a.Height;
+            return a.Parent.Y + a.Y + a.Height;
         }
 
-        public static float CenterX(this SomethingWithPosition collider)
+        public static float CenterX(this IHaveDimensions collider)
         {
             return (collider.Left() + collider.Right()) * 0.5f;
         }
 
-        public static float CenterY(this SomethingWithPosition collider)
+        public static float CenterY(this IHaveDimensions collider)
         {
             return (collider.Top() + collider.Bottom()) * 0.5f;
         }
 
-        public static void MoveHorizontally(this ICauseCollisions a)
+        public static void MoveHorizontally(this Collider a)
         {
-            a.X += a.HorizontalSpeed;
+            a.Parent.X += a.HorizontalSpeed;
         }
 
-        public static void MoveVertically(this ICauseCollisions a)
+        public static void MoveVertically(this Collider a)
         {
-            a.Y += a.VerticalSpeed;
+            a.Parent.Y += a.VerticalSpeed;
         }
 
         public static void HandleHorizontalCollision(
-            this ICauseCollisions a
-            , ICauseCollisions b)
+            this Collider a
+            , Collider b)
         {
             if (a.Disabled || b.Disabled)
                 return;
@@ -111,25 +120,25 @@ namespace GameCore
 
             if (collision == CollisionResult.Left)
             {
-                if (a is IHandleCollisions)
-                    (a as IHandleCollisions).LeftCollision(b);
+                a.Parent.LeftCollisionHandlers
+                    .ForEach(handler => handler.Handle(b));
 
-                if (b is IHandleCollisions)
-                    (b as IHandleCollisions).RightCollision(a);
+                b.Parent.RightCollisionHandlers
+                    .ForEach(handler => handler.Handle(a));
             }
             else if (collision == CollisionResult.Right)
             {
-                if (a is IHandleCollisions)
-                    (a as IHandleCollisions).RightCollision(b);
+               a.Parent.RightCollisionHandlers
+                    .ForEach(handler => handler.Handle(b));
 
-                if (b is IHandleCollisions)
-                    (b as IHandleCollisions).LeftCollision(a);
+                b.Parent.LeftCollisionHandlers
+                    .ForEach(handler => handler.Handle(a));
             }
         }
 
         public static void HandleVerticalCollision(
-            this ICauseCollisions a
-            , ICauseCollisions b)
+            this Collider a
+            , Collider b)
         {
             if (a.Disabled || b.Disabled)
                 return;
@@ -141,19 +150,19 @@ namespace GameCore
 
             if (collision == CollisionResult.Top)
             {
-                if (a is IHandleCollisions)
-                    (a as IHandleCollisions).TopCollision(b);
+                a.Parent.TopCollisionHandlers
+                    .ForEach(handler => handler.Handle(b));
 
-                if (b is IHandleCollisions)
-                    (b as IHandleCollisions).BotCollision(a);
+                b.Parent.BotCollisionHandlers
+                    .ForEach(handler => handler.Handle(a));
             }
             else if (collision == CollisionResult.Bottom)
             {
-                if (a is IHandleCollisions)
-                    (a as IHandleCollisions).BotCollision(b);
+                a.Parent.BotCollisionHandlers
+                    .ForEach(handler => handler.Handle(b));
 
-                if (b is IHandleCollisions)
-                    (b as IHandleCollisions).TopCollision(a);
+                b.Parent.TopCollisionHandlers
+                    .ForEach(handler => handler.Handle(a));
             }
         }
     }

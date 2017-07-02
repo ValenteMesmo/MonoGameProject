@@ -13,9 +13,9 @@ public abstract class Game : IDisposable
 
     public abstract void OnStart();
 
-    protected void Add(Something Something)
+    protected void AddThing(Thing thing)
     {
-        BaseGame.World.Add(Something);
+        BaseGame.World.Add(thing);
     }
 
     public void Run()

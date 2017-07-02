@@ -7,8 +7,8 @@ namespace GameCore
 {
     public class TouchInputHandler
     {
-        private List<TouchableThing> PreviouslyTouched = new List<TouchableThing>();
-        private List<TouchableThing> CurrentlyTouched = new List<TouchableThing>();
+        private List<IHandleTouchInputs> PreviouslyTouched = new List<IHandleTouchInputs>();
+        private List<IHandleTouchInputs> CurrentlyTouched = new List<IHandleTouchInputs>();
 
         public readonly InputRepository PlayerInputs;
 
@@ -17,15 +17,13 @@ namespace GameCore
             this.PlayerInputs = PlayerInputs;
         }
 
-        public void Handle(IEnumerable<TouchableThing> Touchables)
+        public void Handle(List<IHandleTouchInputs> Touchables)
         {
             List<Vector2> touches = GetTouches();
 
-            var currentTouchables = Touchables.ToList();
-            foreach (var item in currentTouchables)
-            {
-                HandleTouchable(touches, item);
-            }
+            Touchables.ForEach(item =>
+                HandleTouchable(touches, item)
+            );
         }
 
         private List<Vector2> GetTouches()
@@ -38,7 +36,7 @@ namespace GameCore
             return touches;
         }
 
-        private void HandleTouchable(List<Vector2> touches, TouchableThing item)
+        private void HandleTouchable(List<Vector2> touches, IHandleTouchInputs item)
         {
             foreach (var touch in touches)
             {

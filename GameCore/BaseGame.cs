@@ -1,4 +1,5 @@
 ﻿using GameCore;
+using GameCore.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
@@ -6,16 +7,17 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
 using System.Collections.Generic;
 using OriginalGameClass = Microsoft.Xna.Framework.Game;
+using System;
 
 internal class BaseGame : OriginalGameClass
 {
     private GraphicsDeviceManager Graphics;
     private SpriteBatch SpriteBatch;
-    public World World { get; }
     private readonly Camera2d Camera;
     private readonly ILoadContents ContentLoader;
     private Dictionary<string, SoundEffect> Sounds;
     private Dictionary<string, Texture2D> Textures;
+    private readonly Game Parent;
 
     public bool FullScreen
     {
@@ -29,7 +31,7 @@ internal class BaseGame : OriginalGameClass
         }
     }
 
-    private readonly Game Parent;
+    public World World { get; }
 
     public BaseGame(ILoadContents ContentLoader, Game Parent)
     {
@@ -106,7 +108,8 @@ internal class BaseGame : OriginalGameClass
 
     protected override void Draw(GameTime gameTime)
     {
-        GraphicsDevice.Clear(new Color(158, 165, 178));
+        GraphicsDevice.Clear(Color.CornflowerBlue);
+
         SpriteBatch.Begin(SpriteSortMode.BackToFront,
                    BlendState.AlphaBlend,
                    null,
@@ -115,55 +118,89 @@ internal class BaseGame : OriginalGameClass
                    null,
                    Camera.GetTransformation(GraphicsDevice));
 
-        RenderColliders();
-        RenderAnimations();
+        World.Things.ForEach(RenderThing);
 
         SpriteBatch.End();
+
         base.Draw(gameTime);
 
-        PlayAudios();
     }
 
-    private void RenderAnimations()
+    private void RenderThing(Thing thing)
     {
-        var animations = World.GetAnimations();
+        thing.Colliders.ForEach(collider =>
+            DrawBorder(
+                new Rectangle(
+                    thing.X + collider.X,
+                    thing.Y + collider.Y,
+                    collider.Width,
+                    collider.Height),
+                20,
+                Color.Red
+            )
+        );
     }
 
-    private void PlayAudios()
-    {
-        var audios = World.GetAudios();
+    //private void RenderAnimations()
+    //{
+    //    var animations = World.GetAnimations();
 
-        //    if (item is SomethingWithAudio)
-        //    {
-        //        foreach (var audioName in item.As<SomethingWithAudio>().GetAudiosToPlay())
-        //        {
-        //            //TODO:
-        //            if (audioName == null)
-        //                return;
+    //    foreach (var item in animations)
+    //    {
+    //        int bonusX = 0;
+    //        int bonusY = 0;
 
-        //            Audios[audioName].Play();
-        //        }
-        //    }
 
-    }
+    //        var textures = item.As<Animation>().GetTextures();
 
-    private void RenderColliders()
-    {
-        if (true)
-        {
-            World.GetColliders()
-                .ForEach(item =>
-                    DrawBorder(
-                        new Rectangle(
-                            item.RenderX,
-                            item.RenderY,
-                            item.Width,
-                            item.Height),
-                        20,
-                        Color.Red)
-                );
-        }
-    }
+    //        foreach (var texture in textures)
+    //        {
+    //            spriteBatch.Draw(
+    //                    GeneratedContent.Textures[texture.Name]
+    //                    , new Rectangle(
+    //                       bonusX + texture.X,
+    //                    bonusY + texture.Y,
+    //                    texture.Width,
+    //                    texture.Height)
+    //                    , texture.PositionOnSpriteSheet
+    //                    , texture.Color
+    //                    , 0
+    //                    , Vector2.Zero
+    //                    , texture.Flipped ? SpriteEffects.FlipHorizontally : SpriteEffects.None
+    //                    , texture.ZIndex
+    //            );
+    //        }
+    //    }
+
+    //}
+
+    //private void PlayAudios()
+    //{
+    //    var Sounds = World.GetSoundNamesToBePlayed();
+
+    //    foreach (var soundName in Sounds)
+    //    {
+    //        this.Sounds[soundName].Play();
+    //    }
+    //}
+
+    //private void RenderColliders()
+    //{
+    //    if (true)
+    //    {
+    //        World.GetColliders()
+    //            .ForEach(item =>
+    //                DrawBorder(
+    //                    new Rectangle(
+    //                        item.RenderX,
+    //                        item.RenderY,
+    //                        item.Width,
+    //                        item.Height),
+    //                    20,
+    //                    Color.Red)
+    //            );
+    //    }
+    //}
 
     private void DrawBorder(Rectangle rectangleToDraw, int thicknessOfBorder, Color borderColor)
     {

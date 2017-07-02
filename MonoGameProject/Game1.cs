@@ -9,12 +9,27 @@ namespace MonoGameProject
     {
         public IEnumerable<string> GetSoundNames()
         {
-            return new string[] {  };
+            return new string[] { };
         }
 
         public IEnumerable<string> GetTextureNames()
         {
-            return new string[] {  };
+            return new string[] { };
+        }
+    }
+
+    public class MoveLeftAndRight : UpdateHandler
+    {
+        private int speed = 5;
+
+        public override void Update()
+        {
+            if (Parent.X > 6000)
+                speed = -5;
+            if(Parent.X < 2000)
+                speed = 5;
+
+            Parent.X += speed;
         }
     }
 
@@ -27,20 +42,16 @@ namespace MonoGameProject
 
         public override void OnStart()
         {
-            Add(new Player() {X= 2000, Y=2000, Width = 2000, Height = 2000 });
-        }
-    }
+            var player = new Thing();
+            player.AddCollider(new Collider() {
+                X = 4000
+                , Y = 4000
+                , Width = 4000
+                , Height = 4000 });
+            player.AddUpdate(new MoveLeftAndRight());
 
-    class Player : ICauseCollisions
-    {
-        public bool Disabled { get ; set ; }
-        public int HorizontalSpeed { get ; set ; }
-        public int VerticalSpeed { get ; set ; }
-        public int RenderX { get ; set ; }
-        public int RenderY { get ; set ; }
-        public int X { get ; set ; }
-        public int Y { get ; set ; }
-        public int Width { get ; set ; }
-        public int Height { get ; set ; }
+
+            AddThing(player);
+        }
     }
 }

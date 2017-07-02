@@ -1,20 +1,38 @@
 ﻿namespace GameCore.Interfaces
 {
-    public interface ICauseCollisions : SomethingWithPosition
+    public class Collider : IHaveDimensions
     {
-        bool Disabled { get; set; }
-        int HorizontalSpeed { get; set; }
-        int VerticalSpeed { get; set; }
-        
-        int RenderX { get; set; }
-        int RenderY { get; set; }
+        public Thing Parent { get; internal set; }
+
+        public int X { get; set; }
+        public int Y { get; set; }
+
+        public int Width { get; set; }
+        public int Height { get; set; }
+
+        public bool Disabled { get; set; }
+
+        public int HorizontalSpeed { get; set; }
+        public int VerticalSpeed { get; set; }
     }
 
-    public interface IHandleCollisions : SomethingWithPosition
+    public interface IHandleTopCollisions
     {
-        void RightCollision(ICauseCollisions other);
-        void LeftCollision(ICauseCollisions other);
-        void TopCollision(ICauseCollisions other);
-        void BotCollision(ICauseCollisions other);
+        void Handle(Collider other);
+    }
+
+    public interface IHandleBotCollisions
+    {
+        void Handle(Collider other);
+    }
+
+    public interface IHandleLeftCollisions
+    {
+        void Handle(Collider other);
+    }
+
+    public interface IHandleRightCollisions
+    {
+        void Handle(Collider other);
     }
 }
