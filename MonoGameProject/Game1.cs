@@ -60,9 +60,9 @@ namespace MonoGameProject
 
             player.AddAnimation(
                 new Animator(
-                    new AnimationTransitionOnCondition(new Animation[] { a, c }, b, () => true)
-                    , new AnimationTransitionOnCondition(new Animation[] { b, a }, c, () => true)
-                    , new AnimationTransitionOnCondition(new Animation[] { c, b }, a, () => true)
+                    new AnimationTransitionOnCondition(new Animation[] { a, c }, b, () => InputRepository.ClickedLeft)
+                    , new AnimationTransitionOnCondition(new Animation[] { b, a }, c, () => InputRepository.ClickedRight)
+                    , new AnimationTransitionOnCondition(new Animation[] { c, b }, a, () => InputRepository.ClickedDown)
                 )
             );
 

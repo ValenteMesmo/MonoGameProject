@@ -15,7 +15,7 @@ internal class BaseGame : OriginalGameClass
     private readonly ILoadContents ContentLoader;
     private Dictionary<string, SoundEffect> Sounds;
     private Dictionary<string, Texture2D> Textures;
-    private readonly Game Parent;
+    private readonly Game Parent;    
 
     public bool FullScreen
     {

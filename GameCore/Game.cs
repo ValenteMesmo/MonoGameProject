@@ -4,6 +4,7 @@ using System;
 public abstract class Game : IDisposable
 {
     private readonly BaseGame BaseGame;
+    protected InputRepository InputRepository { get { return BaseGame.World.PlayerInputs; } }
 
     public Game(ILoadContents ContentLoader)
     {

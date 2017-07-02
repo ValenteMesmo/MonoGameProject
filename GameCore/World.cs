@@ -6,14 +6,15 @@ namespace GameCore
     internal class World
     {
         public readonly InputRepository PlayerInputs;
+        private readonly TouchInputHandler TouchInputHandler;
+
+        internal List<Thing> Things = new List<Thing>();
         public const int SPACE_BETWEEN_THINGS = 4;
         public readonly Camera2d Camera2d;
         public bool Stopped { get; set; }
 
         private int sleep;
-        private readonly TouchInputHandler TouchInputHandler;
 
-        internal List<Thing> Things = new List<Thing>();
 
         public World(
             Camera2d Camera2d
