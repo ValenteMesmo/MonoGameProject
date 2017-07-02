@@ -42,6 +42,7 @@
     <Compile Include="AndroidStuff.cs" />
     <Compile Include="Animation.cs" />
     <Compile Include="AnimationFrame.cs" />
+    <Compile Include="Animator.cs" />
     <Compile Include="BaseGame.cs" />
     <Compile Include="Camera2D.cs" />
     <Compile Include="Collisions\Collider.cs" />

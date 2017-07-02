@@ -4,7 +4,14 @@ using System.Linq;
 
 namespace GameCore
 {
-    public class Animation
+    public interface IHandleAnimation
+    {
+        Color Color { get; set; }
+        AnimationFrame GetCurretFrame();
+        void Update();
+    }
+
+    public class Animation: IHandleAnimation
     {
         private readonly List<AnimationFrame> Frames;
         private int CurrentFrameIndex;

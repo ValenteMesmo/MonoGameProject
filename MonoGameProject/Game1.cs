@@ -46,11 +46,25 @@ namespace MonoGameProject
             });
             player.AddUpdate(new MoveLeftAndRight());
 
-            player.AddAnimation(new Animation(
+            var a = new Animation(
                 new AnimationFrame("a", 0, 0, 2000, 2000)
-                , new AnimationFrame("b", 0, 0, 2000, 2000)
-                , new AnimationFrame("c", 0, 0, 2000, 2000)
-            ));
+            );
+
+            var b = new Animation(
+                 new AnimationFrame("b", 0, 0, 2000, 2000)
+            );
+
+            var c = new Animation(
+                 new AnimationFrame("c", 0, 0, 2000, 2000)
+            );
+
+            player.AddAnimation(
+                new Animator(
+                    new AnimationTransitionOnCondition(new Animation[] { a, c }, b, () => true)
+                    , new AnimationTransitionOnCondition(new Animation[] { b, a }, c, () => true)
+                    , new AnimationTransitionOnCondition(new Animation[] { c, b }, a, () => true)
+                )
+            );
 
             AddThing(player);
         }

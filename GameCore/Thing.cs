@@ -2,12 +2,14 @@
 
 namespace GameCore
 {
+
+
     public class Thing
     {
         public int X { get; set; }
         public int Y { get; set; }
 
-        internal List<Animation> Animations = new List<Animation>();
+        internal List<IHandleAnimation> Animations = new List<IHandleAnimation>();
         internal List<string> Sounds = new List<string>();
         internal List<Collider> Colliders = new List<Collider>();
         internal List<UpdateHandler> Updates = new List<UpdateHandler>();
@@ -30,7 +32,7 @@ namespace GameCore
             Updates.Add(Update);
         }
 
-        public void AddAnimation(Animation Animation)
+        public void AddAnimation(IHandleAnimation Animation)
         {
             Animations.Add(Animation);
         }
