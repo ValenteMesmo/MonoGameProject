@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 
-namespace GameCore.Interfaces
+namespace GameCore
 {
     public class Thing
     {
         public int X { get; set; }
         public int Y { get; set; }
 
-        internal List<object> Animations = new List<object>();
+        internal List<Animation> Animations = new List<Animation>();
         internal List<string> Sounds = new List<string>();
         internal List<Collider> Colliders = new List<Collider>();
         internal List<UpdateHandler> Updates = new List<UpdateHandler>();
@@ -28,6 +28,11 @@ namespace GameCore.Interfaces
         {
             Update.Parent = this;
             Updates.Add(Update);
+        }
+
+        public void AddAnimation(Animation Animation)
+        {
+            Animations.Add(Animation);
         }
 
         public void PlaySound(string name)

@@ -1,7 +1,5 @@
 ﻿using GameCore;
-using GameCore.Interfaces;
 using System.Collections.Generic;
-using System;
 
 namespace MonoGameProject
 {
@@ -14,7 +12,7 @@ namespace MonoGameProject
 
         public IEnumerable<string> GetTextureNames()
         {
-            return new string[] { };
+            return new string[] { "a", "b", "c" };
         }
     }
 
@@ -26,7 +24,7 @@ namespace MonoGameProject
         {
             if (Parent.X > 6000)
                 speed = -5;
-            if(Parent.X < 2000)
+            if (Parent.X < 2000)
                 speed = 5;
 
             Parent.X += speed;
@@ -35,21 +33,24 @@ namespace MonoGameProject
 
     public class Game1 : Game
     {
-        public Game1() : base(new ContentLoader())
-        {
-
-        }
+        public Game1() : base(new ContentLoader()) { }
 
         public override void OnStart()
         {
             var player = new Thing();
-            player.AddCollider(new Collider() {
-                X = 4000
-                , Y = 4000
-                , Width = 4000
-                , Height = 4000 });
+            player.X = player.Y = 4000;
+            player.AddCollider(new Collider()
+            {
+                Width = 4000,
+                Height = 4000
+            });
             player.AddUpdate(new MoveLeftAndRight());
 
+            player.AddAnimation(new Animation(
+                new AnimationFrame("a", 0, 0, 2000, 2000)
+                , new AnimationFrame("b", 0, 0, 2000, 2000)
+                , new AnimationFrame("c", 0, 0, 2000, 2000)
+            ));
 
             AddThing(player);
         }

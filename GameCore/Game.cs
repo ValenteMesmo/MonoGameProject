@@ -1,5 +1,5 @@
 ﻿using GameCore;
-using GameCore.Interfaces;
+using GameCore;
 using System;
 
 public abstract class Game : IDisposable

@@ -1,4 +1,4 @@
-﻿using GameCore.Interfaces;
+﻿using GameCore;
 
 namespace GameCore
 {

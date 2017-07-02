@@ -1,4 +1,4 @@
-﻿namespace GameCore.Interfaces
+﻿namespace GameCore
 {
     public interface IHandleLeftCollisions
     {

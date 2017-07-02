@@ -1,7 +1,5 @@
-﻿using GameCore.Interfaces;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System;
 
 namespace GameCore
 {
@@ -54,8 +52,10 @@ namespace GameCore
             PlayerInputs.Update();
 
             Things.ForEach(thing =>
-                TouchInputHandler.Handle(thing.Touchables)
-            );
+            {
+                thing.Animations.ForEach(f => f.Update());
+                TouchInputHandler.Handle(thing.Touchables);                
+            });
 
             if (sleep > 0)
             {

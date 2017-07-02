@@ -1,5 +1,4 @@
 ﻿using GameCore;
-using GameCore.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
@@ -7,7 +6,6 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
 using System.Collections.Generic;
 using OriginalGameClass = Microsoft.Xna.Framework.Game;
-using System;
 
 internal class BaseGame : OriginalGameClass
 {
@@ -138,6 +136,26 @@ internal class BaseGame : OriginalGameClass
                 20,
                 Color.Red
             )
+        );
+
+        thing.Animations.ForEach(animation =>
+        {
+            var frame = animation.GetCurretFrame();
+            SpriteBatch.Draw(
+                    Textures[frame.Name]
+                    , new Rectangle(
+                        thing.X + frame.X,
+                        thing.Y + frame.Y,
+                        frame.Width,
+                        frame.Height)
+                    , frame.PositionOnSpriteSheet
+                    , animation.Color
+                    , 0
+                    , Vector2.Zero
+                    , frame.Flipped ? SpriteEffects.FlipHorizontally : SpriteEffects.None
+                    , frame.RenderingLayer
+            );
+        }
         );
     }
 
