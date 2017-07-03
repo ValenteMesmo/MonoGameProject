@@ -1,13 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace GameCore
 {
-
-
     public class Thing
     {
         public int X { get; set; }
         public int Y { get; set; }
+        
+        internal List<int> VerticalForces = new List<int>();
+        internal List<int> HorizontalForces = new List<int>();
 
         internal List<IHandleAnimation> Animations = new List<IHandleAnimation>();
         internal List<string> Sounds = new List<string>();
@@ -15,10 +17,15 @@ namespace GameCore
         internal List<UpdateHandler> Updates = new List<UpdateHandler>();
         internal List<IHandleTouchInputs> Touchables = new List<IHandleTouchInputs>();
 
-        internal List<IHandleTopCollisions> TopCollisionHandlers = new List<IHandleTopCollisions>();
-        internal List<IHandleBotCollisions> BotCollisionHandlers = new List<IHandleBotCollisions>();
-        internal List<IHandleLeftCollisions> LeftCollisionHandlers = new List<IHandleLeftCollisions>();
-        internal List<IHandleRightCollisions> RightCollisionHandlers = new List<IHandleRightCollisions>();
+        public void AddVerticalForce(int value)
+        {
+            VerticalForces.Add(value);
+        }
+
+        public void AddHorizontalForce(int value)
+        {
+            HorizontalForces.Add(value);
+        }
 
         public void AddCollider(Collider collider)
         {

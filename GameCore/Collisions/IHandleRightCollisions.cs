@@ -1,7 +1,9 @@
 ﻿namespace GameCore
 {
-    public interface IHandleRightCollisions
+    public abstract class RightCollisionHandler
     {
-        void Handle(Collider other);
+        public Collider Parent { get; internal set; }
+
+        public abstract void Handle(Collider other);
     }
 }

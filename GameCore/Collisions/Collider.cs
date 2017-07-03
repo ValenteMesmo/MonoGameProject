@@ -1,4 +1,6 @@
-﻿namespace GameCore
+﻿using System.Collections.Generic;
+
+namespace GameCore
 {
     public class Collider : IHaveDimensions
     {
@@ -12,7 +14,33 @@
 
         public bool Disabled { get; set; }
 
-        public int HorizontalSpeed { get; set; }
-        public int VerticalSpeed { get; set; }
+        internal List<TopCollisionHandler> TopCollisionHandlers = new List<TopCollisionHandler>();
+        internal List<BotCollisionHandler> BotCollisionHandlers = new List<BotCollisionHandler>();
+        internal List<LeftCollisionHandler> LeftCollisionHandlers = new List<LeftCollisionHandler>();
+        internal List<RightCollisionHandler> RightCollisionHandlers = new List<RightCollisionHandler>();
+
+        public void Add(TopCollisionHandler TopCollisionHandler)
+        {
+            TopCollisionHandler.Parent = this;
+            TopCollisionHandlers.Add(TopCollisionHandler);
+        }
+
+        public void Add(BotCollisionHandler BotCollisionHandler)
+        {
+            BotCollisionHandler.Parent = this;
+            BotCollisionHandlers.Add(BotCollisionHandler);
+        }
+
+        public void Add(LeftCollisionHandler LeftCollisionHandler)
+        {
+            LeftCollisionHandler.Parent = this;
+            LeftCollisionHandlers.Add(LeftCollisionHandler);
+        }
+
+        public void Add(RightCollisionHandler RightCollisionHandler)
+        {
+            RightCollisionHandler.Parent = this;
+            RightCollisionHandlers.Add(RightCollisionHandler);
+        }
     }
 }

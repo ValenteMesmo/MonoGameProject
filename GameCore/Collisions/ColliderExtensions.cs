@@ -76,14 +76,22 @@ namespace GameCore
             return (collider.Top() + collider.Bottom()) * 0.5f;
         }
 
-        public static void MoveHorizontally(this Collider a)
+        public static void MoveHorizontally(this Thing a)
         {
-            a.Parent.X += a.HorizontalSpeed;
+            foreach (var force in a.HorizontalForces)
+            {
+                a.X += force; 
+            }
+            a.HorizontalForces.Clear();
         }
 
-        public static void MoveVertically(this Collider a)
+        public static void MoveVertically(this Thing a)
         {
-            a.Parent.Y += a.VerticalSpeed;
+            foreach (var force in a.VerticalForces)
+            {
+                a.Y += force;
+            }
+            a.VerticalForces.Clear();
         }
 
         public static void HandleHorizontalCollision(
@@ -100,18 +108,18 @@ namespace GameCore
 
             if (collision == CollisionResult.Left)
             {
-                a.Parent.LeftCollisionHandlers
+                a.LeftCollisionHandlers
                     .ForEach(handler => handler.Handle(b));
 
-                b.Parent.RightCollisionHandlers
+                b.RightCollisionHandlers
                     .ForEach(handler => handler.Handle(a));
             }
             else if (collision == CollisionResult.Right)
             {
-               a.Parent.RightCollisionHandlers
+               a.RightCollisionHandlers
                     .ForEach(handler => handler.Handle(b));
 
-                b.Parent.LeftCollisionHandlers
+                b.LeftCollisionHandlers
                     .ForEach(handler => handler.Handle(a));
             }
         }
@@ -130,18 +138,18 @@ namespace GameCore
 
             if (collision == CollisionResult.Top)
             {
-                a.Parent.TopCollisionHandlers
+                a.TopCollisionHandlers
                     .ForEach(handler => handler.Handle(b));
 
-                b.Parent.BotCollisionHandlers
+                b.BotCollisionHandlers
                     .ForEach(handler => handler.Handle(a));
             }
             else if (collision == CollisionResult.Bottom)
             {
-                a.Parent.BotCollisionHandlers
+                a.BotCollisionHandlers
                     .ForEach(handler => handler.Handle(b));
 
-                b.Parent.TopCollisionHandlers
+                b.TopCollisionHandlers
                     .ForEach(handler => handler.Handle(a));
             }
         }

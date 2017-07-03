@@ -1,5 +1,6 @@
 ﻿using GameCore;
 using System.Collections.Generic;
+using System;
 
 namespace MonoGameProject
 {
@@ -37,36 +38,64 @@ namespace MonoGameProject
 
         public override void OnStart()
         {
-            var player = new Thing();
-            player.X = player.Y = 4000;
-            player.AddCollider(new Collider()
+            CreateGround();
+            CreatePlayer();
+        }
+
+        private void CreateGround()
+        {
+            var ground = new Thing()
             {
-                Width = 4000,
-                Height = 4000
+                X = 2000,
+                Y = 6000
+            };
+
+            ground.AddCollider(new Collider()
+            {
+                Width = 6000,
+                Height = 2000
             });
-            player.AddUpdate(new MoveLeftAndRight());
 
-            var a = new Animation(
-                new AnimationFrame("a", 0, 0, 2000, 2000)
-            );
+            AddThing(ground);
+        }
 
-            var b = new Animation(
-                 new AnimationFrame("b", 0, 0, 2000, 2000)
-            );
+        private void CreatePlayer()
+        {
+            var player = new Thing()
+            {
+                X = 2000,
+                Y = 2000
+            };
 
-            var c = new Animation(
-                 new AnimationFrame("c", 0, 0, 2000, 2000)
-            );
+            var collider = new Collider()
+            {
+                Width = 1000,
+                Height = 1000
+            };
+            collider.Add(new StopWhenHitsTHeGround());
 
-            player.AddAnimation(
-                new Animator(
-                    new AnimationTransitionOnCondition(new Animation[] { a, c }, b, () => InputRepository.ClickedLeft)
-                    , new AnimationTransitionOnCondition(new Animation[] { b, a }, c, () => InputRepository.ClickedRight)
-                    , new AnimationTransitionOnCondition(new Animation[] { c, b }, a, () => InputRepository.ClickedDown)
-                )
-            );
+            player.AddCollider(collider);
+            player.AddUpdate(new AfectedByGravity());
 
             AddThing(player);
+        }
+    }
+
+    public class StopWhenHitsTHeGround : BotCollisionHandler
+    {
+        public override void Handle(Collider other)
+        {
+            Parent.Parent.Y = other.Top() - Parent.Height;
+        }
+    }
+
+    public class AfectedByGravity : UpdateHandler
+    {
+        public const int FORCE = 25;
+
+        public override void Update()
+        {
+            Parent.AddVerticalForce(FORCE);
         }
     }
 }

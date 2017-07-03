@@ -55,7 +55,7 @@ namespace GameCore
             Things.ForEach(thing =>
             {
                 thing.Animations.ForEach(f => f.Update());
-                TouchInputHandler.Handle(thing.Touchables);                
+                TouchInputHandler.Handle(thing.Touchables);
             });
 
             if (sleep > 0)
@@ -68,9 +68,7 @@ namespace GameCore
                 thing.Updates.ForEach(update =>
                     update.Update()));
 
-            Things.ForEach(thing =>
-                thing.Colliders.ForEach(collider =>
-                    collider.MoveHorizontally()));
+            Things.ForEach(thing => thing.MoveHorizontally());
 
             //TODO: QuadTree
             //https://github.com/ChevyRay/QuadTree
@@ -82,9 +80,7 @@ namespace GameCore
                 .ForEachCombination(
                     ColliderExtensions.HandleHorizontalCollision);
 
-            Things.ForEach(thing =>
-                thing.Colliders.ForEach(collider =>
-                    collider.MoveVertically()));
+            Things.ForEach(thing => thing.MoveVertically());
 
             Things.SelectMany(thing => thing.Colliders)
                 .ToList()

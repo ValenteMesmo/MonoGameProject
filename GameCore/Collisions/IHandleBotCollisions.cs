@@ -1,7 +1,9 @@
 ﻿namespace GameCore
 {
-    public interface IHandleBotCollisions
+    public abstract class BotCollisionHandler
     {
-        void Handle(Collider other);
+        public Collider Parent { get; internal set; }
+
+        public abstract void Handle(Collider other);
     }
 }
