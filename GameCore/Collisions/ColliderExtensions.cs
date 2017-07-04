@@ -78,20 +78,12 @@ namespace GameCore
 
         public static void MoveHorizontally(this Thing a)
         {
-            foreach (var force in a.HorizontalForces)
-            {
-                a.X += force; 
-            }
-            a.HorizontalForces.Clear();
+            a.X += a.HorizontalSpeed;
         }
 
         public static void MoveVertically(this Thing a)
         {
-            foreach (var force in a.VerticalForces)
-            {
-                a.Y += force;
-            }
-            a.VerticalForces.Clear();
+            a.Y += a.VerticalSpeed;
         }
 
         public static void HandleHorizontalCollision(
@@ -116,8 +108,8 @@ namespace GameCore
             }
             else if (collision == CollisionResult.Right)
             {
-               a.RightCollisionHandlers
-                    .ForEach(handler => handler.Handle(b));
+                a.RightCollisionHandlers
+                     .ForEach(handler => handler.Handle(b));
 
                 b.LeftCollisionHandlers
                     .ForEach(handler => handler.Handle(a));

@@ -4,11 +4,14 @@ namespace MonoGameProject
 {
     public class AfectedByGravity : UpdateHandler
     {
-        public const int FORCE = 25;
+        public const int FORCE = 2;
+        public const int MAX_SPEED = 60;
 
         public override void Update()
         {
-            Parent.AddVerticalForce(FORCE);
+            Parent.VerticalSpeed += FORCE;
+            if (Parent.VerticalSpeed > MAX_SPEED)
+                Parent.VerticalSpeed = MAX_SPEED;
         }
     }
 }

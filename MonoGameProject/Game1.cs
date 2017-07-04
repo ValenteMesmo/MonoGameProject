@@ -48,7 +48,7 @@ namespace MonoGameProject
             player.AddCollider(collider);
             player.AddUpdate(new AfectedByGravity());
             player.AddUpdate(new MoveLeftOrRight(InputRepository));
-
+            player.AddUpdate(new Jump(InputRepository));
             AddThing(player);
         }
     }
@@ -61,12 +61,13 @@ namespace MonoGameProject
             this.InputRepository = InputRepository;
         }
 
+
         public override void Update()
         {
-            if (InputRepository.LeftDown)
-                Parent.AddHorizontalForce(-100);
-            if(InputRepository.RightDown)
-                Parent.AddHorizontalForce(100);
+            //if (InputRepository.LeftDown)
+            //    Parent.HorizontalSpeed -= 5;
+            //if (InputRepository.RightDown)
+            //    Parent.HorizontalSpeed += 5;
         }
     }
 }
