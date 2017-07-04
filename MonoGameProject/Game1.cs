@@ -1,37 +1,8 @@
 ﻿using GameCore;
-using System.Collections.Generic;
 using System;
 
 namespace MonoGameProject
 {
-    class ContentLoader : ILoadContents
-    {
-        public IEnumerable<string> GetSoundNames()
-        {
-            return new string[] { };
-        }
-
-        public IEnumerable<string> GetTextureNames()
-        {
-            return new string[] { "a", "b", "c" };
-        }
-    }
-
-    public class MoveLeftAndRight : UpdateHandler
-    {
-        private int speed = 5;
-
-        public override void Update()
-        {
-            if (Parent.X > 6000)
-                speed = -5;
-            if (Parent.X < 2000)
-                speed = 5;
-
-            Parent.X += speed;
-        }
-    }
-
     public class Game1 : Game
     {
         public Game1() : base(new ContentLoader()) { }
@@ -76,26 +47,26 @@ namespace MonoGameProject
 
             player.AddCollider(collider);
             player.AddUpdate(new AfectedByGravity());
+            player.AddUpdate(new MoveLeftOrRight(InputRepository));
 
             AddThing(player);
         }
     }
 
-    public class StopWhenHitsTHeGround : BotCollisionHandler
+    class MoveLeftOrRight : UpdateHandler
     {
-        public override void Handle(Collider other)
+        InputRepository InputRepository;
+        public MoveLeftOrRight(InputRepository InputRepository)
         {
-            Parent.Parent.Y = other.Top() - Parent.Height;
+            this.InputRepository = InputRepository;
         }
-    }
-
-    public class AfectedByGravity : UpdateHandler
-    {
-        public const int FORCE = 25;
 
         public override void Update()
         {
-            Parent.AddVerticalForce(FORCE);
+            if (InputRepository.LeftDown)
+                Parent.AddHorizontalForce(-100);
+            if(InputRepository.RightDown)
+                Parent.AddHorizontalForce(100);
         }
     }
 }

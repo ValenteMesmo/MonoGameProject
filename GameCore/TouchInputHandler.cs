@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace GameCore
 {
-    public class TouchInputHandler
+    internal class TouchInputHandler
     {
         private List<IHandleTouchInputs> PreviouslyTouched = new List<IHandleTouchInputs>();
         private List<IHandleTouchInputs> CurrentlyTouched = new List<IHandleTouchInputs>();
@@ -15,16 +15,14 @@ namespace GameCore
             this.PlayerInputs = PlayerInputs;
         }
 
-        public void Handle(List<IHandleTouchInputs> Touchables)
+        public void Handle(List<IHandleTouchInputs> Touchables, List<Vector2> touches)
         {
-            List<Vector2> touches = GetTouches();
-
             Touchables.ForEach(item =>
                 HandleTouchable(touches, item)
             );
         }
 
-        private List<Vector2> GetTouches()
+        public List<Vector2> GetTouches()
         {
             var touches = PlayerInputs.GetTouches();
 

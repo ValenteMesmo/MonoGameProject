@@ -90,7 +90,7 @@ namespace GameCore
         }
 
         List<Vector2> touches = new List<Vector2>();
-        public void SetState(TouchCollection touchCollection)
+        public void SetState(TouchCollection touchCollection, MouseState mouseState)
         {
             touches.Clear();
             foreach (TouchLocation tl in touchCollection)
@@ -102,6 +102,10 @@ namespace GameCore
                         Camera2d.ToWorldLocation(tl.Position));
                 }
             }
+
+            if (mouseState.LeftButton == ButtonState.Pressed)
+                touches.Add(
+                    Camera2d.ToWorldLocation(mouseState.Position.ToVector2()));
         }
 
         public List<Vector2> GetTouches()

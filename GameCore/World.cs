@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace GameCore
@@ -14,7 +15,6 @@ namespace GameCore
         public bool Stopped { get; set; }
 
         private int sleep;
-
 
         public World(
             Camera2d Camera2d
@@ -52,10 +52,11 @@ namespace GameCore
 
             PlayerInputs.Update();
 
+            List<Vector2> touches = TouchInputHandler.GetTouches();
             Things.ForEach(thing =>
             {
                 thing.Animations.ForEach(f => f.Update());
-                TouchInputHandler.Handle(thing.Touchables);
+                TouchInputHandler.Handle(thing.Touchables, touches);
             });
 
             if (sleep > 0)

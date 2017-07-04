@@ -9,13 +9,13 @@ using OriginalGameClass = Microsoft.Xna.Framework.Game;
 
 internal class BaseGame : OriginalGameClass
 {
-    private GraphicsDeviceManager Graphics;
+    internal GraphicsDeviceManager Graphics;
     private SpriteBatch SpriteBatch;
     private readonly Camera2d Camera;
     private readonly ILoadContents ContentLoader;
     private Dictionary<string, SoundEffect> Sounds;
     private Dictionary<string, Texture2D> Textures;
-    private readonly Game Parent;    
+    private readonly Game Parent;
 
     public bool FullScreen
     {
@@ -35,7 +35,7 @@ internal class BaseGame : OriginalGameClass
     {
         this.Parent = Parent;
         this.ContentLoader = ContentLoader;
-
+        IsMouseVisible = true;
         Graphics = new GraphicsDeviceManager(this);
         Content.RootDirectory = "Content";
         IsFixedTimeStep = false;
@@ -92,11 +92,10 @@ internal class BaseGame : OriginalGameClass
             var controller = GamePad.GetState(0);
             World.PlayerInputs.SetState(state, controller);
 
-            if (AndroidStuff.RunningOnAndroid)
-            {
-                TouchCollection touchCollection = TouchPanel.GetState();
-                World.PlayerInputs.SetState(touchCollection);
-            }
+            World.PlayerInputs.SetState(
+                TouchPanel.GetState(),
+                Mouse.GetState());
+
             World.Update();
             timeSinceLastUpdate = 0;
         }
@@ -138,6 +137,19 @@ internal class BaseGame : OriginalGameClass
             )
         );
 
+        thing.Touchables.ForEach(touchable =>
+            DrawBorder(
+                new Rectangle(
+                    thing.X + touchable.X,
+                    thing.Y + touchable.Y,
+                    touchable.Width,
+                    touchable.Height),
+                20,
+                Color.Blue
+            )
+        );
+
+
         thing.Animations.ForEach(animation =>
         {
             var frame = animation.GetCurretFrame();
@@ -155,8 +167,7 @@ internal class BaseGame : OriginalGameClass
                     , frame.Flipped ? SpriteEffects.FlipHorizontally : SpriteEffects.None
                     , frame.RenderingLayer
             );
-        }
-        );
+        });
     }
 
     //private void RenderAnimations()

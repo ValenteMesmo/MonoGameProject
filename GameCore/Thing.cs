@@ -17,6 +17,12 @@ namespace GameCore
         internal List<UpdateHandler> Updates = new List<UpdateHandler>();
         internal List<IHandleTouchInputs> Touchables = new List<IHandleTouchInputs>();
 
+        public void AddTouchHandler(IHandleTouchInputs touchHandler)
+        {
+            touchHandler.Parent = this;
+            Touchables.Add(touchHandler);
+        }
+
         public void AddVerticalForce(int value)
         {
             VerticalForces.Add(value);

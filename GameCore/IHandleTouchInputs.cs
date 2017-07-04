@@ -1,9 +1,18 @@
-﻿namespace GameCore
+﻿using System;
+
+namespace GameCore
 {
-    public interface IHandleTouchInputs : IHaveDimensions
+    public abstract class IHandleTouchInputs : IHaveDimensions
     {
-        void TouchEnded();
-        void TouchBegin();
-        void TouchContinue();
+        public Thing Parent { get; internal set; }
+
+        public int X { get; set; }
+        public int Y { get; set; }
+        public int Width { get; set; }
+        public int Height { get; set; }
+
+        public abstract void TouchEnded();
+        public abstract void TouchBegin();
+        public abstract void TouchContinue();
     }
 }
