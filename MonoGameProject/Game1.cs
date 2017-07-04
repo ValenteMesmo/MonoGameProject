@@ -46,28 +46,12 @@ namespace MonoGameProject
             collider.Add(new StopWhenHitsTHeGround());
 
             player.AddCollider(collider);
+            player.AddUpdate(new HorizontalFriction());
             player.AddUpdate(new AfectedByGravity());
             player.AddUpdate(new MoveLeftOrRight(InputRepository));
             player.AddUpdate(new Jump(InputRepository));
+            player.AddUpdate(new SpeedLimit());
             AddThing(player);
-        }
-    }
-
-    class MoveLeftOrRight : UpdateHandler
-    {
-        InputRepository InputRepository;
-        public MoveLeftOrRight(InputRepository InputRepository)
-        {
-            this.InputRepository = InputRepository;
-        }
-
-
-        public override void Update()
-        {
-            //if (InputRepository.LeftDown)
-            //    Parent.HorizontalSpeed -= 5;
-            //if (InputRepository.RightDown)
-            //    Parent.HorizontalSpeed += 5;
         }
     }
 }

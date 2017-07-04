@@ -5,7 +5,7 @@ namespace MonoGameProject
     public class AfectedByGravity : UpdateHandler
     {
         public const int FORCE = 2;
-        public const int MAX_SPEED = 60;
+        public const int MAX_SPEED = 80;
 
         public override void Update()
         {

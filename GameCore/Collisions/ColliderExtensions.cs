@@ -46,32 +46,32 @@ namespace GameCore
             return CollisionResult.Nope;
         }
 
-        public static int Left(this IHaveDimensions a)
+        public static int Left(this Collider a)
         {
             return a.Parent.X + a.X;
         }
 
-        public static int Right(this IHaveDimensions a)
+        public static int Right(this Collider a)
         {
             return a.Parent.X + a.X + a.Width;
         }
 
-        public static int Top(this IHaveDimensions a)
+        public static int Top(this Collider a)
         {
             return a.Parent.Y + a.Y;
         }
 
-        public static int Bottom(this IHaveDimensions a)
+        public static int Bottom(this Collider a)
         {
             return a.Parent.Y + a.Y + a.Height;
         }
 
-        public static float CenterX(this IHaveDimensions collider)
+        public static float CenterX(this Collider collider)
         {
             return (collider.Left() + collider.Right()) * 0.5f;
         }
 
-        public static float CenterY(this IHaveDimensions collider)
+        public static float CenterY(this Collider collider)
         {
             return (collider.Top() + collider.Bottom()) * 0.5f;
         }

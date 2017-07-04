@@ -45,8 +45,12 @@
     <Compile Include="AfectedByGravity.cs" />
     <Compile Include="ContentLoader.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="HorizontalFriction.cs" />
+    <Compile Include="Jump.cs" />
+    <Compile Include="MoveLeftOrRight.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SpeedLimit.cs" />
     <Compile Include="StopWhenHitsTHeGround.cs" />
   </ItemGroup>
   <ItemGroup>

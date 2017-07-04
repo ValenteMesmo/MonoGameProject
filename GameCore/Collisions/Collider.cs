@@ -2,7 +2,7 @@
 
 namespace GameCore
 {
-    public class Collider : IHaveDimensions
+    public class Collider 
     {
         public Thing Parent { get; internal set; }
 
