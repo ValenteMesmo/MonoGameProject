@@ -8,13 +8,14 @@ namespace MonoGameProject
 
         public override void OnStart()
         {
-            CreateGround();
-            AddThing(new Player(InputRepository, Camera));
+            var WorldMover = new WorldMover(Camera);
+            CreateGround(WorldMover);
+            AddThing(new Player(InputRepository, WorldMover));
         }
 
-        private void CreateGround()
+        private void CreateGround(WorldMover WorldMover)
         {
-            var ground = new Ground()
+            var ground = new Ground(WorldMover)
             {
                 X = 1000,
                 Y = 9000
@@ -27,6 +28,7 @@ namespace MonoGameProject
             });
 
             AddThing(ground);
+            AddThing(WorldMover);
         }
     }
 }

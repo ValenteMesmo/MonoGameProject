@@ -67,7 +67,7 @@ namespace GameCore
 
             Things.ForEach(thing =>
                 thing.Updates.ForEach(update =>
-                    update.Update(thing)));
+                    update(thing)));
 
             Things.ForEach(thing => thing.MoveHorizontally());
 

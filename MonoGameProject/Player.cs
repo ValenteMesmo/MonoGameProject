@@ -4,7 +4,7 @@ namespace MonoGameProject
 {
     class Player : Thing
     {
-        public Player(InputRepository InputRepository, Camera2d Camera)
+        public Player(InputRepository InputRepository, WorldMover WorldMover)
         {
             X = 1000;
             Y = 7000;
@@ -24,16 +24,15 @@ namespace MonoGameProject
 
             AddCollider(groundChecker);
 
-
-            AddUpdate(new HorizontalFriction());
-            AddUpdate(new AfectedByGravity());
-            AddUpdate(new MoveLeftOrRight(InputRepository));
-            AddUpdate(new Jump(InputRepository));
-            AddUpdate(new SpeedLimit());
-            AddUpdate(new MakeCameraFollowPlayer(Camera));
+            AddUpdate(new HorizontalFriction().Update);
+            AddUpdate(new AfectedByGravity().Update);
+            AddUpdate(new MoveLeftOrRight(InputRepository).Update);
+            AddUpdate(t => X -= WorldMover.WorldSpeed);
+            AddUpdate(new Jump(InputRepository).Update);
+            AddUpdate(new SpeedLimit().Update);
 
             CreateAnimator(groundChecker);
-            AddUpdate(groundChecker);
+            AddUpdate(groundChecker.Update);
         }
 
         private void CreateMainCollider(int width, int height)

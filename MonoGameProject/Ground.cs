@@ -4,9 +4,12 @@ namespace MonoGameProject
 {
     public class Ground : Thing
     {
-        public Ground()
+        public Ground(WorldMover WorldMover)
         {
-
+            AddUpdate(t =>
+            {
+                X -= WorldMover.WorldSpeed;
+            });
         }
     }
 }
