@@ -37,6 +37,7 @@ namespace GameCore
 
         public void Add(Thing thing)
         {
+            thing.OnDestroy = Remove;
             Things.Add(thing);
         }
 
@@ -65,7 +66,7 @@ namespace GameCore
                 return;
             }
 
-            Things.ForEach(thing =>
+            Things.ToList().ForEach(thing =>
                 thing.Updates.ForEach(update =>
                     update(thing)));
 

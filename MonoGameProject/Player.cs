@@ -28,9 +28,10 @@ namespace MonoGameProject
             AddUpdate(new AfectedByGravity().Update);
             AddUpdate(new MoveLeftOrRight(InputRepository).Update);
             AddUpdate(t => X -= WorldMover.WorldSpeed);
-            AddUpdate(new Jump(InputRepository).Update);
+            AddUpdate(new Jump(InputRepository, groundChecker).Update);
             AddUpdate(new SpeedLimit().Update);
-
+            //AddUpdate(t=> HorizontalSpeed = 80);
+            
             CreateAnimator(groundChecker);
             AddUpdate(groundChecker.Update);
         }

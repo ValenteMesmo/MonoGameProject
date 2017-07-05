@@ -20,17 +20,15 @@ namespace MonoGameProject
 
             CreateLeftCollider();
             CreateRightCollider();
-
-         
         }
 
         private void CreateRightCollider()
         {
             var rightCollider = new Collider
             {
-                X = 2000,
-                Y = -500,
-                Width = 4000,
+                X = 1000,
+                Y = -510,
+                Width = 6000,
                 Height = 4000
             };
 
@@ -43,9 +41,8 @@ namespace MonoGameProject
 
             AddUpdate(t =>
             {
-                if (MovingRightBy != null)
+                if (MovingRightBy != null && MovingRightBy.HorizontalSpeed > 0)
                     WorldSpeed = MovingRightBy.HorizontalSpeed;
-                //else if (MovingLeftBy == null) WorldSpeed = 0;
             });
             AddUpdate(t => MovingRightBy = null);
         }
@@ -54,9 +51,9 @@ namespace MonoGameProject
         {
             var leftCollider = new Collider
             {
-                X = -6000,
-                Y = -500,
-                Width = 4000,
+                X = -7000,
+                Y = -510,
+                Width = 6000,
                 Height = 4000
             };
 
@@ -71,7 +68,6 @@ namespace MonoGameProject
             {
                 if (MovingLeftBy != null && MovingLeftBy.HorizontalSpeed < 0)
                     WorldSpeed = MovingLeftBy.HorizontalSpeed;
-                // else if (MovingRightBy == null) WorldSpeed = 0;
             });
             AddUpdate(t => MovingLeftBy = null);
         }

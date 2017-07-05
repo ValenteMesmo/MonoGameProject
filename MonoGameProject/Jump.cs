@@ -5,16 +5,22 @@ namespace MonoGameProject
     public class Jump : UpdateHandler
     {
         InputRepository InputRepository;
-        public Jump(InputRepository InputRepository)
+
+        public Jump(
+            InputRepository InputRepository,
+            CheckIfCollidingWith<Ground> groundChecker)
         {
+            this.groundChecker = groundChecker;
             this.InputRepository = InputRepository;
         }
 
         int jumpImpulseTime = 0;
         int minJumpSpeed =-40;
+        private CheckIfCollidingWith<Ground> groundChecker;
+
         public void Update(Thing Parent)
         {
-            if (InputRepository.ClickedJump)
+            if (InputRepository.ClickedJump && groundChecker.Colliding)
             {
                 Parent.VerticalSpeed = -100;
                 jumpImpulseTime = 100;

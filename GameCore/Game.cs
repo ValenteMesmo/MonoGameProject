@@ -27,6 +27,11 @@ public abstract class Game : IDisposable
         BaseGame.World.Add(thing);        
     }
 
+    protected void RemoveThing(Thing thing)
+    {
+        BaseGame.World.Remove(thing);
+    }
+
     public void Run()
     {
         BaseGame.Run();

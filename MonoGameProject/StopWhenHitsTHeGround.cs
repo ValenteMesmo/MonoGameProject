@@ -6,8 +6,11 @@ namespace MonoGameProject
     {
         public void Handle(Collider Parent, Collider other)
         {
-            Parent.Parent.VerticalSpeed = 0;
-            Parent.Parent.Y = other.Top() - Parent.Height - 1;
+            if (other.Parent is Ground)
+            {
+                Parent.Parent.VerticalSpeed = 0;
+                Parent.Parent.Y = other.Top() - Parent.Height - 1;
+            }
         }
     }
 }

@@ -7,7 +7,7 @@ namespace GameCore
     {
         public int X { get; set; }
         public int Y { get; set; }
-        
+
         public int VerticalSpeed;
         public int HorizontalSpeed;
 
@@ -22,7 +22,7 @@ namespace GameCore
             touchHandler.Parent = this;
             Touchables.Add(touchHandler);
         }
-        
+
         public void AddCollider(Collider collider)
         {
             collider.Parent = this;
@@ -43,6 +43,12 @@ namespace GameCore
         {
             if (Sounds.Contains(name) == false)
                 Sounds.Add(name);
+        }
+
+        internal Action<Thing> OnDestroy = t => { };
+        public void Destroy()
+        {
+            OnDestroy(this);
         }
     }
 }
