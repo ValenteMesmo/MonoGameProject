@@ -31,7 +31,6 @@ namespace GameCore
 
         public void AddUpdate(UpdateHandler Update)
         {
-            Update.Parent = this;
             Updates.Add(Update);
         }
 

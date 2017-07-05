@@ -1,5 +1,4 @@
 ﻿using GameCore;
-using System;
 
 namespace MonoGameProject
 {
@@ -10,48 +9,24 @@ namespace MonoGameProject
         public override void OnStart()
         {
             CreateGround();
-            CreatePlayer();
+            AddThing(new Player(InputRepository, Camera));
         }
 
         private void CreateGround()
         {
-            var ground = new Thing()
+            var ground = new Ground()
             {
-                X = 2000,
-                Y = 6000
+                X = 1000,
+                Y = 9000
             };
 
             ground.AddCollider(new Collider()
             {
-                Width = 6000,
+                Width = 12000,
                 Height = 2000
             });
 
             AddThing(ground);
-        }
-
-        private void CreatePlayer()
-        {
-            var player = new Thing()
-            {
-                X = 2000,
-                Y = 2000
-            };
-
-            var collider = new Collider()
-            {
-                Width = 1000,
-                Height = 1000
-            };
-            collider.Add(new StopWhenHitsTHeGround());
-
-            player.AddCollider(collider);
-            player.AddUpdate(new HorizontalFriction());
-            player.AddUpdate(new AfectedByGravity());
-            player.AddUpdate(new MoveLeftOrRight(InputRepository));
-            player.AddUpdate(new Jump(InputRepository));
-            player.AddUpdate(new SpeedLimit());
-            AddThing(player);
         }
     }
 }

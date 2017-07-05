@@ -6,7 +6,7 @@ namespace MonoGameProject
     {
         private readonly int velocity = 1;
 
-        public override void Update()
+        public void Update(Thing Parent)
         {
             if (Parent.HorizontalSpeed > 0)
             {

@@ -6,7 +6,7 @@ namespace MonoGameProject
     {
         private readonly int SPEEDLIMIT = 70;
 
-        public override void Update()
+        public void Update(Thing Parent)
         {
             if (Parent.HorizontalSpeed > SPEEDLIMIT)
                 Parent.HorizontalSpeed = SPEEDLIMIT;

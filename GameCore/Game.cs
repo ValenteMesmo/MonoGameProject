@@ -4,6 +4,7 @@ using System;
 public abstract class Game : IDisposable
 {
     private readonly BaseGame BaseGame;
+    protected Camera2d Camera { get { return BaseGame.Camera; } }
     protected InputRepository InputRepository { get { return BaseGame.World.PlayerInputs; } }
     public bool FullScreen { get { return BaseGame.Graphics.IsFullScreen; } set { BaseGame.Graphics.IsFullScreen = value; } }
 

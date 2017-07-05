@@ -1,9 +1,7 @@
 ﻿namespace GameCore
 {
-    public abstract class UpdateHandler
+    public interface UpdateHandler
     {
-        public Thing Parent { get; internal set; }
-
-        public abstract void Update();
+        void Update(Thing Parent);
     }
 }

@@ -12,7 +12,7 @@ namespace MonoGameProject
 
         int jumpImpulseTime = 0;
         int minJumpSpeed =-40;
-        public override void Update()
+        public void Update(Thing Parent)
         {
             if (InputRepository.ClickedJump)
             {

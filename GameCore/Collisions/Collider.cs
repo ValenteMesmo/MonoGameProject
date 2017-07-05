@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace GameCore
 {
-    public class Collider 
+    public class Collider
     {
         public Thing Parent { get; internal set; }
 
@@ -14,32 +15,28 @@ namespace GameCore
 
         public bool Disabled { get; set; }
 
-        internal List<TopCollisionHandler> TopCollisionHandlers = new List<TopCollisionHandler>();
-        internal List<BotCollisionHandler> BotCollisionHandlers = new List<BotCollisionHandler>();
-        internal List<LeftCollisionHandler> LeftCollisionHandlers = new List<LeftCollisionHandler>();
-        internal List<RightCollisionHandler> RightCollisionHandlers = new List<RightCollisionHandler>();
+        internal List<Action<Collider, Collider>> TopCollisionHandlers = new List<Action<Collider, Collider>>();
+        internal List<Action<Collider, Collider>> BotCollisionHandlers = new List<Action<Collider, Collider>>();
+        internal List<Action<Collider, Collider>> LeftCollisionHandlers = new List<Action<Collider, Collider>>();
+        internal List<Action<Collider, Collider>> RightCollisionHandlers = new List<Action<Collider, Collider>>();
 
-        public void Add(TopCollisionHandler TopCollisionHandler)
+        public void AddTopCollisionHandler(Action<Collider, Collider> TopCollisionHandler)
         {
-            TopCollisionHandler.Parent = this;
             TopCollisionHandlers.Add(TopCollisionHandler);
         }
 
-        public void Add(BotCollisionHandler BotCollisionHandler)
+        public void AddBotCollisionHandler(Action<Collider, Collider> BotCollisionHandler)
         {
-            BotCollisionHandler.Parent = this;
             BotCollisionHandlers.Add(BotCollisionHandler);
         }
 
-        public void Add(LeftCollisionHandler LeftCollisionHandler)
+        public void AddLeftCollisionHandler(Action<Collider, Collider> LeftCollisionHandler)
         {
-            LeftCollisionHandler.Parent = this;
             LeftCollisionHandlers.Add(LeftCollisionHandler);
         }
 
-        public void Add(RightCollisionHandler RightCollisionHandler)
+        public void AddRightCollisionHandler(Action<Collider, Collider> RightCollisionHandler)
         {
-            RightCollisionHandler.Parent = this;
             RightCollisionHandlers.Add(RightCollisionHandler);
         }
     }

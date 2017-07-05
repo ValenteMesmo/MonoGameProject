@@ -10,7 +10,7 @@ namespace GameCore
         private readonly TouchInputHandler TouchInputHandler;
 
         internal List<Thing> Things = new List<Thing>();
-        public const int SPACE_BETWEEN_THINGS = 4;
+        //public const int SPACE_BETWEEN_THINGS = 1;
         public readonly Camera2d Camera2d;
         public bool Stopped { get; set; }
 
@@ -67,7 +67,7 @@ namespace GameCore
 
             Things.ForEach(thing =>
                 thing.Updates.ForEach(update =>
-                    update.Update()));
+                    update.Update(thing)));
 
             Things.ForEach(thing => thing.MoveHorizontally());
 

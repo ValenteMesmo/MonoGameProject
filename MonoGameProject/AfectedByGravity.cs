@@ -7,7 +7,7 @@ namespace MonoGameProject
         public const int FORCE = 2;
         public const int MAX_SPEED = 80;
 
-        public override void Update()
+        public void Update(Thing Parent)
         {
             Parent.VerticalSpeed += FORCE;
             if (Parent.VerticalSpeed > MAX_SPEED)

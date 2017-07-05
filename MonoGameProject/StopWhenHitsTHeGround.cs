@@ -2,11 +2,12 @@
 
 namespace MonoGameProject
 {
-    public class StopWhenHitsTHeGround : BotCollisionHandler
+    public class StopWhenHitsTHeGround 
     {
-        public override void Handle(Collider other)
+        public void Handle(Collider Parent, Collider other)
         {
-            Parent.Parent.Y = other.Top() - Parent.Height;
+            Parent.Parent.VerticalSpeed = 0;
+            Parent.Parent.Y = other.Top() - Parent.Height - 1;
         }
     }
 }

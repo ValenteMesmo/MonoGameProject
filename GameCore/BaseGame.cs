@@ -11,7 +11,7 @@ internal class BaseGame : OriginalGameClass
 {
     internal GraphicsDeviceManager Graphics;
     private SpriteBatch SpriteBatch;
-    private readonly Camera2d Camera;
+    public readonly Camera2d Camera;
     private readonly ILoadContents ContentLoader;
     private Dictionary<string, SoundEffect> Sounds;
     private Dictionary<string, Texture2D> Textures;
