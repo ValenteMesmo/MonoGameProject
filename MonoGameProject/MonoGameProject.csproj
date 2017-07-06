@@ -42,22 +42,23 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="AfectedByGravity.cs" />
-    <Compile Include="BackBlocker.cs" />
-    <Compile Include="CheckIfCollidingWith.cs" />
+    <Compile Include="Updates\AfectedByGravity.cs" />
+    <Compile Include="Things\BackBlocker.cs" />
+    <Compile Include="Updates\CheckIfCollidingWith.cs" />
     <Compile Include="ContentLoader.cs" />
     <Compile Include="Game1.cs" />
-    <Compile Include="Ground.cs" />
-    <Compile Include="HorizontalFriction.cs" />
-    <Compile Include="Jump.cs" />
-    <Compile Include="MoveLeftOrRight.cs" />
-    <Compile Include="PlatformCreator.cs" />
-    <Compile Include="Player.cs" />
+    <Compile Include="Things\Ground.cs" />
+    <Compile Include="Updates\HorizontalFriction.cs" />
+    <Compile Include="Updates\Jump.cs" />
+    <Compile Include="Updates\MoveLeftOrRight.cs" />
+    <Compile Include="Things\IBlockPlayerMovement.cs" />
+    <Compile Include="Things\PlatformCreator.cs" />
+    <Compile Include="Things\Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SpeedLimit.cs" />
-    <Compile Include="StopWhenHitsTHeGround.cs" />
-    <Compile Include="WorldMover.cs" />
+    <Compile Include="Updates\SpeedLimit.cs" />
+    <Compile Include="Updates\StopWhenHitsTHeGround.cs" />
+    <Compile Include="Things\WorldMover.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">

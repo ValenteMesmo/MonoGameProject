@@ -132,8 +132,8 @@ internal class BaseGame : OriginalGameClass
         thing.Colliders.ForEach(collider =>
             DrawBorder(
                 new Rectangle(
-                    thing.X + collider.X,
-                    thing.Y + collider.Y,
+                    thing.X + collider.OffsetX,
+                    thing.Y + collider.OffsetY,
                     collider.Width,
                     collider.Height),
                 20,
@@ -144,8 +144,8 @@ internal class BaseGame : OriginalGameClass
         thing.Touchables.ForEach(touchable =>
             DrawBorder(
                 new Rectangle(
-                    thing.X + touchable.X,
-                    thing.Y + touchable.Y,
+                    thing.X + touchable.OffsetX,
+                    thing.Y + touchable.OffsetY,
                     touchable.Width,
                     touchable.Height),
                 20,

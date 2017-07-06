@@ -48,22 +48,22 @@ namespace GameCore
 
         public static int Left(this Collider a)
         {
-            return a.Parent.X + a.X;
+            return a.Parent.X + a.OffsetX;
         }
 
         public static int Right(this Collider a)
         {
-            return a.Parent.X + a.X + a.Width;
+            return a.Parent.X + a.OffsetX + a.Width;
         }
 
         public static int Top(this Collider a)
         {
-            return a.Parent.Y + a.Y;
+            return a.Parent.Y + a.OffsetY;
         }
 
         public static int Bottom(this Collider a)
         {
-            return a.Parent.Y + a.Y + a.Height;
+            return a.Parent.Y + a.OffsetY + a.Height;
         }
 
         public static float CenterX(this Collider collider)

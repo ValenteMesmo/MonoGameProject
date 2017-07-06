@@ -1,22 +1,22 @@
 ﻿using GameCore;
+using MonoGameProject.Things;
 
 namespace MonoGameProject
 {
     public class Jump : UpdateHandler
     {
         InputRepository InputRepository;
+        int jumpImpulseTime = 0;
+        int minJumpSpeed = -40;
+        private CheckIfCollidingWith<IBlockPlayerMovement> groundChecker;
 
         public Jump(
             InputRepository InputRepository,
-            CheckIfCollidingWith<MapModule> groundChecker)
+            CheckIfCollidingWith<IBlockPlayerMovement> groundChecker)
         {
             this.groundChecker = groundChecker;
             this.InputRepository = InputRepository;
         }
-
-        int jumpImpulseTime = 0;
-        int minJumpSpeed =-40;
-        private CheckIfCollidingWith<MapModule> groundChecker;
 
         public void Update(Thing Parent)
         {

@@ -1,4 +1,5 @@
 ﻿using GameCore;
+using MonoGameProject.Things;
 
 namespace MonoGameProject
 {
@@ -14,12 +15,12 @@ namespace MonoGameProject
 
             CreateMainCollider(width, height);
 
-            var groundChecker = new CheckIfCollidingWith<MapModule>()
+            var groundChecker = new CheckIfCollidingWith<IBlockPlayerMovement>()
             {
                 Width = width / 3,
                 Height = height / 4,
-                X = width / 3,
-                Y = height + 1
+                OffsetX = width / 3,
+                OffsetY = height + 1
             };
 
             AddCollider(groundChecker);
@@ -41,16 +42,17 @@ namespace MonoGameProject
         {
             var collider = new Collider()
             {
-                X = width / 3,
+                OffsetX = width / 3,
                 Width = width / 3,
                 Height = height
             };
-            collider.AddBotCollisionHandler(new StopWhenHitsTHeGround().Handle);
-            collider.AddLeftCollisionHandler(new StopWhenHitsTHeLeftWall().Handle);
+            collider.AddBotCollisionHandler(StopsWhenHitting.Bot);
+            collider.AddLeftCollisionHandler(StopsWhenHitting.Left);
+            collider.AddRightCollisionHandler(StopsWhenHitting.Right);
             AddCollider(collider);
         }
 
-        private void CreateAnimator(CheckIfCollidingWith<MapModule> groundChecker)
+        private void CreateAnimator(CheckIfCollidingWith<IBlockPlayerMovement> groundChecker)
         {
             var jump_left = new Animation(
                 new AnimationFrame("jump", 0, 0, 1000, 1000)
