@@ -7,16 +7,26 @@ namespace MonoGameProject
     public class BackBlocker : Thing, IBlockPlayerMovement
     {
         public const int WIDTH = 2000;
+        public const int HEIGHT = 8 * 1000*2;
         public BackBlocker(WorldMover WorldMover) 
         {
             AddCollider(new Collider
             {
                 Width = WIDTH,
-                Height = 3000
+                Height = HEIGHT
             });
-            AddUpdate(t => X -= WorldMover.WorldSpeed);
+            AddUpdate(WorldHelper.MoveWithTheWord);
 
-            AddAnimation(new Animation(new AnimationFrame("block", 0, 0, WIDTH, 3000)) { Color = Color.Yellow });
+            AddAnimation(new Animation(new AnimationFrame("block", 0, 0, WIDTH, HEIGHT)) { Color = Color.Yellow });
+        }
+    }
+
+    public static class WorldHelper
+    {
+        public static void MoveWithTheWord(Thing thing)
+        {
+            thing.X -= WorldMover.WorldHorizontalSpeed;
+            thing.Y -= WorldMover.WorldVerticalSpeed;
         }
     }
 }

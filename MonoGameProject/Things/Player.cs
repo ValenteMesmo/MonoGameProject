@@ -5,13 +5,14 @@ namespace MonoGameProject
 {
     class Player : Thing
     {
+        //AUMENTAR WIDTH TOP E BOT
+        private const int width = 1000;
+        private const int height = 900;
+
         public Player(InputRepository InputRepository, WorldMover WorldMover)
         {
             X = 1000;
             Y = 7000;
-
-            var width = 1000;
-            var height = 1000;
 
             CreateMainCollider(width, height);
 
@@ -28,7 +29,7 @@ namespace MonoGameProject
             AddUpdate(new HorizontalFriction().Update);
             AddUpdate(new AfectedByGravity().Update);
             AddUpdate(new MoveLeftOrRight(InputRepository).Update);
-            AddUpdate(t => X -= WorldMover.WorldSpeed);
+            AddUpdate(WorldHelper.MoveWithTheWord);
             AddUpdate(new Jump(InputRepository, groundChecker).Update);
             AddUpdate(new SpeedLimit().Update);
 
@@ -55,31 +56,31 @@ namespace MonoGameProject
         private void CreateAnimator(CheckIfCollidingWith<IBlockPlayerMovement> groundChecker)
         {
             var jump_left = new Animation(
-                new AnimationFrame("jump", 0, 0, 1000, 1000)
+                new AnimationFrame("jump", 0, 0, width, height)
             );
 
             var jump_right = new Animation(
-               new AnimationFrame("jump", 0, 0, 1000, 1000) { Flipped = true }
+               new AnimationFrame("jump", 0, 0, width, height) { Flipped = true }
            );
 
             var stand_left = new Animation(
-                new AnimationFrame("stand", 0, 0, 1000, 1000)
+                new AnimationFrame("stand", 0, 0, width, height)
             );
 
             var stand_right = new Animation(
-                new AnimationFrame("stand", 0, 0, 1000, 1000) { Flipped = true }
+                new AnimationFrame("stand", 0, 0, width, height) { Flipped = true }
             );
 
             var walk_left = new Animation(
-                new AnimationFrame("walk0", 0, 0, 1000, 1000)
-                , new AnimationFrame("walk1", 0, 0, 1000, 1000)
-                , new AnimationFrame("walk2", 0, 0, 1000, 1000)
+                new AnimationFrame("walk0", 0, 0, width, height)
+                , new AnimationFrame("walk1", 0, 0, width, height)
+                , new AnimationFrame("walk2", 0, 0, width, height)
             );
 
             var walk_right = new Animation(
-                new AnimationFrame("walk0", 0, 0, 1000, 1000) { Flipped = true }
-                , new AnimationFrame("walk1", 0, 0, 1000, 1000) { Flipped = true }
-                , new AnimationFrame("walk2", 0, 0, 1000, 1000) { Flipped = true }
+                new AnimationFrame("walk0", 0, 0, width, height) { Flipped = true }
+                , new AnimationFrame("walk1", 0, 0, width, height) { Flipped = true }
+                , new AnimationFrame("walk2", 0, 0, width, height) { Flipped = true }
             );
 
             AddAnimation(

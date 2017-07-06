@@ -13,21 +13,21 @@ namespace MonoGameProject
         public const int WIDTH = CELL_SIZE * 8;
         public const int HEIGHT = CELL_SIZE * 8;
         string[] map = new[]{
-            "11101011"
+             "11100010"
             ,"00000000"
+            ,"00000000"
+            ,"11100111"
+            ,"00000000"
+            ,"00000000"
+            ,"11111000"
             ,"11111111"
-            ,"00000000"
-            ,"00000000"
-            ,"00000000"
-            ,"00000000"
-            ,"00000000"
         };
 
         public MapModule(WorldMover WorldMover, BackBlocker Blocker)
         {
             this.Blocker = Blocker;
 
-            AddUpdate(t => X -= WorldMover.WorldSpeed);
+            AddUpdate(WorldHelper.MoveWithTheWord);
 
             AddUpdate(t =>
             {

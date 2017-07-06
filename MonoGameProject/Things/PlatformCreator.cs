@@ -9,7 +9,7 @@ namespace MonoGameProject
         Module lastModule;
         WorldMover WorldMover; Action<Thing> AddToWOrld;
         BackBlocker BackBlocker;
-        private Func<int, Module>[] Modules;
+        private Func<int, int, Module>[] Modules;
         private int moduleIndex = 0;
         const int width = 12000;
         const int height = 2000;
@@ -19,20 +19,20 @@ namespace MonoGameProject
             BackBlocker = new BackBlocker(WorldMover)
             {
                 X = -BackBlocker.WIDTH,
-                Y = 6000
+                Y = 0
             };
             AddToWOrld(BackBlocker);
             this.WorldMover = WorldMover;
             this.AddToWOrld = AddToWOrld;
 
-            Modules = new Func<int, Module>[]
+            Modules = new Func<int, int, Module>[]
             {
-                x =>
+                (x,y) =>
                 {
                     return new MapModule(WorldMover, BackBlocker)
                     {
                         X = x,
-                        Y = 9000
+                        Y = y
                     };
                 },
                 //x =>
@@ -62,14 +62,16 @@ namespace MonoGameProject
 
         private void CreateGroundOnTheRight()
         {
-            var anchor = 0;
+            var anchorX = 0;
+            var anchorY = 9000;
             if (lastModule != null)
             {
                 //TODO: remove CAST
-                anchor = (lastModule as Thing).X + MapModule.WIDTH - WorldMover.WorldSpeed;
+                anchorX = (lastModule as Thing).X + MapModule.WIDTH - WorldMover.WorldHorizontalSpeed;
+                anchorY = (lastModule as Thing).Y - WorldMover.WorldVerticalSpeed;
             }
 
-            lastModule = Modules[moduleIndex](anchor);
+            lastModule = Modules[moduleIndex](anchorX, anchorY);
             moduleIndex++;
             if (moduleIndex > Modules.Length - 1)
                 moduleIndex = 0;
