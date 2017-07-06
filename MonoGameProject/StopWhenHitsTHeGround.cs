@@ -6,7 +6,7 @@ namespace MonoGameProject
     {
         public void Handle(Collider Parent, Collider other)
         {
-            if (other.Parent is Ground)
+            if (other.Parent is MapModule)
             {
                 Parent.Parent.VerticalSpeed = 0;
                 Parent.Parent.Y = other.Top() - Parent.Height - 1;

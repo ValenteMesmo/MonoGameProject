@@ -5,14 +5,16 @@ namespace MonoGameProject
 {
     class PlatformCreator : Thing
     {
-        Ground ground;
+        MapModule ground;
         WorldMover WorldMover; Action<Thing> AddToWOrld;
         BackBlocker BackBlocker;
 
         //verifica se a ultima plataforma está a x de distancia, e cria outra
         public PlatformCreator(WorldMover WorldMover, Action<Thing> AddToWOrld)
         {
-            BackBlocker = new BackBlocker(WorldMover) { Y=6000};
+            BackBlocker = new BackBlocker(WorldMover) {
+                X = -BackBlocker.WIDTH,
+                Y =6000};
             AddToWOrld(BackBlocker);
             this.WorldMover = WorldMover;
             this.AddToWOrld = AddToWOrld;
@@ -22,7 +24,7 @@ namespace MonoGameProject
 
         private void OnUpdate(Thing obj)
         {
-            if (ground.X + Ground.WIDTH < Ground.WIDTH )
+            if (ground.X + MapModule.WIDTH < MapModule.WIDTH )
             {
                 CreateGround();
             }
@@ -34,10 +36,10 @@ namespace MonoGameProject
             var anchor = 0;
             if (ground != null)
             {
-                anchor = ground.X + Ground.WIDTH - WorldMover.WorldSpeed;
+                anchor = ground.X + MapModule.WIDTH - WorldMover.WorldSpeed;
             }
 
-            ground = new Ground(WorldMover, BackBlocker)
+            ground = new MapModule(WorldMover, BackBlocker)
             {
                 X = anchor,
                 Y = 9000

@@ -14,7 +14,7 @@ namespace MonoGameProject
 
             CreateMainCollider(width, height);
 
-            var groundChecker = new CheckIfCollidingWith<Ground>()
+            var groundChecker = new CheckIfCollidingWith<MapModule>()
             {
                 Width = width / 3,
                 Height = height / 4,
@@ -30,8 +30,8 @@ namespace MonoGameProject
             AddUpdate(t => X -= WorldMover.WorldSpeed);
             AddUpdate(new Jump(InputRepository, groundChecker).Update);
             AddUpdate(new SpeedLimit().Update);
-            
-            //AddUpdate(t=> HorizontalSpeed = 80);
+
+            //AddUpdate(t => HorizontalSpeed = 80);
 
             CreateAnimator(groundChecker);
             AddUpdate(groundChecker.Update);
@@ -50,7 +50,7 @@ namespace MonoGameProject
             AddCollider(collider);
         }
 
-        private void CreateAnimator(CheckIfCollidingWith<Ground> groundChecker)
+        private void CreateAnimator(CheckIfCollidingWith<MapModule> groundChecker)
         {
             var jump_left = new Animation(
                 new AnimationFrame("jump", 0, 0, 1000, 1000)

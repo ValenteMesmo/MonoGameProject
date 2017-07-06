@@ -8,7 +8,7 @@ namespace MonoGameProject
 
         public Jump(
             InputRepository InputRepository,
-            CheckIfCollidingWith<Ground> groundChecker)
+            CheckIfCollidingWith<MapModule> groundChecker)
         {
             this.groundChecker = groundChecker;
             this.InputRepository = InputRepository;
@@ -16,7 +16,7 @@ namespace MonoGameProject
 
         int jumpImpulseTime = 0;
         int minJumpSpeed =-40;
-        private CheckIfCollidingWith<Ground> groundChecker;
+        private CheckIfCollidingWith<MapModule> groundChecker;
 
         public void Update(Thing Parent)
         {

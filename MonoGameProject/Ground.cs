@@ -3,13 +3,13 @@ using Microsoft.Xna.Framework;
 
 namespace MonoGameProject
 {
-    public class Ground : Thing
+    public class MapModule : Thing
     {
         public const int WIDTH = 18000;
         public const int HEIGHT = 5000;
 
         BackBlocker Blocker;
-        public Ground(WorldMover WorldMover, BackBlocker Blocker)
+        public MapModule(WorldMover WorldMover, BackBlocker Blocker)
         {
             this.Blocker = Blocker;
             AddUpdate(t =>
