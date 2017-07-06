@@ -16,7 +16,7 @@ namespace MonoGameProject
             });
             AddUpdate(t => X -= WorldMover.WorldSpeed);
 
-            AddAnimation(new Animation(new AnimationFrame("walk0", 0, 0, WIDTH, 3000)) { Color = Color.Yellow });
+            AddAnimation(new Animation(new AnimationFrame("block", 0, 0, WIDTH, 3000)) { Color = Color.Yellow });
         }
     }
 }

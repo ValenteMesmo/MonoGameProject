@@ -42,12 +42,14 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Things\MapModule.cs" />
+    <Compile Include="Things\MapModule2.cs" />
+    <Compile Include="Things\Module.cs" />
     <Compile Include="Updates\AfectedByGravity.cs" />
     <Compile Include="Things\BackBlocker.cs" />
     <Compile Include="Updates\CheckIfCollidingWith.cs" />
     <Compile Include="ContentLoader.cs" />
     <Compile Include="Game1.cs" />
-    <Compile Include="Things\Ground.cs" />
     <Compile Include="Updates\HorizontalFriction.cs" />
     <Compile Include="Updates\Jump.cs" />
     <Compile Include="Updates\MoveLeftOrRight.cs" />

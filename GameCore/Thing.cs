@@ -46,6 +46,7 @@ namespace GameCore
         }
 
         internal Action<Thing> OnDestroy = t => { };
+
         public void Destroy()
         {
             OnDestroy(this);

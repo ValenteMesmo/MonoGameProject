@@ -1,6 +1,4 @@
 ﻿using GameCore;
-using System.Diagnostics;
-using System;
 
 namespace MonoGameProject
 {
@@ -50,7 +48,7 @@ namespace MonoGameProject
                     WorldSpeed = MovingRightBy.HorizontalSpeed;
             });
             AddUpdate(t => MovingRightBy = null);
-          
+
         }
 
         private void CreateLeftCollider()
@@ -74,7 +72,7 @@ namespace MonoGameProject
             {
                 if (
                 MovingLeftBy != null
-                && MovingLeftBy.HorizontalSpeed < 0 
+                && MovingLeftBy.HorizontalSpeed < 0
                 )
                     WorldSpeed = MovingLeftBy.HorizontalSpeed;
                 if (BackBlocking)
