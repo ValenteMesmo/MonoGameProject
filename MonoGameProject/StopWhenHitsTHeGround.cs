@@ -13,4 +13,16 @@ namespace MonoGameProject
             }
         }
     }
+
+    public class StopWhenHitsTHeLeftWall
+    {
+        public void Handle(Collider Parent, Collider other)
+        {
+            if (other.Parent is BackBlocker)
+            {
+                Parent.Parent.HorizontalSpeed = 0;
+                Parent.Parent.X = other.Parent.X + other.Width  - Parent.X +1;
+            }
+        }
+    }
 }

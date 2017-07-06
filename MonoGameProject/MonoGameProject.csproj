@@ -43,6 +43,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AfectedByGravity.cs" />
+    <Compile Include="BackBlocker.cs" />
     <Compile Include="CheckIfCollidingWith.cs" />
     <Compile Include="ContentLoader.cs" />
     <Compile Include="Game1.cs" />

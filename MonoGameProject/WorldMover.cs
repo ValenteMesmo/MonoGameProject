@@ -9,6 +9,7 @@ namespace MonoGameProject
         public int WorldSpeed;
         private Thing MovingRightBy;
         private Thing MovingLeftBy;
+        private bool BackBlocking;
 
         public WorldMover(Camera2d Camera)
         {
@@ -23,6 +24,7 @@ namespace MonoGameProject
 
             CreateLeftCollider();
             CreateRightCollider();
+            AddUpdate(t => BackBlocking = false);
         }
 
         private void CreateRightCollider()
@@ -48,6 +50,7 @@ namespace MonoGameProject
                     WorldSpeed = MovingRightBy.HorizontalSpeed;
             });
             AddUpdate(t => MovingRightBy = null);
+          
         }
 
         private void CreateLeftCollider()
@@ -69,9 +72,14 @@ namespace MonoGameProject
 
             AddUpdate(t =>
             {
-                if (MovingLeftBy != null
-                && MovingLeftBy.HorizontalSpeed < 0)
+                if (
+                MovingLeftBy != null
+                && MovingLeftBy.HorizontalSpeed < 0 
+                )
                     WorldSpeed = MovingLeftBy.HorizontalSpeed;
+                if (BackBlocking)
+                    WorldSpeed = 0;
+
             });
             AddUpdate(t => MovingLeftBy = null);
         }
@@ -85,7 +93,13 @@ namespace MonoGameProject
         private void StoreTheMovementCause2(Collider c1, Collider c2)
         {
             if (c2.Parent is Player)
+            {
                 MovingLeftBy = c2.Parent;
+            }
+            if (c2.Parent is BackBlocker)
+            {
+                BackBlocking = true;
+            }
         }
     }
 }

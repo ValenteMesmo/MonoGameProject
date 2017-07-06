@@ -30,8 +30,9 @@ namespace MonoGameProject
             AddUpdate(t => X -= WorldMover.WorldSpeed);
             AddUpdate(new Jump(InputRepository, groundChecker).Update);
             AddUpdate(new SpeedLimit().Update);
-            //AddUpdate(t=> HorizontalSpeed = 80);
             
+            //AddUpdate(t=> HorizontalSpeed = 80);
+
             CreateAnimator(groundChecker);
             AddUpdate(groundChecker.Update);
         }
@@ -45,7 +46,7 @@ namespace MonoGameProject
                 Height = height
             };
             collider.AddBotCollisionHandler(new StopWhenHitsTHeGround().Handle);
-
+            collider.AddLeftCollisionHandler(new StopWhenHitsTHeLeftWall().Handle);
             AddCollider(collider);
         }
 

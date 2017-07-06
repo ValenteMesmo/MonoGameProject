@@ -46,9 +46,9 @@ internal class BaseGame : OriginalGameClass
         Camera = new Camera2d();
         Camera.Pos = new Vector2(7000f, 5500f);
         Camera.Zoom = 
-            0.02f;
-            /*
              0.1f;
+            /*
+            0.02f;
              */
 
         World = new World(Camera);
