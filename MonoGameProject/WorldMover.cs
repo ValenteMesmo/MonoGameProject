@@ -1,4 +1,6 @@
 ﻿using GameCore;
+using System.Diagnostics;
+using System;
 
 namespace MonoGameProject
 {
@@ -7,6 +9,7 @@ namespace MonoGameProject
         public int WorldSpeed;
         private Thing MovingRightBy;
         private Thing MovingLeftBy;
+
         public WorldMover(Camera2d Camera)
         {
             X = (int)Camera.Pos.X;
@@ -66,7 +69,8 @@ namespace MonoGameProject
 
             AddUpdate(t =>
             {
-                if (MovingLeftBy != null && MovingLeftBy.HorizontalSpeed < 0)
+                if (MovingLeftBy != null
+                && MovingLeftBy.HorizontalSpeed < 0)
                     WorldSpeed = MovingLeftBy.HorizontalSpeed;
             });
             AddUpdate(t => MovingLeftBy = null);
