@@ -12,6 +12,7 @@ namespace MonoGameProject
         private Thing MovingTopBy;
         private Thing MovingLeftBy;
         private bool BackBlocking;
+        private bool DownBlocking;
         private bool ShouldDrawBorders = false;
 
         public WorldMover(Camera2d Camera)
@@ -33,6 +34,7 @@ namespace MonoGameProject
             CreateTopCollider();
 
             AddUpdate(t => BackBlocking = false);
+            AddUpdate(t => DownBlocking = false);
         }
 
         private void CreateRightCollider()
@@ -141,6 +143,9 @@ namespace MonoGameProject
                 )
                     WorldVerticalSpeed = MovingBotBy.VerticalSpeed;
 
+                if (DownBlocking)
+                    WorldVerticalSpeed = 0;
+
             });
             AddUpdate(t => MovingBotBy = null);
         }
@@ -192,6 +197,10 @@ namespace MonoGameProject
         {
             if (c2.Parent is Player)
                 MovingBotBy = c2.Parent;
+            if (c2.Parent is ViewDownBlocker)
+            {
+                DownBlocking = true;
+            }
         }
 
         private void StoreTheRightMovementCause(Collider c1, Collider c2)

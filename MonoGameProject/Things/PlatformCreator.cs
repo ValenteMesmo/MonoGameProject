@@ -25,6 +25,11 @@ namespace MonoGameProject
             this.WorldMover = WorldMover;
             this.AddToWOrld = AddToWOrld;
 
+            AddToWOrld(new ViewDownBlocker()
+            {
+                Y = MapModule.HEIGHT * 2 - MapModule.CELL_SIZE
+                + 3000//botcollider from wolrd mover
+            });
             Modules = new Func<int, int, Module>[]
             {
                 (x,y) =>

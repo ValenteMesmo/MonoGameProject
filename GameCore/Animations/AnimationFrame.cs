@@ -21,7 +21,7 @@ namespace GameCore
             , int Height
             , Rectangle? PositionOnSpriteSheet = null)
         {
-            RenderingLayer = 1;
+            RenderingLayer = 0.5f;
             this.Name = Name;
             this.X = X;
             this.Y = Y;

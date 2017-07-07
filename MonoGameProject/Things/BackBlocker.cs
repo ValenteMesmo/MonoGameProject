@@ -4,6 +4,26 @@ using MonoGameProject.Things;
 
 namespace MonoGameProject
 {
+    public class ViewDownBlocker : Thing
+    {
+        public const int HEIGHT = 2000;
+        public const int WIDTH = 8 * 1000 * 2;
+        public ViewDownBlocker()
+        {
+            AddCollider(new Collider
+            {
+                Width = WIDTH,
+                Height = HEIGHT
+            });
+            AddUpdate(WorldHelper.MoveVerticallyWithTheWord);
+
+            AddAnimation(
+                new Animation(
+                    new AnimationFrame("block", 0, 0, WIDTH, HEIGHT))
+                { Color = Color.Yellow });
+        }
+    }
+
     public class BackBlocker : Thing, IBlockPlayerMovement
     {
         public const int WIDTH = 2000;
@@ -15,18 +35,12 @@ namespace MonoGameProject
                 Width = WIDTH,
                 Height = HEIGHT
             });
-            AddUpdate(WorldHelper.MoveWithTheWord);
+            AddUpdate(WorldHelper.MoveHorizontallyWithTheWord);
 
-            AddAnimation(new Animation(new AnimationFrame("block", 0, 0, WIDTH, HEIGHT)) { Color = Color.Yellow });
-        }
-    }
-
-    public static class WorldHelper
-    {
-        public static void MoveWithTheWord(Thing thing)
-        {
-            thing.X -= WorldMover.WorldHorizontalSpeed;
-            thing.Y -= WorldMover.WorldVerticalSpeed;
+            AddAnimation(
+                new Animation(
+                    new AnimationFrame("block", 0, 0, WIDTH, HEIGHT))
+                { Color = Color.Yellow });
         }
     }
 }
