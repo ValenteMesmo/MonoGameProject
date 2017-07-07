@@ -9,6 +9,7 @@ using OriginalGameClass = Microsoft.Xna.Framework.Game;
 
 internal class BaseGame : OriginalGameClass
 {
+    FrameCounter FrameCounter = new FrameCounter();
     internal GraphicsDeviceManager Graphics;
     private SpriteBatch SpriteBatch;
     public readonly Camera2d Camera;
@@ -16,6 +17,7 @@ internal class BaseGame : OriginalGameClass
     private Dictionary<string, SoundEffect> Sounds;
     private Dictionary<string, Texture2D> Textures;
     private readonly Game Parent;
+    SpriteFont SpriteFont;
 
     public bool FullScreen
     {
@@ -65,6 +67,7 @@ internal class BaseGame : OriginalGameClass
         SpriteBatch = new SpriteBatch(GraphicsDevice);
         Textures = new Dictionary<string, Texture2D>();
         Sounds = new Dictionary<string, SoundEffect>();
+        SpriteFont = Content.Load<SpriteFont>("SpriteFont");
 
         {
             var pixel = new Texture2D(GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
@@ -83,17 +86,18 @@ internal class BaseGame : OriginalGameClass
         }
     }
 
-    private const float TIME_TO_NEXT_UPDATE = 1.0f / 120.0f;
+    public const float TIME_TO_NEXT_UPDATE = 1.0f /60.0f;
     private float timeSinceLastUpdate;
+#if DEBUG
     private bool DisplayColliders;
+#endif
 
     protected override void Update(GameTime gameTime)
     {
-
-
         timeSinceLastUpdate += (float)gameTime.ElapsedGameTime.TotalSeconds;
         if (timeSinceLastUpdate >= TIME_TO_NEXT_UPDATE)
         {
+            FrameCounter.Update(timeSinceLastUpdate);
             var state = Keyboard.GetState();
 #if DEBUG
             if (state.CapsLock)
@@ -103,6 +107,8 @@ internal class BaseGame : OriginalGameClass
 
             DisplayColliders = state.NumLock;
 
+            if (state.IsKeyDown(Keys.Escape))
+                Parent.Restart();
 #endif
             var controller = GamePad.GetState(0);
             World.PlayerInputs.SetState(state, controller);
@@ -130,6 +136,10 @@ internal class BaseGame : OriginalGameClass
                    null,
                    Camera.GetTransformation(GraphicsDevice));
 
+
+        var fps = string.Format("FPS: {0}", FrameCounter.AverageFramesPerSecond);
+        SpriteBatch.DrawString(SpriteFont, fps, new Vector2(1, 1), Color.Black, 0, Vector2.Zero, 100, SpriteEffects.None, 0);
+
         World.Things.ForEach(RenderThing);
 
         SpriteBatch.End();
@@ -140,19 +150,20 @@ internal class BaseGame : OriginalGameClass
 
     private void RenderThing(Thing thing)
     {
-        if(DisplayColliders)
-        thing.Colliders.ForEach(collider =>
-            DrawBorder(
-                new Rectangle(
-                    thing.X + collider.OffsetX,
-                    thing.Y + collider.OffsetY,
-                    collider.Width,
-                    collider.Height),
-                20,
-                Color.Red
-            )
-        );
-
+#if DEBUG
+        if (DisplayColliders)
+            thing.Colliders.ForEach(collider =>
+                DrawBorder(
+                    new Rectangle(
+                        thing.X + collider.OffsetX,
+                        thing.Y + collider.OffsetY,
+                        collider.Width,
+                        collider.Height),
+                    20,
+                    Color.Red
+                )
+            );
+#endif
         thing.Touchables.ForEach(touchable =>
             DrawBorder(
                 new Rectangle(

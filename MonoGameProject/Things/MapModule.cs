@@ -1,34 +1,69 @@
-﻿using GameCore;
+﻿using System;
+using GameCore;
 using Microsoft.Xna.Framework;
 using MonoGameProject.Things;
 
 namespace MonoGameProject
 {
-    public class MapModule : Thing, Module, IBlockPlayerMovement
+    public class MyClass : MapModule
     {
-        public const int CELL_SIZE = 600;
+        public MyClass(WorldMover WorldMover, BackBlocker Blocker) : base(WorldMover, Blocker)
+        {
+
+        }
+
+        protected override string[] map()
+        {
+            //return new[]{
+            //     "1110011111111111"
+            //    ,"0010010000000000"
+            //    ,"0010010000000000"
+            //    ,"0010010000000000"
+            //    ,"0010010000000000"
+            //    ,"0010010000000000"
+            //    ,"0010010000000000"
+            //    ,"0010010000000000"
+            //    ,"0010010000000000"
+            //    ,"0010010000000000"
+            //    ,"0010010000000000"
+            //    ,"0010010000000000"
+            //    ,"1110011111111111"
+            //    ,"0000000000000000"
+            //    ,"0000000000000000"
+            //    ,"1111111111111111"
+            //};
+            return new[]{
+                 "0011111111111110"
+                ,"0000000000000000"
+                ,"0000000000000000"
+                ,"1111100111111110"
+                ,"0000100100000000"
+                ,"0000100100000000"
+                ,"0000100100000000"
+                ,"0000100100000000"
+                ,"1111100111111110"
+                ,"0000000000000000"
+                ,"0000000000000000"
+                ,"1111111111001111"
+                ,"0000000000000000"
+                ,"0000000000000000"
+                ,"0000000000000000"
+                ,"1111111111111111"
+            };
+        }
+    }
+
+    public abstract class MapModule : Thing, Module, IBlockPlayerMovement
+    {
+        public const int CELL_SIZE = 1000;
         private BackBlocker Blocker;
         public const int CELL_NUMBER = 16;
         public const int WIDTH = CELL_SIZE * CELL_NUMBER;
         public const int HEIGHT = CELL_SIZE * CELL_NUMBER;
-        string[] map = new[]{
-             "1110011111111111"
-            ,"0010010000000000"
-            ,"0010010000000000"
-            ,"0010010000000000"
-            ,"0010010000000000"
-            ,"0010010000000000"
-            ,"0010010000000000"
-            ,"0010010000000000"
-            ,"0010010000000000"
-            ,"0010010000000000"
-            ,"0010010000000000"
-            ,"0010010000000000"
-            ,"1110011111111111"
-            ,"0000000000000000"
-            ,"0000000000000000"
-            ,"1111111111111111"
-        };
+        protected abstract string[] map();
+
+
+        static Color Color = Color.LightCyan;
 
         public MapModule(WorldMover WorldMover, BackBlocker Blocker)
         {
@@ -45,11 +80,16 @@ namespace MonoGameProject
                 }
             });
 
+            if (Color == Color.LightCyan)
+                Color = Color.LightCoral;
+            else
+                Color = Color.LightCyan;
+
             for (int i = 0; i < CELL_NUMBER; i++)
             {
                 for (int j = 0; j < CELL_NUMBER; j++)
                 {
-                    var type = map[i][j];
+                    var type = map()[i][j];
                     if (type == '1')
                     {
                         var combo = 1;
@@ -57,7 +97,7 @@ namespace MonoGameProject
                         {
                             if (j + 1 >= CELL_NUMBER)
                                 break;
-                            type = map[i][j + 1];
+                            type = map()[i][j + 1];
                             if (type != '1')
                                 break;
                             combo++;
@@ -90,8 +130,8 @@ namespace MonoGameProject
                             , CELL_SIZE
                             , CELL_SIZE
                         )
-                        { RenderingLayer=1})
-                        { Color = Color.LightGray });
+                        { RenderingLayer = 1 })
+                        { Color = Color });
                     }
                 }
 

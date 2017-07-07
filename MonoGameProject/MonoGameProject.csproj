@@ -43,7 +43,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Things\MapModule.cs" />
-    <Compile Include="Things\MapModule2.cs" />
     <Compile Include="Things\Module.cs" />
     <Compile Include="Things\WorldHelper.cs" />
     <Compile Include="Updates\AfectedByGravity.cs" />

@@ -1,4 +1,5 @@
 ﻿using GameCore;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 
@@ -14,6 +15,7 @@ namespace MonoGameProject
         const int width = 12000;
         const int height = 2000;
 
+
         public PlatformCreator(WorldMover WorldMover, Action<Thing> AddToWOrld)
         {
             BackBlocker = new BackBlocker(WorldMover)
@@ -27,14 +29,13 @@ namespace MonoGameProject
 
             AddToWOrld(new ViewDownBlocker()
             {
-                Y = MapModule.HEIGHT * 2 - MapModule.CELL_SIZE
-                + 3000//botcollider from wolrd mover
+                Y = MapModule.HEIGHT * 2 - MapModule.CELL_SIZE*4
             });
             Modules = new Func<int, int, Module>[]
             {
                 (x,y) =>
                 {
-                    return new MapModule(WorldMover, BackBlocker)
+                    return new MyClass(WorldMover, BackBlocker)
                     {
                         X = x,
                         Y = y
