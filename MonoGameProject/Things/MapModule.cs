@@ -33,7 +33,7 @@ namespace MonoGameProject
             //    ,"1111111111111111"
             //};
             return new[]{
-                 "0011111111111110"
+                 "1111111111111111"
                 ,"0000000000000000"
                 ,"0000000000000000"
                 ,"1111100111111110"
@@ -57,7 +57,7 @@ namespace MonoGameProject
     {
         public const int CELL_SIZE = 1000;
         private BackBlocker Blocker;
-        public const int CELL_NUMBER = 16;
+        public const int CELL_NUMBER = 8;
         public const int WIDTH = CELL_SIZE * CELL_NUMBER;
         public const int HEIGHT = CELL_SIZE * CELL_NUMBER;
         protected abstract string[] map();
@@ -73,7 +73,7 @@ namespace MonoGameProject
 
             AddUpdate(t =>
             {
-                if (X < -WIDTH * 2)
+                if (X <= -WIDTH )
                 {
                     Blocker.X = X + WIDTH - BackBlocker.WIDTH;
                     Destroy();
@@ -93,21 +93,21 @@ namespace MonoGameProject
                     if (type == '1')
                     {
                         var combo = 1;
-                        while (true)
-                        {
-                            if (j + 1 >= CELL_NUMBER)
-                                break;
-                            type = map()[i][j + 1];
-                            if (type != '1')
-                                break;
-                            combo++;
-                            j++;
-                        }
+                        //while (true)
+                        //{
+                        //    if (j + 1 >= CELL_NUMBER)
+                        //        break;
+                        //    type = map()[i][j + 1];
+                        //    if (type != '1')
+                        //        break;
+                        //    combo++;
+                        //    j++;
+                        //}
 
                         AddAnimation(new Animation(new AnimationFrame(
                             "block"
-                            , (j - combo + 1) * CELL_SIZE
-                            , i * CELL_SIZE
+                            , (j - combo + 1) * CELL_SIZE + 1
+                            , i * CELL_SIZE + 1
                             , CELL_SIZE * combo
                             , CELL_SIZE
                         ))
@@ -115,8 +115,8 @@ namespace MonoGameProject
 
                         AddCollider(new Collider()
                         {
-                            OffsetX = (j - combo + 1) * CELL_SIZE,
-                            OffsetY = i * CELL_SIZE,
+                            OffsetX = (j - combo + 1) * CELL_SIZE + 1,
+                            OffsetY = i * CELL_SIZE + 1,
                             Width = CELL_SIZE * combo,
                             Height = CELL_SIZE
                         });
@@ -125,8 +125,8 @@ namespace MonoGameProject
                     {
                         AddAnimation(new Animation(new AnimationFrame(
                             "block"
-                            , j * CELL_SIZE
-                            , i * CELL_SIZE
+                            , j * CELL_SIZE + 1
+                            , i * CELL_SIZE + 1
                             , CELL_SIZE
                             , CELL_SIZE
                         )

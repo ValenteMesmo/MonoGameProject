@@ -18,6 +18,10 @@ internal class BaseGame : OriginalGameClass
     private Dictionary<string, Texture2D> Textures;
     private readonly Game Parent;
     SpriteFont SpriteFont;
+    public const float TIME_TO_NEXT_UPDATE = 1.0f / 60.0f;
+#if DEBUG
+    private bool DisplayColliders;
+#endif
 
     public bool FullScreen
     {
@@ -40,10 +44,11 @@ internal class BaseGame : OriginalGameClass
         IsMouseVisible = true;
         Graphics = new GraphicsDeviceManager(this);
         Content.RootDirectory = "Content";
-        IsFixedTimeStep = false;
-        Graphics.SynchronizeWithVerticalRetrace = false;
-        //TODO: fullscreen on alt+enter
-        //graphics.IsFullScreen = true;
+        //IsFixedTimeStep = false;
+        //Graphics.SynchronizeWithVerticalRetrace = false;
+        IsFixedTimeStep = true;
+        Graphics.SynchronizeWithVerticalRetrace = true;
+
 
         Camera = new Camera2d();
         Camera.Pos = new Vector2(7000f, 5500f);
@@ -58,6 +63,11 @@ internal class BaseGame : OriginalGameClass
 
     protected override void Initialize()
     {
+        Graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
+        Graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
+        //TODO: fullscreen on alt+enter
+        //Graphics.IsFullScreen = true;
+        Graphics.ApplyChanges();
         base.Initialize();
     }
 
@@ -86,18 +96,13 @@ internal class BaseGame : OriginalGameClass
         }
     }
 
-    public const float TIME_TO_NEXT_UPDATE = 1.0f /60.0f;
-    private float timeSinceLastUpdate;
-#if DEBUG
-    private bool DisplayColliders;
-#endif
+
 
     protected override void Update(GameTime gameTime)
     {
-        timeSinceLastUpdate += (float)gameTime.ElapsedGameTime.TotalSeconds;
-        if (timeSinceLastUpdate >= TIME_TO_NEXT_UPDATE)
+        //if (timeSinceLastUpdate >= TIME_TO_NEXT_UPDATE)
         {
-            FrameCounter.Update(timeSinceLastUpdate);
+        
             var state = Keyboard.GetState();
 #if DEBUG
             if (state.CapsLock)
@@ -118,7 +123,7 @@ internal class BaseGame : OriginalGameClass
                 Mouse.GetState());
 
             World.Update();
-            timeSinceLastUpdate = 0;
+            
         }
 
         base.Update(gameTime);
@@ -135,9 +140,12 @@ internal class BaseGame : OriginalGameClass
                    null,
                    null,
                    Camera.GetTransformation(GraphicsDevice));
+        ;
+        FrameCounter.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
+        
 
-
-        var fps = string.Format("FPS: {0}", FrameCounter.AverageFramesPerSecond);
+        var fps = string.Format("FPS: {0}", FrameCounter.AverageFramesPerSecond)
+            .Replace("∞","");
         SpriteBatch.DrawString(SpriteFont, fps, new Vector2(1, 1), Color.Black, 0, Vector2.Zero, 100, SpriteEffects.None, 0);
 
         World.Things.ForEach(RenderThing);
