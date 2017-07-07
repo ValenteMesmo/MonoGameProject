@@ -85,6 +85,7 @@ internal class BaseGame : OriginalGameClass
 
     private const float TIME_TO_NEXT_UPDATE = 1.0f / 120.0f;
     private float timeSinceLastUpdate;
+    private bool DisplayColliders;
 
     protected override void Update(GameTime gameTime)
     {
@@ -99,6 +100,9 @@ internal class BaseGame : OriginalGameClass
                 Camera.Zoom = 0.02f;
             else
                 Camera.Zoom = 0.1f;
+
+            DisplayColliders = state.NumLock;
+
 #endif
             var controller = GamePad.GetState(0);
             World.PlayerInputs.SetState(state, controller);
@@ -136,6 +140,7 @@ internal class BaseGame : OriginalGameClass
 
     private void RenderThing(Thing thing)
     {
+        if(DisplayColliders)
         thing.Colliders.ForEach(collider =>
             DrawBorder(
                 new Rectangle(
