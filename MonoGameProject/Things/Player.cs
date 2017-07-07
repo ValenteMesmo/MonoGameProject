@@ -50,6 +50,7 @@ namespace MonoGameProject
             collider.AddBotCollisionHandler(StopsWhenHitting.Bot);
             collider.AddLeftCollisionHandler(StopsWhenHitting.Left);
             collider.AddRightCollisionHandler(StopsWhenHitting.Right);
+            collider.AddTopCollisionHandler(StopsWhenHitting.Top);
             AddCollider(collider);
         }
 

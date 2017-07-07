@@ -6,21 +6,28 @@ namespace MonoGameProject
 {
     public class MapModule : Thing, Module, IBlockPlayerMovement
     {
-        //public const int WIDTH = 18000;
-        //public const int HEIGHT = 5000;
-        public const int CELL_SIZE = 1000;
+        public const int CELL_SIZE = 600;
         private BackBlocker Blocker;
-        public const int WIDTH = CELL_SIZE * 8;
-        public const int HEIGHT = CELL_SIZE * 8;
+        public const int CELL_NUMBER = 16;
+        public const int WIDTH = CELL_SIZE * CELL_NUMBER;
+        public const int HEIGHT = CELL_SIZE * CELL_NUMBER;
         string[] map = new[]{
-             "11100010"
-            ,"00000000"
-            ,"00000000"
-            ,"11100111"
-            ,"00000000"
-            ,"00000000"
-            ,"11111000"
-            ,"11111111"
+             "1110001011100010"
+            ,"0000000000000000"
+            ,"0000000000000000"
+            ,"1110011111100111"
+            ,"0000000000000000"
+            ,"0000000000000000"
+            ,"0000000000000000"
+            ,"1110111011111111"
+            ,"1110001011100010"
+            ,"0000000000000000"
+            ,"0000000000000000"
+            ,"1110011111100111"
+            ,"0000000000000000"
+            ,"0000000000000000"
+            ,"0000000000000000"
+            ,"1111111111111111"
         };
 
         public MapModule(WorldMover WorldMover, BackBlocker Blocker)
@@ -38,29 +45,52 @@ namespace MonoGameProject
                 }
             });
 
-            for (int i = 0; i < 8; i++)
+            for (int i = 0; i < CELL_NUMBER; i++)
             {
-                for (int j = 0; j < 8; j++)
+                for (int j = 0; j < CELL_NUMBER; j++)
                 {
-                    var type = map[j][i];
+                    var type = map[i][j];
                     if (type == '1')
                     {
+                        var combo = 1;
+                        while (true)
+                        {
+                            if (j + 1 >= CELL_NUMBER)
+                                break;
+                            type = map[i][j + 1];
+                            if (type != '1')
+                                break;
+                            combo++;
+                            j++;
+                        }
+
                         AddAnimation(new Animation(new AnimationFrame(
                             "block"
+                            , (j - combo + 1) * CELL_SIZE
                             , i * CELL_SIZE
-                            , j * CELL_SIZE
-                            , CELL_SIZE
+                            , CELL_SIZE * combo
                             , CELL_SIZE
                         ))
                         { Color = Color.Brown });
 
                         AddCollider(new Collider()
                         {
-                            OffsetX = i * CELL_SIZE,
-                            OffsetY = j * CELL_SIZE,
-                            Width = CELL_SIZE,
+                            OffsetX = (j - combo + 1) * CELL_SIZE,
+                            OffsetY = i * CELL_SIZE,
+                            Width = CELL_SIZE * combo,
                             Height = CELL_SIZE
                         });
+                    }
+                    if (type == '0')
+                    {
+                        AddAnimation(new Animation(new AnimationFrame(
+                            "block"
+                            , j * CELL_SIZE
+                            , i * CELL_SIZE
+                            , CELL_SIZE
+                            , CELL_SIZE
+                        ))
+                        { Color = Color.LightGray });
                     }
                 }
 

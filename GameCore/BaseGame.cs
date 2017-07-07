@@ -45,11 +45,11 @@ internal class BaseGame : OriginalGameClass
 
         Camera = new Camera2d();
         Camera.Pos = new Vector2(7000f, 5500f);
-        Camera.Zoom = 
+        Camera.Zoom =
              0.1f;
-            /*
-            0.02f;
-             */
+        /*
+        0.02f;
+         */
 
         World = new World(Camera);
     }
@@ -88,11 +88,18 @@ internal class BaseGame : OriginalGameClass
 
     protected override void Update(GameTime gameTime)
     {
+
+
         timeSinceLastUpdate += (float)gameTime.ElapsedGameTime.TotalSeconds;
         if (timeSinceLastUpdate >= TIME_TO_NEXT_UPDATE)
         {
             var state = Keyboard.GetState();
-
+#if DEBUG
+            if (state.CapsLock)
+                Camera.Zoom = 0.02f;
+            else
+                Camera.Zoom = 0.1f;
+#endif
             var controller = GamePad.GetState(0);
             World.PlayerInputs.SetState(state, controller);
 
