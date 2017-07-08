@@ -70,19 +70,14 @@ namespace GameCore
                 thing.Updates.ForEach(update =>
                     update(thing)));
 
-            Things.ForEach(thing => thing.MoveHorizontally());
-
-            //TODO: QuadTree
-            //https://github.com/ChevyRay/QuadTree
-            //https://gamedevelopment.tutsplus.com/tutorials/quick-tip-use-quadtrees-to-detect-likely-collisions-in-2d-space--gamedev-374
-
-
             var passiveColliders = new List<Collider>();
             var activeColliders = new List<Collider>();
             Things.ForEach(thing =>
             {
                 thing.Colliders.ForEach(collider =>
                 {
+                    collider.CollidingWith.Clear();
+
                     if (collider.BotCollisionHandlers.Any()
                         || collider.TopCollisionHandlers.Any()
                         || collider.LeftCollisionHandlers.Any()
@@ -96,6 +91,10 @@ namespace GameCore
                 });
             });
 
+            //TODO: QuadTree
+            //https://github.com/ChevyRay/QuadTree
+            //https://gamedevelopment.tutsplus.com/tutorials/quick-tip-use-quadtrees-to-detect-likely-collisions-in-2d-space--gamedev-374
+            Things.ForEach(thing => thing.MoveHorizontally());
             activeColliders.ForEach(active =>
             {
                 passiveColliders.ForEach(passive =>
@@ -104,18 +103,8 @@ namespace GameCore
                         ColliderExtensions.HandleHorizontalCollision(active, passive);
                 });
             });
-            //TODO: mover esse selectmany tolist para cima. fazer uma vez só
-            //Things.SelectMany(thing => thing.PassiveColliders)
-            //    .ToList()
-            //    .ForEachCombination(
-            //        ColliderExtensions.HandleHorizontalCollision);
-
+            
             Things.ForEach(thing => thing.MoveVertically());
-
-            //Things.SelectMany(thing => thing.PassiveColliders)
-            //    .ToList()
-            //    .ForEachCombination(
-            //        ColliderExtensions.HandleVerticalCollision);
             activeColliders.ForEach(active =>
             {
                 passiveColliders.ForEach(passive =>

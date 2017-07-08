@@ -146,7 +146,16 @@ internal class BaseGame : OriginalGameClass
 
         var fps = string.Format("FPS: {0}", FrameCounter.AverageFramesPerSecond)
             .Replace("∞","");
-        SpriteBatch.DrawString(SpriteFont, fps, new Vector2(1, 1), Color.Black, 0, Vector2.Zero, 100, SpriteEffects.None, 0);
+        SpriteBatch.DrawString(
+            SpriteFont
+            , fps
+            , new Vector2(300, 1800)
+            , Color.Black
+            , 0
+            , Vector2.Zero
+            , 25
+            , SpriteEffects.None
+            , 0);
 
         World.Things.ForEach(RenderThing);
 

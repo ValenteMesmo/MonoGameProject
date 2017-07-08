@@ -98,6 +98,8 @@ namespace GameCore
             if (collision == CollisionResult.Nope)
                 return;
 
+            a.CollidingWith.Add(b);
+            b.CollidingWith.Add(a);
             if (collision == CollisionResult.Left)
             {
                 a.LeftCollisionHandlers
@@ -128,6 +130,8 @@ namespace GameCore
             if (collision == CollisionResult.Nope)
                 return;
 
+            a.CollidingWith.Add(b);
+            b.CollidingWith.Add(a);
             if (collision == CollisionResult.Top)
             {
                 a.TopCollisionHandlers

@@ -5,7 +5,7 @@ namespace MonoGameProject
 {
     class Player : Thing
     {
-        //AUMENTAR WIDTH TOP E BOT
+        //vilarejo em chamas... pessoas sendo atacaDas?
         private const int width = 1000;
         private const int height = 900;
 
@@ -21,22 +21,40 @@ namespace MonoGameProject
                 Width = width / 3,
                 Height = height / 4,
                 OffsetX = width / 3,
-                OffsetY = height + 1
+                OffsetY = height + 1//por que + 1?????
             };
-
             AddCollider(groundChecker);
+
+            var leftWallChecker = new CheckIfCollidingWith<IBlockPlayerMovement>()
+            {
+                Width = width / 3,
+                Height = height / 3,
+                OffsetX = -10,
+                OffsetY = height /3
+            };
+            AddCollider(leftWallChecker);
+
+            var rightWallChecker = new CheckIfCollidingWith<IBlockPlayerMovement>()
+            {
+                Width = width / 3,
+                Height = height / 3,
+                OffsetX = ((width/3)*2)+10,
+                OffsetY = height / 3
+            };
+            AddCollider(rightWallChecker);
 
             AddUpdate(new HorizontalFriction().Update);
             AddUpdate(new AfectedByGravity().Update);
             AddUpdate(new MoveLeftOrRight(InputRepository).Update);
             AddUpdate(WorldHelper.MoveWithTheWord);
             AddUpdate(new Jump(InputRepository, groundChecker).Update);
+            AddUpdate(new LeftWallJump(InputRepository, groundChecker,leftWallChecker).Update);
+            AddUpdate(new RightWallJump(InputRepository, groundChecker,rightWallChecker).Update);
             AddUpdate(new SpeedLimit().Update);
 
             //AddUpdate(t => HorizontalSpeed = 80);
 
             CreateAnimator(groundChecker);
-            AddUpdate(groundChecker.Update);
         }
 
         private void CreateMainCollider(int width, int height)

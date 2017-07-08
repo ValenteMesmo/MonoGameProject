@@ -11,6 +11,8 @@ namespace GameCore
         protected float Rotation;
         private float _zoom;
 
+        //private const float VIRTUAL_WIDTH = 1280;
+        //private const float VIRTUAL_HEIGHT = 720;
         private const float VIRTUAL_WIDTH = 1366;
         private const float VIRTUAL_HEIGHT = 768;
 

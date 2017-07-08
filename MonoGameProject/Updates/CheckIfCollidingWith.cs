@@ -1,28 +1,21 @@
 ﻿using GameCore;
+using System.Linq;
 
 namespace MonoGameProject
 {
-    public class CheckIfCollidingWith<T> : Collider, UpdateHandler
+    public class CheckIfCollidingWith<T> : Collider
     {
-        public bool Colliding { get; set; }
-
         public CheckIfCollidingWith()
         {
-            AddBotCollisionHandler(Handle);
-            AddTopCollisionHandler(Handle);
-            AddLeftCollisionHandler(Handle);
-            AddRightCollisionHandler(Handle);
+            AddBotCollisionHandler((a, b) => { });
         }
 
-        public void Update(Thing Parent)
+        public bool Colliding
         {
-            Colliding = false;
-        }
-
-        private void Handle(Collider Parent, Collider Other)
-        {
-            if (Other.Parent is T)
-                Colliding = true;
+            get
+            {
+                return CollidingWith.Any(f => f.Parent is T);
+            }
         }
     }
 }
