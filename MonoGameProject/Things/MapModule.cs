@@ -33,7 +33,7 @@ namespace MonoGameProject
             //    ,"1111111111111111"
             //};
             return new[]{
-                 "1111111111111111"
+                 "1111111101111111"
                 ,"0000000000000000"
                 ,"0000000000000000"
                 ,"1111100111111110"
@@ -57,7 +57,7 @@ namespace MonoGameProject
     {
         public const int CELL_SIZE = 1000;
         private BackBlocker Blocker;
-        public const int CELL_NUMBER = 8;
+        public const int CELL_NUMBER = 16;
         public const int WIDTH = CELL_SIZE * CELL_NUMBER;
         public const int HEIGHT = CELL_SIZE * CELL_NUMBER;
         protected abstract string[] map();
