@@ -15,7 +15,7 @@ namespace MonoGameProject
                 Width = WIDTH,
                 Height = HEIGHT
             });
-            AddUpdate(WorldHelper.MoveVerticallyWithTheWord);
+            AddUpdate(new MoveVerticallyWithTheWorld(this));
 
             AddAnimation(
                 new Animation(
@@ -35,7 +35,7 @@ namespace MonoGameProject
                 Width = WIDTH,
                 Height = HEIGHT
             });
-            AddUpdate(WorldHelper.MoveHorizontallyWithTheWord);
+            AddUpdate(new MoveHorizontallyWithTheWorld(this));
 
             AddAnimation(
                 new Animation(

@@ -2,6 +2,6 @@
 {
     public interface UpdateHandler
     {
-        void Update(Thing Parent);
+        void Update();
     }
 }

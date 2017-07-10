@@ -5,8 +5,14 @@ namespace MonoGameProject
     public class HorizontalFriction : UpdateHandler
     {
         private readonly int velocity = 1;
+        private readonly Player Parent;
 
-        public void Update(Thing Parent)
+        public HorizontalFriction(Player Parent)
+        {
+            this.Parent = Parent;
+        }
+
+        public void Update()
         {
             if (Parent.HorizontalSpeed > 0)
             {
@@ -17,6 +23,5 @@ namespace MonoGameProject
                 Parent.HorizontalSpeed += velocity;
             }
         }
-
     }
 }

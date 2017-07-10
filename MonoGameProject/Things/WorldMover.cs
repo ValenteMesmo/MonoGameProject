@@ -20,7 +20,7 @@ namespace MonoGameProject
             X = (int)Camera.Pos.X;
             Y = (int)Camera.Pos.Y;
 
-            AddUpdate(_ =>
+            AddUpdate(() =>
             {
                 if (MovingRightBy == null && MovingLeftBy == null)
                     WorldHorizontalSpeed = 0;
@@ -33,8 +33,8 @@ namespace MonoGameProject
             CreateBotCollider();
             CreateTopCollider();
 
-            AddUpdate(t => BackBlocking = false);
-            AddUpdate(t => DownBlocking = false);
+            AddUpdate(() => BackBlocking = false);
+            AddUpdate(() => DownBlocking = false);
         }
 
         private void CreateRightCollider()
@@ -62,12 +62,12 @@ namespace MonoGameProject
 
             AddCollider(rightCollider);
 
-            AddUpdate(t =>
+            AddUpdate(() =>
             {
                 if (MovingRightBy != null && MovingRightBy.HorizontalSpeed > 0)
                     WorldHorizontalSpeed = MovingRightBy.HorizontalSpeed;
             });
-            AddUpdate(t => MovingRightBy = null);
+            AddUpdate(() => MovingRightBy = null);
 
         }
 
@@ -96,7 +96,7 @@ namespace MonoGameProject
 
             AddCollider(leftCollider);
 
-            AddUpdate(t =>
+            AddUpdate(() =>
             {
                 if (
                 MovingLeftBy != null
@@ -107,7 +107,7 @@ namespace MonoGameProject
                     WorldHorizontalSpeed = 0;
 
             });
-            AddUpdate(t => MovingLeftBy = null);
+            AddUpdate(() => MovingLeftBy = null);
         }
 
         private void CreateBotCollider()
@@ -135,7 +135,7 @@ namespace MonoGameProject
 
             AddCollider(BotCollider);
 
-            AddUpdate(t =>
+            AddUpdate(() =>
             {
                 if (
                 MovingBotBy != null
@@ -147,7 +147,7 @@ namespace MonoGameProject
                     WorldVerticalSpeed = 0;
 
             });
-            AddUpdate(t => MovingBotBy = null);
+            AddUpdate(() => MovingBotBy = null);
         }
 
         private void CreateTopCollider()
@@ -175,7 +175,7 @@ namespace MonoGameProject
 
             AddCollider(TopCollider);
 
-            AddUpdate(t =>
+            AddUpdate(() =>
             {
                 if (
                 MovingTopBy != null
@@ -184,7 +184,7 @@ namespace MonoGameProject
                     WorldVerticalSpeed = MovingTopBy.VerticalSpeed;
 
             });
-            AddUpdate(t => MovingTopBy = null);
+            AddUpdate(() => MovingTopBy = null);
         }
 
         private void StoreTheTopMovementCause(Collider c1, Collider c2)

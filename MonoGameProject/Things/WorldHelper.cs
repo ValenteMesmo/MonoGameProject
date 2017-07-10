@@ -2,22 +2,33 @@
 
 namespace MonoGameProject
 {
-    public static class WorldHelper
+    public class MoveHorizontallyWithTheWorld : UpdateHandler
     {
-        public static void MoveWithTheWord(Thing thing)
+        private readonly Thing Parent;
+
+        public MoveHorizontallyWithTheWorld(Thing Parent)
         {
-            MoveHorizontallyWithTheWord(thing);
-            MoveVerticallyWithTheWord(thing);
+            this.Parent = Parent;
         }
 
-        public static void MoveHorizontallyWithTheWord(Thing thing)
+        public void Update()
         {
-            thing.X -= WorldMover.WorldHorizontalSpeed;
+            Parent.X -= WorldMover.WorldHorizontalSpeed;
+        }
+    }
+
+    public class MoveVerticallyWithTheWorld : UpdateHandler
+    {
+        private readonly Thing Parent;
+
+        public MoveVerticallyWithTheWorld(Thing Parent)
+        {
+            this.Parent = Parent;
         }
 
-        public static void MoveVerticallyWithTheWord(Thing thing)
+        public void Update()
         {
-            thing.Y -= WorldMover.WorldVerticalSpeed;
+            Parent.Y -= WorldMover.WorldVerticalSpeed;
         }
     }
 }

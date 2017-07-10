@@ -11,16 +11,19 @@ namespace MonoGameProject
         int minJumpSpeed = -60;
         int maxJumpSpeed = -120;
         private CheckIfCollidingWith<IBlockPlayerMovement> groundChecker;
+        private readonly Thing Parent;
 
         public Jump(
+            Thing Parent,
             InputRepository InputRepository,
             CheckIfCollidingWith<IBlockPlayerMovement> groundChecker)
         {
+            this.Parent = Parent;
             this.groundChecker = groundChecker;
             this.InputRepository = InputRepository;
         }
 
-        public void Update(Thing Parent)
+        public void Update()
         {
             if (InputRepository.ClickedJump && groundChecker.Colliding)
             {
@@ -52,9 +55,10 @@ namespace MonoGameProject
         private readonly Func<bool> JumpButtonClicked;
         private readonly Func<int> GetSpeed;
         private readonly Func<bool> JumpButtonReleased;
+        private readonly Thing Parent;
 
         public WallJump(
-            Player player
+            Thing Parent
             , Func<bool> DirectionButtonPressed
             , Func<bool> JumpButtonClicked
             , Func<bool> JumpButtonReleased
@@ -63,6 +67,7 @@ namespace MonoGameProject
             , CheckIfCollidingWith<IBlockPlayerMovement> WallChecker
             )
         {
+            this.Parent = Parent;
             this.groundChecker = groundChecker;
             this.DirectionButtonPressed = DirectionButtonPressed;
             this.JumpButtonClicked = JumpButtonClicked;
@@ -71,7 +76,7 @@ namespace MonoGameProject
             this.GetSpeed = GetSpeed;
         }
 
-        public void Update(Thing Parent)
+        public void Update()
         {
             if (JumpButtonClicked() && !groundChecker.Colliding && WallChecker.Colliding)
             {

@@ -5,7 +5,7 @@ namespace GameCore
 {
     public static class ColliderExtensions
     {
-        public static CollisionResult IsColliding(this Collider A, Collider B)
+        internal static CollisionResult IsColliding(this Collider A, Collider B)
         {
             var w = 0.5f * (A.Width + B.Width);
             var h = 0.5f * (A.Height + B.Height);

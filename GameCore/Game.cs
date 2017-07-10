@@ -3,6 +3,10 @@ using System;
 
 public abstract class Game : IDisposable
 {
+
+#if DEBUG
+    public static string LOG = "NO logs";
+#endif
     private readonly BaseGame BaseGame;
     protected Camera2d Camera { get { return BaseGame.Camera; } }
     protected InputRepository InputRepository { get { return BaseGame.World.PlayerInputs; } }

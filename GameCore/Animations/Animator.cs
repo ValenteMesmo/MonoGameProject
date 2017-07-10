@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 
 namespace GameCore
 {
@@ -8,13 +7,13 @@ namespace GameCore
         private readonly AnimationTransition[] Transitions;
         private Animation CurrentAnimation;
 
-        public Color Color { get ; set ; }
+        public Color Color { get; set; }
 
         public Animator(params AnimationTransition[] Transitions)
         {
             Color = Color.White;
             this.Transitions = Transitions;
-            CurrentAnimation = Transitions[0].Sources[0];
+            CurrentAnimation = Transitions[0].Target;
         }
 
         public void Update()
@@ -23,18 +22,16 @@ namespace GameCore
 
             foreach (var item in Transitions)
             {
-                if (item.Sources.Contains(CurrentAnimation))
+                if (CurrentAnimation != item.Target 
+                    && item.Condition())
                 {
-                    if (item.Condition())
-                    {
-                        CurrentAnimation.Restart();
+                    CurrentAnimation.Restart();
 
-                        CurrentAnimation = item.Target;
+                    CurrentAnimation = item.Target;
 
-                        item.AfterTransition();
+                    item.AfterTransition();
 
-                        break;
-                    }
+                    break;
                 }
             }
         }

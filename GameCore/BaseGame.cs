@@ -143,9 +143,10 @@ internal class BaseGame : OriginalGameClass
                    null,
                    Camera.GetTransformation(GraphicsDevice));
         ;
+
+#if DEBUG
         FrameCounter.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
-
-
+        
         var fps = string.Format("FPS: {0}", FrameCounter.AverageFramesPerSecond)
             .Replace("∞", "");
         SpriteBatch.DrawString(
@@ -158,6 +159,18 @@ internal class BaseGame : OriginalGameClass
             , 25
             , SpriteEffects.None
             , 0);
+
+        SpriteBatch.DrawString(
+            SpriteFont
+            , Game.LOG
+            , new Vector2(300, 2800)
+            , Color.Black
+            , 0
+            , Vector2.Zero
+            , 25
+            , SpriteEffects.None
+            , 0);
+#endif
 
         World.Things.ForEach(RenderThing);
 

@@ -57,7 +57,7 @@ namespace MonoGameProject
 
         }
 
-        private void OnUpdate(Thing obj)
+        private void OnUpdate()
         {
             //tODO:  remove Cast
             if ((lastModule as Thing).X + MapModule.WIDTH < MapModule.WIDTH * 2)

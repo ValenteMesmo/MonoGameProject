@@ -68,7 +68,7 @@ namespace GameCore
 
             Things.ToList().ForEach(thing =>
                 thing.Updates.ForEach(update =>
-                    update(thing)));
+                    update()));
 
             var passiveColliders = new List<Collider>();
             var activeColliders = new List<Collider>();

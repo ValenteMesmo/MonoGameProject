@@ -14,7 +14,7 @@ namespace GameCore
         internal List<IHandleAnimation> Animations = new List<IHandleAnimation>();
         internal List<string> Sounds = new List<string>();
         internal List<Collider> Colliders = new List<Collider>();
-        internal List<Action<Thing>> Updates = new List<Action<Thing>>();
+        internal List<Action> Updates = new List<Action>();
         internal List<IHandleTouchInputs> Touchables = new List<IHandleTouchInputs>();
 
         public void AddTouchHandler(IHandleTouchInputs touchHandler)
@@ -29,9 +29,14 @@ namespace GameCore
             Colliders.Add(collider);
         }
 
-        public void AddUpdate(Action<Thing> Update)
+        public void AddUpdate(Action Update)
         {
             Updates.Add(Update);
+        }
+
+        public void AddUpdate(UpdateHandler Update)
+        {
+            Updates.Add(Update.Update);
         }
 
         public void AddAnimation(IHandleAnimation Animation)

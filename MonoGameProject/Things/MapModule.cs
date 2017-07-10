@@ -69,11 +69,12 @@ namespace MonoGameProject
         {
             this.Blocker = Blocker;
 
-            AddUpdate(WorldHelper.MoveWithTheWord);
+            AddUpdate(new MoveVerticallyWithTheWorld(this));
+            AddUpdate(new MoveHorizontallyWithTheWorld(this));
 
-            AddUpdate(t =>
+            AddUpdate(() =>
             {
-                if (X <= -WIDTH )
+                if (X <= -WIDTH)
                 {
                     Blocker.X = X + WIDTH - BackBlocker.WIDTH;
                     Destroy();

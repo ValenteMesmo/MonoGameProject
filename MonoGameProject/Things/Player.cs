@@ -32,10 +32,12 @@ namespace MonoGameProject
     {
         //vilarejo em chamas... pessoas sendo atacaDas?
         //arvore seca, cheia de criaturas voadoras que parecem passaros... faz barulho perto, que elas voam
+        //modulos de transicao... tipo castlevania entrando no castelo
+
         private const int width = 1000;
         private const int height = 900;
 
-        //public PlayerState State { get; set; }
+        public PlayerState State { get; set; }
         public readonly CheckIfCollidingWith<IBlockPlayerMovement> groundChecker;
         public readonly CheckIfCollidingWith<IBlockPlayerMovement> leftWallChecker;
         public readonly CheckIfCollidingWith<IBlockPlayerMovement> rightWallChecker;
@@ -74,17 +76,24 @@ namespace MonoGameProject
             };
             AddCollider(rightWallChecker);
 
-            //AddUpdate(new UpdatePlayerStatus(this).Update);
-            AddUpdate(new HorizontalFriction().Update);
-            AddUpdate(new AfectedByGravity().Update);
-            AddUpdate(new MoveLeftOrRight(InputRepository).Update);
-            AddUpdate(WorldHelper.MoveWithTheWord);
-            AddUpdate(new Jump(InputRepository, groundChecker).Update);
+            AddUpdate(new ChangeToStandingState(this));
+            AddUpdate(new ChangeToWalkingState(this));
+            AddUpdate(new ChangeToFallingState(this));
+            AddUpdate(new ChangeToSlidingState(this, InputRepository));
+
+            AddUpdate(new HorizontalFriction(this));
+            AddUpdate(new AfectedByGravity(this));
+            AddUpdate(new MoveLeftOrRight(this, InputRepository));
+            AddUpdate(new MoveVerticallyWithTheWorld(this));
+            AddUpdate(new MoveHorizontallyWithTheWorld(this));
+            AddUpdate(new Jump(this, InputRepository, groundChecker));
             AddUpdate(new WallJump(this, () => InputRepository.LeftDown, () => InputRepository.ClickedJump, () => !InputRepository.ClickedJump && !InputRepository.JumpDown, () => 120, groundChecker, leftWallChecker).Update);
             AddUpdate(new WallJump(this, () => InputRepository.RightDown, () => InputRepository.ClickedJump, () => !InputRepository.ClickedJump && !InputRepository.JumpDown, () => -120, groundChecker, rightWallChecker).Update);
-            AddUpdate(new HorizontalSpeedLimit().Update);
+            AddUpdate(new ReduceSpeedWhileSlidingWall(this));
+            AddUpdate(new HorizontalSpeedLimit(this).Update);
 
-            //AddUpdate(t => HorizontalSpeed = 80);
+            //AddUpdate(() => HorizontalSpeed = 80);
+            AddUpdate(() => Game.LOG = State.ToString());
 
             CreateAnimator(groundChecker);
         }
@@ -122,6 +131,14 @@ namespace MonoGameProject
                 new AnimationFrame("stand", 0, 0, width, height) { Flipped = true }
             );
 
+            var wallslide_left = new Animation(
+                new AnimationFrame("wallslide", 0, 0, width, height)
+            );
+
+            var wallslide_right = new Animation(
+                new AnimationFrame("wallslide", 0, 0, width, height) { Flipped = true }
+            );
+
             var walk_left = new Animation(
                 new AnimationFrame("walk0", 0, 0, width, height)
                 , new AnimationFrame("walk1", 0, 0, width, height)
@@ -136,14 +153,14 @@ namespace MonoGameProject
 
             AddAnimation(
                 new Animator(
-                    new AnimationTransitionOnCondition(new[] { walk_right, jump_right }, stand_right, () => HorizontalSpeed == 0 && groundChecker.Colliding)
-                    , new AnimationTransitionOnCondition(new[] { walk_left, jump_left }, stand_left, () => HorizontalSpeed == 0 && groundChecker.Colliding)
-                    , new AnimationTransitionOnCondition(new[] { stand_left, stand_right, walk_left, jump_left, jump_right }, walk_right, () => HorizontalSpeed > 0 && groundChecker.Colliding)
-                    , new AnimationTransitionOnCondition(new[] { stand_left, stand_right, walk_right, jump_left, jump_right }, walk_left, () => HorizontalSpeed < 0 && groundChecker.Colliding)
-                    , new AnimationTransitionOnCondition(new[] { stand_left, stand_right, walk_left, walk_right, jump_left }, jump_right, () => HorizontalSpeed > 0 && groundChecker.Colliding == false)
-                    , new AnimationTransitionOnCondition(new[] { stand_left, stand_right, walk_left, walk_right, jump_right }, jump_left, () => HorizontalSpeed < 0 && groundChecker.Colliding == false)
-                    , new AnimationTransitionOnCondition(new[] { stand_right, walk_right }, jump_right, () => HorizontalSpeed == 0 && groundChecker.Colliding == false)
-                    , new AnimationTransitionOnCondition(new[] { stand_left, walk_left }, jump_left, () => HorizontalSpeed == 0 && groundChecker.Colliding == false)
+                    new AnimationTransitionOnCondition( stand_right, () => State == PlayerState.StandingRight)
+                    , new AnimationTransitionOnCondition( stand_left, () => State == PlayerState.StandingLeft)
+                    , new AnimationTransitionOnCondition( walk_right, () => State == PlayerState.WalkingRight)
+                    , new AnimationTransitionOnCondition( walk_left, () => State == PlayerState.WalkingLeft)
+                    , new AnimationTransitionOnCondition( jump_right, () => State == PlayerState.FallingRight)
+                    , new AnimationTransitionOnCondition( jump_left, () => State == PlayerState.FallingLeft)
+                    , new AnimationTransitionOnCondition( wallslide_left, () => State == PlayerState.SlidingWallLeft)
+                    , new AnimationTransitionOnCondition( wallslide_right, () => State == PlayerState.SlidingWallRight)
                 )
             );
         }
