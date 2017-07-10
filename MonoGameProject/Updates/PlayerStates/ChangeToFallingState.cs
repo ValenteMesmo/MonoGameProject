@@ -5,15 +5,18 @@ namespace MonoGameProject
     public class ChangeToFallingState : UpdateHandler
     {
         private readonly Player Player;
+        private readonly InputRepository Input;
 
-        public ChangeToFallingState(Player Player)
+        public ChangeToFallingState(Player Player, InputRepository Input)
         {
             this.Player = Player;
+            this.Input = Input;
         }
 
         public void Update()
         {
-            if (Player.groundChecker.Colliding == false)
+            if (Player.groundChecker.Colliding == false
+                && !Player.State.Is(PlayerState.WallJumpingToTheLeft, PlayerState.WallJumpingToTheRight))
             {
                 if (Player.State.Is(
                    PlayerState.WalkingLeft
@@ -32,6 +35,16 @@ namespace MonoGameProject
                 )
                 {
                     Player.State = PlayerState.FallingRight;
+                }
+                else if (Player.State == PlayerState.FallingLeft
+                    && Input.RightDown)
+                {
+                    Player.State = PlayerState.FallingRight;
+                }
+                else if (Player.State == PlayerState.FallingRight
+                    && Input.LeftDown)
+                {
+                    Player.State = PlayerState.FallingLeft;
                 }
             }
         }

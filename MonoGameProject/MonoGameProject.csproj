@@ -47,10 +47,10 @@
     <Compile Include="Things\WorldHelper.cs" />
     <Compile Include="Updates\AfectedByGravity.cs" />
     <Compile Include="Things\BackBlocker.cs" />
-    <Compile Include="Updates\ChangeToFallingState.cs" />
-    <Compile Include="Updates\ChangeToSlidingState.cs" />
-    <Compile Include="Updates\ChangeToStandingState.cs" />
-    <Compile Include="Updates\ChangeToWalkingState.cs" />
+    <Compile Include="Updates\PlayerStates\ChangeToFallingState.cs" />
+    <Compile Include="Updates\PlayerStates\ChangeToSlidingState.cs" />
+    <Compile Include="Updates\PlayerStates\ChangeToStandingState.cs" />
+    <Compile Include="Updates\PlayerStates\ChangeToWalkingState.cs" />
     <Compile Include="Updates\CheckIfCollidingWith.cs" />
     <Compile Include="ContentLoader.cs" />
     <Compile Include="Game1.cs" />
@@ -66,6 +66,7 @@
     <Compile Include="Updates\SpeedLimit.cs" />
     <Compile Include="Updates\StopWhenHitsTHeGround.cs" />
     <Compile Include="Things\WorldMover.cs" />
+    <Compile Include="Updates\WallJump.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">

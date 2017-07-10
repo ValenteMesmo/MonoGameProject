@@ -1,6 +1,5 @@
 ﻿using GameCore;
 using MonoGameProject.Things;
-using System;
 
 namespace MonoGameProject
 {
@@ -42,91 +41,6 @@ namespace MonoGameProject
             jumpImpulseTime--;
             if (jumpImpulseTime < 0)
                 jumpImpulseTime = 0;
-        }
-    }
-
-    public class WallJump : UpdateHandler
-    {
-        int jumpImpulseTime = 0;
-        //int duration;
-        private CheckIfCollidingWith<IBlockPlayerMovement> groundChecker;
-        private readonly CheckIfCollidingWith<IBlockPlayerMovement> WallChecker;
-        private readonly Func<bool> DirectionButtonPressed;
-        private readonly Func<bool> JumpButtonClicked;
-        private readonly Func<int> GetSpeed;
-        private readonly Func<bool> JumpButtonReleased;
-        private readonly Thing Parent;
-
-        public WallJump(
-            Thing Parent
-            , Func<bool> DirectionButtonPressed
-            , Func<bool> JumpButtonClicked
-            , Func<bool> JumpButtonReleased
-            , Func<int> GetSpeed
-            , CheckIfCollidingWith<IBlockPlayerMovement> groundChecker
-            , CheckIfCollidingWith<IBlockPlayerMovement> WallChecker
-            )
-        {
-            this.Parent = Parent;
-            this.groundChecker = groundChecker;
-            this.DirectionButtonPressed = DirectionButtonPressed;
-            this.JumpButtonClicked = JumpButtonClicked;
-            this.JumpButtonReleased = JumpButtonReleased;
-            this.WallChecker = WallChecker;
-            this.GetSpeed = GetSpeed;
-        }
-
-        public void Update()
-        {
-            if (JumpButtonClicked() && !groundChecker.Colliding && WallChecker.Colliding)
-            {
-                Parent.HorizontalSpeed = GetSpeed();
-                Parent.VerticalSpeed = -Math.Abs(GetSpeed());
-                jumpImpulseTime = 25;
-            }
-
-            if (jumpImpulseTime > 0
-                // && JumpButtonReleased()
-                //&& Parent.VerticalSpeed <GetSpeed()/3
-                )
-            {
-                if (JumpButtonReleased()
-                    //&& jumpImpulseTime > 10
-                    )
-                {
-                    Parent.HorizontalSpeed = GetSpeed();
-                    jumpImpulseTime = 0;
-                }
-                else
-                    Parent.HorizontalSpeed = GetSpeed();
-                //Parent.VerticalSpeed = GetSpeed() / 3;
-                jumpImpulseTime--;
-            }
-
-
-            //if (JumpButtonPressed() && !groundChecker.Colliding && WallChecker.Colliding)
-            //{
-            //    Parent.VerticalSpeed = -Math.Abs(GetSpeed());
-            //    duration = 50;
-            //}
-
-            //if (duration > 0
-            //&& JumpButtonReleased()
-            //)
-            //{
-            //    if (DirectionButtonPressed())
-            //        Parent.HorizontalSpeed = -GetSpeed() / 3;
-            //    else
-            //        Parent.HorizontalSpeed = GetSpeed() / 3;
-
-            //    duration = 0;
-            //}
-            //else if (duration > 0)
-            //{
-            //    Parent.HorizontalSpeed = GetSpeed();
-            //}
-
-            //duration--;
         }
     }
 }

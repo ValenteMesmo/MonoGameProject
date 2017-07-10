@@ -11,6 +11,8 @@ namespace MonoGameProject
         WalkingRight,
         SlidingWallLeft,
         SlidingWallRight,
+        WallJumpingToTheLeft,
+        WallJumpingToTheRight,
         FallingLeft,
         FallingRight
     }
@@ -78,17 +80,20 @@ namespace MonoGameProject
 
             AddUpdate(new ChangeToStandingState(this));
             AddUpdate(new ChangeToWalkingState(this));
-            AddUpdate(new ChangeToFallingState(this));
+            AddUpdate(new ChangeToFallingState(this, InputRepository));
             AddUpdate(new ChangeToSlidingState(this, InputRepository));
+            AddUpdate(new ChangeToWallJumping(this, ()=>InputRepository.ClickedJump));
 
             AddUpdate(new HorizontalFriction(this));
             AddUpdate(new AfectedByGravity(this));
             AddUpdate(new MoveLeftOrRight(this, InputRepository));
             AddUpdate(new MoveVerticallyWithTheWorld(this));
-            AddUpdate(new MoveHorizontallyWithTheWorld(this));
+            AddUpdate(new MoveHorizontallyWithTheWorld(this));            
             AddUpdate(new Jump(this, InputRepository, groundChecker));
-            AddUpdate(new WallJump(this, () => InputRepository.LeftDown, () => InputRepository.ClickedJump, () => !InputRepository.ClickedJump && !InputRepository.JumpDown, () => 120, groundChecker, leftWallChecker).Update);
-            AddUpdate(new WallJump(this, () => InputRepository.RightDown, () => InputRepository.ClickedJump, () => !InputRepository.ClickedJump && !InputRepository.JumpDown, () => -120, groundChecker, rightWallChecker).Update);
+
+
+            AddUpdate(new WallJump(this, () => InputRepository.ClickedJump, () => !InputRepository.ClickedJump && !InputRepository.JumpDown));
+            AddUpdate(new WallJump(this,() => InputRepository.ClickedJump, () => !InputRepository.ClickedJump && !InputRepository.JumpDown));
             AddUpdate(new ReduceSpeedWhileSlidingWall(this));
             AddUpdate(new HorizontalSpeedLimit(this).Update);
 
@@ -115,52 +120,54 @@ namespace MonoGameProject
 
         private void CreateAnimator(CheckIfCollidingWith<IBlockPlayerMovement> groundChecker)
         {
+            var z = 0.4f;
+
             var jump_left = new Animation(
-                new AnimationFrame("jump", 0, 0, width, height)
+                new AnimationFrame("jump", 0, 0, width, height) { RenderingLayer = z }
             );
 
             var jump_right = new Animation(
-               new AnimationFrame("jump", 0, 0, width, height) { Flipped = true }
+               new AnimationFrame("jump", 0, 0, width, height) { Flipped = true, RenderingLayer = z }
            );
 
             var stand_left = new Animation(
-                new AnimationFrame("stand", 0, 0, width, height)
+                new AnimationFrame("stand", 0, 0, width, height) { RenderingLayer = z }
             );
 
             var stand_right = new Animation(
-                new AnimationFrame("stand", 0, 0, width, height) { Flipped = true }
+                new AnimationFrame("stand", 0, 0, width, height) { Flipped = true, RenderingLayer = z }
             );
 
             var wallslide_left = new Animation(
-                new AnimationFrame("wallslide", 0, 0, width, height)
+                new AnimationFrame("wallslide", 0, 0, width, height) { RenderingLayer = z }
             );
 
             var wallslide_right = new Animation(
-                new AnimationFrame("wallslide", 0, 0, width, height) { Flipped = true }
+                new AnimationFrame("wallslide", 0, 0, width, height) { Flipped = true, RenderingLayer = z }
             );
 
             var walk_left = new Animation(
-                new AnimationFrame("walk0", 0, 0, width, height)
-                , new AnimationFrame("walk1", 0, 0, width, height)
-                , new AnimationFrame("walk2", 0, 0, width, height)
+                new AnimationFrame("walk0", 0, 0, width, height) { RenderingLayer = z }
+                , new AnimationFrame("walk1", 0, 0, width, height) { RenderingLayer = z }
+                , new AnimationFrame("walk2", 0, 0, width, height) { RenderingLayer = z }
             );
 
             var walk_right = new Animation(
-                new AnimationFrame("walk0", 0, 0, width, height) { Flipped = true }
-                , new AnimationFrame("walk1", 0, 0, width, height) { Flipped = true }
-                , new AnimationFrame("walk2", 0, 0, width, height) { Flipped = true }
+                new AnimationFrame("walk0", 0, 0, width, height) { Flipped = true, RenderingLayer = z }
+                , new AnimationFrame("walk1", 0, 0, width, height) { Flipped = true, RenderingLayer = z }
+                , new AnimationFrame("walk2", 0, 0, width, height) { Flipped = true, RenderingLayer = z }
             );
 
             AddAnimation(
                 new Animator(
-                    new AnimationTransitionOnCondition( stand_right, () => State == PlayerState.StandingRight)
-                    , new AnimationTransitionOnCondition( stand_left, () => State == PlayerState.StandingLeft)
-                    , new AnimationTransitionOnCondition( walk_right, () => State == PlayerState.WalkingRight)
-                    , new AnimationTransitionOnCondition( walk_left, () => State == PlayerState.WalkingLeft)
-                    , new AnimationTransitionOnCondition( jump_right, () => State == PlayerState.FallingRight)
-                    , new AnimationTransitionOnCondition( jump_left, () => State == PlayerState.FallingLeft)
-                    , new AnimationTransitionOnCondition( wallslide_left, () => State == PlayerState.SlidingWallLeft)
-                    , new AnimationTransitionOnCondition( wallslide_right, () => State == PlayerState.SlidingWallRight)
+                    new AnimationTransitionOnCondition(stand_right, () => State == PlayerState.StandingRight)
+                    , new AnimationTransitionOnCondition(stand_left, () => State == PlayerState.StandingLeft)
+                    , new AnimationTransitionOnCondition(walk_right, () => State == PlayerState.WalkingRight)
+                    , new AnimationTransitionOnCondition(walk_left, () => State == PlayerState.WalkingLeft)
+                    , new AnimationTransitionOnCondition(jump_right, () => State == PlayerState.FallingRight || State == PlayerState.WallJumpingToTheLeft)
+                    , new AnimationTransitionOnCondition(jump_left, () => State == PlayerState.FallingLeft || State == PlayerState.WallJumpingToTheRight)
+                    , new AnimationTransitionOnCondition(wallslide_left, () => State == PlayerState.SlidingWallLeft)
+                    , new AnimationTransitionOnCondition(wallslide_right, () => State == PlayerState.SlidingWallRight)
                 )
             );
         }
