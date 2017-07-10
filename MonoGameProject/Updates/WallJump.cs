@@ -51,39 +51,20 @@ namespace MonoGameProject
                 if (jumpImpulseTime == 0)
                 {
                     if (Parent.State == PlayerState.WallJumpingToTheLeft)
-                        Parent.State = PlayerState.FallingLeft;
+                    {
+                        if (Parent.groundChecker.Colliding)
+                            Parent.State = PlayerState.WalkingLeft;
+                        else
+                            Parent.State = PlayerState.FallingLeft;
+                    }
                     else
-                        Parent.State = PlayerState.FallingRight;
+                    {
+                        if (Parent.groundChecker.Colliding)
+                            Parent.State = PlayerState.WalkingRight;
+                        else
+                            Parent.State = PlayerState.FallingRight;
+                    }
                 }
-            }
-        }
-    }
-
-    public class ChangeToWallJumping : UpdateHandler
-    {
-        private readonly Func<bool> JumpButtonClicked;
-        private readonly Player Parent;
-
-        public ChangeToWallJumping(
-            Player Parent
-            , Func<bool> JumpButtonClicked
-            )
-        {
-            this.Parent = Parent;
-            this.JumpButtonClicked = JumpButtonClicked;
-        }
-
-        public void Update()
-        {
-            if (JumpButtonClicked()
-                && Parent.State.Is(
-                    PlayerState.SlidingWallLeft
-                    , PlayerState.SlidingWallRight))
-            {
-                if (Parent.State == PlayerState.SlidingWallLeft)
-                    Parent.State = PlayerState.WallJumpingToTheRight;
-                else
-                    Parent.State = PlayerState.WallJumpingToTheLeft;
             }
         }
     }

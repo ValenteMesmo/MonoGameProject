@@ -91,7 +91,6 @@ namespace MonoGameProject
             AddUpdate(new MoveHorizontallyWithTheWorld(this));            
             AddUpdate(new Jump(this, InputRepository, groundChecker));
 
-
             AddUpdate(new WallJump(this, () => InputRepository.ClickedJump, () => !InputRepository.ClickedJump && !InputRepository.JumpDown));
             AddUpdate(new WallJump(this,() => InputRepository.ClickedJump, () => !InputRepository.ClickedJump && !InputRepository.JumpDown));
             AddUpdate(new ReduceSpeedWhileSlidingWall(this));
