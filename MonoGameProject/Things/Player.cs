@@ -3,11 +3,42 @@ using MonoGameProject.Things;
 
 namespace MonoGameProject
 {
-    class Player : Thing
+    public enum PlayerState
+    {
+        StandingLeft,
+        StandingRight,
+        WalkingLeft,
+        WalkingRight,
+        SlidingWallLeft,
+        SlidingWallRight,
+        FallingLeft,
+        FallingRight
+    }
+
+    public static class EnumExtensions
+    {
+        public static bool Is(this PlayerState a, params PlayerState[] states)
+        {
+            foreach (var b in states)
+            {
+                if (a == b)
+                    return true;
+            }
+            return false;
+        }
+    }
+
+    public class Player : Thing
     {
         //vilarejo em chamas... pessoas sendo atacaDas?
+        //arvore seca, cheia de criaturas voadoras que parecem passaros... faz barulho perto, que elas voam
         private const int width = 1000;
         private const int height = 900;
+
+        //public PlayerState State { get; set; }
+        public readonly CheckIfCollidingWith<IBlockPlayerMovement> groundChecker;
+        public readonly CheckIfCollidingWith<IBlockPlayerMovement> leftWallChecker;
+        public readonly CheckIfCollidingWith<IBlockPlayerMovement> rightWallChecker;
 
         public Player(InputRepository InputRepository, WorldMover WorldMover)
         {
@@ -16,7 +47,7 @@ namespace MonoGameProject
 
             CreateMainCollider(width, height);
 
-            var groundChecker = new CheckIfCollidingWith<IBlockPlayerMovement>()
+            groundChecker = new CheckIfCollidingWith<IBlockPlayerMovement>()
             {
                 Width = width / 3,
                 Height = height / 4,
@@ -25,32 +56,33 @@ namespace MonoGameProject
             };
             AddCollider(groundChecker);
 
-            var leftWallChecker = new CheckIfCollidingWith<IBlockPlayerMovement>()
+            leftWallChecker = new CheckIfCollidingWith<IBlockPlayerMovement>()
             {
                 Width = width / 3,
                 Height = height / 3,
                 OffsetX = -10,
-                OffsetY = height /3
+                OffsetY = height / 3
             };
             AddCollider(leftWallChecker);
 
-            var rightWallChecker = new CheckIfCollidingWith<IBlockPlayerMovement>()
+            rightWallChecker = new CheckIfCollidingWith<IBlockPlayerMovement>()
             {
                 Width = width / 3,
                 Height = height / 3,
-                OffsetX = ((width/3)*2)+10,
+                OffsetX = ((width / 3) * 2) + 10,
                 OffsetY = height / 3
             };
             AddCollider(rightWallChecker);
 
+            //AddUpdate(new UpdatePlayerStatus(this).Update);
             AddUpdate(new HorizontalFriction().Update);
             AddUpdate(new AfectedByGravity().Update);
             AddUpdate(new MoveLeftOrRight(InputRepository).Update);
             AddUpdate(WorldHelper.MoveWithTheWord);
             AddUpdate(new Jump(InputRepository, groundChecker).Update);
-            AddUpdate(new LeftWallJump(InputRepository, groundChecker,leftWallChecker).Update);
-            AddUpdate(new RightWallJump(InputRepository, groundChecker,rightWallChecker).Update);
-            AddUpdate(new SpeedLimit().Update);
+            AddUpdate(new WallJump(this, () => InputRepository.LeftDown, () => InputRepository.ClickedJump, () => !InputRepository.ClickedJump && !InputRepository.JumpDown, () => 120, groundChecker, leftWallChecker).Update);
+            AddUpdate(new WallJump(this, () => InputRepository.RightDown, () => InputRepository.ClickedJump, () => !InputRepository.ClickedJump && !InputRepository.JumpDown, () => -120, groundChecker, rightWallChecker).Update);
+            AddUpdate(new HorizontalSpeedLimit().Update);
 
             //AddUpdate(t => HorizontalSpeed = 80);
 

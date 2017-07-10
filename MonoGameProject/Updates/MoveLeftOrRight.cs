@@ -11,7 +11,7 @@ namespace MonoGameProject
         }
 
         private const int velocity = 2;
-        private const int INVERSE_BONUS = velocity*5;
+        private const int INVERSE_BONUS = velocity * 5;
 
         public void Update(Thing Parent)
         {

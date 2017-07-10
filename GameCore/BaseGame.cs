@@ -41,7 +41,9 @@ internal class BaseGame : OriginalGameClass
     {
         this.Parent = Parent;
         this.ContentLoader = ContentLoader;
+#if DEBUG
         IsMouseVisible = true;
+#endif
         Graphics = new GraphicsDeviceManager(this);
         Content.RootDirectory = "Content";
         //IsFixedTimeStep = false;
@@ -102,7 +104,7 @@ internal class BaseGame : OriginalGameClass
     {
         //if (timeSinceLastUpdate >= TIME_TO_NEXT_UPDATE)
         {
-        
+
             var state = Keyboard.GetState();
 #if DEBUG
             if (state.CapsLock)
@@ -123,7 +125,7 @@ internal class BaseGame : OriginalGameClass
                 Mouse.GetState());
 
             World.Update();
-            
+
         }
 
         base.Update(gameTime);
@@ -142,10 +144,10 @@ internal class BaseGame : OriginalGameClass
                    Camera.GetTransformation(GraphicsDevice));
         ;
         FrameCounter.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
-        
+
 
         var fps = string.Format("FPS: {0}", FrameCounter.AverageFramesPerSecond)
-            .Replace("∞","");
+            .Replace("∞", "");
         SpriteBatch.DrawString(
             SpriteFont
             , fps
