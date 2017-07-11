@@ -35,6 +35,7 @@ namespace MonoGameProject
         //vilarejo em chamas... pessoas sendo atacaDas?
         //arvore seca, cheia de criaturas voadoras que parecem passaros... faz barulho perto, que elas voam
         //modulos de transicao... tipo castlevania entrando no castelo
+        //ficar espada na parede, enquanto faz o slide.... isso vai servir para matar boss no estilo shadow of collosus
 
         private const int width = 1000;
         private const int height = 900;
@@ -62,18 +63,18 @@ namespace MonoGameProject
 
             leftWallChecker = new CheckIfCollidingWith<IBlockPlayerMovement>()
             {
-                Width = width / 3,
+                Width = width / 10,
                 Height = height / 3,
-                OffsetX = -10,
+                OffsetX = width /3 - width/6,
                 OffsetY = height / 3
             };
             AddCollider(leftWallChecker);
 
             rightWallChecker = new CheckIfCollidingWith<IBlockPlayerMovement>()
             {
-                Width = width / 3,
+                Width = width / 10,
                 Height = height / 3,
-                OffsetX = ((width / 3) * 2) + 10,
+                OffsetX =  width  - width/4 ,
                 OffsetY = height / 3
             };
             AddCollider(rightWallChecker);
