@@ -33,7 +33,7 @@ namespace MonoGameProject
             var rightCollider = new Collider
             {
                 OffsetX = 1000,
-                OffsetY = -2000,
+                OffsetY = -5000,
                 Width = 6000,
                 Height = 10000
             };
@@ -67,7 +67,7 @@ namespace MonoGameProject
             var leftCollider = new Collider
             {
                 OffsetX = -7000,
-                OffsetY = -2000,
+                OffsetY = -5000,
                 Width = 6000,
                 Height = 10000
             };

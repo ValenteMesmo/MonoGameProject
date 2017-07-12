@@ -13,7 +13,7 @@ namespace MonoGameProject
 
         public void Update()
         {
-            if (Player.groundChecker.Colliding)
+            if (Player.groundChecker.Colliding && Player.VerticalSpeed == 0)
             {
                 if (Player.HorizontalSpeed > 0)
                 {
