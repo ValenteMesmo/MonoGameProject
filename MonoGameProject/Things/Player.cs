@@ -39,6 +39,7 @@ namespace MonoGameProject
         //bad status... slow
         //plataforma "barco"... igual mario....
         //breakable blocks
+        //criar mapas para cima e para baixo também.
 
         private const int width = 1000;
         private const int height = 900;
@@ -91,7 +92,6 @@ namespace MonoGameProject
             AddUpdate(new HorizontalFriction(this));
             AddUpdate(new AfectedByGravity(this));
             AddUpdate(new MoveLeftOrRight(this, InputRepository));
-            AddUpdate(new MoveVerticallyWithTheWorld(this));
             AddUpdate(new MoveHorizontallyWithTheWorld(this));            
             AddUpdate(new Jump(this, InputRepository, groundChecker));
 

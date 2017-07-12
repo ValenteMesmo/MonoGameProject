@@ -5,10 +5,10 @@ namespace MonoGameProject
 {
     class PlatformCreator : Thing
     {
-        Module lastModule;
+        MapModule lastModule;
         WorldMover WorldMover; Action<Thing> AddToWOrld;
         BackBlocker BackBlocker;
-        private Func<int, int, Module>[] Modules;
+        private string[][] Modules;
         private int moduleIndex = 0;
 
         public PlatformCreator(WorldMover WorldMover, Action<Thing> AddToWOrld)
@@ -21,61 +21,64 @@ namespace MonoGameProject
             AddToWOrld(BackBlocker);
             this.WorldMover = WorldMover;
             this.AddToWOrld = AddToWOrld;
-
-            AddToWOrld(new ViewDownBlocker());
-            Modules = new Func<int, int, Module>[]
-            {
-                (x,y) =>
-                {
-                    return new MapModule(WorldMover, BackBlocker, new[]{
-                         "1111111101111111"
-                        ,"0000000000000000"
-                        ,"0000000000000000"
-                        ,"1111100111111111"
-                        ,"0000100100000000"
-                        ,"0000100100000000"
-                        ,"0000100100000000"
-                        ,"0000100100000111"
-                        ,"0000100100000000"
-                        ,"0000100100000000"
-                        ,"0000000000000000"
-                        ,"0000000000000000"
-                        ,"1111111111001111"
-                        ,"0000000001000000"
-                        ,"0000000001000000"
-                        ,"1111111111111111"
-                    })
-                    {
-                        X = x,
-                        Y = y
-                    };
-                },
-                (x,y) =>
-                {
-                    return new MapModule(WorldMover, BackBlocker, new[]{
-                         "1111111101111111"
-                        ,"1000000000000000"
-                        ,"1000000000000000"
-                        ,"1111100111111110"
-                        ,"0000100100000000"
-                        ,"0000100100000000"
-                        ,"0000100100000000"
-                        ,"0000100100000111"
-                        ,"0000100100000000"
-                        ,"0000100100000000"
-                        ,"0000000000000110"
-                        ,"0000000000000000"
-                        ,"1111100000001111"
-                        ,"0000001001000000"
-                        ,"0000001111000000"
-                        ,"1111111111111111"
-                    })
-                    {
-                        X = x,
-                        Y = y
-                    };
+            
+            Modules = new string[][]{
+                new[]{
+                     "1111111111111111"
+                    ,"1000000000000000"
+                    ,"1000000000000000"
+                    ,"1000000000000000"
+                    ,"1000000000000000"
+                    ,"1000000000000000"
+                    ,"1000000000000011"
+                    ,"1000000000000111"
+                    ,"1000000000001011"
+                    ,"1000000000010011"
+                    ,"1000000000100111"
+                    ,"1000000001000111"
+                    ,"1000000010001111"
+                    ,"1000000100001111"
+                    ,"1000001111111111"
+                    ,"1111111111111111"
                 }
-            };
+                ,new[]{
+                     "1111111111111111"
+                    ,"0000000000000000"
+                    ,"0000000000000000"
+                    ,"0000000000000000"
+                    ,"0000000000000000"
+                    ,"0000000000000000"
+                    ,"0000000000000000"
+                    ,"0000000000000000"
+                    ,"0000000000000000"
+                    ,"0000000000000000"
+                    ,"0000000000000000"
+                    ,"0000000000000000"
+                    ,"0000000000000000"
+                    ,"0000000000000000"
+                    ,"0000000000000000"
+                    ,"1111111111111111"
+                }
+                ,new[]{
+                     "1111111111111111"
+                    ,"0000000000000001"
+                    ,"0000000000000001"
+                    ,"0000000000000001"
+                    ,"0000000000000001"
+                    ,"0000000000000001"
+                    ,"0000000000000001"
+                    ,"0000000000000001"
+                    ,"0000000000000001"
+                    ,"0000000000000001"
+                    ,"0000000000000001"
+                    ,"0000000000000001"
+                    ,"0000000000000001"
+                    ,"0000000000000001"
+                    ,"0000000000000001"
+                    ,"1111111111111111"
+                }
+            }
+            ;
 
 
             CreateGroundOnTheRight();
@@ -85,8 +88,7 @@ namespace MonoGameProject
 
         private void OnUpdate()
         {
-            //tODO:  remove Cast
-            if ((lastModule as Thing).X  < MapModule.WIDTH)
+            if (lastModule.X < MapModule.WIDTH)
             {
                 CreateGroundOnTheRight();
             }
@@ -95,21 +97,23 @@ namespace MonoGameProject
         private void CreateGroundOnTheRight()
         {
             var anchorX = 0;
-            var anchorY = 9000;
+            var anchorY = 1500;
             if (lastModule != null)
             {
-                //TODO: remove CAST
-                anchorX = (lastModule as Thing).X + MapModule.WIDTH - WorldMover.WorldHorizontalSpeed;
-                anchorY = (lastModule as Thing).Y - WorldMover.WorldVerticalSpeed;
+                anchorX = lastModule.X + MapModule.WIDTH - WorldMover.WorldHorizontalSpeed;
             }
 
-            lastModule = Modules[moduleIndex](anchorX, anchorY);
+            lastModule = new MapModule(WorldMover, BackBlocker, Modules[moduleIndex])
+            {
+                X = anchorX,
+                Y = anchorY
+            };
+
             moduleIndex++;
             if (moduleIndex > Modules.Length - 1)
                 moduleIndex = 0;
 
-            //TODO: remove CAST
-            AddToWOrld(lastModule as Thing);
+            AddToWOrld(lastModule);
         }
 
     }

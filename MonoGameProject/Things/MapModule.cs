@@ -5,7 +5,7 @@ using MonoGameProject.Things;
 
 namespace MonoGameProject
 {
-    public class MapModule : Thing, Module, IBlockPlayerMovement
+    public class MapModule : Thing, IBlockPlayerMovement
     {
         public const int CELL_SIZE = 500;
         private BackBlocker Blocker;
@@ -18,8 +18,7 @@ namespace MonoGameProject
         public MapModule(WorldMover WorldMover, BackBlocker Blocker, string[] map)
         {
             this.Blocker = Blocker;
-
-            AddUpdate(new MoveVerticallyWithTheWorld(this));
+            
             AddUpdate(new MoveHorizontallyWithTheWorld(this));
 
             AddUpdate(() =>
