@@ -6,10 +6,12 @@ namespace MonoGameProject
 {
     public class ViewDownBlocker : Thing
     {
-        public const int HEIGHT = 2000;
+        //use camera dimensions?
+        public const int HEIGHT = MapModule.CELL_SIZE * 4;
         public const int WIDTH = 8 * 1000 * 2;
         public ViewDownBlocker()
         {
+            Y = MapModule.HEIGHT * 2+ MapModule.CELL_SIZE * 2;
             AddCollider(new Collider
             {
                 Width = WIDTH,
@@ -27,8 +29,8 @@ namespace MonoGameProject
     public class BackBlocker : Thing, IBlockPlayerMovement
     {
         public const int WIDTH = 2000;
-        public const int HEIGHT = 8 * 1000*2;
-        public BackBlocker(WorldMover WorldMover) 
+        public const int HEIGHT = 8 * 1000 * 2;
+        public BackBlocker(WorldMover WorldMover)
         {
             AddCollider(new Collider
             {

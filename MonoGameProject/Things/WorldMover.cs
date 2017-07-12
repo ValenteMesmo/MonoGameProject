@@ -117,7 +117,7 @@ namespace MonoGameProject
                 OffsetX = -6000,
                 OffsetY = 3000,
                 Width = 12000,
-                Height = 4000
+                Height = MapModule.CELL_SIZE*2
             };
 
             if (ShouldDrawBorders)

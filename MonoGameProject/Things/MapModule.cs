@@ -5,67 +5,17 @@ using MonoGameProject.Things;
 
 namespace MonoGameProject
 {
-    public class MyClass : MapModule
+    public class MapModule : Thing, Module, IBlockPlayerMovement
     {
-        public MyClass(WorldMover WorldMover, BackBlocker Blocker) : base(WorldMover, Blocker)
-        {
-
-        }
-
-        protected override string[] map()
-        {
-            //return new[]{
-            //     "1110011111111111"
-            //    ,"0010010000000000"
-            //    ,"0010010000000000"
-            //    ,"0010010000000000"
-            //    ,"0010010000000000"
-            //    ,"0010010000000000"
-            //    ,"0010010000000000"
-            //    ,"0010010000000000"
-            //    ,"0010010000000000"
-            //    ,"0010010000000000"
-            //    ,"0010010000000000"
-            //    ,"0010010000000000"
-            //    ,"1110011111111111"
-            //    ,"0000000000000000"
-            //    ,"0000000000000000"
-            //    ,"1111111111111111"
-            //};
-            return new[]{
-                 "1111111101111111"
-                ,"0000000000000000"
-                ,"0000000000000000"
-                ,"1111100111111110"
-                ,"0000100100000000"
-                ,"0000100100000000"
-                ,"0000100100000000"
-                ,"0000100100000000"
-                ,"0000100100000000"
-                ,"0000100100000000"
-                ,"1111100111111110"
-                ,"0000000000000000"
-                ,"1111111111001111"
-                ,"0000000000000000"
-                ,"0000000000000000"
-                ,"1111111111111111"
-            };
-        }
-    }
-
-    public abstract class MapModule : Thing, Module, IBlockPlayerMovement
-    {
-        public const int CELL_SIZE = 1000;
+        public const int CELL_SIZE = 500;
         private BackBlocker Blocker;
         public const int CELL_NUMBER = 16;
         public const int WIDTH = CELL_SIZE * CELL_NUMBER;
         public const int HEIGHT = CELL_SIZE * CELL_NUMBER;
-        protected abstract string[] map();
-
 
         static Color Color = Color.LightCyan;
 
-        public MapModule(WorldMover WorldMover, BackBlocker Blocker)
+        public MapModule(WorldMover WorldMover, BackBlocker Blocker, string[] map)
         {
             this.Blocker = Blocker;
 
@@ -74,7 +24,7 @@ namespace MonoGameProject
 
             AddUpdate(() =>
             {
-                if (X <= -WIDTH)
+                if (X <= -WIDTH*2)
                 {
                     Blocker.X = X + WIDTH - BackBlocker.WIDTH;
                     Destroy();
@@ -90,7 +40,7 @@ namespace MonoGameProject
             {
                 for (int j = 0; j < CELL_NUMBER; j++)
                 {
-                    var type = map()[i][j];
+                    var type = map[i][j];
                     if (type == '1')
                     {
                         var combo = 1;

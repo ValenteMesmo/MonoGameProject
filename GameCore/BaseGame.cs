@@ -68,7 +68,7 @@ internal class BaseGame : OriginalGameClass
         Graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
         Graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
         //TODO: fullscreen on alt+enter
-        //Graphics.IsFullScreen = true;
+        Graphics.IsFullScreen = true;
         Graphics.ApplyChanges();
         base.Initialize();
     }
@@ -191,7 +191,7 @@ internal class BaseGame : OriginalGameClass
                         thing.Y + collider.OffsetY,
                         collider.Width,
                         collider.Height),
-                    20,
+                    200,
                     Color.Red
                 )
             );

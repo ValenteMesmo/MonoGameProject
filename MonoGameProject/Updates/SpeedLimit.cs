@@ -4,7 +4,7 @@ namespace MonoGameProject
 {
     public class HorizontalSpeedLimit : UpdateHandler
     {
-        private readonly int SPEEDLIMIT = 70;
+        private readonly int SPEEDLIMIT = 80;
         private readonly Thing Parent;
 
         public HorizontalSpeedLimit(Thing Parent)

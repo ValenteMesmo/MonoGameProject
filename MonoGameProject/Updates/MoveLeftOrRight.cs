@@ -5,7 +5,7 @@ namespace MonoGameProject
     public class MoveLeftOrRight : UpdateHandler
     {
         InputRepository InputRepository;
-        private const int velocity = 2;
+        private const int velocity = 3;
         private const int INVERSE_BONUS = velocity * 5;
         private readonly Player Parent;
 

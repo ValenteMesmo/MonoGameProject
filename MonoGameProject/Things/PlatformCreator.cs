@@ -1,7 +1,5 @@
 ﻿using GameCore;
-using Microsoft.Xna.Framework;
 using System;
-using System.Collections.Generic;
 
 namespace MonoGameProject
 {
@@ -12,9 +10,6 @@ namespace MonoGameProject
         BackBlocker BackBlocker;
         private Func<int, int, Module>[] Modules;
         private int moduleIndex = 0;
-        const int width = 12000;
-        const int height = 2000;
-
 
         public PlatformCreator(WorldMover WorldMover, Action<Thing> AddToWOrld)
         {
@@ -27,28 +22,59 @@ namespace MonoGameProject
             this.WorldMover = WorldMover;
             this.AddToWOrld = AddToWOrld;
 
-            AddToWOrld(new ViewDownBlocker()
-            {
-                Y = MapModule.HEIGHT * 2 - MapModule.CELL_SIZE*4
-            });
+            AddToWOrld(new ViewDownBlocker());
             Modules = new Func<int, int, Module>[]
             {
                 (x,y) =>
                 {
-                    return new MyClass(WorldMover, BackBlocker)
+                    return new MapModule(WorldMover, BackBlocker, new[]{
+                         "1111111101111111"
+                        ,"0000000000000000"
+                        ,"0000000000000000"
+                        ,"1111100111111111"
+                        ,"0000100100000000"
+                        ,"0000100100000000"
+                        ,"0000100100000000"
+                        ,"0000100100000111"
+                        ,"0000100100000000"
+                        ,"0000100100000000"
+                        ,"0000000000000000"
+                        ,"0000000000000000"
+                        ,"1111111111001111"
+                        ,"0000000001000000"
+                        ,"0000000001000000"
+                        ,"1111111111111111"
+                    })
                     {
                         X = x,
                         Y = y
                     };
                 },
-                //x =>
-                //{
-                //    return new MapModule2(WorldMover, BackBlocker)
-                //    {
-                //        X = x,
-                //        Y = 9000
-                //    };
-                //}
+                (x,y) =>
+                {
+                    return new MapModule(WorldMover, BackBlocker, new[]{
+                         "1111111101111111"
+                        ,"1000000000000000"
+                        ,"1000000000000000"
+                        ,"1111100111111110"
+                        ,"0000100100000000"
+                        ,"0000100100000000"
+                        ,"0000100100000000"
+                        ,"0000100100000111"
+                        ,"0000100100000000"
+                        ,"0000100100000000"
+                        ,"0000000000000110"
+                        ,"0000000000000000"
+                        ,"1111100000001111"
+                        ,"0000001001000000"
+                        ,"0000001111000000"
+                        ,"1111111111111111"
+                    })
+                    {
+                        X = x,
+                        Y = y
+                    };
+                }
             };
 
 
@@ -60,7 +86,7 @@ namespace MonoGameProject
         private void OnUpdate()
         {
             //tODO:  remove Cast
-            if ((lastModule as Thing).X + MapModule.WIDTH < MapModule.WIDTH * 2)
+            if ((lastModule as Thing).X  < MapModule.WIDTH)
             {
                 CreateGroundOnTheRight();
             }
