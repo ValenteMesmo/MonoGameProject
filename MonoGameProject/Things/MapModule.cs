@@ -5,126 +5,143 @@ using MonoGameProject.Things;
 
 namespace MonoGameProject
 {
+    public struct MapModuleInfo
+    {
+        public readonly bool TopEntry;
+        public readonly bool BotEntry;
+        public readonly bool TopExit;
+        public readonly bool BotExit;
+        public readonly string[] Tiles;
+
+        public MapModuleInfo(
+            bool TopEntry
+            , bool BotEntry
+           , bool TopExit
+           , bool BotExit
+           , params string[] Tiles
+            )
+        {
+            this.TopEntry = TopEntry;
+            this.BotEntry = BotEntry;
+            this.TopExit = TopExit;
+            this.BotExit = BotExit;
+            this.Tiles = Tiles;
+        }
+    }
+
     public class MapModule : Thing, IBlockPlayerMovement
     {
         public const int CELL_SIZE = 500;
-        private BackBlocker Blocker;
         public const int CELL_NUMBER = 16;
         public const int WIDTH = CELL_SIZE * CELL_NUMBER;
         public const int HEIGHT = CELL_SIZE * CELL_NUMBER;
 
         static Color Color = Color.LightCyan;
+        public readonly MapModuleInfo Info;
 
-        public MapModule(WorldMover WorldMover, BackBlocker Blocker, string[] map)
+        private static Random RandomTresure;
+        private static Random RandomMonster;
+
+        static MapModule()
         {
-            this.Blocker = Blocker;
-            
+            RandomTresure = new Random(666);
+            RandomMonster = new Random(999);
+        }
+
+        public MapModule(BackBlocker Blocker, MapModuleInfo Info)
+        {
+            this.Info = Info;
+
             AddUpdate(new MoveHorizontallyWithTheWorld(this));
 
             AddUpdate(() =>
             {
-                if (X <= -WIDTH*2)
+                if (X <= -WIDTH * 2)
                 {
                     Blocker.X = X + WIDTH - BackBlocker.WIDTH;
                     Destroy();
                 }
             });
 
+
             if (Color == Color.LightCyan)
                 Color = Color.LightCoral;
             else
                 Color = Color.LightCyan;
 
+
             for (int i = 0; i < CELL_NUMBER; i++)
             {
                 for (int j = 0; j < CELL_NUMBER; j++)
                 {
-                    var type = map[i][j];
+                    var type = Info.Tiles[i][j];
                     if (type == '1')
                     {
-                        var combo = 1;
-                        //while (true)
-                        //{
-                        //    if (j + 1 >= CELL_NUMBER)
-                        //        break;
-                        //    type = map()[i][j + 1];
-                        //    if (type != '1')
-                        //        break;
-                        //    combo++;
-                        //    j++;
-                        //}
-
-                        AddAnimation(new Animation(new AnimationFrame(
-                            "block"
-                            , (j - combo + 1) * CELL_SIZE + 1
-                            , i * CELL_SIZE + 1
-                            , CELL_SIZE * combo
-                            , CELL_SIZE
-                        ))
-                        { Color = Color.Brown });
-
-                        AddCollider(new Collider()
-                        {
-                            OffsetX = (j - combo + 1) * CELL_SIZE + 1,
-                            OffsetY = i * CELL_SIZE + 1,
-                            Width = CELL_SIZE * combo,
-                            Height = CELL_SIZE
-                        });
+                        CreateSolid(i, j);
                     }
                     if (type == '0')
                     {
-                        AddAnimation(new Animation(new AnimationFrame(
-                            "block"
-                            , j * CELL_SIZE + 1
-                            , i * CELL_SIZE + 1
-                            , CELL_SIZE
-                            , CELL_SIZE
-                        )
-                        { RenderingLayer = 1 })
-                        { Color = Color });
+                        CreateBackground(i, j);
+                    }
+                    if (type == '9')
+                    {
+                        if (RandomTresure.Next(0, 3) > 0)
+                        {
+                            CreateBackground(i, j);
+                        }
+                        else
+                            AddAnimation(new Animation(
+                                new AnimationFrame(
+                                    "block"
+                                    , j * CELL_SIZE + 1
+                                    , i * CELL_SIZE + 1
+                                    , CELL_SIZE
+                                    , CELL_SIZE
+                                )
+                                { RenderingLayer = 1 })
+                            { Color = Color.Yellow }
+                            );
                     }
                 }
-
-
             }
+
         }
 
-        //private void floor2()
-        //{
-        //    AddAnimation(new Animation(new AnimationFrame(
-        //        "block"
-        //        , 1000
-        //        , -1000
-        //        , 1000
-        //        , 1000
-        //    ))
-        //    { Color = Color.Brown });
+        private void CreateBackground(int i, int j)
+        {
+            AddAnimation(new Animation(
+                new AnimationFrame(
+                    "block"
+                    , j * CELL_SIZE + 1
+                    , i * CELL_SIZE + 1
+                    , CELL_SIZE
+                    , CELL_SIZE
+                )
+                { RenderingLayer = 1 })
+            { Color = Color }
+            );
+        }
 
-        //    AddCollider(new Collider()
-        //    {
-        //        OffsetX = 1000,
-        //        OffsetY = -1000,
-        //        Width = 1000,
-        //        Height = 1000
-        //    });
-        //}
+        private void CreateSolid(int i, int j)
+        {
+            AddAnimation(new Animation(
+                new AnimationFrame(
+                    "block"
+                    , (j) * CELL_SIZE + 1
+                    , i * CELL_SIZE + 1
+                    , CELL_SIZE
+                    , CELL_SIZE
+                ))
+            { Color = Color.Brown }
+            );
 
-        //private void floor()
-        //{
-        //    AddAnimation(new Animation(new AnimationFrame(
-        //        "block"
-        //        , 0
-        //        , 0
-        //        , WIDTH
-        //        , HEIGHT
-        //    ))
-        //    { Color = Color.Brown });
-
-        //    AddCollider(new Collider()
-        //    {
-        //        Width = WIDTH,
-        //        Height = HEIGHT
-        //    });
-        //}
+            AddCollider(new Collider()
+            {
+                OffsetX = (j) * CELL_SIZE + 1,
+                OffsetY = i * CELL_SIZE + 1,
+                Width = CELL_SIZE,
+                Height = CELL_SIZE
+            });
+        }
     }
 }

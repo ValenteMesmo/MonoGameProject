@@ -6,7 +6,7 @@ namespace MonoGameProject
     public class WallJump : UpdateHandler
     {
         int jumpImpulseTime = 0;
-        const int JUMP_VALUE = 100;
+        const int JUMP_VALUE = 80;
         private readonly Func<bool> JumpButtonClicked;
         private readonly Func<bool> JumpButtonReleased;
         private readonly Player Parent;
@@ -30,19 +30,20 @@ namespace MonoGameProject
                 if (Parent.State == PlayerState.WallJumpingToTheRight)
                 {
                     Parent.VerticalSpeed = -JUMP_VALUE;
-                    horizontalSpeed = JUMP_VALUE;
-                    jumpImpulseTime = 50;
+                    horizontalSpeed = JUMP_VALUE/2;
+                    jumpImpulseTime = 10;
                 }
                 else if (Parent.State == PlayerState.WallJumpingToTheLeft)
                 {
                     Parent.VerticalSpeed = -JUMP_VALUE;
-                    horizontalSpeed = -JUMP_VALUE;
-                    jumpImpulseTime = 50;
+                    horizontalSpeed = -JUMP_VALUE/2;
+                    jumpImpulseTime = 10;
                 }
             }
             else if (jumpImpulseTime > 0)
             {
                 Parent.HorizontalSpeed = horizontalSpeed;
+                Parent.VerticalSpeed = -JUMP_VALUE;
                 if (JumpButtonReleased())
                     jumpImpulseTime = 0;
                 else
