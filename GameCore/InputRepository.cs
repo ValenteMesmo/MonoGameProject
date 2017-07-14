@@ -54,6 +54,9 @@ namespace GameCore
 
         public void Update()
         {
+            SetState(Keyboard.GetState(), GamePad.GetState(0));
+            SetState(TouchPanel.GetState(), Mouse.GetState());
+
             ClickedLeft = !WasPressedLeft && LeftDown;
             ClickedRight = !WasPressedRight && RightDown;
             ClickedUp = !WasPressedUp && UpDown;
@@ -69,7 +72,7 @@ namespace GameCore
             WasPressedJump = JumpDown;
         }
 
-        internal void SetState(KeyboardState keyboard, GamePadState controller)
+        private void SetState(KeyboardState keyboard, GamePadState controller)
         {
             if (touches.Count == 0)
             {
@@ -106,7 +109,7 @@ namespace GameCore
         }
 
         List<Vector2> touches = new List<Vector2>();
-        public void SetState(TouchCollection touchCollection, MouseState mouseState)
+        private void SetState(TouchCollection touchCollection, MouseState mouseState)
         {
             touches.Clear();
             foreach (TouchLocation tl in touchCollection)

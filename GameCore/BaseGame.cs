@@ -116,17 +116,7 @@ internal class BaseGame : OriginalGameClass
             if (state.IsKeyDown(Keys.Escape))
                 Parent.Restart();
 #endif
-            var controller = GamePad.GetState(0);
-            World.PlayerInputs.SetState(state, controller);
-            var controller2 = GamePad.GetState(1);
-            World.PlayerInputs2.SetState(controller2);
-
-            World.PlayerInputs.SetState(
-                TouchPanel.GetState(),
-                Mouse.GetState());
-
             World.Update();
-
         }
 
         base.Update(gameTime);

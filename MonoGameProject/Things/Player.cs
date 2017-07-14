@@ -101,8 +101,9 @@ namespace MonoGameProject
             AddUpdate(new HorizontalSpeedLimit(this).Update);
 
             //AddUpdate(() => HorizontalSpeed = 80);
+#if DEBUG
             AddUpdate(() => Game.LOG = State.ToString());
-
+#endif
             CreateAnimator(groundChecker);
         }
 
