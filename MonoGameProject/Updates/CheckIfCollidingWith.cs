@@ -1,4 +1,5 @@
 ﻿using GameCore;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace MonoGameProject
@@ -17,5 +18,7 @@ namespace MonoGameProject
                 return CollidingWith.Any(f => f.Parent is T);
             }
         }
+
+        public IEnumerable<Collider> GetGolliders(){ return CollidingWith.Where(f => f.Parent is T); } 
     }
 }

@@ -67,7 +67,9 @@ internal class BaseGame : OriginalGameClass
         Graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
         Graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
         //TODO: fullscreen on alt+enter
+#if DEBUG
         Graphics.IsFullScreen = true;
+#endif
         Graphics.ApplyChanges();
         base.Initialize();
     }
@@ -111,7 +113,7 @@ internal class BaseGame : OriginalGameClass
             else
                 Camera.Zoom = 0.1f;
 
-            DisplayColliders = !state.NumLock;
+            DisplayColliders = state.NumLock;
 
             if (state.IsKeyDown(Keys.Escape))
                 Parent.Restart();
@@ -140,6 +142,7 @@ internal class BaseGame : OriginalGameClass
 
         var fps = string.Format("FPS: {0}", FrameCounter.AverageFramesPerSecond)
             .Replace("∞", "");
+
         SpriteBatch.DrawString(
             SpriteFont
             , fps
@@ -161,6 +164,7 @@ internal class BaseGame : OriginalGameClass
             , 25
             , SpriteEffects.None
             , 0);
+        Game.LOG = "";
 #endif
 
         World.Things.ForEach(RenderThing);
@@ -168,7 +172,6 @@ internal class BaseGame : OriginalGameClass
         SpriteBatch.End();
 
         base.Draw(gameTime);
-
     }
 
     private void RenderThing(Thing thing)
@@ -182,7 +185,7 @@ internal class BaseGame : OriginalGameClass
                         thing.Y + collider.OffsetY,
                         collider.Width,
                         collider.Height),
-                    200,
+                    30,
                     Color.Red
                 )
             );
@@ -194,7 +197,7 @@ internal class BaseGame : OriginalGameClass
                     thing.Y + touchable.OffsetY,
                     touchable.Width,
                     touchable.Height),
-                20,
+                30,
                 Color.Blue
             )
         );

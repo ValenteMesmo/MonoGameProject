@@ -1,5 +1,6 @@
 ﻿using GameCore;
 using MonoGameProject.Things;
+using System;
 
 namespace MonoGameProject
 {
@@ -14,7 +15,9 @@ namespace MonoGameProject
         WallJumpingToTheLeft,
         WallJumpingToTheRight,
         FallingLeft,
-        FallingRight
+        FallingRight,
+        HeadBumpLeft,
+        HeadBumpRight
     }
 
     public static class EnumExtensions
@@ -48,6 +51,7 @@ namespace MonoGameProject
         public readonly CheckIfCollidingWith<IBlockPlayerMovement> groundChecker;
         public readonly CheckIfCollidingWith<IBlockPlayerMovement> leftWallChecker;
         public readonly CheckIfCollidingWith<IBlockPlayerMovement> rightWallChecker;
+        public readonly CheckIfCollidingWith<IBlockPlayerMovement> roofChecker;
 
         public Player(PlayerInputs InputRepository, WorldMover WorldMover)
         {
@@ -69,7 +73,7 @@ namespace MonoGameProject
             {
                 Width = width / 10,
                 Height = height / 3,
-                OffsetX = width /3 - width/6,
+                OffsetX = width / 3 - width / 6,
                 OffsetY = height / 3
             };
             AddCollider(leftWallChecker);
@@ -78,31 +82,41 @@ namespace MonoGameProject
             {
                 Width = width / 10,
                 Height = height / 3,
-                OffsetX =  width  - width/4 ,
+                OffsetX = width - width / 4,
                 OffsetY = height / 3
             };
             AddCollider(rightWallChecker);
+
+            roofChecker = new CheckIfCollidingWith<IBlockPlayerMovement>()
+            {
+                Width = width / 3,
+                Height = height / 10,
+                OffsetX = width / 3,
+                OffsetY = -height / 10 - 10
+            };
+            AddCollider(roofChecker);
 
             AddUpdate(new ChangeToStandingState(this));
             AddUpdate(new ChangeToWalkingState(this));
             AddUpdate(new ChangeToFallingState(this, InputRepository));
             AddUpdate(new ChangeToSlidingState(this, InputRepository));
-            AddUpdate(new ChangeToWallJumping(this, ()=>InputRepository.ClickedJump));
+            AddUpdate(new ChangeToWallJumping(this, () => InputRepository.ClickedJump));
+            AddUpdate(new ChangeToHeadBumpState(this, InputRepository));
 
             AddUpdate(new HorizontalFriction(this));
             AddUpdate(new AfectedByGravity(this));
             AddUpdate(new MoveLeftOrRight(this, InputRepository));
-            AddUpdate(new MoveHorizontallyWithTheWorld(this));            
+            AddUpdate(new MoveHorizontallyWithTheWorld(this));
             AddUpdate(new Jump(this, InputRepository, groundChecker));
 
             AddUpdate(new WallJump(this, () => InputRepository.ClickedJump, () => !InputRepository.ClickedJump && !InputRepository.JumpDown));
-            AddUpdate(new WallJump(this,() => InputRepository.ClickedJump, () => !InputRepository.ClickedJump && !InputRepository.JumpDown));
+            AddUpdate(new WallJump(this, () => InputRepository.ClickedJump, () => !InputRepository.ClickedJump && !InputRepository.JumpDown));
             AddUpdate(new ReduceSpeedWhileSlidingWall(this));
             AddUpdate(new HorizontalSpeedLimit(this).Update);
 
             //AddUpdate(() => HorizontalSpeed = 80);
 #if DEBUG
-            AddUpdate(() => Game.LOG = State.ToString());
+            AddUpdate(() => Game.LOG += State.ToString() + Environment.NewLine);
 #endif
             CreateAnimator(groundChecker);
         }
@@ -132,7 +146,15 @@ namespace MonoGameProject
 
             var jump_right = new Animation(
                new AnimationFrame("jump", 0, 0, width, height) { Flipped = true, RenderingLayer = z }
-           );
+            );
+
+            var headbump_left = new Animation(
+                new AnimationFrame("headbump", 0, 0, width, height) { RenderingLayer = z }
+            );
+
+            var headbump_right = new Animation(
+               new AnimationFrame("headbump", 0, 0, width, height) { Flipped = true, RenderingLayer = z }
+            );
 
             var stand_left = new Animation(
                 new AnimationFrame("stand", 0, 0, width, height) { RenderingLayer = z }
@@ -172,6 +194,8 @@ namespace MonoGameProject
                     , new AnimationTransitionOnCondition(jump_left, () => State == PlayerState.FallingLeft || State == PlayerState.WallJumpingToTheLeft)
                     , new AnimationTransitionOnCondition(wallslide_left, () => State == PlayerState.SlidingWallLeft)
                     , new AnimationTransitionOnCondition(wallslide_right, () => State == PlayerState.SlidingWallRight)
+                    , new AnimationTransitionOnCondition(headbump_left, () =>  State == PlayerState.HeadBumpLeft  )
+                    , new AnimationTransitionOnCondition(headbump_right, () =>  State == PlayerState.HeadBumpRight  )
                 )
             );
         }

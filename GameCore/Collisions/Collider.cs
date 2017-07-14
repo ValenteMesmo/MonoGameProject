@@ -16,7 +16,7 @@ namespace GameCore
 
         public bool Disabled { get; set; }
 
-        public List<Collider> CollidingWith = new List<Collider>();        
+        public List<Collider> CollidingWith = new List<Collider>();
 
         internal List<Action<Collider, Collider>> TopCollisionHandlers = new List<Action<Collider, Collider>>();
         internal List<Action<Collider, Collider>> BotCollisionHandlers = new List<Action<Collider, Collider>>();

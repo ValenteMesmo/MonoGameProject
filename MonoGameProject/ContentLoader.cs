@@ -12,7 +12,7 @@ namespace MonoGameProject
 
         public IEnumerable<string> GetTextureNames()
         {
-            return new string[] { "wallslide","block","jump", "stand", "walk0", "walk1", "walk2" };
+            return new string[] { "headbump","wallslide","block","jump", "stand", "walk0", "walk1", "walk2" };
         }
     }
 }

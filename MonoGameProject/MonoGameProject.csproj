@@ -47,6 +47,7 @@
     <Compile Include="Updates\AfectedByGravity.cs" />
     <Compile Include="Things\BackBlocker.cs" />
     <Compile Include="Updates\ChangeToWallJumping.cs" />
+    <Compile Include="Updates\PlayerStates\ChangeToHeadBumpState.cs" />
     <Compile Include="Updates\PlayerStates\ChangeToFallingState.cs" />
     <Compile Include="Updates\PlayerStates\ChangeToSlidingState.cs" />
     <Compile Include="Updates\PlayerStates\ChangeToStandingState.cs" />

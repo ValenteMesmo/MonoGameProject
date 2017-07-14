@@ -20,6 +20,7 @@ namespace MonoGameProject
                      PlayerState.WalkingLeft
                      , PlayerState.FallingLeft
                      , PlayerState.SlidingWallLeft
+                     , PlayerState.HeadBumpLeft
                      )
                  )
                 {
@@ -29,6 +30,7 @@ namespace MonoGameProject
                     PlayerState.WalkingRight
                     , PlayerState.FallingRight
                     , PlayerState.SlidingWallRight
+                    , PlayerState.HeadBumpRight
                     )
                 )
                 {
