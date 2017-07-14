@@ -6,6 +6,7 @@ namespace GameCore
 {
     internal class World
     {
+        public readonly InputRepository2 PlayerInputs2;
         public readonly InputRepository PlayerInputs;
         private readonly TouchInputHandler TouchInputHandler;
 
@@ -22,6 +23,7 @@ namespace GameCore
         {
             this.Camera2d = Camera2d;
             PlayerInputs = new InputRepository(Camera2d);
+            PlayerInputs2 = new InputRepository2();
             TouchInputHandler = new TouchInputHandler(PlayerInputs);
         }
 
@@ -52,6 +54,7 @@ namespace GameCore
                 return;
 
             PlayerInputs.Update();
+            PlayerInputs2.Update();
 
             List<Vector2> touches = TouchInputHandler.GetTouches();
             Things.ForEach(thing =>

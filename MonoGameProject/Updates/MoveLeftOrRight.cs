@@ -4,14 +4,14 @@ namespace MonoGameProject
 {
     public class MoveLeftOrRight : UpdateHandler
     {
-        InputRepository InputRepository;
+        PlayerInputs InputRepository;
         private const int velocity = 3;
         private const int INVERSE_BONUS = velocity * 5;
         private readonly Player Parent;
 
         public MoveLeftOrRight(
             Player Parent
-            , InputRepository InputRepository)
+            , PlayerInputs InputRepository)
         {
             this.Parent = Parent;
             this.InputRepository = InputRepository;

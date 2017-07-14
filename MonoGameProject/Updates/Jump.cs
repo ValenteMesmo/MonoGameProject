@@ -5,7 +5,7 @@ namespace MonoGameProject
 {
     public class Jump : UpdateHandler
     {
-        InputRepository InputRepository;
+        PlayerInputs InputRepository;
         int jumpImpulseTime = 0;
         int minJumpSpeed = -60;
         int maxJumpSpeed = -120;
@@ -14,7 +14,7 @@ namespace MonoGameProject
 
         public Jump(
             Thing Parent,
-            InputRepository InputRepository,
+            PlayerInputs InputRepository,
             CheckIfCollidingWith<IBlockPlayerMovement> groundChecker)
         {
             this.Parent = Parent;

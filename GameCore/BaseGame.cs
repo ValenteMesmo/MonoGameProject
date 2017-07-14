@@ -51,7 +51,6 @@ internal class BaseGame : OriginalGameClass
         IsFixedTimeStep = true;
         Graphics.SynchronizeWithVerticalRetrace = true;
 
-
         Camera = new Camera2d();
         Camera.Pos = new Vector2(7000f, 5500f);
         Camera.Zoom =
@@ -119,6 +118,8 @@ internal class BaseGame : OriginalGameClass
 #endif
             var controller = GamePad.GetState(0);
             World.PlayerInputs.SetState(state, controller);
+            var controller2 = GamePad.GetState(1);
+            World.PlayerInputs2.SetState(controller2);
 
             World.PlayerInputs.SetState(
                 TouchPanel.GetState(),
@@ -146,7 +147,7 @@ internal class BaseGame : OriginalGameClass
 
 #if DEBUG
         FrameCounter.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
-        
+
         var fps = string.Format("FPS: {0}", FrameCounter.AverageFramesPerSecond)
             .Replace("∞", "");
         SpriteBatch.DrawString(

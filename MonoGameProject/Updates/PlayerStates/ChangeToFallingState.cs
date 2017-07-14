@@ -5,9 +5,9 @@ namespace MonoGameProject
     public class ChangeToFallingState : UpdateHandler
     {
         private readonly Player Player;
-        private readonly InputRepository Input;
+        private readonly PlayerInputs Input;
 
-        public ChangeToFallingState(Player Player, InputRepository Input)
+        public ChangeToFallingState(Player Player, PlayerInputs Input)
         {
             this.Player = Player;
             this.Input = Input;

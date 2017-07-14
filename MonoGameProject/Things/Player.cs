@@ -49,7 +49,7 @@ namespace MonoGameProject
         public readonly CheckIfCollidingWith<IBlockPlayerMovement> leftWallChecker;
         public readonly CheckIfCollidingWith<IBlockPlayerMovement> rightWallChecker;
 
-        public Player(InputRepository InputRepository, WorldMover WorldMover)
+        public Player(PlayerInputs InputRepository, WorldMover WorldMover)
         {
             X = 1000;
             Y = 7000;

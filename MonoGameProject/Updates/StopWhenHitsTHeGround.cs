@@ -9,7 +9,7 @@ namespace MonoGameProject
         {
             if (other.Parent is IBlockPlayerMovement)
             {
-                Parent.Parent.VerticalSpeed = 0;
+                //Parent.Parent.VerticalSpeed = 0;
                 Parent.Parent.Y = other.Bottom() - Parent.OffsetY + 1;
             }
         }

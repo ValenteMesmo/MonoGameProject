@@ -5,9 +5,9 @@ namespace MonoGameProject
     public class ChangeToSlidingState : UpdateHandler
     {
         private readonly Player Player;
-        private readonly InputRepository Input;
+        private readonly PlayerInputs Input;
 
-        public ChangeToSlidingState(Player Player, InputRepository Input)
+        public ChangeToSlidingState(Player Player, PlayerInputs Input)
         {
             this.Player = Player;
             this.Input = Input;
