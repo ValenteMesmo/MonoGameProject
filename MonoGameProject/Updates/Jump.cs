@@ -7,6 +7,7 @@ namespace MonoGameProject
     {
         PlayerInputs InputRepository;
         int jumpImpulseTime = 0;
+        int jumpAvailave = 0;
         int minJumpSpeed = -60;
         int maxJumpSpeed = -120;
         private CheckIfCollidingWith<IBlockPlayerMovement> groundChecker;
@@ -24,10 +25,16 @@ namespace MonoGameProject
 
         public void Update()
         {
-            if (InputRepository.ClickedJump && groundChecker.Colliding)
+            if (groundChecker.Colliding)
+            {
+                jumpAvailave = 10;
+            }
+
+            if (InputRepository.ClickedJump && jumpAvailave > 0)
             {
                 Parent.VerticalSpeed = maxJumpSpeed;
                 jumpImpulseTime = 50;
+                jumpAvailave = 0;
             }
 
             if (jumpImpulseTime > 0
@@ -38,9 +45,8 @@ namespace MonoGameProject
                 Parent.VerticalSpeed = minJumpSpeed;
             }
 
+            jumpAvailave--;
             jumpImpulseTime--;
-            if (jumpImpulseTime < 0)
-                jumpImpulseTime = 0;
         }
     }
 }
