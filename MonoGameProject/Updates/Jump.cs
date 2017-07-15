@@ -12,6 +12,7 @@ namespace MonoGameProject
         int maxJumpSpeed = -120;
         private CheckIfCollidingWith<IBlockPlayerMovement> groundChecker;
         private readonly Thing Parent;
+        private int cooldown;
 
         public Jump(
             Thing Parent,
@@ -30,10 +31,11 @@ namespace MonoGameProject
                 jumpAvailave = 10;
             }
 
-            if (InputRepository.ClickedJump && jumpAvailave > 0)
+            if (InputRepository.ClickedJump && jumpAvailave > 0 && cooldown <= 0)
             {
                 Parent.VerticalSpeed = maxJumpSpeed;
                 jumpImpulseTime = 50;
+                cooldown = 20;
                 jumpAvailave = 0;
             }
 
@@ -45,6 +47,7 @@ namespace MonoGameProject
                 Parent.VerticalSpeed = minJumpSpeed;
             }
 
+            cooldown--;
             jumpAvailave--;
             jumpImpulseTime--;
         }
