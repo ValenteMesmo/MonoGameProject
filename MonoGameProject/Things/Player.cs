@@ -47,7 +47,8 @@ namespace MonoGameProject
         //plataforma "barco"... igual mario....
         //breakable blocks
         //criar mapas para cima e para baixo também.
-
+        //traps
+        // fire balls (horizontal e vertical)
         private const int width = 1000;
         private const int height = 900;
 
