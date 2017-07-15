@@ -35,8 +35,12 @@ namespace MonoGameProject
 
     public class Player : Thing
     {
+        //abaixar
+        //spawn de zumbis
+
         //vilarejo em chamas... pessoas sendo atacaDas?
         //arvore seca, cheia de criaturas voadoras que parecem passaros... faz barulho perto, que elas voam
+        //monstro que vira criaturas voadoras quando apanhas
         //modulos de transicao... tipo castlevania entrando no castelo
         //ficar espada na parede, enquanto faz o slide.... isso vai servir para matar boss no estilo shadow of collosus
         //bad status... slow
@@ -101,7 +105,7 @@ namespace MonoGameProject
             AddUpdate(new ChangeToFallingState(this, InputRepository));
             AddUpdate(new ChangeToSlidingState(this, InputRepository));
             AddUpdate(new ChangeToWallJumping(this, () => InputRepository.ClickedJump));
-            AddUpdate(new ChangeToHeadBumpState(this, InputRepository));
+            AddUpdate(new ChangeToHeadBumpState(this, InputRepository, WorldMover.Camera));
 
             AddUpdate(new HorizontalFriction(this));
             AddUpdate(new AfectedByGravity(this));

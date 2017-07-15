@@ -7,7 +7,13 @@ namespace GameCore
     public class Camera2d
     {
         public Matrix Transform;
-        public Vector2 Pos;
+        private Vector2 _pos;
+        public Vector2 OriginalPosition;
+        public Vector2 Pos
+        {
+            get { return _pos; }
+            set { OriginalPosition = _pos = value; }
+        }
         protected float Rotation;
         private float _zoom;
 
@@ -44,7 +50,7 @@ namespace GameCore
 
             Transform =
               Matrix.CreateTranslation(
-                  new Vector3(-Pos.X, -Pos.Y, 0))
+                  new Vector3(-_pos.X, -_pos.Y, 0))
                     * Matrix.CreateRotationZ(Rotation)
                     * Matrix.CreateScale(new Vector3(Zoom * widthDiff, Zoom * HeightDiff, 1))
                     * Matrix.CreateTranslation(new Vector3(
@@ -65,6 +71,29 @@ namespace GameCore
         public Vector2 ToLocalLocation(Vector2 position)
         {
             return Vector2.Transform(position, Transform);
+        }
+
+        private int shakeUpDuration;
+        private int shakeUpPower;
+        public void ShakeUp(int power)
+        {
+            shakeUpDuration = 5;
+            shakeUpPower = power;
+        }
+
+        internal void Update()
+        {
+            if (shakeUpDuration > 0)
+            {
+                _pos.Y = OriginalPosition.Y + shakeUpDuration * shakeUpPower;
+
+                shakeUpDuration--;
+            }
+            else
+            {
+                shakeUpDuration = 0;
+                _pos.Y = OriginalPosition.Y;
+            }
         }
     }
 }

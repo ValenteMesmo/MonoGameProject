@@ -10,9 +10,11 @@ namespace MonoGameProject
         private Thing MovingLeftBy;
         private bool BackBlocking;
         private bool ShouldDrawBorders = false;
+        public readonly Camera2d Camera;
 
         public WorldMover(Camera2d Camera)
         {
+            this.Camera = Camera;
             X = (int)Camera.Pos.X;
             Y = (int)Camera.Pos.Y;
 

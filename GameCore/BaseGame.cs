@@ -67,7 +67,7 @@ internal class BaseGame : OriginalGameClass
         Graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
         Graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
         //TODO: fullscreen on alt+enter
-#if DEBUG
+#if RELEASE
         Graphics.IsFullScreen = true;
 #endif
         Graphics.ApplyChanges();
@@ -99,12 +99,11 @@ internal class BaseGame : OriginalGameClass
         }
     }
 
-
-
     protected override void Update(GameTime gameTime)
     {
         //if (timeSinceLastUpdate >= TIME_TO_NEXT_UPDATE)
         {
+            Camera.Update();
 
             var state = Keyboard.GetState();
 #if DEBUG
@@ -113,7 +112,7 @@ internal class BaseGame : OriginalGameClass
             else
                 Camera.Zoom = 0.1f;
 
-            DisplayColliders = state.NumLock;
+            DisplayColliders = !state.NumLock;
 
             if (state.IsKeyDown(Keys.Escape))
                 Parent.Restart();
