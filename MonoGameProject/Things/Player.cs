@@ -177,6 +177,14 @@ namespace MonoGameProject
                new AnimationFrame("jump", 0, 0, width, height) { Flipped = true, RenderingLayer = z }
             );
 
+            var crouching_left = new Animation(
+                new AnimationFrame("crouching", 0, 0, width, height) { RenderingLayer = z }
+            );
+
+            var crouching_right = new Animation(
+               new AnimationFrame("crouching", 0, 0, width, height) { Flipped = true, RenderingLayer = z }
+            );
+
             var headbump_left = new Animation(
                 new AnimationFrame("headbump", 0, 0, width, height) { RenderingLayer = z }
             );
@@ -225,6 +233,8 @@ namespace MonoGameProject
                     , new AnimationTransitionOnCondition(wallslide_right, () => State == PlayerState.SlidingWallRight)
                     , new AnimationTransitionOnCondition(headbump_left, () => State == PlayerState.HeadBumpLeft)
                     , new AnimationTransitionOnCondition(headbump_right, () => State == PlayerState.HeadBumpRight)
+                    , new AnimationTransitionOnCondition(crouching_left, () => State == PlayerState.crouchingLeft || State == PlayerState.crouchWalkingLeft)
+                    , new AnimationTransitionOnCondition(crouching_right, () => State == PlayerState.crouchingRight || State == PlayerState.crouchWalkingRight)
                 )
             );
         }

@@ -18,14 +18,16 @@ namespace MonoGameProject.Updates.PlayerStates
 
         public void Update()
         {
-            if (Player.Inputs.DownDown)
+            if (Player.Inputs.DownDown && Player.groundChecker.Colliding)
             {
                 if (Player.Inputs.LeftDown)
                 {
                     if (Player.State == PlayerState.StandingRight
                         || Player.State == PlayerState.WalkingRight
                         || Player.State == PlayerState.StandingLeft
-                        || Player.State == PlayerState.WalkingLeft)
+                        || Player.State == PlayerState.WalkingLeft
+                        || Player.State == PlayerState.FallingLeft
+                        )
                     {
                         Player.State = PlayerState.crouchWalkingLeft;
                     }
@@ -40,17 +42,18 @@ namespace MonoGameProject.Updates.PlayerStates
                     {
                         Player.State = PlayerState.crouchWalkingRight;
                     }
-
                 }
                 else
                 {
                     if (Player.State == PlayerState.StandingRight
-                        || Player.State == PlayerState.WalkingRight)
+                        || Player.State == PlayerState.WalkingRight
+                        || Player.State == PlayerState.FallingRight)
                     {
                         Player.State = PlayerState.crouchingRight;
                     }
                     else if (Player.State == PlayerState.StandingLeft
-                        || Player.State == PlayerState.WalkingLeft)
+                        || Player.State == PlayerState.WalkingLeft
+                        || Player.State == PlayerState.FallingLeft)
                     {
                         Player.State = PlayerState.crouchingLeft;
                     }
