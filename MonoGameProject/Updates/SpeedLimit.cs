@@ -1,23 +1,23 @@
-﻿using GameCore;
+﻿//using GameCore;
 
-namespace MonoGameProject
-{
-    public class HorizontalSpeedLimit : UpdateHandler
-    {
-        private readonly int SPEEDLIMIT = 80;
-        private readonly Thing Parent;
+//namespace MonoGameProject
+//{
+//    public class HorizontalSpeedLimit : UpdateHandler
+//    {
+//        private readonly int SPEED_LIMIT = 80;        
+//        private readonly Player Player;
 
-        public HorizontalSpeedLimit(Thing Parent)
-        {
-            this.Parent = Parent;
-        }
+//        public HorizontalSpeedLimit(Player Player)
+//        {
+//            this.Player = Player;
+//        }
 
-        public void Update()
-        {
-            if (Parent.HorizontalSpeed > SPEEDLIMIT)
-                Parent.HorizontalSpeed = SPEEDLIMIT;
-            if (Parent.HorizontalSpeed < -SPEEDLIMIT)
-                Parent.HorizontalSpeed = -SPEEDLIMIT;
-        }
-    }
-}
+//        public void Update()
+//        {
+//            if (Player.HorizontalSpeed >  SPEED_LIMIT)
+//                Player.HorizontalSpeed =  SPEED_LIMIT;
+//            if (Player.HorizontalSpeed < -SPEED_LIMIT)
+//                Player.HorizontalSpeed = -SPEED_LIMIT;
+//        }
+//    }
+//}

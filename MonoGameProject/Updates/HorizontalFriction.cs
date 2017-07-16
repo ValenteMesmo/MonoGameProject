@@ -4,7 +4,7 @@ namespace MonoGameProject
 {
     public class HorizontalFriction : UpdateHandler
     {
-        private readonly int velocity = 1;
+        private const int VELOCITY = 1;
         private readonly Player Parent;
 
         public HorizontalFriction(Player Parent)
@@ -14,13 +14,20 @@ namespace MonoGameProject
 
         public void Update()
         {
+            if (
+                (Parent.State == PlayerState.crouchingLeft
+                || Parent.State == PlayerState.crouchingRight)
+                && Parent.roofChecker.Colliding
+                )
+                return;
+
             if (Parent.HorizontalSpeed > 0)
             {
-                Parent.HorizontalSpeed -= velocity;
+                Parent.HorizontalSpeed -= VELOCITY;
             }
             else if (Parent.HorizontalSpeed < 0)
             {
-                Parent.HorizontalSpeed += velocity;
+                Parent.HorizontalSpeed += VELOCITY;
             }
         }
     }

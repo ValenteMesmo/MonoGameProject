@@ -42,7 +42,10 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Things\EnumExtensions.cs" />
     <Compile Include="Things\MapModule.cs" />
+    <Compile Include="Things\PlayerState.cs" />
+    <Compile Include="Things\ReduceSizeWhenCrouching.cs" />
     <Compile Include="Things\WorldHelper.cs" />
     <Compile Include="Updates\AfectedByGravity.cs" />
     <Compile Include="Things\BackBlocker.cs" />

@@ -26,7 +26,6 @@ namespace MonoGameProject
                    , PlayerState.SlidingWallLeft
                    , PlayerState.HeadBumpLeft
                    , PlayerState.crouchingLeft
-                   , PlayerState.crouchWalkingLeft
                    )
                 )
                 {
@@ -38,7 +37,6 @@ namespace MonoGameProject
                     , PlayerState.SlidingWallRight
                     , PlayerState.HeadBumpRight
                     , PlayerState.crouchingRight
-                   , PlayerState.crouchWalkingRight
                     )
                 )
                 {

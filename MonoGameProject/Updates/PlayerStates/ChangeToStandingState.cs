@@ -14,6 +14,7 @@ namespace MonoGameProject
         public void Update()
         {
             if (Player.groundChecker.Colliding
+                && !Player.roofChecker.Colliding
                 && !Player.Inputs.LeftDown
                 && !Player.Inputs.RightDown
                 && !Player.Inputs.DownDown
@@ -25,7 +26,6 @@ namespace MonoGameProject
                      , PlayerState.SlidingWallLeft
                      , PlayerState.HeadBumpLeft
                      , PlayerState.crouchingLeft
-                     , PlayerState.crouchWalkingLeft
                      )
                  )
                 {
@@ -37,7 +37,6 @@ namespace MonoGameProject
                     , PlayerState.SlidingWallRight
                     , PlayerState.HeadBumpRight
                     , PlayerState.crouchingRight
-                     , PlayerState.crouchWalkingRight
                     )
                 )
                 {

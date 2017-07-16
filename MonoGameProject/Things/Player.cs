@@ -5,39 +5,6 @@ using System;
 
 namespace MonoGameProject
 {
-    public enum PlayerState
-    {
-        StandingLeft,
-        StandingRight,
-        WalkingLeft,
-        WalkingRight,
-        SlidingWallLeft,
-        SlidingWallRight,
-        WallJumpingToTheLeft,
-        WallJumpingToTheRight,
-        FallingLeft,
-        FallingRight,
-        HeadBumpLeft,
-        HeadBumpRight,
-        crouchingLeft,
-        crouchingRight,
-        crouchWalkingLeft,
-        crouchWalkingRight
-    }
-
-    public static class EnumExtensions
-    {
-        public static bool Is(this PlayerState a, params PlayerState[] states)
-        {
-            foreach (var b in states)
-            {
-                if (a == b)
-                    return true;
-            }
-            return false;
-        }
-    }
-
     public class Player : Thing
     {
         //abaixar
@@ -64,7 +31,7 @@ namespace MonoGameProject
         public readonly CheckIfCollidingWith<IBlockPlayerMovement> roofChecker;
 
         public readonly Collider HeadCollider;
-        public readonly Collider ButtCollider;
+        //public readonly Collider ButtCollider;
         public readonly PlayerInputs Inputs;
 
         public Player(PlayerInputs InputRepository, WorldMover WorldMover)
@@ -77,26 +44,13 @@ namespace MonoGameProject
             {
                 OffsetX = width / 3,
                 Width = width / 3,
-                Height = height / 2 - 10
+                Height = height - 10
             };
             HeadCollider.AddBotCollisionHandler(StopsWhenHitting.Bot);
             HeadCollider.AddLeftCollisionHandler(StopsWhenHitting.Left);
             HeadCollider.AddRightCollisionHandler(StopsWhenHitting.Right);
             HeadCollider.AddTopCollisionHandler(StopsWhenHitting.Top);
             AddCollider(HeadCollider);
-
-            ButtCollider = new Collider()
-            {
-                OffsetX = width / 3,
-                OffsetY = height / 2 - 5,
-                Width = width / 3,
-                Height = height / 2
-            };
-            ButtCollider.AddBotCollisionHandler(StopsWhenHitting.Bot);
-            ButtCollider.AddLeftCollisionHandler(StopsWhenHitting.Left);
-            ButtCollider.AddRightCollisionHandler(StopsWhenHitting.Right);
-            ButtCollider.AddTopCollisionHandler(StopsWhenHitting.Top);
-            AddCollider(ButtCollider);
 
             groundChecker = new CheckIfCollidingWith<IBlockPlayerMovement>()
             {
@@ -142,21 +96,24 @@ namespace MonoGameProject
             AddUpdate(new ChangeToHeadBumpState(this, InputRepository, WorldMover.Camera));
             AddUpdate(new ChangeToCrouchState(this));
 
-            AddUpdate(() => HeadCollider.Disabled = ButtCollider.Disabled = false);
+            //AddUpdate(() => HeadCollider.Disabled = ButtCollider.Disabled = false);
 
+            AddUpdate(new ResetSizeAndOffsetY(this));
+            AddUpdate(new ReduceSizeWhenHeadBumping(this));
+            AddUpdate(new ReduceSizeWhenCrouching(this));
             AddUpdate(new HorizontalFriction(this));
             AddUpdate(new AfectedByGravity(this));
-            AddUpdate(new MoveLeftOrRight(this, InputRepository));
+            AddUpdate(new MoveWhenWalking(this));
             AddUpdate(new MoveHorizontallyWithTheWorld(this));
             AddUpdate(new Jump(this, InputRepository, groundChecker));
 
             AddUpdate(new WallJump(this, () => InputRepository.ClickedJump, () => !InputRepository.ClickedJump && !InputRepository.JumpDown));
             AddUpdate(new WallJump(this, () => InputRepository.ClickedJump, () => !InputRepository.ClickedJump && !InputRepository.JumpDown));
             AddUpdate(new ReduceSpeedWhileSlidingWall(this));
-            AddUpdate(new HorizontalSpeedLimit(this).Update);
+            //AddUpdate(new HorizontalSpeedLimit(this).Update);
 
-            AddUpdate(() => { if (State == PlayerState.HeadBumpLeft || State == PlayerState.HeadBumpRight) ButtCollider.Disabled = true; });
-            AddUpdate(() => { if (State == PlayerState.crouchingLeft || State == PlayerState.crouchingRight || State == PlayerState.crouchWalkingLeft || State == PlayerState.crouchWalkingRight) HeadCollider.Disabled = true; });
+            //AddUpdate(() => { if (State == PlayerState.HeadBumpLeft || State == PlayerState.HeadBumpRight) ButtCollider.Disabled = true; });
+            //AddUpdate(() => { if (State == PlayerState.crouchingLeft || State == PlayerState.crouchingRight || State == PlayerState.crouchWalkingLeft || State == PlayerState.crouchWalkingRight) HeadCollider.Disabled = true; });
 
             //AddUpdate(() => HorizontalSpeed = 80);
 #if DEBUG
@@ -233,8 +190,8 @@ namespace MonoGameProject
                     , new AnimationTransitionOnCondition(wallslide_right, () => State == PlayerState.SlidingWallRight)
                     , new AnimationTransitionOnCondition(headbump_left, () => State == PlayerState.HeadBumpLeft)
                     , new AnimationTransitionOnCondition(headbump_right, () => State == PlayerState.HeadBumpRight)
-                    , new AnimationTransitionOnCondition(crouching_left, () => State == PlayerState.crouchingLeft || State == PlayerState.crouchWalkingLeft)
-                    , new AnimationTransitionOnCondition(crouching_right, () => State == PlayerState.crouchingRight || State == PlayerState.crouchWalkingRight)
+                    , new AnimationTransitionOnCondition(crouching_left, () => State == PlayerState.crouchingLeft)
+                    , new AnimationTransitionOnCondition(crouching_right, () => State == PlayerState.crouchingRight)
                 )
             );
         }

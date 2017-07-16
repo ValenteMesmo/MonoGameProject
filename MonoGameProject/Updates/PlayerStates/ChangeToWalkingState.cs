@@ -13,7 +13,8 @@ namespace MonoGameProject
 
         public void Update()
         {
-            if (Player.groundChecker.Colliding)
+            if (Player.groundChecker.Colliding
+                && !Player.roofChecker.Colliding)
             {
                 if (Player.Inputs.RightDown)
                 {
