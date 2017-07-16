@@ -14,13 +14,6 @@ namespace MonoGameProject
 
         public void Update()
         {
-            if (
-                (Parent.State == PlayerState.crouchingLeft
-                || Parent.State == PlayerState.crouchingRight)
-                && Parent.roofChecker.Colliding
-                )
-                return;
-
             if (Parent.HorizontalSpeed > 0)
             {
                 Parent.HorizontalSpeed -= VELOCITY;

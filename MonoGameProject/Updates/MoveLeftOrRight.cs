@@ -18,8 +18,8 @@ namespace MonoGameProject
         {
             if (Player.State == PlayerState.crouchingLeft
                 || Player.State == PlayerState.crouchingRight)
-                if (Player.roofChecker.Colliding)
-                    NewMethod(0, VELOCITY, 40);
+                if (Player.roofChecker.Colliding && Player.Inputs.ClickedJump)
+                    NewMethod(0, 40, 40);
                 else
                     return;
             else

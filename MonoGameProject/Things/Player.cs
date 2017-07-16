@@ -7,8 +7,8 @@ namespace MonoGameProject
 {
     public class Player : Thing
     {
-        //abaixar
         //spawn de zumbis
+        //3 i/o   (2 é pouco)
 
         //vilarejo em chamas... pessoas sendo atacaDas?
         //arvore seca, cheia de criaturas voadoras que parecem passaros... faz barulho perto, que elas voam
