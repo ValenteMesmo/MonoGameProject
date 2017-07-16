@@ -125,7 +125,7 @@ internal class BaseGame : OriginalGameClass
 
     protected override void Draw(GameTime gameTime)
     {
-        GraphicsDevice.Clear(Color.CornflowerBlue);
+        GraphicsDevice.Clear(Color.Black);
 
         SpriteBatch.Begin(SpriteSortMode.BackToFront,
                    BlendState.AlphaBlend,
@@ -185,7 +185,7 @@ internal class BaseGame : OriginalGameClass
                         collider.Width,
                         collider.Height),
                     30,
-                    Color.Red
+                    collider.Disabled ? Color.Red : Color.Green
                 )
             );
 #endif
@@ -222,39 +222,6 @@ internal class BaseGame : OriginalGameClass
         });
     }
 
-    //private void RenderAnimations()
-    //{
-    //    var animations = World.GetAnimations();
-
-    //    foreach (var item in animations)
-    //    {
-    //        int bonusX = 0;
-    //        int bonusY = 0;
-
-
-    //        var textures = item.As<Animation>().GetTextures();
-
-    //        foreach (var texture in textures)
-    //        {
-    //            spriteBatch.Draw(
-    //                    GeneratedContent.Textures[texture.Name]
-    //                    , new Rectangle(
-    //                       bonusX + texture.X,
-    //                    bonusY + texture.Y,
-    //                    texture.Width,
-    //                    texture.Height)
-    //                    , texture.PositionOnSpriteSheet
-    //                    , texture.Color
-    //                    , 0
-    //                    , Vector2.Zero
-    //                    , texture.Flipped ? SpriteEffects.FlipHorizontally : SpriteEffects.None
-    //                    , texture.ZIndex
-    //            );
-    //        }
-    //    }
-
-    //}
-
     //private void PlayAudios()
     //{
     //    var Sounds = World.GetSoundNamesToBePlayed();
@@ -262,24 +229,6 @@ internal class BaseGame : OriginalGameClass
     //    foreach (var soundName in Sounds)
     //    {
     //        this.Sounds[soundName].Play();
-    //    }
-    //}
-
-    //private void RenderColliders()
-    //{
-    //    if (true)
-    //    {
-    //        World.GetColliders()
-    //            .ForEach(item =>
-    //                DrawBorder(
-    //                    new Rectangle(
-    //                        item.RenderX,
-    //                        item.RenderY,
-    //                        item.Width,
-    //                        item.Height),
-    //                    20,
-    //                    Color.Red)
-    //            );
     //    }
     //}
 

@@ -13,14 +13,19 @@ namespace MonoGameProject
 
         public void Update()
         {
-            if (Player.HorizontalSpeed == 0
-                && Player.groundChecker.Colliding)
+            if (Player.groundChecker.Colliding
+                && !Player.Inputs.LeftDown
+                && !Player.Inputs.RightDown
+                && !Player.Inputs.DownDown
+                )
             {
                 if (Player.State.Is(
                      PlayerState.WalkingLeft
                      , PlayerState.FallingLeft
                      , PlayerState.SlidingWallLeft
                      , PlayerState.HeadBumpLeft
+                     , PlayerState.crouchingLeft
+                     , PlayerState.crouchWalkingLeft
                      )
                  )
                 {
@@ -31,6 +36,8 @@ namespace MonoGameProject
                     , PlayerState.FallingRight
                     , PlayerState.SlidingWallRight
                     , PlayerState.HeadBumpRight
+                    , PlayerState.crouchingRight
+                     , PlayerState.crouchWalkingRight
                     )
                 )
                 {

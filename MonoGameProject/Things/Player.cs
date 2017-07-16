@@ -1,5 +1,6 @@
 ﻿using GameCore;
 using MonoGameProject.Things;
+using MonoGameProject.Updates.PlayerStates;
 using System;
 
 namespace MonoGameProject
@@ -17,7 +18,11 @@ namespace MonoGameProject
         FallingLeft,
         FallingRight,
         HeadBumpLeft,
-        HeadBumpRight
+        HeadBumpRight,
+        crouchingLeft,
+        crouchingRight,
+        crouchWalkingLeft,
+        crouchWalkingRight
     }
 
     public static class EnumExtensions
@@ -58,19 +63,47 @@ namespace MonoGameProject
         public readonly CheckIfCollidingWith<IBlockPlayerMovement> rightWallChecker;
         public readonly CheckIfCollidingWith<IBlockPlayerMovement> roofChecker;
 
+        public readonly Collider HeadCollider;
+        public readonly Collider ButtCollider;
+        public readonly PlayerInputs Inputs;
+
         public Player(PlayerInputs InputRepository, WorldMover WorldMover)
         {
+            this.Inputs = InputRepository;
             X = 1000;
             Y = 7000;
 
-            CreateMainCollider(width, height);
+            HeadCollider = new Collider()
+            {
+                OffsetX = width / 3,
+                Width = width / 3,
+                Height = height / 2 - 10
+            };
+            HeadCollider.AddBotCollisionHandler(StopsWhenHitting.Bot);
+            HeadCollider.AddLeftCollisionHandler(StopsWhenHitting.Left);
+            HeadCollider.AddRightCollisionHandler(StopsWhenHitting.Right);
+            HeadCollider.AddTopCollisionHandler(StopsWhenHitting.Top);
+            AddCollider(HeadCollider);
+
+            ButtCollider = new Collider()
+            {
+                OffsetX = width / 3,
+                OffsetY = height / 2 - 5,
+                Width = width / 3,
+                Height = height / 2
+            };
+            ButtCollider.AddBotCollisionHandler(StopsWhenHitting.Bot);
+            ButtCollider.AddLeftCollisionHandler(StopsWhenHitting.Left);
+            ButtCollider.AddRightCollisionHandler(StopsWhenHitting.Right);
+            ButtCollider.AddTopCollisionHandler(StopsWhenHitting.Top);
+            AddCollider(ButtCollider);
 
             groundChecker = new CheckIfCollidingWith<IBlockPlayerMovement>()
             {
                 Width = width / 3,
                 Height = height / 4,
                 OffsetX = width / 3,
-                OffsetY = height + 1//por que + 1?????
+                OffsetY = height + 1
             };
             AddCollider(groundChecker);
 
@@ -97,7 +130,7 @@ namespace MonoGameProject
                 Width = width / 3,
                 Height = height / 10,
                 OffsetX = width / 3,
-                OffsetY = -height / 10 - 10
+                OffsetY = -height / 10 - 1
             };
             AddCollider(roofChecker);
 
@@ -107,6 +140,9 @@ namespace MonoGameProject
             AddUpdate(new ChangeToSlidingState(this, InputRepository));
             AddUpdate(new ChangeToWallJumping(this, () => InputRepository.ClickedJump));
             AddUpdate(new ChangeToHeadBumpState(this, InputRepository, WorldMover.Camera));
+            AddUpdate(new ChangeToCrouchState(this));
+
+            AddUpdate(() => HeadCollider.Disabled = ButtCollider.Disabled = false);
 
             AddUpdate(new HorizontalFriction(this));
             AddUpdate(new AfectedByGravity(this));
@@ -119,26 +155,14 @@ namespace MonoGameProject
             AddUpdate(new ReduceSpeedWhileSlidingWall(this));
             AddUpdate(new HorizontalSpeedLimit(this).Update);
 
+            AddUpdate(() => { if (State == PlayerState.HeadBumpLeft || State == PlayerState.HeadBumpRight) ButtCollider.Disabled = true; });
+            AddUpdate(() => { if (State == PlayerState.crouchingLeft || State == PlayerState.crouchingRight || State == PlayerState.crouchWalkingLeft || State == PlayerState.crouchWalkingRight) HeadCollider.Disabled = true; });
+
             //AddUpdate(() => HorizontalSpeed = 80);
 #if DEBUG
             AddUpdate(() => Game.LOG += State.ToString() + Environment.NewLine);
 #endif
             CreateAnimator(groundChecker);
-        }
-
-        private void CreateMainCollider(int width, int height)
-        {
-            var collider = new Collider()
-            {
-                OffsetX = width / 3,
-                Width = width / 3,
-                Height = height
-            };
-            collider.AddBotCollisionHandler(StopsWhenHitting.Bot);
-            collider.AddLeftCollisionHandler(StopsWhenHitting.Left);
-            collider.AddRightCollisionHandler(StopsWhenHitting.Right);
-            collider.AddTopCollisionHandler(StopsWhenHitting.Top);
-            AddCollider(collider);
         }
 
         private void CreateAnimator(CheckIfCollidingWith<IBlockPlayerMovement> groundChecker)
@@ -199,8 +223,8 @@ namespace MonoGameProject
                     , new AnimationTransitionOnCondition(jump_left, () => State == PlayerState.FallingLeft || State == PlayerState.WallJumpingToTheLeft)
                     , new AnimationTransitionOnCondition(wallslide_left, () => State == PlayerState.SlidingWallLeft)
                     , new AnimationTransitionOnCondition(wallslide_right, () => State == PlayerState.SlidingWallRight)
-                    , new AnimationTransitionOnCondition(headbump_left, () =>  State == PlayerState.HeadBumpLeft  )
-                    , new AnimationTransitionOnCondition(headbump_right, () =>  State == PlayerState.HeadBumpRight  )
+                    , new AnimationTransitionOnCondition(headbump_left, () => State == PlayerState.HeadBumpLeft)
+                    , new AnimationTransitionOnCondition(headbump_right, () => State == PlayerState.HeadBumpRight)
                 )
             );
         }

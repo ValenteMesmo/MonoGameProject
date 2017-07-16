@@ -16,7 +16,9 @@ namespace MonoGameProject
         public void Update()
         {
             if (Player.groundChecker.Colliding == false
-                && !Player.State.Is(PlayerState.WallJumpingToTheLeft, PlayerState.WallJumpingToTheRight))
+                && !Player.State.Is(
+                    PlayerState.WallJumpingToTheLeft
+                    , PlayerState.WallJumpingToTheRight))
             {
                 if (Player.State.Is(
                    PlayerState.WalkingLeft

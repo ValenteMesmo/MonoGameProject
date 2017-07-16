@@ -13,13 +13,13 @@ namespace MonoGameProject
 
         public void Update()
         {
-            if (Player.groundChecker.Colliding && Player.VerticalSpeed == 0)
+            if (Player.groundChecker.Colliding)
             {
-                if (Player.HorizontalSpeed > 0)
+                if (Player.Inputs.RightDown)
                 {
                     Player.State = PlayerState.WalkingRight;
                 }
-                else if (Player.HorizontalSpeed < 0)
+                else if (Player.Inputs.LeftDown)
                 {
                     Player.State = PlayerState.WalkingLeft;
                 }

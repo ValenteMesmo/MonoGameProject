@@ -20,8 +20,10 @@ namespace MonoGameProject
 
         public void Update()
         {
+            //if (Player.roofChecker.Colliding)
+            //Game.LOG += Math.Abs(Player.roofChecker.GetGolliders().First().Bottom() - Player.roofChecker.Top());
             if (Player.roofChecker.Colliding
-                && Math.Abs(Player.roofChecker.GetGolliders().First().Bottom() - Player.roofChecker.Top()) == 99
+                && Math.Abs(Player.roofChecker.GetGolliders().First().Bottom() - Player.roofChecker.Top()) == 90
                 && Player.VerticalSpeed < 0)
             {
                 if (Player.State.Is(
