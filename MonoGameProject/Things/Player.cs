@@ -6,28 +6,85 @@ using System;
 
 namespace MonoGameProject
 {
-    public class FireBallTrap : Thing
+    public class DestroyIfLeftBehind : UpdateHandler
     {
-        public FireBallTrap(Action<Thing> AddToWorld)
+        private readonly Thing Thing;
+
+        public DestroyIfLeftBehind(Thing Thing)
         {
-            var cooldown = 0;
+            this.Thing = Thing;
+        }
+
+        public void Update()
+        {
+            if (Thing.X <= -MapModule.WIDTH * 2
+                || Thing.X >= MapModule.WIDTH * 3
+                )
+                Thing.Destroy();
+        }
+    }
+
+    public class LeftFireBallTrap : Thing
+    {
+        public LeftFireBallTrap(Action<Thing> AddToWorld, int startAfter)
+        {
+            var cooldown = startAfter;
             AddUpdate(() =>
             {
+                cooldown--;
                 if (cooldown <= 0)
                 {
-                    AddToWorld(new FireBall() { X = X + 50, Y = Y + 50 });
-                    cooldown = 200;
+                    AddToWorld(new FireBall(50, 0) { X = X + 50, Y = Y + 50 });
+                    cooldown = 150;
                 }
-                else
-                    cooldown--;
-
             });
+            AddUpdate(new MoveHorizontallyWithTheWorld(this));
+            AddUpdate(new DestroyIfLeftBehind(this));
+            AddAnimation(new Animation(
+                                new AnimationFrame(
+                                    "block"
+                                    , 0
+                                    , 0
+                                    , MapModule.CELL_SIZE
+                                    , MapModule.CELL_SIZE
+                                )
+                                { RenderingLayer = 1 })
+            { Color = Color.Orange });
+        }
+    }
+
+    public class RightFireBallTrap : Thing
+    {
+        public RightFireBallTrap(Action<Thing> AddToWorld, int startAfter)
+        {
+            var cooldown = startAfter;
+            AddUpdate(() =>
+            {
+                cooldown--;
+                if (cooldown <= 0)
+                {
+                    AddToWorld(new FireBall(-50, 0) { X = X - 50, Y = Y + 50 });
+                    cooldown = 150;
+                }
+            });
+            AddUpdate(new DestroyIfLeftBehind(this));
+            AddUpdate(new MoveHorizontallyWithTheWorld(this));
+            AddAnimation(new Animation(
+                               new AnimationFrame(
+                                   "block"
+                                   , 0
+                                   , 0
+                                   , MapModule.CELL_SIZE
+                                   , MapModule.CELL_SIZE
+                               )
+                               { RenderingLayer = 1 })
+            { Color = Color.Orange });
         }
     }
 
     public class FireBall : Thing
     {
-        public FireBall()
+        public FireBall(int speedX, int speedY)
         {
             var width = 400;
             var height = 400;
@@ -38,7 +95,9 @@ namespace MonoGameProject
                     Color = Color.Yellow
                 });
 
-            AddUpdate(() => X += 50);
+            AddUpdate(() => X += speedX);
+            AddUpdate(() => Y += speedY);
+            AddUpdate(new DestroyIfLeftBehind(this));
             AddUpdate(new MoveHorizontallyWithTheWorld(this));
 
             var collider = new Collider() { Width = width, Height = height };

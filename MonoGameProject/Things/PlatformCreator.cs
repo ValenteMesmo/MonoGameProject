@@ -41,12 +41,12 @@ namespace MonoGameProject
                     ,"1000000000000000"
                     ,"1000011111111111"
                     ,"1000011111000001"
-                    ,"1000000000000001"
-                    ,"1000000000000001"
+                    ,"1a00000000000001"
+                    ,"1a00000000000001"
                     ,"1111111111100001"
+                    ,"00000000000000b1"
                     ,"0000000000000001"
-                    ,"0000000000000001"
-                    ,"0000000000000001"
+                    ,"00000000000000b1"
                     ,"1111111111111111")
                 ,new MapModuleInfo(
                     true
@@ -296,11 +296,8 @@ namespace MonoGameProject
                 }
             }
 
-            lastModule = new MapModule(BackBlocker, newMap)
-            {
-                X = anchorX,
-                Y = anchorY
-            };
+            lastModule = new MapModule(anchorX, anchorY, BackBlocker, newMap, AddToWOrld);
+
 
             AddToWOrld(lastModule);
         }

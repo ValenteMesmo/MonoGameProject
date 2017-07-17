@@ -41,6 +41,7 @@ namespace MonoGameProject
 
         private static Random RandomTresure;
         private static Random RandomMonster;
+        private readonly Action<Thing> AddToWorld;
 
         static MapModule()
         {
@@ -48,17 +49,20 @@ namespace MonoGameProject
             RandomMonster = new Random(999);
         }
 
-        public MapModule(BackBlocker Blocker, MapModuleInfo Info)
+        public MapModule(int X, int Y, BackBlocker Blocker, MapModuleInfo Info, Action<Thing> AddToWorld)
         {
+            this.X = X;
+            this.Y = Y;
             this.Info = Info;
+            this.AddToWorld = AddToWorld;
 
             AddUpdate(new MoveHorizontallyWithTheWorld(this));
 
             AddUpdate(() =>
             {
-                if (X <= -WIDTH * 2)
+                if (this.X <= -WIDTH * 2)
                 {
-                    Blocker.X = X + WIDTH - BackBlocker.WIDTH;
+                    Blocker.X = this.X + WIDTH - BackBlocker.WIDTH;
                     Destroy();
                 }
             });
@@ -101,6 +105,22 @@ namespace MonoGameProject
                                 { RenderingLayer = 1 })
                             { Color = Color.Yellow }
                             );
+                    }
+                    if (type == 'a')
+                    {
+                        AddToWorld(new LeftFireBallTrap(AddToWorld, 50)
+                        {
+                            X = X + j * CELL_SIZE,
+                            Y = Y + i * CELL_SIZE
+                        });
+                    }
+                    if (type == 'b')
+                    {
+                        AddToWorld(new RightFireBallTrap(AddToWorld, 50)
+                        {
+                            X = X + j * CELL_SIZE,
+                            Y = Y + i * CELL_SIZE
+                        });
                     }
                 }
             }
