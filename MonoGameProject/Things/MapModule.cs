@@ -108,7 +108,7 @@ namespace MonoGameProject
                     }
                     if (type == 'a')
                     {
-                        AddToWorld(new LeftFireBallTrap(AddToWorld, 50)
+                        AddToWorld(new LeftFireBallTrap(AddToWorld, i % 2 == 0 ? 50 : 0)
                         {
                             X = X + j * CELL_SIZE,
                             Y = Y + i * CELL_SIZE
@@ -116,7 +116,7 @@ namespace MonoGameProject
                     }
                     if (type == 'b')
                     {
-                        AddToWorld(new RightFireBallTrap(AddToWorld, 50)
+                        AddToWorld(new RightFireBallTrap(AddToWorld, i % 2 == 0 ? 50 : 0)
                         {
                             X = X + j * CELL_SIZE,
                             Y = Y + i * CELL_SIZE
@@ -124,7 +124,6 @@ namespace MonoGameProject
                     }
                 }
             }
-
         }
 
         private void CreateBackground(int i, int j)

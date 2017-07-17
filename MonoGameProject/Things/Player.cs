@@ -35,7 +35,7 @@ namespace MonoGameProject
                 if (cooldown <= 0)
                 {
                     AddToWorld(new FireBall(50, 0) { X = X + 50, Y = Y + 50 });
-                    cooldown = 150;
+                    cooldown = 200;
                 }
             });
             AddUpdate(new MoveHorizontallyWithTheWorld(this));
@@ -64,7 +64,7 @@ namespace MonoGameProject
                 if (cooldown <= 0)
                 {
                     AddToWorld(new FireBall(-50, 0) { X = X - 50, Y = Y + 50 });
-                    cooldown = 150;
+                    cooldown = 200;
                 }
             });
             AddUpdate(new DestroyIfLeftBehind(this));
