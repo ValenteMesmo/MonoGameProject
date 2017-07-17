@@ -13,6 +13,9 @@ namespace MonoGameProject
             AddThing(new Player(InputRepository, WorldMover));
             //AddThing(new Player(InputRepository2, WorldMover));
             AddThing(new PlatformCreator(WorldMover, AddThing));
+
+            AddThing(new FireBallTrap(AddThing) { Y = 8000, X = 500 });
+            AddThing(new FireBallTrap(AddThing) { Y = 7500, X = 500 });
         }
     }
 }

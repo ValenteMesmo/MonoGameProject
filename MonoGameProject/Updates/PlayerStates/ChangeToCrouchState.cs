@@ -1,4 +1,5 @@
 ﻿using GameCore;
+using System.Linq;
 
 namespace MonoGameProject.Updates.PlayerStates
 {
@@ -14,7 +15,7 @@ namespace MonoGameProject.Updates.PlayerStates
         public void Update()
         {
             if (Player.Inputs.DownDown && Player.groundChecker.Colliding)
-            {
+            {   
                 if (Player.State == PlayerState.StandingRight
                     || Player.State == PlayerState.WalkingRight
                     || Player.State == PlayerState.FallingRight)

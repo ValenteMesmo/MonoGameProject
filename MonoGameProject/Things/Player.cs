@@ -1,10 +1,56 @@
 ﻿using GameCore;
+using Microsoft.Xna.Framework;
 using MonoGameProject.Things;
 using MonoGameProject.Updates.PlayerStates;
 using System;
 
 namespace MonoGameProject
 {
+    public class FireBallTrap : Thing
+    {
+        public FireBallTrap(Action<Thing> AddToWorld)
+        {
+            var cooldown = 0;
+            AddUpdate(() =>
+            {
+                if (cooldown <= 0)
+                {
+                    AddToWorld(new FireBall() { X = X + 50, Y = Y + 50 });
+                    cooldown = 200;
+                }
+                else
+                    cooldown--;
+
+            });
+        }
+    }
+
+    public class FireBall : Thing
+    {
+        public FireBall()
+        {
+            var width = 400;
+            var height = 400;
+            AddAnimation(
+                new Animation(
+                    new AnimationFrame("block", 0, 0, width, height) { RenderingLayer = 0.4f })
+                {
+                    Color = Color.Yellow
+                });
+
+            AddUpdate(() => X += 50);
+            AddUpdate(new MoveHorizontallyWithTheWorld(this));
+
+            var collider = new Collider() { Width = width, Height = height };
+            Action<Collider, Collider> collisionHandler = (s, t) => { if (t.Parent is IBlockPlayerMovement) Destroy(); };
+            collider.AddBotCollisionHandler(collisionHandler);
+            collider.AddTopCollisionHandler(collisionHandler);
+            collider.AddLeftCollisionHandler(collisionHandler);
+            collider.AddRightCollisionHandler(collisionHandler);
+            AddCollider(collider);
+        }
+    }
+
     public class Player : Thing
     {
         //spawn de zumbis
@@ -46,6 +92,21 @@ namespace MonoGameProject
                 Width = width / 3,
                 Height = height - 10
             };
+
+            Action<Collider, Collider> HandlerFireball = (s, t) =>
+            {
+
+                if (t.Parent is FireBall)
+                {
+                    t.Parent.Destroy();
+
+                }
+            };
+            HeadCollider.AddBotCollisionHandler(HandlerFireball);
+            HeadCollider.AddTopCollisionHandler(HandlerFireball);
+            HeadCollider.AddLeftCollisionHandler(HandlerFireball);
+            HeadCollider.AddRightCollisionHandler(HandlerFireball);
+
             HeadCollider.AddBotCollisionHandler(StopsWhenHitting.Bot);
             HeadCollider.AddLeftCollisionHandler(StopsWhenHitting.Left);
             HeadCollider.AddRightCollisionHandler(StopsWhenHitting.Right);
@@ -124,7 +185,7 @@ namespace MonoGameProject
 
         private void CreateAnimator(CheckIfCollidingWith<IBlockPlayerMovement> groundChecker)
         {
-            var z = 0.4f;
+            var z = 0.45f;
 
             var jump_left = new Animation(
                 new AnimationFrame("jump", 0, 0, width, height) { RenderingLayer = z }

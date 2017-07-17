@@ -15,42 +15,55 @@ namespace MonoGameProject
 
         public void Update()
         {
-            if (Player.groundChecker.Colliding == false
-                && !Player.State.Is(
+            if (!Player.State.Is(
                     PlayerState.WallJumpingToTheLeft
                     , PlayerState.WallJumpingToTheRight))
             {
-                if (Player.State.Is(
-                   PlayerState.WalkingLeft
-                   , PlayerState.StandingLeft
-                   , PlayerState.SlidingWallLeft
-                   , PlayerState.HeadBumpLeft
-                   , PlayerState.crouchingLeft
-                   )
-                )
+                if (Player.groundChecker.Colliding)
                 {
-                    Player.State = PlayerState.FallingLeft;
+                    if (Player.State == PlayerState.HeadBumpLeft)
+                    {
+                        Player.State = PlayerState.FallingLeft;
+                    }
+                    else if (Player.State == PlayerState.HeadBumpRight)
+                    {
+                        Player.State = PlayerState.FallingRight;
+                    }
                 }
-                else if (Player.State.Is(
-                    PlayerState.WalkingRight
-                    , PlayerState.StandingRight
-                    , PlayerState.SlidingWallRight
-                    , PlayerState.HeadBumpRight
-                    , PlayerState.crouchingRight
+                else
+                {
+                    if (Player.State.Is(
+                       PlayerState.WalkingLeft
+                       , PlayerState.StandingLeft
+                       , PlayerState.SlidingWallLeft
+                       , PlayerState.HeadBumpLeft
+                       , PlayerState.crouchingLeft
+                       )
                     )
-                )
-                {
-                    Player.State = PlayerState.FallingRight;
-                }
-                else if (Player.State == PlayerState.FallingLeft
-                    && Input.RightDown)
-                {
-                    Player.State = PlayerState.FallingRight;
-                }
-                else if (Player.State == PlayerState.FallingRight
-                    && Input.LeftDown)
-                {
-                    Player.State = PlayerState.FallingLeft;
+                    {
+                        Player.State = PlayerState.FallingLeft;
+                    }
+                    else if (Player.State.Is(
+                        PlayerState.WalkingRight
+                        , PlayerState.StandingRight
+                        , PlayerState.SlidingWallRight
+                        , PlayerState.HeadBumpRight
+                        , PlayerState.crouchingRight
+                        )
+                    )
+                    {
+                        Player.State = PlayerState.FallingRight;
+                    }
+                    else if (Player.State == PlayerState.FallingLeft
+                        && Input.RightDown)
+                    {
+                        Player.State = PlayerState.FallingRight;
+                    }
+                    else if (Player.State == PlayerState.FallingRight
+                        && Input.LeftDown)
+                    {
+                        Player.State = PlayerState.FallingLeft;
+                    }
                 }
             }
         }
