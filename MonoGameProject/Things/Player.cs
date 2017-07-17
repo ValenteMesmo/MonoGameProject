@@ -110,6 +110,43 @@ namespace MonoGameProject
         }
     }
 
+    public class PreventPlayerFromAccicentlyFalling : UpdateHandler
+    {
+        private readonly Player Player;
+        private const int VELOCITY = 8;
+
+        public PreventPlayerFromAccicentlyFalling(Player Player)
+        {
+            this.Player = Player;
+        }
+
+        public void Update()
+        {
+            if (Player.State == PlayerState.StandingLeft
+                || Player.State == PlayerState.StandingRight
+                || Player.State == PlayerState.crouchingLeft
+                || Player.State == PlayerState.crouchingRight)
+            {
+                if (Player.HorizontalSpeed > 0 
+                    && Player.Inputs.RightDown == false                    
+                    && Player.RightGroundAcidentChecker.Colliding == false)
+                {
+                    Player.HorizontalSpeed -= VELOCITY;
+                    if (Player.HorizontalSpeed < 0)
+                        Player.HorizontalSpeed = 0;
+                }
+                if (Player.HorizontalSpeed < 0 
+                    && Player.Inputs.LeftDown == false
+                    && Player.LeftGroundAcidentChecker.Colliding == false)
+                {
+                    Player.HorizontalSpeed += VELOCITY;
+                    if (Player.HorizontalSpeed > 0)
+                        Player.HorizontalSpeed = 0;
+                }
+            }
+        }
+    }
+
     public class Player : Thing
     {
         //spawn de zumbis
@@ -134,6 +171,8 @@ namespace MonoGameProject
         public readonly CheckIfCollidingWith<IBlockPlayerMovement> leftWallChecker;
         public readonly CheckIfCollidingWith<IBlockPlayerMovement> rightWallChecker;
         public readonly CheckIfCollidingWith<IBlockPlayerMovement> roofChecker;
+        public readonly CheckIfCollidingWith<IBlockPlayerMovement> RightGroundAcidentChecker;
+        public readonly CheckIfCollidingWith<IBlockPlayerMovement> LeftGroundAcidentChecker;
 
         public readonly Collider HeadCollider;
         //public readonly Collider ButtCollider;
@@ -152,19 +191,18 @@ namespace MonoGameProject
                 Height = height - 10
             };
 
-            Action<Collider, Collider> HandlerFireball = (s, t) =>
+            Action<Collider, Collider> HandleFireball = (s, t) =>
             {
-
                 if (t.Parent is FireBall)
                 {
                     t.Parent.Destroy();
-
                 }
             };
-            HeadCollider.AddBotCollisionHandler(HandlerFireball);
-            HeadCollider.AddTopCollisionHandler(HandlerFireball);
-            HeadCollider.AddLeftCollisionHandler(HandlerFireball);
-            HeadCollider.AddRightCollisionHandler(HandlerFireball);
+
+            HeadCollider.AddBotCollisionHandler(HandleFireball);
+            HeadCollider.AddTopCollisionHandler(HandleFireball);
+            HeadCollider.AddLeftCollisionHandler(HandleFireball);
+            HeadCollider.AddRightCollisionHandler(HandleFireball);
 
             HeadCollider.AddBotCollisionHandler(StopsWhenHitting.Bot);
             HeadCollider.AddLeftCollisionHandler(StopsWhenHitting.Left);
@@ -180,6 +218,24 @@ namespace MonoGameProject
                 OffsetY = height + 1
             };
             AddCollider(groundChecker);
+
+            RightGroundAcidentChecker = new CheckIfCollidingWith<IBlockPlayerMovement>()
+            {
+                Width = width / 3,
+                Height = height / 4,
+                OffsetX = width / 3 + width / 3 +1,
+                OffsetY = height + 1
+            };
+            AddCollider(RightGroundAcidentChecker);
+            LeftGroundAcidentChecker = new CheckIfCollidingWith<IBlockPlayerMovement>()
+            {
+                Width = width / 3,
+                Height = height / 4,
+                OffsetX = width / 3 - width / 3 -1,
+                OffsetY = height + 1
+            };
+            AddCollider(LeftGroundAcidentChecker);
+
 
             leftWallChecker = new CheckIfCollidingWith<IBlockPlayerMovement>()
             {
@@ -217,7 +273,7 @@ namespace MonoGameProject
             AddUpdate(new ChangeToCrouchState(this));
 
             //AddUpdate(() => HeadCollider.Disabled = ButtCollider.Disabled = false);
-
+            AddUpdate(new PreventPlayerFromAccicentlyFalling(this));
             AddUpdate(new ResetSizeAndOffsetY(this));
             AddUpdate(new ReduceSizeWhenHeadBumping(this));
             AddUpdate(new ReduceSizeWhenCrouching(this));
