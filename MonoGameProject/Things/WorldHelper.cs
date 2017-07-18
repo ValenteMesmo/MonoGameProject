@@ -4,7 +4,7 @@ namespace MonoGameProject
 {
     public class MoveHorizontallyWithTheWorld : UpdateHandler
     {
-        private readonly Thing Parent;
+        private readonly Thing Parent;        
 
         public MoveHorizontallyWithTheWorld(Thing Parent)
         {

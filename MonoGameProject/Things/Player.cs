@@ -53,7 +53,7 @@ namespace MonoGameProject
         private const int width = 1000;
         private const int height = 900;
 
-        public Enemy(AIInput inputs, WorldMover WorldMover) : base(inputs, WorldMover)
+        public Enemy(AIInput inputs, Game1 WorldMover) : base(inputs, WorldMover)
         {
             X = 2000;
             Y = 7000;
@@ -108,18 +108,25 @@ namespace MonoGameProject
         private const int width = 1000;
         private const int height = 900;
 
-        public Player(PlayerInputs InputRepository, WorldMover WorldMover) : base(InputRepository, WorldMover)
+        public Player(PlayerInputs InputRepository, Game1 Game1) : base(InputRepository, Game1)
         {
             X = 1000;
             Y = 7000;
 
+            var count = 0;
             Action<Collider, Collider> HandleFireball = (s, t) =>
             {
                 if (t.Parent is FireBall)
                 {
+                    t.Disabled = true;
                     t.Parent.Destroy();
+                    if (count == 1)
+                        Game1.Restart();
+                    count++;
                 }
             };
+
+            //AddUpdate(() => Game.LOG += X);
 
             MainCollider.AddBotCollisionHandler(HandleFireball);
             MainCollider.AddTopCollisionHandler(HandleFireball);
@@ -152,7 +159,7 @@ namespace MonoGameProject
         public readonly Collider MainCollider;
         public readonly PlayerInputs Inputs;
 
-        public ThingWithState(PlayerInputs InputRepository, WorldMover WorldMover)
+        public ThingWithState(PlayerInputs InputRepository, Game1 WorldMover)
         {
             this.Inputs = InputRepository;
 

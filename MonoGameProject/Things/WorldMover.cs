@@ -4,14 +4,14 @@ namespace MonoGameProject
 {
     public class WorldMover : Thing
     {
+        public readonly Camera2d Camera;
         public static int WorldHorizontalSpeed;
         private Thing MovingRightBy;
         private Thing MovingLeftBy;
         private bool BackBlocking;
         private bool ShouldDrawBorders = false;
-        public readonly Camera2d Camera;
-        private const int VELOCITY = 10;
-        private const int FRICTION = 10;
+        private const int VELOCITY = 6;
+        private const int FRICTION = 8;
 
         public WorldMover(Camera2d Camera)
         {

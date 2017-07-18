@@ -51,13 +51,7 @@ internal class BaseGame : OriginalGameClass
         IsFixedTimeStep = true;
         Graphics.SynchronizeWithVerticalRetrace = true;
 
-        Camera = new Camera2d();
-        Camera.Pos = new Vector2(7000f, 5500f);
-        Camera.Zoom =
-             0.1f;
-        /*
-        0.02f;
-         */
+        Camera = new Camera2d();       
 
         World = new World(Camera);
     }
@@ -76,7 +70,7 @@ internal class BaseGame : OriginalGameClass
 
     protected override void LoadContent()
     {
-        Parent.OnStart();
+        Parent.Start();
         SpriteBatch = new SpriteBatch(GraphicsDevice);
         Textures = new Dictionary<string, Texture2D>();
         Sounds = new Dictionary<string, SoundEffect>();

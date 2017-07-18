@@ -7,6 +7,8 @@ namespace MonoGameProject
         private const int VELOCITY = 3;
         private const int INVERSE_BONUS = VELOCITY * 5;
         private readonly ThingWithState Player;
+        public const int MAX_SPEED = 80;
+        public const int MAX_CROUCH_SPEED = 40;
 
         public MoveWhenWalking(
             ThingWithState Player)
@@ -19,11 +21,11 @@ namespace MonoGameProject
             if (Player.State == PlayerState.crouchingLeft
                 || Player.State == PlayerState.crouchingRight)
                 if (Player.roofChecker.Colliding && Player.Inputs.ClickedJump)
-                    NewMethod(0, 40, 40);
+                    NewMethod(0, MAX_CROUCH_SPEED, MAX_CROUCH_SPEED);
                 else
                     return;
             else
-                NewMethod(INVERSE_BONUS, VELOCITY, 80);
+                NewMethod(INVERSE_BONUS, VELOCITY, MAX_SPEED);
         }
 
         private void NewMethod(int inverseBonus, int velocity, int speedLimit)
