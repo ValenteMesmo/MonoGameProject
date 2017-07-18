@@ -6,15 +6,13 @@ namespace MonoGameProject
 {
     public class ChangeToHeadBumpState : UpdateHandler
     {
-        private readonly Player Player;
-        private readonly PlayerInputs Input;
+        private readonly ThingWithState Player;
         private readonly Camera2d Camera;
         private PlayerState PreviousState;
 
-        public ChangeToHeadBumpState(Player Player, PlayerInputs Input, Camera2d Camera)
+        public ChangeToHeadBumpState(ThingWithState Player, Camera2d Camera)
         {
             this.Player = Player;
-            this.Input = Input;
             this.Camera = Camera;
         }
 
@@ -36,7 +34,11 @@ namespace MonoGameProject
                 {
                     if (PreviousState != PlayerState.HeadBumpLeft
                     && PreviousState != PlayerState.HeadBumpRight)
+                    {
+                        if(Player is Player)
                         Camera.ShakeUp(-Player.VerticalSpeed / 8);
+                    }
+
                     Player.State = PlayerState.HeadBumpLeft;
                 }
                 else if (Player.State.Is(
@@ -49,7 +51,11 @@ namespace MonoGameProject
                 {
                     if (PreviousState != PlayerState.HeadBumpLeft
                     && PreviousState != PlayerState.HeadBumpRight)
-                        Camera.ShakeUp(-Player.VerticalSpeed/8);
+                    {
+                        if (Player is Player)
+                            Camera.ShakeUp(-Player.VerticalSpeed / 8);
+                    }
+
                     Player.State = PlayerState.HeadBumpRight;
                 }
             }

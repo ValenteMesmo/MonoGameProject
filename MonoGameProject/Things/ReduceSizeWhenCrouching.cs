@@ -5,31 +5,31 @@ namespace MonoGameProject
 {
     public class ResetSizeAndOffsetY : UpdateHandler
     {
-        private readonly Player Player;
+        private readonly ThingWithState Player;
         private readonly int OriginalHeight;
 
-        public ResetSizeAndOffsetY(Player Player)
+        public ResetSizeAndOffsetY(ThingWithState Player)
         {
             this.Player = Player;
-            OriginalHeight = Player.HeadCollider.Height;
+            OriginalHeight = Player.MainCollider.Height;
         }
 
         public void Update()
         {
-            Player.HeadCollider.Height = OriginalHeight;
-            Player.HeadCollider.OffsetY = 0;
+            Player.MainCollider.Height = OriginalHeight;
+            Player.MainCollider.OffsetY = 0;
         }
     }
 
     public class ReduceSizeWhenCrouching : UpdateHandler
     {
-        private readonly Player Player;
+        private readonly ThingWithState Player;
         private readonly int OriginalHeight;
 
-        public ReduceSizeWhenCrouching(Player Player)
+        public ReduceSizeWhenCrouching(ThingWithState Player)
         {
             this.Player = Player;
-            OriginalHeight = Player.HeadCollider.Height;
+            OriginalHeight = Player.MainCollider.Height;
         }
 
         public void Update()
@@ -37,21 +37,21 @@ namespace MonoGameProject
             if (Player.State == PlayerState.crouchingLeft
                 || Player.State == PlayerState.crouchingRight)
             {
-                Player.HeadCollider.Height = OriginalHeight / 2;
-                Player.HeadCollider.OffsetY = OriginalHeight / 2;
+                Player.MainCollider.Height = OriginalHeight / 2;
+                Player.MainCollider.OffsetY = OriginalHeight / 2;
             }
         }
     }
 
     public class ReduceSizeWhenHeadBumping : UpdateHandler
     {
-        private readonly Player Player;
+        private readonly ThingWithState Player;
         private readonly int OriginalHeight;
 
-        public ReduceSizeWhenHeadBumping(Player Player)
+        public ReduceSizeWhenHeadBumping(ThingWithState Player)
         {
             this.Player = Player;
-            OriginalHeight = Player.HeadCollider.Height;
+            OriginalHeight = Player.MainCollider.Height;
         }
 
         public void Update()
@@ -59,7 +59,7 @@ namespace MonoGameProject
             if (Player.State == PlayerState.HeadBumpLeft
                 || Player.State == PlayerState.HeadBumpRight)
             {
-                Player.HeadCollider.Height = OriginalHeight / 2;
+                Player.MainCollider.Height = OriginalHeight / 2;
             }
         }
     }

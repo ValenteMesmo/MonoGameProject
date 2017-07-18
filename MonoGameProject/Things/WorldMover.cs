@@ -125,13 +125,13 @@ namespace MonoGameProject
 
         private void StoreTheRightMovementCause(Collider c1, Collider c2)
         {
-            if (c2.Parent is Player && (c2.Parent as Player).HeadCollider == c2)
+            if (c2.Parent is Player && (c2.Parent as Player).MainCollider == c2)
                 MovingRightBy = c2.Parent;
         }
 
         private void StoreTheLeftMovementCause(Collider c1, Collider c2)
         {
-            if (c2.Parent is Player && (c2.Parent as Player).HeadCollider == c2)
+            if (c2.Parent is Player && (c2.Parent as Player).MainCollider == c2)
             {
                 MovingLeftBy = c2.Parent;
             }

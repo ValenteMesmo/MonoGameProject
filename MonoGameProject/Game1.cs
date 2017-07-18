@@ -11,7 +11,7 @@ namespace MonoGameProject
             var WorldMover = new WorldMover(Camera);
             AddThing(WorldMover);
             AddThing(new Player(InputRepository, WorldMover));
-            //AddThing(new Player(InputRepository2, WorldMover));
+            AddThing(new Enemy(new AIInput(), WorldMover));
             AddThing(new PlatformCreator(WorldMover, AddThing));
 
             //AddThing(new LeftFireBallTrap(AddThing, 50) { Y = 8000, X = 500 });

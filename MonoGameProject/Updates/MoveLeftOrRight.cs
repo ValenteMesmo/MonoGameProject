@@ -6,10 +6,10 @@ namespace MonoGameProject
     {
         private const int VELOCITY = 3;
         private const int INVERSE_BONUS = VELOCITY * 5;
-        private readonly Player Player;
+        private readonly ThingWithState Player;
 
         public MoveWhenWalking(
-            Player Player)
+            ThingWithState Player)
         {
             this.Player = Player;
         }

@@ -4,13 +4,11 @@ namespace MonoGameProject
 {
     public class ChangeToSlidingState : UpdateHandler
     {
-        private readonly Player Player;
-        private readonly PlayerInputs Input;
+        private readonly ThingWithState Player;
 
-        public ChangeToSlidingState(Player Player, PlayerInputs Input)
+        public ChangeToSlidingState(ThingWithState Player)
         {
             this.Player = Player;
-            this.Input = Input;
         }
 
         public void Update()
@@ -20,12 +18,12 @@ namespace MonoGameProject
                 && !Player.State.Is(PlayerState.WallJumpingToTheLeft, PlayerState.WallJumpingToTheRight))
             {
                 if (Player.leftWallChecker.Colliding
-                    && Input.LeftDown)
+                    && Player.Inputs.LeftDown)
                 {
                     Player.State = PlayerState.SlidingWallLeft;
                 }
                 else if (Player.rightWallChecker.Colliding
-                    && Input.RightDown)
+                    && Player.Inputs.RightDown)
                 {
                     Player.State = PlayerState.SlidingWallRight;
                 }

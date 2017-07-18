@@ -162,6 +162,8 @@ namespace GameCore
 
         public void Update()
         {
+            SetState( GamePad.GetState(1));
+
             ClickedLeft = !WasPressedLeft && LeftDown;
             ClickedRight = !WasPressedRight && RightDown;
             ClickedUp = !WasPressedUp && UpDown;
@@ -177,7 +179,7 @@ namespace GameCore
             WasPressedJump = JumpDown;
         }
 
-        internal void SetState(GamePadState controller)
+        private void SetState(GamePadState controller)
         {
             LeftDown =
                 (controller.DPad.Left == ButtonState.Pressed || controller.ThumbSticks.Left.X < -0.5f)

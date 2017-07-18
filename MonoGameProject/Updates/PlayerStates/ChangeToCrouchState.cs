@@ -5,9 +5,9 @@ namespace MonoGameProject.Updates.PlayerStates
 {
     class ChangeToCrouchState : UpdateHandler
     {
-        public readonly Player Player;
+        public readonly ThingWithState Player;
 
-        public ChangeToCrouchState(Player Player)
+        public ChangeToCrouchState(ThingWithState Player)
         {
             this.Player = Player;
         }

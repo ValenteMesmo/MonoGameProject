@@ -4,10 +4,10 @@ namespace MonoGameProject
 {
     public class PreventPlayerFromAccicentlyFalling : UpdateHandler
     {
-        private readonly Player Player;
+        private readonly ThingWithState Player;
         private const int VELOCITY = 8;
 
-        public PreventPlayerFromAccicentlyFalling(Player Player)
+        public PreventPlayerFromAccicentlyFalling(ThingWithState Player)
         {
             this.Player = Player;
         }

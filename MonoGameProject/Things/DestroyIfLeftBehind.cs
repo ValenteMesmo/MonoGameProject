@@ -15,6 +15,8 @@ namespace MonoGameProject
         {
             if (Thing.X <= -MapModule.WIDTH * 2
                 || Thing.X >= MapModule.WIDTH * 4
+                || Thing.Y <= -MapModule.HEIGHT * 2
+                || Thing.Y >= MapModule.HEIGHT * 2
                 )
                 Thing.Destroy();
         }

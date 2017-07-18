@@ -1,12 +1,94 @@
 ﻿using GameCore;
+using Microsoft.Xna.Framework;
 using MonoGameProject.Things;
 using MonoGameProject.Updates.PlayerStates;
 using System;
 
 namespace MonoGameProject
 {
-    public class Player : Thing
+    public class AIInput : PlayerInputs, UpdateHandler
     {
+        public bool ClickedLeft { get; private set; }
+        public bool ClickedRight { get; private set; }
+        public bool ClickedUp { get; private set; }
+        public bool ClickedDown { get; private set; }
+        public bool ClickedAction1 { get; private set; }
+        public bool ClickedJump { get; private set; }
+
+        private bool WasPressedLeft { get; set; }
+        private bool WasPressedRight { get; set; }
+        private bool WasPressedUp { get; set; }
+        private bool WasPressedDown { get; set; }
+        private bool WasPressedAction1 { get; set; }
+        private bool WasPressedJump { get; set; }
+
+        public bool LeftDown { get; set; }
+        public bool RightDown { get; set; }
+        public bool UpDown { get; set; }
+        public bool DownDown { get; set; }
+        public bool Action1Down { get; set; }
+        public bool JumpDown { get; set; }
+
+        public void Update()
+        {
+            ClickedLeft = !WasPressedLeft && LeftDown;
+            ClickedRight = !WasPressedRight && RightDown;
+            ClickedUp = !WasPressedUp && UpDown;
+            ClickedDown = !WasPressedDown && DownDown;
+            ClickedAction1 = !WasPressedAction1 && Action1Down;
+            ClickedJump = !WasPressedJump && JumpDown;
+
+            WasPressedLeft = LeftDown;
+            WasPressedRight = RightDown;
+            WasPressedUp = UpDown;
+            WasPressedDown = DownDown;
+            WasPressedAction1 = Action1Down;
+            WasPressedJump = JumpDown;
+        }
+
+    }
+
+    public class Enemy : ThingWithState
+    {
+        private const int width = 1000;
+        private const int height = 900;
+
+        public Enemy(AIInput inputs, WorldMover WorldMover) : base(inputs, WorldMover)
+        {
+            X = 2000;
+            Y = 7000;
+
+            var time = 0;
+            inputs.RightDown = true;
+            AddUpdate(() =>
+            {
+                time++;
+
+                if (time >= 50)
+                {
+                    time = 0;
+                    inputs.JumpDown = true;
+                    inputs.LeftDown = inputs.RightDown;
+                    inputs.RightDown = !inputs.LeftDown;
+                }
+                else
+                    inputs.JumpDown = false;
+            });
+
+            AddUpdate(inputs);
+
+            MainCollider.AddBotCollisionHandler(StopsWhenHitting.Bot);
+            MainCollider.AddLeftCollisionHandler(StopsWhenHitting.Left);
+            MainCollider.AddRightCollisionHandler(StopsWhenHitting.Right);
+            MainCollider.AddTopCollisionHandler(StopsWhenHitting.Top);
+
+            new MyClass().CreateAnimator(width, height, this, Color.Purple);
+        }
+    }
+
+    public class Player : ThingWithState
+    {
+        //animacao de beirada (quase caindo)
         //incluir misc stuff ... coisas que da para quebrar! caso voce erre um ataque, por exemplo.
 
         //spawn de zumbis
@@ -26,30 +108,10 @@ namespace MonoGameProject
         private const int width = 1000;
         private const int height = 900;
 
-        public PlayerState State { get; set; }
-        public readonly CheckIfCollidingWith<IBlockPlayerMovement> groundChecker;
-        public readonly CheckIfCollidingWith<IBlockPlayerMovement> leftWallChecker;
-        public readonly CheckIfCollidingWith<IBlockPlayerMovement> rightWallChecker;
-        public readonly CheckIfCollidingWith<IBlockPlayerMovement> roofChecker;
-        public readonly CheckIfCollidingWith<IBlockPlayerMovement> RightGroundAcidentChecker;
-        public readonly CheckIfCollidingWith<IBlockPlayerMovement> LeftGroundAcidentChecker;
-
-        public readonly Collider HeadCollider;
-        //public readonly Collider ButtCollider;
-        public readonly PlayerInputs Inputs;
-
-        public Player(PlayerInputs InputRepository, WorldMover WorldMover)
+        public Player(PlayerInputs InputRepository, WorldMover WorldMover) : base(InputRepository, WorldMover)
         {
-            this.Inputs = InputRepository;
             X = 1000;
             Y = 7000;
-
-            HeadCollider = new Collider()
-            {
-                OffsetX = width / 3,
-                Width = width / 3,
-                Height = height - 10
-            };
 
             Action<Collider, Collider> HandleFireball = (s, t) =>
             {
@@ -59,16 +121,49 @@ namespace MonoGameProject
                 }
             };
 
-            HeadCollider.AddBotCollisionHandler(HandleFireball);
-            HeadCollider.AddTopCollisionHandler(HandleFireball);
-            HeadCollider.AddLeftCollisionHandler(HandleFireball);
-            HeadCollider.AddRightCollisionHandler(HandleFireball);
+            MainCollider.AddBotCollisionHandler(HandleFireball);
+            MainCollider.AddTopCollisionHandler(HandleFireball);
+            MainCollider.AddLeftCollisionHandler(HandleFireball);
+            MainCollider.AddRightCollisionHandler(HandleFireball);
 
-            HeadCollider.AddBotCollisionHandler(StopsWhenHitting.Bot);
-            HeadCollider.AddLeftCollisionHandler(StopsWhenHitting.Left);
-            HeadCollider.AddRightCollisionHandler(StopsWhenHitting.Right);
-            HeadCollider.AddTopCollisionHandler(StopsWhenHitting.Top);
-            AddCollider(HeadCollider);
+            MainCollider.AddBotCollisionHandler(StopsWhenHitting.Bot);
+            MainCollider.AddLeftCollisionHandler(StopsWhenHitting.Left);
+            MainCollider.AddRightCollisionHandler(StopsWhenHitting.Right);
+            MainCollider.AddTopCollisionHandler(StopsWhenHitting.Top);
+
+            new MyClass().CreateAnimator(width, height, this, Color.White);
+        }
+    }
+
+    public class ThingWithState : Thing
+    {
+        public PlayerState State { get; set; }
+
+        private const int width = 1000;
+        private const int height = 900;
+
+        public readonly CheckIfCollidingWith<IBlockPlayerMovement> groundChecker;
+        public readonly CheckIfCollidingWith<IBlockPlayerMovement> leftWallChecker;
+        public readonly CheckIfCollidingWith<IBlockPlayerMovement> rightWallChecker;
+        public readonly CheckIfCollidingWith<IBlockPlayerMovement> roofChecker;
+        public readonly CheckIfCollidingWith<IBlockPlayerMovement> RightGroundAcidentChecker;
+        public readonly CheckIfCollidingWith<IBlockPlayerMovement> LeftGroundAcidentChecker;
+
+        public readonly Collider MainCollider;
+        public readonly PlayerInputs Inputs;
+
+        public ThingWithState(PlayerInputs InputRepository, WorldMover WorldMover)
+        {
+            this.Inputs = InputRepository;
+
+            MainCollider = new Collider()
+            {
+                OffsetX = width / 3,
+                Width = width / 3,
+                Height = height - 10
+            };
+
+            AddCollider(MainCollider);
 
             groundChecker = new CheckIfCollidingWith<IBlockPlayerMovement>()
             {
@@ -83,7 +178,7 @@ namespace MonoGameProject
             {
                 Width = width / 3,
                 Height = height / 4,
-                OffsetX = width / 3 + width / 3 +1,
+                OffsetX = width / 3 + width / 3 + 1,
                 OffsetY = height + 1
             };
             AddCollider(RightGroundAcidentChecker);
@@ -91,7 +186,7 @@ namespace MonoGameProject
             {
                 Width = width / 3,
                 Height = height / 4,
-                OffsetX = width / 3 - width / 3 -1,
+                OffsetX = width / 3 - width / 3 - 1,
                 OffsetY = height + 1
             };
             AddCollider(LeftGroundAcidentChecker);
@@ -126,11 +221,12 @@ namespace MonoGameProject
 
             AddUpdate(new ChangeToStandingState(this));
             AddUpdate(new ChangeToWalkingState(this));
-            AddUpdate(new ChangeToFallingState(this, InputRepository));
-            AddUpdate(new ChangeToSlidingState(this, InputRepository));
-            AddUpdate(new ChangeToWallJumping(this, () => InputRepository.ClickedJump));
-            AddUpdate(new ChangeToHeadBumpState(this, InputRepository, WorldMover.Camera));
+            AddUpdate(new ChangeToFallingState(this));
+            AddUpdate(new ChangeToSlidingState(this));
+            AddUpdate(new ChangeToWallJumping(this));
+            AddUpdate(new ChangeToHeadBumpState(this, WorldMover.Camera));
             AddUpdate(new ChangeToCrouchState(this));
+            AddUpdate(new DestroyIfLeftBehind(this));
 
             //AddUpdate(() => HeadCollider.Disabled = ButtCollider.Disabled = false);
             AddUpdate(new PreventPlayerFromAccicentlyFalling(this));
@@ -143,92 +239,100 @@ namespace MonoGameProject
             AddUpdate(new MoveHorizontallyWithTheWorld(this));
             AddUpdate(new Jump(this, InputRepository, groundChecker));
 
-            AddUpdate(new WallJump(this, () => InputRepository.ClickedJump, () => !InputRepository.ClickedJump && !InputRepository.JumpDown));
-            AddUpdate(new WallJump(this, () => InputRepository.ClickedJump, () => !InputRepository.ClickedJump && !InputRepository.JumpDown));
+            AddUpdate(new WallJump(this));
+
             AddUpdate(new ReduceSpeedWhileSlidingWall(this));
-            //AddUpdate(new HorizontalSpeedLimit(this).Update);
-
-            //AddUpdate(() => { if (State == PlayerState.HeadBumpLeft || State == PlayerState.HeadBumpRight) ButtCollider.Disabled = true; });
-            //AddUpdate(() => { if (State == PlayerState.crouchingLeft || State == PlayerState.crouchingRight || State == PlayerState.crouchWalkingLeft || State == PlayerState.crouchWalkingRight) HeadCollider.Disabled = true; });
-
-            //AddUpdate(() => HorizontalSpeed = 80);
 #if DEBUG
-            AddUpdate(() => Game.LOG += State.ToString() + Environment.NewLine);
+            AddUpdate(() => Game.LOG += GetType().Name + " " + State.ToString() + Environment.NewLine);
 #endif
-            CreateAnimator(groundChecker);
         }
-
-        private void CreateAnimator(CheckIfCollidingWith<IBlockPlayerMovement> groundChecker)
+    }
+    class MyClass
+    {
+        public void CreateAnimator(int width, int height, ThingWithState thing, Color Color)
         {
             var z = 0.45f;
 
             var jump_left = new Animation(
                 new AnimationFrame("jump", 0, 0, width, height) { RenderingLayer = z }
-            );
+            )
+            { Color = Color };
 
             var jump_right = new Animation(
                new AnimationFrame("jump", 0, 0, width, height) { Flipped = true, RenderingLayer = z }
-            );
+            )
+            { Color = Color };
 
             var crouching_left = new Animation(
                 new AnimationFrame("crouching", 0, 0, width, height) { RenderingLayer = z }
-            );
+            )
+            { Color = Color };
 
             var crouching_right = new Animation(
                new AnimationFrame("crouching", 0, 0, width, height) { Flipped = true, RenderingLayer = z }
-            );
+            )
+            { Color = Color };
 
             var headbump_left = new Animation(
                 new AnimationFrame("headbump", 0, 0, width, height) { RenderingLayer = z }
-            );
+            )
+            { Color = Color };
 
             var headbump_right = new Animation(
                new AnimationFrame("headbump", 0, 0, width, height) { Flipped = true, RenderingLayer = z }
-            );
+            )
+            { Color = Color };
 
             var stand_left = new Animation(
                 new AnimationFrame("stand", 0, 0, width, height) { RenderingLayer = z }
-            );
+            )
+            { Color = Color };
 
             var stand_right = new Animation(
                 new AnimationFrame("stand", 0, 0, width, height) { Flipped = true, RenderingLayer = z }
-            );
+            )
+            { Color = Color };
 
             var wallslide_left = new Animation(
                 new AnimationFrame("wallslide", 0, 0, width, height) { RenderingLayer = z }
-            );
+            )
+            { Color = Color };
 
             var wallslide_right = new Animation(
                 new AnimationFrame("wallslide", 0, 0, width, height) { Flipped = true, RenderingLayer = z }
-            );
+            )
+            { Color = Color };
 
             var walk_left = new Animation(
                 new AnimationFrame("walk0", 0, 0, width, height) { RenderingLayer = z }
                 , new AnimationFrame("walk1", 0, 0, width, height) { RenderingLayer = z }
                 , new AnimationFrame("walk2", 0, 0, width, height) { RenderingLayer = z }
-            );
+            )
+            { Color = Color };
 
             var walk_right = new Animation(
                 new AnimationFrame("walk0", 0, 0, width, height) { Flipped = true, RenderingLayer = z }
                 , new AnimationFrame("walk1", 0, 0, width, height) { Flipped = true, RenderingLayer = z }
                 , new AnimationFrame("walk2", 0, 0, width, height) { Flipped = true, RenderingLayer = z }
-            );
+            )
+            { Color = Color };
 
-            AddAnimation(
+            thing.AddAnimation(
                 new Animator(
-                    new AnimationTransitionOnCondition(stand_right, () => State == PlayerState.StandingRight)
-                    , new AnimationTransitionOnCondition(stand_left, () => State == PlayerState.StandingLeft)
-                    , new AnimationTransitionOnCondition(walk_right, () => State == PlayerState.WalkingRight)
-                    , new AnimationTransitionOnCondition(walk_left, () => State == PlayerState.WalkingLeft)
-                    , new AnimationTransitionOnCondition(jump_right, () => State == PlayerState.FallingRight || State == PlayerState.WallJumpingToTheRight)
-                    , new AnimationTransitionOnCondition(jump_left, () => State == PlayerState.FallingLeft || State == PlayerState.WallJumpingToTheLeft)
-                    , new AnimationTransitionOnCondition(wallslide_left, () => State == PlayerState.SlidingWallLeft)
-                    , new AnimationTransitionOnCondition(wallslide_right, () => State == PlayerState.SlidingWallRight)
-                    , new AnimationTransitionOnCondition(headbump_left, () => State == PlayerState.HeadBumpLeft)
-                    , new AnimationTransitionOnCondition(headbump_right, () => State == PlayerState.HeadBumpRight)
-                    , new AnimationTransitionOnCondition(crouching_left, () => State == PlayerState.crouchingLeft)
-                    , new AnimationTransitionOnCondition(crouching_right, () => State == PlayerState.crouchingRight)
+                    new AnimationTransitionOnCondition(stand_right, () => thing.State == PlayerState.StandingRight)
+                    , new AnimationTransitionOnCondition(stand_left, () => thing.State == PlayerState.StandingLeft)
+                    , new AnimationTransitionOnCondition(walk_right, () => thing.State == PlayerState.WalkingRight)
+                    , new AnimationTransitionOnCondition(walk_left, () => thing.State == PlayerState.WalkingLeft)
+                    , new AnimationTransitionOnCondition(jump_right, () => thing.State == PlayerState.FallingRight || thing.State == PlayerState.WallJumpingToTheRight)
+                    , new AnimationTransitionOnCondition(jump_left, () => thing.State == PlayerState.FallingLeft || thing.State == PlayerState.WallJumpingToTheLeft)
+                    , new AnimationTransitionOnCondition(wallslide_left, () => thing.State == PlayerState.SlidingWallLeft)
+                    , new AnimationTransitionOnCondition(wallslide_right, () => thing.State == PlayerState.SlidingWallRight)
+                    , new AnimationTransitionOnCondition(headbump_left, () => thing.State == PlayerState.HeadBumpLeft)
+                    , new AnimationTransitionOnCondition(headbump_right, () => thing.State == PlayerState.HeadBumpRight)
+                    , new AnimationTransitionOnCondition(crouching_left, () => thing.State == PlayerState.crouchingLeft)
+                    , new AnimationTransitionOnCondition(crouching_right, () => thing.State == PlayerState.crouchingRight)
                 )
+                { Color = Color }
             );
         }
     }

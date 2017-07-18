@@ -4,9 +4,9 @@ namespace MonoGameProject
 {
     public class ChangeToWalkingState : UpdateHandler
     {
-        private readonly Player Player;
+        private readonly ThingWithState Player;
 
-        public ChangeToWalkingState(Player Player)
+        public ChangeToWalkingState(ThingWithState Player)
         {
             this.Player = Player;
         }

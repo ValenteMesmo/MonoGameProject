@@ -4,22 +4,17 @@ using System;
 namespace MonoGameProject
 {
     public class ChangeToWallJumping : UpdateHandler
-    {
-        private readonly Func<bool> JumpButtonClicked;
-        private readonly Player Parent;
+    {   
+        private readonly ThingWithState Parent;
 
-        public ChangeToWallJumping(
-            Player Parent
-            , Func<bool> JumpButtonClicked
-            )
+        public ChangeToWallJumping(ThingWithState Parent)
         {
             this.Parent = Parent;
-            this.JumpButtonClicked = JumpButtonClicked;
         }
 
         public void Update()
         {
-            if (JumpButtonClicked()
+            if (Parent.Inputs.ClickedJump
                 && Parent.State.Is(
                     PlayerState.SlidingWallLeft
                     , PlayerState.SlidingWallRight))

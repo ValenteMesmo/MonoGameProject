@@ -4,13 +4,11 @@ namespace MonoGameProject
 {
     public class ChangeToFallingState : UpdateHandler
     {
-        private readonly Player Player;
-        private readonly PlayerInputs Input;
+        private readonly ThingWithState Player;
 
-        public ChangeToFallingState(Player Player, PlayerInputs Input)
+        public ChangeToFallingState(ThingWithState Player)
         {
             this.Player = Player;
-            this.Input = Input;
         }
 
         public void Update()
@@ -55,12 +53,12 @@ namespace MonoGameProject
                         Player.State = PlayerState.FallingRight;
                     }
                     else if (Player.State == PlayerState.FallingLeft
-                        && Input.RightDown)
+                        && Player.Inputs.RightDown)
                     {
                         Player.State = PlayerState.FallingRight;
                     }
                     else if (Player.State == PlayerState.FallingRight
-                        && Input.LeftDown)
+                        && Player.Inputs.LeftDown)
                     {
                         Player.State = PlayerState.FallingLeft;
                     }
