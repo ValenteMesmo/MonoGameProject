@@ -1,5 +1,4 @@
-﻿using System;
-using GameCore;
+﻿using GameCore;
 
 namespace MonoGameProject
 {
@@ -11,6 +10,8 @@ namespace MonoGameProject
         private bool BackBlocking;
         private bool ShouldDrawBorders = false;
         public readonly Camera2d Camera;
+        private const int VELOCITY = 10;
+        private const int FRICTION = 10;
 
         public WorldMover(Camera2d Camera)
         {
@@ -21,7 +22,20 @@ namespace MonoGameProject
             AddUpdate(() =>
             {
                 if (MovingRightBy == null && MovingLeftBy == null)
-                    WorldHorizontalSpeed = 0;
+                {
+                    if (WorldHorizontalSpeed > 0)
+                    {
+                        WorldHorizontalSpeed -= FRICTION;
+                        if (WorldHorizontalSpeed < 0)
+                            WorldHorizontalSpeed = 0;
+                    }
+                    else if (WorldHorizontalSpeed < 0)
+                    {
+                        WorldHorizontalSpeed += FRICTION;
+                        if (WorldHorizontalSpeed > 0)
+                            WorldHorizontalSpeed = 0;
+                    }
+                }
             });
 
             CreateLeftCollider();
@@ -57,8 +71,12 @@ namespace MonoGameProject
 
             AddUpdate(() =>
             {
-                if (MovingRightBy != null && MovingRightBy.HorizontalSpeed > 0)
-                    WorldHorizontalSpeed = MovingRightBy.HorizontalSpeed;
+                if (MovingRightBy != null
+                && MovingRightBy.HorizontalSpeed > 0)
+                {
+                    if (WorldHorizontalSpeed < MovingRightBy.HorizontalSpeed)
+                        WorldHorizontalSpeed += VELOCITY;
+                }
             });
             AddUpdate(() => MovingRightBy = null);
 
@@ -95,10 +113,11 @@ namespace MonoGameProject
                 MovingLeftBy != null
                 && MovingLeftBy.HorizontalSpeed < 0
                 )
-                    WorldHorizontalSpeed = MovingLeftBy.HorizontalSpeed;
+                    if (WorldHorizontalSpeed > MovingLeftBy.HorizontalSpeed)
+                        WorldHorizontalSpeed -= VELOCITY;
+
                 if (BackBlocking)
                     WorldHorizontalSpeed = 0;
-
             });
             AddUpdate(() => MovingLeftBy = null);
         }

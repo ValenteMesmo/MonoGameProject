@@ -32,10 +32,14 @@ namespace MonoGameProject
             if (Parent.HorizontalSpeed > 0)
             {
                 Parent.HorizontalSpeed -= value;
+                if (Parent.HorizontalSpeed < 0)
+                    Parent.HorizontalSpeed = 0;
             }
             else if (Parent.HorizontalSpeed < 0)
             {
                 Parent.HorizontalSpeed += value;
+                if (Parent.HorizontalSpeed > 0)
+                    Parent.HorizontalSpeed = 0;
             }
         }
     }

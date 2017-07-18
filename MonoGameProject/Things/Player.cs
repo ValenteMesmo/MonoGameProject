@@ -18,7 +18,7 @@ namespace MonoGameProject
         public void Update()
         {
             if (Thing.X <= -MapModule.WIDTH * 2
-                || Thing.X >= MapModule.WIDTH * 3
+                || Thing.X >= MapModule.WIDTH * 4
                 )
                 Thing.Destroy();
         }
@@ -149,6 +149,8 @@ namespace MonoGameProject
 
     public class Player : Thing
     {
+        //incluir misc stuff ... coisas que da para quebrar! caso voce erre um ataque, por exemplo.
+
         //spawn de zumbis
         //3 i/o   (2 é pouco)
 
