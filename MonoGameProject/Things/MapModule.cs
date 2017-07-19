@@ -49,7 +49,7 @@ namespace MonoGameProject
             RandomMonster = new Random(999);
         }
 
-        public MapModule(int X, int Y, BackBlocker Blocker, MapModuleInfo Info, Action<Thing> AddToWorld)
+        public MapModule(int X, int Y, BackBlocker Blocker, MapModuleInfo Info, Action<Thing> AddToWorld, Game1 Game1)
         {
             this.X = X;
             this.Y = Y;
@@ -122,23 +122,32 @@ namespace MonoGameProject
                             Y = Y + i * CELL_SIZE
                         });
                     }
+                    if (type == 'z')
+                    {
+                        AddToWorld(new Enemy(new AIInput(), Game1)
+                        {
+                            X = X + j * CELL_SIZE,
+                            Y = Y + i * CELL_SIZE
+                        });
+                    }
                 }
             }
         }
 
         private void CreateBackground(int i, int j)
         {
-            AddAnimation(new Animation(
-                new AnimationFrame(
-                    "block"
-                    , j * CELL_SIZE + 1
-                    , i * CELL_SIZE + 1
-                    , CELL_SIZE
-                    , CELL_SIZE
-                )
-                { RenderingLayer = 1 })
-            { Color = Color }
-            );
+            //AddAnimation(new Animation(
+            //    new AnimationFrame(
+            //        "block"
+            //        , j * CELL_SIZE + 1
+            //        , i * CELL_SIZE + 1
+            //        , CELL_SIZE
+            //        , CELL_SIZE
+            //    )
+            //    { RenderingLayer = 1 })
+            //{ Color = Color }
+            //);
+            
         }
 
         private void CreateSolid(int i, int j)
@@ -150,7 +159,8 @@ namespace MonoGameProject
                     , i * CELL_SIZE + 1
                     , CELL_SIZE
                     , CELL_SIZE
-                ))
+                )
+            )
             { Color = Color.Brown }
             );
 
@@ -161,6 +171,38 @@ namespace MonoGameProject
                 Width = CELL_SIZE,
                 Height = CELL_SIZE
             });
+        }
+    }
+
+    public class ParallaxBackGround : Thing
+    {
+        //static Color[] Colors = new Color[] { Color.Yellow, Color.Orange, Color.Blue };
+        //static int index = 0;
+        public ParallaxBackGround(
+            int x
+            , int y
+            , int width
+            , int height
+            , int parallax
+            , string imgName)
+        {
+            AddAnimation(new Animation(
+                new AnimationFrame(
+                    imgName
+                    , x
+                    , y
+                    , width
+                    , height
+                )
+                { RenderingLayer = 0.9f + parallax/1000f })
+            //{ Color = Colors[index] }
+            );
+            //index++;
+            //if (index >= Colors.Length)
+            //    index = 0;
+
+            AddUpdate(new MoveHorizontallyWithTheWorld(this, parallax));
+            AddUpdate(new DestroyIfLeftBehind(this));
         }
     }
 }
