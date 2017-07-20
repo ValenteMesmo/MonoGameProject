@@ -361,6 +361,24 @@ namespace MonoGameProject
                 )
                 { Color = Color }
             );
+
+            //AddAnimation(new Animation(new AnimationFrame("head", 0, 0, 1000, 1000) {RenderingLayer=0 }) );
+            var size2 = 1200;
+            thing.AddAnimation(
+                new Animation(
+                    new AnimationFrame("knight", 0, 0, size2, size2 , new Rectangle(0, 0, 316, 316)) { RenderingLayer = 0 }
+                    , new AnimationFrame("knight", 0, 0, size2 , size2 , new Rectangle(316, 0, 316, 316)) { RenderingLayer = 0 }
+                    , new AnimationFrame("knight", 0, 0, size2 , size2 , new Rectangle(316*2, 0, 316, 316)) { RenderingLayer = 0 }
+                    , new AnimationFrame("knight", 0, 0, size2 , size2 , new Rectangle(0, 316, 316, 316)) { RenderingLayer = 0 }
+                ));
+            thing.AddAnimation(
+                new Animation(
+                    new AnimationFrame("knight", 0, 0, size2 , size2 , new Rectangle(316, 316, 316, 316)) { RenderingLayer = 0 }
+                ));
+            thing.AddAnimation(
+                new Animation(
+                    new AnimationFrame("knight", 0, 0, size2 , size2 , new Rectangle(316 * 2, 316 , 316, 316)) { RenderingLayer = 0 }
+                ));
         }
     }
 }

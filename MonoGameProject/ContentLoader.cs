@@ -14,6 +14,7 @@ namespace MonoGameProject
         {
             return new string[] {
                 "crouching" 
+                ,"knight"
                 ,"bg1"
                 ,"bg2"
                 ,"bg3"
@@ -23,6 +24,7 @@ namespace MonoGameProject
                 ,"headbump"
                 ,"wallslide"
                 ,"block"
+                ,"head"
                 ,"jump"
                 , "stand"
                 , "walk0"
