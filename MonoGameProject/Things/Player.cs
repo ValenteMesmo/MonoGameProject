@@ -343,41 +343,42 @@ namespace MonoGameProject
             )
             { Color = Color };
 
-            thing.AddAnimation(
-                new Animator(
-                    new AnimationTransitionOnCondition(stand_right, () => thing.State == PlayerState.StandingRight)
-                    , new AnimationTransitionOnCondition(stand_left, () => thing.State == PlayerState.StandingLeft)
-                    , new AnimationTransitionOnCondition(walk_right, () => thing.State == PlayerState.WalkingRight)
-                    , new AnimationTransitionOnCondition(walk_left, () => thing.State == PlayerState.WalkingLeft)
-                    , new AnimationTransitionOnCondition(jump_right, () => thing.State == PlayerState.FallingRight || thing.State == PlayerState.WallJumpingToTheRight)
-                    , new AnimationTransitionOnCondition(jump_left, () => thing.State == PlayerState.FallingLeft || thing.State == PlayerState.WallJumpingToTheLeft)
-                    , new AnimationTransitionOnCondition(wallslide_left, () => thing.State == PlayerState.SlidingWallLeft)
-                    , new AnimationTransitionOnCondition(wallslide_right, () => thing.State == PlayerState.SlidingWallRight)
-                    , new AnimationTransitionOnCondition(headbump_left, () => thing.State == PlayerState.HeadBumpLeft)
-                    , new AnimationTransitionOnCondition(headbump_right, () => thing.State == PlayerState.HeadBumpRight)
-                    , new AnimationTransitionOnCondition(crouching_left, () => thing.State == PlayerState.CrouchingLeft)
-                    , new AnimationTransitionOnCondition(crouching_right, () => thing.State == PlayerState.CrouchingRight)
-                    , new AnimationTransitionOnCondition(jump_right, () => thing.State == PlayerState.TakingDamage)
-                )
-                { Color = Color }
-            );
+            //thing.AddAnimation(
+            //    new Animator(
+            //        new AnimationTransitionOnCondition(stand_right, () => thing.State == PlayerState.StandingRight)
+            //        , new AnimationTransitionOnCondition(stand_left, () => thing.State == PlayerState.StandingLeft)
+            //        , new AnimationTransitionOnCondition(walk_right, () => thing.State == PlayerState.WalkingRight)
+            //        , new AnimationTransitionOnCondition(walk_left, () => thing.State == PlayerState.WalkingLeft)
+            //        , new AnimationTransitionOnCondition(jump_right, () => thing.State == PlayerState.FallingRight || thing.State == PlayerState.WallJumpingToTheRight)
+            //        , new AnimationTransitionOnCondition(jump_left, () => thing.State == PlayerState.FallingLeft || thing.State == PlayerState.WallJumpingToTheLeft)
+            //        , new AnimationTransitionOnCondition(wallslide_left, () => thing.State == PlayerState.SlidingWallLeft)
+            //        , new AnimationTransitionOnCondition(wallslide_right, () => thing.State == PlayerState.SlidingWallRight)
+            //        , new AnimationTransitionOnCondition(headbump_left, () => thing.State == PlayerState.HeadBumpLeft)
+            //        , new AnimationTransitionOnCondition(headbump_right, () => thing.State == PlayerState.HeadBumpRight)
+            //        , new AnimationTransitionOnCondition(crouching_left, () => thing.State == PlayerState.CrouchingLeft)
+            //        , new AnimationTransitionOnCondition(crouching_right, () => thing.State == PlayerState.CrouchingRight)
+            //        , new AnimationTransitionOnCondition(jump_right, () => thing.State == PlayerState.TakingDamage)
+            //    )
+            //    { Color = Color }
+            //);
 
             //AddAnimation(new Animation(new AnimationFrame("head", 0, 0, 1000, 1000) {RenderingLayer=0 }) );
-            var size2 = 1200;
+            var size2 = 1400;
+            var y2 = -480;
             thing.AddAnimation(
                 new Animation(
-                    new AnimationFrame("knight", 0, 0, size2, size2 , new Rectangle(0, 0, 316, 316)) { RenderingLayer = 0 }
-                    , new AnimationFrame("knight", 0, 0, size2 , size2 , new Rectangle(316, 0, 316, 316)) { RenderingLayer = 0 }
-                    , new AnimationFrame("knight", 0, 0, size2 , size2 , new Rectangle(316*2, 0, 316, 316)) { RenderingLayer = 0 }
-                    , new AnimationFrame("knight", 0, 0, size2 , size2 , new Rectangle(0, 316, 316, 316)) { RenderingLayer = 0 }
+                    new AnimationFrame("knight", 0, y2, size2, size2 , new Rectangle(0, 0, 316, 316)) { RenderingLayer = 0 }
+                    , new AnimationFrame("knight", 0, y2, size2 , size2 , new Rectangle(316, 0, 316, 316)) { RenderingLayer = 0 }
+                    , new AnimationFrame("knight", 0, y2, size2 , size2 , new Rectangle(316*2, 0, 316, 316)) { RenderingLayer = 0 }
+                    , new AnimationFrame("knight", 0, y2, size2 , size2 , new Rectangle(0, 316, 316, 316)) { RenderingLayer = 0 }
                 ));
             thing.AddAnimation(
                 new Animation(
-                    new AnimationFrame("knight", 0, 0, size2 , size2 , new Rectangle(316, 316, 316, 316)) { RenderingLayer = 0 }
+                    new AnimationFrame("knight", 0, y2, size2 , size2 , new Rectangle(316, 316, 316, 316)) { RenderingLayer = 0 }
                 ));
             thing.AddAnimation(
                 new Animation(
-                    new AnimationFrame("knight", 0, 0, size2 , size2 , new Rectangle(316 * 2, 316 , 316, 316)) { RenderingLayer = 0 }
+                    new AnimationFrame("knight", 0, y2, size2 , size2 , new Rectangle(316 * 2, 316 , 316, 316)) { RenderingLayer = 0 }
                 ));
         }
     }
