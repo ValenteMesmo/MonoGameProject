@@ -4,7 +4,7 @@ using System;
 namespace MonoGameProject
 {
     public class ChangeToWallJumping : UpdateHandler
-    {   
+    {
         private readonly ThingWithState Parent;
 
         public ChangeToWallJumping(ThingWithState Parent)
@@ -15,9 +15,11 @@ namespace MonoGameProject
         public void Update()
         {
             if (Parent.Inputs.ClickedJump
-                && Parent.State.Is(
-                    PlayerState.SlidingWallLeft
-                    , PlayerState.SlidingWallRight))
+                && 
+                (
+                    Parent.State == PlayerState.SlidingWallLeft
+                    || Parent.State == PlayerState.SlidingWallRight)
+                )
             {
                 if (Parent.State == PlayerState.SlidingWallLeft)
                     Parent.State = PlayerState.WallJumpingToTheRight;

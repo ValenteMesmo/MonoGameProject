@@ -34,8 +34,8 @@ namespace MonoGameProject
 
         public void Update()
         {
-            if (Player.State == PlayerState.crouchingLeft
-                || Player.State == PlayerState.crouchingRight)
+            if (Player.State == PlayerState.CrouchingLeft
+                || Player.State == PlayerState.CrouchingRight)
             {
                 Player.MainCollider.Height = OriginalHeight / 2;
                 Player.MainCollider.OffsetY = OriginalHeight / 2;

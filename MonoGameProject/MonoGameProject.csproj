@@ -43,7 +43,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Things\DestroyIfLeftBehind.cs" />
-    <Compile Include="Things\EnumExtensions.cs" />
     <Compile Include="Things\FireBall.cs" />
     <Compile Include="Things\LeftFireBallTrap.cs" />
     <Compile Include="Things\MapModule.cs" />

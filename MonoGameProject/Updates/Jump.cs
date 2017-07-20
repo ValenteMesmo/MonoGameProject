@@ -11,11 +11,11 @@ namespace MonoGameProject
         int minJumpSpeed = -60;
         int maxJumpSpeed = -120;
         private CheckIfCollidingWith<IBlockPlayerMovement> groundChecker;
-        private readonly Thing Parent;
+        private readonly ThingWithState Parent;
         private int cooldown;
 
         public Jump(
-            Thing Parent,
+            ThingWithState Parent,
             PlayerInputs InputRepository,
             CheckIfCollidingWith<IBlockPlayerMovement> groundChecker)
         {
@@ -26,6 +26,9 @@ namespace MonoGameProject
 
         public void Update()
         {
+            if (Parent.State == PlayerState.TakingDamage)
+                return;
+
             if (groundChecker.Colliding)
             {
                 jumpAvailave = 10;

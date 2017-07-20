@@ -13,9 +13,13 @@ namespace MonoGameProject
 
         public void Update()
         {
+            if (Player.State == PlayerState.TakingDamage)
+                return;
+
             if (Player.groundChecker.Colliding == false
                 && Player.VerticalSpeed > 0
-                && !Player.State.Is(PlayerState.WallJumpingToTheLeft, PlayerState.WallJumpingToTheRight))
+                && Player.State != PlayerState.WallJumpingToTheLeft
+                && Player.State != PlayerState.WallJumpingToTheRight)
             {
                 if (Player.leftWallChecker.Colliding
                     && Player.Inputs.LeftDown)

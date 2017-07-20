@@ -107,6 +107,7 @@ namespace MonoGameProject
         // fire balls (horizontal e vertical)
         private const int width = 1000;
         private const int height = 900;
+        public int DamageDuration = 0;
 
         public Player(PlayerInputs InputRepository, Game1 Game1) : base(InputRepository, Game1)
         {
@@ -116,15 +117,33 @@ namespace MonoGameProject
             var count = 0;
             Action<Collider, Collider> HandleFireball = (s, t) =>
             {
-                if (t.Parent is FireBall)
+                if (t.Parent is FireBall && State != PlayerState.TakingDamage)
                 {
+                    State = PlayerState.TakingDamage;
+                    HorizontalSpeed = t.Parent.HorizontalSpeed;
+                    VerticalSpeed = -50;
+
+                    DamageDuration = 25;
                     t.Disabled = true;
                     t.Parent.Destroy();
-                    if (count == 1)
-                        Game1.Restart();
-                    count++;
+                    
                 }
             };
+            AddUpdate(() =>
+            {
+                if (State == PlayerState.TakingDamage)
+                {
+                    DamageDuration--;
+                    if (DamageDuration <= 0)
+                    {
+                        DamageDuration = 0;
+                        State = PlayerState.FallingRight;
+                        if (count == 1)
+                            Game1.Restart();
+                    count++;
+                    }
+                }
+            });
 
             //AddUpdate(() => Game.LOG += X);
 
@@ -242,7 +261,7 @@ namespace MonoGameProject
             AddUpdate(new ReduceSizeWhenCrouching(this));
             AddUpdate(new HorizontalFriction(this));
             AddUpdate(new AfectedByGravity(this));
-            AddUpdate(new MoveWhenWalking(this));
+            AddUpdate(new MoveLeftOrRight(this));
             AddUpdate(new MoveHorizontallyWithTheWorld(this));
             AddUpdate(new Jump(this, InputRepository, groundChecker));
 
@@ -336,8 +355,9 @@ namespace MonoGameProject
                     , new AnimationTransitionOnCondition(wallslide_right, () => thing.State == PlayerState.SlidingWallRight)
                     , new AnimationTransitionOnCondition(headbump_left, () => thing.State == PlayerState.HeadBumpLeft)
                     , new AnimationTransitionOnCondition(headbump_right, () => thing.State == PlayerState.HeadBumpRight)
-                    , new AnimationTransitionOnCondition(crouching_left, () => thing.State == PlayerState.crouchingLeft)
-                    , new AnimationTransitionOnCondition(crouching_right, () => thing.State == PlayerState.crouchingRight)
+                    , new AnimationTransitionOnCondition(crouching_left, () => thing.State == PlayerState.CrouchingLeft)
+                    , new AnimationTransitionOnCondition(crouching_right, () => thing.State == PlayerState.CrouchingRight)
+                    , new AnimationTransitionOnCondition(jump_right, () => thing.State == PlayerState.TakingDamage)
                 )
                 { Color = Color }
             );

@@ -13,6 +13,9 @@ namespace MonoGameProject
 
         public void Update()
         {
+            if (Player.State == PlayerState.TakingDamage)
+                return;
+
             if (Player.groundChecker.Colliding
                 && !Player.roofChecker.Colliding
                 && !Player.Inputs.LeftDown
@@ -20,24 +23,20 @@ namespace MonoGameProject
                 && !Player.Inputs.DownDown
                 )
             {
-                if (Player.State.Is(
-                     PlayerState.WalkingLeft
-                     , PlayerState.FallingLeft
-                     , PlayerState.SlidingWallLeft
-                     , PlayerState.HeadBumpLeft
-                     , PlayerState.crouchingLeft
-                     )
+                if (Player.State == PlayerState.WalkingLeft
+                     || Player.State == PlayerState.FallingLeft
+                     || Player.State == PlayerState.SlidingWallLeft
+                     || Player.State == PlayerState.HeadBumpLeft
+                     || Player.State == PlayerState.CrouchingLeft
                  )
                 {
                     Player.State = PlayerState.StandingLeft;
                 }
-                else if (Player.State.Is(
-                    PlayerState.WalkingRight
-                    , PlayerState.FallingRight
-                    , PlayerState.SlidingWallRight
-                    , PlayerState.HeadBumpRight
-                    , PlayerState.crouchingRight
-                    )
+                else if (Player.State == PlayerState.WalkingRight
+                    || Player.State == PlayerState.FallingRight
+                    || Player.State == PlayerState.SlidingWallRight
+                    || Player.State == PlayerState.HeadBumpRight
+                    || Player.State == PlayerState.CrouchingRight
                 )
                 {
                     Player.State = PlayerState.StandingRight;

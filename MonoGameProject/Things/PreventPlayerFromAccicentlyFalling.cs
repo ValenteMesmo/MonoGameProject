@@ -16,8 +16,8 @@ namespace MonoGameProject
         {
             if (Player.State == PlayerState.StandingLeft
                 || Player.State == PlayerState.StandingRight
-                || Player.State == PlayerState.crouchingLeft
-                || Player.State == PlayerState.crouchingRight)
+                || Player.State == PlayerState.CrouchingLeft
+                || Player.State == PlayerState.CrouchingRight)
             {
                 if (Player.HorizontalSpeed > 0 
                     && Player.Inputs.RightDown == false                    

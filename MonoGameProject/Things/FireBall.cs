@@ -18,8 +18,10 @@ namespace MonoGameProject
                     Color = Color.Yellow
                 });
 
-            AddUpdate(() => X += speedX);
-            AddUpdate(() => Y += speedY);
+            HorizontalSpeed = speedX;
+            VerticalSpeed = speedY;
+            //AddUpdate(() => X += speedX);
+            //AddUpdate(() => Y += speedY);
             AddUpdate(new DestroyIfLeftBehind(this));
             AddUpdate(new MoveHorizontallyWithTheWorld(this));
 

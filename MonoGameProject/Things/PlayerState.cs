@@ -14,7 +14,8 @@
         FallingRight,
         HeadBumpLeft,
         HeadBumpRight,
-        crouchingLeft,
-        crouchingRight
+        CrouchingLeft,
+        CrouchingRight,
+        TakingDamage
     }
 }

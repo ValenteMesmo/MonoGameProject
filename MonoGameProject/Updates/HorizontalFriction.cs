@@ -20,8 +20,8 @@ namespace MonoGameProject
             {
                 NewMethod(VELOCITY);
             }
-            else if (Parent.State == PlayerState.crouchingLeft
-                || Parent.State == PlayerState.crouchingRight)
+            else if (Parent.State == PlayerState.CrouchingLeft
+                || Parent.State == PlayerState.CrouchingRight)
             {
                 NewMethod(CROUCH_VELOCITY);
             }

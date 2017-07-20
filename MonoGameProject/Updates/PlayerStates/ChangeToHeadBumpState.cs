@@ -18,35 +18,33 @@ namespace MonoGameProject
 
         public void Update()
         {
+            if (Player.State == PlayerState.TakingDamage)
+                return;
             //if (Player.roofChecker.Colliding)
             //Game.LOG += Math.Abs(Player.roofChecker.GetGolliders().First().Bottom() - Player.roofChecker.Top());
             if (Player.roofChecker.Colliding
                 && Math.Abs(Player.roofChecker.GetGolliders().First().Bottom() - Player.roofChecker.Top()) == 90
                 && Player.VerticalSpeed < 0)
             {
-                if (Player.State.Is(
-                   PlayerState.WalkingLeft
-                   , PlayerState.StandingLeft
-                   , PlayerState.SlidingWallLeft
-                   , PlayerState.FallingLeft
-                   )
+                if (Player.State == PlayerState.WalkingLeft
+                   || Player.State == PlayerState.StandingLeft
+                   || Player.State == PlayerState.SlidingWallLeft
+                   || Player.State == PlayerState.FallingLeft
                 )
                 {
                     if (PreviousState != PlayerState.HeadBumpLeft
                     && PreviousState != PlayerState.HeadBumpRight)
                     {
-                        if(Player is Player)
-                        Camera.ShakeUp(-Player.VerticalSpeed / 8);
+                        if (Player is Player)
+                            Camera.ShakeUp(-Player.VerticalSpeed / 8);
                     }
 
                     Player.State = PlayerState.HeadBumpLeft;
                 }
-                else if (Player.State.Is(
-                    PlayerState.WalkingRight
-                    , PlayerState.StandingRight
-                    , PlayerState.SlidingWallRight
-                    , PlayerState.FallingRight
-                    )
+                else if (Player.State == PlayerState.WalkingRight
+                    || Player.State == PlayerState.StandingRight
+                    || Player.State == PlayerState.SlidingWallRight
+                    || Player.State == PlayerState.FallingRight                    
                 )
                 {
                     if (PreviousState != PlayerState.HeadBumpLeft

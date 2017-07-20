@@ -13,9 +13,11 @@ namespace MonoGameProject
 
         public void Update()
         {
-            if (!Player.State.Is(
-                    PlayerState.WallJumpingToTheLeft
-                    , PlayerState.WallJumpingToTheRight))
+            if (Player.State == PlayerState.TakingDamage)
+                return;
+
+            if (Player.State != PlayerState.WallJumpingToTheLeft
+                && Player.State != PlayerState.WallJumpingToTheRight)
             {
                 if (Player.groundChecker.Colliding)
                 {
@@ -30,24 +32,20 @@ namespace MonoGameProject
                 }
                 else
                 {
-                    if (Player.State.Is(
-                       PlayerState.WalkingLeft
-                       , PlayerState.StandingLeft
-                       , PlayerState.SlidingWallLeft
-                       , PlayerState.HeadBumpLeft
-                       , PlayerState.crouchingLeft
-                       )
+                    if (Player.State == PlayerState.WalkingLeft
+                       || Player.State == PlayerState.StandingLeft
+                       || Player.State == PlayerState.SlidingWallLeft
+                       || Player.State == PlayerState.HeadBumpLeft
+                       || Player.State == PlayerState.CrouchingLeft
                     )
                     {
                         Player.State = PlayerState.FallingLeft;
                     }
-                    else if (Player.State.Is(
-                        PlayerState.WalkingRight
-                        , PlayerState.StandingRight
-                        , PlayerState.SlidingWallRight
-                        , PlayerState.HeadBumpRight
-                        , PlayerState.crouchingRight
-                        )
+                    else if (Player.State == PlayerState.WalkingRight
+                        || Player.State == PlayerState.StandingRight
+                        || Player.State == PlayerState.SlidingWallRight
+                        || Player.State == PlayerState.HeadBumpRight
+                        || Player.State == PlayerState.CrouchingRight
                     )
                     {
                         Player.State = PlayerState.FallingRight;
