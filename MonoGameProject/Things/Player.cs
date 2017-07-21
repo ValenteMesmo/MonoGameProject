@@ -363,32 +363,33 @@ namespace MonoGameProject
             //);
 
             //AddAnimation(new Animation(new AnimationFrame("head", 0, 0, 1000, 1000) {RenderingLayer=0 }) );
-            var size2 = 2500;
+            var size2 = 2800;
             var size1 = 590;
-            var y2 = -1580;
+            var y2 = -1880;
+            var x2 = -1550;
 
             var punch = new Animation(
-                    new AnimationFrame("knight", 0, y2, size2, size2, new Rectangle(0, 0, size1, size1)) { RenderingLayer = 0 }
-                    , new AnimationFrame("knight", 0, y2, size2, size2, new Rectangle(size1, 0, size1, size1)) { RenderingLayer = 0 }
-                    , new AnimationFrame("knight", 0, y2, size2, size2, new Rectangle(size1 * 2, 0, size1, size1)) { RenderingLayer = 0 }
-                    , new AnimationFrame("knight", 0, y2, size2, size2, new Rectangle(0, size1, size1, size1)) { RenderingLayer = 0 }
+                    new AnimationFrame("knight", x2, y2, size2, size2, new Rectangle(0, 0, size1, size1)) { RenderingLayer = 0 }
+                    , new AnimationFrame("knight", x2, y2, size2, size2, new Rectangle(size1, 0, size1, size1)) { RenderingLayer = 0 }
+                    , new AnimationFrame("knight", x2, y2, size2, size2, new Rectangle(size1 * 2, 0, size1, size1)) { RenderingLayer = 0 }
+                    , new AnimationFrame("knight", x2, y2, size2, size2, new Rectangle(0, size1, size1, size1)) { RenderingLayer = 0 }
                 );
             thing.AddAnimation(punch);
             var head2 = new Animation(
-                new AnimationFrame("knight", 0, y2, size2, size2, new Rectangle(size1, size1, size1, size1)) { RenderingLayer = 0 }
+                new AnimationFrame("knight", x2, y2, size2, size2, new Rectangle(size1, size1, size1, size1)) { RenderingLayer = 0 }
             );
             thing.AddAnimation(head2);
 
             {
                 var stand2 = new Animation(
-                      new AnimationFrame("knight", 0, y2, size2, size2, new Rectangle(size1 * 2, size1, size1, size1)) { RenderingLayer = 0 }
+                      new AnimationFrame("knight", x2, y2, size2, size2, new Rectangle(size1 * 2, size1, size1, size1)) { RenderingLayer = 0 }
                   );
 
                 var walk2 = new Animation(
-                        new AnimationFrame("knight", 0, y2, size2, size2, new Rectangle(0, size1 * 2, size1, size1)) { RenderingLayer = 0 }
-                        , new AnimationFrame("knight", 0, y2, size2, size2, new Rectangle(size1, size1 * 2, size1, size1)) { RenderingLayer = 0 }
-                        , new AnimationFrame("knight", 0, y2, size2, size2, new Rectangle(size1 * 2, size1 * 2, size1, size1)) { RenderingLayer = 0 }
-                        , new AnimationFrame("knight", 0, y2, size2, size2, new Rectangle(0, size1 * 3, size1, size1)) { RenderingLayer = 0 }
+                        new AnimationFrame("knight", x2, y2, size2, size2, new Rectangle(0, size1 * 2, size1, size1)) { RenderingLayer = 0 }
+                        , new AnimationFrame("knight", x2, y2, size2, size2, new Rectangle(size1, size1 * 2, size1, size1)) { RenderingLayer = 0 }
+                        , new AnimationFrame("knight", x2, y2, size2, size2, new Rectangle(size1 * 2, size1 * 2, size1, size1)) { RenderingLayer = 0 }
+                        , new AnimationFrame("knight", x2, y2, size2, size2, new Rectangle(0, size1 * 3, size1, size1)) { RenderingLayer = 0 }
                     );
                 var pernas = new Animator(
                     new AnimationTransitionOnCondition(walk2, () => thing.State == PlayerState.WalkingLeft)
