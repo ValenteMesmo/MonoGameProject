@@ -277,128 +277,90 @@ namespace MonoGameProject
     {
         public void CreateAnimator(int width, int height, ThingWithState thing, Color Color)
         {
-            var z = 0.45f;
-
-            var jump_left = new Animation(
-                new AnimationFrame("jump", 0, 0, width, height) { RenderingLayer = z }
-            )
-            { Color = Color };
-
-            var jump_right = new Animation(
-               new AnimationFrame("jump", 0, 0, width, height) { Flipped = true, RenderingLayer = z }
-            )
-            { Color = Color };
-
-            var crouching_left = new Animation(
-                new AnimationFrame("crouching", 0, 0, width, height) { RenderingLayer = z }
-            )
-            { Color = Color };
-
-            var crouching_right = new Animation(
-               new AnimationFrame("crouching", 0, 0, width, height) { Flipped = true, RenderingLayer = z }
-            )
-            { Color = Color };
-
-            var headbump_left = new Animation(
-                new AnimationFrame("headbump", 0, 0, width, height) { RenderingLayer = z }
-            )
-            { Color = Color };
-
-            var headbump_right = new Animation(
-               new AnimationFrame("headbump", 0, 0, width, height) { Flipped = true, RenderingLayer = z }
-            )
-            { Color = Color };
-
-            var stand_left = new Animation(
-                new AnimationFrame("stand", 0, 0, width, height) { RenderingLayer = z }
-            )
-            { Color = Color };
-
-            var stand_right = new Animation(
-                new AnimationFrame("stand", 0, 0, width, height) { Flipped = true, RenderingLayer = z }
-            )
-            { Color = Color };
-
-            var wallslide_left = new Animation(
-                new AnimationFrame("wallslide", 0, 0, width, height) { RenderingLayer = z }
-            )
-            { Color = Color };
-
-            var wallslide_right = new Animation(
-                new AnimationFrame("wallslide", 0, 0, width, height) { Flipped = true, RenderingLayer = z }
-            )
-            { Color = Color };
-
-            var walk_left = new Animation(
-                new AnimationFrame("walk0", 0, 0, width, height) { RenderingLayer = z }
-                , new AnimationFrame("walk1", 0, 0, width, height) { RenderingLayer = z }
-                , new AnimationFrame("walk2", 0, 0, width, height) { RenderingLayer = z }
-            )
-            { Color = Color };
-
-            var walk_right = new Animation(
-                new AnimationFrame("walk0", 0, 0, width, height) { Flipped = true, RenderingLayer = z }
-                , new AnimationFrame("walk1", 0, 0, width, height) { Flipped = true, RenderingLayer = z }
-                , new AnimationFrame("walk2", 0, 0, width, height) { Flipped = true, RenderingLayer = z }
-            )
-            { Color = Color };
-
-            //thing.AddAnimation(
-            //    new Animator(
-            //        new AnimationTransitionOnCondition(stand_right, () => thing.State == PlayerState.StandingRight)
-            //        , new AnimationTransitionOnCondition(stand_left, () => thing.State == PlayerState.StandingLeft)
-            //        , new AnimationTransitionOnCondition(walk_right, () => thing.State == PlayerState.WalkingRight)
-            //        , new AnimationTransitionOnCondition(walk_left, () => thing.State == PlayerState.WalkingLeft)
-            //        , new AnimationTransitionOnCondition(jump_right, () => thing.State == PlayerState.FallingRight || thing.State == PlayerState.WallJumpingToTheRight)
-            //        , new AnimationTransitionOnCondition(jump_left, () => thing.State == PlayerState.FallingLeft || thing.State == PlayerState.WallJumpingToTheLeft)
-            //        , new AnimationTransitionOnCondition(wallslide_left, () => thing.State == PlayerState.SlidingWallLeft)
-            //        , new AnimationTransitionOnCondition(wallslide_right, () => thing.State == PlayerState.SlidingWallRight)
-            //        , new AnimationTransitionOnCondition(headbump_left, () => thing.State == PlayerState.HeadBumpLeft)
-            //        , new AnimationTransitionOnCondition(headbump_right, () => thing.State == PlayerState.HeadBumpRight)
-            //        , new AnimationTransitionOnCondition(crouching_left, () => thing.State == PlayerState.CrouchingLeft)
-            //        , new AnimationTransitionOnCondition(crouching_right, () => thing.State == PlayerState.CrouchingRight)
-            //        , new AnimationTransitionOnCondition(jump_right, () => thing.State == PlayerState.TakingDamage)
-            //    )
-            //    { Color = Color }
-            //);
-
-            //AddAnimation(new Animation(new AnimationFrame("head", 0, 0, 1000, 1000) {RenderingLayer=0 }) );
             var size2 = 2800;
             var size1 = 590;
             var y2 = -1880;
             var x2 = -1550;
+            var flippedx = -200;
 
-            var punch = new Animation(
+            BodyAnimator(thing, size2, size1, y2, x2, flippedx);
+            HeadAnimator(thing, size2, size1, y2, x2, flippedx);
+            LegsAnimator(thing, size2, size1, y2, x2, flippedx);
+        }
+
+        private static void LegsAnimator(ThingWithState thing, int size2, int size1, int y2, int x2, int flippedx)
+        {
+            var stand_left2 = new Animation(
+                  new AnimationFrame("knight", x2, y2, size2, size2, new Rectangle(size1 * 2, size1, size1, size1)) { RenderingLayer = 0 }
+            );
+            var stand_right2 = new Animation(
+                  new AnimationFrame("knight", flippedx, y2, size2, size2, new Rectangle(size1 * 2, size1, size1, size1)) { RenderingLayer = 0, Flipped = true }
+            );
+
+            var walk_left2 = new Animation(
+                    new AnimationFrame("knight", x2, y2, size2, size2, new Rectangle(0, size1 * 2, size1, size1)) { RenderingLayer = 0 }
+                    , new AnimationFrame("knight", x2, y2, size2, size2, new Rectangle(size1, size1 * 2, size1, size1)) { RenderingLayer = 0 }
+                    , new AnimationFrame("knight", x2, y2, size2, size2, new Rectangle(size1 * 2, size1 * 2, size1, size1)) { RenderingLayer = 0 }
+                    , new AnimationFrame("knight", x2, y2, size2, size2, new Rectangle(0, size1 * 3, size1, size1)) { RenderingLayer = 0 }
+                );
+            var walk_right2 = new Animation(
+                    new AnimationFrame("knight", flippedx, y2, size2, size2, new Rectangle(0, size1 * 2, size1, size1)) { RenderingLayer = 0, Flipped = true }
+                    , new AnimationFrame("knight", flippedx, y2, size2, size2, new Rectangle(size1, size1 * 2, size1, size1)) { RenderingLayer = 0, Flipped = true }
+                    , new AnimationFrame("knight", flippedx, y2, size2, size2, new Rectangle(size1 * 2, size1 * 2, size1, size1)) { RenderingLayer = 0, Flipped = true }
+                    , new AnimationFrame("knight", flippedx, y2, size2, size2, new Rectangle(0, size1 * 3, size1, size1)) { RenderingLayer = 0, Flipped = true }
+                );
+
+            var pernas = new Animator(
+                new AnimationTransitionOnCondition(walk_left2, () => thing.State == PlayerState.WalkingLeft)
+                , new AnimationTransitionOnCondition(walk_right2, () => thing.State == PlayerState.WalkingRight)
+                , new AnimationTransitionOnCondition(stand_left2, () => thing.State == PlayerState.StandingLeft)
+                , new AnimationTransitionOnCondition(stand_right2, () => thing.State == PlayerState.StandingRight)
+            );
+            thing.AddAnimation(pernas);
+        }
+
+        private static void HeadAnimator(ThingWithState thing, int size2, int size1, int y2, int x2, int flippedx)
+        {
+            var head_left2 = new Animation(
+                            new AnimationFrame("knight", x2, y2, size2, size2, new Rectangle(size1, size1, size1, size1)) { RenderingLayer = 0 }
+                        );
+            var head_right2 = new Animation(
+                new AnimationFrame("knight", flippedx, y2, size2, size2, new Rectangle(size1, size1, size1, size1)) { RenderingLayer = 0, Flipped = true }
+            );
+            thing.AddAnimation(new Animator(
+                new AnimationTransitionOnCondition(head_right2, () => thing.State == PlayerState.WalkingRight)
+                , new AnimationTransitionOnCondition(head_left2, () => thing.State == PlayerState.WalkingLeft)
+            ));
+        }
+
+        private static void BodyAnimator(ThingWithState thing, int size2, int size1, int y2, int x2, int flippedx)
+        {
+            var punch_left = new Animation(
                     new AnimationFrame("knight", x2, y2, size2, size2, new Rectangle(0, 0, size1, size1)) { RenderingLayer = 0 }
                     , new AnimationFrame("knight", x2, y2, size2, size2, new Rectangle(size1, 0, size1, size1)) { RenderingLayer = 0 }
                     , new AnimationFrame("knight", x2, y2, size2, size2, new Rectangle(size1 * 2, 0, size1, size1)) { RenderingLayer = 0 }
                     , new AnimationFrame("knight", x2, y2, size2, size2, new Rectangle(0, size1, size1, size1)) { RenderingLayer = 0 }
                 );
-            thing.AddAnimation(punch);
-            var head2 = new Animation(
-                new AnimationFrame("knight", x2, y2, size2, size2, new Rectangle(size1, size1, size1, size1)) { RenderingLayer = 0 }
+            var punch_right = new Animation(
+                  new AnimationFrame("knight", flippedx, y2, size2, size2, new Rectangle(0, 0, size1, size1)) { RenderingLayer = 0, Flipped = true }
+                  , new AnimationFrame("knight", flippedx, y2, size2, size2, new Rectangle(size1, 0, size1, size1)) { RenderingLayer = 0, Flipped = true }
+                  , new AnimationFrame("knight", flippedx, y2, size2, size2, new Rectangle(size1 * 2, 0, size1, size1)) { RenderingLayer = 0, Flipped = true }
+                  , new AnimationFrame("knight", flippedx, y2, size2, size2, new Rectangle(0, size1, size1, size1)) { RenderingLayer = 0, Flipped = true }
+              );
+
+
+            var body_standing_right = new Animation(
+                new AnimationFrame("knight", flippedx, y2, size2, size2, new Rectangle(0, size1, size1, size1)) { RenderingLayer = 0, Flipped = true }
             );
-            thing.AddAnimation(head2);
-
-            {
-                var stand2 = new Animation(
-                      new AnimationFrame("knight", x2, y2, size2, size2, new Rectangle(size1 * 2, size1, size1, size1)) { RenderingLayer = 0 }
-                  );
-
-                var walk2 = new Animation(
-                        new AnimationFrame("knight", x2, y2, size2, size2, new Rectangle(0, size1 * 2, size1, size1)) { RenderingLayer = 0 }
-                        , new AnimationFrame("knight", x2, y2, size2, size2, new Rectangle(size1, size1 * 2, size1, size1)) { RenderingLayer = 0 }
-                        , new AnimationFrame("knight", x2, y2, size2, size2, new Rectangle(size1 * 2, size1 * 2, size1, size1)) { RenderingLayer = 0 }
-                        , new AnimationFrame("knight", x2, y2, size2, size2, new Rectangle(0, size1 * 3, size1, size1)) { RenderingLayer = 0 }
-                    );
-                var pernas = new Animator(
-                    new AnimationTransitionOnCondition(walk2, () => thing.State == PlayerState.WalkingLeft)
-                    , new AnimationTransitionOnCondition(walk2, () => thing.State == PlayerState.WalkingRight)
-                    , new AnimationTransitionOnCondition(stand2, () => thing.State == PlayerState.StandingLeft)
-                    , new AnimationTransitionOnCondition(stand2, () => thing.State == PlayerState.StandingRight)
-                );
-                thing.AddAnimation(pernas);
-            }
+            var body_standing_left = new Animation(
+                new AnimationFrame("knight", x2, y2, size2, size2, new Rectangle(0, size1, size1, size1)) { RenderingLayer = 0 }
+            );
+            thing.AddAnimation(new Animator(
+                new AnimationTransitionOnCondition(body_standing_right, () => thing.State == PlayerState.WalkingRight)
+                , new AnimationTransitionOnCondition(body_standing_left, () => thing.State == PlayerState.WalkingLeft)
+                , new AnimationTransitionOnCondition(punch_left, () => thing.Inputs.Action1Down)
+                , new AnimationTransitionOnCondition(punch_right, () => thing.Inputs.Action1Down)
+            ));
         }
     }
 }
