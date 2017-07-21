@@ -126,7 +126,7 @@ namespace MonoGameProject
                     DamageDuration = 25;
                     t.Disabled = true;
                     t.Parent.Destroy();
-                    
+
                 }
             };
             AddUpdate(() =>
@@ -140,7 +140,7 @@ namespace MonoGameProject
                         State = PlayerState.FallingRight;
                         if (count == 1)
                             Game1.Restart();
-                    count++;
+                        count++;
                     }
                 }
             });
@@ -363,23 +363,41 @@ namespace MonoGameProject
             //);
 
             //AddAnimation(new Animation(new AnimationFrame("head", 0, 0, 1000, 1000) {RenderingLayer=0 }) );
-            var size2 = 1400;
-            var y2 = -480;
-            thing.AddAnimation(
-                new Animation(
-                    new AnimationFrame("knight", 0, y2, size2, size2 , new Rectangle(0, 0, 316, 316)) { RenderingLayer = 0 }
-                    , new AnimationFrame("knight", 0, y2, size2 , size2 , new Rectangle(316, 0, 316, 316)) { RenderingLayer = 0 }
-                    , new AnimationFrame("knight", 0, y2, size2 , size2 , new Rectangle(316*2, 0, 316, 316)) { RenderingLayer = 0 }
-                    , new AnimationFrame("knight", 0, y2, size2 , size2 , new Rectangle(0, 316, 316, 316)) { RenderingLayer = 0 }
-                ));
-            thing.AddAnimation(
-                new Animation(
-                    new AnimationFrame("knight", 0, y2, size2 , size2 , new Rectangle(316, 316, 316, 316)) { RenderingLayer = 0 }
-                ));
-            thing.AddAnimation(
-                new Animation(
-                    new AnimationFrame("knight", 0, y2, size2 , size2 , new Rectangle(316 * 2, 316 , 316, 316)) { RenderingLayer = 0 }
-                ));
+            var size2 = 2500;
+            var size1 = 590;
+            var y2 = -1580;
+
+            var punch = new Animation(
+                    new AnimationFrame("knight", 0, y2, size2, size2, new Rectangle(0, 0, size1, size1)) { RenderingLayer = 0 }
+                    , new AnimationFrame("knight", 0, y2, size2, size2, new Rectangle(size1, 0, size1, size1)) { RenderingLayer = 0 }
+                    , new AnimationFrame("knight", 0, y2, size2, size2, new Rectangle(size1 * 2, 0, size1, size1)) { RenderingLayer = 0 }
+                    , new AnimationFrame("knight", 0, y2, size2, size2, new Rectangle(0, size1, size1, size1)) { RenderingLayer = 0 }
+                );
+            thing.AddAnimation(punch);
+            var head2 = new Animation(
+                new AnimationFrame("knight", 0, y2, size2, size2, new Rectangle(size1, size1, size1, size1)) { RenderingLayer = 0 }
+            );
+            thing.AddAnimation(head2);
+
+            {
+                var stand2 = new Animation(
+                      new AnimationFrame("knight", 0, y2, size2, size2, new Rectangle(size1 * 2, size1, size1, size1)) { RenderingLayer = 0 }
+                  );
+
+                var walk2 = new Animation(
+                        new AnimationFrame("knight", 0, y2, size2, size2, new Rectangle(0, size1 * 2, size1, size1)) { RenderingLayer = 0 }
+                        , new AnimationFrame("knight", 0, y2, size2, size2, new Rectangle(size1, size1 * 2, size1, size1)) { RenderingLayer = 0 }
+                        , new AnimationFrame("knight", 0, y2, size2, size2, new Rectangle(size1 * 2, size1 * 2, size1, size1)) { RenderingLayer = 0 }
+                        , new AnimationFrame("knight", 0, y2, size2, size2, new Rectangle(0, size1 * 3, size1, size1)) { RenderingLayer = 0 }
+                    );
+                var pernas = new Animator(
+                    new AnimationTransitionOnCondition(walk2, () => thing.State == PlayerState.WalkingLeft)
+                    , new AnimationTransitionOnCondition(walk2, () => thing.State == PlayerState.WalkingRight)
+                    , new AnimationTransitionOnCondition(stand2, () => thing.State == PlayerState.StandingLeft)
+                    , new AnimationTransitionOnCondition(stand2, () => thing.State == PlayerState.StandingRight)
+                );
+                thing.AddAnimation(pernas);
+            }
         }
     }
 }
