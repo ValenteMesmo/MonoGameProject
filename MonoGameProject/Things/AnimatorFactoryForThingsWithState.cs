@@ -5,7 +5,10 @@ namespace MonoGameProject
 {
     public class HumanoidAnimatorFactory
     {
-        public void CreateAnimator(int width, int height, Humanoid thing, Color Color)
+        public void CreateAnimator(
+            int width
+            , int height
+            , Humanoid thing)
         {
             var size2 = 2800;
             var size1 = 590;
@@ -20,33 +23,32 @@ namespace MonoGameProject
 
         private static void LegsAnimator(Humanoid thing, int size2, int size1, int y2, int x2, int flippedx)
         {
-            var stand_left2 = new Animation(
+            var stand_left = new Animation(
                   new AnimationFrame("knight", x2, y2, size2, size2, new Rectangle(size1 * 2, size1, size1, size1)) { RenderingLayer = 0 }
             );
-            var stand_right2 = new Animation(
+            var stand_right = new Animation(
                   new AnimationFrame("knight", flippedx, y2, size2, size2, new Rectangle(size1 * 2, size1, size1, size1)) { RenderingLayer = 0, Flipped = true }
             );
 
-            var walk_left2 = new Animation(
+            var walk_left = new Animation(
                     new AnimationFrame("knight", x2, y2, size2, size2, new Rectangle(0, size1 * 2, size1, size1)) { RenderingLayer = 0 }
                     , new AnimationFrame("knight", x2, y2, size2, size2, new Rectangle(size1, size1 * 2, size1, size1)) { RenderingLayer = 0 }
                     , new AnimationFrame("knight", x2, y2, size2, size2, new Rectangle(size1 * 2, size1 * 2, size1, size1)) { RenderingLayer = 0 }
                     , new AnimationFrame("knight", x2, y2, size2, size2, new Rectangle(0, size1 * 3, size1, size1)) { RenderingLayer = 0 }
-                );
-            var walk_right2 = new Animation(
+            );
+            var walk_right = new Animation(
                     new AnimationFrame("knight", flippedx, y2, size2, size2, new Rectangle(0, size1 * 2, size1, size1)) { RenderingLayer = 0, Flipped = true }
                     , new AnimationFrame("knight", flippedx, y2, size2, size2, new Rectangle(size1, size1 * 2, size1, size1)) { RenderingLayer = 0, Flipped = true }
                     , new AnimationFrame("knight", flippedx, y2, size2, size2, new Rectangle(size1 * 2, size1 * 2, size1, size1)) { RenderingLayer = 0, Flipped = true }
                     , new AnimationFrame("knight", flippedx, y2, size2, size2, new Rectangle(0, size1 * 3, size1, size1)) { RenderingLayer = 0, Flipped = true }
-                );
-
-            var pernas = new Animator(
-                new AnimationTransitionOnCondition(walk_left2, () => thing.State == PlayerState.WalkingLeft)
-                , new AnimationTransitionOnCondition(walk_right2, () => thing.State == PlayerState.WalkingRight)
-                , new AnimationTransitionOnCondition(stand_left2, () => thing.State == PlayerState.StandingLeft)
-                , new AnimationTransitionOnCondition(stand_right2, () => thing.State == PlayerState.StandingRight)
             );
-            thing.AddAnimation(pernas);
+
+            thing.AddAnimation(new Animator(
+                new AnimationTransitionOnCondition(walk_left, () => thing.State == PlayerState.WalkingLeft)
+                , new AnimationTransitionOnCondition(walk_right, () => thing.State == PlayerState.WalkingRight)
+                , new AnimationTransitionOnCondition(stand_left, () => thing.State == PlayerState.StandingLeft)
+                , new AnimationTransitionOnCondition(stand_right, () => thing.State == PlayerState.StandingRight)
+            ));
         }
 
         private static void HeadAnimator(Humanoid thing, int size2, int size1, int y2, int x2, int flippedx)

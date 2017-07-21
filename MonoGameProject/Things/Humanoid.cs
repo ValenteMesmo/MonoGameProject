@@ -23,9 +23,9 @@ namespace MonoGameProject
         public readonly Collider MainCollider;
         public readonly PlayerInputs Inputs;
 
-        public Humanoid(PlayerInputs InputRepository, Game1 WorldMover)
+        public Humanoid(PlayerInputs Inputs, Game1 WorldMover)
         {
-            this.Inputs = InputRepository;
+            this.Inputs = Inputs;
 
             MainCollider = new Collider()
             {
@@ -112,7 +112,7 @@ namespace MonoGameProject
                 if (attackDuration == 10)
                     BodyState = HumanoidBodyState.StandLeft;
 
-                if (Inputs.ClickedAction1 && attackDuration == 0)
+                if (this.Inputs.ClickedAction1 && attackDuration == 0)
                 {
                     if (BodyState == HumanoidBodyState.StandLeft)
                     {
@@ -138,7 +138,7 @@ namespace MonoGameProject
             AddUpdate(new AfectedByGravity(this));
             AddUpdate(new MoveLeftOrRight(this));
             AddUpdate(new MoveHorizontallyWithTheWorld(this));
-            AddUpdate(new Jump(this, InputRepository, groundChecker));
+            AddUpdate(new Jump(this, Inputs, groundChecker));
 
             AddUpdate(new WallJump(this));
 

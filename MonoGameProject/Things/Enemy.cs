@@ -36,7 +36,7 @@ namespace MonoGameProject
             MainCollider.AddRightCollisionHandler(StopsWhenHitting.Right);
             MainCollider.AddTopCollisionHandler(StopsWhenHitting.Top);
 
-            new HumanoidAnimatorFactory().CreateAnimator(width, height, this, Color.Purple);
+            new HumanoidAnimatorFactory().CreateAnimator(width, height, this);
         }
     }
 }
