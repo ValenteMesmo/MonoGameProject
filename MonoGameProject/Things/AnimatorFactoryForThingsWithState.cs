@@ -24,23 +24,37 @@ namespace MonoGameProject
         private static void LegsAnimator(Humanoid thing, int size2, int size1, int y2, int x2, int flippedx)
         {
             var stand_left = new Animation(
-                  new AnimationFrame("knight", x2, y2, size2, size2, new Rectangle(size1 * 2, size1, size1, size1)) { RenderingLayer = 0 }
+                  new AnimationFrame("knight", x2, y2, size2, size2, new Rectangle(size1, size1 * 2, size1, size1)) { RenderingLayer = 0 }
             );
             var stand_right = new Animation(
+                  new AnimationFrame("knight", flippedx, y2, size2, size2, new Rectangle(size1, size1 * 2, size1, size1)) { RenderingLayer = 0, Flipped = true }
+            );
+
+            var fall_left = new Animation(
+                  new AnimationFrame("knight", x2, y2, size2, size2, new Rectangle(0, size1 * 2, size1, size1)) { RenderingLayer = 0 }
+            );
+            var fall_right = new Animation(
+                  new AnimationFrame("knight", flippedx, y2, size2, size2, new Rectangle(0, size1 * 2, size1, size1)) { RenderingLayer = 0, Flipped = true }
+            );
+
+            var crouch_left = new Animation(
+                  new AnimationFrame("knight", x2, y2, size2, size2, new Rectangle(size1 * 2, size1, size1, size1)) { RenderingLayer = 0 }
+            );
+            var crouch_right = new Animation(
                   new AnimationFrame("knight", flippedx, y2, size2, size2, new Rectangle(size1 * 2, size1, size1, size1)) { RenderingLayer = 0, Flipped = true }
             );
 
             var walk_left = new Animation(
-                    new AnimationFrame("knight", x2, y2, size2, size2, new Rectangle(0, size1 * 2, size1, size1)) { RenderingLayer = 0 }
-                    , new AnimationFrame("knight", x2, y2, size2, size2, new Rectangle(size1, size1 * 2, size1, size1)) { RenderingLayer = 0 }
-                    , new AnimationFrame("knight", x2, y2, size2, size2, new Rectangle(size1 * 2, size1 * 2, size1, size1)) { RenderingLayer = 0 }
+                    new AnimationFrame("knight", x2, y2, size2, size2, new Rectangle(size1 * 2, size1 * 2, size1, size1)) { RenderingLayer = 0 }
                     , new AnimationFrame("knight", x2, y2, size2, size2, new Rectangle(0, size1 * 3, size1, size1)) { RenderingLayer = 0 }
+                    , new AnimationFrame("knight", x2, y2, size2, size2, new Rectangle(size1, size1 * 3, size1, size1)) { RenderingLayer = 0 }
+                    , new AnimationFrame("knight", x2, y2, size2, size2, new Rectangle(size1 * 2, size1 * 3, size1, size1)) { RenderingLayer = 0 }
             );
             var walk_right = new Animation(
-                    new AnimationFrame("knight", flippedx, y2, size2, size2, new Rectangle(0, size1 * 2, size1, size1)) { RenderingLayer = 0, Flipped = true }
-                    , new AnimationFrame("knight", flippedx, y2, size2, size2, new Rectangle(size1, size1 * 2, size1, size1)) { RenderingLayer = 0, Flipped = true }
-                    , new AnimationFrame("knight", flippedx, y2, size2, size2, new Rectangle(size1 * 2, size1 * 2, size1, size1)) { RenderingLayer = 0, Flipped = true }
+                    new AnimationFrame("knight", flippedx, y2, size2, size2, new Rectangle(size1 * 2, size1 * 2, size1, size1)) { RenderingLayer = 0, Flipped = true }
                     , new AnimationFrame("knight", flippedx, y2, size2, size2, new Rectangle(0, size1 * 3, size1, size1)) { RenderingLayer = 0, Flipped = true }
+                    , new AnimationFrame("knight", flippedx, y2, size2, size2, new Rectangle(size1, size1 * 3, size1, size1)) { RenderingLayer = 0, Flipped = true }
+                    , new AnimationFrame("knight", flippedx, y2, size2, size2, new Rectangle(size1 * 2, size1 * 3, size1, size1)) { RenderingLayer = 0, Flipped = true }
             );
 
             thing.AddAnimation(new Animator(
@@ -48,6 +62,11 @@ namespace MonoGameProject
                 , new AnimationTransitionOnCondition(walk_right, () => thing.State == PlayerState.WalkingRight)
                 , new AnimationTransitionOnCondition(stand_left, () => thing.State == PlayerState.StandingLeft)
                 , new AnimationTransitionOnCondition(stand_right, () => thing.State == PlayerState.StandingRight)
+                , new AnimationTransitionOnCondition(crouch_left, () => thing.State == PlayerState.CrouchingLeft)
+                , new AnimationTransitionOnCondition(crouch_right, () => thing.State == PlayerState.CrouchingRight)
+                , new AnimationTransitionOnCondition(fall_left, () => thing.State == PlayerState.FallingLeft)
+                , new AnimationTransitionOnCondition(fall_right, () => thing.State == PlayerState.FallingRight)
+                , new AnimationTransitionOnCondition(fall_left, () => thing.State == PlayerState.TakingDamage)
             ));
         }
 
