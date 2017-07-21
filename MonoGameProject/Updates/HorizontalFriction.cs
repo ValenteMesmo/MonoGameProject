@@ -6,9 +6,9 @@ namespace MonoGameProject
     {
         private const int VELOCITY = 3;
         private const int CROUCH_VELOCITY = 1;
-        private readonly ThingWithState Parent;
+        private readonly Humanoid Parent;
 
-        public HorizontalFriction(ThingWithState Parent)
+        public HorizontalFriction(Humanoid Parent)
         {
             this.Parent = Parent;
         }

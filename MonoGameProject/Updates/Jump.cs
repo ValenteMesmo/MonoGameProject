@@ -11,11 +11,11 @@ namespace MonoGameProject
         int minJumpSpeed = -60;
         int maxJumpSpeed = -120;
         private CheckIfCollidingWith<IBlockPlayerMovement> groundChecker;
-        private readonly ThingWithState Parent;
+        private readonly Humanoid Parent;
         private int cooldown;
 
         public Jump(
-            ThingWithState Parent,
+            Humanoid Parent,
             PlayerInputs InputRepository,
             CheckIfCollidingWith<IBlockPlayerMovement> groundChecker)
         {

@@ -4,7 +4,7 @@ using System;
 
 namespace MonoGameProject
 {
-    public class Player : ThingWithState
+    public class Player : Humanoid
     {
         //animacao de beirada (quase caindo)
         //incluir misc stuff ... coisas que da para quebrar! caso voce erre um ataque, por exemplo.
@@ -80,7 +80,7 @@ namespace MonoGameProject
             MainCollider.AddRightCollisionHandler(StopsWhenHitting.Right);
             MainCollider.AddTopCollisionHandler(StopsWhenHitting.Top);
 
-            new AnimatorFactoryForThingsWithState()
+            new HumanoidAnimatorFactory()
                 .CreateAnimator(width, height, this, Color.White);
         }
     }

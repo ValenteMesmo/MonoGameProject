@@ -6,11 +6,11 @@ namespace MonoGameProject
 {
     public class ChangeToHeadBumpState : UpdateHandler
     {
-        private readonly ThingWithState Player;
+        private readonly Humanoid Player;
         private readonly Camera2d Camera;
         private PlayerState PreviousState;
 
-        public ChangeToHeadBumpState(ThingWithState Player, Camera2d Camera)
+        public ChangeToHeadBumpState(Humanoid Player, Camera2d Camera)
         {
             this.Player = Player;
             this.Camera = Camera;

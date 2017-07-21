@@ -5,7 +5,7 @@ using System;
 
 namespace MonoGameProject
 {
-    public class ThingWithState : Thing
+    public class Humanoid : Thing
     {
         public PlayerState State { get; set; }
         public HumanoidBodyState BodyState { get; set; }
@@ -23,7 +23,7 @@ namespace MonoGameProject
         public readonly Collider MainCollider;
         public readonly PlayerInputs Inputs;
 
-        public ThingWithState(PlayerInputs InputRepository, Game1 WorldMover)
+        public Humanoid(PlayerInputs InputRepository, Game1 WorldMover)
         {
             this.Inputs = InputRepository;
 

@@ -5,10 +5,10 @@ namespace MonoGameProject
 {
     public class ResetSizeAndOffsetY : UpdateHandler
     {
-        private readonly ThingWithState Player;
+        private readonly Humanoid Player;
         private readonly int OriginalHeight;
 
-        public ResetSizeAndOffsetY(ThingWithState Player)
+        public ResetSizeAndOffsetY(Humanoid Player)
         {
             this.Player = Player;
             OriginalHeight = Player.MainCollider.Height;
@@ -23,10 +23,10 @@ namespace MonoGameProject
 
     public class ReduceSizeWhenCrouching : UpdateHandler
     {
-        private readonly ThingWithState Player;
+        private readonly Humanoid Player;
         private readonly int OriginalHeight;
 
-        public ReduceSizeWhenCrouching(ThingWithState Player)
+        public ReduceSizeWhenCrouching(Humanoid Player)
         {
             this.Player = Player;
             OriginalHeight = Player.MainCollider.Height;
@@ -45,10 +45,10 @@ namespace MonoGameProject
 
     public class ReduceSizeWhenHeadBumping : UpdateHandler
     {
-        private readonly ThingWithState Player;
+        private readonly Humanoid Player;
         private readonly int OriginalHeight;
 
-        public ReduceSizeWhenHeadBumping(ThingWithState Player)
+        public ReduceSizeWhenHeadBumping(Humanoid Player)
         {
             this.Player = Player;
             OriginalHeight = Player.MainCollider.Height;

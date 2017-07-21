@@ -5,9 +5,9 @@ namespace MonoGameProject
 {
     public class ChangeToWallJumping : UpdateHandler
     {
-        private readonly ThingWithState Parent;
+        private readonly Humanoid Parent;
 
-        public ChangeToWallJumping(ThingWithState Parent)
+        public ChangeToWallJumping(Humanoid Parent)
         {
             this.Parent = Parent;
         }

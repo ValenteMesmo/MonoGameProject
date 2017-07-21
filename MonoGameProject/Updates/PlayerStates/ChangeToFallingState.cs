@@ -4,9 +4,9 @@ namespace MonoGameProject
 {
     public class ChangeToFallingState : UpdateHandler
     {
-        private readonly ThingWithState Player;
+        private readonly Humanoid Player;
 
-        public ChangeToFallingState(ThingWithState Player)
+        public ChangeToFallingState(Humanoid Player)
         {
             this.Player = Player;
         }

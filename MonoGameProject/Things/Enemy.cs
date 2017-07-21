@@ -2,7 +2,7 @@
 
 namespace MonoGameProject
 {
-    public class Enemy : ThingWithState
+    public class Enemy : Humanoid
     {
         private const int width = 1000;
         private const int height = 900;
@@ -36,7 +36,7 @@ namespace MonoGameProject
             MainCollider.AddRightCollisionHandler(StopsWhenHitting.Right);
             MainCollider.AddTopCollisionHandler(StopsWhenHitting.Top);
 
-            new AnimatorFactoryForThingsWithState().CreateAnimator(width, height, this, Color.Purple);
+            new HumanoidAnimatorFactory().CreateAnimator(width, height, this, Color.Purple);
         }
     }
 }

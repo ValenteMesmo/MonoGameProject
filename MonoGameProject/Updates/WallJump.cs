@@ -7,10 +7,10 @@ namespace MonoGameProject
     {
         int jumpImpulseTime = 0;
         const int JUMP_VALUE = 80;
-        private readonly ThingWithState Parent;
+        private readonly Humanoid Parent;
         private int horizontalSpeed = JUMP_VALUE;
 
-        public WallJump(ThingWithState Parent)
+        public WallJump(Humanoid Parent)
         {
             this.Parent = Parent;
         }

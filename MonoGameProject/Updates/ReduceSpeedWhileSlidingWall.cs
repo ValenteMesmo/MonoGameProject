@@ -4,10 +4,10 @@ namespace MonoGameProject
 {
     public class ReduceSpeedWhileSlidingWall : UpdateHandler
     {
-        private readonly ThingWithState Player;
+        private readonly Humanoid Player;
         private const int MAX = 20;
 
-        public ReduceSpeedWhileSlidingWall(ThingWithState Player)
+        public ReduceSpeedWhileSlidingWall(Humanoid Player)
         {
             this.Player = Player;
         }

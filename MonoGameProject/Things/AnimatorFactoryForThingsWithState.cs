@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework;
 
 namespace MonoGameProject
 {
-    public class AnimatorFactoryForThingsWithState
+    public class HumanoidAnimatorFactory
     {
-        public void CreateAnimator(int width, int height, ThingWithState thing, Color Color)
+        public void CreateAnimator(int width, int height, Humanoid thing, Color Color)
         {
             var size2 = 2800;
             var size1 = 590;
@@ -18,7 +18,7 @@ namespace MonoGameProject
             LegsAnimator(thing, size2, size1, y2, x2, flippedx);
         }
 
-        private static void LegsAnimator(ThingWithState thing, int size2, int size1, int y2, int x2, int flippedx)
+        private static void LegsAnimator(Humanoid thing, int size2, int size1, int y2, int x2, int flippedx)
         {
             var stand_left2 = new Animation(
                   new AnimationFrame("knight", x2, y2, size2, size2, new Rectangle(size1 * 2, size1, size1, size1)) { RenderingLayer = 0 }
@@ -49,7 +49,7 @@ namespace MonoGameProject
             thing.AddAnimation(pernas);
         }
 
-        private static void HeadAnimator(ThingWithState thing, int size2, int size1, int y2, int x2, int flippedx)
+        private static void HeadAnimator(Humanoid thing, int size2, int size1, int y2, int x2, int flippedx)
         {
             var head_left2 = new Animation(
                             new AnimationFrame("knight", x2, y2, size2, size2, new Rectangle(size1, size1, size1, size1)) { RenderingLayer = 0 }
@@ -63,18 +63,18 @@ namespace MonoGameProject
             ));
         }
 
-        private static void BodyAnimator(ThingWithState thing, int size2, int size1, int y2, int x2, int flippedx)
+        private static void BodyAnimator(Humanoid thing, int size2, int size1, int y2, int x2, int flippedx)
         {
             var punch_left = new Animation(
                     new AnimationFrame("knight", x2, y2, size2, size2, new Rectangle(0, 0, size1, size1)) { RenderingLayer = 0 }
                     , new AnimationFrame("knight", x2, y2, size2, size2, new Rectangle(size1, 0, size1, size1)) { RenderingLayer = 0 }
-                    , new AnimationFrame("knight", x2, y2, size2, size2, new Rectangle(size1 * 2, 0, size1, size1)) { RenderingLayer = 0 }                    
+                    , new AnimationFrame("knight", x2, y2, size2, size2, new Rectangle(size1 * 2, 0, size1, size1)) { RenderingLayer = 0 }
                 )
             { LoopDisabled = true };
             var punch_right = new Animation(
                   new AnimationFrame("knight", flippedx, y2, size2, size2, new Rectangle(0, 0, size1, size1)) { RenderingLayer = 0, Flipped = true }
                   , new AnimationFrame("knight", flippedx, y2, size2, size2, new Rectangle(size1, 0, size1, size1)) { RenderingLayer = 0, Flipped = true }
-                  , new AnimationFrame("knight", flippedx, y2, size2, size2, new Rectangle(size1 * 2, 0, size1, size1)) { RenderingLayer = 0, Flipped = true }                  
+                  , new AnimationFrame("knight", flippedx, y2, size2, size2, new Rectangle(size1 * 2, 0, size1, size1)) { RenderingLayer = 0, Flipped = true }
               )
             { LoopDisabled = true };
 

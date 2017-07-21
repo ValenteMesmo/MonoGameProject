@@ -4,9 +4,9 @@ namespace MonoGameProject
 {
     public class ChangeToSlidingState : UpdateHandler
     {
-        private readonly ThingWithState Player;
+        private readonly Humanoid Player;
 
-        public ChangeToSlidingState(ThingWithState Player)
+        public ChangeToSlidingState(Humanoid Player)
         {
             this.Player = Player;
         }

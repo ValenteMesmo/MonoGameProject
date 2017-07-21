@@ -6,12 +6,12 @@ namespace MonoGameProject
     {
         private const int VELOCITY = 3;
         private const int INVERSE_BONUS = VELOCITY * 5;
-        private readonly ThingWithState Player;
+        private readonly Humanoid Player;
         public const int MAX_SPEED = 80;
         public const int MAX_CROUCH_SPEED = 40;
 
         public MoveLeftOrRight(
-            ThingWithState Player)
+            Humanoid Player)
         {
             this.Player = Player;
         }
