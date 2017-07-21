@@ -59,6 +59,7 @@ namespace GameCore
             List<Vector2> touches = TouchInputHandler.GetTouches();
             Things.ForEach(thing =>
             {
+                //TODO: Animation update should go after sleep check
                 thing.Animations.ForEach(f => f.Update());
                 TouchInputHandler.Handle(thing.Touchables, touches);
             });

@@ -42,7 +42,10 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Things\AIInput.cs" />
+    <Compile Include="Things\AnimatorFactoryForThingsWithState.cs" />
     <Compile Include="Things\DestroyIfLeftBehind.cs" />
+    <Compile Include="Things\Enemy.cs" />
     <Compile Include="Things\FireBall.cs" />
     <Compile Include="Things\LeftFireBallTrap.cs" />
     <Compile Include="Things\MapModule.cs" />
@@ -50,6 +53,7 @@
     <Compile Include="Things\PreventPlayerFromAccicentlyFalling.cs" />
     <Compile Include="Things\ReduceSizeWhenCrouching.cs" />
     <Compile Include="Things\RightFireBallTrap.cs" />
+    <Compile Include="Things\ThingWithState.cs" />
     <Compile Include="Things\WorldHelper.cs" />
     <Compile Include="Updates\AfectedByGravity.cs" />
     <Compile Include="Things\BackBlocker.cs" />

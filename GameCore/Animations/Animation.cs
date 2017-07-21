@@ -11,13 +11,14 @@ namespace GameCore
         void Update();
     }
 
-    public class Animation: IHandleAnimation
+    public class Animation : IHandleAnimation
     {
         private readonly List<AnimationFrame> Frames;
         private int CurrentFrameIndex;
         private int UpdatesUntilNextFrame;
         public bool Ended { get; private set; }
         public Color Color { get; set; }
+        public bool LoopDisabled { get; set; }
 
         public Animation(params AnimationFrame[] Frames)
         {
@@ -35,10 +36,13 @@ namespace GameCore
             }
 
             CurrentFrameIndex++;
-            if (CurrentFrameIndex >= Frames.Count)
+            if (CurrentFrameIndex > Frames.Count - 1)
             {
                 Ended = true;
-                CurrentFrameIndex = 0;
+                if (LoopDisabled)
+                    CurrentFrameIndex = Frames.Count - 1;
+                else
+                    CurrentFrameIndex = 0;
             }
 
             UpdatesUntilNextFrame = 10;

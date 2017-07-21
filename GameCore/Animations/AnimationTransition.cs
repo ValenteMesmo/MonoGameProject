@@ -6,6 +6,5 @@ namespace GameCore
     {
         Animation Target { get; }
         Func<bool> Condition { get; }
-        Action AfterTransition { get; }
     }
 }

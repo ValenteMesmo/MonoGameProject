@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using System;
 
 namespace GameCore
 {
@@ -28,8 +29,6 @@ namespace GameCore
                     CurrentAnimation.Restart();
 
                     CurrentAnimation = item.Target;
-
-                    item.AfterTransition();
 
                     break;
                 }
