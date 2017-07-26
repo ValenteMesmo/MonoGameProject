@@ -3,13 +3,11 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Input.Touch;
 using System.Collections.Generic;
 using OriginalGameClass = Microsoft.Xna.Framework.Game;
 
 internal class BaseGame : OriginalGameClass
 {
-    FrameCounter FrameCounter = new FrameCounter();
     internal GraphicsDeviceManager Graphics;
     private SpriteBatch SpriteBatch;
     public readonly Camera2d Camera;
@@ -18,7 +16,6 @@ internal class BaseGame : OriginalGameClass
     private Dictionary<string, Texture2D> Textures;
     private readonly Game Parent;
     SpriteFont SpriteFont;
-    public const float TIME_TO_NEXT_UPDATE = 1.0f / 60.0f;
 #if DEBUG
     private bool DisplayColliders;
 #endif
@@ -51,7 +48,7 @@ internal class BaseGame : OriginalGameClass
         IsFixedTimeStep = true;
         Graphics.SynchronizeWithVerticalRetrace = true;
 
-        Camera = new Camera2d();       
+        Camera = new Camera2d();
 
         World = new World(Camera);
     }
@@ -113,14 +110,14 @@ internal class BaseGame : OriginalGameClass
 #endif
             World.Update();
         }
-         
+
         base.Update(gameTime);
     }
-    
+
     protected override void Draw(GameTime gameTime)
     {
-        GraphicsDevice.Clear(Color.Black);
-        
+        GraphicsDevice.Clear(Color.CornflowerBlue);
+
         SpriteBatch.Begin(SpriteSortMode.BackToFront,
                    BlendState.AlphaBlend,
                    null,
@@ -130,10 +127,10 @@ internal class BaseGame : OriginalGameClass
                    Camera.GetTransformation(GraphicsDevice));
         ;
 
+        Parent.FrameCounter.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
 #if DEBUG
-        FrameCounter.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
 
-        var fps = string.Format("FPS: {0}", FrameCounter.AverageFramesPerSecond)
+        var fps = string.Format("FPS: {0}", Parent.FrameCounter.AverageFramesPerSecond)
             .Replace("∞", "");
 
         SpriteBatch.DrawString(

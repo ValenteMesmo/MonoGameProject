@@ -8,6 +8,7 @@ public abstract class Game : IDisposable
 #if DEBUG
     public static string LOG = "NO logs";
 #endif
+    public FrameCounter FrameCounter = new FrameCounter();
     private readonly BaseGame BaseGame;
     public Camera2d Camera { get { return BaseGame.Camera; } }
     protected InputRepository InputRepository { get { return BaseGame.World.PlayerInputs; } }

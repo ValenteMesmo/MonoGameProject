@@ -18,9 +18,7 @@ namespace MonoGameProject
             AddUpdate(new MoveHorizontallyWithTheWorld(this));
 
             AddAnimation(
-                new Animation(
-                    new AnimationFrame("block", 0, 0, WIDTH, HEIGHT))
-                { Color = Color.Yellow });
+                GeneratedContent.Create_knight_block(0, 0, 1.5f, WIDTH, HEIGHT));
         }
     }
 }

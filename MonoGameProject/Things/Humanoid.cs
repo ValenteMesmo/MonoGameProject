@@ -8,7 +8,6 @@ namespace MonoGameProject
     public class Humanoid : Thing
     {
         public PlayerState State { get; set; }
-        public HumanoidBodyState BodyState { get; set; }
 
         private const int width = 1000;
         private const int height = 900;
@@ -98,38 +97,7 @@ namespace MonoGameProject
             AddUpdate(new ChangeToHeadBumpState(this, WorldMover.Camera));
             AddUpdate(new ChangeToCrouchState(this));
             AddUpdate(new DestroyIfLeftBehind(this));
-
-            //AddUpdate(() =>
-            //{
-            //    //BodyState = HumanoidBodyState.Stand;
-            //});
-            var attackDuration = 0;
-            AddUpdate(() =>
-            {
-                if (attackDuration > 0)
-                    attackDuration--;
-
-                if (attackDuration == 10)
-                    BodyState = HumanoidBodyState.StandLeft;
-
-                if (this.Inputs.ClickedAction1 && attackDuration == 0)
-                {
-                    if (BodyState == HumanoidBodyState.StandLeft)
-                    {
-                        BodyState = HumanoidBodyState.AttackLeft;
-                    }
-                    else if (BodyState == HumanoidBodyState.StandRight)
-                    {
-                        BodyState = HumanoidBodyState.AttackRight;
-                    }
-                    else
-                        return;
-
-                    attackDuration = 10 * 4 + 10;
-                }
-            });
-
-            //AddUpdate(() => HeadCollider.Disabled = ButtCollider.Disabled = false);
+            
             AddUpdate(new PreventPlayerFromAccicentlyFalling(this));
             AddUpdate(new ResetSizeAndOffsetY(this));
             AddUpdate(new ReduceSizeWhenHeadBumping(this));
@@ -148,9 +116,7 @@ namespace MonoGameProject
                 Game.LOG +=
                 GetType().Name
                 + " "
-                + State.ToString()
-                + " "
-                + BodyState.ToString()
+                + State.ToString()                
                 + Environment.NewLine);
 #endif
         }

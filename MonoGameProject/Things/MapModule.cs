@@ -60,7 +60,7 @@ namespace MonoGameProject
 
             AddUpdate(() =>
             {
-                if (this.X <= -WIDTH * 2)
+                if (this.X <= -WIDTH)
                 {
                     Blocker.X = this.X + WIDTH - BackBlocker.WIDTH;
                     Destroy();
@@ -81,7 +81,38 @@ namespace MonoGameProject
                     var type = Info.Tiles[i][j];
                     if (type == '1')
                     {
-                        CreateSolid(i, j);
+                        var combo = 1;
+                        while (true)
+                        {
+                            AddAnimation(
+                                GeneratedContent.Create_knight_block(
+                                    j * CELL_SIZE +1
+                                    , i * CELL_SIZE + 1
+                                    , 0.5f
+                                    , CELL_SIZE
+                                    , CELL_SIZE
+                            ));
+
+                            if (j + 1 >= CELL_NUMBER)
+                                break;
+
+
+                            type = Info.Tiles[i][j + 1];
+
+                            if (type != '1')
+                                break;
+                            combo++;
+                            j++;
+                        }
+                        
+
+                        AddCollider(new Collider()
+                        {
+                            OffsetX = (j - combo + 1) * CELL_SIZE + 1,
+                            OffsetY = i * CELL_SIZE + 1,
+                            Width = CELL_SIZE * combo,
+                            Height = CELL_SIZE
+                        });
                     }
                     if (type == '0')
                     {
@@ -94,17 +125,14 @@ namespace MonoGameProject
                             CreateBackground(i, j);
                         }
                         else
-                            AddAnimation(new Animation(
-                                new AnimationFrame(
-                                    "block"
-                                    , j * CELL_SIZE + 1
+                            AddAnimation(
+                                GeneratedContent.Create_knight_block(
+                                     j * CELL_SIZE + 1
                                     , i * CELL_SIZE + 1
+                                    , 1
                                     , CELL_SIZE
                                     , CELL_SIZE
-                                )
-                                { RenderingLayer = 1 })
-                            { Color = Color.Yellow }
-                            );
+                                ));
                     }
                     if (type == 'a')
                     {
@@ -147,33 +175,33 @@ namespace MonoGameProject
             //    { RenderingLayer = 1 })
             //{ Color = Color }
             //);
-            
+
         }
 
-        private void CreateSolid(int i, int j)
-        {
-            AddAnimation(new Animation(
-                new AnimationFrame(
-                    "block"
-                    , (j) * CELL_SIZE + 1
-                    , i * CELL_SIZE + 1
-                    , CELL_SIZE
-                    , CELL_SIZE
-                )
-            )
-            { Color = Color.Brown }
-            );
+        //    private void CreateSolid(int i, int j)
+        //    {
+        //        AddAnimation(new Animation(
+        //            new AnimationFrame(
+        //                "block"
+        //                , (j) * CELL_SIZE + 1
+        //                , i * CELL_SIZE + 1
+        //                , CELL_SIZE
+        //                , CELL_SIZE
+        //            )
+        //        )
+        //        { Color = Color.Brown }
+        //        );
 
-            AddCollider(new Collider()
-            {
-                OffsetX = (j) * CELL_SIZE + 1,
-                OffsetY = i * CELL_SIZE + 1,
-                Width = CELL_SIZE,
-                Height = CELL_SIZE
-            });
-        }
+        //        AddCollider(new Collider()
+        //        {
+        //            OffsetX = (j) * CELL_SIZE + 1,
+        //            OffsetY = i * CELL_SIZE + 1,
+        //            Width = CELL_SIZE,
+        //            Height = CELL_SIZE
+        //        });
+        //    }
+        //}
     }
-
     public class ParallaxBackGround : Thing
     {
         //static Color[] Colors = new Color[] { Color.Yellow, Color.Orange, Color.Blue };
@@ -184,25 +212,13 @@ namespace MonoGameProject
             , int width
             , int height
             , int parallax
-            , string imgName)
+            , Func<int, int, float, int, int, Animation> imgName)
         {
-            AddAnimation(new Animation(
-                new AnimationFrame(
-                    imgName
-                    , x
-                    , y
-                    , width
-                    , height
-                )
-                { RenderingLayer = 0.9f + parallax/1000f })
-            //{ Color = Colors[index] }
-            );
-            //index++;
-            //if (index >= Colors.Length)
-            //    index = 0;
+            AddAnimation(imgName(x, y, 0.9f + parallax / 1000f, width, height));
 
             AddUpdate(new MoveHorizontallyWithTheWorld(this, parallax));
             AddUpdate(new DestroyIfLeftBehind(this));
         }
     }
 }
+

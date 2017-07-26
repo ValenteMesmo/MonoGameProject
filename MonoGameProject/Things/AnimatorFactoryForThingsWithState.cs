@@ -11,51 +11,70 @@ namespace MonoGameProject
             , Humanoid thing)
         {
             var size2 = 2800;
-            var size1 = 590;
             var y2 = -1880;
             var x2 = -1550;
             var flippedx = -200;
 
-            BodyAnimator(thing, size2, size1, y2, x2, flippedx);
-            HeadAnimator(thing, size2, size1, y2, x2, flippedx);
-            LegsAnimator(thing, size2, size1, y2, x2, flippedx);
+            LegsAnimator(thing, size2, y2, x2, flippedx);
         }
 
-        private static void LegsAnimator(Humanoid thing, int size2, int size1, int y2, int x2, int flippedx)
+        private static void LegsAnimator(Humanoid thing, int size, int y, int x, int flippedx)
         {
-            var stand_left = new Animation(
-                  new AnimationFrame("knight", x2, y2, size2, size2, new Rectangle(size1, size1 * 2, size1, size1)) { RenderingLayer = 0 }
-            );
-            var stand_right = new Animation(
-                  new AnimationFrame("knight", flippedx, y2, size2, size2, new Rectangle(size1, size1 * 2, size1, size1)) { RenderingLayer = 0, Flipped = true }
-            );
+            var stand_left = GeneratedContent.Create_knight_Legs_Standing(
+                x
+                , y
+                , 0
+                , size
+                , size);
+            var stand_right = GeneratedContent.Create_knight_Legs_Standing(
+                flippedx
+                , y
+                , 0
+                , size
+                , size
+                , true);
 
-            var fall_left = new Animation(
-                  new AnimationFrame("knight", x2, y2, size2, size2, new Rectangle(0, size1 * 2, size1, size1)) { RenderingLayer = 0 }
-            );
-            var fall_right = new Animation(
-                  new AnimationFrame("knight", flippedx, y2, size2, size2, new Rectangle(0, size1 * 2, size1, size1)) { RenderingLayer = 0, Flipped = true }
-            );
+            var fall_left = GeneratedContent.Create_knight_Legs_Falling(
+                x
+                , y
+                , 0
+                , size
+                , size);
+            var fall_right = GeneratedContent.Create_knight_Legs_Falling(
+                flippedx
+                , y
+                , 0
+                , size
+                , size
+                , true);
 
-            var crouch_left = new Animation(
-                  new AnimationFrame("knight", x2, y2, size2, size2, new Rectangle(size1 * 2, size1, size1, size1)) { RenderingLayer = 0 }
-            );
-            var crouch_right = new Animation(
-                  new AnimationFrame("knight", flippedx, y2, size2, size2, new Rectangle(size1 * 2, size1, size1, size1)) { RenderingLayer = 0, Flipped = true }
-            );
+            var crouch_left = GeneratedContent.Create_knight_Legs_Crouching(
+                x
+                , y
+                , 0
+                , size
+                , size);
+            var crouch_right = GeneratedContent.Create_knight_Legs_Crouching(
+                flippedx
+                , y
+                , 0
+                , size
+                , size
+                , true);
 
-            var walk_left = new Animation(
-                    new AnimationFrame("knight", x2, y2, size2, size2, new Rectangle(size1 * 2, size1 * 2, size1, size1)) { RenderingLayer = 0 }
-                    , new AnimationFrame("knight", x2, y2, size2, size2, new Rectangle(0, size1 * 3, size1, size1)) { RenderingLayer = 0 }
-                    , new AnimationFrame("knight", x2, y2, size2, size2, new Rectangle(size1, size1 * 3, size1, size1)) { RenderingLayer = 0 }
-                    , new AnimationFrame("knight", x2, y2, size2, size2, new Rectangle(size1 * 2, size1 * 3, size1, size1)) { RenderingLayer = 0 }
-            );
-            var walk_right = new Animation(
-                    new AnimationFrame("knight", flippedx, y2, size2, size2, new Rectangle(size1 * 2, size1 * 2, size1, size1)) { RenderingLayer = 0, Flipped = true }
-                    , new AnimationFrame("knight", flippedx, y2, size2, size2, new Rectangle(0, size1 * 3, size1, size1)) { RenderingLayer = 0, Flipped = true }
-                    , new AnimationFrame("knight", flippedx, y2, size2, size2, new Rectangle(size1, size1 * 3, size1, size1)) { RenderingLayer = 0, Flipped = true }
-                    , new AnimationFrame("knight", flippedx, y2, size2, size2, new Rectangle(size1 * 2, size1 * 3, size1, size1)) { RenderingLayer = 0, Flipped = true }
-            );
+            var walk_left = GeneratedContent.Create_knight_Legs_Walking(
+                x
+                , y
+                , 0
+                , size
+                , size);
+            var walk_right = GeneratedContent.Create_knight_Legs_Walking(
+                flippedx
+                , y
+                , 0
+                , size
+                , size
+                ,true);
 
             thing.AddAnimation(new Animator(
                 new AnimationTransitionOnCondition(walk_left, () => thing.State == PlayerState.WalkingLeft)
@@ -70,49 +89,5 @@ namespace MonoGameProject
             ));
         }
 
-        private static void HeadAnimator(Humanoid thing, int size2, int size1, int y2, int x2, int flippedx)
-        {
-            var head_left2 = new Animation(
-                            new AnimationFrame("knight", x2, y2, size2, size2, new Rectangle(size1, size1, size1, size1)) { RenderingLayer = 0 }
-                        );
-            var head_right2 = new Animation(
-                new AnimationFrame("knight", flippedx, y2, size2, size2, new Rectangle(size1, size1, size1, size1)) { RenderingLayer = 0, Flipped = true }
-            );
-            thing.AddAnimation(new Animator(
-                new AnimationTransitionOnCondition(head_right2, () => thing.State == PlayerState.WalkingRight)
-                , new AnimationTransitionOnCondition(head_left2, () => thing.State == PlayerState.WalkingLeft)
-            ));
-        }
-
-        private static void BodyAnimator(Humanoid thing, int size2, int size1, int y2, int x2, int flippedx)
-        {
-            var punch_left = new Animation(
-                    new AnimationFrame("knight", x2, y2, size2, size2, new Rectangle(0, 0, size1, size1)) { RenderingLayer = 0 }
-                    , new AnimationFrame("knight", x2, y2, size2, size2, new Rectangle(size1, 0, size1, size1)) { RenderingLayer = 0 }
-                    , new AnimationFrame("knight", x2, y2, size2, size2, new Rectangle(size1 * 2, 0, size1, size1)) { RenderingLayer = 0 }
-                )
-            { LoopDisabled = true };
-            var punch_right = new Animation(
-                  new AnimationFrame("knight", flippedx, y2, size2, size2, new Rectangle(0, 0, size1, size1)) { RenderingLayer = 0, Flipped = true }
-                  , new AnimationFrame("knight", flippedx, y2, size2, size2, new Rectangle(size1, 0, size1, size1)) { RenderingLayer = 0, Flipped = true }
-                  , new AnimationFrame("knight", flippedx, y2, size2, size2, new Rectangle(size1 * 2, 0, size1, size1)) { RenderingLayer = 0, Flipped = true }
-              )
-            { LoopDisabled = true };
-
-
-            var body_standing_right = new Animation(
-                new AnimationFrame("knight", flippedx, y2, size2, size2, new Rectangle(0, size1, size1, size1)) { RenderingLayer = 0, Flipped = true }
-            );
-            var body_standing_left = new Animation(
-                new AnimationFrame("knight", x2, y2, size2, size2, new Rectangle(0, size1, size1, size1)) { RenderingLayer = 0 }
-            );
-
-            thing.AddAnimation(new Animator(
-                new AnimationTransitionOnCondition(body_standing_right, () => thing.BodyState == HumanoidBodyState.StandRight)
-                , new AnimationTransitionOnCondition(body_standing_left, () => thing.BodyState == HumanoidBodyState.StandLeft)
-                , new AnimationTransitionOnCondition(punch_left, () => thing.BodyState == HumanoidBodyState.AttackLeft)
-                , new AnimationTransitionOnCondition(punch_right, () => thing.BodyState == HumanoidBodyState.AttackRight)
-            ));
-        }
     }
 }

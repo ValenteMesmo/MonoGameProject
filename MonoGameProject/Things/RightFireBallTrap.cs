@@ -20,16 +20,6 @@ namespace MonoGameProject
             });
             AddUpdate(new DestroyIfLeftBehind(this));
             AddUpdate(new MoveHorizontallyWithTheWorld(this));
-            AddAnimation(new Animation(
-                               new AnimationFrame(
-                                   "block"
-                                   , 0
-                                   , 0
-                                   , MapModule.CELL_SIZE
-                                   , MapModule.CELL_SIZE
-                               )
-                               { RenderingLayer = 1 })
-            { Color = Color.Orange });
         }
     }
 }

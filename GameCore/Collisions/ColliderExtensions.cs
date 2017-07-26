@@ -5,41 +5,48 @@ namespace GameCore
 {
     public static class ColliderExtensions
     {
-        internal static CollisionResult IsColliding(this Collider A, Collider B)
+        public static CollisionResult IsColliding(
+            this Collider a,
+            Collider b)
         {
-            var w = 0.5f * (A.Width + B.Width);
-            var h = 0.5f * (A.Height + B.Height);
-            var dx = A.CenterX() - B.CenterX();
-            var dy = A.CenterY() - B.CenterY();
-
-            if (Math.Abs(dx) <= w && Math.Abs(dy) <= h)
+            if (a.Right() < b.Left()
+            || b.Right() < a.Left()
+            || a.Bottom() < b.Top()
+            || b.Bottom() < a.Top())
+                return CollisionResult.Nope;
+            else
             {
-                /* collision! */
-                var wy = w * dy;
-                var hx = h * dx;
+                var top_b__bot_a__difference = a.Bottom() - a.Top();
+                var top_a__bot_b__difference = a.Bottom() - b.Top();
+                var right_a__left_b__difference = a.Right() - b.Left();
+                var right_b__left_a__difference = b.Right() - a.Left();
 
-                if (wy > hx)
+                if (top_a__bot_b__difference < top_b__bot_a__difference
+                    && top_a__bot_b__difference < right_a__left_b__difference
+                    && top_a__bot_b__difference < right_b__left_a__difference)
                 {
-                    if (wy > -hx)
-                    {
-                        /* collision at the top */
-                        return CollisionResult.Top;
-                    }
-                    else
-                    {
-                        /* on the left */
-                        return CollisionResult.Right;
-                    }
-                }
-                else if (wy > -hx)
-                {
-                    /* on the right */
-                    return CollisionResult.Left;
-                }
-                else
-                {
-                    /* at the bottom */
                     return CollisionResult.Bottom;
+                }
+
+                if (top_b__bot_a__difference < top_a__bot_b__difference
+                    && top_b__bot_a__difference < right_a__left_b__difference
+                    && top_b__bot_a__difference < right_b__left_a__difference)
+                {
+                    return CollisionResult.Top;
+                }
+
+                if (right_a__left_b__difference < right_b__left_a__difference
+                    && right_a__left_b__difference < top_a__bot_b__difference
+                    && right_a__left_b__difference < top_b__bot_a__difference)
+                {
+                    return CollisionResult.Right;
+                }
+
+                if (right_b__left_a__difference < right_a__left_b__difference
+                    && right_b__left_a__difference < top_a__bot_b__difference
+                    && right_b__left_a__difference < top_b__bot_a__difference)
+                {
+                    return CollisionResult.Left;
                 }
             }
 
@@ -103,18 +110,18 @@ namespace GameCore
             if (collision == CollisionResult.Left)
             {
                 a.LeftCollisionHandlers
-                    .ForEach(handler => handler(a,b));
+                    .ForEach(handler => handler(a, b));
 
                 b.RightCollisionHandlers
-                    .ForEach(handler => handler(b,a));
+                    .ForEach(handler => handler(b, a));
             }
             else if (collision == CollisionResult.Right)
             {
                 a.RightCollisionHandlers
-                     .ForEach(handler => handler(a,b));
+                     .ForEach(handler => handler(a, b));
 
                 b.LeftCollisionHandlers
-                    .ForEach(handler => handler(b,a));
+                    .ForEach(handler => handler(b, a));
             }
         }
 
@@ -135,18 +142,18 @@ namespace GameCore
             if (collision == CollisionResult.Top)
             {
                 a.TopCollisionHandlers
-                    .ForEach(handler => handler(a,b));
+                    .ForEach(handler => handler(a, b));
 
                 b.BotCollisionHandlers
-                    .ForEach(handler => handler(b,a));
+                    .ForEach(handler => handler(b, a));
             }
             else if (collision == CollisionResult.Bottom)
             {
                 a.BotCollisionHandlers
-                    .ForEach(handler => handler(a,b));
+                    .ForEach(handler => handler(a, b));
 
                 b.TopCollisionHandlers
-                    .ForEach(handler => handler(b,a));
+                    .ForEach(handler => handler(b, a));
             }
         }
     }

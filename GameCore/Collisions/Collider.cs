@@ -8,6 +8,9 @@ namespace GameCore
     {
         public Thing Parent { get; internal set; }
 
+        public int X { get { return Parent.X + OffsetX; } }
+        public int Y { get { return Parent.Y + OffsetY; } }
+
         public int OffsetX { get; set; }
         public int OffsetY { get; set; }
 

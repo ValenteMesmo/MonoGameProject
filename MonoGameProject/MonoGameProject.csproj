@@ -42,6 +42,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="GeneratedContent.cs" />
     <Compile Include="Things\AIInput.cs" />
     <Compile Include="Things\AnimatorFactoryForThingsWithState.cs" />
     <Compile Include="Things\DestroyIfLeftBehind.cs" />

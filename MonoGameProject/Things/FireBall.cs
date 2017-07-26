@@ -11,12 +11,7 @@ namespace MonoGameProject
         {
             var width = 400;
             var height = 400;
-            AddAnimation(
-                new Animation(
-                    new AnimationFrame("block", 0, 0, width, height) { RenderingLayer = 0.4f })
-                {
-                    Color = Color.Yellow
-                });
+            AddAnimation(GeneratedContent.Create_knight_block(0, 0, 0.4f, width, height));
 
             HorizontalSpeed = speedX;
             VerticalSpeed = speedY;

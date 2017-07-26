@@ -20,10 +20,12 @@ namespace GameCore
         public Color Color { get; set; }
         public bool LoopDisabled { get; set; }
 
+        private const int ANIMATION_DURATION = 3;
+
         public Animation(params AnimationFrame[] Frames)
         {
             Color = Color.White;
-            UpdatesUntilNextFrame = 10;
+            UpdatesUntilNextFrame = ANIMATION_DURATION;
             this.Frames = Frames.ToList();
         }
 
@@ -45,7 +47,7 @@ namespace GameCore
                     CurrentFrameIndex = 0;
             }
 
-            UpdatesUntilNextFrame = 10;
+            UpdatesUntilNextFrame = ANIMATION_DURATION;
         }
 
         public AnimationFrame GetCurretFrame()

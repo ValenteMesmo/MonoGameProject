@@ -1,13 +1,5 @@
 ﻿namespace MonoGameProject
 {
-    public enum HumanoidBodyState
-    {
-        StandLeft,
-        StandRight,
-        AttackLeft,
-        AttackRight,
-    }
-
     public enum PlayerState
     {
         StandingLeft,
