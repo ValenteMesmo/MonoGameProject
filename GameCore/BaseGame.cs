@@ -103,7 +103,7 @@ internal class BaseGame : OriginalGameClass
             else
                 Camera.Zoom = 0.1f;
 
-            DisplayColliders = !state.NumLock;
+            DisplayColliders = state.NumLock;
 
             if (state.IsKeyDown(Keys.Escape))
                 Parent.Restart();

@@ -5,49 +5,38 @@ namespace GameCore
 {
     public static class ColliderExtensions
     {
-        public static CollisionResult IsColliding(
-            this Collider a,
-            Collider b)
+        public static CollisionResult IsCollidingH(
+        this Collider a,
+        Collider b)
         {
-            if (a.Right() < b.Left()
-            || b.Right() < a.Left()
-            || a.Bottom() < b.Top()
-            || b.Bottom() < a.Top())
-                return CollisionResult.Nope;
-            else
+            if (a.Left() <= b.Right()
+                && b.Left() <= a.Right()
+                && a.Top() <= b.Bottom()
+                && b.Top() <= a.Bottom())
             {
-                var top_b__bot_a__difference = a.Bottom() - a.Top();
-                var top_a__bot_b__difference = a.Bottom() - b.Top();
-                var right_a__left_b__difference = a.Right() - b.Left();
-                var right_b__left_a__difference = b.Right() - a.Left();
-
-                if (top_a__bot_b__difference < top_b__bot_a__difference
-                    && top_a__bot_b__difference < right_a__left_b__difference
-                    && top_a__bot_b__difference < right_b__left_a__difference)
-                {
-                    return CollisionResult.Bottom;
-                }
-
-                if (top_b__bot_a__difference < top_a__bot_b__difference
-                    && top_b__bot_a__difference < right_a__left_b__difference
-                    && top_b__bot_a__difference < right_b__left_a__difference)
-                {
-                    return CollisionResult.Top;
-                }
-
-                if (right_a__left_b__difference < right_b__left_a__difference
-                    && right_a__left_b__difference < top_a__bot_b__difference
-                    && right_a__left_b__difference < top_b__bot_a__difference)
-                {
-                    return CollisionResult.Right;
-                }
-
-                if (right_b__left_a__difference < right_a__left_b__difference
-                    && right_b__left_a__difference < top_a__bot_b__difference
-                    && right_b__left_a__difference < top_b__bot_a__difference)
-                {
+                if (a.Right() - b.Right() > 0)
                     return CollisionResult.Left;
-                }
+                else if (a.Right() - b.Right() < 0)
+                    return CollisionResult.Right;
+            }
+
+            return CollisionResult.Nope;
+        }
+
+        public static CollisionResult IsCollidingV(
+        this Collider a,
+        Collider b)
+        {
+
+            if (a.Left() <= b.Right()
+                && b.Left() <= a.Right()
+                && a.Top() <= b.Bottom()
+                && b.Top() <= a.Bottom())
+            {
+                if (a.Bottom() - b.Bottom() > 0)
+                    return CollisionResult.Top;
+                else if (a.Bottom() - b.Bottom() < 0)
+                    return CollisionResult.Bottom;
             }
 
             return CollisionResult.Nope;
@@ -100,7 +89,7 @@ namespace GameCore
             if (a.Disabled || b.Disabled)
                 return;
 
-            var collision = a.IsColliding(b);
+            var collision = a.IsCollidingH(b);
 
             if (collision == CollisionResult.Nope)
                 return;
@@ -132,7 +121,7 @@ namespace GameCore
             if (a.Disabled || b.Disabled)
                 return;
 
-            var collision = a.IsColliding(b);
+            var collision = a.IsCollidingV(b);
 
             if (collision == CollisionResult.Nope)
                 return;

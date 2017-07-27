@@ -51,6 +51,7 @@
     <Compile Include="Things\Humanoid.cs" />
     <Compile Include="Things\LeftFireBallTrap.cs" />
     <Compile Include="Things\MapModule.cs" />
+    <Compile Include="Things\ParalaxBackgroundCreator.cs" />
     <Compile Include="Things\PlayerState.cs" />
     <Compile Include="Things\PreventPlayerFromAccicentlyFalling.cs" />
     <Compile Include="Things\ReduceSizeWhenCrouching.cs" />

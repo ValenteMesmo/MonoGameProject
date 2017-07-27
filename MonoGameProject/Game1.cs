@@ -22,10 +22,8 @@ namespace MonoGameProject
                 AddThing(new ParalaxBackgroundCreator(WorldMover, AddThing, this, (x, y, z, width, height) => GeneratedContent.Create_knight_bg3(x, y, z, width, height), 15));
                 AddThing(new ParalaxBackgroundCreator(WorldMover, AddThing, this, (x, y, z, width, height) => GeneratedContent.Create_knight_bg2(x, y, z, width, height), 20));
                 AddThing(new ParalaxBackgroundCreator(WorldMover, AddThing, this, (x, y, z, width, height) => GeneratedContent.Create_knight_bg6(x, y, z, width, height), 50));
+                AddThing(new ParalaxBackgroundCreator(WorldMover, AddThing, this, (x, y, z, width, height) => GeneratedContent.Create_knight_bg1(x, y, z, width, height), 99));
             }
-            AddThing(new ParalaxBackgroundCreator(WorldMover, AddThing, this, (x, y, z, width, height) => GeneratedContent.Create_knight_bg1(x, y, z, width, height), 99));
-
-
         }
     }
 }

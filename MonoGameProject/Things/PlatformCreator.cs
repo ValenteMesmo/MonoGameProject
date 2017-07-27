@@ -4,64 +4,6 @@ using System.Collections.Generic;
 
 namespace MonoGameProject
 {
-    public class ParalaxBackgroundCreator : Thing
-    {
-        ParallaxBackGround lastModule;
-        WorldMover WorldMover;
-        Action<Thing> AddToWOrld;
-        Game1 Game1;
-
-        private Random RandomModule = new Random(1);
-        private readonly Func<int, int, float, int, int, Animation> imgName;
-        private readonly int parallax;
-
-        public ParalaxBackgroundCreator(
-            WorldMover WorldMover
-            , Action<Thing> AddToWOrld
-            , Game1 Game1
-            , Func<int, int, float, int, int, Animation> imgName
-            , int parallax)
-        {
-            this.parallax = parallax;
-            this.imgName = imgName;
-            this.Game1 = Game1;
-            this.WorldMover = WorldMover;
-            this.AddToWOrld = AddToWOrld;
-
-            CreateGroundOnTheRight();
-            AddUpdate(OnUpdate);
-        }
-
-        private void OnUpdate()
-        {
-            if (lastModule.X < MapModule.WIDTH)
-            {
-                CreateGroundOnTheRight();
-            }
-        }
-
-        private void CreateGroundOnTheRight()
-        {
-            var anchorX = 0;
-            var anchorY = 1500;
-            if (lastModule != null)
-            {
-                anchorX = lastModule.X + MapModule.WIDTH * 2 - (WorldMover.WorldHorizontalSpeed / parallax);
-            }
-
-            lastModule = new ParallaxBackGround(
-                0
-                , 0
-                , MapModule.WIDTH * 2
-                , MapModule.HEIGHT
-                , parallax
-                , imgName);
-            lastModule.X = anchorX;
-            lastModule.Y = anchorY;
-            AddToWOrld(lastModule);
-        }
-    }
-
     public class PlatformCreator : Thing
     {
         MapModule lastModule;
@@ -102,10 +44,52 @@ namespace MonoGameProject
                     ,"0000000000000000"
                     ,"0000000000000000"
                     ,"0000000000000000"
+                    ,"0000000000000000"
+                    ,"0000000000000000"
+                    ,"0000000000000000"
+                    ,"0000000000000000"
+                    ,"0000000000000000"
+                    ,"0000000000000000"
+                    ,"1111111111111111")
+                ,new MapModuleInfo(
+                    true
+                    ,true
+                    ,true
+                    ,true
+                    ,"0000000000000000"
+                    ,"0000000000000000"
+                    ,"0000000000000000"
+                    ,"0000000000000000"
+                    ,"0000000000000000"
+                    ,"0000000000000000"
+                    ,"0000000000000000"
+                    ,"0000000000000000"
+                    ,"0000000000000000"
                     ,"0a00000000000000"
                     ,"0a00000000000000"
                     ,"0000000000000000"
                     ,"0000000000000000"
+                    ,"1111111111111111"
+                    ,"1000000000000001"
+                    ,"1000000000000001")
+                    ,new MapModuleInfo(
+                    true
+                    ,true
+                    ,true
+                    ,true
+                    ,"0000000000000000"
+                    ,"0000000000000000"
+                    ,"0000000000000000"
+                    ,"0000000000000000"
+                    ,"0000000000000000"
+                    ,"0000000000000000"
+                    ,"0000000000000000"
+                    ,"1111111111111111"
+                    ,"0000000000000000"
+                    ,"0000000000000000"
+                    ,"000z000000z00000"
+                    ,"1111111111111111"
+                    ,"1111111111111111"
                     ,"0000000000000000"
                     ,"0000000000000000"
                     ,"1111111111111111")

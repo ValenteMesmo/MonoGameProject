@@ -104,7 +104,7 @@ namespace MonoGameProject
                             combo++;
                             j++;
                         }
-                        
+
 
                         AddCollider(new Collider()
                         {
@@ -113,7 +113,7 @@ namespace MonoGameProject
                             Width = CELL_SIZE * combo,
                             Height = CELL_SIZE
                         });
-                    }
+                    }                
                     if (type == '0')
                     {
                         CreateBackground(i, j);
@@ -125,14 +125,17 @@ namespace MonoGameProject
                             CreateBackground(i, j);
                         }
                         else
-                            AddAnimation(
-                                GeneratedContent.Create_knight_block(
-                                     j * CELL_SIZE + 1
+                            AddAnimation(new Animation(
+                                new AnimationFrame(
+                                    "block"
+                                    , j * CELL_SIZE + 1
                                     , i * CELL_SIZE + 1
-                                    , 1
                                     , CELL_SIZE
                                     , CELL_SIZE
-                                ));
+                                )
+                                { RenderingLayer = 1 })
+                            { Color = Color.Yellow }
+                            );
                     }
                     if (type == 'a')
                     {
@@ -178,29 +181,26 @@ namespace MonoGameProject
 
         }
 
-        //    private void CreateSolid(int i, int j)
-        //    {
-        //        AddAnimation(new Animation(
-        //            new AnimationFrame(
-        //                "block"
-        //                , (j) * CELL_SIZE + 1
-        //                , i * CELL_SIZE + 1
-        //                , CELL_SIZE
-        //                , CELL_SIZE
-        //            )
-        //        )
-        //        { Color = Color.Brown }
-        //        );
+        private void CreateSolid(int i, int j)
+        {
+            AddAnimation(
+                GeneratedContent.Create_knight_block(
+                    (j) * CELL_SIZE + 1
+                    , i * CELL_SIZE + 1
+                    ,0.5f
+                    , CELL_SIZE
+                    , CELL_SIZE
+                )
+            );
 
-        //        AddCollider(new Collider()
-        //        {
-        //            OffsetX = (j) * CELL_SIZE + 1,
-        //            OffsetY = i * CELL_SIZE + 1,
-        //            Width = CELL_SIZE,
-        //            Height = CELL_SIZE
-        //        });
-        //    }
-        //}
+            AddCollider(new Collider()
+            {
+                OffsetX = (j) * CELL_SIZE + 1,
+                OffsetY = i * CELL_SIZE + 1,
+                Width = CELL_SIZE,
+                Height = CELL_SIZE
+            });
+        }
     }
     public class ParallaxBackGround : Thing
     {
