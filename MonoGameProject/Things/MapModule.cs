@@ -2,6 +2,8 @@
 using GameCore;
 using Microsoft.Xna.Framework;
 using MonoGameProject.Things;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MonoGameProject
 {
@@ -73,6 +75,17 @@ namespace MonoGameProject
             else
                 Color = Color.LightCyan;
 
+            var tiles = new TileMerger().getMergedTiles(Info.Tiles);
+            foreach (var tile in tiles.Where(f => f.Type == '1'))
+            {
+                AddCollider(new Collider
+                {
+                    OffsetX = (tile.X-1) * CELL_SIZE + 1,
+                    OffsetY = (tile.Y-1) * CELL_SIZE + 1,
+                    Width = tile.W * CELL_SIZE,
+                    Height = tile.H * CELL_SIZE
+                });
+            }
 
             for (int i = 0; i < CELL_NUMBER; i++)
             {
@@ -81,39 +94,15 @@ namespace MonoGameProject
                     var type = Info.Tiles[i][j];
                     if (type == '1')
                     {
-                        var combo = 1;
-                        while (true)
-                        {
-                            AddAnimation(
-                                GeneratedContent.Create_knight_block(
-                                    j * CELL_SIZE +1
-                                    , i * CELL_SIZE + 1
-                                    , 0.5f
-                                    , CELL_SIZE
-                                    , CELL_SIZE
-                            ));
-
-                            if (j + 1 >= CELL_NUMBER)
-                                break;
-
-
-                            type = Info.Tiles[i][j + 1];
-
-                            if (type != '1')
-                                break;
-                            combo++;
-                            j++;
-                        }
-
-
-                        AddCollider(new Collider()
-                        {
-                            OffsetX = (j - combo + 1) * CELL_SIZE + 1,
-                            OffsetY = i * CELL_SIZE + 1,
-                            Width = CELL_SIZE * combo,
-                            Height = CELL_SIZE
-                        });
-                    }                
+                        AddAnimation(
+                            GeneratedContent.Create_knight_block(
+                                j * CELL_SIZE + 1
+                                , i * CELL_SIZE + 1
+                                , 0.5f
+                                , CELL_SIZE
+                                , CELL_SIZE
+                        ));
+                    }
                     if (type == '0')
                     {
                         CreateBackground(i, j);
@@ -187,7 +176,7 @@ namespace MonoGameProject
                 GeneratedContent.Create_knight_block(
                     (j) * CELL_SIZE + 1
                     , i * CELL_SIZE + 1
-                    ,0.5f
+                    , 0.5f
                     , CELL_SIZE
                     , CELL_SIZE
                 )

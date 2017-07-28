@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameCore", "GameCore\GameCo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConvertJsonToCSharp", "ConvertJsonToCSharp\ConvertJsonToCSharp.csproj", "{C42E820B-2234-4969-AB19-2CD14F3B3DDF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProject", "UnitTestProject\UnitTestProject.csproj", "{8C959633-E5B7-445F-B3C1-A5A0464DF194}"
+EndProject
 Global
 	GlobalSection(Performance) = preSolution
 		HasPerformanceSessions = true
@@ -30,6 +32,10 @@ Global
 		{C42E820B-2234-4969-AB19-2CD14F3B3DDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C42E820B-2234-4969-AB19-2CD14F3B3DDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C42E820B-2234-4969-AB19-2CD14F3B3DDF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C959633-E5B7-445F-B3C1-A5A0464DF194}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C959633-E5B7-445F-B3C1-A5A0464DF194}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C959633-E5B7-445F-B3C1-A5A0464DF194}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C959633-E5B7-445F-B3C1-A5A0464DF194}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
