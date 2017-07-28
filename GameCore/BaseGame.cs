@@ -16,6 +16,9 @@ internal class BaseGame : OriginalGameClass
     private Dictionary<string, Texture2D> Textures;
     private readonly Game Parent;
     SpriteFont SpriteFont;
+    
+    Effect effect;
+
 #if DEBUG
     private bool DisplayColliders;
 #endif
@@ -62,6 +65,7 @@ internal class BaseGame : OriginalGameClass
         Graphics.IsFullScreen = true;
 #endif
         Graphics.ApplyChanges();
+        
         base.Initialize();
     }
 
@@ -72,6 +76,7 @@ internal class BaseGame : OriginalGameClass
         Textures = new Dictionary<string, Texture2D>();
         Sounds = new Dictionary<string, SoundEffect>();
         SpriteFont = Content.Load<SpriteFont>("SpriteFont");
+        effect = Content.Load<Effect>("ColorChanger");
 
         {
             var pixel = new Texture2D(GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
@@ -118,15 +123,15 @@ internal class BaseGame : OriginalGameClass
     {
         GraphicsDevice.Clear(Color.CornflowerBlue);
 
-        SpriteBatch.Begin(SpriteSortMode.BackToFront,
+        SpriteBatch.Begin(SpriteSortMode.Immediate,
                    BlendState.AlphaBlend,
                    null,
                    null,
                    null,
                    null,
                    Camera.GetTransformation(GraphicsDevice));
-        ;
-
+        //effect.CurrentTechnique.Passes[0].Apply();
+        
         Parent.FrameCounter.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
 #if DEBUG
 

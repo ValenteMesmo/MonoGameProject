@@ -32,3 +32,9 @@
 /processorParam:TextureFormat=Color
 /build:knight.png
 
+#begin ColorChanger.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:ColorChanger.fx
+
