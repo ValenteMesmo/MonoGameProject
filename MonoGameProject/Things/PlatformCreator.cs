@@ -358,11 +358,11 @@ namespace MonoGameProject
                     ,"1111111111111111")
             };
 
-            CurrentModules = 
-                /*
-                Modules;
-                */
+            CurrentModules =
+            /*
             CaveModules;
+            */
+            Modules;
             CreateGroundOnTheRight();
             AddUpdate(OnUpdate);
         }
@@ -451,6 +451,7 @@ namespace MonoGameProject
             {
                 foreach (var previous in Result)
                     if (previous.Y + previous.H == current.Y
+                            && previous.X == current.X
                             && previous.H > 0
                             && previous.W > 0
                             && current.W > 0
