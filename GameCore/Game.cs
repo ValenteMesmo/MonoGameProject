@@ -14,6 +14,7 @@ public abstract class Game : IDisposable
     protected InputRepository InputRepository { get { return BaseGame.World.PlayerInputs; } }
     protected InputRepository2 InputRepository2 { get { return BaseGame.World.PlayerInputs2; } }
     public bool FullScreen { get { return BaseGame.Graphics.IsFullScreen; } set { BaseGame.Graphics.IsFullScreen = value; } }
+    public void Sleep() { BaseGame.World.Sleep(); }
 
     public Game(ILoadContents ContentLoader)
     {

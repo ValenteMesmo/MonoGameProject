@@ -5,6 +5,11 @@ namespace MonoGameProject
 {
     public class Player : Humanoid
     {
+        //animação de morte igual as da abertura de onepunch
+        //      (com uma bela antecipação)
+        //
+        //mudar/tocar musica quando um baú aparecer na tela
+        //      Ele deve brilhar também
         //animacao de beirada (quase caindo)
         //incluir misc stuff ... coisas que da para quebrar! caso voce erre um ataque, por exemplo.
 
@@ -51,7 +56,8 @@ namespace MonoGameProject
                     DamageDuration = 25;
                     t.Disabled = true;
                     t.Parent.Destroy();
-
+                    Game1.Sleep();
+                    Game1.Camera.ShakeUp(20);
                 }
                 if (t.Parent is Armor)
                 {

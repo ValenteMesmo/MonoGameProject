@@ -16,6 +16,7 @@ internal class BaseGame : OriginalGameClass
     private Dictionary<string, Texture2D> Textures;
     private readonly Game Parent;
     SpriteFont SpriteFont;
+    public World World { get; }
     
     Effect effect;
 
@@ -35,7 +36,6 @@ internal class BaseGame : OriginalGameClass
         }
     }
 
-    public World World { get; }
 
     public BaseGame(ILoadContents ContentLoader, Game Parent)
     {

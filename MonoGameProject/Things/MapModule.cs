@@ -113,7 +113,7 @@ namespace MonoGameProject
                     {
                         CreateBackground(i, j);
                     }
-                    if (type == 'a')
+                    if (type == 'r')
                     {
                         AddToWorld(new LeftFireBallTrap(AddToWorld, i % 2 == 0 ? 50 : 0)
                         {
@@ -121,7 +121,7 @@ namespace MonoGameProject
                             Y = Y + i * CELL_SIZE
                         });
                     }
-                    if (type == 'b')
+                    if (type == 'l')
                     {
                         AddToWorld(new RightFireBallTrap(AddToWorld, i % 2 == 0 ? 50 : 0)
                         {
@@ -137,7 +137,7 @@ namespace MonoGameProject
                             Y = Y + i * CELL_SIZE
                         });
                     }
-                    if (type == 'r')
+                    if (type == 'a')
                     {
                         AddToWorld(new Armor()
                         {
