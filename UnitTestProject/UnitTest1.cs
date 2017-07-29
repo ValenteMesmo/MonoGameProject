@@ -144,5 +144,28 @@ namespace UnitTestProject
             Assert.AreEqual(3, actual.Length);
         }
 
+        [TestMethod]
+        public void TestMethod10()
+        {
+            var actual = sut.getMergedTiles(
+                    "11101"
+                  , "10001"
+                  , "10111").ToArray();
+
+            Assert.AreEqual(7, actual.Length);
+
+            Assert.AreEqual('1',actual[0].Type);
+            Assert.AreEqual(3,actual[0].W);
+            Assert.AreEqual(1, actual[0].H);
+
+            Assert.AreEqual('0', actual[1].Type);
+            Assert.AreEqual(1, actual[1].W);
+            Assert.AreEqual(1, actual[1].H);
+
+            Assert.AreEqual('1', actual[2].Type);
+            Assert.AreEqual(1, actual[2].W);
+            Assert.AreEqual(2, actual[2].H);
+        }
+
     }
 }

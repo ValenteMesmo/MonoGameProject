@@ -45,7 +45,7 @@ namespace MonoGameProject
 
                     hitpoints--;
                     State = PlayerState.TakingDamage;
-                    HorizontalSpeed = t.Parent.HorizontalSpeed;
+                    HorizontalSpeed = t.Parent.HorizontalSpeed/2;
                     VerticalSpeed = -50;
 
                     DamageDuration = 25;
