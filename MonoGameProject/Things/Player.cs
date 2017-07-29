@@ -1,5 +1,4 @@
 ﻿using GameCore;
-using Microsoft.Xna.Framework;
 using System;
 
 namespace MonoGameProject
@@ -20,9 +19,8 @@ namespace MonoGameProject
         //bad status... slow
         //plataforma "barco"... igual mario....
         //breakable blocks
-        //criar mapas para cima e para baixo também.
         //traps
-        // fire balls (horizontal e vertical)
+        // fire balls (vertical)
         private const int width = 1000;
         private const int height = 900;
         public int DamageDuration = 0;
@@ -37,11 +35,15 @@ namespace MonoGameProject
             X = 1000;
             Y = 7000;
 
-            var count = 0;
+            var hitpoints = 2;
             Action<Collider, Collider> HandleFireball = (s, t) =>
             {
                 if (t.Parent is FireBall && State != PlayerState.TakingDamage)
                 {
+                    if (State == PlayerState.TakingDamage)
+                        return;
+
+                    hitpoints--;
                     State = PlayerState.TakingDamage;
                     HorizontalSpeed = t.Parent.HorizontalSpeed;
                     VerticalSpeed = -50;
@@ -50,6 +52,14 @@ namespace MonoGameProject
                     t.Disabled = true;
                     t.Parent.Destroy();
 
+                }
+                if (t.Parent is Armor)
+                {
+                    if (hitpoints < 2)
+                    {
+                        hitpoints = 2;
+                        t.Parent.Destroy();
+                    }
                 }
             };
             AddUpdate(() =>
@@ -61,9 +71,8 @@ namespace MonoGameProject
                     {
                         DamageDuration = 0;
                         State = PlayerState.FallingRight;
-                        if (count == 1)
+                        if (hitpoints == 0)
                             Game1.Restart();
-                        count++;
                     }
                 }
             });

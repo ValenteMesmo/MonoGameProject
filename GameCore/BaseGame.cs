@@ -108,7 +108,7 @@ internal class BaseGame : OriginalGameClass
             else
                 Camera.Zoom = 0.1f;
 
-            DisplayColliders = state.NumLock;
+            DisplayColliders = !state.NumLock;
 
             if (state.IsKeyDown(Keys.Escape))
                 Parent.Restart();
@@ -123,7 +123,7 @@ internal class BaseGame : OriginalGameClass
     {
         GraphicsDevice.Clear(Color.CornflowerBlue);
 
-        SpriteBatch.Begin(SpriteSortMode.Immediate,
+        SpriteBatch.Begin(SpriteSortMode.BackToFront,
                    BlendState.AlphaBlend,
                    null,
                    null,

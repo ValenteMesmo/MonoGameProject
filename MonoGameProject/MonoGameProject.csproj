@@ -45,6 +45,7 @@
     <Compile Include="GeneratedContent.cs" />
     <Compile Include="Things\AIInput.cs" />
     <Compile Include="Things\AnimatorFactoryForThingsWithState.cs" />
+    <Compile Include="Things\Armor.cs" />
     <Compile Include="Things\DestroyIfLeftBehind.cs" />
     <Compile Include="Things\Enemy.cs" />
     <Compile Include="Things\FireBall.cs" />

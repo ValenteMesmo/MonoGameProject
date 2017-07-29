@@ -97,7 +97,7 @@ public class GeneratedContent : ILoadContents
                 foreach (var item in group)
                 {
                     rectangles += $@"
-            new AnimationFrame(""{fileName}"", X, Y, Width, Height, new Rectangle({item.frame.x}+10, {item.frame.y}+10, {item.frame.w}-20, {item.frame.h}-20)){{ RenderingLayer = Z, Flipped = Flipped }},";
+            new AnimationFrame(""{fileName}"", X, Y, Width, Height, new Rectangle({item.frame.x}+5, {item.frame.y}+5, {item.frame.w}-10, {item.frame.h}-10)){{ RenderingLayer = Z, Flipped = Flipped }},";
                 }
                 rectangles = rectangles.Remove(rectangles.Length - 1);
                 methods +=

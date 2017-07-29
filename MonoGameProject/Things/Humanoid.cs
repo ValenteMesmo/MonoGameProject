@@ -96,8 +96,8 @@ namespace MonoGameProject
             AddUpdate(new ChangeToWallJumping(this));
             AddUpdate(new ChangeToHeadBumpState(this, WorldMover.Camera));
             AddUpdate(new ChangeToCrouchState(this));
-            AddUpdate(new DestroyIfLeftBehind(this));
-            
+
+            AddUpdate(new DestroyIfLeftBehind(this));            
             AddUpdate(new PreventPlayerFromAccicentlyFalling(this));
             AddUpdate(new ResetSizeAndOffsetY(this));
             AddUpdate(new ReduceSizeWhenHeadBumping(this));

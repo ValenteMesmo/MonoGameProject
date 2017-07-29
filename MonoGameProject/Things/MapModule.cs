@@ -62,7 +62,7 @@ namespace MonoGameProject
 
             AddUpdate(() =>
             {
-                if (this.X <= -WIDTH)
+                if (this.X <= -WIDTH * 2)
                 {
                     Blocker.X = this.X + WIDTH - BackBlocker.WIDTH;
                     Destroy();
@@ -80,8 +80,8 @@ namespace MonoGameProject
             {
                 AddCollider(new Collider
                 {
-                    OffsetX = (tile.X-1) * CELL_SIZE + 1,
-                    OffsetY = (tile.Y-1) * CELL_SIZE + 1,
+                    OffsetX = (tile.X - 1) * CELL_SIZE + 1,
+                    OffsetY = (tile.Y - 1) * CELL_SIZE + 1,
                     Width = tile.W * CELL_SIZE,
                     Height = tile.H * CELL_SIZE
                 });
@@ -94,57 +94,65 @@ namespace MonoGameProject
                     var type = Info.Tiles[i][j];
                     if (type == '1')
                     {
-                        AddAnimation(
-                            GeneratedContent.Create_knight_block(
-                                j * CELL_SIZE + 1
-                                , i * CELL_SIZE + 1
-                                , 0.5f
-                                , CELL_SIZE
-                                , CELL_SIZE
-                        ));
-                    }
+                        var animation = GeneratedContent.Create_knight_block(
+                               j * CELL_SIZE + 1
+                               , i * CELL_SIZE + 1
+                               , 0.5f
+                               , CELL_SIZE
+                               , CELL_SIZE);
+                        animation.Color = Color.Aqua;
+                        AddAnimation(animation);
+        }
                     if (type == '0')
                     {
                         CreateBackground(i, j);
-                    }
+    }
                     if (type == '9')
                     {
                         if (RandomTresure.Next(0, 3) > 0)
                         {
                             CreateBackground(i, j);
-                        }
+}
                         else
                             AddAnimation(new Animation(
                                 new AnimationFrame(
                                     "block"
-                                    , j * CELL_SIZE + 1
-                                    , i * CELL_SIZE + 1
+                                    , j* CELL_SIZE + 1
+                                    , i* CELL_SIZE + 1
                                     , CELL_SIZE
                                     , CELL_SIZE
                                 )
-                                { RenderingLayer = 1 })
+{ RenderingLayer = 1 })
                             { Color = Color.Yellow }
                             );
                     }
                     if (type == 'a')
                     {
                         AddToWorld(new LeftFireBallTrap(AddToWorld, i % 2 == 0 ? 50 : 0)
-                        {
-                            X = X + j * CELL_SIZE,
+{
+    X = X + j * CELL_SIZE,
                             Y = Y + i * CELL_SIZE
                         });
                     }
                     if (type == 'b')
                     {
                         AddToWorld(new RightFireBallTrap(AddToWorld, i % 2 == 0 ? 50 : 0)
-                        {
-                            X = X + j * CELL_SIZE,
+{
+    X = X + j * CELL_SIZE,
                             Y = Y + i * CELL_SIZE
                         });
                     }
                     if (type == 'z')
                     {
                         AddToWorld(new Enemy(new AIInput(), Game1)
+                        {
+                            X = X + j* CELL_SIZE,
+                            Y = Y + i * CELL_SIZE
+                        });
+                    }
+                    if (type == 'r')
+                    {
+                        AddToWorld(new Armor()
                         {
                             X = X + j * CELL_SIZE,
                             Y = Y + i * CELL_SIZE
@@ -155,59 +163,59 @@ namespace MonoGameProject
         }
 
         private void CreateBackground(int i, int j)
-        {
-            //AddAnimation(new Animation(
-            //    new AnimationFrame(
-            //        "block"
-            //        , j * CELL_SIZE + 1
-            //        , i * CELL_SIZE + 1
-            //        , CELL_SIZE
-            //        , CELL_SIZE
-            //    )
-            //    { RenderingLayer = 1 })
-            //{ Color = Color }
-            //);
+{
+    //AddAnimation(new Animation(
+    //    new AnimationFrame(
+    //        "block"
+    //        , j * CELL_SIZE + 1
+    //        , i * CELL_SIZE + 1
+    //        , CELL_SIZE
+    //        , CELL_SIZE
+    //    )
+    //    { RenderingLayer = 1 })
+    //{ Color = Color }
+    //);
 
-        }
+}
 
-        private void CreateSolid(int i, int j)
-        {
-            AddAnimation(
-                GeneratedContent.Create_knight_block(
-                    (j) * CELL_SIZE + 1
-                    , i * CELL_SIZE + 1
-                    , 0.5f
-                    , CELL_SIZE
-                    , CELL_SIZE
-                )
-            );
+private void CreateSolid(int i, int j)
+{
+    AddAnimation(
+        GeneratedContent.Create_knight_block(
+            (j) * CELL_SIZE + 1
+            , i * CELL_SIZE + 1
+            , 0.5f
+            , CELL_SIZE
+            , CELL_SIZE
+        )
+    );
 
-            AddCollider(new Collider()
-            {
-                OffsetX = (j) * CELL_SIZE + 1,
-                OffsetY = i * CELL_SIZE + 1,
-                Width = CELL_SIZE,
-                Height = CELL_SIZE
-            });
-        }
+    AddCollider(new Collider()
+    {
+        OffsetX = (j) * CELL_SIZE + 1,
+        OffsetY = i * CELL_SIZE + 1,
+        Width = CELL_SIZE,
+        Height = CELL_SIZE
+    });
+}
     }
     public class ParallaxBackGround : Thing
+{
+    //static Color[] Colors = new Color[] { Color.Yellow, Color.Orange, Color.Blue };
+    //static int index = 0;
+    public ParallaxBackGround(
+        int x
+        , int y
+        , int width
+        , int height
+        , int parallax
+        , Func<int, int, float, int, int, Animation> imgName)
     {
-        //static Color[] Colors = new Color[] { Color.Yellow, Color.Orange, Color.Blue };
-        //static int index = 0;
-        public ParallaxBackGround(
-            int x
-            , int y
-            , int width
-            , int height
-            , int parallax
-            , Func<int, int, float, int, int, Animation> imgName)
-        {
-            AddAnimation(imgName(x, y, 0.9f + parallax / 1000f, width, height));
+        AddAnimation(imgName(x, y, 0.9f + parallax / 1000f, width, height));
 
-            AddUpdate(new MoveHorizontallyWithTheWorld(this, parallax));
-            AddUpdate(new DestroyIfLeftBehind(this));
-        }
+        AddUpdate(new MoveHorizontallyWithTheWorld(this, parallax));
+        AddUpdate(new DestroyIfLeftBehind(this));
     }
+}
 }
 

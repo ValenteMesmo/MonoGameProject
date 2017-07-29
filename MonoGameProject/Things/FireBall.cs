@@ -7,6 +7,8 @@ namespace MonoGameProject
 {
     public class FireBall : Thing
     {
+        public const int SPEED = 150;
+
         public FireBall(int speedX, int speedY)
         {
             var width = 400;
