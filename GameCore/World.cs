@@ -34,7 +34,7 @@ namespace GameCore
 
         public void Sleep()
         {
-            sleep = 6;
+            sleep = 2;
         }
 
         public void Add(Thing thing)
@@ -47,7 +47,7 @@ namespace GameCore
         {
             Things.Remove(thing);
         }
-
+        
         public void Update()
         {
             if (Stopped)
@@ -58,9 +58,9 @@ namespace GameCore
 
             List<Vector2> touches = TouchInputHandler.GetTouches();
             Things.ForEach(thing =>
-            {
-                //TODO: Animation update should go after sleep check
+            {                
                 thing.Animations.ForEach(f => f.Update());
+                //TOuch, should go after sleep check
                 TouchInputHandler.Handle(thing.Touchables, touches);
             });
 
@@ -107,7 +107,7 @@ namespace GameCore
                         ColliderExtensions.HandleHorizontalCollision(active, passive);
                 });
             });
-            
+
             Things.ForEach(thing => thing.MoveVertically());
             activeColliders.ForEach(active =>
             {

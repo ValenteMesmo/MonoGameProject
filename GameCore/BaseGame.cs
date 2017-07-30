@@ -17,7 +17,7 @@ internal class BaseGame : OriginalGameClass
     private readonly Game Parent;
     SpriteFont SpriteFont;
     public World World { get; }
-    
+
     Effect effect;
 
 #if DEBUG
@@ -65,7 +65,7 @@ internal class BaseGame : OriginalGameClass
         Graphics.IsFullScreen = true;
 #endif
         Graphics.ApplyChanges();
-        
+
         base.Initialize();
     }
 
@@ -97,24 +97,21 @@ internal class BaseGame : OriginalGameClass
 
     protected override void Update(GameTime gameTime)
     {
-        //if (timeSinceLastUpdate >= TIME_TO_NEXT_UPDATE)
-        {
-            Camera.Update();
+        Camera.Update();
 
-            var state = Keyboard.GetState();
+        var state = Keyboard.GetState();
 #if DEBUG
-            if (state.CapsLock)
-                Camera.Zoom = 0.02f;
-            else
-                Camera.Zoom = 0.1f;
+        if (state.CapsLock)
+            Camera.Zoom = 0.02f;
+        else
+            Camera.Zoom = 0.1f;
 
-            DisplayColliders = state.NumLock;
+        DisplayColliders = state.NumLock;
 
-            if (state.IsKeyDown(Keys.Escape))
-                Parent.Restart();
+        if (state.IsKeyDown(Keys.Escape))
+            Parent.Restart();
 #endif
-            World.Update();
-        }
+        World.Update();
 
         base.Update(gameTime);
     }
@@ -131,7 +128,7 @@ internal class BaseGame : OriginalGameClass
                    null,
                    Camera.GetTransformation(GraphicsDevice));
         //effect.CurrentTechnique.Passes[0].Apply();
-        
+
         Parent.FrameCounter.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
 #if DEBUG
 

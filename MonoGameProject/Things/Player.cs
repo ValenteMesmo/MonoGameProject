@@ -82,7 +82,13 @@ namespace MonoGameProject
                     }
                 }
             });
-
+            AddUpdate(()=> {
+                if (Inputs.ClickedAction1)
+                {
+                    Game1.Sleep();
+                    Game1.Camera.ShakeUp(20);
+                }
+            });
             //AddUpdate(() => Game.LOG += X);
 
             MainCollider.AddBotCollisionHandler(HandleFireball);
