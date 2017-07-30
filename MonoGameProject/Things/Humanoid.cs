@@ -20,11 +20,13 @@ namespace MonoGameProject
         public readonly CheckIfCollidingWith<IBlockPlayerMovement> LeftGroundAcidentChecker;
 
         public readonly Collider MainCollider;
-        public readonly PlayerInputs Inputs;
+        public readonly GameInputs Inputs;
 
-        public Humanoid(PlayerInputs Inputs, Game1 WorldMover)
+        public Humanoid(GameInputs Inputs, Game1 WorldMover)
         {
             this.Inputs = Inputs;
+
+            AddUpdate(Inputs);
 
             MainCollider = new Collider()
             {

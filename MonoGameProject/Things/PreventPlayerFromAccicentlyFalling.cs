@@ -20,7 +20,7 @@ namespace MonoGameProject
                 || Player.State == PlayerState.CrouchingRight)
             {
                 if (Player.HorizontalSpeed > 0 
-                    && Player.Inputs.RightDown == false                    
+                    && Player.Inputs.Right == false                    
                     && Player.RightGroundAcidentChecker.Colliding == false)
                 {
                     Player.HorizontalSpeed -= VELOCITY;
@@ -28,7 +28,7 @@ namespace MonoGameProject
                         Player.HorizontalSpeed = 0;
                 }
                 if (Player.HorizontalSpeed < 0 
-                    && Player.Inputs.LeftDown == false
+                    && Player.Inputs.Left == false
                     && Player.LeftGroundAcidentChecker.Colliding == false)
                 {
                     Player.HorizontalSpeed += VELOCITY;

@@ -43,7 +43,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="GeneratedContent.cs" />
-    <Compile Include="Things\AIInput.cs" />
     <Compile Include="Things\AnimatorFactoryForThingsWithState.cs" />
     <Compile Include="Things\Armor.cs" />
     <Compile Include="Things\DestroyIfLeftBehind.cs" />

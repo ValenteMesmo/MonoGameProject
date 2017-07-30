@@ -20,11 +20,11 @@ namespace MonoGameProject
                 && !Player.roofChecker.Colliding
                 && Player.VerticalSpeed >=0)
             {
-                if (Player.Inputs.RightDown)
+                if (Player.Inputs.Right)
                 {
                     Player.State = PlayerState.WalkingRight;
                 }
-                else if (Player.Inputs.LeftDown)
+                else if (Player.Inputs.Left)
                 {
                     Player.State = PlayerState.WalkingLeft;
                 }

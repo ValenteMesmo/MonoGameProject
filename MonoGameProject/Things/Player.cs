@@ -31,7 +31,7 @@ namespace MonoGameProject
         public int DamageDuration = 0;
 
         public Player(
-            PlayerInputs InputRepository
+            GameInputs InputRepository
             , Game1 Game1
             ) : base(
                 InputRepository

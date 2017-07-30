@@ -55,8 +55,12 @@
     <Compile Include="Extensions\IListExtensions.cs" />
     <Compile Include="FrameCounter.cs" />
     <Compile Include="Game.cs" />
+    <Compile Include="GameInputs.cs" />
+    <Compile Include="GamePadChecker.cs" />
     <Compile Include="ILoadContents.cs" />
-    <Compile Include="InputRepository.cs" />
+    <Compile Include="InputChecker.cs" />
+    <Compile Include="InputCheckerAggregation.cs" />
+    <Compile Include="KeyboardChecker.cs" />
     <Compile Include="UpdateHandler.cs" />
     <Compile Include="TouchInputHandler.cs" />
     <Compile Include="World.cs" />

@@ -22,12 +22,12 @@ namespace MonoGameProject
                 && Player.State != PlayerState.WallJumpingToTheRight)
             {
                 if (Player.leftWallChecker.Colliding
-                    && Player.Inputs.LeftDown)
+                    && Player.Inputs.Left)
                 {
                     Player.State = PlayerState.SlidingWallLeft;
                 }
                 else if (Player.rightWallChecker.Colliding
-                    && Player.Inputs.RightDown)
+                    && Player.Inputs.Right)
                 {
                     Player.State = PlayerState.SlidingWallRight;
                 }

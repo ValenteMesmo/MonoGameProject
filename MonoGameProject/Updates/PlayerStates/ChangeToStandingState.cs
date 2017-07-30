@@ -18,9 +18,9 @@ namespace MonoGameProject
 
             if (Player.groundChecker.Colliding
                 && !Player.roofChecker.Colliding
-                && !Player.Inputs.LeftDown
-                && !Player.Inputs.RightDown
-                && !Player.Inputs.DownDown
+                && !Player.Inputs.Left
+                && !Player.Inputs.Right
+                && !Player.Inputs.Down
                 )
             {
                 if (Player.State == PlayerState.WalkingLeft

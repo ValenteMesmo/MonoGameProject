@@ -9,7 +9,6 @@ namespace MonoGameProject
         private Thing MovingRightBy;
         private Thing MovingLeftBy;
         private bool BackBlocking;
-        private bool ShouldDrawBorders = false;
         private const int VELOCITY = 6;
         private const int FRICTION = 8;
 

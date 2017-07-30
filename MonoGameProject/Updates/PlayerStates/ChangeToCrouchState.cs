@@ -17,7 +17,7 @@ namespace MonoGameProject.Updates.PlayerStates
             if (Player.State == PlayerState.TakingDamage)
                 return;
 
-            if ( Player.Inputs.DownDown
+            if ( Player.Inputs.Down
                 && Player.groundChecker.Colliding)
             {
                 if (Player.State == PlayerState.StandingRight

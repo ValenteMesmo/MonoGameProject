@@ -135,7 +135,7 @@ namespace MonoGameProject
                     }
                     if (type == 'z')
                     {
-                        AddToWorld(new Enemy(new AIInput(), Game1)
+                        AddToWorld(new Enemy(new GameInputs(new InputCheckerAggregation(new PatrolAiInputs())), Game1)
                         {
                             X = X + j * CELL_SIZE,
                             Y = Y + i * CELL_SIZE

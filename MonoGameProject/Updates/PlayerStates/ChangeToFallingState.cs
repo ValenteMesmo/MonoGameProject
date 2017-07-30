@@ -51,12 +51,12 @@ namespace MonoGameProject
                         Player.State = PlayerState.FallingRight;
                     }
                     else if (Player.State == PlayerState.FallingLeft
-                        && Player.Inputs.RightDown)
+                        && Player.Inputs.Right)
                     {
                         Player.State = PlayerState.FallingRight;
                     }
                     else if (Player.State == PlayerState.FallingRight
-                        && Player.Inputs.LeftDown)
+                        && Player.Inputs.Left)
                     {
                         Player.State = PlayerState.FallingLeft;
                     }
