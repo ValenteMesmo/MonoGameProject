@@ -4,21 +4,21 @@ using System.Linq;
 
 namespace MonoGameProject
 {
-    public class CheckIfCollidingWith<T> : Collider
+    public class CollisionChecker : Collider
     {
-        public CheckIfCollidingWith()
+        public CollisionChecker()
         {
             AddBotCollisionHandler((a, b) => { });
         }
 
-        public bool Colliding
+        public bool Colliding<T>()
         {
-            get
-            {
-                return CollidingWith.Any(f => f.Parent is T);
-            }
+            return CollidingWith.Any(f => f is T);
         }
 
-        public IEnumerable<Collider> GetGolliders(){ return CollidingWith.Where(f => f.Parent is T); } 
+        public IEnumerable<Collider> GetGolliders<T>()
+        {
+            return CollidingWith.Where(f => f is T);
+        }
     }
 }

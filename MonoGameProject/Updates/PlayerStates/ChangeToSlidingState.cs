@@ -1,4 +1,5 @@
 ﻿using GameCore;
+using MonoGameProject.Things;
 
 namespace MonoGameProject
 {
@@ -16,17 +17,17 @@ namespace MonoGameProject
             if (Player.State == PlayerState.TakingDamage)
                 return;
 
-            if (Player.groundChecker.Colliding == false
+            if (Player.groundChecker.Colliding<SomeKindOfGround>() == false
                 && Player.VerticalSpeed > 0
                 && Player.State != PlayerState.WallJumpingToTheLeft
                 && Player.State != PlayerState.WallJumpingToTheRight)
             {
-                if (Player.leftWallChecker.Colliding
+                if (Player.leftWallChecker.Colliding<SomeKindOfGround>()
                     && Player.Inputs.Left)
                 {
                     Player.State = PlayerState.SlidingWallLeft;
                 }
-                else if (Player.rightWallChecker.Colliding
+                else if (Player.rightWallChecker.Colliding<SomeKindOfGround>()
                     && Player.Inputs.Right)
                 {
                     Player.State = PlayerState.SlidingWallRight;

@@ -1,4 +1,5 @@
 ﻿using GameCore;
+using MonoGameProject.Things;
 using System.Linq;
 
 namespace MonoGameProject.Updates.PlayerStates
@@ -18,7 +19,7 @@ namespace MonoGameProject.Updates.PlayerStates
                 return;
 
             if ( Player.Inputs.Down
-                && Player.groundChecker.Colliding)
+                && Player.groundChecker.Colliding< IBlockPlayerMovement>())
             {
                 if (Player.State == PlayerState.StandingRight
                     || Player.State == PlayerState.WalkingRight

@@ -36,7 +36,7 @@ namespace MonoGameProject
         }
     }
 
-    public class MapModule : Thing, IBlockPlayerMovement
+    public class MapModule : Thing
     {
         public const int CELL_SIZE = 500;
         public const int CELL_NUMBER = 16;
@@ -88,7 +88,7 @@ namespace MonoGameProject
             var tiles = new TileMerger().getMergedTiles(Info.Tiles);
             foreach (var tile in tiles.Where(f => f.Type == '1'))
             {
-                AddCollider(new Collider
+                AddCollider(new GroundCollider
                 {
                     OffsetX = (tile.X - 1) * CELL_SIZE + 1,
                     OffsetY = (tile.Y - 1) * CELL_SIZE + 1,
@@ -135,7 +135,7 @@ namespace MonoGameProject
                     }
                     if (type == 'z')
                     {
-                        AddToWorld(new Enemy(new GameInputs(new InputCheckerAggregation(new PatrolAiInputs())), Game1)
+                        AddToWorld(new Enemy( Game1)
                         {
                             X = X + j * CELL_SIZE,
                             Y = Y + i * CELL_SIZE
@@ -182,7 +182,7 @@ namespace MonoGameProject
                 )
             );
 
-            AddCollider(new Collider()
+            AddCollider(new GroundCollider()
             {
                 OffsetX = (j) * CELL_SIZE + 1,
                 OffsetY = i * CELL_SIZE + 1,

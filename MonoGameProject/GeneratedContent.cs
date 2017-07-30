@@ -35,7 +35,7 @@ public class GeneratedContent : ILoadContents
     {
         var animation = new Animation(
             
-            new AnimationFrame("knight", X, Y, Width, Height, new Rectangle(1779+5, 0+5, 593-10, 594-10)){ RenderingLayer = Z, Flipped = Flipped }
+            new AnimationFrame("knight", X, Y, Width, Height, new Rectangle(1779+5, 0+5, 212-10, 164-10)){ RenderingLayer = Z, Flipped = Flipped }
         );
 
         return animation;
@@ -45,7 +45,7 @@ public class GeneratedContent : ILoadContents
     {
         var animation = new Animation(
             
-            new AnimationFrame("knight", X, Y, Width, Height, new Rectangle(2372+5, 0+5, 593-10, 594-10)){ RenderingLayer = Z, Flipped = Flipped }
+            new AnimationFrame("knight", X, Y, Width, Height, new Rectangle(1991+5, 0+5, 593-10, 594-10)){ RenderingLayer = Z, Flipped = Flipped }
         );
 
         return animation;
@@ -55,7 +55,7 @@ public class GeneratedContent : ILoadContents
     {
         var animation = new Animation(
             
-            new AnimationFrame("knight", X, Y, Width, Height, new Rectangle(2965+5, 0+5, 593-10, 594-10)){ RenderingLayer = Z, Flipped = Flipped }
+            new AnimationFrame("knight", X, Y, Width, Height, new Rectangle(2584+5, 0+5, 593-10, 594-10)){ RenderingLayer = Z, Flipped = Flipped }
         );
 
         return animation;
@@ -65,7 +65,7 @@ public class GeneratedContent : ILoadContents
     {
         var animation = new Animation(
             
-            new AnimationFrame("knight", X, Y, Width, Height, new Rectangle(0+5, 594+5, 593-10, 594-10)){ RenderingLayer = Z, Flipped = Flipped }
+            new AnimationFrame("knight", X, Y, Width, Height, new Rectangle(3177+5, 0+5, 593-10, 594-10)){ RenderingLayer = Z, Flipped = Flipped }
         );
 
         return animation;
@@ -75,14 +75,14 @@ public class GeneratedContent : ILoadContents
     {
         var animation = new Animation(
             
+            new AnimationFrame("knight", X, Y, Width, Height, new Rectangle(0+5, 594+5, 593-10, 596-10)){ RenderingLayer = Z, Flipped = Flipped },
             new AnimationFrame("knight", X, Y, Width, Height, new Rectangle(593+5, 594+5, 593-10, 596-10)){ RenderingLayer = Z, Flipped = Flipped },
             new AnimationFrame("knight", X, Y, Width, Height, new Rectangle(1186+5, 594+5, 593-10, 596-10)){ RenderingLayer = Z, Flipped = Flipped },
             new AnimationFrame("knight", X, Y, Width, Height, new Rectangle(1779+5, 594+5, 593-10, 596-10)){ RenderingLayer = Z, Flipped = Flipped },
             new AnimationFrame("knight", X, Y, Width, Height, new Rectangle(2372+5, 594+5, 593-10, 596-10)){ RenderingLayer = Z, Flipped = Flipped },
             new AnimationFrame("knight", X, Y, Width, Height, new Rectangle(2965+5, 594+5, 593-10, 596-10)){ RenderingLayer = Z, Flipped = Flipped },
             new AnimationFrame("knight", X, Y, Width, Height, new Rectangle(0+5, 1190+5, 593-10, 596-10)){ RenderingLayer = Z, Flipped = Flipped },
-            new AnimationFrame("knight", X, Y, Width, Height, new Rectangle(593+5, 1190+5, 593-10, 596-10)){ RenderingLayer = Z, Flipped = Flipped },
-            new AnimationFrame("knight", X, Y, Width, Height, new Rectangle(1186+5, 1190+5, 593-10, 596-10)){ RenderingLayer = Z, Flipped = Flipped }
+            new AnimationFrame("knight", X, Y, Width, Height, new Rectangle(593+5, 1190+5, 593-10, 596-10)){ RenderingLayer = Z, Flipped = Flipped }
         );
 
         return animation;
@@ -92,7 +92,7 @@ public class GeneratedContent : ILoadContents
     {
         var animation = new Animation(
             
-            new AnimationFrame("knight", X, Y, Width, Height, new Rectangle(1779+5, 1190+5, 1920-10, 1080-10)){ RenderingLayer = Z, Flipped = Flipped }
+            new AnimationFrame("knight", X, Y, Width, Height, new Rectangle(1186+5, 1190+5, 1920-10, 1080-10)){ RenderingLayer = Z, Flipped = Flipped }
         );
 
         return animation;

@@ -10,14 +10,14 @@ namespace MonoGameProject
         int jumpAvailave = 0;
         int minJumpSpeed = -60;
         int maxJumpSpeed = -120;
-        private CheckIfCollidingWith<IBlockPlayerMovement> groundChecker;
+        private CollisionChecker groundChecker;
         private readonly Humanoid Parent;
         private int cooldown;
 
         public Jump(
             Humanoid Parent,
             GameInputs InputRepository,
-            CheckIfCollidingWith<IBlockPlayerMovement> groundChecker)
+            CollisionChecker groundChecker)
         {
             this.Parent = Parent;
             this.groundChecker = groundChecker;
@@ -29,7 +29,7 @@ namespace MonoGameProject
             if (Parent.State == PlayerState.TakingDamage)
                 return;
 
-            if (groundChecker.Colliding)
+            if (groundChecker.Colliding<IBlockPlayerMovement>())
             {
                 jumpAvailave = 10;
             }

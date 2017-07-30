@@ -1,4 +1,5 @@
 ﻿using GameCore;
+using MonoGameProject.Things;
 
 namespace MonoGameProject
 {
@@ -21,7 +22,7 @@ namespace MonoGameProject
             {
                 if (Player.HorizontalSpeed > 0 
                     && Player.Inputs.Right == false                    
-                    && Player.RightGroundAcidentChecker.Colliding == false)
+                    && Player.RightGroundAcidentChecker.Colliding<SomeKindOfGround>() == false)
                 {
                     Player.HorizontalSpeed -= VELOCITY;
                     if (Player.HorizontalSpeed < 0)
@@ -29,7 +30,7 @@ namespace MonoGameProject
                 }
                 if (Player.HorizontalSpeed < 0 
                     && Player.Inputs.Left == false
-                    && Player.LeftGroundAcidentChecker.Colliding == false)
+                    && Player.LeftGroundAcidentChecker.Colliding<SomeKindOfGround>() == false)
                 {
                     Player.HorizontalSpeed += VELOCITY;
                     if (Player.HorizontalSpeed > 0)

@@ -8,11 +8,7 @@ namespace MonoGameProject
 
         protected override void OnStart()
         {
-            var player = new Player(
-                new GameInputs(
-                    new InputCheckerAggregation(
-                        new KeyboardChecker()
-                        , new GamePadChecker(0))), this);
+            var player = new Player(this);
             var WorldMover = new WorldMover(Camera);
             AddThing(WorldMover);
             AddThing(player);

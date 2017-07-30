@@ -7,15 +7,14 @@ namespace MonoGameProject
 {
     public class PlatformCreator : Thing
     {
-        MapModule lastModule;
-        WorldMover WorldMover;
-        Action<Thing> AddToWOrld;
-        BackBlocker BackBlocker;
-        Game1 Game1;
+        private MapModule lastModule;
+        private WorldMover WorldMover;
+        private Action<Thing> AddToWOrld;
+        private BackBlocker BackBlocker;
+        private Game1 Game1;
         private List<MapModuleInfo> CurrentModules;
         private List<MapModuleInfo> Modules;
         private List<MapModuleInfo> CaveModules;
-
         private Random RandomModule = new Random(1);
 
         public PlatformCreator(WorldMover WorldMover, Action<Thing> AddToWOrld, Game1 Game1)
@@ -65,8 +64,8 @@ namespace MonoGameProject
                     ,"0000000000000000"//
                     ,"0000000000000000"//
                     ,"0000000000000000"//
-                    ,"0000000000000000"//E
                     ,"0000000z00000000"//E
+                    ,"0000000000000000"//E
                     ,"1111111111111111")
                     ,new MapModuleInfo(
                     true
@@ -453,8 +452,6 @@ namespace MonoGameProject
 
     }
 
-
-
     public class Tiles
     {
         public char Type { get; set; }
@@ -574,5 +571,4 @@ namespace MonoGameProject
             }
         }
     }
-
 }

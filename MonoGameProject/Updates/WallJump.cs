@@ -1,4 +1,5 @@
 ﻿using GameCore;
+using MonoGameProject.Things;
 using System;
 
 namespace MonoGameProject
@@ -45,14 +46,14 @@ namespace MonoGameProject
                 {
                     if (Parent.State == PlayerState.WallJumpingToTheLeft)
                     {
-                        if (Parent.groundChecker.Colliding)
+                        if (Parent.groundChecker.Colliding<SomeKindOfGround>())
                             Parent.State = PlayerState.WalkingLeft;
                         else
                             Parent.State = PlayerState.FallingLeft;
                     }
                     else
                     {
-                        if (Parent.groundChecker.Colliding)
+                        if (Parent.groundChecker.Colliding<SomeKindOfGround>())
                             Parent.State = PlayerState.WalkingRight;
                         else
                             Parent.State = PlayerState.FallingRight;

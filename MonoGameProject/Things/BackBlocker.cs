@@ -4,13 +4,13 @@ using MonoGameProject.Things;
 
 namespace MonoGameProject
 {
-    public class BackBlocker : Thing, IBlockPlayerMovement
+    public class BackBlocker : Thing
     {
         public const int WIDTH = 2000;
         public const int HEIGHT = 8 * 1000 * 2;
         public BackBlocker(WorldMover WorldMover)
         {
-            AddCollider(new Collider
+            AddCollider(new SolidCollider
             {
                 Width = WIDTH,
                 Height = HEIGHT

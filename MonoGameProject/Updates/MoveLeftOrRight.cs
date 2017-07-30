@@ -1,4 +1,5 @@
 ﻿using GameCore;
+using MonoGameProject.Things;
 
 namespace MonoGameProject
 {
@@ -20,7 +21,7 @@ namespace MonoGameProject
         {
             if (Player.State == PlayerState.CrouchingLeft
                 || Player.State == PlayerState.CrouchingRight)
-                if (Player.roofChecker.Colliding && Player.Inputs.ClickedJump)
+                if (Player.roofChecker.Colliding<IBlockPlayerMovement>() && Player.Inputs.ClickedJump)
                     NewMethod(0, MAX_CROUCH_SPEED, MAX_CROUCH_SPEED);
                 else
                     return;

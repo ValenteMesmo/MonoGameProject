@@ -1,4 +1,5 @@
 ﻿using GameCore;
+using MonoGameProject.Things;
 
 namespace MonoGameProject
 {
@@ -19,7 +20,7 @@ namespace MonoGameProject
             if (Player.State != PlayerState.WallJumpingToTheLeft
                 && Player.State != PlayerState.WallJumpingToTheRight)
             {
-                if (Player.groundChecker.Colliding)
+                if (Player.groundChecker.Colliding< IBlockPlayerMovement>())
                 {
                     if (Player.State == PlayerState.HeadBumpLeft)
                     {

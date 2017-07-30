@@ -30,12 +30,12 @@ namespace MonoGameProject
         private const int height = 900;
         public int DamageDuration = 0;
 
-        public Player(
-            GameInputs InputRepository
-            , Game1 Game1
-            ) : base(
-                InputRepository
-                , Game1)
+        public Player(Game1 Game1) : base(
+                new GameInputs(
+                    new InputCheckerAggregation(
+                         new GamePadChecker(0)
+                        , new KeyboardChecker())
+                ), Game1)
         {
             X = 1000;
             Y = 7000;
@@ -50,7 +50,7 @@ namespace MonoGameProject
 
                     hitpoints--;
                     State = PlayerState.TakingDamage;
-                    HorizontalSpeed = t.Parent.HorizontalSpeed/2;
+                    HorizontalSpeed = t.Parent.HorizontalSpeed / 2;
                     VerticalSpeed = -50;
 
                     DamageDuration = 25;
@@ -82,7 +82,8 @@ namespace MonoGameProject
                     }
                 }
             });
-            AddUpdate(()=> {
+            AddUpdate(() =>
+            {
                 if (Inputs.ClickedAction1)
                 {
                     Game1.Sleep();

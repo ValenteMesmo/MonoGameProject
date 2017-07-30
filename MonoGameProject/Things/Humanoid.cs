@@ -5,6 +5,16 @@ using System;
 
 namespace MonoGameProject
 {
+    class SolidCollider : Collider, IBlockPlayerMovement
+    {
+
+    }
+
+    class GroundCollider :SolidCollider , SomeKindOfGround
+    {
+
+    }
+
     public class Humanoid : Thing
     {
         public PlayerState State { get; set; }
@@ -12,12 +22,12 @@ namespace MonoGameProject
         private const int width = 1000;
         private const int height = 900;
 
-        public readonly CheckIfCollidingWith<IBlockPlayerMovement> groundChecker;
-        public readonly CheckIfCollidingWith<IBlockPlayerMovement> leftWallChecker;
-        public readonly CheckIfCollidingWith<IBlockPlayerMovement> rightWallChecker;
-        public readonly CheckIfCollidingWith<IBlockPlayerMovement> roofChecker;
-        public readonly CheckIfCollidingWith<IBlockPlayerMovement> RightGroundAcidentChecker;
-        public readonly CheckIfCollidingWith<IBlockPlayerMovement> LeftGroundAcidentChecker;
+        public readonly CollisionChecker groundChecker;
+        public readonly CollisionChecker leftWallChecker;
+        public readonly CollisionChecker rightWallChecker;
+        public readonly CollisionChecker roofChecker;
+        public readonly CollisionChecker RightGroundAcidentChecker;
+        public readonly CollisionChecker LeftGroundAcidentChecker;
 
         public readonly Collider MainCollider;
         public readonly GameInputs Inputs;
@@ -28,16 +38,15 @@ namespace MonoGameProject
 
             AddUpdate(Inputs);
 
-            MainCollider = new Collider()
+            MainCollider = new SolidCollider()
             {
                 OffsetX = width / 3,
                 Width = width / 3,
                 Height = height - 10
             };
-
             AddCollider(MainCollider);
 
-            groundChecker = new CheckIfCollidingWith<IBlockPlayerMovement>()
+            groundChecker = new CollisionChecker()
             {
                 Width = width / 3,
                 Height = height / 4,
@@ -46,7 +55,7 @@ namespace MonoGameProject
             };
             AddCollider(groundChecker);
 
-            RightGroundAcidentChecker = new CheckIfCollidingWith<IBlockPlayerMovement>()
+            RightGroundAcidentChecker = new CollisionChecker()
             {
                 Width = width / 3,
                 Height = height / 4,
@@ -54,7 +63,8 @@ namespace MonoGameProject
                 OffsetY = height + 1
             };
             AddCollider(RightGroundAcidentChecker);
-            LeftGroundAcidentChecker = new CheckIfCollidingWith<IBlockPlayerMovement>()
+
+            LeftGroundAcidentChecker = new CollisionChecker()
             {
                 Width = width / 3,
                 Height = height / 4,
@@ -63,8 +73,7 @@ namespace MonoGameProject
             };
             AddCollider(LeftGroundAcidentChecker);
 
-
-            leftWallChecker = new CheckIfCollidingWith<IBlockPlayerMovement>()
+            leftWallChecker = new CollisionChecker()
             {
                 Width = width / 10,
                 Height = height / 3,
@@ -73,7 +82,7 @@ namespace MonoGameProject
             };
             AddCollider(leftWallChecker);
 
-            rightWallChecker = new CheckIfCollidingWith<IBlockPlayerMovement>()
+            rightWallChecker = new CollisionChecker()
             {
                 Width = width / 10,
                 Height = height / 3,
@@ -82,7 +91,7 @@ namespace MonoGameProject
             };
             AddCollider(rightWallChecker);
 
-            roofChecker = new CheckIfCollidingWith<IBlockPlayerMovement>()
+            roofChecker = new CollisionChecker()
             {
                 Width = width / 3,
                 Height = height / 10,
@@ -99,7 +108,7 @@ namespace MonoGameProject
             AddUpdate(new ChangeToHeadBumpState(this, WorldMover.Camera));
             AddUpdate(new ChangeToCrouchState(this));
 
-            AddUpdate(new DestroyIfLeftBehind(this));            
+            AddUpdate(new DestroyIfLeftBehind(this));
             AddUpdate(new PreventPlayerFromAccicentlyFalling(this));
             AddUpdate(new ResetSizeAndOffsetY(this));
             AddUpdate(new ReduceSizeWhenHeadBumping(this));
@@ -118,7 +127,7 @@ namespace MonoGameProject
                 Game.LOG +=
                 GetType().Name
                 + " "
-                + State.ToString()                
+                + State.ToString()
                 + Environment.NewLine);
 #endif
         }
