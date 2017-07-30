@@ -1,8 +1,7 @@
-﻿using System;
-using GameCore;
+﻿using GameCore;
 using Microsoft.Xna.Framework;
 using MonoGameProject.Things;
-using System.Collections.Generic;
+using System;
 using System.Linq;
 
 namespace MonoGameProject
@@ -44,7 +43,18 @@ namespace MonoGameProject
         public const int WIDTH = CELL_SIZE * CELL_NUMBER;
         public const int HEIGHT = CELL_SIZE * CELL_NUMBER;
 
-        static Color Color = Color.LightCyan;
+        private static Color[] Colors = new Color[] { Color.Red, Color.LightGreen, Color.LightBlue };
+        private static int ColorIndex = 0;
+        public static void ChangeColor()
+        {
+            ColorIndex++;
+            if (ColorIndex >= Colors.Length)
+                ColorIndex = 0;
+        }
+        public static void ResetColor()
+        {
+            ColorIndex = 0;
+        }
         public readonly MapModuleInfo Info;
 
         private static Random RandomTresure;
@@ -75,12 +85,6 @@ namespace MonoGameProject
                 }
             });
 
-
-            if (Color == Color.LightCyan)
-                Color = Color.LightCoral;
-            else
-                Color = Color.LightCyan;
-
             var tiles = new TileMerger().getMergedTiles(Info.Tiles);
             foreach (var tile in tiles.Where(f => f.Type == '1'))
             {
@@ -101,12 +105,12 @@ namespace MonoGameProject
                     if (type == '1')
                     {
                         var animation = GeneratedContent.Create_knight_block(
-                               j * CELL_SIZE + 1
-                               , i * CELL_SIZE + 1
+                               j * CELL_SIZE 
+                               , i * CELL_SIZE 
                                , 0.5f
                                , CELL_SIZE
                                , CELL_SIZE);
-                        animation.Color = Color.Aqua;
+                        animation.Color = Colors[ColorIndex];
                         AddAnimation(animation);
                     }
                     if (type == '0')
@@ -157,7 +161,12 @@ namespace MonoGameProject
                                , 0.5f
                                , CELL_SIZE
                                , CELL_SIZE);
-            animation.Color = Color.DarkCyan;
+
+            animation.Color = new Color(
+                Colors[ColorIndex].R - 100
+                , Colors[ColorIndex].G - 100
+                , Colors[ColorIndex].B - 100);
+
             AddAnimation(animation);
         }
 

@@ -50,6 +50,15 @@ namespace GameCore
         
         public void Update()
         {
+            //TODO: Auto play on x4 speed.....   using recorded inputs
+            //NewMethod();
+            //NewMethod();
+            //NewMethod();
+            NewMethod();
+        }
+
+        private void NewMethod()
+        {
             if (Stopped)
                 return;
 
@@ -58,7 +67,7 @@ namespace GameCore
 
             List<Vector2> touches = TouchInputHandler.GetTouches();
             Things.ForEach(thing =>
-            {                
+            {
                 thing.Animations.ForEach(f => f.Update());
                 //TOuch, should go after sleep check
                 TouchInputHandler.Handle(thing.Touchables, touches);

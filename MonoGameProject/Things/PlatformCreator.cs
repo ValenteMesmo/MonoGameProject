@@ -30,6 +30,20 @@ namespace MonoGameProject
             this.WorldMover = WorldMover;
             this.AddToWOrld = AddToWOrld;
 
+            CreateModules();
+            CreateCaveModules();
+
+            CurrentModules =
+            /*
+            CaveModules;
+            */
+            Modules;
+            CreateGroundOnTheRight();
+            AddUpdate(OnUpdate);
+        }
+
+        private void CreateModules()
+        {
             Modules = new List<MapModuleInfo>{
                 new MapModuleInfo(
                     true
@@ -70,6 +84,29 @@ namespace MonoGameProject
                     ,"0000000000000000"//
                     ,"0000000000000000"//E
                     ,"0000000000000000"//E
+                    ,"1100011111111111"//
+                    ,"1100011111111111"//
+                    ,"1100011111111111"//
+                    ,"1100011111111111"//
+                    ,"1100000000000001"//E
+                    ,"1100000000000a01"//E
+                    ,"1111111111111111")
+                    ,new MapModuleInfo(
+                    true
+                    ,false
+                    ,false
+                    ,true
+                    ,false
+                    ,false
+                    ,"0000000000000000"//
+                    ,"0000000000000000"//E
+                    ,"0000000000000000"//E
+                    ,"1111111111111111"//
+                    ,"1111111111111111"//
+                    ,"1111111111111111"//
+                    ,"1111111111111111"//
+                    ,"1111111111111111"//E
+                    ,"1111111111111111"//E
                     ,"1111111111111111"//
                     ,"1111111111111111"//
                     ,"1111111111111111"//
@@ -87,8 +124,8 @@ namespace MonoGameProject
                     ,"0000000000000000"//
                     ,"0000000000000000"//E
                     ,"0000000000000000"//E
-                    ,"1111111111111111"//
-                    ,"1111111111111111"//
+                    ,"0011111001110011"//
+                    ,"0011111001110011"//
                     ,"1111111111111111"//
                     ,"1111111111111111"//
                     ,"1111111111111111"//E
@@ -193,7 +230,10 @@ namespace MonoGameProject
                     ,"111111r000000000"//E
                     ,"1111111111111111")
             };
+        }
 
+        private void CreateCaveModules()
+        {
             CaveModules = new List<MapModuleInfo>{
                 new MapModuleInfo(
                     true
@@ -357,14 +397,6 @@ namespace MonoGameProject
                     ,"1000000000000001"//E
                     ,"1111111111111111")
             };
-
-            CurrentModules =
-            /*
-            CaveModules;
-            */
-            Modules;
-            CreateGroundOnTheRight();
-            AddUpdate(OnUpdate);
         }
 
         private void OnUpdate()
@@ -380,14 +412,18 @@ namespace MonoGameProject
         {
             var anchorX = 0;
             var anchorY = 1500;
-            if (lastModule != null)
-            {
-                anchorX = lastModule.X + MapModule.WIDTH - WorldMover.WorldHorizontalSpeed;
-            }
 
-            var newMap = CurrentModules[RandomModule.Next(0, Modules.Count)];
-            if (lastModule != null)
+
+            if (lastModule == null)
             {
+                MapModule.ResetColor();
+                var newMap = CurrentModules[0];
+                lastModule = new MapModule(anchorX, anchorY, BackBlocker, newMap, AddToWOrld, Game1);
+            }
+            else
+            {
+                var newMap = CurrentModules[RandomModule.Next(0, CurrentModules.Count)];
+                anchorX = lastModule.X + MapModule.WIDTH - WorldMover.WorldHorizontalSpeed;
                 while (true)
                 {
                     if (
@@ -396,17 +432,17 @@ namespace MonoGameProject
                         && lastModule.Info.BotExit == newMap.BotEntry)
                         break;
 
-                    newMap = CurrentModules[RandomModule.Next(0, Modules.Count)];
+                    newMap = CurrentModules[RandomModule.Next(0, CurrentModules.Count)];
                 }
+
+                lastModule = new MapModule(anchorX, anchorY, BackBlocker, newMap, AddToWOrld, Game1);
             }
-
-            lastModule = new MapModule(anchorX, anchorY, BackBlocker, newMap, AddToWOrld, Game1);
-
 
             AddToWOrld(lastModule);
             stageCount--;
             if (stageCount < 0)
             {
+                MapModule.ChangeColor();
                 stageCount = 10;
                 if (CurrentModules == Modules)
                     CurrentModules = CaveModules;
