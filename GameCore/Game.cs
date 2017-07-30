@@ -10,9 +10,7 @@ public abstract class Game : IDisposable
 #endif
     public FrameCounter FrameCounter = new FrameCounter();
     private readonly BaseGame BaseGame;
-    public Camera2d Camera { get { return BaseGame.Camera; } }
-    protected InputRepository InputRepository { get { return BaseGame.World.PlayerInputs; } }
-    protected InputRepository2 InputRepository2 { get { return BaseGame.World.PlayerInputs2; } }
+    public Camera2d Camera { get { return BaseGame.Camera; } }    
     public bool FullScreen { get { return BaseGame.Graphics.IsFullScreen; } set { BaseGame.Graphics.IsFullScreen = value; } }
     public void Sleep() { BaseGame.World.Sleep(); }
 

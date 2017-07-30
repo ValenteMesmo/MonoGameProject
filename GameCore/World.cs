@@ -6,12 +6,7 @@ namespace GameCore
 {
     internal class World
     {
-        public readonly InputRepository2 PlayerInputs2;
-        public readonly InputRepository PlayerInputs;
-        private readonly TouchInputHandler TouchInputHandler;
-
         internal List<Thing> Things = new List<Thing>();
-        //public const int SPACE_BETWEEN_THINGS = 1;
         public readonly Camera2d Camera2d;
         public bool Stopped { get; set; }
 
@@ -22,9 +17,6 @@ namespace GameCore
             )
         {
             this.Camera2d = Camera2d;
-            PlayerInputs = new InputRepository(Camera2d);
-            PlayerInputs2 = new InputRepository2();
-            TouchInputHandler = new TouchInputHandler(PlayerInputs);
         }
 
         public bool Sleeping()
@@ -62,15 +54,9 @@ namespace GameCore
             if (Stopped)
                 return;
 
-            PlayerInputs.Update();
-            PlayerInputs2.Update();
-
-            List<Vector2> touches = TouchInputHandler.GetTouches();
             Things.ForEach(thing =>
             {
                 thing.Animations.ForEach(f => f.Update());
-                //TOuch, should go after sleep check
-                TouchInputHandler.Handle(thing.Touchables, touches);
             });
 
             if (sleep > 0)
@@ -132,6 +118,5 @@ namespace GameCore
         {
             Things.Clear();
         }
-
     }
 }

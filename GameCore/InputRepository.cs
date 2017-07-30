@@ -3,23 +3,212 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace GameCore
 {
-    public interface PlayerInputs
+    public class InputCheckerAggregation : InputChecker
     {
-        bool ClickedLeft { get; }
-        bool ClickedRight { get; }
-        bool ClickedUp { get; }
-        bool ClickedDown { get; }
-        bool ClickedAction1 { get; }
-        bool ClickedJump { get; }
-        bool LeftDown { get; }
-        bool RightDown { get; }
-        bool UpDown { get; }
-        bool DownDown { get; }
-        bool Action1Down { get; }
-        bool JumpDown { get; }
+        private readonly InputChecker[] InputCheckers;
+
+        public InputCheckerAggregation(params InputChecker[] InputCheckers)
+        {
+            this.InputCheckers = InputCheckers;
+        }
+
+        public bool Action()
+        {
+            var result = false;
+
+            foreach (var item in InputCheckers)
+            {
+                result = result || item.Action();
+            }
+
+            return result;
+        }
+
+        public bool Down()
+        {
+            var result = false;
+
+            foreach (var item in InputCheckers)
+            {
+                result = result || item.Down();
+            }
+
+            return result;
+        }
+
+        public bool Jump()
+        {
+            var result = false;
+
+            foreach (var item in InputCheckers)
+            {
+                result = result || item.Jump();
+            }
+
+            return result;
+        }
+
+        public bool Left()
+        {
+            var result = false;
+
+            foreach (var item in InputCheckers)
+            {
+                result = result || item.Left();
+            }
+
+            return result;
+        }
+
+        public bool Right()
+        {
+            var result = false;
+
+            foreach (var item in InputCheckers)
+            {
+                result = result || item.Right();
+            }
+
+            return result;
+        }
+
+        public bool Up()
+        {
+            var result = false;
+
+            foreach (var item in InputCheckers)
+            {
+                result = result || item.Up();
+            }
+
+            return result;
+        }
+
+        public void Update()
+        {
+            foreach (var item in InputCheckers)
+            {
+                item.Update();
+            }
+        }
+    }
+
+    public class GamePadChecker : InputChecker
+    {
+        private readonly int index;
+
+        public GamePadChecker(int index)
+        {
+            this.index = index;
+        }
+
+        public void Update()
+        {
+            var state = GamePad.GetState(index);
+
+        }
+
+        public bool Action()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Down()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Jump()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Left()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Right()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Up()
+        {
+            throw new NotImplementedException();
+        }
+
+    }
+
+    public interface InputChecker: UpdateHandler
+    {
+        bool Left();
+        bool Right();
+        bool Up();
+        bool Down();
+        bool Action();
+        bool Jump();
+    }
+
+    public class RenameThisClass: UpdateHandler
+    {
+        private readonly InputChecker InputChecker;
+
+        public RenameThisClass(InputChecker InputChecker)
+        {
+            this. InputChecker = InputChecker;
+        }
+
+        public bool ClickedLeft { get; private set; }
+        public bool ClickedRight { get; private set; }
+        public bool ClickedUp { get; private set; }
+        public bool ClickedDown { get; private set; }
+        public bool ClickedAction1 { get; private set; }
+        public bool ClickedJump { get; private set; }
+
+        private bool WasPressedLeft { get; set; }
+        private bool WasPressedRight { get; set; }
+        private bool WasPressedUp { get; set; }
+        private bool WasPressedDown { get; set; }
+        private bool WasPressedAction1 { get; set; }
+        private bool WasPressedJump { get; set; }
+
+        public bool LeftDown { get; private set; }
+        public bool RightDown { get; private set; }
+        public bool UpDown { get; private set; }
+        public bool DownDown { get; private set; }
+        public bool Action1Down { get; private set; }
+        public bool JumpDown { get; private set; }
+
+        public void Update()
+        {
+            InputChecker.Update();
+
+            LeftDown = InputChecker.Left();
+            RightDown = InputChecker.Right();
+            UpDown = InputChecker.Up();
+            DownDown = InputChecker.Down();
+            Action1Down = InputChecker.Action();
+            JumpDown = InputChecker.Jump();
+
+            ClickedLeft = !WasPressedLeft && LeftDown;
+            ClickedRight = !WasPressedRight && RightDown;
+            ClickedUp = !WasPressedUp && UpDown;
+            ClickedDown = !WasPressedDown && DownDown;
+            ClickedAction1 = !WasPressedAction1 && Action1Down;
+            ClickedJump = !WasPressedJump && JumpDown;
+
+            WasPressedLeft = LeftDown;
+            WasPressedRight = RightDown;
+            WasPressedUp = UpDown;
+            WasPressedDown = DownDown;
+            WasPressedAction1 = Action1Down;
+            WasPressedJump = JumpDown;
+        }
     }
 
     public class InputRepository : PlayerInputs
@@ -133,68 +322,51 @@ namespace GameCore
         }
     }
 
-    public class InputRepository2 : PlayerInputs
+    public class InputsSetByGamePad : UpdateHandler
     {
-        public bool ClickedLeft { get; private set; }
-        public bool ClickedRight { get; private set; }
-        public bool ClickedUp { get; private set; }
-        public bool ClickedDown { get; private set; }
-        public bool ClickedAction1 { get; private set; }
-        public bool ClickedJump { get; private set; }
+        private readonly GameInputs GameInputs;
+        private readonly int controlIndex;
 
-        private bool WasPressedLeft { get; set; }
-        private bool WasPressedRight { get; set; }
-        private bool WasPressedUp { get; set; }
-        private bool WasPressedDown { get; set; }
-        private bool WasPressedAction1 { get; set; }
-        private bool WasPressedJump { get; set; }
-
-        public bool LeftDown { get; set; }
-        public bool RightDown { get; set; }
-        public bool UpDown { get; set; }
-        public bool DownDown { get; set; }
-        public bool Action1Down { get; set; }
-        public bool JumpDown { get; set; }
-
-        public InputRepository2()
+        public InputsSetByGamePad(GameInputs GameInputs, int controlIndex)
         {
+            this.GameInputs = GameInputs;
+            this.controlIndex = controlIndex;
         }
 
         public void Update()
         {
-            SetState( GamePad.GetState(1));
+            SetState(GamePad.GetState(controlIndex));
 
-            ClickedLeft = !WasPressedLeft && LeftDown;
-            ClickedRight = !WasPressedRight && RightDown;
-            ClickedUp = !WasPressedUp && UpDown;
-            ClickedDown = !WasPressedDown && DownDown;
-            ClickedAction1 = !WasPressedAction1 && Action1Down;
-            ClickedJump = !WasPressedJump && JumpDown;
+            GameInputs.ClickedLeft = !GameInputs.WasPressedLeft && GameInputs.LeftDown;
+            GameInputs.ClickedRight = !GameInputs.WasPressedRight && GameInputs.RightDown;
+            GameInputs.ClickedUp = !GameInputs.WasPressedUp && GameInputs.UpDown;
+            GameInputs.ClickedDown = !GameInputs.WasPressedDown && GameInputs.DownDown;
+            GameInputs.ClickedAction1 = !GameInputs.WasPressedAction1 && GameInputs.Action1Down;
+            GameInputs.ClickedJump = !GameInputs.WasPressedJump && GameInputs.JumpDown;
 
-            WasPressedLeft = LeftDown;
-            WasPressedRight = RightDown;
-            WasPressedUp = UpDown;
-            WasPressedDown = DownDown;
-            WasPressedAction1 = Action1Down;
-            WasPressedJump = JumpDown;
+            GameInputs.WasPressedLeft = GameInputs.LeftDown;
+            GameInputs.WasPressedRight = GameInputs.RightDown;
+            GameInputs.WasPressedUp = GameInputs.UpDown;
+            GameInputs.WasPressedDown = GameInputs.DownDown;
+            GameInputs.WasPressedAction1 = GameInputs.Action1Down;
+            GameInputs.WasPressedJump = GameInputs.JumpDown;
         }
 
         private void SetState(GamePadState controller)
         {
-            LeftDown =
+            GameInputs.LeftDown =
                 (controller.DPad.Left == ButtonState.Pressed || controller.ThumbSticks.Left.X < -0.5f)
                 ;
-            RightDown =
+            GameInputs.RightDown =
                 (controller.DPad.Right == ButtonState.Pressed || controller.ThumbSticks.Left.X > 0.5f)
                 ;
-            JumpDown =
+            GameInputs.JumpDown =
                 (controller.Buttons.A == ButtonState.Pressed || controller.ThumbSticks.Left.Y > 0.5f);
-            DownDown =
+            GameInputs.DownDown =
                 (controller.DPad.Down == ButtonState.Pressed || controller.ThumbSticks.Left.Y < -0.5f);
-            Action1Down =
+            GameInputs.Action1Down =
                 (controller.Buttons.X == ButtonState.Pressed || controller.Buttons.B == ButtonState.Pressed);
-            UpDown =
-
+            GameInputs.UpDown =
                 (
                     controller.DPad.Up == ButtonState.Pressed
                     || controller.ThumbSticks.Right.Y < -0.5f

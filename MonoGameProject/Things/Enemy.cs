@@ -1,7 +1,16 @@
-﻿using Microsoft.Xna.Framework;
+﻿using GameCore;
+using Microsoft.Xna.Framework;
 
 namespace MonoGameProject
 {
+    //public class PlayerMirror : Humanoid
+    //{
+    //    public PlayerMirror(PlayerInputs Inputs, Game1 WorldMover) : base(Inputs, WorldMover)
+    //    {
+    //        PlayerInputs
+    //    }
+    //}
+
     public class Enemy : Humanoid
     {
         private const int width = 1000;
