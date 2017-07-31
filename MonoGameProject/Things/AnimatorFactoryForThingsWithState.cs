@@ -76,6 +76,20 @@ namespace MonoGameProject
                 , size
                 ,true);
 
+            var headbang_left = GeneratedContent.Create_knight_head_bang(
+                x
+                , y
+                , 0
+                , size
+                , size);
+            var headbang_right = GeneratedContent.Create_knight_head_bang(
+                flippedx
+                , y
+                , 0
+                , size
+                , size
+                , true);
+
             thing.AddAnimation(new Animator(
                 new AnimationTransitionOnCondition(walk_left, () => thing.State == PlayerState.WalkingLeft)
                 , new AnimationTransitionOnCondition(walk_right, () => thing.State == PlayerState.WalkingRight)
@@ -85,6 +99,8 @@ namespace MonoGameProject
                 , new AnimationTransitionOnCondition(crouch_right, () => thing.State == PlayerState.CrouchingRight)
                 , new AnimationTransitionOnCondition(fall_left, () => thing.State == PlayerState.FallingLeft)
                 , new AnimationTransitionOnCondition(fall_right, () => thing.State == PlayerState.FallingRight)
+                , new AnimationTransitionOnCondition(headbang_left, () => thing.State == PlayerState.HeadBumpLeft)
+                , new AnimationTransitionOnCondition(headbang_right, () => thing.State == PlayerState.HeadBumpRight)
                 , new AnimationTransitionOnCondition(fall_left, () => thing.State == PlayerState.TakingDamage)
             ));
         }
