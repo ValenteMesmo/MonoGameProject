@@ -5,6 +5,7 @@ namespace MonoGameProject
 {
     public class Player : Humanoid
     {
+        //evitar que player ande sobre o teto, no estilo mario bros
         //gradiente no fundo
 
         //animação de morte igual as da abertura de onepunch
@@ -107,5 +108,6 @@ namespace MonoGameProject
             new HumanoidAnimatorFactory()
                 .CreateAnimator(width, height, this);
         }
+        
     }
 }

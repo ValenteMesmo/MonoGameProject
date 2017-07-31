@@ -39,6 +39,14 @@ namespace MonoGameProject
             {
                 Player.MainCollider.Height = OriginalHeight / 2;
                 Player.MainCollider.OffsetY = OriginalHeight / 2;
+
+                Player.AttackLeftCollider.OffsetY = OriginalHeight -OriginalHeight / 2;
+                Player.AttackRightCollider.OffsetY = OriginalHeight -OriginalHeight / 2;
+            }
+            else
+            {
+                Player.AttackLeftCollider.OffsetY = 0;
+                Player.AttackRightCollider.OffsetY = 0;
             }
         }
     }

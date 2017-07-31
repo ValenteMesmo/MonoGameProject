@@ -157,6 +157,7 @@ namespace MonoGameProject
                             X = X + j * CELL_SIZE,
                             Y = Y + i * CELL_SIZE
                         });
+                        CreateBackground(i, j);
                     }
                     if (type == 'l')
                     {
@@ -165,6 +166,7 @@ namespace MonoGameProject
                             X = X + j * CELL_SIZE,
                             Y = Y + i * CELL_SIZE
                         });
+                        CreateBackground(i, j);
                     }
                     if (type == 'z')
                     {
@@ -173,6 +175,7 @@ namespace MonoGameProject
                             X = X + j * CELL_SIZE,
                             Y = Y + i * CELL_SIZE
                         });
+                        CreateBackground(i, j);
                     }
                     if (type == 'a')
                     {
@@ -181,6 +184,7 @@ namespace MonoGameProject
                             X = X + j * CELL_SIZE,
                             Y = Y + i * CELL_SIZE
                         });
+                        CreateBackground(i, j);
                     }
                 }
             }

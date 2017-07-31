@@ -15,6 +15,11 @@ namespace MonoGameProject
 
     }
 
+    public class AttackCollider : Collider
+    {
+
+    }
+
     public class Humanoid : Thing
     {
         public PlayerState State { get; set; }
@@ -22,13 +27,16 @@ namespace MonoGameProject
         private const int width = 1000;
         private const int height = 900;
 
+        public readonly AttackCollider AttackRightCollider;
+        public readonly AttackCollider AttackLeftCollider;
+
         public readonly CollisionChecker groundChecker;
         public readonly CollisionChecker leftWallChecker;
         public readonly CollisionChecker rightWallChecker;
         public readonly CollisionChecker roofChecker;
         public readonly CollisionChecker RightGroundAcidentChecker;
         public readonly CollisionChecker LeftGroundAcidentChecker;
-
+        
         public readonly Collider MainCollider;
         public readonly GameInputs Inputs;
 
@@ -99,6 +107,29 @@ namespace MonoGameProject
                 OffsetY = -height / 10 - 1
             };
             AddCollider(roofChecker);
+
+
+
+            AttackRightCollider = new AttackCollider
+            {
+                Width = width / 2,
+                Height = height / 3,
+                OffsetX = width,
+                OffsetY = 0,
+                Disabled = true
+            };
+            AddCollider(AttackRightCollider);
+
+            AttackLeftCollider = new AttackCollider
+            {
+                Width = width / 2,
+                Height = height / 3,
+                OffsetX = -width / 2,
+                OffsetY = 0,
+                Disabled = true
+            };
+            AddCollider(AttackLeftCollider);
+
 
             AddUpdate(new ChangeToStandingState(this));
             AddUpdate(new ChangeToWalkingState(this));

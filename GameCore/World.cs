@@ -77,6 +77,9 @@ namespace GameCore
                 {
                     collider.CollidingWith.Clear();
 
+                    if (collider.Disabled)
+                        return;
+
                     if (collider.BotCollisionHandlers.Any()
                         || collider.TopCollisionHandlers.Any()
                         || collider.LeftCollisionHandlers.Any()
