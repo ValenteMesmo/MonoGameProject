@@ -106,7 +106,7 @@ internal class BaseGame : OriginalGameClass
         else
             Camera.Zoom = 0.1f;
 
-        DisplayColliders = state.NumLock;
+        DisplayColliders = !state.NumLock;
 
         if (state.IsKeyDown(Keys.Escape))
             Parent.Restart();
@@ -118,16 +118,23 @@ internal class BaseGame : OriginalGameClass
 
     protected override void Draw(GameTime gameTime)
     {
-        GraphicsDevice.Clear(Color.CornflowerBlue);
+        //LOL darkblue affected performance... keep it black
+        GraphicsDevice.Clear(Color.Black);
 
         SpriteBatch.Begin(SpriteSortMode.BackToFront,
-                   BlendState.AlphaBlend,
+                   null,
                    null,
                    null,
                    null,
                    null,
                    Camera.GetTransformation(GraphicsDevice));
         //effect.CurrentTechnique.Passes[0].Apply();
+
+        
+
+        World.Things.ForEach(RenderThing);
+
+
 
         Parent.FrameCounter.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
 #if DEBUG
@@ -159,9 +166,9 @@ internal class BaseGame : OriginalGameClass
         Game.LOG = "";
 #endif
 
-        World.Things.ForEach(RenderThing);
-
         SpriteBatch.End();
+
+
 
         base.Draw(gameTime);
     }

@@ -39,7 +39,7 @@ namespace GameCore
         {
             Things.Remove(thing);
         }
-        
+
         public void Update()
         {
             //TODO: Auto play on x4 speed.....   using recorded inputs

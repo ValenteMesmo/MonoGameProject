@@ -417,7 +417,8 @@ namespace MonoGameProject
             {
                 MapModule.ResetColor();
                 var newMap = CurrentModules[0];
-                lastModule = new MapModule(anchorX, anchorY, BackBlocker, newMap, AddToWOrld, Game1);
+                lastModule = new 
+                    MapModule(anchorX, anchorY, BackBlocker, newMap, AddToWOrld, Game1);
             }
             else
             {

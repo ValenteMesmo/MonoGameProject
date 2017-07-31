@@ -99,6 +99,8 @@ namespace MonoGameProject
                 , new AnimationTransitionOnCondition(crouch_right, () => thing.State == PlayerState.CrouchingRight)
                 , new AnimationTransitionOnCondition(fall_left, () => thing.State == PlayerState.FallingLeft)
                 , new AnimationTransitionOnCondition(fall_right, () => thing.State == PlayerState.FallingRight)
+                , new AnimationTransitionOnCondition(fall_left, () => thing.State == PlayerState.WallJumpingToTheRight)
+                , new AnimationTransitionOnCondition(fall_right, () => thing.State == PlayerState.WallJumpingToTheLeft)
                 , new AnimationTransitionOnCondition(headbang_left, () => thing.State == PlayerState.HeadBumpLeft)
                 , new AnimationTransitionOnCondition(headbang_right, () => thing.State == PlayerState.HeadBumpRight)
                 , new AnimationTransitionOnCondition(fall_left, () => thing.State == PlayerState.TakingDamage)

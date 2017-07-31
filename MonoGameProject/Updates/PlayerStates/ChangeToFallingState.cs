@@ -17,8 +17,8 @@ namespace MonoGameProject
             if (Player.State == PlayerState.TakingDamage)
                 return;
 
-            if (Player.State != PlayerState.WallJumpingToTheLeft
-                && Player.State != PlayerState.WallJumpingToTheRight)
+            //if (Player.State != PlayerState.WallJumpingToTheLeft
+            //    && Player.State != PlayerState.WallJumpingToTheRight)
             {
                 if (Player.groundChecker.Colliding< BlockVerticalMovement>())
                 {

@@ -97,7 +97,38 @@ namespace MonoGameProject
                 });
             }
 
-            for (int i = 0; i < CELL_NUMBER; i++)
+            //{
+            //    var sky = GeneratedContent.Create_knight_sky(
+            //                        0
+            //                       , (CELL_SIZE * CELL_NUMBER) / 3
+            //                       , 0.6f
+            //                       , CELL_SIZE * CELL_NUMBER
+            //                       , (CELL_SIZE * CELL_NUMBER) / 2);
+            //    sky.Color = new Color(
+            //        Colors[ColorIndex].R - 100
+            //        , Colors[ColorIndex].G - 100
+            //        , Colors[ColorIndex].B + 100
+            //        , Colors[ColorIndex].A - 200
+            //    );
+            //    AddAnimation(sky);
+
+            //}
+            //{
+            //    var sky = GeneratedContent.Create_knight_sky(
+            //                      0
+            //                      , 0
+            //                      , 0.6f
+            //                      , CELL_SIZE * CELL_NUMBER
+            //                      , (CELL_SIZE * CELL_NUMBER)/3);
+            //    sky.Color = new Color(
+            //        Colors[ColorIndex].R - 100
+            //        , Colors[ColorIndex].G + 100
+            //        , Colors[ColorIndex].B - 100
+            //        , Colors[ColorIndex].A - 200
+            //    );
+            //    AddAnimation(sky);
+            //}
+                for (int i = 0; i < CELL_NUMBER; i++)
             {
                 for (int j = 0; j < CELL_NUMBER; j++)
                 {
@@ -113,10 +144,12 @@ namespace MonoGameProject
                         animation.Color = Colors[ColorIndex];
                         AddAnimation(animation);
                     }
+
                     if (type == '0')
                     {
-            //            CreateBackground(i, j);
+                        //CreateBackground(i, j);
                     }
+
                     if (type == 'r')
                     {
                         AddToWorld(new LeftFireBallTrap(AddToWorld, i % 2 == 0 ? 50 : 0)
@@ -155,7 +188,7 @@ namespace MonoGameProject
 
         private void CreateBackground(int i, int j)
         {
-            var animation = GeneratedContent.Create_knight_block(
+            var animation = GeneratedContent.Create_knight_sky(
                                j * CELL_SIZE
                                , i * CELL_SIZE
                                , 0.5f
@@ -166,7 +199,8 @@ namespace MonoGameProject
                 Colors[ColorIndex].R - 100
                 , Colors[ColorIndex].G - 100
                 , Colors[ColorIndex].B - 100
-                , Colors[ColorIndex].A - i*15);
+                , Colors[ColorIndex].A - i*15
+            );
 
             AddAnimation(animation);
         }

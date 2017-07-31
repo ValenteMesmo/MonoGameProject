@@ -122,7 +122,7 @@ public class GeneratedContent : ILoadContents
     {
         var animation = new Animation(
             
-            new AnimationFrame("knight", X, Y, Width, Height, new Rectangle(0+5, 2976+5, 593-10, 593-10)){ RenderingLayer = Z, Flipped = Flipped }
+            new AnimationFrame("knight", X, Y, Width, Height, new Rectangle(0+5, 2976+5, 256-10, 256-10)){ RenderingLayer = Z, Flipped = Flipped }
         );
 
         return animation;
@@ -132,7 +132,17 @@ public class GeneratedContent : ILoadContents
     {
         var animation = new Animation(
             
-            new AnimationFrame("knight", X, Y, Width, Height, new Rectangle(593+5, 2976+5, 593-10, 594-10)){ RenderingLayer = Z, Flipped = Flipped }
+            new AnimationFrame("knight", X, Y, Width, Height, new Rectangle(256+5, 2976+5, 593-10, 594-10)){ RenderingLayer = Z, Flipped = Flipped }
+        );
+
+        return animation;
+    }
+
+    public static Animation Create_knight_sky(int X, int Y, float Z, int Width, int Height, bool Flipped = false)
+    {
+        var animation = new Animation(
+            
+            new AnimationFrame("knight", X, Y, Width, Height, new Rectangle(849+5, 2976+5, 113-10, 113-10)){ RenderingLayer = Z, Flipped = Flipped }
         );
 
         return animation;
