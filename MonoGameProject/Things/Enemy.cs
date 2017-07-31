@@ -10,7 +10,8 @@ namespace MonoGameProject
         public Enemy(Game1 WorldMover) : base(
             new GameInputs(
                 new InputCheckerAggregation(
-                    new MirroredKeyboardChecker()
+                        //new MirroredKeyboardChecker()
+                        new PatrolAiInputs()
                     )
                 ), WorldMover)
         {

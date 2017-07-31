@@ -45,13 +45,13 @@ namespace MonoGameProject
             var anchorY = 1500;
             if (lastModule != null)
             {
-                anchorX = lastModule.X + MapModule.WIDTH * 2 - (WorldMover.WorldHorizontalSpeed / parallax);
+                anchorX = lastModule.X + MapModule.WIDTH - (WorldMover.WorldHorizontalSpeed / parallax);
             }
 
             lastModule = new ParallaxBackGround(
                 0
-                , 0
-                , MapModule.WIDTH * 2
+                , MapModule.HEIGHT/2
+                , MapModule.WIDTH 
                 , MapModule.HEIGHT
                 , parallax
                 , imgName);

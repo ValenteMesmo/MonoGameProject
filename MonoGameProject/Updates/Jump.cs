@@ -9,7 +9,7 @@ namespace MonoGameProject
         int jumpImpulseTime = 0;
         int jumpAvailave = 0;
         int minJumpSpeed = -60;
-        int maxJumpSpeed = -120;
+        int maxJumpSpeed = -140;
         private CollisionChecker groundChecker;
         private readonly Humanoid Parent;
         private int cooldown;

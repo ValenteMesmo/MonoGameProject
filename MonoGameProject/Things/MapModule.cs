@@ -115,7 +115,7 @@ namespace MonoGameProject
                     }
                     if (type == '0')
                     {
-                        CreateBackground(i, j);
+            //            CreateBackground(i, j);
                     }
                     if (type == 'r')
                     {
@@ -165,7 +165,8 @@ namespace MonoGameProject
             animation.Color = new Color(
                 Colors[ColorIndex].R - 100
                 , Colors[ColorIndex].G - 100
-                , Colors[ColorIndex].B - 100);
+                , Colors[ColorIndex].B - 100
+                , Colors[ColorIndex].A - i*15);
 
             AddAnimation(animation);
         }
