@@ -47,16 +47,16 @@ namespace MonoGameProject
                     if (Parent.State == PlayerState.WallJumpingToTheLeft)
                     {
                         if (Parent.groundChecker.Colliding<SomeKindOfGround>())
-                            Parent.State = PlayerState.WalkingLeft;
+                            Parent.State = PlayerState.WalkingRight;
                         else
-                            Parent.State = PlayerState.FallingLeft;
+                            Parent.State = PlayerState.FallingRight;
                     }
                     else
                     {
                         if (Parent.groundChecker.Colliding<SomeKindOfGround>())
-                            Parent.State = PlayerState.WalkingRight;
+                            Parent.State = PlayerState.WalkingLeft;
                         else
-                            Parent.State = PlayerState.FallingRight;
+                            Parent.State = PlayerState.FallingLeft;
                     }
                 }
             }
