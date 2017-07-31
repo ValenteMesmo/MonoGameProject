@@ -33,13 +33,13 @@ namespace MonoGameProject
 
         private void NewMethod(int inverseBonus, int velocity, int speedLimit)
         {
-            if (Player.Inputs.Left)
+            if (Player.Inputs.Left && !Player.Inputs.Right)
             {
                 if (Player.HorizontalSpeed > inverseBonus)
                     Player.HorizontalSpeed -= inverseBonus;
                 Player.HorizontalSpeed -= velocity;
             }
-            else if (Player.Inputs.Right)
+            else if (Player.Inputs.Right && !Player.Inputs.Left)
             {
                 if (Player.HorizontalSpeed < -inverseBonus)
                     Player.HorizontalSpeed += inverseBonus;

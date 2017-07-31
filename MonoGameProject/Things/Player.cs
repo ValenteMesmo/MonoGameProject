@@ -5,6 +5,8 @@ namespace MonoGameProject
 {
     public class Player : Humanoid
     {
+        //gradiente no fundo
+
         //animação de morte igual as da abertura de onepunch
         //      (com uma bela antecipação)
         //

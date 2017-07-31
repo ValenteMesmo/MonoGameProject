@@ -100,10 +100,10 @@ namespace MonoGameProject
             //{
             //    var sky = GeneratedContent.Create_knight_sky(
             //                        0
-            //                       , (CELL_SIZE * CELL_NUMBER) / 3
+            //                       , 0
             //                       , 0.6f
             //                       , CELL_SIZE * CELL_NUMBER
-            //                       , (CELL_SIZE * CELL_NUMBER) / 2);
+            //                       , (CELL_SIZE * CELL_NUMBER));
             //    sky.Color = new Color(
             //        Colors[ColorIndex].R - 100
             //        , Colors[ColorIndex].G - 100
@@ -128,7 +128,7 @@ namespace MonoGameProject
             //    );
             //    AddAnimation(sky);
             //}
-                for (int i = 0; i < CELL_NUMBER; i++)
+            for (int i = 0; i < CELL_NUMBER; i++)
             {
                 for (int j = 0; j < CELL_NUMBER; j++)
                 {
@@ -136,8 +136,8 @@ namespace MonoGameProject
                     if (type == '1')
                     {
                         var animation = GeneratedContent.Create_knight_block(
-                               j * CELL_SIZE 
-                               , i * CELL_SIZE 
+                               j * CELL_SIZE
+                               , i * CELL_SIZE
                                , 0.5f
                                , CELL_SIZE
                                , CELL_SIZE);
@@ -147,7 +147,7 @@ namespace MonoGameProject
 
                     if (type == '0')
                     {
-                        //CreateBackground(i, j);
+                        CreateBackground(i, j);
                     }
 
                     if (type == 'r')
@@ -168,7 +168,7 @@ namespace MonoGameProject
                     }
                     if (type == 'z')
                     {
-                        AddToWorld(new Enemy( Game1)
+                        AddToWorld(new Enemy(Game1)
                         {
                             X = X + j * CELL_SIZE,
                             Y = Y + i * CELL_SIZE
@@ -199,7 +199,7 @@ namespace MonoGameProject
                 Colors[ColorIndex].R - 100
                 , Colors[ColorIndex].G - 100
                 , Colors[ColorIndex].B - 100
-                , Colors[ColorIndex].A - i*15
+                , Colors[ColorIndex].A - 100
             );
 
             AddAnimation(animation);

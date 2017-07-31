@@ -20,7 +20,7 @@ namespace MonoGameProject
             //if (Player.State != PlayerState.WallJumpingToTheLeft
             //    && Player.State != PlayerState.WallJumpingToTheRight)
             {
-                if (Player.groundChecker.Colliding< BlockVerticalMovement>())
+                if (Player.groundChecker.Colliding<BlockVerticalMovement>())
                 {
                     if (Player.State == PlayerState.HeadBumpLeft)
                     {
@@ -52,12 +52,14 @@ namespace MonoGameProject
                         Player.State = PlayerState.FallingRight;
                     }
                     else if (Player.State == PlayerState.FallingLeft
-                        && Player.Inputs.Right)
+                        && Player.Inputs.Right
+                        && !Player.Inputs.Left)
                     {
                         Player.State = PlayerState.FallingRight;
                     }
                     else if (Player.State == PlayerState.FallingRight
-                        && Player.Inputs.Left)
+                        && Player.Inputs.Left
+                        && !Player.Inputs.Right)
                     {
                         Player.State = PlayerState.FallingLeft;
                     }

@@ -122,14 +122,14 @@ internal class BaseGame : OriginalGameClass
         GraphicsDevice.Clear(Color.Black);
 
         SpriteBatch.Begin(SpriteSortMode.BackToFront,
-                   null,
+                   BlendState.AlphaBlend,
                    null,
                    null,
                    null,
                    null,
                    Camera.GetTransformation(GraphicsDevice));
-        //effect.CurrentTechnique.Passes[0].Apply();
 
+        //effect.CurrentTechnique.Passes[0].Apply();
         
 
         World.Things.ForEach(RenderThing);
@@ -219,6 +219,8 @@ internal class BaseGame : OriginalGameClass
                     , frame.Flipped ? SpriteEffects.FlipHorizontally : SpriteEffects.None
                     , frame.RenderingLayer
             );
+
+            
         });
     }
 
