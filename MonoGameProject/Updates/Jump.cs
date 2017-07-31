@@ -29,7 +29,7 @@ namespace MonoGameProject
             if (Parent.State == PlayerState.TakingDamage)
                 return;
 
-            if (groundChecker.Colliding<IBlockPlayerMovement>())
+            if (groundChecker.Colliding<BlockVerticalMovement>())
             {
                 jumpAvailave = 10;
             }

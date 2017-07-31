@@ -23,7 +23,7 @@ namespace MonoGameProject
             AddUpdate(new MoveHorizontallyWithTheWorld(this));
 
             var collider = new Collider() { Width = width, Height = height };
-            Action<Collider, Collider> collisionHandler = (s, t) => { if (t.Parent is IBlockPlayerMovement) Destroy(); };
+            Action<Collider, Collider> collisionHandler = (s, t) => { if (t.Parent is BlockVerticalMovement) Destroy(); };
             collider.AddBotCollisionHandler(collisionHandler);
             collider.AddTopCollisionHandler(collisionHandler);
             collider.AddLeftCollisionHandler(collisionHandler);

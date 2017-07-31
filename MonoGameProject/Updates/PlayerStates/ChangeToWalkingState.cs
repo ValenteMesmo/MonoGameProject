@@ -17,8 +17,8 @@ namespace MonoGameProject
             if (Player.State == PlayerState.TakingDamage)
                 return;
 
-            if (Player.groundChecker.Colliding<IBlockPlayerMovement>()
-                && !Player.roofChecker.Colliding<IBlockPlayerMovement>()
+            if (Player.groundChecker.Colliding<BlockVerticalMovement>()
+                && !Player.roofChecker.Colliding<BlockVerticalMovement>()
                 && Player.VerticalSpeed >= 0)
             {
                 if (Player.Inputs.Right)

@@ -5,12 +5,12 @@ using System;
 
 namespace MonoGameProject
 {
-    class SolidCollider : Collider, IBlockPlayerMovement
+    public class SolidCollider : Collider, BlockHorizontalMovement
     {
 
     }
 
-    class GroundCollider :SolidCollider , SomeKindOfGround
+    public class GroundCollider : Collider , SomeKindOfGround, BlockVerticalMovement, BlockHorizontalMovement
     {
 
     }

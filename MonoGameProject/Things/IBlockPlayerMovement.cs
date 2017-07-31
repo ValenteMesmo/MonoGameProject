@@ -1,10 +1,14 @@
 ﻿namespace MonoGameProject.Things
 {
-    public interface IBlockPlayerMovement
+    public interface BlockVerticalMovement
     {
     }
 
-    public interface SomeKindOfGround : IBlockPlayerMovement
+    public interface BlockHorizontalMovement
+    {
+    }
+
+    public interface SomeKindOfGround : BlockVerticalMovement, BlockHorizontalMovement
     {
 
     }

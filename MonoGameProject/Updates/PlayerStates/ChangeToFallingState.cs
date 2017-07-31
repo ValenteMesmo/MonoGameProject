@@ -20,7 +20,7 @@ namespace MonoGameProject
             if (Player.State != PlayerState.WallJumpingToTheLeft
                 && Player.State != PlayerState.WallJumpingToTheRight)
             {
-                if (Player.groundChecker.Colliding< IBlockPlayerMovement>())
+                if (Player.groundChecker.Colliding< BlockVerticalMovement>())
                 {
                     if (Player.State == PlayerState.HeadBumpLeft)
                     {

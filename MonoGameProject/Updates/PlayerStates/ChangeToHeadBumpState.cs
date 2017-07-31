@@ -23,8 +23,8 @@ namespace MonoGameProject
                 return;
             //if (Player.roofChecker.Colliding)
             //Game.LOG += Math.Abs(Player.roofChecker.GetGolliders().First().Bottom() - Player.roofChecker.Top());
-            if (Player.roofChecker.Colliding<IBlockPlayerMovement>()
-                && Math.Abs(Player.roofChecker.GetGolliders<IBlockPlayerMovement>().First().Bottom() - Player.roofChecker.Top()) == 90
+            if (Player.roofChecker.Colliding<BlockVerticalMovement>()
+                && Math.Abs(Player.roofChecker.GetGolliders<BlockVerticalMovement>().First().Bottom() - Player.roofChecker.Top()) == 90
                 && Player.VerticalSpeed < 0)
             {
                 if (Player.State == PlayerState.WalkingLeft

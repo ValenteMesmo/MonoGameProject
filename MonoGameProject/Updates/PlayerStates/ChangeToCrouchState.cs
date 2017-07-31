@@ -19,7 +19,7 @@ namespace MonoGameProject.Updates.PlayerStates
                 return;
 
             if ( Player.Inputs.Down
-                && Player.groundChecker.Colliding< IBlockPlayerMovement>())
+                && Player.groundChecker.Colliding< BlockVerticalMovement>())
             {
                 if (Player.State == PlayerState.StandingRight
                     || Player.State == PlayerState.WalkingRight
