@@ -16,7 +16,9 @@ namespace MonoGameProject
         public void Update()
         {
             if (Parent.State == PlayerState.StandingLeft
-                || Parent.State == PlayerState.StandingRight)
+                || Parent.State == PlayerState.StandingRight
+                || Parent.State == PlayerState.AttackLeft
+                || Parent.State == PlayerState.AttackRight)
             {
                 NewMethod(VELOCITY);
             }

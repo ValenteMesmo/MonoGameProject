@@ -16,6 +16,8 @@
         HeadBumpRight,
         CrouchingLeft,
         CrouchingRight,
-        TakingDamage
+        TakingDamage,
+        AttackLeft,
+        AttackRight
     }
 }

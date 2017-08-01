@@ -90,6 +90,22 @@ namespace MonoGameProject
                 , size
                 , true);
 
+            var attack_left = GeneratedContent.Create_knight_Attack(
+                x
+                , y
+                , 0
+                , size
+                , size);
+            attack_left.LoopDisabled = true;
+            var attack_right = GeneratedContent.Create_knight_Attack(
+                flippedx
+                , y
+                , 0
+                , size
+                , size
+                , true);
+            attack_right.LoopDisabled = true;
+
             thing.AddAnimation(new Animator(
                 new AnimationTransitionOnCondition(walk_left, () => thing.State == PlayerState.WalkingLeft)
                 , new AnimationTransitionOnCondition(walk_right, () => thing.State == PlayerState.WalkingRight)
@@ -103,6 +119,8 @@ namespace MonoGameProject
                 , new AnimationTransitionOnCondition(fall_right, () => thing.State == PlayerState.WallJumpingToTheLeft)
                 , new AnimationTransitionOnCondition(headbang_left, () => thing.State == PlayerState.HeadBumpLeft)
                 , new AnimationTransitionOnCondition(headbang_right, () => thing.State == PlayerState.HeadBumpRight)
+                , new AnimationTransitionOnCondition(attack_left, () => thing.State == PlayerState.AttackLeft)
+                , new AnimationTransitionOnCondition(attack_right, () => thing.State == PlayerState.AttackRight)
                 , new AnimationTransitionOnCondition(fall_left, () => thing.State == PlayerState.TakingDamage)
             ));
         }

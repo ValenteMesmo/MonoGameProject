@@ -14,7 +14,9 @@ namespace MonoGameProject
 
         public void Update()
         {
-            if (Player.State == PlayerState.TakingDamage)
+            if (Player.State == PlayerState.TakingDamage
+                || Player.State == PlayerState.AttackLeft
+                || Player.State == PlayerState.AttackRight)
                 return;
 
             if (Player.groundChecker.Colliding<BlockVerticalMovement>()

@@ -10,7 +10,7 @@ namespace MonoGameProject
 
     }
 
-    public class GroundCollider : Collider , SomeKindOfGround, BlockVerticalMovement, BlockHorizontalMovement
+    public class GroundCollider : Collider, SomeKindOfGround, BlockVerticalMovement, BlockHorizontalMovement
     {
 
     }
@@ -18,6 +18,66 @@ namespace MonoGameProject
     public class AttackCollider : Collider
     {
 
+    }
+
+    public class ChangeToAttackState : UpdateHandler
+    {
+        private readonly Humanoid Humanoid;
+        private int AttackDuration = 0;
+
+        public ChangeToAttackState(Humanoid Humanoid)
+        {
+            this.Humanoid = Humanoid;
+        }
+
+        public void Update()
+        {
+            if (Humanoid.Inputs.ClickedAction1
+                && AttackDuration <= 0)
+            {
+                AttackDuration = 20;
+            }
+
+            if (AttackDuration > 0)
+            {
+                ChangeToAttackMode();
+                AttackDuration--;
+                if (AttackDuration <= 0)
+                {
+                    ChangeToNotAttackMode();
+                }
+            }
+        }
+
+        private void ChangeToNotAttackMode()
+        {
+            if(Humanoid.State== PlayerState.AttackLeft)
+                Humanoid.State = PlayerState.StandingLeft;
+            else if (Humanoid.State == PlayerState.AttackRight)
+                Humanoid.State = PlayerState.StandingRight;
+        }
+
+        private void ChangeToAttackMode()
+        {
+            if(Humanoid.State == PlayerState.CrouchingLeft
+                || Humanoid.State == PlayerState.FallingLeft
+                || Humanoid.State == PlayerState.HeadBumpLeft
+                || Humanoid.State == PlayerState.SlidingWallRight
+                || Humanoid.State == PlayerState.StandingLeft
+                || Humanoid.State == PlayerState.WalkingLeft
+                || Humanoid.State == PlayerState.WallJumpingToTheLeft
+                )
+            Humanoid.State = PlayerState.AttackLeft;
+            else if (Humanoid.State == PlayerState.CrouchingRight
+                || Humanoid.State == PlayerState.FallingRight
+                || Humanoid.State == PlayerState.HeadBumpRight
+                || Humanoid.State == PlayerState.SlidingWallLeft
+                || Humanoid.State == PlayerState.StandingRight
+                || Humanoid.State == PlayerState.WalkingRight
+                || Humanoid.State == PlayerState.WallJumpingToTheRight
+                )
+                Humanoid.State = PlayerState.AttackRight;
+        }
     }
 
     public class Humanoid : Thing
@@ -36,7 +96,7 @@ namespace MonoGameProject
         public readonly CollisionChecker roofChecker;
         public readonly CollisionChecker RightGroundAcidentChecker;
         public readonly CollisionChecker LeftGroundAcidentChecker;
-        
+
         public readonly Collider MainCollider;
         public readonly GameInputs Inputs;
 
@@ -138,6 +198,7 @@ namespace MonoGameProject
             AddUpdate(new ChangeToWallJumping(this));
             AddUpdate(new ChangeToHeadBumpState(this, WorldMover.Camera));
             AddUpdate(new ChangeToCrouchState(this));
+            AddUpdate(new ChangeToAttackState(this));
 
             AddUpdate(new DestroyIfLeftBehind(this));
             AddUpdate(new PreventPlayerFromAccicentlyFalling(this));
