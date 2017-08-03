@@ -45,6 +45,7 @@ internal class BaseGame : OriginalGameClass
         IsMouseVisible = true;
 #endif
         Graphics = new GraphicsDeviceManager(this);
+
         Content.RootDirectory = "Content";
         //IsFixedTimeStep = false;
         //Graphics.SynchronizeWithVerticalRetrace = false;
@@ -130,7 +131,7 @@ internal class BaseGame : OriginalGameClass
                    Camera.GetTransformation(GraphicsDevice));
 
         //effect.CurrentTechnique.Passes[0].Apply();
-        
+
 
         World.Things.ForEach(RenderThing);
 
@@ -180,8 +181,10 @@ internal class BaseGame : OriginalGameClass
             thing.Colliders.ForEach(collider =>
                 DrawBorder(
                     new Rectangle(
-                        thing.X + collider.OffsetX,
-                        thing.Y + collider.OffsetY,
+                        thing.X + collider.OffsetX
+                        ,
+                        thing.Y + collider.OffsetY
+                        ,
                         collider.Width,
                         collider.Height),
                     30,
@@ -201,7 +204,6 @@ internal class BaseGame : OriginalGameClass
             )
         );
 
-
         thing.Animations.ForEach(animation =>
         {
             var frame = animation.GetCurretFrame();
@@ -210,8 +212,8 @@ internal class BaseGame : OriginalGameClass
                     , new Rectangle(
                         thing.X + frame.X,
                         thing.Y + frame.Y,
-                        frame.Width,
-                        frame.Height)
+                        frame.Width * (animation.ScaleX > 0 ? animation.ScaleX : 1),
+                        frame.Height * (animation.ScaleY > 0 ? animation.ScaleY : 1))
                     , frame.PositionOnSpriteSheet
                     , animation.Color
                     , 0
@@ -220,7 +222,7 @@ internal class BaseGame : OriginalGameClass
                     , frame.RenderingLayer
             );
 
-            
+
         });
     }
 

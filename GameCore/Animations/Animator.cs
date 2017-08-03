@@ -7,7 +7,20 @@ namespace GameCore
     {
         private readonly AnimationTransition[] Transitions;
         private Animation CurrentAnimation;
+        public int ScaleX
+        {
+            get
+            {
+                return CurrentAnimation.ScaleX;
+            }
+        }
 
+        public int ScaleY {
+            get
+            {
+                return CurrentAnimation.ScaleY;
+            }
+        }
         public Color Color { get; set; }
 
         public Animator(params AnimationTransition[] Transitions)
@@ -23,7 +36,7 @@ namespace GameCore
 
             foreach (var item in Transitions)
             {
-                if (CurrentAnimation != item.Target 
+                if (CurrentAnimation != item.Target
                     && item.Condition())
                 {
                     CurrentAnimation.Restart();

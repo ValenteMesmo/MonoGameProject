@@ -26,9 +26,6 @@ namespace MonoGameProject
 
         public void Update()
         {
-            //if (Parent.State == PlayerState.TakingDamage)
-            //    return;
-
             if (groundChecker.Colliding<BlockVerticalMovement>())
             {
                 jumpAvailave = 10;
@@ -47,7 +44,7 @@ namespace MonoGameProject
                 && InputRepository.JumpDown == false
                 && Parent.VerticalSpeed < minJumpSpeed)
             {
-                Parent.VerticalSpeed = minJumpSpeed;
+                Parent.VerticalSpeed = minJumpSpeed;                
             }
 
             cooldown--;

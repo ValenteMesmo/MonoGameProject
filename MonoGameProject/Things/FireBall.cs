@@ -13,7 +13,16 @@ namespace MonoGameProject
         {
             var width = 400;
             var height = 400;
-            AddAnimation(GeneratedContent.Create_knight_block(0, 0, 0.4f, width, height));
+            var animation = GeneratedContent.Create_knight_block(
+            0
+            , 0
+            , 0.4f
+            , MapModule.CELL_SIZE
+            , MapModule.CELL_SIZE
+            );
+            AddAnimation(
+               animation
+            );
 
             HorizontalSpeed = speedX;
             VerticalSpeed = speedY;

@@ -6,6 +6,8 @@ namespace GameCore
 {
     public interface IHandleAnimation
     {
+        int ScaleX { get; }
+        int ScaleY { get; }
         Color Color { get; set; }
         AnimationFrame GetCurretFrame();
         void Update();
@@ -19,6 +21,8 @@ namespace GameCore
         public bool Ended { get; private set; }
         public Color Color { get; set; }
         public bool LoopDisabled { get; set; }
+        public int ScaleX { get; set; }
+        public int ScaleY { get; set; }
 
         private const int ANIMATION_DURATION = 3;
 

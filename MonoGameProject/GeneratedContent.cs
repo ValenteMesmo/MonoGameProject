@@ -19,120 +19,137 @@ public class GeneratedContent : ILoadContents
         return soundNames;
     }
     
-    public static Animation Create_knight_Arms_Right_Stand(int X, int Y, float Z, int Width, int Height, bool Flipped = false)
+    public static Animation Create_knight_Legs_Crouching(int X, int Y, float Z, int? Width = null, int? Height = null, bool Flipped = false)
     {
         var animation = new Animation(
             
-            new AnimationFrame("knight", X, Y, Width, Height, new Rectangle(0+5, 0+5, 212-10, 164-10)){ RenderingLayer = Z, Flipped = Flipped }
+            new AnimationFrame("knight", X, Y, Width ?? 99, Height ?? 60, new Rectangle(260, 105, 99, 60)){ RenderingLayer = Z, Flipped = Flipped }
         );
 
         return animation;
     }
 
-    public static Animation Create_knight_Attack(int X, int Y, float Z, int Width, int Height, bool Flipped = false)
+    public static Animation Create_knight_Legs_Falling(int X, int Y, float Z, int? Width = null, int? Height = null, bool Flipped = false)
     {
         var animation = new Animation(
             
-            new AnimationFrame("knight", X, Y, Width, Height, new Rectangle(212+5, 0+5, 594-10, 594-10)){ RenderingLayer = Z, Flipped = Flipped },
-            new AnimationFrame("knight", X, Y, Width, Height, new Rectangle(806+5, 0+5, 594-10, 594-10)){ RenderingLayer = Z, Flipped = Flipped },
-            new AnimationFrame("knight", X, Y, Width, Height, new Rectangle(1400+5, 0+5, 594-10, 594-10)){ RenderingLayer = Z, Flipped = Flipped }
+            new AnimationFrame("knight", X, Y, Width ?? 126, Height ?? 101, new Rectangle(0, 0, 126, 101)){ RenderingLayer = Z, Flipped = Flipped }
         );
 
         return animation;
     }
 
-    public static Animation Create_knight_Border(int X, int Y, float Z, int Width, int Height, bool Flipped = false)
+    public static Animation Create_knight_Legs_Standing(int X, int Y, float Z, int? Width = null, int? Height = null, bool Flipped = false)
     {
         var animation = new Animation(
             
-            new AnimationFrame("knight", X, Y, Width, Height, new Rectangle(0+5, 594+5, 593-10, 594-10)){ RenderingLayer = Z, Flipped = Flipped }
+            new AnimationFrame("knight", X, Y, Width ?? 144, Height ?? 102, new Rectangle(126, 0, 144, 102)){ RenderingLayer = Z, Flipped = Flipped }
         );
 
         return animation;
     }
 
-    public static Animation Create_knight_Legs_Crouching(int X, int Y, float Z, int Width, int Height, bool Flipped = false)
+    public static Animation Create_knight_Legs_Walking(int X, int Y, float Z, int? Width = null, int? Height = null, bool Flipped = false)
     {
         var animation = new Animation(
             
-            new AnimationFrame("knight", X, Y, Width, Height, new Rectangle(593+5, 594+5, 593-10, 594-10)){ RenderingLayer = Z, Flipped = Flipped }
+            new AnimationFrame("knight", X, Y, Width ?? 154, Height ?? 105, new Rectangle(270, 0, 154, 105)){ RenderingLayer = Z, Flipped = Flipped },
+            new AnimationFrame("knight", X, Y, Width ?? 154, Height ?? 105, new Rectangle(424, 0, 154, 105)){ RenderingLayer = Z, Flipped = Flipped },
+            new AnimationFrame("knight", X, Y, Width ?? 154, Height ?? 105, new Rectangle(578, 0, 154, 105)){ RenderingLayer = Z, Flipped = Flipped },
+            new AnimationFrame("knight", X, Y, Width ?? 154, Height ?? 105, new Rectangle(732, 0, 154, 105)){ RenderingLayer = Z, Flipped = Flipped },
+            new AnimationFrame("knight", X, Y, Width ?? 154, Height ?? 105, new Rectangle(0, 105, 154, 105)){ RenderingLayer = Z, Flipped = Flipped }
         );
 
         return animation;
     }
 
-    public static Animation Create_knight_Legs_Falling(int X, int Y, float Z, int Width, int Height, bool Flipped = false)
+    public static Animation Create_knight_block(int X, int Y, float Z, int? Width = null, int? Height = null, bool Flipped = false)
     {
         var animation = new Animation(
             
-            new AnimationFrame("knight", X, Y, Width, Height, new Rectangle(1186+5, 594+5, 593-10, 594-10)){ RenderingLayer = Z, Flipped = Flipped }
+            new AnimationFrame("knight", X, Y, Width ?? 106, Height ?? 106, new Rectangle(154, 105, 106, 106)){ RenderingLayer = Z, Flipped = Flipped }
         );
 
         return animation;
     }
 
-    public static Animation Create_knight_Legs_Standing(int X, int Y, float Z, int Width, int Height, bool Flipped = false)
+    public static Animation Create_knight_crouching_legs(int X, int Y, float Z, int? Width = null, int? Height = null, bool Flipped = false)
     {
         var animation = new Animation(
             
-            new AnimationFrame("knight", X, Y, Width, Height, new Rectangle(0+5, 1188+5, 593-10, 594-10)){ RenderingLayer = Z, Flipped = Flipped }
+            new AnimationFrame("knight", X, Y, Width ?? 99, Height ?? 60, new Rectangle(260, 105, 99, 60)){ RenderingLayer = Z, Flipped = Flipped }
         );
 
         return animation;
     }
 
-    public static Animation Create_knight_Legs_Walking(int X, int Y, float Z, int Width, int Height, bool Flipped = false)
+    public static Animation Create_knight_dead_tree(int X, int Y, float Z, int? Width = null, int? Height = null, bool Flipped = false)
     {
         var animation = new Animation(
             
-            new AnimationFrame("knight", X, Y, Width, Height, new Rectangle(593+5, 1188+5, 593-10, 596-10)){ RenderingLayer = Z, Flipped = Flipped },
-            new AnimationFrame("knight", X, Y, Width, Height, new Rectangle(1186+5, 1188+5, 593-10, 596-10)){ RenderingLayer = Z, Flipped = Flipped },
-            new AnimationFrame("knight", X, Y, Width, Height, new Rectangle(0+5, 1784+5, 593-10, 596-10)){ RenderingLayer = Z, Flipped = Flipped },
-            new AnimationFrame("knight", X, Y, Width, Height, new Rectangle(593+5, 1784+5, 593-10, 596-10)){ RenderingLayer = Z, Flipped = Flipped },
-            new AnimationFrame("knight", X, Y, Width, Height, new Rectangle(1186+5, 1784+5, 593-10, 596-10)){ RenderingLayer = Z, Flipped = Flipped },
-            new AnimationFrame("knight", X, Y, Width, Height, new Rectangle(0+5, 2380+5, 593-10, 596-10)){ RenderingLayer = Z, Flipped = Flipped },
-            new AnimationFrame("knight", X, Y, Width, Height, new Rectangle(593+5, 2380+5, 593-10, 596-10)){ RenderingLayer = Z, Flipped = Flipped },
-            new AnimationFrame("knight", X, Y, Width, Height, new Rectangle(1186+5, 2380+5, 593-10, 596-10)){ RenderingLayer = Z, Flipped = Flipped }
+            new AnimationFrame("knight", X, Y, Width ?? 153, Height ?? 196, new Rectangle(359, 105, 153, 196)){ RenderingLayer = Z, Flipped = Flipped }
         );
 
         return animation;
     }
 
-    public static Animation Create_knight_block(int X, int Y, float Z, int Width, int Height, bool Flipped = false)
+    public static Animation Create_knight_head(int X, int Y, float Z, int? Width = null, int? Height = null, bool Flipped = false)
     {
         var animation = new Animation(
             
-            new AnimationFrame("knight", X, Y, Width, Height, new Rectangle(1779+5, 2380+5, 112-10, 112-10)){ RenderingLayer = Z, Flipped = Flipped }
+            new AnimationFrame("knight", X, Y, Width ?? 112, Height ?? 106, new Rectangle(512, 105, 112, 106)){ RenderingLayer = Z, Flipped = Flipped }
         );
 
         return animation;
     }
 
-    public static Animation Create_knight_dead_tree(int X, int Y, float Z, int Width, int Height, bool Flipped = false)
+    public static Animation Create_knight_roof_bang_head(int X, int Y, float Z, int? Width = null, int? Height = null, bool Flipped = false)
     {
         var animation = new Animation(
             
-            new AnimationFrame("knight", X, Y, Width, Height, new Rectangle(0+5, 2976+5, 256-10, 256-10)){ RenderingLayer = Z, Flipped = Flipped }
+            new AnimationFrame("knight", X, Y, Width ?? 132, Height ?? 93, new Rectangle(624, 105, 132, 93)){ RenderingLayer = Z, Flipped = Flipped }
         );
 
         return animation;
     }
 
-    public static Animation Create_knight_head_bang(int X, int Y, float Z, int Width, int Height, bool Flipped = false)
+    public static Animation Create_knight_roof_bang_legs(int X, int Y, float Z, int? Width = null, int? Height = null, bool Flipped = false)
     {
         var animation = new Animation(
             
-            new AnimationFrame("knight", X, Y, Width, Height, new Rectangle(256+5, 2976+5, 593-10, 594-10)){ RenderingLayer = Z, Flipped = Flipped }
+            new AnimationFrame("knight", X, Y, Width ?? 154, Height ?? 53, new Rectangle(756, 105, 154, 53)){ RenderingLayer = Z, Flipped = Flipped }
         );
 
         return animation;
     }
 
-    public static Animation Create_knight_sky(int X, int Y, float Z, int Width, int Height, bool Flipped = false)
+    public static Animation Create_knight_sky(int X, int Y, float Z, int? Width = null, int? Height = null, bool Flipped = false)
     {
         var animation = new Animation(
             
-            new AnimationFrame("knight", X, Y, Width, Height, new Rectangle(849+5, 2976+5, 113-10, 113-10)){ RenderingLayer = Z, Flipped = Flipped }
+            new AnimationFrame("knight", X, Y, Width ?? 113, Height ?? 113, new Rectangle(910, 105, 113, 113)){ RenderingLayer = Z, Flipped = Flipped }
+        );
+
+        return animation;
+    }
+
+    public static Animation Create_knight_torso_attack(int X, int Y, float Z, int? Width = null, int? Height = null, bool Flipped = false)
+    {
+        var animation = new Animation(
+            
+            new AnimationFrame("knight", X, Y, Width ?? 414, Height ?? 169, new Rectangle(0, 301, 414, 169)){ RenderingLayer = Z, Flipped = Flipped },
+            new AnimationFrame("knight", X, Y, Width ?? 414, Height ?? 169, new Rectangle(414, 301, 414, 169)){ RenderingLayer = Z, Flipped = Flipped },
+            new AnimationFrame("knight", X, Y, Width ?? 414, Height ?? 169, new Rectangle(0, 470, 414, 169)){ RenderingLayer = Z, Flipped = Flipped }
+        );
+
+        return animation;
+    }
+
+    public static Animation Create_knight_torso_stand(int X, int Y, float Z, int? Width = null, int? Height = null, bool Flipped = false)
+    {
+        var animation = new Animation(
+            
+            new AnimationFrame("knight", X, Y, Width ?? 182, Height ?? 132, new Rectangle(414, 470, 182, 132)){ RenderingLayer = Z, Flipped = Flipped }
         );
 
         return animation;

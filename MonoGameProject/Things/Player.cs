@@ -5,6 +5,16 @@ namespace MonoGameProject
 {
     public class Player : Humanoid
     {
+        /* criar um modulo assim (obrigar a usar walljump)
+              __________
+              __        |
+                |>      | 
+                |      <|
+                |>      |___
+                |        ___
+                |^^^^^^^|
+        */
+
         //evitar que player ande sobre o teto, no estilo mario bros
         //gradiente no fundo
 
@@ -108,6 +118,6 @@ namespace MonoGameProject
             new HumanoidAnimatorFactory()
                 .CreateAnimator(width, height, this);
         }
-        
+
     }
 }

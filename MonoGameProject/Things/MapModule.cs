@@ -38,6 +38,7 @@ namespace MonoGameProject
 
     public class MapModule : Thing
     {
+        public const int SCALE = 5;
         public const int CELL_SIZE = 500;
         public const int CELL_NUMBER = 16;
         public const int WIDTH = CELL_SIZE * CELL_NUMBER;
@@ -139,8 +140,8 @@ namespace MonoGameProject
                                j * CELL_SIZE
                                , i * CELL_SIZE
                                , 0.5f
-                               , CELL_SIZE
-                               , CELL_SIZE);
+                               , MapModule.CELL_SIZE
+                               , MapModule.CELL_SIZE);
                         animation.Color = Colors[ColorIndex];
                         AddAnimation(animation);
                     }
@@ -196,9 +197,9 @@ namespace MonoGameProject
                                j * CELL_SIZE
                                , i * CELL_SIZE
                                , 0.5f
-                               , CELL_SIZE
-                               , CELL_SIZE);
-
+                               , MapModule.CELL_SIZE
+                               , MapModule.CELL_SIZE);
+            
             animation.Color = new Color(
                 Colors[ColorIndex].R - 100
                 , Colors[ColorIndex].G - 100
@@ -211,14 +212,17 @@ namespace MonoGameProject
 
         private void CreateSolid(int i, int j)
         {
+            var animation = GeneratedContent.Create_knight_block(
+                (j) * CELL_SIZE + 1
+                , i * CELL_SIZE + 1
+                , 0.5f
+                , MapModule.CELL_SIZE
+                , MapModule.CELL_SIZE
+            );
+            animation.ScaleX = MapModule.SCALE;
+            animation.ScaleY = MapModule.SCALE;
             AddAnimation(
-                GeneratedContent.Create_knight_block(
-                    (j) * CELL_SIZE + 1
-                    , i * CELL_SIZE + 1
-                    , 0.5f
-                    , CELL_SIZE
-                    , CELL_SIZE
-                )
+                animation
             );
 
             AddCollider(new GroundCollider()
