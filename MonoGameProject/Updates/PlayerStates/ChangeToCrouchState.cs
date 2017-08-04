@@ -16,6 +16,10 @@ namespace MonoGameProject.Updates.PlayerStates
         {
             if (Player.LegState == LegState.TakingDamage)
                 return;
+            if (Player.TorsoState == TorsoState.AttackRight)
+                return;
+            if (Player.TorsoState == TorsoState.AttackLeft)
+                return;
 
             if (Player.Inputs.Down
                 && Player.groundChecker.Colliding<BlockVerticalMovement>())
