@@ -48,7 +48,7 @@ namespace MonoGameProject
                     new InputCheckerAggregation(
                          new GamePadChecker(0)
                         , new KeyboardChecker())
-                ), Game1)
+                ), Game1.Camera)
         {
             X = 1000;
             Y = 7000;

@@ -3,14 +3,76 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Linq;
 using MonoGameProject;
+using GameCore;
+using NSubstitute;
 
 namespace UnitTestProject
 {
     [TestClass]
+    public class MyTestClass
+    {
+        [TestMethod]
+        public void PreventDirectionCHangeWhileCrouchAttackingLeft()
+        {
+            var inputs = Substitute.For<InputChecker>();
+            var sut = new Humanoid(new GameInputs(inputs), new Camera2d());
+            sut.groundChecker.CollidingWith.Add(new GroundCollider());
+
+            inputs.Down.Returns(true);
+            sut.Updates.ForEach(f => f());
+            Assert.AreEqual(sut.LegState, LegState.CrouchingLeft);
+
+            inputs.Action.Returns(true);
+            sut.Updates.ForEach(f => f());
+            Assert.AreEqual(sut.LegState, LegState.CrouchingLeft);
+            Assert.AreEqual(sut.TorsoState, TorsoState.AttackCrouchingLeft);
+
+            inputs.Action.Returns(false);
+            inputs.Right.Returns(true);
+            foreach (var item in sut.Updates)
+            {
+                item();
+            }
+            
+            Assert.AreEqual(sut.LegState, LegState.CrouchingLeft);
+            Assert.AreEqual(sut.TorsoState, TorsoState.AttackCrouchingLeft);
+        }
+
+        [TestMethod]
+        public void PreventDirectionCHangeWhileCrouchAttackingRight()
+        {
+            var inputs = Substitute.For<InputChecker>();
+            var sut = new Humanoid(new GameInputs(inputs), new Camera2d());
+            sut.groundChecker.CollidingWith.Add(new GroundCollider());
+
+            inputs.Down.Returns(true);
+            inputs.Right.Returns(true);
+            sut.Updates.ForEach(f => f());
+            Assert.AreEqual(sut.LegState, LegState.CrouchingRight);
+
+            inputs.Action.Returns(true);
+            sut.Updates.ForEach(f => f());
+            Assert.AreEqual(sut.LegState, LegState.CrouchingRight);
+            Assert.AreEqual(sut.TorsoState, TorsoState.AttackCrouchingRight);
+
+            inputs.Action.Returns(false);
+            inputs.Right.Returns(false);
+            inputs.Left.Returns(true);
+            foreach (var item in sut.Updates)
+            {
+                item();
+            }
+
+            Assert.AreEqual(sut.LegState, LegState.CrouchingRight);
+            Assert.AreEqual(sut.TorsoState, TorsoState.AttackCrouchingRight);
+        }
+    }
+
+    [TestClass]
     public class UnitTest1
     {
         private TileMerger sut = new TileMerger();
-
+        
         [TestMethod]
         public void TestMethod2()
         {

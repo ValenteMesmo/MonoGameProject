@@ -24,7 +24,8 @@ namespace MonoGameProject
                 if (Player.Inputs.Right && !Player.Inputs.Left)
                 {
                     if ((Player.LegState == LegState.WalkingLeft
-                        || Player.LegState == LegState.StandingLeft)
+                        || Player.LegState == LegState.StandingLeft
+                        || Player.LegState == LegState.CrouchingLeft)
                         &&
                         (Player.TorsoState == TorsoState.AttackLeft
                         || Player.TorsoState == TorsoState.AttackCrouchingLeft))
@@ -38,7 +39,8 @@ namespace MonoGameProject
                 else if (Player.Inputs.Left && !Player.Inputs.Right)
                 {
                     if ((Player.LegState == LegState.WalkingRight
-                        || Player.LegState == LegState.StandingRight)
+                        || Player.LegState == LegState.StandingRight
+                        || Player.LegState == LegState.CrouchingRight)
                         &&
                         (Player.TorsoState == TorsoState.AttackRight
                         || Player.TorsoState == TorsoState.AttackCrouchingRight))

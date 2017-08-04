@@ -13,7 +13,7 @@ namespace MonoGameProject
                         //new MirroredKeyboardChecker()
                         new PatrolAiInputs()
                     )
-                ), WorldMover)
+                ), WorldMover.Camera)
         {
             X = 2000;
             Y = 7000;

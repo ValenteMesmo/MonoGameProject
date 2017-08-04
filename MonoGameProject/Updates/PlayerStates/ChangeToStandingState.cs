@@ -19,7 +19,7 @@ namespace MonoGameProject
 
             if (Player.groundChecker.Colliding<BlockVerticalMovement>()
                 && !Player.roofChecker.Colliding<BlockVerticalMovement>()
-                && 
+                &&
                 (
                     (
                         !Player.Inputs.Left
@@ -38,21 +38,32 @@ namespace MonoGameProject
                      || Player.LegState == LegState.FallingLeft
                      || Player.LegState == LegState.SlidingWallLeft
                      || Player.LegState == LegState.HeadBumpLeft
-                     || Player.LegState == LegState.CrouchingLeft
                  )
                 {
                     Player.LegState = LegState.StandingLeft;
-                    Player.TorsoState = TorsoState.StandingLeft;
                 }
                 else if (Player.LegState == LegState.WalkingRight
                     || Player.LegState == LegState.FallingRight
                     || Player.LegState == LegState.SlidingWallRight
                     || Player.LegState == LegState.HeadBumpRight
-                    || Player.LegState == LegState.CrouchingRight
                 )
                 {
                     Player.LegState = LegState.StandingRight;
-                    Player.TorsoState = TorsoState.StandingRight;
+                }
+                else if (Player.Inputs.Down == false)
+                {
+                    if (Player.LegState == LegState.CrouchingLeft
+                        )
+                    {
+                        Player.LegState = LegState.StandingLeft;
+                        Player.TorsoState = TorsoState.StandingLeft;
+                    }
+                    else if (Player.LegState == LegState.CrouchingRight
+                        )
+                    {
+                        Player.LegState = LegState.StandingRight;
+                        Player.TorsoState = TorsoState.StandingRight;
+                    }
                 }
             }
         }

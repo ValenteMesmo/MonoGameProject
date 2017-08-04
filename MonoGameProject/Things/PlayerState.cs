@@ -1,4 +1,7 @@
-﻿namespace MonoGameProject
+﻿using System;
+using GameCore;
+
+namespace MonoGameProject
 {
     public enum TorsoState
     {

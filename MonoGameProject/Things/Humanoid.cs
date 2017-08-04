@@ -20,120 +20,6 @@ namespace MonoGameProject
 
     }
 
-    public class ChangeToAttackState : UpdateHandler
-    {
-        private readonly Humanoid Humanoid;
-        private int AttackDuration = 0;
-
-        public ChangeToAttackState(Humanoid Humanoid)
-        {
-            this.Humanoid = Humanoid;
-        }
-
-        public void Update()
-        {
-            if (Humanoid.Inputs.ClickedAction1
-                && AttackDuration <= 0)
-            {
-                AttackDuration = 20;
-            }
-
-            Humanoid.AttackLeftCollider.Disabled = true;
-            Humanoid.AttackRightCollider.Disabled = true;
-
-            if (AttackDuration > 0)
-            {
-                ChangeToAttackMode();
-                AttackDuration--;
-                if (AttackDuration <= 0)
-                {
-                    ChangeToNotAttackMode();
-                }
-            }
-        }
-
-        private void ChangeToNotAttackMode()
-        {
-            if (Humanoid.TorsoState == TorsoState.AttackLeft)
-            {
-                Humanoid.TorsoState = TorsoState.StandingLeft;
-                return;
-            }
-
-            if (Humanoid.TorsoState == TorsoState.AttackRight)
-            {
-                Humanoid.TorsoState = TorsoState.StandingRight;
-                return;
-            }
-
-            if (Humanoid.TorsoState == TorsoState.AttackCrouchingLeft)
-            {
-                Humanoid.TorsoState = TorsoState.CrouchLeft;
-                return;
-            }
-
-            if (Humanoid.TorsoState == TorsoState.AttackCrouchingRight)
-            {                
-                Humanoid.TorsoState = TorsoState.CrouchRight;
-                return;
-            }
-        }
-
-        private void ChangeToAttackMode()
-        {
-            var enableDuration = 15;
-
-            if (Humanoid.LegState == LegState.FallingLeft
-                || Humanoid.LegState == LegState.HeadBumpLeft
-                || Humanoid.LegState == LegState.SlidingWallRight
-                || Humanoid.LegState == LegState.StandingLeft
-                || Humanoid.LegState == LegState.WalkingLeft
-                || Humanoid.LegState == LegState.WallJumpingToTheLeft
-                )
-            {
-                if (AttackDuration < enableDuration)
-                    Humanoid.AttackLeftCollider.Disabled = false;
-
-                Humanoid.TorsoState = TorsoState.AttackLeft;
-                return;
-            }
-
-            if (Humanoid.LegState == LegState.FallingRight
-               || Humanoid.LegState == LegState.HeadBumpRight
-               || Humanoid.LegState == LegState.SlidingWallLeft
-               || Humanoid.LegState == LegState.StandingRight
-               || Humanoid.LegState == LegState.WalkingRight
-               || Humanoid.LegState == LegState.WallJumpingToTheRight
-               )
-            {
-                if (AttackDuration < enableDuration)
-                    Humanoid.AttackRightCollider.Disabled = false;
-
-                Humanoid.TorsoState = TorsoState.AttackRight;
-                return;
-            }
-
-            if (Humanoid.LegState == LegState.CrouchingRight
-            )
-            {
-                if (AttackDuration < enableDuration)
-                    Humanoid.AttackRightCollider.Disabled = false;
-
-                Humanoid.TorsoState = TorsoState.AttackCrouchingRight;
-                return;
-            }
-
-            if (Humanoid.LegState == LegState.CrouchingLeft)
-            {
-                if (AttackDuration < enableDuration)
-                    Humanoid.AttackLeftCollider.Disabled = false;
-
-                Humanoid.TorsoState = TorsoState.AttackCrouchingLeft;
-                return;
-            }
-        }
-    }
-
     public class Humanoid : Thing
     {
         public HeadState HeadState { get; set; }
@@ -143,25 +29,62 @@ namespace MonoGameProject
         private const int width = 1000;
         private const int height = 900;
 
-        public readonly AttackCollider AttackRightCollider;
-        public readonly AttackCollider AttackLeftCollider;
+        public AttackCollider AttackRightCollider { get; private set; }
+        public AttackCollider AttackLeftCollider { get; private set; }
 
-        public readonly CollisionChecker groundChecker;
-        public readonly CollisionChecker leftWallChecker;
-        public readonly CollisionChecker rightWallChecker;
-        public readonly CollisionChecker roofChecker;
-        public readonly CollisionChecker RightGroundAcidentChecker;
-        public readonly CollisionChecker LeftGroundAcidentChecker;
+        public CollisionChecker groundChecker { get; private set; }
+        public CollisionChecker leftWallChecker { get; private set; }
+        public CollisionChecker rightWallChecker { get; private set; }
+        public CollisionChecker roofChecker { get; private set; }
+        public CollisionChecker RightGroundAcidentChecker { get; private set; }
+        public CollisionChecker LeftGroundAcidentChecker { get; private set; }
 
-        public readonly Collider MainCollider;
-        public readonly GameInputs Inputs;
+        public Collider MainCollider { get; private set; }
+        public GameInputs Inputs { get; private set; }
 
-        public Humanoid(GameInputs Inputs, Game1 WorldMover)
+        public Humanoid(GameInputs Inputs, Camera2d Camera)
         {
             this.Inputs = Inputs;
 
-            AddUpdate(Inputs);
+            CreateColliders();
 
+            AddUpdate(this.Inputs);
+            AddUpdate(new ChangeToStandingState(this));
+            AddUpdate(new ChangeToWalkingState(this));
+            AddUpdate(new ChangeToFallingState(this));
+            AddUpdate(new ChangeToSlidingState(this));
+            AddUpdate(new ChangeToWallJumping(this));
+            AddUpdate(new ChangeToHeadBumpState(this, Camera));
+            AddUpdate(new ChangeToCrouchState(this));
+            AddUpdate(new ChangeToAttackState(this));
+
+            AddUpdate(new DestroyIfLeftBehind(this));
+            AddUpdate(new PreventPlayerFromAccicentlyFalling(this));
+            AddUpdate(new ResetSizeAndOffsetY(this));
+            AddUpdate(new ReduceSizeWhenHeadBumping(this));
+            AddUpdate(new ReduceSizeWhenCrouching(this));
+            AddUpdate(new HorizontalFriction(this));
+            AddUpdate(new AfectedByGravity(this));
+            AddUpdate(new MoveLeftOrRight(this));
+            AddUpdate(new MoveHorizontallyWithTheWorld(this));
+            AddUpdate(new Jump(this, Inputs, groundChecker));
+            AddUpdate(new ForceOriginalHeightAndOffsetWhenCrouchJumping(this));
+
+            AddUpdate(new WallJump(this));
+
+            AddUpdate(new ReduceSpeedWhileSlidingWall(this));
+#if DEBUG
+            AddUpdate(() =>
+                Game.LOG +=
+                GetType().Name
+                + " "
+                + LegState.ToString()
+                + Environment.NewLine);
+#endif
+        }
+
+        private void CreateColliders()
+        {
             MainCollider = new SolidCollider()
             {
                 OffsetX = width / 3,
@@ -224,8 +147,6 @@ namespace MonoGameProject
             };
             AddCollider(roofChecker);
 
-
-
             AttackRightCollider = new AttackCollider
             {
                 Width = width / 2,
@@ -245,40 +166,6 @@ namespace MonoGameProject
                 Disabled = true
             };
             AddCollider(AttackLeftCollider);
-
-
-            AddUpdate(new ChangeToStandingState(this));
-            AddUpdate(new ChangeToWalkingState(this));
-            AddUpdate(new ChangeToFallingState(this));
-            AddUpdate(new ChangeToSlidingState(this));
-            AddUpdate(new ChangeToWallJumping(this));
-            AddUpdate(new ChangeToHeadBumpState(this, WorldMover.Camera));
-            AddUpdate(new ChangeToCrouchState(this));
-            AddUpdate(new ChangeToAttackState(this));
-
-            AddUpdate(new DestroyIfLeftBehind(this));
-            AddUpdate(new PreventPlayerFromAccicentlyFalling(this));
-            AddUpdate(new ResetSizeAndOffsetY(this));
-            AddUpdate(new ReduceSizeWhenHeadBumping(this));
-            AddUpdate(new ReduceSizeWhenCrouching(this));
-            AddUpdate(new HorizontalFriction(this));
-            AddUpdate(new AfectedByGravity(this));
-            AddUpdate(new MoveLeftOrRight(this));
-            AddUpdate(new MoveHorizontallyWithTheWorld(this));
-            AddUpdate(new Jump(this, Inputs, groundChecker));
-            AddUpdate(new ForceOriginalHeightAndOffsetWhenCrouchJumping(this));
-
-            AddUpdate(new WallJump(this));
-
-            AddUpdate(new ReduceSpeedWhileSlidingWall(this));
-#if DEBUG
-            AddUpdate(() =>
-                Game.LOG +=
-                GetType().Name
-                + " "
-                + LegState.ToString()
-                + Environment.NewLine);
-#endif
         }
     }
 }

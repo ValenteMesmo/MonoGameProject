@@ -1,6 +1,5 @@
 ﻿using GameCore;
 using MonoGameProject.Things;
-using System.Linq;
 
 namespace MonoGameProject.Updates.PlayerStates
 {
@@ -18,8 +17,8 @@ namespace MonoGameProject.Updates.PlayerStates
             if (Player.LegState == LegState.TakingDamage)
                 return;
 
-            if ( Player.Inputs.Down
-                && Player.groundChecker.Colliding< BlockVerticalMovement>())
+            if (Player.Inputs.Down
+                && Player.groundChecker.Colliding<BlockVerticalMovement>())
             {
                 if (Player.LegState == LegState.StandingRight
                     || Player.LegState == LegState.WalkingRight
@@ -27,13 +26,16 @@ namespace MonoGameProject.Updates.PlayerStates
                 {
                     Player.LegState = LegState.CrouchingRight;
                     Player.TorsoState = TorsoState.CrouchRight;
+                    return;
                 }
-                else if (Player.LegState == LegState.StandingLeft
+
+                if (Player.LegState == LegState.StandingLeft
                     || Player.LegState == LegState.WalkingLeft
                     || Player.LegState == LegState.FallingLeft)
                 {
                     Player.LegState = LegState.CrouchingLeft;
                     Player.TorsoState = TorsoState.CrouchLeft;
+                    return;
                 }
             }
         }

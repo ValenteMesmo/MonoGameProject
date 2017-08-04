@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="GeneratedContent.cs" />
     <Compile Include="Things\Armor.cs" />
+    <Compile Include="Things\ChangeToAttackState.cs" />
     <Compile Include="Things\DestroyIfLeftBehind.cs" />
     <Compile Include="Things\Enemy.cs" />
     <Compile Include="Things\FireBall.cs" />
