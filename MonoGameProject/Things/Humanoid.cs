@@ -51,38 +51,77 @@ namespace MonoGameProject
 
         private void ChangeToNotAttackMode()
         {
-            if(Humanoid.State== PlayerState.AttackLeft)
-                Humanoid.State = PlayerState.StandingLeft;
-            else if (Humanoid.State == PlayerState.AttackRight)
-                Humanoid.State = PlayerState.StandingRight;
+            if (Humanoid.TorsoState == TorsoState.AttackLeft)
+            {
+                Humanoid.TorsoState = TorsoState.StandingLeft;
+                return;
+            }
+
+            if (Humanoid.TorsoState == TorsoState.AttackRight)
+            {
+                Humanoid.TorsoState = TorsoState.StandingRight;
+                return;
+            }
+
+            if (Humanoid.TorsoState == TorsoState.AttackCrouchingLeft)
+            {
+                Humanoid.TorsoState = TorsoState.CrouchLeft;
+                return;
+            }
+
+            if (Humanoid.TorsoState == TorsoState.AttackCrouchingRight)
+            {
+                Humanoid.TorsoState = TorsoState.CrouchRight;
+                return;
+            }
         }
 
         private void ChangeToAttackMode()
         {
-            if(Humanoid.State == PlayerState.CrouchingLeft
-                || Humanoid.State == PlayerState.FallingLeft
-                || Humanoid.State == PlayerState.HeadBumpLeft
-                || Humanoid.State == PlayerState.SlidingWallRight
-                || Humanoid.State == PlayerState.StandingLeft
-                || Humanoid.State == PlayerState.WalkingLeft
-                || Humanoid.State == PlayerState.WallJumpingToTheLeft
+            if (Humanoid.LegState == LegState.FallingLeft
+                || Humanoid.LegState == LegState.HeadBumpLeft
+                || Humanoid.LegState == LegState.SlidingWallRight
+                || Humanoid.LegState == LegState.StandingLeft
+                || Humanoid.LegState == LegState.WalkingLeft
+                || Humanoid.LegState == LegState.WallJumpingToTheLeft
                 )
-            Humanoid.State = PlayerState.AttackLeft;
-            else if (Humanoid.State == PlayerState.CrouchingRight
-                || Humanoid.State == PlayerState.FallingRight
-                || Humanoid.State == PlayerState.HeadBumpRight
-                || Humanoid.State == PlayerState.SlidingWallLeft
-                || Humanoid.State == PlayerState.StandingRight
-                || Humanoid.State == PlayerState.WalkingRight
-                || Humanoid.State == PlayerState.WallJumpingToTheRight
-                )
-                Humanoid.State = PlayerState.AttackRight;
+            {
+                Humanoid.TorsoState = TorsoState.AttackLeft;
+                return;
+            }
+
+            if (Humanoid.LegState == LegState.FallingRight
+               || Humanoid.LegState == LegState.HeadBumpRight
+               || Humanoid.LegState == LegState.SlidingWallLeft
+               || Humanoid.LegState == LegState.StandingRight
+               || Humanoid.LegState == LegState.WalkingRight
+               || Humanoid.LegState == LegState.WallJumpingToTheRight
+               )
+            {
+                Humanoid.TorsoState = TorsoState.AttackRight;
+                return;
+            }
+
+            if (Humanoid.LegState == LegState.CrouchingRight
+            )
+            {
+                Humanoid.TorsoState = TorsoState.AttackCrouchingRight;
+                return;
+            }
+
+            if (Humanoid.LegState == LegState.CrouchingLeft)
+            {
+                Humanoid.TorsoState = TorsoState.AttackCrouchingLeft;
+                return;
+            }
         }
     }
 
     public class Humanoid : Thing
     {
-        public PlayerState State { get; set; }
+        public HeadState HeadState { get; set; }
+        public TorsoState TorsoState { get; set; }
+        public LegState LegState { get; set; }
 
         private const int width = 1000;
         private const int height = 900;
@@ -220,7 +259,7 @@ namespace MonoGameProject
                 Game.LOG +=
                 GetType().Name
                 + " "
-                + State.ToString()
+                + LegState.ToString()
                 + Environment.NewLine);
 #endif
         }

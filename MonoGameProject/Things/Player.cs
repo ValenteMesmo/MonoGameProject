@@ -56,13 +56,13 @@ namespace MonoGameProject
             var hitpoints = 2;
             Action<Collider, Collider> HandleFireball = (s, t) =>
             {
-                if (t.Parent is FireBall && State != PlayerState.TakingDamage)
+                if (t.Parent is FireBall && LegState != LegState.TakingDamage)
                 {
-                    if (State == PlayerState.TakingDamage)
+                    if (LegState == LegState.TakingDamage)
                         return;
 
                     hitpoints--;
-                    State = PlayerState.TakingDamage;
+                    LegState = LegState.TakingDamage;
                     HorizontalSpeed = t.Parent.HorizontalSpeed / 2;
                     VerticalSpeed = -50;
 
@@ -83,13 +83,13 @@ namespace MonoGameProject
             };
             AddUpdate(() =>
             {
-                if (State == PlayerState.TakingDamage)
+                if (LegState == LegState.TakingDamage)
                 {
                     DamageDuration--;
                     if (DamageDuration <= 0)
                     {
                         DamageDuration = 0;
-                        State = PlayerState.FallingRight;
+                        LegState = LegState.FallingRight;
                         if (hitpoints == 0)
                             Game1.Restart();
                     }

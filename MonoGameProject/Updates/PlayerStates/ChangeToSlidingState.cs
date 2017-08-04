@@ -14,23 +14,23 @@ namespace MonoGameProject
 
         public void Update()
         {
-            if (Player.State == PlayerState.TakingDamage)
+            if (Player.LegState == LegState.TakingDamage)
                 return;
 
             if (Player.groundChecker.Colliding<SomeKindOfGround>() == false
                 && Player.VerticalSpeed > 0
-                && Player.State != PlayerState.WallJumpingToTheLeft
-                && Player.State != PlayerState.WallJumpingToTheRight)
+                && Player.LegState != LegState.WallJumpingToTheLeft
+                && Player.LegState != LegState.WallJumpingToTheRight)
             {
                 if (Player.leftWallChecker.Colliding<SomeKindOfGround>()
                     && Player.Inputs.Left)
                 {
-                    Player.State = PlayerState.SlidingWallLeft;
+                    Player.LegState = LegState.SlidingWallLeft;
                 }
                 else if (Player.rightWallChecker.Colliding<SomeKindOfGround>()
                     && Player.Inputs.Right)
                 {
-                    Player.State = PlayerState.SlidingWallRight;
+                    Player.LegState = LegState.SlidingWallRight;
                 }
             }
         }

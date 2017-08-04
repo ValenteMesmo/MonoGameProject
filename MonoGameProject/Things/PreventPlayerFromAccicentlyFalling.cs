@@ -15,10 +15,10 @@ namespace MonoGameProject
 
         public void Update()
         {
-            if (Player.State == PlayerState.StandingLeft
-                || Player.State == PlayerState.StandingRight
-                || Player.State == PlayerState.CrouchingLeft
-                || Player.State == PlayerState.CrouchingRight)
+            if (Player.LegState == LegState.StandingLeft
+                || Player.LegState == LegState.StandingRight
+                || Player.LegState == LegState.CrouchingLeft
+                || Player.LegState == LegState.CrouchingRight)
             {
                 if (Player.HorizontalSpeed > 0 
                     && Player.Inputs.Right == false                    

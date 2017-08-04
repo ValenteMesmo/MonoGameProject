@@ -125,21 +125,21 @@ namespace MonoGameProject
             //attack_right.LoopDisabled = true;
 
             thing.AddAnimation(new Animator(
-                new AnimationTransitionOnCondition(walk_left, () => thing.State == PlayerState.WalkingLeft)
-                , new AnimationTransitionOnCondition(walk_right, () => thing.State == PlayerState.WalkingRight)
-                , new AnimationTransitionOnCondition(stand_left, () => thing.State == PlayerState.StandingLeft)
-                , new AnimationTransitionOnCondition(stand_right, () => thing.State == PlayerState.StandingRight)
-                , new AnimationTransitionOnCondition(crouch_left, () => thing.State == PlayerState.CrouchingLeft)
-                , new AnimationTransitionOnCondition(crouch_right, () => thing.State == PlayerState.CrouchingRight)
-                , new AnimationTransitionOnCondition(fall_left, () => thing.State == PlayerState.FallingLeft)
-                , new AnimationTransitionOnCondition(fall_right, () => thing.State == PlayerState.FallingRight)
-                , new AnimationTransitionOnCondition(fall_left, () => thing.State == PlayerState.WallJumpingToTheRight)
-                , new AnimationTransitionOnCondition(fall_right, () => thing.State == PlayerState.WallJumpingToTheLeft)
-                , new AnimationTransitionOnCondition(headbang_left, () => thing.State == PlayerState.HeadBumpLeft)
-                , new AnimationTransitionOnCondition(headbang_right, () => thing.State == PlayerState.HeadBumpRight)
+                new AnimationTransitionOnCondition(walk_left, () => thing.LegState == LegState.WalkingLeft)
+                , new AnimationTransitionOnCondition(walk_right, () => thing.LegState == LegState.WalkingRight)
+                , new AnimationTransitionOnCondition(stand_left, () => thing.LegState == LegState.StandingLeft)
+                , new AnimationTransitionOnCondition(stand_right, () => thing.LegState == LegState.StandingRight)
+                , new AnimationTransitionOnCondition(crouch_left, () => thing.LegState == LegState.CrouchingLeft)
+                , new AnimationTransitionOnCondition(crouch_right, () => thing.LegState == LegState.CrouchingRight)
+                , new AnimationTransitionOnCondition(fall_left, () => thing.LegState == LegState.FallingLeft)
+                , new AnimationTransitionOnCondition(fall_right, () => thing.LegState == LegState.FallingRight)
+                , new AnimationTransitionOnCondition(fall_left, () => thing.LegState == LegState.WallJumpingToTheRight)
+                , new AnimationTransitionOnCondition(fall_right, () => thing.LegState == LegState.WallJumpingToTheLeft)
+                , new AnimationTransitionOnCondition(headbang_left, () => thing.LegState == LegState.HeadBumpLeft)
+                , new AnimationTransitionOnCondition(headbang_right, () => thing.LegState == LegState.HeadBumpRight)
                 //, new AnimationTransitionOnCondition(attack_left, () => thing.State == PlayerState.AttackLeft)
                 //, new AnimationTransitionOnCondition(attack_right, () => thing.State == PlayerState.AttackRight)
-                , new AnimationTransitionOnCondition(fall_left, () => thing.State == PlayerState.TakingDamage)
+                , new AnimationTransitionOnCondition(fall_left, () => thing.LegState == LegState.TakingDamage)
             ));
         }
 
@@ -204,21 +204,21 @@ namespace MonoGameProject
             headbang_right.ScaleY = scale;
 
             thing.AddAnimation(new Animator(
-                new AnimationTransitionOnCondition(stand_left, () => thing.State == PlayerState.WalkingLeft)
-                , new AnimationTransitionOnCondition(stand_right, () => thing.State == PlayerState.WalkingRight)
-                , new AnimationTransitionOnCondition(stand_left, () => thing.State == PlayerState.StandingLeft)
-                , new AnimationTransitionOnCondition(stand_right, () => thing.State == PlayerState.StandingRight)
-                , new AnimationTransitionOnCondition(crouch_left, () => thing.State == PlayerState.CrouchingLeft)
-                , new AnimationTransitionOnCondition(crouch_right, () => thing.State == PlayerState.CrouchingRight)
-                , new AnimationTransitionOnCondition(stand_left, () => thing.State == PlayerState.FallingLeft)
-                , new AnimationTransitionOnCondition(stand_right, () => thing.State == PlayerState.FallingRight)
-                , new AnimationTransitionOnCondition(stand_left, () => thing.State == PlayerState.WallJumpingToTheRight)
-                , new AnimationTransitionOnCondition(stand_right, () => thing.State == PlayerState.WallJumpingToTheLeft)
-                , new AnimationTransitionOnCondition(headbang_left, () => thing.State == PlayerState.HeadBumpLeft)
-                , new AnimationTransitionOnCondition(headbang_right, () => thing.State == PlayerState.HeadBumpRight)
-                //, new AnimationTransitionOnCondition(attack_left, () => thing.State == PlayerState.AttackLeft)
-                //, new AnimationTransitionOnCondition(attack_right, () => thing.State == PlayerState.AttackRight)
-                , new AnimationTransitionOnCondition(stand_left, () => thing.State == PlayerState.TakingDamage)
+                new AnimationTransitionOnCondition(stand_left, () => thing.LegState == LegState.WalkingLeft)
+                , new AnimationTransitionOnCondition(stand_right, () => thing.LegState == LegState.WalkingRight)
+                , new AnimationTransitionOnCondition(stand_left, () => thing.LegState == LegState.StandingLeft)
+                , new AnimationTransitionOnCondition(stand_right, () => thing.LegState == LegState.StandingRight)
+                , new AnimationTransitionOnCondition(crouch_left, () => thing.LegState == LegState.CrouchingLeft)
+                , new AnimationTransitionOnCondition(crouch_right, () => thing.LegState == LegState.CrouchingRight)
+                , new AnimationTransitionOnCondition(stand_left, () => thing.LegState == LegState.FallingLeft)
+                , new AnimationTransitionOnCondition(stand_right, () => thing.LegState == LegState.FallingRight)
+                , new AnimationTransitionOnCondition(stand_left, () => thing.LegState == LegState.WallJumpingToTheRight)
+                , new AnimationTransitionOnCondition(stand_right, () => thing.LegState == LegState.WallJumpingToTheLeft)
+                , new AnimationTransitionOnCondition(headbang_left, () => thing.LegState == LegState.HeadBumpLeft)
+                , new AnimationTransitionOnCondition(headbang_right, () => thing.LegState == LegState.HeadBumpRight)
+                , new AnimationTransitionOnCondition(stand_left, () => thing.LegState == LegState.SlidingWallLeft)
+                , new AnimationTransitionOnCondition(stand_right, () => thing.LegState == LegState.SlidingWallRight)
+                , new AnimationTransitionOnCondition(stand_left, () => thing.LegState == LegState.TakingDamage)
             ));
         }
 
@@ -248,7 +248,7 @@ namespace MonoGameProject
                 , true);
             stand_right.ScaleX = scale;
             stand_right.ScaleY = scale;
-            
+
             var crouch_left = GeneratedContent.Create_knight_torso_stand(
                 x
                 , knee_y
@@ -306,21 +306,38 @@ namespace MonoGameProject
 
 
             thing.AddAnimation(new Animator(
-                new AnimationTransitionOnCondition(stand_left, () => thing.State == PlayerState.WalkingLeft)
-                , new AnimationTransitionOnCondition(stand_right, () => thing.State == PlayerState.WalkingRight)
-                , new AnimationTransitionOnCondition(stand_left, () => thing.State == PlayerState.StandingLeft)
-                , new AnimationTransitionOnCondition(stand_right, () => thing.State == PlayerState.StandingRight)
-                , new AnimationTransitionOnCondition(crouch_left, () => thing.State == PlayerState.CrouchingLeft)
-                , new AnimationTransitionOnCondition(crouch_right, () => thing.State == PlayerState.CrouchingRight)
-                , new AnimationTransitionOnCondition(stand_left, () => thing.State == PlayerState.FallingLeft)
-                , new AnimationTransitionOnCondition(stand_right, () => thing.State == PlayerState.FallingRight)
-                , new AnimationTransitionOnCondition(stand_left, () => thing.State == PlayerState.WallJumpingToTheRight)
-                , new AnimationTransitionOnCondition(stand_right, () => thing.State == PlayerState.WallJumpingToTheLeft)
-                , new AnimationTransitionOnCondition(stand_left, () => thing.State == PlayerState.HeadBumpLeft)
-                , new AnimationTransitionOnCondition(stand_right, () => thing.State == PlayerState.HeadBumpRight)
-                , new AnimationTransitionOnCondition(stand_attack_left, () => thing.State == PlayerState.AttackLeft)
-                , new AnimationTransitionOnCondition(stand_attack_right, () => thing.State == PlayerState.AttackRight)
-                , new AnimationTransitionOnCondition(stand_left, () => thing.State == PlayerState.TakingDamage)
+                new AnimationTransitionOnCondition(stand_left,
+                    () =>
+                    thing.TorsoState == TorsoState.StandingLeft
+                )
+                , new AnimationTransitionOnCondition(stand_right,
+                    () =>
+                    thing.TorsoState == TorsoState.StandingRight
+                )
+                , new AnimationTransitionOnCondition(crouch_left,
+                    () =>
+                    thing.TorsoState == TorsoState.CrouchLeft
+                )
+                , new AnimationTransitionOnCondition(crouch_right,
+                    () =>
+                    thing.TorsoState == TorsoState.CrouchRight
+                )
+                , new AnimationTransitionOnCondition(stand_attack_left,
+                    () =>
+                    thing.TorsoState == TorsoState.AttackLeft
+                    )
+                , new AnimationTransitionOnCondition(stand_attack_right,
+                    () =>
+                    thing.TorsoState == TorsoState.AttackRight
+                    )
+                , new AnimationTransitionOnCondition(crouch_attack_left,
+                    () =>
+                    thing.TorsoState == TorsoState.AttackCrouchingLeft
+                    )
+                , new AnimationTransitionOnCondition(crouch_attack_right,
+                    () =>
+                    thing.TorsoState == TorsoState.AttackCrouchingRight
+                )
             ));
         }
 

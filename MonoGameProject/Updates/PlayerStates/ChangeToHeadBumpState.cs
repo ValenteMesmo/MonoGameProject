@@ -20,8 +20,8 @@ namespace MonoGameProject
 
         public void Update()
         {
-            if ((Player.State == PlayerState.CrouchingLeft
-                  || Player.State == PlayerState.CrouchingRight)
+            if ((Player.LegState == LegState.CrouchingLeft
+                  || Player.LegState == LegState.CrouchingRight)
                   && Player.VerticalSpeed < 0)
             {
                 Player.MainCollider.Height = OriginalHeight;
@@ -34,7 +34,7 @@ namespace MonoGameProject
     {
         private readonly Humanoid Player;
         private readonly Camera2d Camera;
-        private PlayerState PreviousState;
+        private LegState PreviousState;
 
         public ChangeToHeadBumpState(Humanoid Player, Camera2d Camera)
         {
@@ -44,47 +44,47 @@ namespace MonoGameProject
 
         public void Update()
         {
-            if (Player.State == PlayerState.TakingDamage)
+            if (Player.LegState == LegState.TakingDamage)
                 return;
 
             if (Player.roofChecker.Colliding<BlockVerticalMovement>()
                 && Math.Abs(Player.roofChecker.GetGolliders<BlockVerticalMovement>().First().Bottom() - Player.roofChecker.Top()) == 90
                 && Player.VerticalSpeed < 0)
             {
-                if (Player.State == PlayerState.WalkingLeft
-                   || Player.State == PlayerState.StandingLeft
-                   || Player.State == PlayerState.SlidingWallLeft
-                   || Player.State == PlayerState.FallingLeft
-                   || Player.State == PlayerState.CrouchingLeft
+                if (Player.LegState == LegState.WalkingLeft
+                   || Player.LegState == LegState.StandingLeft
+                   || Player.LegState == LegState.SlidingWallLeft
+                   || Player.LegState == LegState.FallingLeft
+                   || Player.LegState == LegState.CrouchingLeft
                 )
                 {
-                    if (PreviousState != PlayerState.HeadBumpLeft
-                    && PreviousState != PlayerState.HeadBumpRight)
+                    if (PreviousState != LegState.HeadBumpLeft
+                    && PreviousState != LegState.HeadBumpRight)
                     {
                         if (Player is Player)
                             Camera.ShakeUp(-Player.VerticalSpeed / 8);
                     }
 
-                    Player.State = PlayerState.HeadBumpLeft;
+                    Player.LegState = LegState.HeadBumpLeft;
                 }
-                else if (Player.State == PlayerState.WalkingRight
-                    || Player.State == PlayerState.StandingRight
-                    || Player.State == PlayerState.SlidingWallRight
-                    || Player.State == PlayerState.FallingRight
-                    || Player.State == PlayerState.CrouchingRight
+                else if (Player.LegState == LegState.WalkingRight
+                    || Player.LegState == LegState.StandingRight
+                    || Player.LegState == LegState.SlidingWallRight
+                    || Player.LegState == LegState.FallingRight
+                    || Player.LegState == LegState.CrouchingRight
                 )
                 {
-                    if (PreviousState != PlayerState.HeadBumpLeft
-                    && PreviousState != PlayerState.HeadBumpRight)
+                    if (PreviousState != LegState.HeadBumpLeft
+                    && PreviousState != LegState.HeadBumpRight)
                     {
                         if (Player is Player)
                             Camera.ShakeUp(-Player.VerticalSpeed / 8);
                     }
 
-                    Player.State = PlayerState.HeadBumpRight;
+                    Player.LegState = LegState.HeadBumpRight;
                 }
             }
-            PreviousState = Player.State;
+            PreviousState = Player.LegState;
         }
     }
 }

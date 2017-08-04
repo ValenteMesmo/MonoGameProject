@@ -17,14 +17,14 @@ namespace MonoGameProject
             if (Parent.Inputs.ClickedJump
                 && 
                 (
-                    Parent.State == PlayerState.SlidingWallLeft
-                    || Parent.State == PlayerState.SlidingWallRight)
+                    Parent.LegState == LegState.SlidingWallLeft
+                    || Parent.LegState == LegState.SlidingWallRight)
                 )
             {
-                if (Parent.State == PlayerState.SlidingWallLeft)
-                    Parent.State = PlayerState.WallJumpingToTheRight;
+                if (Parent.LegState == LegState.SlidingWallLeft)
+                    Parent.LegState = LegState.WallJumpingToTheRight;
                 else
-                    Parent.State = PlayerState.WallJumpingToTheLeft;
+                    Parent.LegState = LegState.WallJumpingToTheLeft;
             }
         }
     }

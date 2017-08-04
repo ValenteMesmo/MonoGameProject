@@ -14,55 +14,57 @@ namespace MonoGameProject
 
         public void Update()
         {
-            if (Player.State == PlayerState.TakingDamage)
+            if (Player.LegState == LegState.TakingDamage)
                 return;
 
-            //if (Player.State != PlayerState.WallJumpingToTheLeft
-            //    && Player.State != PlayerState.WallJumpingToTheRight)
+            if (Player.groundChecker.Colliding<BlockVerticalMovement>())
             {
-                if (Player.groundChecker.Colliding<BlockVerticalMovement>())
+                if (Player.LegState == LegState.HeadBumpLeft)
                 {
-                    if (Player.State == PlayerState.HeadBumpLeft)
-                    {
-                        Player.State = PlayerState.FallingLeft;
-                    }
-                    else if (Player.State == PlayerState.HeadBumpRight)
-                    {
-                        Player.State = PlayerState.FallingRight;
-                    }
+                    Player.LegState = LegState.FallingLeft;
+                    Player.TorsoState = TorsoState.StandingLeft;
                 }
-                else
+                else if (Player.LegState == LegState.HeadBumpRight)
                 {
-                    if (Player.State == PlayerState.WalkingLeft
-                       || Player.State == PlayerState.StandingLeft
-                       || Player.State == PlayerState.SlidingWallLeft
-                       || Player.State == PlayerState.HeadBumpLeft
-                       || Player.State == PlayerState.CrouchingLeft
-                    )
-                    {
-                        Player.State = PlayerState.FallingLeft;
-                    }
-                    else if (Player.State == PlayerState.WalkingRight
-                        || Player.State == PlayerState.StandingRight
-                        || Player.State == PlayerState.SlidingWallRight
-                        || Player.State == PlayerState.HeadBumpRight
-                        || Player.State == PlayerState.CrouchingRight
-                    )
-                    {
-                        Player.State = PlayerState.FallingRight;
-                    }
-                    else if (Player.State == PlayerState.FallingLeft
-                        && Player.Inputs.Right
-                        && !Player.Inputs.Left)
-                    {
-                        Player.State = PlayerState.FallingRight;
-                    }
-                    else if (Player.State == PlayerState.FallingRight
-                        && Player.Inputs.Left
-                        && !Player.Inputs.Right)
-                    {
-                        Player.State = PlayerState.FallingLeft;
-                    }
+                    Player.LegState = LegState.FallingRight;
+                    Player.TorsoState = TorsoState.StandingRight;
+                }
+            }
+            else
+            {
+                if (Player.LegState == LegState.WalkingLeft
+                   || Player.LegState == LegState.StandingLeft
+                   || Player.LegState == LegState.SlidingWallLeft
+                   || Player.LegState == LegState.HeadBumpLeft
+                   || Player.LegState == LegState.CrouchingLeft
+                )
+                {
+                    Player.LegState = LegState.FallingLeft;
+                    Player.TorsoState = TorsoState.StandingLeft;
+                }
+                else if (Player.LegState == LegState.WalkingRight
+                    || Player.LegState == LegState.StandingRight
+                    || Player.LegState == LegState.SlidingWallRight
+                    || Player.LegState == LegState.HeadBumpRight
+                    || Player.LegState == LegState.CrouchingRight
+                )
+                {
+                    Player.LegState = LegState.FallingRight;
+                    Player.TorsoState = TorsoState.StandingRight;
+                }
+                else if (Player.LegState == LegState.FallingLeft
+                    && Player.Inputs.Right
+                    && !Player.Inputs.Left)
+                {
+                    Player.LegState = LegState.FallingRight;
+                    Player.TorsoState = TorsoState.StandingRight;
+                }
+                else if (Player.LegState == LegState.FallingRight
+                    && Player.Inputs.Left
+                    && !Player.Inputs.Right)
+                {
+                    Player.LegState = LegState.FallingLeft;
+                    Player.TorsoState = TorsoState.StandingLeft;
                 }
             }
         }

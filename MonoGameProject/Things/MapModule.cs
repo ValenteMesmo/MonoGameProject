@@ -194,17 +194,17 @@ namespace MonoGameProject
         private void CreateBackground(int i, int j)
         {
             var animation = GeneratedContent.Create_knight_sky(
-                               j * CELL_SIZE
-                               , i * CELL_SIZE
+                               (j * CELL_SIZE)   - 5
+                               , (i * CELL_SIZE) - 5
                                , 0.5f
-                               , MapModule.CELL_SIZE
-                               , MapModule.CELL_SIZE);
+                               , MapModule.CELL_SIZE + 10
+                               , MapModule.CELL_SIZE + 10);
             
             animation.Color = new Color(
                 Colors[ColorIndex].R - 100
                 , Colors[ColorIndex].G - 100
                 , Colors[ColorIndex].B - 100
-                , Colors[ColorIndex].A - 100
+                , Colors[ColorIndex].A 
             );
 
             AddAnimation(animation);

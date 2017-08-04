@@ -20,13 +20,13 @@ namespace MonoGameProject
         {
             if (jumpImpulseTime == 0)
             {
-                if (Parent.State == PlayerState.WallJumpingToTheRight)
+                if (Parent.LegState == LegState.WallJumpingToTheRight)
                 {
                     Parent.VerticalSpeed = -JUMP_VALUE;
                     horizontalSpeed = JUMP_VALUE / 2;
                     jumpImpulseTime = 10;
                 }
-                else if (Parent.State == PlayerState.WallJumpingToTheLeft)
+                else if (Parent.LegState == LegState.WallJumpingToTheLeft)
                 {
                     Parent.VerticalSpeed = -JUMP_VALUE;
                     horizontalSpeed = -JUMP_VALUE / 2;
@@ -44,19 +44,19 @@ namespace MonoGameProject
 
                 if (jumpImpulseTime == 0)
                 {
-                    if (Parent.State == PlayerState.WallJumpingToTheLeft)
+                    if (Parent.LegState == LegState.WallJumpingToTheLeft)
                     {
                         if (Parent.groundChecker.Colliding<SomeKindOfGround>())
-                            Parent.State = PlayerState.WalkingRight;
+                            Parent.LegState = LegState.WalkingRight;
                         else
-                            Parent.State = PlayerState.FallingRight;
+                            Parent.LegState = LegState.FallingRight;
                     }
                     else
                     {
                         if (Parent.groundChecker.Colliding<SomeKindOfGround>())
-                            Parent.State = PlayerState.WalkingLeft;
+                            Parent.LegState = LegState.WalkingLeft;
                         else
-                            Parent.State = PlayerState.FallingLeft;
+                            Parent.LegState = LegState.FallingLeft;
                     }
                 }
             }

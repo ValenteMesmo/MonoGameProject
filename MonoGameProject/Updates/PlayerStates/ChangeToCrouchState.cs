@@ -15,23 +15,25 @@ namespace MonoGameProject.Updates.PlayerStates
 
         public void Update()
         {
-            if (Player.State == PlayerState.TakingDamage)
+            if (Player.LegState == LegState.TakingDamage)
                 return;
 
             if ( Player.Inputs.Down
                 && Player.groundChecker.Colliding< BlockVerticalMovement>())
             {
-                if (Player.State == PlayerState.StandingRight
-                    || Player.State == PlayerState.WalkingRight
-                    || Player.State == PlayerState.FallingRight)
+                if (Player.LegState == LegState.StandingRight
+                    || Player.LegState == LegState.WalkingRight
+                    || Player.LegState == LegState.FallingRight)
                 {
-                    Player.State = PlayerState.CrouchingRight;
+                    Player.LegState = LegState.CrouchingRight;
+                    Player.TorsoState = TorsoState.CrouchRight;
                 }
-                else if (Player.State == PlayerState.StandingLeft
-                    || Player.State == PlayerState.WalkingLeft
-                    || Player.State == PlayerState.FallingLeft)
+                else if (Player.LegState == LegState.StandingLeft
+                    || Player.LegState == LegState.WalkingLeft
+                    || Player.LegState == LegState.FallingLeft)
                 {
-                    Player.State = PlayerState.CrouchingLeft;
+                    Player.LegState = LegState.CrouchingLeft;
+                    Player.TorsoState = TorsoState.CrouchLeft;
                 }
             }
         }

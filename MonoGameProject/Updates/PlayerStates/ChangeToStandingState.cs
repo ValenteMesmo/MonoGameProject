@@ -14,9 +14,7 @@ namespace MonoGameProject
 
         public void Update()
         {
-            if (Player.State == PlayerState.TakingDamage
-                || Player.State == PlayerState.AttackLeft
-                || Player.State == PlayerState.AttackRight)
+            if (Player.LegState == LegState.TakingDamage)
                 return;
 
             if (Player.groundChecker.Colliding<BlockVerticalMovement>()
@@ -36,23 +34,25 @@ namespace MonoGameProject
                 && !Player.Inputs.Down
                 )
             {
-                if (Player.State == PlayerState.WalkingLeft
-                     || Player.State == PlayerState.FallingLeft
-                     || Player.State == PlayerState.SlidingWallLeft
-                     || Player.State == PlayerState.HeadBumpLeft
-                     || Player.State == PlayerState.CrouchingLeft
+                if (Player.LegState == LegState.WalkingLeft
+                     || Player.LegState == LegState.FallingLeft
+                     || Player.LegState == LegState.SlidingWallLeft
+                     || Player.LegState == LegState.HeadBumpLeft
+                     || Player.LegState == LegState.CrouchingLeft
                  )
                 {
-                    Player.State = PlayerState.StandingLeft;
+                    Player.LegState = LegState.StandingLeft;
+                    Player.TorsoState = TorsoState.StandingLeft;
                 }
-                else if (Player.State == PlayerState.WalkingRight
-                    || Player.State == PlayerState.FallingRight
-                    || Player.State == PlayerState.SlidingWallRight
-                    || Player.State == PlayerState.HeadBumpRight
-                    || Player.State == PlayerState.CrouchingRight
+                else if (Player.LegState == LegState.WalkingRight
+                    || Player.LegState == LegState.FallingRight
+                    || Player.LegState == LegState.SlidingWallRight
+                    || Player.LegState == LegState.HeadBumpRight
+                    || Player.LegState == LegState.CrouchingRight
                 )
                 {
-                    Player.State = PlayerState.StandingRight;
+                    Player.LegState = LegState.StandingRight;
+                    Player.TorsoState = TorsoState.StandingRight;
                 }
             }
         }

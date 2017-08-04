@@ -14,9 +14,7 @@ namespace MonoGameProject
 
         public void Update()
         {
-            if (Player.State == PlayerState.TakingDamage
-                || Player.State == PlayerState.AttackLeft
-                || Player.State == PlayerState.AttackRight)
+            if (Player.LegState == LegState.TakingDamage)
                 return;
 
             if (Player.groundChecker.Colliding<BlockVerticalMovement>()
@@ -25,11 +23,13 @@ namespace MonoGameProject
             {
                 if (Player.Inputs.Right && !Player.Inputs.Left)
                 {
-                    Player.State = PlayerState.WalkingRight;
+                    Player.LegState = LegState.WalkingRight;
+                    Player.TorsoState = TorsoState.StandingRight;
                 }
                 else if (Player.Inputs.Left && !Player.Inputs.Right)
                 {
-                    Player.State = PlayerState.WalkingLeft;
+                    Player.LegState = LegState.WalkingLeft;
+                    Player.TorsoState = TorsoState.StandingLeft;
                 }
             }
         }
