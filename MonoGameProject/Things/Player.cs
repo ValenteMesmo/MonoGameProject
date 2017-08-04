@@ -3,6 +3,85 @@ using System;
 
 namespace MonoGameProject
 {
+    public class TakesDamage : UpdateHandler
+    {
+        private readonly Humanoid Parent;
+        private readonly Game1 Game1;
+        private int DamageDuration;
+
+        public TakesDamage(Humanoid Parent, Game1 Game1)
+        {
+            this.Parent = Parent;
+            this.Game1 = Game1;
+            Parent.MainCollider.AddBotCollisionHandler(HandleFireball);
+            Parent.MainCollider.AddTopCollisionHandler(HandleFireball);
+            Parent.MainCollider.AddLeftCollisionHandler(HandleFireball);
+            Parent.MainCollider.AddRightCollisionHandler(HandleFireball);
+        }
+
+        public void HandleFireball(Collider s, Collider t)
+        {
+            if (t.Parent is FireBall)
+            {
+                if (Parent.LegState == LegState.TakingDamage)
+                    return;
+
+                Parent.HitPoints--;
+                Parent.LegState = LegState.TakingDamage;
+                Parent.HorizontalSpeed = t.Parent.HorizontalSpeed / 2;
+                Parent.VerticalSpeed = -50;
+
+                DamageDuration = 25;
+                t.Disabled = true;
+                t.Parent.Destroy();
+                Game1.Sleep();
+                Game1.Camera.ShakeUp(20);
+            }
+            else if (t is AttackCollider)
+            {
+                if (Parent.LegState == LegState.TakingDamage)
+                    return;
+
+                Parent.HitPoints--;
+                Parent.LegState = LegState.TakingDamage;
+                Parent.HorizontalSpeed = t.Parent.HorizontalSpeed / 2;
+                Parent.VerticalSpeed = -50;
+
+                DamageDuration = 25;
+                Game1.Sleep();
+                Game1.Camera.ShakeUp(20);
+
+                if (Parent.HitPoints < 0 && t.Parent is Player)
+                {
+                    Parent.HorizontalSpeed = t.Parent.HorizontalSpeed;
+                    //Parent.VerticalSpeed = -50;
+
+                    s.Disabled = true;
+                }
+            }
+        }
+
+        public void Update()
+        {
+            if (Parent.LegState == LegState.TakingDamage)
+            {
+                DamageDuration--;
+                if (DamageDuration <= 0)
+                {
+                    DamageDuration = 0;
+                    Parent.LegState = LegState.FallingRight;
+                    if (Parent.HitPoints <= 0)
+                    {
+                        if (Parent is Player)
+                            Game1.Restart();
+                        else
+                            Parent.Destroy();
+                    }
+                }
+            }
+        }
+    }
+
     public class Player : Humanoid
     {
         /* criar um modulo assim (obrigar a usar walljump)
@@ -41,7 +120,6 @@ namespace MonoGameProject
         // fire balls (vertical)
         private const int width = 1000;
         private const int height = 900;
-        public int DamageDuration = 0;
 
         public Player(Game1 Game1) : base(
                 new GameInputs(
@@ -52,58 +130,29 @@ namespace MonoGameProject
         {
             X = 1000;
             Y = 7000;
+            HitPoints = 2;
 
-            var hitpoints = 2;
+            AddUpdate(new TakesDamage(this, Game1));
+
             Action<Collider, Collider> HandleFireball = (s, t) =>
-            {
-                if (t.Parent is FireBall && LegState != LegState.TakingDamage)
-                {
-                    if (LegState == LegState.TakingDamage)
-                        return;
-
-                    hitpoints--;
-                    LegState = LegState.TakingDamage;
-                    HorizontalSpeed = t.Parent.HorizontalSpeed / 2;
-                    VerticalSpeed = -50;
-
-                    DamageDuration = 25;
-                    t.Disabled = true;
-                    t.Parent.Destroy();
-                    Game1.Sleep();
-                    Game1.Camera.ShakeUp(20);
-                }
-                if (t.Parent is Armor)
-                {
-                    if (hitpoints < 2)
-                    {
-                        hitpoints = 2;
-                        t.Parent.Destroy();
-                    }
-                }
-            };
-            AddUpdate(() =>
-            {
-                if (LegState == LegState.TakingDamage)
-                {
-                    DamageDuration--;
-                    if (DamageDuration <= 0)
-                    {
-                        DamageDuration = 0;
-                        LegState = LegState.FallingRight;
-                        if (hitpoints == 0)
-                            Game1.Restart();
-                    }
-                }
-            });
-            AddUpdate(() =>
-            {
-                if (Inputs.ClickedAction1)
-                {
-                    Game1.Sleep();
-                    Game1.Camera.ShakeUp(20);
-                }
-            });
-            //AddUpdate(() => Game.LOG += X);
+           {
+               if (t.Parent is Armor)
+               {
+                   if (HitPoints < 2)
+                   {
+                       HitPoints = 2;
+                       t.Parent.Destroy();
+                   }
+               }
+           };
+            //AddUpdate(() =>
+            //{
+            //    if (Inputs.ClickedAction1)
+            //    {
+            //        Game1.Sleep();
+            //        Game1.Camera.ShakeUp(20);
+            //    }
+            //});
 
             MainCollider.AddBotCollisionHandler(HandleFireball);
             MainCollider.AddTopCollisionHandler(HandleFireball);

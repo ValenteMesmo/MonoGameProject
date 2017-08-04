@@ -42,6 +42,8 @@ namespace MonoGameProject
         public Collider MainCollider { get; private set; }
         public GameInputs Inputs { get; private set; }
 
+        public int HitPoints { get; set; }
+
         public Humanoid(GameInputs Inputs, Camera2d Camera)
         {
             this.Inputs = Inputs;

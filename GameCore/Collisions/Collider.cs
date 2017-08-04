@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 namespace GameCore
 {
-    //TODO: active/passive colliders
     public class Collider
     {
         public Thing Parent { get; internal set; }

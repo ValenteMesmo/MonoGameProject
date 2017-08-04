@@ -26,8 +26,6 @@ namespace MonoGameProject
 
             HorizontalSpeed = speedX;
             VerticalSpeed = speedY;
-            //AddUpdate(() => X += speedX);
-            //AddUpdate(() => Y += speedY);
             AddUpdate(new DestroyIfLeftBehind(this));
             AddUpdate(new MoveHorizontallyWithTheWorld(this));
 
@@ -37,6 +35,19 @@ namespace MonoGameProject
             collider.AddTopCollisionHandler(collisionHandler);
             collider.AddLeftCollisionHandler(collisionHandler);
             collider.AddRightCollisionHandler(collisionHandler);
+
+            Action<Collider, Collider> damageHandler = (s, t) =>
+            {
+                if (t is AttackCollider)
+                {
+                    Destroy();
+                }
+            };
+            collider.AddBotCollisionHandler(damageHandler);
+            collider.AddLeftCollisionHandler(damageHandler);
+            collider.AddRightCollisionHandler(damageHandler);
+            collider.AddTopCollisionHandler(damageHandler);
+
             AddCollider(collider);
         }
     }
