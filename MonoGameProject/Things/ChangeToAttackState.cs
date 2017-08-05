@@ -36,27 +36,15 @@ namespace MonoGameProject
 
         private void ChangeToNotAttackMode()
         {
-            if (Humanoid.TorsoState == TorsoState.AttackLeft)
+            if (Humanoid.TorsoState == TorsoState.Attack)
             {
-                Humanoid.TorsoState = TorsoState.StandingLeft;
+                Humanoid.TorsoState = TorsoState.Standing;
                 return;
             }
 
-            if (Humanoid.TorsoState == TorsoState.AttackRight)
+            if (Humanoid.TorsoState == TorsoState.AttackCrouching)
             {
-                Humanoid.TorsoState = TorsoState.StandingRight;
-                return;
-            }
-
-            if (Humanoid.TorsoState == TorsoState.AttackCrouchingLeft)
-            {
-                Humanoid.TorsoState = TorsoState.CrouchLeft;
-                return;
-            }
-
-            if (Humanoid.TorsoState == TorsoState.AttackCrouchingRight)
-            {
-                Humanoid.TorsoState = TorsoState.CrouchRight;
+                Humanoid.TorsoState = TorsoState.Crouch;
                 return;
             }
         }
@@ -65,53 +53,16 @@ namespace MonoGameProject
         {
             var enableDuration = 15;
 
-            if (Humanoid.LegState == LegState.FallingLeft
-                || Humanoid.LegState == LegState.HeadBumpLeft
-                || Humanoid.LegState == LegState.SlidingWallRight
-                || Humanoid.LegState == LegState.StandingLeft
-                || Humanoid.LegState == LegState.WalkingLeft
-                || Humanoid.LegState == LegState.WallJumpingToTheLeft
-                )
-            {
-                if (AttackDuration < enableDuration)
-                    Humanoid.AttackLeftCollider.Disabled = false;
+            if (AttackDuration < enableDuration)
+                Humanoid.AttackLeftCollider.Disabled = false;
 
-                Humanoid.TorsoState = TorsoState.AttackLeft;
-                return;
+            if (Humanoid.LegState == LegState.Crouching)
+            {
+                Humanoid.TorsoState = TorsoState.AttackCrouching;
             }
-
-            if (Humanoid.LegState == LegState.FallingRight
-               || Humanoid.LegState == LegState.HeadBumpRight
-               || Humanoid.LegState == LegState.SlidingWallLeft
-               || Humanoid.LegState == LegState.StandingRight
-               || Humanoid.LegState == LegState.WalkingRight
-               || Humanoid.LegState == LegState.WallJumpingToTheRight
-               )
+            else
             {
-                if (AttackDuration < enableDuration)
-                    Humanoid.AttackRightCollider.Disabled = false;
-
-                Humanoid.TorsoState = TorsoState.AttackRight;
-                return;
-            }
-
-            if (Humanoid.LegState == LegState.CrouchingRight
-            )
-            {
-                if (AttackDuration < enableDuration)
-                    Humanoid.AttackRightCollider.Disabled = false;
-
-                Humanoid.TorsoState = TorsoState.AttackCrouchingRight;
-                return;
-            }
-
-            if (Humanoid.LegState == LegState.CrouchingLeft)
-            {
-                if (AttackDuration < enableDuration)
-                    Humanoid.AttackLeftCollider.Disabled = false;
-
-                Humanoid.TorsoState = TorsoState.AttackCrouchingLeft;
-                return;
+                Humanoid.TorsoState = TorsoState.Attack;
             }
         }
     }

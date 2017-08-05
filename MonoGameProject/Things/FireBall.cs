@@ -30,7 +30,11 @@ namespace MonoGameProject
             AddUpdate(new MoveHorizontallyWithTheWorld(this));
 
             var collider = new Collider() { Width = width, Height = height };
-            Action<Collider, Collider> collisionHandler = (s, t) => { if (t.Parent is BlockVerticalMovement) Destroy(); };
+            Action<Collider, Collider> collisionHandler = (s, t) =>
+            {
+                if (t.Parent is BlockVerticalMovement)
+                    Destroy();
+            };
             collider.AddBotCollisionHandler(collisionHandler);
             collider.AddTopCollisionHandler(collisionHandler);
             collider.AddLeftCollisionHandler(collisionHandler);
@@ -47,7 +51,7 @@ namespace MonoGameProject
             collider.AddLeftCollisionHandler(damageHandler);
             collider.AddRightCollisionHandler(damageHandler);
             collider.AddTopCollisionHandler(damageHandler);
-
+            
             AddCollider(collider);
         }
     }

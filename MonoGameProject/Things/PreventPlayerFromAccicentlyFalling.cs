@@ -15,20 +15,18 @@ namespace MonoGameProject
 
         public void Update()
         {
-            if (Player.LegState == LegState.StandingLeft
-                || Player.LegState == LegState.StandingRight
-                || Player.LegState == LegState.CrouchingLeft
-                || Player.LegState == LegState.CrouchingRight)
+            if (Player.LegState == LegState.Standing
+                || Player.LegState == LegState.Crouching)
             {
-                if (Player.HorizontalSpeed > 0 
-                    && Player.Inputs.Right == false                    
+                if (Player.HorizontalSpeed > 0
+                    && Player.Inputs.Right == false
                     && Player.RightGroundAcidentChecker.Colliding<SomeKindOfGround>() == false)
                 {
                     Player.HorizontalSpeed -= VELOCITY;
                     if (Player.HorizontalSpeed < 0)
                         Player.HorizontalSpeed = 0;
                 }
-                if (Player.HorizontalSpeed < 0 
+                if (Player.HorizontalSpeed < 0
                     && Player.Inputs.Left == false
                     && Player.LeftGroundAcidentChecker.Colliding<SomeKindOfGround>() == false)
                 {

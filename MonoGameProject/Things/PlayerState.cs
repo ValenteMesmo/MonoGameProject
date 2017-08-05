@@ -5,43 +5,29 @@ namespace MonoGameProject
 {
     public enum TorsoState
     {
-        StandingLeft,
-        StandingRight,
-        AttackLeft,
-        AttackRight,
-        SlidingWallLeft,
-        SlidingWallRight,
-        CrouchLeft,
-        CrouchRight,
-        AttackCrouchingLeft,
-        AttackCrouchingRight,
+        Standing,
+        Attack,
+        SlidingWall,
+        Crouch,
+        AttackCrouching
     }
 
     public enum HeadState
     {
-        StandingLeft,
-        StandingRight,
-        BumpLeft,
-        BumpRight,
+        Standing,
+        Bump,
         TakingDamage
     }
 
     public enum LegState
     {
-        StandingLeft,
-        StandingRight,
-        WalkingLeft,
-        WalkingRight,
-        SlidingWallLeft,
-        SlidingWallRight,
-        WallJumpingToTheLeft,
-        WallJumpingToTheRight,
-        FallingLeft,
-        FallingRight,
-        HeadBumpLeft,
-        HeadBumpRight,
-        CrouchingLeft,
-        CrouchingRight,
+        Standing,
+        Walking,
+        SlidingWall,
+        WallJumping,
+        Falling,
+        HeadBump,
+        Crouching,
         TakingDamage
     }
 }

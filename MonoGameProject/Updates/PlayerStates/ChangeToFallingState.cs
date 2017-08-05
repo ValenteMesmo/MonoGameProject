@@ -19,64 +19,37 @@ namespace MonoGameProject
 
             if (Player.groundChecker.Colliding<BlockVerticalMovement>())
             {
-                if (Player.LegState == LegState.HeadBumpLeft)
+                if (Player.LegState == LegState.HeadBump)
                 {
                     FallToTheLeft();
-                }
-                else if (Player.LegState == LegState.HeadBumpRight)
-                {
-                    FallToTheRight();
                 }
             }
             else
             {
-                if (Player.LegState == LegState.WalkingLeft
-                   || Player.LegState == LegState.StandingLeft
-                   || Player.LegState == LegState.SlidingWallLeft
-                   || Player.LegState == LegState.HeadBumpLeft
-                   || Player.LegState == LegState.CrouchingLeft
+                if (Player.LegState == LegState.Walking
+                   || Player.LegState == LegState.Standing
+                   || Player.LegState == LegState.SlidingWall
+                   || Player.LegState == LegState.HeadBump
+                   || Player.LegState == LegState.Crouching
                 )
                 {
                     FallToTheLeft();
                 }
-                else if (Player.LegState == LegState.WalkingRight
-                    || Player.LegState == LegState.StandingRight
-                    || Player.LegState == LegState.SlidingWallRight
-                    || Player.LegState == LegState.HeadBumpRight
-                    || Player.LegState == LegState.CrouchingRight
-                )
-                {
-                    FallToTheRight();
-                }
-                else if (Player.LegState == LegState.FallingLeft
+                else if (Player.LegState == LegState.Falling
                     && Player.Inputs.Right
                     && !Player.Inputs.Left)
-                {
-                    FallToTheRight();
-                }
-                else if (Player.LegState == LegState.FallingRight
-                    && Player.Inputs.Left
-                    && !Player.Inputs.Right)
                 {
                     FallToTheLeft();
                 }
             }
         }
 
-        private void FallToTheRight()
-        {
-            if (Player.TorsoState == TorsoState.AttackLeft)
-                return;
-            Player.LegState = LegState.FallingRight;
-            Player.TorsoState = TorsoState.StandingRight;
-        }
-
         private void FallToTheLeft()
         {
-            if (Player.TorsoState == TorsoState.AttackRight)
+            if (Player.TorsoState == TorsoState.Attack)
                 return;
-            Player.LegState = LegState.FallingLeft;
-            Player.TorsoState = TorsoState.StandingLeft;
+            Player.LegState = LegState.Falling;
+            Player.TorsoState = TorsoState.Standing;
         }
     }
 }

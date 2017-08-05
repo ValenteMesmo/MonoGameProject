@@ -87,13 +87,14 @@ namespace MonoGameProject
 
                 if (Parent.HitPoints < 0 && target.Parent is Player)
                 {
-                    if ((target.Parent as Player).TorsoState == TorsoState.AttackLeft
-                        || (target.Parent as Player).TorsoState == TorsoState.AttackCrouchingLeft)
-                        Parent.HorizontalSpeed = - 100;
-                    if ((target.Parent as Player).TorsoState == TorsoState.AttackRight
-                        || (target.Parent as Player).TorsoState == TorsoState.AttackCrouchingRight)
-                        Parent.HorizontalSpeed = + 100;
-                    //Parent.VerticalSpeed = -50;
+                    if ((target.Parent as Player).TorsoState == TorsoState.Attack
+                        || (target.Parent as Player).TorsoState == TorsoState.AttackCrouching)
+                    {
+                        if ((target.Parent as Player).FacingRight)
+                            Parent.HorizontalSpeed = +100;
+                        else
+                            Parent.HorizontalSpeed = -100;
+                    }
 
                     source.Disabled = true;
                 }
@@ -113,7 +114,7 @@ namespace MonoGameProject
                 if (DamageDuration <= 0)
                 {
                     DamageDuration = 0;
-                    Parent.LegState = LegState.FallingRight;
+                    Parent.LegState = LegState.Falling;
                     if (Parent.HitPoints <= 0)
                     {
                         if (Parent is Player)

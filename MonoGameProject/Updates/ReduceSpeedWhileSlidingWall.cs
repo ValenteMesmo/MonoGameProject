@@ -14,11 +14,9 @@ namespace MonoGameProject
 
         public void Update()
         {
-            if (Player.LegState == LegState.SlidingWallLeft
-                || Player.LegState == LegState.SlidingWallRight)
+            if (Player.LegState == LegState.SlidingWall)
                 if (Player.VerticalSpeed > MAX)
                     Player.VerticalSpeed = MAX;
-
         }
     }
 }

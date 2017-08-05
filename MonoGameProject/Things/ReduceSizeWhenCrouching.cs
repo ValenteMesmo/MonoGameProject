@@ -34,8 +34,7 @@ namespace MonoGameProject
 
         public void Update()
         {
-            if (Player.LegState == LegState.CrouchingLeft
-                    || Player.LegState == LegState.CrouchingRight)
+            if (Player.LegState == LegState.Crouching)
             {
                 Player.MainCollider.Height = OriginalHeight / 2;
                 Player.MainCollider.OffsetY = OriginalHeight / 2;
@@ -64,8 +63,7 @@ namespace MonoGameProject
 
         public void Update()
         {
-            if (Player.LegState == LegState.HeadBumpLeft
-                || Player.LegState == LegState.HeadBumpRight)
+            if (Player.LegState == LegState.HeadBump)
             {
                 Player.MainCollider.Height = OriginalHeight / 2;
             }

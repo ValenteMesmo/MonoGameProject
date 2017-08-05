@@ -15,13 +15,11 @@ namespace MonoGameProject
 
         public void Update()
         {
-            if (Parent.LegState == LegState.StandingLeft
-                || Parent.LegState == LegState.StandingRight)
+            if (Parent.LegState == LegState.Standing)
             {
                 NewMethod(VELOCITY);
             }
-            else if (Parent.LegState == LegState.CrouchingLeft
-                || Parent.LegState == LegState.CrouchingRight)
+            else if (Parent.LegState == LegState.Crouching)
             {
                 NewMethod(CROUCH_VELOCITY);
             }

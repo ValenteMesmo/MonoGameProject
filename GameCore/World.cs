@@ -26,7 +26,8 @@ namespace GameCore
 
         public void Sleep()
         {
-            sleep = 2;
+            //criar animation editor
+            sleep = 4;
         }
 
         public void Add(Thing thing)

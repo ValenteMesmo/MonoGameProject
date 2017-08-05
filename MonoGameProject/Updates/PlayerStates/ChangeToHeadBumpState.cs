@@ -20,8 +20,7 @@ namespace MonoGameProject
 
         public void Update()
         {
-            if ((Player.LegState == LegState.CrouchingLeft
-                  || Player.LegState == LegState.CrouchingRight)
+            if (Player.LegState == LegState.Crouching
                   && Player.VerticalSpeed < 0)
             {
                 Player.MainCollider.Height = OriginalHeight;
@@ -51,38 +50,13 @@ namespace MonoGameProject
                 && Math.Abs(Player.roofChecker.GetGolliders<BlockVerticalMovement>().First().Bottom() - Player.roofChecker.Top()) == 90
                 && Player.VerticalSpeed < 0)
             {
-                if (Player.LegState == LegState.WalkingLeft
-                   || Player.LegState == LegState.StandingLeft
-                   || Player.LegState == LegState.SlidingWallLeft
-                   || Player.LegState == LegState.FallingLeft
-                   || Player.LegState == LegState.CrouchingLeft
-                )
+                if (PreviousState != LegState.HeadBump)
                 {
-                    if (PreviousState != LegState.HeadBumpLeft
-                    && PreviousState != LegState.HeadBumpRight)
-                    {
-                        if (Player is Player)
-                            Camera.ShakeUp(-Player.VerticalSpeed / 8);
-                    }
-
-                    Player.LegState = LegState.HeadBumpLeft;
+                    if (Player is Player)
+                        Camera.ShakeUp(-Player.VerticalSpeed / 8);
                 }
-                else if (Player.LegState == LegState.WalkingRight
-                    || Player.LegState == LegState.StandingRight
-                    || Player.LegState == LegState.SlidingWallRight
-                    || Player.LegState == LegState.FallingRight
-                    || Player.LegState == LegState.CrouchingRight
-                )
-                {
-                    if (PreviousState != LegState.HeadBumpLeft
-                    && PreviousState != LegState.HeadBumpRight)
-                    {
-                        if (Player is Player)
-                            Camera.ShakeUp(-Player.VerticalSpeed / 8);
-                    }
 
-                    Player.LegState = LegState.HeadBumpRight;
-                }
+                Player.LegState = LegState.HeadBump;
             }
             PreviousState = Player.LegState;
         }

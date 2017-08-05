@@ -19,18 +19,19 @@ namespace MonoGameProject
 
             if (Player.groundChecker.Colliding<SomeKindOfGround>() == false
                 && Player.VerticalSpeed > 0
-                && Player.LegState != LegState.WallJumpingToTheLeft
-                && Player.LegState != LegState.WallJumpingToTheRight)
+                && Player.LegState != LegState.WallJumping)
             {
                 if (Player.leftWallChecker.Colliding<SomeKindOfGround>()
                     && Player.Inputs.Left)
                 {
-                    Player.LegState = LegState.SlidingWallLeft;
+                    Player.LegState = LegState.SlidingWall;
+                    Player.FacingRight = false;
                 }
                 else if (Player.rightWallChecker.Colliding<SomeKindOfGround>()
                     && Player.Inputs.Right)
                 {
-                    Player.LegState = LegState.SlidingWallRight;
+                    Player.LegState = LegState.SlidingWall;
+                    Player.FacingRight = true;
                 }
             }
         }

@@ -21,35 +21,23 @@ namespace MonoGameProject
                 && !Player.roofChecker.Colliding<BlockVerticalMovement>()
                 && Player.VerticalSpeed >= 0)
             {
+                if (Player.TorsoState == TorsoState.Attack
+                    || Player.TorsoState == TorsoState.AttackCrouching)
+                {
+                    return;
+                }
+
                 if (Player.Inputs.Right && !Player.Inputs.Left)
                 {
-                    if ((Player.LegState == LegState.WalkingLeft
-                        || Player.LegState == LegState.StandingLeft
-                        || Player.LegState == LegState.CrouchingLeft)
-                        &&
-                        (Player.TorsoState == TorsoState.AttackLeft
-                        || Player.TorsoState == TorsoState.AttackCrouchingLeft))
-                    {
-                        return;
-                    }
-
-                    Player.LegState = LegState.WalkingRight;
-                    Player.TorsoState = TorsoState.StandingRight;
+                    Player.LegState = LegState.Walking;
+                    Player.TorsoState = TorsoState.Standing;
+                    Player.FacingRight = true;
                 }
-                else if (Player.Inputs.Left && !Player.Inputs.Right)
+                else if (!Player.Inputs.Right && Player.Inputs.Left)
                 {
-                    if ((Player.LegState == LegState.WalkingRight
-                        || Player.LegState == LegState.StandingRight
-                        || Player.LegState == LegState.CrouchingRight)
-                        &&
-                        (Player.TorsoState == TorsoState.AttackRight
-                        || Player.TorsoState == TorsoState.AttackCrouchingRight))
-                    {
-                        return;
-                    }
-
-                    Player.LegState = LegState.WalkingLeft;
-                    Player.TorsoState = TorsoState.StandingLeft;
+                    Player.LegState = LegState.Walking;
+                    Player.TorsoState = TorsoState.Standing;
+                    Player.FacingRight = false;
                 }
             }
         }

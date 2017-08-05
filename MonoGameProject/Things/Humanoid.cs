@@ -25,7 +25,8 @@ namespace MonoGameProject
         public HeadState HeadState { get; set; }
         public TorsoState TorsoState { get; set; }
         public LegState LegState { get; set; }
-
+        public bool FacingRight { get; set; }
+        
         private const int width = 1000;
         private const int height = 900;
 
@@ -78,10 +79,7 @@ namespace MonoGameProject
 #if DEBUG
             AddUpdate(() =>
                 Game.LOG +=
-                GetType().Name
-                + " "
-                + LegState.ToString()
-                + Environment.NewLine);
+                $@"{GetType().Name} {LegState.ToString()} {FacingRight} {Environment.NewLine}");
 #endif
         }
 

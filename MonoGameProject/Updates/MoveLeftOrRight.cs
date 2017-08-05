@@ -22,8 +22,7 @@ namespace MonoGameProject
             if (Player.LegState == LegState.TakingDamage)
                 return;
 
-            if (Player.LegState == LegState.CrouchingLeft
-                || Player.LegState == LegState.CrouchingRight)
+            if (Player.LegState == LegState.Crouching)
             {
                 if (Player.roofChecker.Colliding<BlockVerticalMovement>()
                     && Player.Inputs.ClickedJump)

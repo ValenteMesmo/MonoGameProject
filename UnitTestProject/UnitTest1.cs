@@ -20,12 +20,12 @@ namespace UnitTestProject
 
             inputs.Down.Returns(true);
             sut.Updates.ForEach(f => f());
-            Assert.AreEqual(LegState.CrouchingLeft, sut.LegState);
+            Assert.AreEqual(LegState.Crouching, sut.LegState);
 
             inputs.Action.Returns(true);
             sut.Updates.ForEach(f => f());
-            Assert.AreEqual(LegState.CrouchingLeft, sut.LegState);
-            Assert.AreEqual(TorsoState.AttackCrouchingLeft, sut.TorsoState);
+            Assert.AreEqual(LegState.Crouching, sut.LegState);
+            Assert.AreEqual(TorsoState.AttackCrouching, sut.TorsoState);
 
             inputs.Action.Returns(false);
             inputs.Down.Returns(false);
@@ -34,8 +34,8 @@ namespace UnitTestProject
                 item();
             }
 
-            Assert.AreEqual(LegState.CrouchingLeft, sut.LegState);
-            Assert.AreEqual(TorsoState.AttackCrouchingLeft, sut.TorsoState);
+            Assert.AreEqual(LegState.Crouching, sut.LegState);
+            Assert.AreEqual(TorsoState.AttackCrouching, sut.TorsoState);
         }
 
         [TestMethod]
@@ -46,12 +46,12 @@ namespace UnitTestProject
             sut.groundChecker.CollidingWith.Add(new GroundCollider());
 
             sut.Updates.ForEach(f => f());
-            Assert.AreEqual(LegState.StandingLeft, sut.LegState);
+            Assert.AreEqual(LegState.Standing, sut.LegState);
 
             inputs.Action.Returns(true);
             sut.Updates.ForEach(f => f());
-            Assert.AreEqual(LegState.StandingLeft, sut.LegState);
-            Assert.AreEqual(TorsoState.AttackLeft, sut.TorsoState);
+            Assert.AreEqual(LegState.Standing, sut.LegState);
+            Assert.AreEqual(TorsoState.Attack, sut.TorsoState);
 
             inputs.Action.Returns(false);
             inputs.Down.Returns(true);
@@ -60,8 +60,8 @@ namespace UnitTestProject
                 item();
             }
 
-            Assert.AreEqual(LegState.StandingLeft, sut.LegState);
-            Assert.AreEqual(TorsoState.AttackLeft, sut.TorsoState);
+            Assert.AreEqual(LegState.Standing, sut.LegState);
+            Assert.AreEqual(TorsoState.Attack, sut.TorsoState);
         }
 
         [TestMethod]
@@ -75,12 +75,12 @@ namespace UnitTestProject
             inputs.Right.Returns(false);
             inputs.Left.Returns(true);
             sut.Updates.ForEach(f => f());
-            Assert.AreEqual(sut.LegState, LegState.CrouchingLeft);
+            Assert.AreEqual(sut.LegState, LegState.Crouching);
 
             inputs.Action.Returns(true);
             sut.Updates.ForEach(f => f());
-            Assert.AreEqual(sut.LegState, LegState.CrouchingLeft);
-            Assert.AreEqual(sut.TorsoState, TorsoState.AttackCrouchingLeft);
+            Assert.AreEqual(sut.LegState, LegState.Crouching);
+            Assert.AreEqual(sut.TorsoState, TorsoState.AttackCrouching);
 
             inputs.Action.Returns(false);
             inputs.Right.Returns(true);
@@ -89,8 +89,8 @@ namespace UnitTestProject
                 item();
             }
 
-            Assert.AreEqual(sut.LegState, LegState.CrouchingLeft);
-            Assert.AreEqual(sut.TorsoState, TorsoState.AttackCrouchingLeft);
+            Assert.AreEqual(sut.LegState, LegState.Crouching);
+            Assert.AreEqual(sut.TorsoState, TorsoState.AttackCrouching);
         }
 
         [TestMethod]
@@ -104,12 +104,14 @@ namespace UnitTestProject
             inputs.Right.Returns(true);
             inputs.Left.Returns(false);
             sut.Updates.ForEach(f => f());
-            Assert.AreEqual(sut.LegState, LegState.CrouchingRight);
+            Assert.AreEqual(sut.LegState, LegState.Crouching);
+            Assert.AreEqual(sut.FacingRight, true);
 
             inputs.Action.Returns(true);
             sut.Updates.ForEach(f => f());
-            Assert.AreEqual(sut.LegState, LegState.CrouchingRight);
-            Assert.AreEqual(sut.TorsoState, TorsoState.AttackCrouchingRight);
+            Assert.AreEqual(sut.LegState, LegState.Crouching);
+            Assert.AreEqual(sut.TorsoState, TorsoState.AttackCrouching);
+            Assert.AreEqual(sut.FacingRight, true);
 
             inputs.Action.Returns(false);
             inputs.Right.Returns(false);
@@ -119,8 +121,9 @@ namespace UnitTestProject
                 item();
             }
 
-            Assert.AreEqual(sut.LegState, LegState.CrouchingRight);
-            Assert.AreEqual(sut.TorsoState, TorsoState.AttackCrouchingRight);
+            Assert.AreEqual(sut.LegState, LegState.Crouching);
+            Assert.AreEqual(sut.TorsoState, TorsoState.AttackCrouching);
+            Assert.AreEqual(sut.FacingRight, true);
         }
     }
 
