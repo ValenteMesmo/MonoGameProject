@@ -18,26 +18,25 @@ namespace MonoGameProject
                 return;
 
             if (Player.groundChecker.Colliding<BlockVerticalMovement>()
-                && !Player.roofChecker.Colliding<BlockVerticalMovement>()
                 && Player.VerticalSpeed >= 0)
             {
-                if (Player.TorsoState == TorsoState.Attack
-                    || Player.TorsoState == TorsoState.AttackCrouching)
-                {
-                    return;
-                }
-
                 if (Player.Inputs.Right && !Player.Inputs.Left)
                 {
                     Player.LegState = LegState.Walking;
-                    Player.TorsoState = TorsoState.Standing;
                     Player.FacingRight = true;
+                    if (Player.TorsoState == TorsoState.Attack
+                        || Player.TorsoState == TorsoState.AttackCrouching)
+                        return;
+                    Player.TorsoState = TorsoState.Standing;
                 }
                 else if (!Player.Inputs.Right && Player.Inputs.Left)
                 {
                     Player.LegState = LegState.Walking;
-                    Player.TorsoState = TorsoState.Standing;
                     Player.FacingRight = false;
+                    if (Player.TorsoState == TorsoState.Attack
+                        || Player.TorsoState == TorsoState.AttackCrouching)
+                        return;
+                    Player.TorsoState = TorsoState.Standing;
                 }
             }
         }

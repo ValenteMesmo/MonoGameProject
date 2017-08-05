@@ -21,13 +21,11 @@ namespace MonoGameProject
             if (Player.Inputs.Down)
                 return;
 
-            if (Player.groundChecker.Colliding<BlockVerticalMovement>()
-                //&& !Player.roofChecker.Colliding<BlockVerticalMovement>()
-                )
+            if (Player.groundChecker.Colliding<BlockVerticalMovement>())
             {
                 if ((!Player.Inputs.Left && !Player.Inputs.Right)
                     || (Player.Inputs.Left && Player.Inputs.Right))
-                {   
+                {
                     Player.LegState = LegState.Standing;
                     Player.TorsoState = TorsoState.Standing;
                 }
