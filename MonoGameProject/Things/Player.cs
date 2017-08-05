@@ -3,62 +3,106 @@ using System;
 
 namespace MonoGameProject
 {
+    public class HitEffect : Thing
+    {
+        public HitEffect()
+        {
+            var animation = GeneratedContent.Create_knight_hit_effect(-400, -400, 0);
+            animation.LoopDisabled = true;
+            animation.ScaleX = animation.ScaleY = 10;
+            animation.Color = new Microsoft.Xna.Framework.Color(1, 1, 1, 0.5f);
+            animation.FrameDuration = 2;
+            AddAnimation(animation);
+
+            var duration = 100;
+            AddUpdate(() =>
+            {
+                duration--;
+                if (duration <= 0)
+                    Destroy();
+            });
+            AddUpdate(new MoveHorizontallyWithTheWorld(this));
+        }
+    }
+
     public class TakesDamage : UpdateHandler
     {
         private readonly Humanoid Parent;
         private readonly Game1 Game1;
         private int DamageDuration;
+        private readonly Action<Thing> AddToTheWorld;
 
-        public TakesDamage(Humanoid Parent, Game1 Game1)
+        public TakesDamage(Humanoid Parent, Game1 Game1, Action<Thing> AddToTheWorld)
         {
             this.Parent = Parent;
             this.Game1 = Game1;
+            this.AddToTheWorld = AddToTheWorld;
             Parent.MainCollider.AddBotCollisionHandler(HandleFireball);
             Parent.MainCollider.AddTopCollisionHandler(HandleFireball);
             Parent.MainCollider.AddLeftCollisionHandler(HandleFireball);
             Parent.MainCollider.AddRightCollisionHandler(HandleFireball);
         }
 
-        public void HandleFireball(Collider s, Collider t)
+        public void HandleFireball(Collider source, Collider target)
         {
-            if (t.Parent is FireBall)
+            if (target.Parent is FireBall)
             {
                 if (Parent.LegState == LegState.TakingDamage)
                     return;
 
-                Parent.HitPoints--;
-                Parent.LegState = LegState.TakingDamage;
-                Parent.HorizontalSpeed = t.Parent.HorizontalSpeed / 2;
-                Parent.VerticalSpeed = -50;
-
-                DamageDuration = 25;
-                t.Disabled = true;
-                t.Parent.Destroy();
-                Game1.Sleep();
-                Game1.Camera.ShakeUp(20);
-            }
-            else if (t is AttackCollider)
-            {
-                if (Parent.LegState == LegState.TakingDamage)
-                    return;
+                NewMethod(source);
 
                 Parent.HitPoints--;
                 Parent.LegState = LegState.TakingDamage;
-                Parent.HorizontalSpeed = t.Parent.HorizontalSpeed / 2;
+                Parent.HorizontalSpeed = target.Parent.HorizontalSpeed / 2;
                 Parent.VerticalSpeed = -50;
 
                 DamageDuration = 25;
-                Game1.Sleep();
-                Game1.Camera.ShakeUp(20);
-
-                if (Parent.HitPoints < 0 && t.Parent is Player)
+                target.Disabled = true;
+                target.Parent.Destroy();
+                if (Parent is Player)
                 {
-                    Parent.HorizontalSpeed = t.Parent.HorizontalSpeed;
-                    //Parent.VerticalSpeed = -50;
-
-                    s.Disabled = true;
+                    Game1.Sleep();
+                    Game1.Camera.ShakeUp(20);
                 }
             }
+            else if (target is AttackCollider)
+            {
+                if (Parent.LegState == LegState.TakingDamage)
+                    return;
+
+                NewMethod(source);
+
+                Parent.HitPoints--;
+                Parent.LegState = LegState.TakingDamage;
+                Parent.HorizontalSpeed = target.Parent.HorizontalSpeed / 2;
+                Parent.VerticalSpeed = -50;
+
+                DamageDuration = 25;
+                if (target.Parent is Player)
+                {
+                    Game1.Sleep();
+                    Game1.Camera.ShakeUp(20);
+                }
+
+                if (Parent.HitPoints < 0 && target.Parent is Player)
+                {
+                    if ((target.Parent as Player).TorsoState == TorsoState.AttackLeft
+                        || (target.Parent as Player).TorsoState == TorsoState.AttackCrouchingLeft)
+                        Parent.HorizontalSpeed = - 100;
+                    if ((target.Parent as Player).TorsoState == TorsoState.AttackRight
+                        || (target.Parent as Player).TorsoState == TorsoState.AttackCrouchingRight)
+                        Parent.HorizontalSpeed = + 100;
+                    //Parent.VerticalSpeed = -50;
+
+                    source.Disabled = true;
+                }
+            }
+        }
+
+        private void NewMethod(Collider source)
+        {
+            AddToTheWorld(new HitEffect() { X = source.X, Y = source.Y });
         }
 
         public void Update()
@@ -121,7 +165,7 @@ namespace MonoGameProject
         private const int width = 1000;
         private const int height = 900;
 
-        public Player(Game1 Game1) : base(
+        public Player(Game1 Game1, Action<Thing> AddToWorld) : base(
                 new GameInputs(
                     new InputCheckerAggregation(
                          new GamePadChecker(0)
@@ -132,7 +176,7 @@ namespace MonoGameProject
             Y = 7000;
             HitPoints = 2;
 
-            AddUpdate(new TakesDamage(this, Game1));
+            AddUpdate(new TakesDamage(this, Game1, AddToWorld));
 
             Action<Collider, Collider> HandleFireball = (s, t) =>
            {

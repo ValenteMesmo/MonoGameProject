@@ -24,12 +24,12 @@ namespace GameCore
         public int ScaleX { get; set; }
         public int ScaleY { get; set; }
 
-        private const int ANIMATION_DURATION = 3;
+        public int FrameDuration = 3;
 
         public Animation(params AnimationFrame[] Frames)
         {
             Color = Color.White;
-            UpdatesUntilNextFrame = ANIMATION_DURATION;
+            UpdatesUntilNextFrame = FrameDuration;
             this.Frames = Frames.ToList();
         }
 
@@ -51,7 +51,7 @@ namespace GameCore
                     CurrentFrameIndex = 0;
             }
 
-            UpdatesUntilNextFrame = ANIMATION_DURATION;
+            UpdatesUntilNextFrame = FrameDuration;
         }
 
         public AnimationFrame GetCurretFrame()

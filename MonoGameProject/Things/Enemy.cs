@@ -8,7 +8,7 @@ namespace MonoGameProject
         private const int width = 1000;
         private const int height = 900;
 
-        public Enemy(Game1 WorldMover) : base(
+        public Enemy(Game1 WorldMover, Action<Thing> AddToWorld) : base(
             new GameInputs(
                 new InputCheckerAggregation(
                         //new MirroredKeyboardChecker()
@@ -19,7 +19,7 @@ namespace MonoGameProject
             X = 2000;
             Y = 7000;
 
-            AddUpdate(new TakesDamage(this, WorldMover));
+            AddUpdate(new TakesDamage(this, WorldMover, AddToWorld));
 
             MainCollider.AddBotCollisionHandler(StopsWhenHitting.Bot);
             MainCollider.AddLeftCollisionHandler(StopsWhenHitting.Left);
