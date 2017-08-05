@@ -26,21 +26,7 @@ namespace MonoGameProject
             }
             else
             {
-                if (Player.LegState == LegState.Walking
-                   || Player.LegState == LegState.Standing
-                   || Player.LegState == LegState.SlidingWall
-                   || Player.LegState == LegState.HeadBump
-                   || Player.LegState == LegState.Crouching
-                )
-                {
-                    FallToTheLeft();
-                }
-                else if (Player.LegState == LegState.Falling
-                    && Player.Inputs.Right
-                    && !Player.Inputs.Left)
-                {
-                    FallToTheLeft();
-                }
+                FallToTheLeft();
             }
         }
 

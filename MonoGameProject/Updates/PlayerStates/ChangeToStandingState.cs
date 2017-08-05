@@ -22,7 +22,7 @@ namespace MonoGameProject
                 return;
 
             if (Player.groundChecker.Colliding<BlockVerticalMovement>()
-                && !Player.roofChecker.Colliding<BlockVerticalMovement>()
+                //&& !Player.roofChecker.Colliding<BlockVerticalMovement>()
                 )
             {
                 if ((!Player.Inputs.Left && !Player.Inputs.Right)
