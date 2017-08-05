@@ -54,7 +54,10 @@ namespace MonoGameProject
             var enableDuration = 15;
 
             if (AttackDuration < enableDuration)
-                Humanoid.AttackLeftCollider.Disabled = false;
+            {
+                Humanoid.AttackLeftCollider.Disabled = Humanoid.FacingRight;
+                Humanoid.AttackRightCollider.Disabled = !Humanoid.FacingRight;
+            }
 
             if (Humanoid.LegState == LegState.Crouching)
             {

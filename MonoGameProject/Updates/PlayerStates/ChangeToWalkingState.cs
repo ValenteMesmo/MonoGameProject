@@ -23,19 +23,19 @@ namespace MonoGameProject
                 if (Player.Inputs.Right && !Player.Inputs.Left)
                 {
                     Player.LegState = LegState.Walking;
-                    Player.FacingRight = true;
                     if (Player.TorsoState == TorsoState.Attack
                         || Player.TorsoState == TorsoState.AttackCrouching)
                         return;
+                    Player.FacingRight = true;
                     Player.TorsoState = TorsoState.Standing;
                 }
                 else if (!Player.Inputs.Right && Player.Inputs.Left)
                 {
                     Player.LegState = LegState.Walking;
-                    Player.FacingRight = false;
                     if (Player.TorsoState == TorsoState.Attack
                         || Player.TorsoState == TorsoState.AttackCrouching)
                         return;
+                    Player.FacingRight = false;
                     Player.TorsoState = TorsoState.Standing;
                 }
             }
