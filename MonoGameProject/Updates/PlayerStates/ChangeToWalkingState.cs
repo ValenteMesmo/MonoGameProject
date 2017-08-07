@@ -27,7 +27,8 @@ namespace MonoGameProject
                         || Player.TorsoState == TorsoState.AttackCrouching
                         || Player.LegState == LegState.WallJumping)
                         return;
-                    Player.FacingRight = true;
+                    if (Player.Inputs.Action == false)
+                        Player.FacingRight = true;
                     Player.TorsoState = TorsoState.Standing;
                 }
                 else if (!Player.Inputs.Right && Player.Inputs.Left)
@@ -36,7 +37,8 @@ namespace MonoGameProject
                     if (Player.TorsoState == TorsoState.Attack
                         || Player.TorsoState == TorsoState.AttackCrouching)
                         return;
-                    Player.FacingRight = false;
+                    if (Player.Inputs.Action == false)
+                        Player.FacingRight = false;
                     Player.TorsoState = TorsoState.Standing;
                 }
             }
