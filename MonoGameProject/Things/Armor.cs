@@ -14,7 +14,7 @@ namespace MonoGameProject
 
             var animation = GeneratedContent.Create_knight_block(0, 0, 0.49f, MapModule.CELL_SIZE, MapModule.CELL_SIZE);
 
-            animation.Color = Color.LightGreen;
+            //animation.Color = Color.LightGreen;
             AddAnimation(animation);
 
             AddUpdate(new MoveHorizontallyWithTheWorld(this));

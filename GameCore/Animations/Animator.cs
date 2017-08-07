@@ -21,11 +21,15 @@ namespace GameCore
                 return CurrentAnimation.ScaleY;
             }
         }
-        public Color Color { get; set; }
+        public Color ColorRed { get; set; }
+        public Color ColorGreen { get; set; }
+        public Color ColorBlue { get; set; }
+        public Color ColorYellow { get; set; }
+        public Color ColorCyan { get; set; }
+        public Color ColorMagenta { get; set; }
 
         public Animator(params AnimationTransition[] Transitions)
         {
-            Color = Color.White;
             this.Transitions = Transitions;
             CurrentAnimation = Transitions[0].Target;
         }

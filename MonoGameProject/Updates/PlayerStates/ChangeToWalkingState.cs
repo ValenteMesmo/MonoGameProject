@@ -24,7 +24,8 @@ namespace MonoGameProject
                 {
                     Player.LegState = LegState.Walking;
                     if (Player.TorsoState == TorsoState.Attack
-                        || Player.TorsoState == TorsoState.AttackCrouching)
+                        || Player.TorsoState == TorsoState.AttackCrouching
+                        || Player.LegState == LegState.WallJumping)
                         return;
                     Player.FacingRight = true;
                     Player.TorsoState = TorsoState.Standing;

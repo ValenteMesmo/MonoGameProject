@@ -10,7 +10,7 @@ namespace MonoGameProject
             var animation = GeneratedContent.Create_knight_hit_effect(-400, -400, 0);
             animation.LoopDisabled = true;
             animation.ScaleX = animation.ScaleY = 10;
-            animation.Color = new Microsoft.Xna.Framework.Color(1, 1, 1, 0.5f);
+            //animation.Color = new Microsoft.Xna.Framework.Color(1, 1, 1, 0.5f);
             animation.FrameDuration = 2;
             AddAnimation(animation);
 

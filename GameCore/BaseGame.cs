@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
+using System.Linq;
 using OriginalGameClass = Microsoft.Xna.Framework.Game;
 
 internal class BaseGame : OriginalGameClass
@@ -107,7 +108,7 @@ internal class BaseGame : OriginalGameClass
         else
             Camera.Zoom = 0.1f;
 
-        DisplayColliders = state.NumLock;
+        DisplayColliders = !state.NumLock;
 
         if (state.IsKeyDown(Keys.Escape))
             Parent.Restart();
@@ -117,42 +118,121 @@ internal class BaseGame : OriginalGameClass
         base.Update(gameTime);
     }
 
+    private List<Animation> AnimationsToRender = new List<Animation>();
+
     protected override void Draw(GameTime gameTime)
     {
         //LOL darkblue affected performance... keep it black
-        GraphicsDevice.Clear(Color.Black);
+        GraphicsDevice.Clear(Color.White);
 
-        SpriteBatch.Begin(SpriteSortMode.BackToFront,
+        SpriteBatch.Begin(SpriteSortMode.Immediate,
                    BlendState.AlphaBlend,
                    null,
                    null,
                    null,
                    null,
                    Camera.GetTransformation(GraphicsDevice));
+                
+        
+        var renderables = new[]
+                {
+                    new {
+                        Frame= default(AnimationFrame),
+                        Animation = default(IHandleAnimation),
+                        Thing = default(Thing)
+                    }
+                }.ToList();
 
-        //effect.CurrentTechnique.Passes[0].Apply();
+        renderables.Clear();
+
+        foreach (var thing in World.Things)
+        {
+            foreach (var animation in thing.Animations)
+            {
+                var frame = animation.GetCurretFrame();
+
+                renderables.Add(
+                    new {
+                        Frame= frame,
+                        Animation = animation,
+                        Thing = thing
+                    }
+                );                
+            }
+        }
+
+        var previousColor = "";
+        
+        foreach (var item in renderables.OrderByDescending(f=> f.Frame.RenderingLayer))
+        {
+            var current = item.Animation.ColorRed.ToString()
+                +item.Animation.ColorGreen.ToString()
+                + item.Animation.ColorBlue.ToString()
+                + item.Animation.ColorYellow.ToString()
+                + item.Animation.ColorCyan.ToString()
+                + item.Animation.ColorMagenta.ToString();
+
+            if (current != previousColor)
+            {
+                SpriteBatch.End();
+                SpriteBatch.Begin(SpriteSortMode.Immediate,
+                           BlendState.AlphaBlend,
+                           null,
+                           null,
+                           null,
+                           null,
+                           Camera.GetTransformation(GraphicsDevice));
+                effect.Parameters["redColor"].SetValue(item.Animation.ColorRed.ToVector4());
+                effect.Parameters["greenColor"].SetValue(item.Animation.ColorGreen.ToVector4());
+                effect.Parameters["blueColor"].SetValue(item.Animation.ColorBlue.ToVector4());
+                effect.Parameters["yellowColor"].SetValue(item.Animation.ColorYellow.ToVector4());
+                effect.Parameters["cyanColor"].SetValue(item.Animation.ColorCyan.ToVector4());
+                effect.Parameters["magentaColor"].SetValue(item.Animation.ColorMagenta.ToVector4());
+                effect.CurrentTechnique.Passes[0].Apply();
+
+                previousColor = current;
+            }
 
 
-        World.Things.ForEach(RenderThing);
-
-
-
+            SpriteBatch.Draw(
+                        Textures[item.Frame.Name]
+                        , new Rectangle(
+                            item.Thing.X + item.Frame.X,
+                            item.Thing.Y + item.Frame.Y,
+                            item.Frame.Width * (item.Animation.ScaleX > 0 ? item.Animation.ScaleX : 1),
+                            item.Frame.Height * (item.Animation.ScaleY > 0 ? item.Animation.ScaleY : 1))
+                        , item.Frame.PositionOnSpriteSheet
+                        , Color.White
+                        , 0
+                        , Vector2.Zero
+                        , item.Frame.Flipped ? SpriteEffects.FlipHorizontally : SpriteEffects.None
+                        , item.Frame.RenderingLayer
+                );
+        }
+                       
         Parent.FrameCounter.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
 #if DEBUG
 
         var fps = string.Format("FPS: {0}", Parent.FrameCounter.AverageFramesPerSecond)
             .Replace("∞", "");
 
+        //effect.Parameters["redColor"].SetValue(Color.Black.ToVector4());
+        //effect.Parameters["greenColor"].SetValue(Color.Black.ToVector4());
+        //effect.Parameters["blueColor"].SetValue(Color.Black.ToVector4());
+        //effect.Parameters["yellowColor"].SetValue(Color.Black.ToVector4());
+        //effect.Parameters["cyanColor"].SetValue(Color.Black.ToVector4());
+        //effect.Parameters["magentaColor"].SetValue(Color.Black.ToVector4());
+
         SpriteBatch.DrawString(
             SpriteFont
             , fps
             , new Vector2(300, 1800)
-            , Color.Black
-            , 0
-            , Vector2.Zero
-            , 25
-            , SpriteEffects.None
-            , 0);
+                , Color.Black
+                , 0
+                , Vector2.Zero
+                , 25
+                , SpriteEffects.None
+                , 0);
 
         SpriteBatch.DrawString(
             SpriteFont
@@ -174,57 +254,53 @@ internal class BaseGame : OriginalGameClass
         base.Draw(gameTime);
     }
 
-    private void RenderThing(Thing thing)
-    {
-#if DEBUG
-        if (DisplayColliders)
-            thing.Colliders.ForEach(collider =>
-                DrawBorder(
-                    new Rectangle(
-                        thing.X + collider.OffsetX
-                        ,
-                        thing.Y + collider.OffsetY
-                        ,
-                        collider.Width,
-                        collider.Height),
-                    30,
-                    collider.Disabled ? Color.Red : Color.Green
-                )
-            );
-#endif
-        thing.Touchables.ForEach(touchable =>
-            DrawBorder(
-                new Rectangle(
-                    thing.X + touchable.OffsetX,
-                    thing.Y + touchable.OffsetY,
-                    touchable.Width,
-                    touchable.Height),
-                30,
-                Color.Blue
-            )
-        );
+    //private void RenderThing(Thing thing)
+    //{
+    //    //#if DEBUG
+    //    //        if (DisplayColliders)
+    //    //            thing.Colliders.ForEach(collider =>
+    //    //                DrawBorder(
+    //    //                    new Rectangle(
+    //    //                        thing.X + collider.OffsetX,
+    //    //                        thing.Y + collider.OffsetY,
+    //    //                        collider.Width,
+    //    //                        collider.Height),
+    //    //                    30,
+    //    //                    collider.Disabled ? Color.Red : Color.Green
+    //    //                )
+    //    //            );
+    //    //#endif
+    //    //        thing.Touchables.ForEach(touchable =>
+    //    //            DrawBorder(
+    //    //                new Rectangle(
+    //    //                    thing.X + touchable.OffsetX,
+    //    //                    thing.Y + touchable.OffsetY,
+    //    //                    touchable.Width,
+    //    //                    touchable.Height),
+    //    //                30,
+    //    //                Color.Blue
+    //    //            )
+    //    //        );
 
-        thing.Animations.ForEach(animation =>
-        {
-            var frame = animation.GetCurretFrame();
-            SpriteBatch.Draw(
-                    Textures[frame.Name]
-                    , new Rectangle(
-                        thing.X + frame.X,
-                        thing.Y + frame.Y,
-                        frame.Width * (animation.ScaleX > 0 ? animation.ScaleX : 1),
-                        frame.Height * (animation.ScaleY > 0 ? animation.ScaleY : 1))
-                    , frame.PositionOnSpriteSheet
-                    , animation.Color
-                    , 0
-                    , Vector2.Zero
-                    , frame.Flipped ? SpriteEffects.FlipHorizontally : SpriteEffects.None
-                    , frame.RenderingLayer
-            );
-
-
-        });
-    }
+    //    thing.Animations.ForEach(animation =>
+    //    {
+    //        var frame = animation.GetCurretFrame();
+    //        SpriteBatch.Draw(
+    //                Textures[frame.Name]
+    //                , new Rectangle(
+    //                    thing.X + frame.X,
+    //                    thing.Y + frame.Y,
+    //                    frame.Width * (animation.ScaleX > 0 ? animation.ScaleX : 1),
+    //                    frame.Height * (animation.ScaleY > 0 ? animation.ScaleY : 1))
+    //                , frame.PositionOnSpriteSheet
+    //                , animation.Color
+    //                , 0
+    //                , Vector2.Zero
+    //                , frame.Flipped ? SpriteEffects.FlipHorizontally : SpriteEffects.None
+    //                , frame.RenderingLayer
+    //        );
+    //    });
+    //}
 
     //private void PlayAudios()
     //{

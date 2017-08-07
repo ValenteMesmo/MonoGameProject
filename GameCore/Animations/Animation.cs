@@ -8,7 +8,12 @@ namespace GameCore
     {
         int ScaleX { get; }
         int ScaleY { get; }
-        Color Color { get; set; }
+        Color ColorRed { get; set; }
+        Color ColorGreen { get; set; }
+        Color ColorBlue { get; set; }
+        Color ColorYellow { get; set; }
+        Color ColorCyan { get; set; }
+        Color ColorMagenta { get; set; }
         AnimationFrame GetCurretFrame();
         void Update();
     }
@@ -19,7 +24,12 @@ namespace GameCore
         private int CurrentFrameIndex;
         private int UpdatesUntilNextFrame;
         public bool Ended { get; private set; }
-        public Color Color { get; set; }
+        public Color ColorRed { get; set; }
+        public Color ColorGreen { get; set; }
+        public Color ColorBlue { get; set; }
+        public Color ColorYellow { get; set; }
+        public Color ColorCyan { get; set; }
+        public Color ColorMagenta { get; set; }
         public bool LoopDisabled { get; set; }
         public int ScaleX { get; set; }
         public int ScaleY { get; set; }
@@ -27,8 +37,7 @@ namespace GameCore
         public int FrameDuration = 3;
 
         public Animation(params AnimationFrame[] Frames)
-        {
-            Color = Color.White;
+        {            
             UpdatesUntilNextFrame = FrameDuration;
             this.Frames = Frames.ToList();
         }

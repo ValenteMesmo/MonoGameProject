@@ -98,38 +98,36 @@ namespace MonoGameProject
                 });
             }
 
-            //{
-            //    var sky = GeneratedContent.Create_knight_sky(
-            //                        0
-            //                       , 0
-            //                       , 0.6f
-            //                       , CELL_SIZE * CELL_NUMBER
-            //                       , (CELL_SIZE * CELL_NUMBER));
-            //    sky.Color = new Color(
-            //        Colors[ColorIndex].R - 100
-            //        , Colors[ColorIndex].G - 100
-            //        , Colors[ColorIndex].B + 100
-            //        , Colors[ColorIndex].A - 200
-            //    );
-            //    AddAnimation(sky);
+                //var sky = new Animation(new AnimationFrame("pixel",
+                //                    0
+                //                   , 0
+                //                   , CELL_SIZE * CELL_NUMBER
+                //                   , (CELL_SIZE * CELL_NUMBER)));
+                ////sky.Color = new Color(
+                ////    Colors[ColorIndex].R - 100
+                ////    , Colors[ColorIndex].G - 100
+                ////    , Colors[ColorIndex].B + 100
+                ////    , Colors[ColorIndex].A 
+                ////);
+                //AddAnimation(sky);
 
-            //}
-            //{
-            //    var sky = GeneratedContent.Create_knight_sky(
-            //                      0
-            //                      , 0
-            //                      , 0.6f
-            //                      , CELL_SIZE * CELL_NUMBER
-            //                      , (CELL_SIZE * CELL_NUMBER)/3);
-            //    sky.Color = new Color(
-            //        Colors[ColorIndex].R - 100
-            //        , Colors[ColorIndex].G + 100
-            //        , Colors[ColorIndex].B - 100
-            //        , Colors[ColorIndex].A - 200
-            //    );
-            //    AddAnimation(sky);
-            //}
-            for (int i = 0; i < CELL_NUMBER; i++)
+                //}
+                //{
+                //    var sky = GeneratedContent.Create_knight_sky(
+                //                      0
+                //                      , 0
+                //                      , 0.6f
+                //                      , CELL_SIZE * CELL_NUMBER
+                //                      , (CELL_SIZE * CELL_NUMBER)/3);
+                //    sky.Color = new Color(
+                //        Colors[ColorIndex].R - 100
+                //        , Colors[ColorIndex].G + 100
+                //        , Colors[ColorIndex].B - 100
+                //        , Colors[ColorIndex].A - 200
+                //    );
+                //    AddAnimation(sky);
+                //}
+                for (int i = 0; i < CELL_NUMBER; i++)
             {
                 for (int j = 0; j < CELL_NUMBER; j++)
                 {
@@ -142,7 +140,9 @@ namespace MonoGameProject
                                , 0.5f
                                , MapModule.CELL_SIZE
                                , MapModule.CELL_SIZE);
-                        animation.Color = Colors[ColorIndex];
+                        animation.ColorRed = Colors[ColorIndex];
+                        animation.ColorGreen = Colors[ColorIndex];
+                        animation.ColorBlue = Colors[ColorIndex];
                         AddAnimation(animation);
                     }
 
@@ -200,14 +200,14 @@ namespace MonoGameProject
                                , MapModule.CELL_SIZE + 10
                                , MapModule.CELL_SIZE + 10);
             
-            animation.Color = new Color(
-                Colors[ColorIndex].R - 100
-                , Colors[ColorIndex].G - 100
-                , Colors[ColorIndex].B - 100
-                , Colors[ColorIndex].A 
-            );
+            //animation.Color = new Color(
+            //    Colors[ColorIndex].R - 100
+            //    , Colors[ColorIndex].G - 100
+            //    , Colors[ColorIndex].B - 100
+            //    , Colors[ColorIndex].A 
+            //);
 
-            AddAnimation(animation);
+            //AddAnimation(animation);
         }
 
         private void CreateSolid(int i, int j)

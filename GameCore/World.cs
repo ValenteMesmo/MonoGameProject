@@ -26,7 +26,6 @@ namespace GameCore
 
         public void Sleep()
         {
-            //criar animation editor
             sleep = 4;
         }
 
@@ -41,13 +40,19 @@ namespace GameCore
             Things.Remove(thing);
         }
 
+        //int aaa = 0;
         public void Update()
         {
             //TODO: Auto play on x4 speed.....   using recorded inputs
             //NewMethod();
             //NewMethod();
             //NewMethod();
-            NewMethod();
+            //if (aaa >= 5)
+            {
+                //aaa = 0;
+                NewMethod();
+            }
+            //aaa++;
         }
 
         private void NewMethod()

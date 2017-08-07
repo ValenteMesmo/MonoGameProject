@@ -23,7 +23,11 @@ namespace MonoGameProject
                 if (Parent.LegState == LegState.WallJumping)
                 {
                     Parent.VerticalSpeed = -JUMP_VALUE;
-                    horizontalSpeed = -JUMP_VALUE / 2;
+                    if (Parent.FacingRight)
+                        horizontalSpeed = JUMP_VALUE / 2;
+                    else
+                        horizontalSpeed = -JUMP_VALUE / 2;
+
                     jumpImpulseTime = 10;
                 }
             }

@@ -25,13 +25,13 @@ namespace MonoGameProject
                     && Player.Inputs.Left)
                 {
                     Player.LegState = LegState.SlidingWall;
-                    Player.FacingRight = false;
+                    Player.FacingRight = true;
                 }
                 else if (Player.rightWallChecker.Colliding<SomeKindOfGround>()
                     && Player.Inputs.Right)
                 {
                     Player.LegState = LegState.SlidingWall;
-                    Player.FacingRight = true;
+                    Player.FacingRight = false;
                 }
             }
         }

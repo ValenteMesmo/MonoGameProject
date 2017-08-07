@@ -14,7 +14,8 @@ namespace MonoGameProject
 
         public void Update()
         {
-            if (Player.LegState == LegState.TakingDamage)
+            if (Player.LegState == LegState.TakingDamage
+                || Player.LegState == LegState.WallJumping)
                 return;
 
             if (Player.groundChecker.Colliding<BlockVerticalMovement>())
@@ -34,6 +35,12 @@ namespace MonoGameProject
         {
             if (Player.TorsoState == TorsoState.Attack)
                 return;
+
+            if (Player.Inputs.Left && !Player.Inputs.Right)
+                Player.FacingRight = false;
+            else if (!Player.Inputs.Left && Player.Inputs.Right)
+                Player.FacingRight = true;
+
             Player.LegState = LegState.Falling;
             Player.TorsoState = TorsoState.Standing;
         }
