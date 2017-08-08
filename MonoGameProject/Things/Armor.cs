@@ -12,8 +12,8 @@ namespace MonoGameProject
             collider.Height = MapModule.CELL_SIZE;
             AddCollider(collider);
 
-            var animation = GeneratedContent.Create_knight_block(0, 0, 0.49f, MapModule.CELL_SIZE, MapModule.CELL_SIZE);
-
+            var animation = GeneratedContent.Create_knight_block(0, 0, MapModule.CELL_SIZE, MapModule.CELL_SIZE);
+            animation.RenderingLayer = 0.49f;
             //animation.Color = Color.LightGreen;
             AddAnimation(animation);
 

@@ -4,7 +4,7 @@ namespace GameCore
 {
     public interface AnimationTransition
     {
-        Animation Target { get; }
+        IHandleAnimation Target { get; }
         Func<bool> Condition { get; }
     }
 }

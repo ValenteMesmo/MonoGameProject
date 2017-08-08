@@ -98,36 +98,37 @@ namespace MonoGameProject
                 });
             }
 
-                //var sky = new Animation(new AnimationFrame("pixel",
-                //                    0
-                //                   , 0
-                //                   , CELL_SIZE * CELL_NUMBER
-                //                   , (CELL_SIZE * CELL_NUMBER)));
-                ////sky.Color = new Color(
-                ////    Colors[ColorIndex].R - 100
-                ////    , Colors[ColorIndex].G - 100
-                ////    , Colors[ColorIndex].B + 100
-                ////    , Colors[ColorIndex].A 
-                ////);
-                //AddAnimation(sky);
+            var sky = new Animation(new AnimationFrame("pixel",
+                                0
+                               , 0
+                               , CELL_SIZE * CELL_NUMBER
+                               , (CELL_SIZE * CELL_NUMBER)));
+            //sky.Color = new Color(
+            //    Colors[ColorIndex].R - 100
+            //    , Colors[ColorIndex].G - 100
+            //    , Colors[ColorIndex].B + 100
+            //    , Colors[ColorIndex].A 
+            //);
+            sky.RenderingLayer = 1f;
+            AddAnimation(sky);
 
-                //}
-                //{
-                //    var sky = GeneratedContent.Create_knight_sky(
-                //                      0
-                //                      , 0
-                //                      , 0.6f
-                //                      , CELL_SIZE * CELL_NUMBER
-                //                      , (CELL_SIZE * CELL_NUMBER)/3);
-                //    sky.Color = new Color(
-                //        Colors[ColorIndex].R - 100
-                //        , Colors[ColorIndex].G + 100
-                //        , Colors[ColorIndex].B - 100
-                //        , Colors[ColorIndex].A - 200
-                //    );
-                //    AddAnimation(sky);
-                //}
-                for (int i = 0; i < CELL_NUMBER; i++)
+            //}
+            //{
+            //    var sky = GeneratedContent.Create_knight_sky(
+            //                      0
+            //                      , 0
+            //                      , 0.6f
+            //                      , CELL_SIZE * CELL_NUMBER
+            //                      , (CELL_SIZE * CELL_NUMBER)/3);
+            //    sky.Color = new Color(
+            //        Colors[ColorIndex].R - 100
+            //        , Colors[ColorIndex].G + 100
+            //        , Colors[ColorIndex].B - 100
+            //        , Colors[ColorIndex].A - 200
+            //    );
+            //    AddAnimation(sky);
+            //}
+            for (int i = 0; i < CELL_NUMBER; i++)
             {
                 for (int j = 0; j < CELL_NUMBER; j++)
                 {
@@ -137,12 +138,9 @@ namespace MonoGameProject
                         var animation = GeneratedContent.Create_knight_block(
                                j * CELL_SIZE
                                , i * CELL_SIZE
-                               , 0.5f
                                , MapModule.CELL_SIZE
                                , MapModule.CELL_SIZE);
-                        animation.ColorRed = Colors[ColorIndex];
-                        animation.ColorGreen = Colors[ColorIndex];
-                        animation.ColorBlue = Colors[ColorIndex];
+                        animation.RenderingLayer = 0.5f;
                         AddAnimation(animation);
                     }
 
@@ -171,7 +169,7 @@ namespace MonoGameProject
                     }
                     if (type == 'z')
                     {
-                        AddToWorld(new Enemy(Game1,AddToWorld)
+                        AddToWorld(new Enemy(Game1, AddToWorld)
                         {
                             X = X + j * CELL_SIZE,
                             Y = Y + i * CELL_SIZE
@@ -194,12 +192,11 @@ namespace MonoGameProject
         private void CreateBackground(int i, int j)
         {
             var animation = GeneratedContent.Create_knight_sky(
-                               (j * CELL_SIZE)   - 5
-                               , (i * CELL_SIZE) - 5
-                               , 0.5f
-                               , MapModule.CELL_SIZE + 10
-                               , MapModule.CELL_SIZE + 10);
-            
+                               (j * CELL_SIZE)
+                               , (i * CELL_SIZE)
+                               , MapModule.CELL_SIZE
+                               , MapModule.CELL_SIZE);
+            animation.RenderingLayer = 0.5f;
             //animation.Color = new Color(
             //    Colors[ColorIndex].R - 100
             //    , Colors[ColorIndex].G - 100
@@ -215,15 +212,13 @@ namespace MonoGameProject
             var animation = GeneratedContent.Create_knight_block(
                 (j) * CELL_SIZE + 1
                 , i * CELL_SIZE + 1
-                , 0.5f
                 , MapModule.CELL_SIZE
                 , MapModule.CELL_SIZE
             );
             animation.ScaleX = MapModule.SCALE;
             animation.ScaleY = MapModule.SCALE;
-            AddAnimation(
-                animation
-            );
+            animation.RenderingLayer = 0.5f;
+            AddAnimation(animation);
 
             AddCollider(new GroundCollider()
             {
@@ -244,9 +239,13 @@ namespace MonoGameProject
             , int width
             , int height
             , int parallax
-            , Func<int, int, float, int, int, Animation> imgName)
+            , Func<int, int, int, int, Animation> imgName)
         {
-            AddAnimation(imgName(x, y, 0.9f + parallax / 1000f, width, height));
+            var animation = imgName(x, y, width, height);
+            animation.RenderingLayer = 0.9f + parallax / 1000f;
+            animation.ScaleX = 10;
+            animation.ScaleY = 10;
+            AddAnimation(animation);
 
             AddUpdate(new MoveHorizontallyWithTheWorld(this, parallax));
             AddUpdate(new DestroyIfLeftBehind(this));

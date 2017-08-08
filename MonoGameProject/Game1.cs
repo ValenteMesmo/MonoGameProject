@@ -34,7 +34,7 @@ namespace MonoGameProject
             var runningOnGoodPc = false;
             //if (runningOnGoodPc)
             {
-                AddThing(new ParalaxBackgroundCreator(WorldMover, AddThing, this, (x, y, z, width, height) => GeneratedContent.Create_knight_dead_tree(x, y, z), 5));
+                AddThing(new ParalaxBackgroundCreator(WorldMover, AddThing, this, (x, y, width, height) => GeneratedContent.Create_knight_dead_tree(x, y), 5));
                 //AddThing(new ParalaxBackgroundCreator(WorldMover, AddThing, this, (x, y, z, width, height) => GeneratedContent.Create_knight_dead_tree(x, y, z, width / 2, height / 2), 10));
                 //AddThing(new ParalaxBackgroundCreator(WorldMover, AddThing, this, (x, y, z, width, height) => GeneratedContent.Create_knight_dead_tree(x, y, z, width / 2, height / 2), 15));
                 //AddThing(new ParalaxBackgroundCreator(WorldMover, AddThing, this, (x, y, z, width, height) => GeneratedContent.Create_knight_dead_tree(x, y, z, width/2, height/2), 20));

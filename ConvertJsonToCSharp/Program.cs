@@ -97,12 +97,12 @@ public class GeneratedContent : ILoadContents
                 foreach (var item in group)
                 {
                     rectangles += $@"
-            new AnimationFrame(""{fileName}"", X, Y, Width ?? {item.frame.w}, Height ?? {item.frame.h}, new Rectangle({item.frame.x}, {item.frame.y}, {item.frame.w}, {item.frame.h})){{ RenderingLayer = Z, Flipped = Flipped }},";
+            new AnimationFrame(""{fileName}"", X, Y, Width ?? {item.frame.w}, Height ?? {item.frame.h}, new Rectangle({item.frame.x}, {item.frame.y}, {item.frame.w}, {item.frame.h})){{ Flipped = Flipped }},";
                 }
                 rectangles = rectangles.Remove(rectangles.Length - 1);
                 methods +=
 $@"
-    public static Animation Create_{fileName}_{group.Key.Replace(' ', '_')}(int X, int Y, float Z, int? Width = null, int? Height = null, bool Flipped = false)
+    public static Animation Create_{fileName}_{group.Key.Replace(' ', '_')}(int X, int Y, int? Width = null, int? Height = null, bool Flipped = false)
     {{
         var animation = new Animation(
             {rectangles}

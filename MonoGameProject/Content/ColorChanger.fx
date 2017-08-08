@@ -11,46 +11,68 @@ float4 PixelShaderFunction(float2 coords: TEXCOORD0) : COLOR0
 {
 	float4 color = tex2D(s0, coords);
 
-	if (color.r == 0 && color.g == 0 && color.b == 0)
-		return color;
-
-	float minValue = 0.15f;
+	//float4 grayColor = dot(color, float4(0.3, 0.59, 0.11, 1));
+	float minValue = 0.12f;
 
 	//red
 	if (color.r > minValue
 		&& color.g < minValue
 		&& color.b < minValue)
-		return redColor;
+		return 
+		//lerp(grayColor ,
+			redColor
+			//, 0.8f)
+		;
 
 	//green
 	if (color.r < minValue
 		&& color.g > minValue
 		&& color.b < minValue)
-		return greenColor;
+		return
+		//lerp(grayColor, 
+			greenColor
+			//, 0.8f)
+		;
 
 	//blue
 	if (color.r < minValue
 		&& color.g < minValue
 		&& color.b > minValue)
-		return blueColor;
+		return 
+		//lerp(grayColor, 
+			blueColor
+			//, 0.8f)
+		;
 
 	//yellow
 	if (color.r > minValue
 		&& color.g > minValue
 		&& color.b < minValue)
-		return yellowColor;
+		return 
+		//lerp(grayColor, 
+			yellowColor
+			//, 0.8f)
+		;
 
 	//cyan
 	if (color.r < minValue
 		&& color.g > minValue
 		&& color.b > minValue)
-		return cyanColor;
+		return 
+		//lerp(grayColor, 
+			cyanColor
+			//, 0.8f)
+		;
 
 	//magenta
 	if (color.r > minValue
 		&& color.g < minValue
 		&& color.b > minValue)
-		return magentaColor;
+		return 
+		//lerp(grayColor, 
+			magentaColor
+			//, 0.8f)
+		;
 
 	return color;
 }

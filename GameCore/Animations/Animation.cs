@@ -8,28 +8,25 @@ namespace GameCore
     {
         int ScaleX { get; }
         int ScaleY { get; }
-        Color ColorRed { get; set; }
-        Color ColorGreen { get; set; }
-        Color ColorBlue { get; set; }
-        Color ColorYellow { get; set; }
-        Color ColorCyan { get; set; }
-        Color ColorMagenta { get; set; }
+        float RenderingLayer { get; }
+        //Color ColorRed { get;  }
+        //Color ColorGreen { get;  }
+        //Color ColorBlue { get;  }
+        //Color ColorYellow { get;  }
+        //Color ColorCyan { get;  }
+        //Color ColorMagenta { get;  }
         AnimationFrame GetCurretFrame();
         void Update();
+        void Restart();
     }
 
     public class Animation : IHandleAnimation
     {
+        public float RenderingLayer { get; set; }
         private readonly List<AnimationFrame> Frames;
         private int CurrentFrameIndex;
         private int UpdatesUntilNextFrame;
         public bool Ended { get; private set; }
-        public Color ColorRed { get; set; }
-        public Color ColorGreen { get; set; }
-        public Color ColorBlue { get; set; }
-        public Color ColorYellow { get; set; }
-        public Color ColorCyan { get; set; }
-        public Color ColorMagenta { get; set; }
         public bool LoopDisabled { get; set; }
         public int ScaleX { get; set; }
         public int ScaleY { get; set; }
@@ -37,7 +34,8 @@ namespace GameCore
         public int FrameDuration = 3;
 
         public Animation(params AnimationFrame[] Frames)
-        {            
+        {
+            RenderingLayer = 0.5f;
             UpdatesUntilNextFrame = FrameDuration;
             this.Frames = Frames.ToList();
         }

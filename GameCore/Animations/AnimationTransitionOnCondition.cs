@@ -4,11 +4,11 @@ namespace GameCore
 {
     public class AnimationTransitionOnCondition : AnimationTransition
     {
-        public Animation Target { get; }
+        public IHandleAnimation Target { get; }
         public Func<bool> Condition { get; }
 
         public AnimationTransitionOnCondition(
-            Animation Target
+            IHandleAnimation Target
             , Func<bool> Condition)
         {
             this.Target = Target;

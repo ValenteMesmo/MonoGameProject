@@ -16,13 +16,11 @@ namespace MonoGameProject
             var animation = GeneratedContent.Create_knight_block(
             0
             , 0
-            , 0.4f
             , MapModule.CELL_SIZE
             , MapModule.CELL_SIZE
             );
-            AddAnimation(
-               animation
-            );
+            animation.RenderingLayer = 0.4f;
+            AddAnimation(animation);
 
             HorizontalSpeed = speedX;
             VerticalSpeed = speedY;
@@ -51,7 +49,7 @@ namespace MonoGameProject
             collider.AddLeftCollisionHandler(damageHandler);
             collider.AddRightCollisionHandler(damageHandler);
             collider.AddTopCollisionHandler(damageHandler);
-            
+
             AddCollider(collider);
         }
     }

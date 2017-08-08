@@ -8,8 +8,7 @@ namespace GameCore
         public int X { get; }
         public int Y { get; }
         public int Width { get; }
-        public int Height { get; }
-        public float RenderingLayer { get; set; }
+        public int Height { get; }        
         public string Name { get; }
         public bool Flipped { get; set; }
 
@@ -21,7 +20,6 @@ namespace GameCore
             , int Height
             , Rectangle? PositionOnSpriteSheet = null)
         {
-            RenderingLayer = 0.5f;
             this.Name = Name;
             this.X = X;
             this.Y = Y;

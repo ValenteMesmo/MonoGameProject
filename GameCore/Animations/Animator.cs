@@ -5,8 +5,15 @@ namespace GameCore
 {
     public class Animator : IHandleAnimation
     {
+        public float RenderingLayer
+        {
+            get
+            {
+                return CurrentAnimation.RenderingLayer;
+            }
+        }
         private readonly AnimationTransition[] Transitions;
-        private Animation CurrentAnimation;
+        private IHandleAnimation CurrentAnimation;
         public int ScaleX
         {
             get
@@ -21,12 +28,6 @@ namespace GameCore
                 return CurrentAnimation.ScaleY;
             }
         }
-        public Color ColorRed { get; set; }
-        public Color ColorGreen { get; set; }
-        public Color ColorBlue { get; set; }
-        public Color ColorYellow { get; set; }
-        public Color ColorCyan { get; set; }
-        public Color ColorMagenta { get; set; }
 
         public Animator(params AnimationTransition[] Transitions)
         {
@@ -55,6 +56,11 @@ namespace GameCore
         public AnimationFrame GetCurretFrame()
         {
             return CurrentAnimation.GetCurretFrame();
+        }
+
+        public void Restart()
+        {
+            CurrentAnimation.Restart();
         }
     }
 }

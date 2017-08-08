@@ -12,6 +12,7 @@ namespace MonoGameProject
             animation.ScaleX = animation.ScaleY = 10;
             //animation.Color = new Microsoft.Xna.Framework.Color(1, 1, 1, 0.5f);
             animation.FrameDuration = 2;
+            animation.RenderingLayer = 0f;
             AddAnimation(animation);
 
             var duration = 100;

@@ -11,14 +11,14 @@ namespace MonoGameProject
         Game1 Game1;
 
         private Random RandomModule = new Random(1);
-        private readonly Func<int, int, float, int, int, Animation> imgName;
+        private readonly Func<int, int, int, int, Animation> imgName;
         private readonly int parallax;
 
         public ParalaxBackgroundCreator(
             WorldMover WorldMover
             , Action<Thing> AddToWOrld
             , Game1 Game1
-            , Func<int, int, float, int, int, Animation> imgName
+            , Func<int, int, int, int, Animation> imgName
             , int parallax)
         {
             this.parallax = parallax;

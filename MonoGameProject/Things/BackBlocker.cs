@@ -17,7 +17,8 @@ namespace MonoGameProject
             });
             AddUpdate(new MoveHorizontallyWithTheWorld(this));
 
-            var block = GeneratedContent.Create_knight_block(0, 0, 1.5f, WIDTH, HEIGHT);
+            var block = GeneratedContent.Create_knight_block(0, 0, WIDTH, HEIGHT);
+            block.RenderingLayer = 1.5f;
             AddAnimation(block);
         }
     }
