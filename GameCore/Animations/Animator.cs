@@ -5,6 +5,13 @@ namespace GameCore
 {
     public class Animator : IHandleAnimation
     {
+        public Color Color
+        {
+            get
+            {
+                return CurrentAnimation.Color;
+            }
+        }
         public float RenderingLayer
         {
             get

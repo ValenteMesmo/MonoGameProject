@@ -128,6 +128,7 @@ namespace MonoGameProject
             //    );
             //    AddAnimation(sky);
             //}
+            
             for (int i = 0; i < CELL_NUMBER; i++)
             {
                 for (int j = 0; j < CELL_NUMBER; j++)
@@ -136,11 +137,12 @@ namespace MonoGameProject
                     if (type == '1')
                     {
                         var animation = GeneratedContent.Create_knight_block(
-                               j * CELL_SIZE
-                               , i * CELL_SIZE
-                               , MapModule.CELL_SIZE
-                               , MapModule.CELL_SIZE);
+                               j * CELL_SIZE - 5
+                               , i * CELL_SIZE - 5
+                               , MapModule.CELL_SIZE+10
+                               , MapModule.CELL_SIZE+10);
                         animation.RenderingLayer = 0.5f;
+                        animation.Color = Colors[ColorIndex];
                         AddAnimation(animation);
                     }
 
@@ -191,43 +193,44 @@ namespace MonoGameProject
 
         private void CreateBackground(int i, int j)
         {
-            var animation = GeneratedContent.Create_knight_sky(
-                               (j * CELL_SIZE)
-                               , (i * CELL_SIZE)
-                               , MapModule.CELL_SIZE
-                               , MapModule.CELL_SIZE);
-            animation.RenderingLayer = 0.5f;
-            //animation.Color = new Color(
-            //    Colors[ColorIndex].R - 100
-            //    , Colors[ColorIndex].G - 100
-            //    , Colors[ColorIndex].B - 100
-            //    , Colors[ColorIndex].A 
-            //);
-
-            //AddAnimation(animation);
-        }
-
-        private void CreateSolid(int i, int j)
-        {
             var animation = GeneratedContent.Create_knight_block(
-                (j) * CELL_SIZE + 1
-                , i * CELL_SIZE + 1
-                , MapModule.CELL_SIZE
-                , MapModule.CELL_SIZE
-            );
-            animation.ScaleX = MapModule.SCALE;
-            animation.ScaleY = MapModule.SCALE;
+                               (j * CELL_SIZE)  - 5
+                               , (i * CELL_SIZE) -5
+                               , MapModule.CELL_SIZE+10
+                               , MapModule.CELL_SIZE+10);
             animation.RenderingLayer = 0.5f;
-            AddAnimation(animation);
+            animation.Color = new Color(
+                Colors[ColorIndex].R - 100
+                , Colors[ColorIndex].G - 100
+                , Colors[ColorIndex].B - 100
+                , Colors[ColorIndex].A
+            );
 
-            AddCollider(new GroundCollider()
-            {
-                OffsetX = (j) * CELL_SIZE + 1,
-                OffsetY = i * CELL_SIZE + 1,
-                Width = CELL_SIZE,
-                Height = CELL_SIZE
-            });
+            AddAnimation(animation);
         }
+
+        //private void CreateSolid(int i, int j)
+        //{
+        //    var animation = GeneratedContent.Create_knight_block(
+        //        (j) * CELL_SIZE + 1
+        //        , i * CELL_SIZE + 1
+        //        , MapModule.CELL_SIZE
+        //        , MapModule.CELL_SIZE
+        //    );
+        //    animation.ScaleX = MapModule.SCALE;
+        //    animation.ScaleY = MapModule.SCALE;
+        //    animation.RenderingLayer = 0.5f;
+        //    animation.Color = Colors[ColorIndex];
+        //    AddAnimation(animation);
+
+        //    AddCollider(new GroundCollider()
+        //    {
+        //        OffsetX = (j) * CELL_SIZE + 1,
+        //        OffsetY = i * CELL_SIZE + 1,
+        //        Width = CELL_SIZE,
+        //        Height = CELL_SIZE
+        //    });
+        //}
     }
     public class ParallaxBackGround : Thing
     {

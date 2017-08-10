@@ -178,6 +178,7 @@ namespace MonoGameProject
             stand_left_armored.ScaleX = scale;
             stand_left_armored.ScaleY = scale;
             stand_left_armored.RenderingLayer = 0f;
+            //stand_left_armored.Color = Color.Olive;
 
             var stand_right_armored = GeneratedContent.Create_knight_head_armor1(
                 flippedx
@@ -222,7 +223,42 @@ namespace MonoGameProject
             headbang_right.ScaleX = scale;
             headbang_right.ScaleY = scale;
             headbang_right.RenderingLayer = Z_INDEX;
-            
+
+            var crouch_left_armored = GeneratedContent.Create_knight_head_armor1(
+    x
+    , knee_y);
+            crouch_left_armored.ScaleX = scale;
+            crouch_left_armored.ScaleY = scale;
+            crouch_left_armored.RenderingLayer = Z_INDEX;
+
+            var crouch_right_armored = GeneratedContent.Create_knight_head_armor1(
+                flippedx
+                , knee_y
+                , null
+                , null
+                , true);
+            crouch_right_armored.ScaleX = scale;
+            crouch_right_armored.ScaleY = scale;
+            crouch_right_armored.RenderingLayer = Z_INDEX;
+
+            var headbang_left_armored = GeneratedContent.Create_knight_head_armor_bang1(
+                x
+                , roof_y);
+            headbang_left_armored.ScaleX = scale;
+            headbang_left_armored.ScaleY = scale;
+            headbang_left_armored.RenderingLayer = Z_INDEX;
+
+            var headbang_right_armored = GeneratedContent.Create_knight_head_armor_bang1(
+                flippedx
+                , roof_y
+                , null
+                , null
+                , true);
+            headbang_right_armored.ScaleX = scale;
+            headbang_right_armored.ScaleY = scale;
+            headbang_right_armored.RenderingLayer = Z_INDEX;
+
+
             var nakedAnimator = new Animator(
                 new AnimationTransitionOnCondition(stand_left, () => thing.LegState == LegState.Walking && thing.FacingRight == false)
                 , new AnimationTransitionOnCondition(stand_right, () => thing.LegState == LegState.Walking && thing.FacingRight == true)
@@ -246,14 +282,14 @@ namespace MonoGameProject
                 , new AnimationTransitionOnCondition(stand_right_armored, () => thing.LegState == LegState.Walking && thing.FacingRight == true)
                 , new AnimationTransitionOnCondition(stand_left_armored, () => thing.LegState == LegState.Standing && thing.FacingRight == false)
                 , new AnimationTransitionOnCondition(stand_right_armored, () => thing.LegState == LegState.Standing && thing.FacingRight == true)
-                , new AnimationTransitionOnCondition(crouch_left, () => thing.LegState == LegState.Crouching && thing.FacingRight == false)
-                , new AnimationTransitionOnCondition(crouch_right, () => thing.LegState == LegState.Crouching && thing.FacingRight == true)
+                , new AnimationTransitionOnCondition(crouch_left_armored , () => thing.LegState == LegState.Crouching && thing.FacingRight == false)
+                , new AnimationTransitionOnCondition(crouch_right_armored, () => thing.LegState == LegState.Crouching && thing.FacingRight == true)
                 , new AnimationTransitionOnCondition(stand_left_armored, () => thing.LegState == LegState.Falling && thing.FacingRight == false)
                 , new AnimationTransitionOnCondition(stand_right_armored, () => thing.LegState == LegState.Falling && thing.FacingRight == true)
                 , new AnimationTransitionOnCondition(stand_left_armored, () => thing.LegState == LegState.WallJumping && thing.FacingRight == false)
                 , new AnimationTransitionOnCondition(stand_right_armored, () => thing.LegState == LegState.WallJumping && thing.FacingRight == true)
-                , new AnimationTransitionOnCondition(headbang_left, () => thing.LegState == LegState.HeadBump && thing.FacingRight == false)
-                , new AnimationTransitionOnCondition(headbang_right, () => thing.LegState == LegState.HeadBump && thing.FacingRight == true)
+                , new AnimationTransitionOnCondition(headbang_left_armored, () => thing.LegState == LegState.HeadBump && thing.FacingRight == false)
+                , new AnimationTransitionOnCondition(headbang_right_armored, () => thing.LegState == LegState.HeadBump && thing.FacingRight == true)
                 , new AnimationTransitionOnCondition(stand_left_armored, () => thing.LegState == LegState.SlidingWall && thing.FacingRight == false)
                 , new AnimationTransitionOnCondition(stand_right_armored, () => thing.LegState == LegState.SlidingWall && thing.FacingRight == true)
                 , new AnimationTransitionOnCondition(stand_left_armored, () => thing.LegState == LegState.TakingDamage && thing.FacingRight == false)
@@ -270,8 +306,8 @@ namespace MonoGameProject
         private static void TorsoAnimator(Humanoid thing)
         {
             int scale = 5;
-            int feet_y = -150;
-            int knee_y = 100;
+            int feet_y = 100;
+            int knee_y = 300;
             int x = 60;
             int flippedx = 50;
             var x_attack_flipped = 0;

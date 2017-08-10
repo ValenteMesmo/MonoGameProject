@@ -118,7 +118,7 @@ internal class BaseGame : OriginalGameClass
         base.Update(gameTime);
     }
 
-    private List<Animation> AnimationsToRender = new List<Animation>();
+    //private List<Animation> AnimationsToRender = new List<Animation>();
 
     protected override void Draw(GameTime gameTime)
     {
@@ -134,33 +134,33 @@ internal class BaseGame : OriginalGameClass
                    Camera.GetTransformation(GraphicsDevice));
 
 
-        var renderables = new[]
-                {
-                    new {
-                        Frame= default(AnimationFrame),
-                        Animation = default(IHandleAnimation),
-                        Thing = default(Thing)
-                    }
-                }.ToList();
+        //var renderables = new[]
+        //        {
+        //            new {
+        //                Frame= default(AnimationFrame),
+        //                Animation = default(IHandleAnimation),
+        //                Thing = default(Thing)
+        //            }
+        //        }.ToList();
 
-        renderables.Clear();
+        //renderables.Clear();
 
-        foreach (var thing in World.Things)
-        {
-            foreach (var animation in thing.Animations)
-            {
-                var frame = animation.GetCurretFrame();
+        //foreach (var thing in World.Things)
+        //{
+        //    foreach (var animation in thing.Animations)
+        //    {
+        //        var frame = animation.GetCurretFrame();
 
-                renderables.Add(
-                    new
-                    {
-                        Frame = frame,
-                        Animation = animation,
-                        Thing = thing
-                    }
-                );
-            }
-        }
+        //        renderables.Add(
+        //            new
+        //            {
+        //                Frame = frame,
+        //                Animation = animation,
+        //                Thing = thing
+        //            }
+        //        );
+        //    }
+        //}
 
         //var previousColor = "";
 
@@ -216,8 +216,7 @@ internal class BaseGame : OriginalGameClass
 
         World.Things.ForEach(RenderThing);
 
-        var fps = string.Format("FPS: {0}", Parent.FrameCounter.AverageFramesPerSecond)
-            .Replace("∞", "");
+        var fps = string.Format("FPS: {0}", Parent.FrameCounter.AverageFramesPerSecond);
 
         SpriteBatch.DrawString(
             SpriteFont
@@ -289,7 +288,7 @@ internal class BaseGame : OriginalGameClass
                         frame.Width * (animation.ScaleX > 0 ? animation.ScaleX : 1),
                         frame.Height * (animation.ScaleY > 0 ? animation.ScaleY : 1))
                     , frame.PositionOnSpriteSheet
-                    , Color.White//animation.Color
+                    , animation.Color
                     , 0
                     , Vector2.Zero
                     , frame.Flipped ? SpriteEffects.FlipHorizontally : SpriteEffects.None
