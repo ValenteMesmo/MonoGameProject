@@ -28,9 +28,9 @@ namespace MonoGameProject
             var stand_left = GeneratedContent.Create_knight_Legs_Standing(
                 x
                 , feet_y);
-            stand_left.RenderingLayer = Z_INDEX;
             stand_left.ScaleX = scale;
             stand_left.ScaleY = scale;
+            stand_left.RenderingLayer = Z_INDEX;
 
             var stand_right = GeneratedContent.Create_knight_Legs_Standing(
                 flippedx
@@ -38,16 +38,16 @@ namespace MonoGameProject
                 , null
                 , null
                 , true);
-            stand_right.RenderingLayer = Z_INDEX;
             stand_right.ScaleX = scale;
             stand_right.ScaleY = scale;
+            stand_right.RenderingLayer = Z_INDEX;
 
             var fall_left = GeneratedContent.Create_knight_Legs_Falling(
                 x
                 , feet_y);
-            fall_left.RenderingLayer = Z_INDEX;
             fall_left.ScaleX = scale;
             fall_left.ScaleY = scale;
+            fall_left.RenderingLayer = Z_INDEX;
 
             var fall_right = GeneratedContent.Create_knight_Legs_Falling(
                 flippedx
@@ -55,9 +55,9 @@ namespace MonoGameProject
                 , null
                 , null
                 , true);
-            fall_right.RenderingLayer = Z_INDEX;
             fall_right.ScaleX = scale;
             fall_right.ScaleY = scale;
+            fall_right.RenderingLayer = Z_INDEX;
 
             var crouch_left = GeneratedContent.Create_knight_Legs_Crouching(
                 x
@@ -81,6 +81,7 @@ namespace MonoGameProject
                 , feet_y);
             walk_left.ScaleX = scale;
             walk_left.ScaleY = scale;
+            walk_left.RenderingLayer = Z_INDEX;
 
             var walk_right = GeneratedContent.Create_knight_Legs_Walking(
                 flippedx
@@ -177,7 +178,7 @@ namespace MonoGameProject
                 , feet_y);
             stand_left_armored.ScaleX = scale;
             stand_left_armored.ScaleY = scale;
-            stand_left_armored.RenderingLayer = 0f;
+            stand_left_armored.RenderingLayer = Z_INDEX;
             //stand_left_armored.Color = Color.Olive;
 
             var stand_right_armored = GeneratedContent.Create_knight_head_armor1(
