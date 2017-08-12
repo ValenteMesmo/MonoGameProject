@@ -30,6 +30,7 @@ namespace MonoGameProject
             if (other is BlockHorizontalMovement)
             {
                 Parent.Parent.HorizontalSpeed = 0;
+                other.Parent.HorizontalSpeed = 0;
                 Parent.Parent.X = other.Right() - Parent.OffsetX + KNOCKBACK;
             }
         }
@@ -39,6 +40,7 @@ namespace MonoGameProject
             if (other is BlockHorizontalMovement)
             {
                 Parent.Parent.HorizontalSpeed = 0;
+                other.Parent.HorizontalSpeed = 0;
                 Parent.Parent.X = other.Left() - Parent.Width - Parent.OffsetX - KNOCKBACK;
             }
         }

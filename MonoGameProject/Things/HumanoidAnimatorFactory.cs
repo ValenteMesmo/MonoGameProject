@@ -310,9 +310,11 @@ namespace MonoGameProject
             int feet_y = 100;
             int knee_y = 300;
             int x = 60;
-            int flippedx = 50;
+            int flippedx = 30;
+
             var x_attack_flipped = 0;
-            var x_attack = -1050;
+            var x_attack = 0;
+            var y_attack = -30;
 
             var stand_left = GeneratedContent.Create_knight_torso_stand(
                 x
@@ -350,7 +352,7 @@ namespace MonoGameProject
 
             var stand_attack_left = GeneratedContent.Create_knight_torso_attack(
                 x_attack
-                , feet_y);
+                , y_attack);
             stand_attack_left.ScaleX = scale;
             stand_attack_left.ScaleY = scale;
             stand_attack_left.RenderingLayer = Z_INDEX;
@@ -358,7 +360,7 @@ namespace MonoGameProject
 
             var stand_attack_right = GeneratedContent.Create_knight_torso_attack(
                 x_attack_flipped
-                , feet_y
+                , y_attack
                 , null
                 , null
                 , true);

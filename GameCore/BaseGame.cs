@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
-using System.Linq;
 using OriginalGameClass = Microsoft.Xna.Framework.Game;
 
 internal class BaseGame : OriginalGameClass
@@ -36,7 +35,6 @@ internal class BaseGame : OriginalGameClass
             Graphics.IsFullScreen = value;
         }
     }
-
 
     public BaseGame(ILoadContents ContentLoader, Game Parent)
     {
@@ -108,7 +106,7 @@ internal class BaseGame : OriginalGameClass
         else
             Camera.Zoom = 0.1f;
 
-        DisplayColliders = !state.NumLock;
+        DisplayColliders = state.NumLock;
 
         if (state.IsKeyDown(Keys.Escape))
             Parent.Restart();
@@ -241,10 +239,7 @@ internal class BaseGame : OriginalGameClass
             , 0);
         Game.LOG = "";
 #endif
-
         SpriteBatch.End();
-
-
 
         base.Draw(gameTime);
     }

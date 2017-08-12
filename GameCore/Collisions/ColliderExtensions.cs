@@ -101,16 +101,16 @@ namespace GameCore
                 a.LeftCollisionHandlers
                     .ForEach(handler => handler(a, b));
 
-                b.RightCollisionHandlers
-                    .ForEach(handler => handler(b, a));
+                //b.RightCollisionHandlers
+                //    .ForEach(handler => handler(b, a));
             }
             else if (collision == CollisionResult.Right)
             {
                 a.RightCollisionHandlers
                      .ForEach(handler => handler(a, b));
 
-                b.LeftCollisionHandlers
-                    .ForEach(handler => handler(b, a));
+                //b.LeftCollisionHandlers
+                //    .ForEach(handler => handler(b, a));
             }
         }
 
@@ -127,22 +127,22 @@ namespace GameCore
                 return;
 
             a.CollidingWith.Add(b);
-            b.CollidingWith.Add(a);
+            //b.CollidingWith.Add(a);
             if (collision == CollisionResult.Top)
             {
                 a.TopCollisionHandlers
                     .ForEach(handler => handler(a, b));
 
-                b.BotCollisionHandlers
-                    .ForEach(handler => handler(b, a));
+                //b.BotCollisionHandlers
+                //    .ForEach(handler => handler(b, a));
             }
             else if (collision == CollisionResult.Bottom)
             {
                 a.BotCollisionHandlers
                     .ForEach(handler => handler(a, b));
 
-                b.TopCollisionHandlers
-                    .ForEach(handler => handler(b, a));
+                //b.TopCollisionHandlers
+                //    .ForEach(handler => handler(b, a));
             }
         }
     }
