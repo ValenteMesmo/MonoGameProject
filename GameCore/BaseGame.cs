@@ -80,7 +80,7 @@ internal class BaseGame : OriginalGameClass
 
         {
             var pixel = new Texture2D(GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
-            pixel.SetData(new[] { Color.Red });
+            pixel.SetData(new[] { Color.White });
             Textures.Add("pixel", pixel);
         }
 
@@ -101,12 +101,12 @@ internal class BaseGame : OriginalGameClass
 
         var state = Keyboard.GetState();
 #if DEBUG
-        if (state.CapsLock)
+        if (!state.NumLock)
             Camera.Zoom = 0.02f;
         else
             Camera.Zoom = 0.1f;
 
-        DisplayColliders = state.NumLock;
+        DisplayColliders = state.CapsLock;
 
         if (state.IsKeyDown(Keys.Escape))
             Parent.Restart();

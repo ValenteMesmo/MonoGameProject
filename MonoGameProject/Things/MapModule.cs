@@ -104,11 +104,12 @@ namespace MonoGameProject
                                , CELL_SIZE * CELL_NUMBER
                                , (CELL_SIZE * CELL_NUMBER)));
             //sky.Color = new Color(
-            //    Colors[ColorIndex].R - 100
-            //    , Colors[ColorIndex].G - 100
-            //    , Colors[ColorIndex].B + 100
-            //    , Colors[ColorIndex].A 
+            //Colors[ColorIndex].R - 100
+            //, Colors[ColorIndex].G - 100
+            //, Colors[ColorIndex].B + 100
+            //, Colors[ColorIndex].A
             //);
+            sky.Color = Color.Crimson;
             sky.RenderingLayer = 1f;
             AddAnimation(sky);
 
@@ -128,7 +129,7 @@ namespace MonoGameProject
             //    );
             //    AddAnimation(sky);
             //}
-            
+
             for (int i = 0; i < CELL_NUMBER; i++)
             {
                 for (int j = 0; j < CELL_NUMBER; j++)
@@ -139,14 +140,23 @@ namespace MonoGameProject
                         var animation = GeneratedContent.Create_knight_block(
                                j * CELL_SIZE - 5
                                , i * CELL_SIZE - 5
-                               , MapModule.CELL_SIZE+10
-                               , MapModule.CELL_SIZE+10);
+                               , MapModule.CELL_SIZE + 10
+                               , MapModule.CELL_SIZE + 10);
                         animation.RenderingLayer = 0.5f;
                         animation.Color = Colors[ColorIndex];
                         AddAnimation(animation);
+
+                        var animationborder = GeneratedContent.Create_knight_block(
+                               j * CELL_SIZE - 25
+                               , i * CELL_SIZE - 25
+                               , MapModule.CELL_SIZE + 50
+                               , MapModule.CELL_SIZE + 50);
+                        animationborder.RenderingLayer = 0.51f;
+                        animationborder.Color = Color.Black;//Colors[ColorIndex];
+                        AddAnimation(animationborder);
                     }
 
-                    if (type == '0')
+                    if (type == '=')
                     {
                         CreateBackground(i, j);
                     }
@@ -194,19 +204,28 @@ namespace MonoGameProject
         private void CreateBackground(int i, int j)
         {
             var animation = GeneratedContent.Create_knight_block(
-                               (j * CELL_SIZE)  - 5
-                               , (i * CELL_SIZE) -5
-                               , MapModule.CELL_SIZE+10
-                               , MapModule.CELL_SIZE+10);
-            animation.RenderingLayer = 0.5f;
+                               (j * CELL_SIZE) - 5
+                               , (i * CELL_SIZE) - 5
+                               , MapModule.CELL_SIZE + 10
+                               , MapModule.CELL_SIZE + 10);
+            animation.RenderingLayer = 0.52f;
             animation.Color = new Color(
                 Colors[ColorIndex].R - 100
                 , Colors[ColorIndex].G - 100
                 , Colors[ColorIndex].B - 100
                 , Colors[ColorIndex].A
             );
-
             AddAnimation(animation);
+
+
+            var animationborder = GeneratedContent.Create_knight_block(
+                               j * CELL_SIZE - 25
+                               , i * CELL_SIZE - 25
+                               , MapModule.CELL_SIZE + 50
+                               , MapModule.CELL_SIZE + 50);
+            animationborder.RenderingLayer = 0.521f;
+            animationborder.Color = Color.Black;//Colors[ColorIndex];
+            AddAnimation(animationborder);
         }
 
         //private void CreateSolid(int i, int j)

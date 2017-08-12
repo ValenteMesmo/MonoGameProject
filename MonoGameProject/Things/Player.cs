@@ -130,6 +130,9 @@ namespace MonoGameProject
 
     public class Player : Humanoid
     {
+        //BUG: entrar de powerslide em uma celula 1x1... está dando para levantar
+        //ser o sprite tiver dimensao experada, enfiar um decorativo
+
         /* criar um modulo assim (obrigar a usar walljump)
               __________
               __        |
@@ -140,12 +143,9 @@ namespace MonoGameProject
                 |^^^^^^^|
         */
 
+        //animacao de dano no player ta baguncada
         //evitar que player ande sobre o teto, no estilo mario bros
-        //gradiente no fundo
 
-        //animação de morte igual as da abertura de onepunch
-        //      (com uma bela antecipação)
-        //
         //mudar/tocar musica quando um baú aparecer na tela
         //      Ele deve brilhar também
         //animacao de beirada (quase caindo)

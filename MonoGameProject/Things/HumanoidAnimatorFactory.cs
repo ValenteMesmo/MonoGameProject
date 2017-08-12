@@ -5,19 +5,17 @@ namespace MonoGameProject
 {
     public class HumanoidAnimatorFactory
     {
-        const float Z_INDEX = 0.1f;
-
         public void CreateAnimator(
             int width
             , int height
             , Humanoid thing)
         {
-            LegsAnimator(thing);
-            TorsoAnimator(thing);
-            HeadAnimator(thing);
+            LegsAnimator(thing, 0.12f);
+            TorsoAnimator(thing, 0.11f);
+            HeadAnimator(thing, 0.10f);
         }
 
-        private static void LegsAnimator(Humanoid thing)
+        private static void LegsAnimator(Humanoid thing, float Z_INDEX)
         {
             int scale = 5;
             int feet_y = 400;
@@ -147,7 +145,7 @@ namespace MonoGameProject
             ));
         }
 
-        private static void HeadAnimator(Humanoid thing)
+        private static void HeadAnimator(Humanoid thing, float Z_INDEX)
         {
             int scale = 5;
             int feet_y = -250;
@@ -283,7 +281,7 @@ namespace MonoGameProject
                 , new AnimationTransitionOnCondition(stand_right_armored, () => thing.LegState == LegState.Walking && thing.FacingRight == true)
                 , new AnimationTransitionOnCondition(stand_left_armored, () => thing.LegState == LegState.Standing && thing.FacingRight == false)
                 , new AnimationTransitionOnCondition(stand_right_armored, () => thing.LegState == LegState.Standing && thing.FacingRight == true)
-                , new AnimationTransitionOnCondition(crouch_left_armored , () => thing.LegState == LegState.Crouching && thing.FacingRight == false)
+                , new AnimationTransitionOnCondition(crouch_left_armored, () => thing.LegState == LegState.Crouching && thing.FacingRight == false)
                 , new AnimationTransitionOnCondition(crouch_right_armored, () => thing.LegState == LegState.Crouching && thing.FacingRight == true)
                 , new AnimationTransitionOnCondition(stand_left_armored, () => thing.LegState == LegState.Falling && thing.FacingRight == false)
                 , new AnimationTransitionOnCondition(stand_right_armored, () => thing.LegState == LegState.Falling && thing.FacingRight == true)
@@ -304,12 +302,12 @@ namespace MonoGameProject
             thing.AddAnimation(animatorsWrapper);
         }
 
-        private static void TorsoAnimator(Humanoid thing)
+        private static void TorsoAnimator(Humanoid thing, float Z_INDEX)
         {
             int scale = 5;
             int feet_y = 100;
-            int knee_y = 300;
-            int x = 60;
+            int crouch_y = 300;
+            int x = 0;
             int flippedx = 30;
 
             var x_attack_flipped = 0;
@@ -335,14 +333,14 @@ namespace MonoGameProject
 
             var crouch_left = GeneratedContent.Create_knight_torso_stand(
                 x
-                , knee_y);
+                , crouch_y);
             crouch_left.ScaleX = scale;
             crouch_left.ScaleY = scale;
             crouch_left.RenderingLayer = Z_INDEX;
 
             var crouch_right = GeneratedContent.Create_knight_torso_stand(
                 flippedx
-                , knee_y
+                , crouch_y
                 , null
                 , null
                 , true);
@@ -351,7 +349,7 @@ namespace MonoGameProject
             crouch_right.RenderingLayer = Z_INDEX;
 
             var stand_attack_left = GeneratedContent.Create_knight_torso_attack(
-                x_attack
+                x_attack - 100
                 , y_attack);
             stand_attack_left.ScaleX = scale;
             stand_attack_left.ScaleY = scale;
@@ -370,16 +368,16 @@ namespace MonoGameProject
             stand_attack_right.LoopDisabled = true;
 
             var crouch_attack_left = GeneratedContent.Create_knight_torso_attack(
-                x_attack
-                , knee_y);
+                x_attack - 50
+                , crouch_y - 100);
             crouch_attack_left.ScaleX = scale;
             crouch_attack_left.ScaleY = scale;
             crouch_attack_left.LoopDisabled = true;
             crouch_attack_left.RenderingLayer = Z_INDEX;
 
             var crouch_attack_right = GeneratedContent.Create_knight_torso_attack(
-                x_attack_flipped
-                , knee_y
+                x_attack_flipped - 100
+                , crouch_y - 100
                 , null
                 , null
                 , true);
