@@ -5,6 +5,12 @@ namespace MonoGameProject
 {
     public class HumanoidAnimatorFactory
     {
+        private static int x = -200;
+        private static int flippedx = -130;
+        private static int feet_y = -350;
+        private static int crouch_y = -150;
+        private static int scale = 5;
+
         public void CreateAnimator(
             int width
             , int height
@@ -18,10 +24,6 @@ namespace MonoGameProject
         private static void LegsAnimator(Humanoid thing, float Z_INDEX)
         {
             int scale = 5;
-            int feet_y = 0;
-            int knee_y = 0;
-            int x = 0;
-            int flippedx = 0;
 
             var stand_left = GeneratedContent.Create_knight_Legs_Standing(
                 x
@@ -59,14 +61,14 @@ namespace MonoGameProject
 
             var crouch_left = GeneratedContent.Create_knight_Legs_Crouching(
                 x
-                , knee_y);
+                , crouch_y);
             crouch_left.ScaleX = scale;
             crouch_left.ScaleY = scale;
             crouch_left.RenderingLayer = Z_INDEX;
 
             var crouch_right = GeneratedContent.Create_knight_Legs_Crouching(
                 flippedx
-                , knee_y
+                , crouch_y
                 , null
                 , null
                 , true);
@@ -110,14 +112,14 @@ namespace MonoGameProject
 
 
             var sliding_left = GeneratedContent.Create_knight_Legs_slide_wall(
-                x 
+                x
                 , feet_y);
             sliding_left.ScaleX = scale;
             sliding_left.ScaleY = scale;
             sliding_left.RenderingLayer = Z_INDEX;
 
             var sliding_right = GeneratedContent.Create_knight_Legs_slide_wall(
-                flippedx 
+                flippedx
                 , feet_y
                 , null
                 , null
@@ -147,13 +149,6 @@ namespace MonoGameProject
 
         private static void HeadAnimator(Humanoid thing, float Z_INDEX)
         {
-            int scale = 5;
-            int feet_y = 0;
-            int knee_y = 0;
-            int roof_y = 0;
-            int x =0;
-            int flippedx = 0;
-
             var stand_left = GeneratedContent.Create_knight_head(
                 x
                 , feet_y);
@@ -191,14 +186,14 @@ namespace MonoGameProject
 
             var crouch_left = GeneratedContent.Create_knight_head(
                 x
-                , knee_y);
+                , crouch_y);
             crouch_left.ScaleX = scale;
             crouch_left.ScaleY = scale;
             crouch_left.RenderingLayer = Z_INDEX;
 
             var crouch_right = GeneratedContent.Create_knight_head(
                 flippedx
-                , knee_y
+                , crouch_y
                 , null
                 , null
                 , true);
@@ -208,14 +203,14 @@ namespace MonoGameProject
 
             var headbang_left = GeneratedContent.Create_knight_roof_bang_head(
                 x
-                , roof_y);
+                , feet_y);
             headbang_left.ScaleX = scale;
             headbang_left.ScaleY = scale;
             headbang_left.RenderingLayer = Z_INDEX;
 
             var headbang_right = GeneratedContent.Create_knight_roof_bang_head(
                 flippedx
-                , roof_y
+                , feet_y
                 , null
                 , null
                 , true);
@@ -224,15 +219,15 @@ namespace MonoGameProject
             headbang_right.RenderingLayer = Z_INDEX;
 
             var crouch_left_armored = GeneratedContent.Create_knight_head_armor1(
-    x
-    , knee_y);
+                x
+                , crouch_y);
             crouch_left_armored.ScaleX = scale;
             crouch_left_armored.ScaleY = scale;
             crouch_left_armored.RenderingLayer = Z_INDEX;
 
             var crouch_right_armored = GeneratedContent.Create_knight_head_armor1(
                 flippedx
-                , knee_y
+                , crouch_y
                 , null
                 , null
                 , true);
@@ -242,14 +237,14 @@ namespace MonoGameProject
 
             var headbang_left_armored = GeneratedContent.Create_knight_head_armor_bang1(
                 x
-                , roof_y);
+                , feet_y);
             headbang_left_armored.ScaleX = scale;
             headbang_left_armored.ScaleY = scale;
             headbang_left_armored.RenderingLayer = Z_INDEX;
 
             var headbang_right_armored = GeneratedContent.Create_knight_head_armor_bang1(
                 flippedx
-                , roof_y
+                , feet_y
                 , null
                 , null
                 , true);
@@ -304,16 +299,6 @@ namespace MonoGameProject
 
         private static void TorsoAnimator(Humanoid thing, float Z_INDEX)
         {
-            int scale = 5;
-            int feet_y = 0;
-            int crouch_y = 0;
-            int x = 0;
-            int flippedx = 0;
-
-            var x_attack_flipped = 0;
-            var x_attack = 0;
-            var y_attack = 0;
-
             var stand_left = GeneratedContent.Create_knight_torso_stand(
                 x
                 , feet_y);
@@ -349,16 +334,16 @@ namespace MonoGameProject
             crouch_right.RenderingLayer = Z_INDEX;
 
             var stand_attack_left = GeneratedContent.Create_knight_torso_attack(
-                x_attack 
-                , y_attack);
+                x
+                , feet_y);
             stand_attack_left.ScaleX = scale;
             stand_attack_left.ScaleY = scale;
             stand_attack_left.RenderingLayer = Z_INDEX;
             stand_attack_left.LoopDisabled = true;
 
             var stand_attack_right = GeneratedContent.Create_knight_torso_attack(
-                x_attack_flipped
-                , y_attack
+                flippedx
+                , feet_y
                 , null
                 , null
                 , true);
@@ -368,16 +353,16 @@ namespace MonoGameProject
             stand_attack_right.LoopDisabled = true;
 
             var crouch_attack_left = GeneratedContent.Create_knight_torso_attack(
-                x_attack 
-                , crouch_y );
+                x
+                , crouch_y);
             crouch_attack_left.ScaleX = scale;
             crouch_attack_left.ScaleY = scale;
             crouch_attack_left.LoopDisabled = true;
             crouch_attack_left.RenderingLayer = Z_INDEX;
 
             var crouch_attack_right = GeneratedContent.Create_knight_torso_attack(
-                x_attack_flipped 
-                , crouch_y 
+                flippedx
+                , crouch_y
                 , null
                 , null
                 , true);
