@@ -8,7 +8,7 @@ namespace MonoGameProject
         private static int x = -200;
         private static int flippedx = -130;
         private static int feet_y = -350;
-        private static int crouch_y = -150;
+        private static int crouch_y = -50;
         private static int scale = 5;
 
         public void CreateAnimator(
@@ -23,8 +23,6 @@ namespace MonoGameProject
 
         private static void LegsAnimator(Humanoid thing, float Z_INDEX)
         {
-            int scale = 5;
-
             var stand_left = GeneratedContent.Create_knight_Legs_Standing(
                 x
                 , feet_y);
