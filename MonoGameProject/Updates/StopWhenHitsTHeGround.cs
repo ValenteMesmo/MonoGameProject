@@ -6,7 +6,7 @@ namespace MonoGameProject
     public static class StopsWhenHitting
     {
         private const int KNOCKBACK = 1;
-
+        //TODO: moveback if your speed is highier
         public static void Top(Collider Parent, Collider other)
         {
             if (other is BlockVerticalMovement)

@@ -92,7 +92,7 @@ namespace GameCore
                         || collider.RightCollisionHandlers.Any())
                     {
                         activeColliders.Add(collider);
-                        passiveColliders.Add(collider);
+                        //passiveColliders.Add(collider);
                     }
                     else
                         passiveColliders.Add(collider);
@@ -103,22 +103,32 @@ namespace GameCore
             //https://github.com/ChevyRay/QuadTree
             //https://gamedevelopment.tutsplus.com/tutorials/quick-tip-use-quadtrees-to-detect-likely-collisions-in-2d-space--gamedev-374
             Things.ForEach(thing => thing.MoveHorizontally());
-            activeColliders.ForEach(active =>
+            activeColliders.ForEach(source =>
             {
-                passiveColliders.ForEach(passive =>
+                activeColliders.ForEach(target =>
                 {
-                    if (active != passive)
-                        ColliderExtensions.HandleHorizontalCollision(active, passive);
+                    if (source != target)
+                        ColliderExtensions.HandleHorizontalCollision(source, target);
+                });
+                passiveColliders.ForEach(target =>
+                {
+                    //if (source != target)
+                    ColliderExtensions.HandleHorizontalCollision(source, target);
                 });
             });
 
             Things.ForEach(thing => thing.MoveVertically());
-            activeColliders.ForEach(active =>
+            activeColliders.ForEach(source =>
             {
-                passiveColliders.ForEach(passive =>
+                activeColliders.ForEach(target =>
                 {
-                    if (active != passive)
-                        ColliderExtensions.HandleVerticalCollision(active, passive);
+                    if (source != target)
+                        ColliderExtensions.HandleVerticalCollision(source, target);
+                });
+                passiveColliders.ForEach(target =>
+                {
+                    //if (active != passive)
+                        ColliderExtensions.HandleVerticalCollision(source, target);
                 });
             });
         }

@@ -417,7 +417,7 @@ namespace MonoGameProject
             {
                 MapModule.ResetColor();
                 var newMap = CurrentModules[0];
-                lastModule = new 
+                lastModule = new
                     MapModule(anchorX, anchorY, BackBlocker, newMap, AddToWOrld, Game1);
             }
             else
@@ -458,54 +458,56 @@ namespace MonoGameProject
         public char Type { get; set; }
         public int X { get; set; }
         public int Y { get; set; }
-        public int W { get; set; }
-        public int H { get; set; }
+        public int Width { get; set; }
+        public int Height { get; set; }
 
         public override string ToString()
         {
-            return $@"({X}, {Y}, {W}, {H}) '{Type}'";
+            return $@"({X}, {Y}, {Width}, {Height}) '{Type}'";
         }
     }
 
-    public class TileMerger
+    public class TilesFromStrings
     {
-        List<Tiles> Result = new List<Tiles>();
-        public IEnumerable<Tiles> getMergedTiles(params string[] tiles)
+        private List<Tiles> Result = new List<Tiles>();
+
+        public IEnumerable<Tiles> Create(params string[] lines)
         {
             Result.Clear();
-            CreateHorizontalLines(tiles);
-            MergeVerticalLines();
 
-            return Result.Where(f => f.W > 0 && f.H > 0);
+            CreateMergedHorizontalTiles(lines);
+            MergeVerticallyTilesWithSameWidth();
+
+            return Result.Where(f => f.Height > 0);
         }
 
-        private void MergeVerticalLines()
+        private void MergeVerticallyTilesWithSameWidth()
         {
             foreach (var current in Result)
             {
-                foreach (var previous in Result)
-                    if (previous.Y + previous.H == current.Y
-                            && previous.X == current.X
-                            && previous.H > 0
-                            && previous.W > 0
-                            && current.W > 0
-                            && current.H > 0)
+                foreach (var other in Result)
+                {
+                    if (other.Y + other.Height == current.Y
+                            && other.X == current.X
+                            && other.Height > 0
+                            && current.Height > 0)
                     {
-                        if (previous.Type == current.Type)
+                        if (other.Type == current.Type)
                         {
-                            if (previous.W == current.W)
+                            if (other.Width == current.Width)
                             {
-                                current.H--;
+                                current.Height--;
                                 current.Y++;
-                                previous.H++;
+                                other.Height++;
                                 break;
                             }
                         }
                     }
+                }
             }
         }
 
-        private void CreateHorizontalLines(string[] tiles)
+        private void CreateMergedHorizontalTiles(string[] tiles)
         {
             Tiles currentRect = null;
             var lastColumnIndex = tiles[0].Length - 1;
@@ -521,8 +523,8 @@ namespace MonoGameProject
                         {
                             X = columnIndex + 1,
                             Y = rowIndex + 1,
-                            W = 1,
-                            H = 1,
+                            Width = 1,
+                            Height = 1,
                             Type = currentType
                         };
 
@@ -534,7 +536,7 @@ namespace MonoGameProject
                         if (currentRect.Type == currentType)
                         {
                             Result.Add(currentRect);
-                            currentRect.W++;
+                            currentRect.Width++;
                         }
                         else
                         {
@@ -543,18 +545,19 @@ namespace MonoGameProject
                             {
                                 X = columnIndex + 1,
                                 Y = rowIndex + 1,
-                                W = 1,
-                                H = 1,
+                                Width = 1,
+                                Height = 1,
                                 Type = currentType
                             };
                             Result.Add(currentRect);
                         }
+
                         continue;
                     }
 
                     if (currentRect.Type == currentType)
                     {
-                        currentRect.W++;
+                        currentRect.Width++;
                     }
                     else
                     {
@@ -563,8 +566,8 @@ namespace MonoGameProject
                         {
                             X = columnIndex + 1,
                             Y = rowIndex + 1,
-                            W = 1,
-                            H = 1,
+                            Width = 1,
+                            Height = 1,
                             Type = currentType
                         };
                     }

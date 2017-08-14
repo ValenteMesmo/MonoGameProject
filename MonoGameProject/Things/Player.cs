@@ -143,6 +143,9 @@ namespace MonoGameProject
                 |^^^^^^^|
         */
 
+        //textura de intestino grosso, em uma dungeon
+
+
         //animacao de dano no player ta baguncada
         //evitar que player ande sobre o teto, no estilo mario bros
 

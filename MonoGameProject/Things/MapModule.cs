@@ -86,15 +86,15 @@ namespace MonoGameProject
                 }
             });
 
-            var tiles = new TileMerger().getMergedTiles(Info.Tiles);
+            var tiles = new TilesFromStrings().Create(Info.Tiles);
             foreach (var tile in tiles.Where(f => f.Type == '1'))
             {
                 AddCollider(new GroundCollider
                 {
                     OffsetX = (tile.X - 1) * CELL_SIZE + 1,
                     OffsetY = (tile.Y - 1) * CELL_SIZE + 1,
-                    Width = tile.W * CELL_SIZE,
-                    Height = tile.H * CELL_SIZE
+                    Width = tile.Width * CELL_SIZE,
+                    Height = tile.Height * CELL_SIZE
                 });
             }
 
