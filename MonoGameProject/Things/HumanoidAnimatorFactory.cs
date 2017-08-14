@@ -1,5 +1,4 @@
 ﻿using GameCore;
-using Microsoft.Xna.Framework;
 
 namespace MonoGameProject
 {
@@ -107,7 +106,6 @@ namespace MonoGameProject
             headbang_right.ScaleX = scale;
             headbang_right.ScaleY = scale;
             headbang_right.RenderingLayer = Z_INDEX;
-
 
             var sliding_left = GeneratedContent.Create_knight_Legs_slide_wall(
                 x

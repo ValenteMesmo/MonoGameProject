@@ -1,7 +1,4 @@
 ﻿using GameCore;
-using Microsoft.Xna.Framework;
-using MonoGameProject.Things;
-using System;
 
 namespace MonoGameProject
 {
@@ -28,28 +25,6 @@ namespace MonoGameProject
             AddUpdate(new MoveHorizontallyWithTheWorld(this));
 
             var collider = new Collider() { Width = width, Height = height };
-            Action<Collider, Collider> collisionHandler = (s, t) =>
-            {
-                if (t.Parent is BlockVerticalMovement)
-                    Destroy();
-            };
-            collider.AddBotCollisionHandler(collisionHandler);
-            collider.AddTopCollisionHandler(collisionHandler);
-            collider.AddLeftCollisionHandler(collisionHandler);
-            collider.AddRightCollisionHandler(collisionHandler);
-
-            Action<Collider, Collider> damageHandler = (s, t) =>
-            {
-                if (t is AttackCollider)
-                {
-                    Destroy();
-                }
-            };
-            collider.AddBotCollisionHandler(damageHandler);
-            collider.AddLeftCollisionHandler(damageHandler);
-            collider.AddRightCollisionHandler(damageHandler);
-            collider.AddTopCollisionHandler(damageHandler);
-
             AddCollider(collider);
         }
     }
