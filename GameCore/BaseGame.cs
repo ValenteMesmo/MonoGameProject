@@ -46,11 +46,10 @@ internal class BaseGame : OriginalGameClass
         Graphics = new GraphicsDeviceManager(this);
 
         Content.RootDirectory = "Content";
-        IsFixedTimeStep = false;
-        Graphics.SynchronizeWithVerticalRetrace = false;
-        //IsFixedTimeStep = true;
-        //Graphics.SynchronizeWithVerticalRetrace = true;
+        IsFixedTimeStep = true;
+        Graphics.SynchronizeWithVerticalRetrace = true;
 
+        Graphics.ApplyChanges();
         Camera = new Camera2d();
 
         World = new World(Camera);
@@ -95,32 +94,24 @@ internal class BaseGame : OriginalGameClass
         }
     }
 
-    private const float TIME_TO_NEXT_UPDATE = 1.0f / 60.0f;
-    private float timeSinceLastUpdate;
     protected override void Update(GameTime gameTime)
     {
-        timeSinceLastUpdate += (float)gameTime.ElapsedGameTime.TotalSeconds;
-        if (timeSinceLastUpdate >= TIME_TO_NEXT_UPDATE)
-        {
+        Camera.Update();
 
-
-            Camera.Update();
-
-            var state = Keyboard.GetState();
+        var state = Keyboard.GetState();
 #if DEBUG
-            if (!state.NumLock)
-                Camera.Zoom = 0.02f;
-            else
-                Camera.Zoom = 0.1f;
+        if (!state.NumLock)
+            Camera.Zoom = 0.02f;
+        else
+            Camera.Zoom = 0.1f;
 
-            DisplayColliders = state.CapsLock;
+        DisplayColliders = state.CapsLock;
 
-            if (state.IsKeyDown(Keys.Escape))
-                Parent.Restart();
+        if (state.IsKeyDown(Keys.Escape))
+            Parent.Restart();
 #endif
-            World.Update();
-            timeSinceLastUpdate = 0;
-        }
+        World.Update();
+
         base.Update(gameTime);
     }
 
