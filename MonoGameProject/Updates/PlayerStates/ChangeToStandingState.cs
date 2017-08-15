@@ -15,7 +15,8 @@ namespace MonoGameProject
         public void Update()
         {
             if (Player.LegState == LegState.TakingDamage
-                || Player.TorsoState == TorsoState.AttackCrouching)
+                || Player.TorsoState == TorsoState.AttackCrouching
+                || Player.roofChecker.Colliding<BlockVerticalMovement>())
                 return;
 
             if (Player.Inputs.Down)

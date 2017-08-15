@@ -129,10 +129,7 @@ namespace MonoGameProject
     }
 
     public class Player : Humanoid
-    {
-        //BUG: entrar de powerslide em uma celula 1x1... está dando para levantar
-        //ser o sprite tiver dimensao experada, enfiar um decorativo
-
+    {   
         /* criar um modulo assim (obrigar a usar walljump)
               __________
               __        |

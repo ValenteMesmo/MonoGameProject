@@ -72,7 +72,7 @@ namespace MonoGameProject
             AddUpdate(new AfectedByGravity(this));
             AddUpdate(new MoveLeftOrRight(this));
             AddUpdate(new MoveHorizontallyWithTheWorld(this));
-            AddUpdate(new Jump(this, Inputs, groundChecker));
+            AddUpdate(new Jump(this));
             AddUpdate(new ForceOriginalHeightAndOffsetWhenCrouchJumping(this));
 
             AddUpdate(new WallJump(this));

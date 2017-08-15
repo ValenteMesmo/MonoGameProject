@@ -5,33 +5,36 @@ namespace MonoGameProject
 {
     public class Jump : UpdateHandler
     {
-        GameInputs InputRepository;
         int jumpImpulseTime = 0;
         int jumpAvailave = 0;
         int minJumpSpeed = -60;
         int maxJumpSpeed = -140;
-        private CollisionChecker groundChecker;
         private readonly Humanoid Parent;
         private int cooldown;
 
         public Jump(
-            Humanoid Parent,
-            GameInputs InputRepository,
-            CollisionChecker groundChecker)
+            Humanoid Parent)
         {
             this.Parent = Parent;
-            this.groundChecker = groundChecker;
-            this.InputRepository = InputRepository;
         }
 
         public void Update()
         {
-            if (groundChecker.Colliding<BlockVerticalMovement>())
+            if (Parent.roofChecker.Colliding<BlockVerticalMovement>()
+                && Parent.Inputs.ClickedJump)
+            {
+                Parent.HorizontalSpeed = Parent.FacingRight ? 50 : -50;
+                return;
+            }
+
+            if (Parent.groundChecker.Colliding<BlockVerticalMovement>())
             {
                 jumpAvailave = 10;
             }
-
-            if (InputRepository.ClickedJump && jumpAvailave > 0 && cooldown <= 0)
+            
+            if (Parent.Inputs.ClickedJump
+                && jumpAvailave > 0
+                && cooldown <= 0)
             {
                 Parent.VerticalSpeed = maxJumpSpeed;
                 jumpImpulseTime = 50;
@@ -40,11 +43,11 @@ namespace MonoGameProject
             }
 
             if (jumpImpulseTime > 0
-                && InputRepository.ClickedJump == false
-                && InputRepository.JumpDown == false
+                && Parent.Inputs.ClickedJump == false
+                && Parent.Inputs.JumpDown == false
                 && Parent.VerticalSpeed < minJumpSpeed)
             {
-                Parent.VerticalSpeed = minJumpSpeed;                
+                Parent.VerticalSpeed = minJumpSpeed;
             }
 
             cooldown--;
