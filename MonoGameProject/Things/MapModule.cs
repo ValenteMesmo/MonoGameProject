@@ -143,7 +143,8 @@ namespace MonoGameProject
                                , MapModule.CELL_SIZE + 10
                                , MapModule.CELL_SIZE + 10);
                         animation.RenderingLayer = 0.5f;
-                        animation.ColorGetter = ()=>Colors[ColorIndex];
+                        var color = Colors[ColorIndex];
+                        animation.ColorGetter = ()=> color;
                         AddAnimation(animation);
 
                         var animationborder = GeneratedContent.Create_knight_block(
@@ -209,12 +210,13 @@ namespace MonoGameProject
                                , MapModule.CELL_SIZE + 10
                                , MapModule.CELL_SIZE + 10);
             animation.RenderingLayer = 0.52f;
-            animation.ColorGetter = () => new Color(
+            var color = new Color(
                 Colors[ColorIndex].R - 100
                 , Colors[ColorIndex].G - 100
                 , Colors[ColorIndex].B - 100
                 , Colors[ColorIndex].A
             );
+            animation.ColorGetter = () => color;
             AddAnimation(animation);
 
 
