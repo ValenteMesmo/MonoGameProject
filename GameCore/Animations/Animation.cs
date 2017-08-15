@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,7 +10,7 @@ namespace GameCore
         int ScaleX { get; }
         int ScaleY { get; }
         float RenderingLayer { get; }
-        Color Color { get; }
+        Color GetColor();
         //Color ColorRed { get;  }
         //Color ColorGreen { get;  }
         //Color ColorBlue { get;  }
@@ -22,8 +23,7 @@ namespace GameCore
     }
 
     public class Animation : IHandleAnimation
-    {
-        public Color Color { get; set; }
+    {        
         public float RenderingLayer { get; set; }
         private readonly List<AnimationFrame> Frames;
         private int CurrentFrameIndex;
@@ -32,15 +32,21 @@ namespace GameCore
         public bool LoopDisabled { get; set; }
         public int ScaleX { get; set; }
         public int ScaleY { get; set; }
+        public Func<Color> ColorGetter = () => Color.White;
 
         public int FrameDuration = 3;
 
         public Animation(params AnimationFrame[] Frames)
         {
-            Color = Color.White;
+            
             RenderingLayer = 0.5f;
             UpdatesUntilNextFrame = FrameDuration;
             this.Frames = Frames.ToList();
+        }
+
+        public Color GetColor()
+        {
+            return ColorGetter();
         }
 
         public void Update()

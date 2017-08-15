@@ -109,7 +109,7 @@ namespace MonoGameProject
             //, Colors[ColorIndex].B + 100
             //, Colors[ColorIndex].A
             //);
-            sky.Color = Color.Crimson;
+            sky.ColorGetter = ()=>new Color(0.5f, 0.8f, 0.8f);//Color.Crimson;
             sky.RenderingLayer = 1f;
             AddAnimation(sky);
 
@@ -143,7 +143,7 @@ namespace MonoGameProject
                                , MapModule.CELL_SIZE + 10
                                , MapModule.CELL_SIZE + 10);
                         animation.RenderingLayer = 0.5f;
-                        animation.Color = Colors[ColorIndex];
+                        animation.ColorGetter = ()=>Colors[ColorIndex];
                         AddAnimation(animation);
 
                         var animationborder = GeneratedContent.Create_knight_block(
@@ -152,7 +152,7 @@ namespace MonoGameProject
                                , MapModule.CELL_SIZE + 50
                                , MapModule.CELL_SIZE + 50);
                         animationborder.RenderingLayer = 0.51f;
-                        animationborder.Color = Color.Black;//Colors[ColorIndex];
+                        animationborder.ColorGetter = () => Color.Black;//Colors[ColorIndex];
                         AddAnimation(animationborder);
                     }
 
@@ -209,7 +209,7 @@ namespace MonoGameProject
                                , MapModule.CELL_SIZE + 10
                                , MapModule.CELL_SIZE + 10);
             animation.RenderingLayer = 0.52f;
-            animation.Color = new Color(
+            animation.ColorGetter = () => new Color(
                 Colors[ColorIndex].R - 100
                 , Colors[ColorIndex].G - 100
                 , Colors[ColorIndex].B - 100
@@ -224,7 +224,7 @@ namespace MonoGameProject
                                , MapModule.CELL_SIZE + 50
                                , MapModule.CELL_SIZE + 50);
             animationborder.RenderingLayer = 0.521f;
-            animationborder.Color = Color.Black;//Colors[ColorIndex];
+            animationborder.ColorGetter = () => Color.Black;//Colors[ColorIndex];
             AddAnimation(animationborder);
         }
 

@@ -5,13 +5,11 @@ namespace GameCore
 {
     public class Animator : IHandleAnimation
     {
-        public Color Color
+        public Color GetColor()
         {
-            get
-            {
-                return CurrentAnimation.Color;
-            }
+            return CurrentAnimation.GetColor();
         }
+
         public float RenderingLayer
         {
             get
@@ -19,6 +17,7 @@ namespace GameCore
                 return CurrentAnimation.RenderingLayer;
             }
         }
+
         private readonly AnimationTransition[] Transitions;
         private IHandleAnimation CurrentAnimation;
         public int ScaleX
@@ -29,7 +28,8 @@ namespace GameCore
             }
         }
 
-        public int ScaleY {
+        public int ScaleY
+        {
             get
             {
                 return CurrentAnimation.ScaleY;

@@ -2,6 +2,7 @@
 using MonoGameProject.Things;
 using MonoGameProject.Updates.PlayerStates;
 using System;
+using Microsoft.Xna.Framework;
 
 namespace MonoGameProject
 {
@@ -44,6 +45,7 @@ namespace MonoGameProject
         public GameInputs Inputs { get; private set; }
 
         public int HitPoints { get; set; }
+        public Color ArmorColor { get; internal set; }
 
         public Humanoid(GameInputs Inputs, Camera2d Camera)
         {

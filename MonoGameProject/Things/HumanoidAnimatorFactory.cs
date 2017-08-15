@@ -1,4 +1,5 @@
 ﻿using GameCore;
+using Microsoft.Xna.Framework;
 
 namespace MonoGameProject
 {
@@ -15,6 +16,7 @@ namespace MonoGameProject
             , int height
             , Humanoid thing)
         {
+            thing.ArmorColor = Color.White;
             HeadAnimator(thing, 0.10f);
             TorsoAnimator(thing, 0.11f);
             LegsAnimator(thing, 0.10f);
@@ -167,8 +169,8 @@ namespace MonoGameProject
                 , feet_y);
             stand_left_armored.ScaleX = scale;
             stand_left_armored.ScaleY = scale;
+            stand_left_armored.ColorGetter = () => thing.ArmorColor;
             stand_left_armored.RenderingLayer = Z_INDEX;
-            //stand_left_armored.Color = Color.Olive;
 
             var stand_right_armored = GeneratedContent.Create_knight_head_armor1(
                 flippedx
@@ -178,6 +180,7 @@ namespace MonoGameProject
                 , true);
             stand_right_armored.ScaleX = scale;
             stand_right_armored.ScaleY = scale;
+            stand_right_armored.ColorGetter = () => thing.ArmorColor;
             stand_right_armored.RenderingLayer = Z_INDEX;
 
             var crouch_left = GeneratedContent.Create_knight_head(
@@ -219,6 +222,7 @@ namespace MonoGameProject
                 , crouch_y);
             crouch_left_armored.ScaleX = scale;
             crouch_left_armored.ScaleY = scale;
+            crouch_left_armored.ColorGetter = () => thing.ArmorColor;
             crouch_left_armored.RenderingLayer = Z_INDEX;
 
             var crouch_right_armored = GeneratedContent.Create_knight_head_armor1(
@@ -229,6 +233,7 @@ namespace MonoGameProject
                 , true);
             crouch_right_armored.ScaleX = scale;
             crouch_right_armored.ScaleY = scale;
+            crouch_right_armored.ColorGetter = () => thing.ArmorColor;
             crouch_right_armored.RenderingLayer = Z_INDEX;
 
             var headbang_left_armored = GeneratedContent.Create_knight_head_armor_bang1(
@@ -236,6 +241,7 @@ namespace MonoGameProject
                 , feet_y);
             headbang_left_armored.ScaleX = scale;
             headbang_left_armored.ScaleY = scale;
+            headbang_left_armored.ColorGetter = () => thing.ArmorColor;
             headbang_left_armored.RenderingLayer = Z_INDEX;
 
             var headbang_right_armored = GeneratedContent.Create_knight_head_armor_bang1(
@@ -246,8 +252,8 @@ namespace MonoGameProject
                 , true);
             headbang_right_armored.ScaleX = scale;
             headbang_right_armored.ScaleY = scale;
+            headbang_right_armored.ColorGetter = () => thing.ArmorColor;
             headbang_right_armored.RenderingLayer = Z_INDEX;
-
 
             var nakedAnimator = new Animator(
                 new AnimationTransitionOnCondition(stand_left, () => thing.LegState == LegState.Walking && thing.FacingRight == false)

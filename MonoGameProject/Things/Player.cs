@@ -190,6 +190,7 @@ namespace MonoGameProject
                    if (HitPoints < 2)
                    {
                        HitPoints = 2;
+                       ArmorColor = (t.Parent as Armor).Color;
                        t.Parent.Destroy();
                    }
                }
