@@ -63,9 +63,9 @@ namespace MonoGameProject
         private static int SavedColorIndex = 0;
         public static bool WasCaveMode = false;
 
-        public static bool CheckpointTopOpen = true;
-        public static bool CheckpointMidOpen = true;
-        public static bool CheckpointBotOpen = true;
+        public static bool TopExit = true;
+        public static bool MidExit = true;
+        public static bool BotExit = true;
 
         private static bool SavedCheckpointTopOpen = true;
         private static bool SavedCheckpointMidOpen = true;
@@ -80,9 +80,9 @@ namespace MonoGameProject
             PlatformRandomModule.Seed = SeedPlatformRandomModule;
             ColorIndex = SavedColorIndex;
             CaveMode = WasCaveMode;
-            CheckpointTopOpen = SavedCheckpointTopOpen;
-            CheckpointMidOpen = SavedCheckpointMidOpen;
-            CheckpointBotOpen = SavedCheckpointBotOpen;
+            TopExit = SavedCheckpointTopOpen;
+            MidExit = SavedCheckpointMidOpen;
+            BotExit = SavedCheckpointBotOpen;
         }
 
         public static void Save()
@@ -94,9 +94,9 @@ namespace MonoGameProject
             SeedPlatformRandomModule = PlatformRandomModule.Seed;
             SavedColorIndex = ColorIndex;
             WasCaveMode = CaveMode;
-            SavedCheckpointTopOpen = CheckpointTopOpen;
-            SavedCheckpointMidOpen = CheckpointMidOpen;
-            SavedCheckpointBotOpen = CheckpointBotOpen;
+            SavedCheckpointTopOpen = TopExit;
+            SavedCheckpointMidOpen = MidExit;
+            SavedCheckpointBotOpen = BotExit;
         }
     }
 

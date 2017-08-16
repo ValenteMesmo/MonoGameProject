@@ -15,6 +15,54 @@ namespace MonoGameProject
         private List<MapModuleInfo> CurrentModules;
         private List<MapModuleInfo> Modules;
         private List<MapModuleInfo> CaveModules;
+        private MapModuleInfo BossStage1 = new MapModuleInfo(
+                    true
+                    , false
+                    , false
+                    , true
+                    , true
+                    , true
+                    , "1111111111111111"//
+                    , "2000000000000000"//E
+                    , "2000000000000000"//E
+                    , "1000000000000000"//
+                    , "1000000000000000"//
+                    , "1000000000000000"//
+                    , "1000000000000000"//
+                    , "1000000000000000"//E
+                    , "1000000000000000"//E
+                    , "1000000000000000"//
+                    , "1000000000000000"//
+                    , "1000000000000000"//
+                    , "1000000000000000"//
+                    , "1000000000000000"//E
+                    , "1000000000000000"//E
+                    , "1111111111111111");
+
+        private MapModuleInfo BossStage2 = new MapModuleInfo(
+                    true
+                    , true
+                    , true
+                    , false
+                    , false
+                    , true
+                    , "1111111111111111"//
+                    , "0000000000000001"//E
+                    , "0000000000000001"//E
+                    , "0000000000000001"//
+                    , "0000000000000001"//
+                    , "0000000000000001"//
+                    , "0000000000000001"//
+                    , "0000000000000001"//E
+                    , "0000000000000001"//E
+                    , "0000000000000001"//
+                    , "0000000000000001"//
+                    , "0000000000000001"//
+                    , "0000000000000001"//
+                    , "0000000000000002"//E
+                    , "0000000000000002"//E
+                    , "1111111111111111");
+
 
         public PlatformCreator(WorldMover WorldMover, Action<Thing> AddToWOrld, Game1 Game1)
         {
@@ -425,10 +473,30 @@ namespace MonoGameProject
 
             while (true)
             {
-                if (
-                    GameState.CheckpointTopOpen == newMap.TopEntry
-                    && GameState.CheckpointMidOpen == newMap.MidEntry
-                    && GameState.CheckpointBotOpen == newMap.BotEntry)
+                if (stageCount == 2)
+                {
+                    if (GameState.TopExit == newMap.TopEntry
+                    && GameState.MidExit == newMap.MidEntry
+                    && GameState.BotExit == newMap.BotEntry
+                    && newMap.TopExit
+                    && !newMap.MidExit
+                    && !newMap.BotExit)
+                        break;
+                }
+                else if (stageCount == 1)
+                {
+                    newMap = BossStage1;
+                    break;
+                }
+                else if (stageCount == 0)
+                {
+                    newMap = BossStage2;
+                    break;
+                }
+                else if (
+                    GameState.TopExit == newMap.TopEntry
+                    && GameState.MidExit == newMap.MidEntry
+                    && GameState.BotExit == newMap.BotEntry)
                     break;
 
                 newMap = CurrentModules[GameState.PlatformRandomModule.Next(0, CurrentModules.Count - 1)];
@@ -436,9 +504,9 @@ namespace MonoGameProject
 
             lastModule = new MapModule(anchorX, anchorY, BackBlocker, newMap, AddToWOrld, Game1);
 
-            GameState.CheckpointTopOpen = lastModule.Info.TopExit;
-            GameState.CheckpointMidOpen = lastModule.Info.MidExit;
-            GameState.CheckpointBotOpen = lastModule.Info.BotExit;
+            GameState.TopExit = lastModule.Info.TopExit;
+            GameState.MidExit = lastModule.Info.MidExit;
+            GameState.BotExit = lastModule.Info.BotExit;
 
             AddToWOrld(lastModule);
             stageCount--;
