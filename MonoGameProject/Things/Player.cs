@@ -192,9 +192,7 @@ namespace MonoGameProject
                          new GamePadChecker(0)
                         , new KeyboardChecker())
                 ), Game1.Camera)
-        {
-            X = 1000;
-            Y = 7000;
+        {   
             HitPoints = 2;
 
             AddUpdate(new TakesDamage(this, Game1, AddToWorld));

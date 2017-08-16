@@ -9,7 +9,15 @@ namespace MonoGameProject
         protected override void OnStart()
         {
             GameState.Load();
-            var player = new Player(this,AddThing);
+            var player = new Player(this, AddThing);
+            player.X = 100;
+            if (GameState.CheckpointBotOpen)
+                player.Y = (14 * MapModule.CELL_SIZE) + 1000;
+            else if(GameState.CheckpointMidOpen)
+                player.Y = (8 * MapModule.CELL_SIZE) +1000;
+            else
+                player.Y = 2 * MapModule.CELL_SIZE + 1000;
+
             var WorldMover = new WorldMover(Camera);
             AddThing(WorldMover);
             AddThing(player);
