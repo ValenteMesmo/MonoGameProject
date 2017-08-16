@@ -405,7 +405,8 @@ namespace MonoGameProject
             }
         }
 
-        int stageCount = 10;
+        int stageCount = STAGE_LENGTH;
+
         private void CreateGroundOnTheRight()
         {
             if (GameState.CaveMode)
@@ -416,30 +417,28 @@ namespace MonoGameProject
             var anchorX = 0;
             var anchorY = 1500;
 
-
-            if (lastModule == null)
+            var newMap = CurrentModules[GameState.PlatformRandomModule.Next(0, CurrentModules.Count - 1)];
+            if (lastModule != null)
             {
-                var newMap = CurrentModules[0];
-                lastModule = new
-                    MapModule(anchorX, anchorY, BackBlocker, newMap, AddToWOrld, Game1);
-            }
-            else
-            {
-                var newMap = CurrentModules[GameState.PlatformRandomModule.Next(0, CurrentModules.Count - 1)];
                 anchorX = lastModule.X + MapModule.WIDTH - WorldMover.WorldHorizontalSpeed;
-                while (true)
-                {
-                    if (
-                        lastModule.Info.TopExit == newMap.TopEntry
-                        && lastModule.Info.MidExit == newMap.MidEntry
-                        && lastModule.Info.BotExit == newMap.BotEntry)
-                        break;
-
-                    newMap = CurrentModules[GameState.PlatformRandomModule.Next(0, CurrentModules.Count - 1)];
-                }
-
-                lastModule = new MapModule(anchorX, anchorY, BackBlocker, newMap, AddToWOrld, Game1);
             }
+
+            while (true)
+            {
+                if (
+                    GameState.CheckpointTopOpen == newMap.TopEntry
+                    && GameState.CheckpointMidOpen == newMap.MidEntry
+                    && GameState.CheckpointBotOpen == newMap.BotEntry)
+                    break;
+
+                newMap = CurrentModules[GameState.PlatformRandomModule.Next(0, CurrentModules.Count - 1)];
+            }
+
+            lastModule = new MapModule(anchorX, anchorY, BackBlocker, newMap, AddToWOrld, Game1);
+
+            GameState.CheckpointTopOpen = lastModule.Info.TopExit;
+            GameState.CheckpointMidOpen = lastModule.Info.MidExit;
+            GameState.CheckpointBotOpen = lastModule.Info.BotExit;
 
             AddToWOrld(lastModule);
             stageCount--;
@@ -448,10 +447,11 @@ namespace MonoGameProject
                 GameState.CaveMode = !GameState.CaveMode;
                 GameState.ChangeColor();
                 GameState.Save();
-                stageCount = 10;                
+                stageCount = STAGE_LENGTH;
             }
         }
 
+        private const int STAGE_LENGTH = 10;
     }
 
     public class Tiles
