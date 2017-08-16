@@ -44,29 +44,9 @@ namespace MonoGameProject
         public const int WIDTH = CELL_SIZE * CELL_NUMBER;
         public const int HEIGHT = CELL_SIZE * CELL_NUMBER;
 
-        private static Color[] Colors = new Color[] { Color.Red, Color.LightGreen, Color.LightBlue };
-        private static int ColorIndex = 0;
-        public static void ChangeColor()
-        {
-            ColorIndex++;
-            if (ColorIndex >= Colors.Length)
-                ColorIndex = 0;
-        }
-        public static void ResetColor()
-        {
-            ColorIndex = 0;
-        }
-        public readonly MapModuleInfo Info;
-
-        private static Random RandomTresure;
-        private static Random RandomMonster;
-        private readonly Action<Thing> AddToWorld;
-
-        static MapModule()
-        {
-            RandomTresure = new Random(666);
-            RandomMonster = new Random(999);
-        }
+        
+        public readonly MapModuleInfo Info;        
+        private readonly Action<Thing> AddToWorld;        
 
         public MapModule(int X, int Y, BackBlocker Blocker, MapModuleInfo Info, Action<Thing> AddToWorld, Game1 Game1)
         {
@@ -149,7 +129,7 @@ namespace MonoGameProject
                                , MapModule.CELL_SIZE + 10
                                , MapModule.CELL_SIZE + 10);
                         animation.RenderingLayer = 0.5f;
-                        var color = Colors[ColorIndex];
+                        var color = GameState.GetColor();
                         animation.ColorGetter = () => color;
                         AddAnimation(animation);
 
@@ -216,11 +196,12 @@ namespace MonoGameProject
                                , MapModule.CELL_SIZE + 10
                                , MapModule.CELL_SIZE + 10);
             animation.RenderingLayer = 0.52f;
+            var oColor = GameState.GetColor();
             var color = new Color(
-                Colors[ColorIndex].R - 100
-                , Colors[ColorIndex].G - 100
-                , Colors[ColorIndex].B - 100
-                , Colors[ColorIndex].A
+                oColor.R - 100
+                , oColor.G - 100
+                , oColor.B - 100
+                , oColor.A
             );
             animation.ColorGetter = () => color;
             AddAnimation(animation);

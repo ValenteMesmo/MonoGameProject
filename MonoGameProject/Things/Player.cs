@@ -132,7 +132,8 @@ namespace MonoGameProject
     }
 
     public class Player : Humanoid
-    {   
+    {
+
         /* criar um modulo assim (obrigar a usar walljump)
               __________
               __        |
@@ -141,6 +142,21 @@ namespace MonoGameProject
                 |>      |___
                 |        ___
                 |^^^^^^^|
+
+                ________
+              __| <-X-> |___
+              ____     _____
+                |^^^^^^^| 
+
+                ________
+              __|vvvvvvv___
+              ____ ___ _____
+                |^^^^^^^| 
+
+            dragao que dispara em 3 direcoes
+                /
+            D --
+             \
         */
 
         //textura de intestino grosso, em uma dungeon
@@ -160,7 +176,7 @@ namespace MonoGameProject
         //arvore seca, cheia de criaturas voadoras que parecem passaros... faz barulho perto, que elas voam
         //monstro que vira criaturas voadoras quando apanhas
         //modulos de transicao... tipo castlevania entrando no castelo
-        
+
         //ficar espada na parede, enquanto faz o slide.... isso vai servir para matar boss no estilo shadow of collosus
         //bad status... slow
         //plataforma "barco"... igual mario....

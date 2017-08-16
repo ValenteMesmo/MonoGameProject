@@ -15,7 +15,6 @@ namespace MonoGameProject
         private List<MapModuleInfo> CurrentModules;
         private List<MapModuleInfo> Modules;
         private List<MapModuleInfo> CaveModules;
-        private Random RandomModule = new Random(1);
 
         public PlatformCreator(WorldMover WorldMover, Action<Thing> AddToWOrld, Game1 Game1)
         {
@@ -409,20 +408,24 @@ namespace MonoGameProject
         int stageCount = 10;
         private void CreateGroundOnTheRight()
         {
+            if (GameState.CaveMode)
+                CurrentModules = CaveModules;
+            else
+                CurrentModules = Modules;
+
             var anchorX = 0;
             var anchorY = 1500;
 
 
             if (lastModule == null)
             {
-                MapModule.ResetColor();
                 var newMap = CurrentModules[0];
                 lastModule = new
                     MapModule(anchorX, anchorY, BackBlocker, newMap, AddToWOrld, Game1);
             }
             else
             {
-                var newMap = CurrentModules[RandomModule.Next(0, CurrentModules.Count)];
+                var newMap = CurrentModules[GameState.PlatformRandomModule.Next(0, CurrentModules.Count - 1)];
                 anchorX = lastModule.X + MapModule.WIDTH - WorldMover.WorldHorizontalSpeed;
                 while (true)
                 {
@@ -432,7 +435,7 @@ namespace MonoGameProject
                         && lastModule.Info.BotExit == newMap.BotEntry)
                         break;
 
-                    newMap = CurrentModules[RandomModule.Next(0, CurrentModules.Count)];
+                    newMap = CurrentModules[GameState.PlatformRandomModule.Next(0, CurrentModules.Count - 1)];
                 }
 
                 lastModule = new MapModule(anchorX, anchorY, BackBlocker, newMap, AddToWOrld, Game1);
@@ -442,12 +445,10 @@ namespace MonoGameProject
             stageCount--;
             if (stageCount < 0)
             {
-                MapModule.ChangeColor();
-                stageCount = 10;
-                if (CurrentModules == Modules)
-                    CurrentModules = CaveModules;
-                else
-                    CurrentModules = Modules;
+                GameState.CaveMode = !GameState.CaveMode;
+                GameState.ChangeColor();
+                GameState.Save();
+                stageCount = 10;                
             }
         }
 

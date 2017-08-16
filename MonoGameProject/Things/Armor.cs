@@ -36,10 +36,96 @@ namespace MonoGameProject
         }
     }
 
+    public static class GameState
+    {
+        private static Color[] Colors = new Color[] { Color.Red, Color.LightGreen, Color.LightBlue };
+        private static int ColorIndex = 0;
+        public static void ChangeColor()
+        {
+            ColorIndex++;
+            if (ColorIndex >= Colors.Length)
+                ColorIndex = 0;
+        }
+        public static Color GetColor() { return Colors[ColorIndex]; }
+
+        public static MyRandom ArmorColor = new MyRandom();
+        public static MyRandom RandomTresure = new MyRandom();
+        public static MyRandom RandomMonster = new MyRandom();
+        public static MyRandom ParalaxRandomModule = new MyRandom();
+        public static MyRandom PlatformRandomModule = new MyRandom();
+        public static bool CaveMode;
+
+        private static long SeedArmorColor = 1;
+        private static long SeedRandomTresure = 666;
+        private static long SeedRandomMonster = 999;
+        private static long SeedParalaxRandomModule = 1;
+        private static long SeedPlatformRandomModule = 1;
+        private static int SavedColorIndex = 0;
+        public static bool WasCaveMode = false;
+
+
+        public static void Load()
+        {
+            ArmorColor.Seed = SeedArmorColor;
+            RandomTresure.Seed = SeedRandomTresure;
+            RandomMonster.Seed = SeedRandomMonster;
+            ParalaxRandomModule.Seed = SeedParalaxRandomModule;
+            PlatformRandomModule.Seed = SeedPlatformRandomModule;
+            ColorIndex = SavedColorIndex;
+            CaveMode = WasCaveMode;
+        }
+
+        public static void Save()
+        {
+            SeedArmorColor = ArmorColor.Seed;
+            SeedRandomTresure = RandomTresure.Seed;
+            SeedRandomMonster = RandomMonster.Seed;
+            SeedParalaxRandomModule = ParalaxRandomModule.Seed;
+            SeedPlatformRandomModule = PlatformRandomModule.Seed;
+            SavedColorIndex = ColorIndex;
+            WasCaveMode = CaveMode;
+        }
+    }
+
+    public class MyRandom
+    {
+        public long Seed { get; set; }
+
+        public MyRandom()
+        {
+            Seed = 1;
+        }
+
+        public int Next()
+        {
+            return (int)Rand();
+        }
+
+        private long Rand()
+        {
+            Seed = (Seed * 1103515245U + 12345U) & 0x7fffffffU;
+
+            return Seed;
+        }
+
+        const long RAND_MAX = int.MaxValue;
+        public int Next(int begin, int end)
+        {
+            long range = (end - begin) + 1;
+            long limit = (RAND_MAX + 1) - ((RAND_MAX + 1) % range);
+
+            var randVal = Rand();
+            while (randVal >= limit)
+                randVal = Rand();
+
+            return (int)(randVal % range) + begin;
+        }
+    }
+
     public class Armor : Thing
     {
         private static Color[] Colors = new Color[] { Color.OrangeRed, Color.Olive, Color.Orchid, Color.PapayaWhip };
-        private static Random Random = new Random(1);
+
         public Color Color;
         public Armor()
         {
@@ -51,7 +137,7 @@ namespace MonoGameProject
             var animation = GeneratedContent.Create_knight_head_armor1(-400, -200);
             animation.RenderingLayer = 0.49f;
             animation.ScaleX = animation.ScaleY = 5;
-            Color = Colors[Random.Next(0, Colors.Length - 1)];
+            Color = Colors[GameState.ArmorColor.Next(0, Colors.Length - 1)];
             animation.ColorGetter = () => Color;
             AddAnimation(animation);
 
