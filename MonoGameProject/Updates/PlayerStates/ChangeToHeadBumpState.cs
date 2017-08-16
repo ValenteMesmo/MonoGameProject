@@ -43,20 +43,21 @@ namespace MonoGameProject
 
         public void Update()
         {
-            if (Player.LegState == LegState.TakingDamage)
-                return;
-
+            
             if (Player.roofChecker.Colliding<BlockVerticalMovement>()
                 && Math.Abs(Player.roofChecker.GetGolliders<BlockVerticalMovement>().First().Bottom() - Player.roofChecker.Top()) == 90
                 && Player.VerticalSpeed < 0)
             {
+                Player.LegState = LegState.HeadBump;
+                if (Player.LegState == LegState.TakingDamage)
+                    return;
+
                 if (PreviousState != LegState.HeadBump)
                 {
                     if (Player is Player)
                         Camera.ShakeUp(-Player.VerticalSpeed / 8);
                 }
 
-                Player.LegState = LegState.HeadBump;
             }
             PreviousState = Player.LegState;
         }

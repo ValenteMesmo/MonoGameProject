@@ -100,12 +100,12 @@ internal class BaseGame : OriginalGameClass
 
         var state = Keyboard.GetState();
 #if DEBUG
-        if (!state.NumLock)
+        if (state.CapsLock)
             Camera.Zoom = 0.02f;
         else
             Camera.Zoom = 0.1f;
 
-        DisplayColliders = state.CapsLock;
+        DisplayColliders = state.NumLock ;
 
         if (state.IsKeyDown(Keys.Escape))
             Parent.Restart();
@@ -274,6 +274,10 @@ internal class BaseGame : OriginalGameClass
         thing.Animations.ForEach(animation =>
         {
             var frame = animation.GetCurretFrame();
+            var x = thing.X + frame.X;
+            var width = frame.Width * (animation.ScaleX > 0 ? animation.ScaleX : 1);
+            if (x < 14000 && x + width > 0)
+            
             SpriteBatch.Draw(
                     Textures[frame.Name]
                     , new Rectangle(

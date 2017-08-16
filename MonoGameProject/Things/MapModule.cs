@@ -97,19 +97,25 @@ namespace MonoGameProject
                     Height = tile.Height * CELL_SIZE
                 });
             }
+            foreach (var tile in tiles.Where(f => f.Type == '^'))
+            {
+                AddToWorld(new Spikes(
+                    Color.Red,
+                    tile.Width ,
+                    tile.Height)
+                {
+                    X = X + ((tile.X - 1) * CELL_SIZE + 1),
+                    Y = Y + ((tile.Y - 1) * CELL_SIZE +  1)
+                });
+            }
 
             var sky = new Animation(new AnimationFrame("pixel",
                                 0
                                , 0
                                , CELL_SIZE * CELL_NUMBER
                                , (CELL_SIZE * CELL_NUMBER)));
-            //sky.Color = new Color(
-            //Colors[ColorIndex].R - 100
-            //, Colors[ColorIndex].G - 100
-            //, Colors[ColorIndex].B + 100
-            //, Colors[ColorIndex].A
-            //);
-            sky.ColorGetter = ()=>new Color(0.5f, 0.8f, 0.8f);//Color.Crimson;
+            
+            sky.ColorGetter = () => new Color(0.5f, 0.8f, 0.8f);//Color.Crimson;
             sky.RenderingLayer = 1f;
             AddAnimation(sky);
 
@@ -144,7 +150,7 @@ namespace MonoGameProject
                                , MapModule.CELL_SIZE + 10);
                         animation.RenderingLayer = 0.5f;
                         var color = Colors[ColorIndex];
-                        animation.ColorGetter = ()=> color;
+                        animation.ColorGetter = () => color;
                         AddAnimation(animation);
 
                         var animationborder = GeneratedContent.Create_knight_block(

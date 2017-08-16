@@ -10,7 +10,8 @@ namespace MonoGameProject
             var animation = GeneratedContent.Create_knight_hit_effect(-400, -400, 0);
             animation.LoopDisabled = true;
             animation.ScaleX = animation.ScaleY = 10;
-            //animation.Color = new Microsoft.Xna.Framework.Color(1, 1, 1, 0.5f);
+            var color = new Microsoft.Xna.Framework.Color(1, 1, 1, 0.5f);
+            animation.ColorGetter = ()=>color;
             animation.FrameDuration = 2;
             animation.RenderingLayer = 0f;
             AddAnimation(animation);
@@ -67,7 +68,8 @@ namespace MonoGameProject
                     Game1.Camera.ShakeUp(20);
                 }
             }
-            else if (target is AttackCollider)
+            else if (target is AttackCollider ||
+                target.Parent is Spikes)
             {
                 if (Parent.LegState == LegState.TakingDamage)
                     return;
@@ -77,7 +79,8 @@ namespace MonoGameProject
                 Parent.HitPoints--;
                 Parent.LegState = LegState.TakingDamage;
                 Parent.HorizontalSpeed = target.Parent.HorizontalSpeed / 2;
-                Parent.VerticalSpeed = -50;
+                //This vspeed is not working
+                Parent.VerticalSpeed = Jump.maxJumpSpeed;
 
                 DamageDuration = 25;
                 if (target.Parent is Player)
@@ -141,7 +144,7 @@ namespace MonoGameProject
         */
 
         //textura de intestino grosso, em uma dungeon
-
+        //textura igual ao cenario do ricknmorty s3e4... (inferno)
 
         //animacao de dano no player ta baguncada
         //evitar que player ande sobre o teto, no estilo mario bros
@@ -150,20 +153,20 @@ namespace MonoGameProject
         //      Ele deve brilhar também
         //animacao de beirada (quase caindo)
         //incluir misc stuff ... coisas que da para quebrar! caso voce erre um ataque, por exemplo.
+        //quebrar misc stuff afeta o random dos baús (gera um novo)
 
         //spawn de zumbis
-        //3 i/o   (2 é pouco)
 
-        //vilarejo em chamas... pessoas sendo atacaDas?
         //arvore seca, cheia de criaturas voadoras que parecem passaros... faz barulho perto, que elas voam
         //monstro que vira criaturas voadoras quando apanhas
         //modulos de transicao... tipo castlevania entrando no castelo
+        
         //ficar espada na parede, enquanto faz o slide.... isso vai servir para matar boss no estilo shadow of collosus
         //bad status... slow
         //plataforma "barco"... igual mario....
         //breakable blocks
         //traps
-        // fire balls (vertical)
+        //fire balls (vertical)
         private const int width = 1000;
         private const int height = 900;
 

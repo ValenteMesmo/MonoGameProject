@@ -7,8 +7,8 @@ namespace MonoGameProject
     {
         int jumpImpulseTime = 0;
         int jumpAvailave = 0;
-        int minJumpSpeed = -60;
-        int maxJumpSpeed = -140;
+        public const int minJumpSpeed = -60;
+        public const int maxJumpSpeed = -140;
         private readonly Humanoid Parent;
         private int cooldown;
 
