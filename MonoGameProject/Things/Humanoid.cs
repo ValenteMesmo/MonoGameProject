@@ -155,7 +155,7 @@ namespace MonoGameProject
                 Width = width / 10,
                 Height = height / 3,
                 OffsetX = width / 3 - width / 6,
-                OffsetY = height / 3
+                OffsetY = height / 2
             };
             AddCollider(leftWallChecker);
 
@@ -164,7 +164,7 @@ namespace MonoGameProject
                 Width = width / 10,
                 Height = height / 3,
                 OffsetX = width - width / 4,
-                OffsetY = height / 3
+                OffsetY = height / 2
             };
             AddCollider(rightWallChecker);
 
