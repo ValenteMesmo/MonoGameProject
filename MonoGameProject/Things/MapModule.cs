@@ -89,16 +89,18 @@ namespace MonoGameProject
                 });
             }
 
-            var sky = new Animation(new AnimationFrame("pixel",
-                                0
-                               , 0
-                               , CELL_SIZE * CELL_NUMBER
-                               , (CELL_SIZE * CELL_NUMBER)));
-            
-            sky.ColorGetter = () => new Color(0.5f, 0.8f, 0.8f);//Color.Crimson;
-            sky.RenderingLayer = 1f;
-            AddAnimation(sky);
+            {
+                var sky = new Animation(new AnimationFrame("pixel",
+                                  0
+                                 , 0
+                                 , CELL_SIZE * CELL_NUMBER
+                                 , (CELL_SIZE * CELL_NUMBER)));
 
+                var color = GameState.GetPreviousColor2();
+                sky.ColorGetter = () => color; //new Color(0.5f, 0.8f, 0.8f);//Color.Crimson;
+                sky.RenderingLayer = 1f;
+                AddAnimation(sky);
+            }
             //}
             //{
             //    var sky = GeneratedContent.Create_knight_sky(
@@ -250,12 +252,15 @@ namespace MonoGameProject
             , int width
             , int height
             , int parallax
+            , float zIndex
             , Func<int, int, int, int, Animation> imgName)
         {
             var animation = imgName(x, y, width, height);
-            animation.RenderingLayer = 0.9f + parallax / 1000f;
+            animation.RenderingLayer = zIndex;
             animation.ScaleX = 10;
             animation.ScaleY = 10;
+            var color = GameState.GetPreviousColor();
+            animation.ColorGetter = ()=>color;
             AddAnimation(animation);
 
             AddUpdate(new MoveHorizontallyWithTheWorld(this, parallax));

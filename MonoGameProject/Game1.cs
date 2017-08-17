@@ -1,4 +1,5 @@
 ﻿using GameCore;
+using Microsoft.Xna.Framework;
 
 namespace MonoGameProject
 {
@@ -10,11 +11,11 @@ namespace MonoGameProject
         {
             GameState.Load();
             var player = new Player(this, AddThing);
-            player.X = 100;
+            player.X = 300;
             if (GameState.BotExit)
                 player.Y = (14 * MapModule.CELL_SIZE) + 1000;
-            else if(GameState.MidExit)
-                player.Y = (8 * MapModule.CELL_SIZE) +1000;
+            else if (GameState.MidExit)
+                player.Y = (8 * MapModule.CELL_SIZE) + 1000;
             else
                 player.Y = 2 * MapModule.CELL_SIZE + 1000;
 
@@ -43,12 +44,9 @@ namespace MonoGameProject
             var runningOnGoodPc = false;
             //if (runningOnGoodPc)
             {
-                AddThing(new ParalaxBackgroundCreator(WorldMover, AddThing, this, (x, y, width, height) => GeneratedContent.Create_knight_dead_tree(x, y), 5));
-                //AddThing(new ParalaxBackgroundCreator(WorldMover, AddThing, this, (x, y, z, width, height) => GeneratedContent.Create_knight_dead_tree(x, y, z, width / 2, height / 2), 10));
-                //AddThing(new ParalaxBackgroundCreator(WorldMover, AddThing, this, (x, y, z, width, height) => GeneratedContent.Create_knight_dead_tree(x, y, z, width / 2, height / 2), 15));
-                //AddThing(new ParalaxBackgroundCreator(WorldMover, AddThing, this, (x, y, z, width, height) => GeneratedContent.Create_knight_dead_tree(x, y, z, width/2, height/2), 20));
-                //AddThing(new ParalaxBackgroundCreator(WorldMover, AddThing, this, (x, y, z, width, height) => GeneratedContent.Create_knight_dead_tree(x, y, z, width/2, height/2), 50));
-                //AddThing(new ParalaxBackgroundCreator(WorldMover, AddThing, this, (x, y, z, width, height) => GeneratedContent.Create_knight_dead_tree(x, y, z, width/2, height/2), 99));
+                AddThing(new ParalaxBackgroundCreator(WorldMover, AddThing, this, (x, y, width, height) => GeneratedContent.Create_knight_dead_tree(x, y), 4, 0.91f));
+                AddThing(new ParalaxBackgroundCreator(WorldMover, AddThing, this, (x, y, width, height) => GeneratedContent.Create_knight_dead_tree(x, y), 3, 0.90f));
+                AddThing(new ParalaxBackgroundCreator(WorldMover, AddThing, this, (x, y, width, height) => GeneratedContent.Create_knight_dead_tree(x, y, 500, 400), 2, 0.0f));
             }
         }
     }

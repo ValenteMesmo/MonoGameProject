@@ -38,7 +38,14 @@ namespace MonoGameProject
 
     public static class GameState
     {
-        private static Color[] Colors = new Color[] { Color.Red, Color.LightGreen, Color.LightBlue };
+        private static Color[] Colors = new Color[] {
+              new Color(0.3f,0.8f,0.3f)//Color.Green
+            , new Color(0.8f,0.8f,0.3f)//Color.Yellow
+            , new Color(0.8f,0.3f,0.3f)//Color.Red
+            , new Color(0.3f,0.8f,0.8f)//Color.Purple
+            , new Color(0.3f,0.3f,0.8f)//Color.Blue
+            , new Color(0.3f,0.8f,0.8f)//Color.Cyan
+        };
         private static int ColorIndex = 0;
         public static void ChangeColor()
         {
@@ -47,6 +54,20 @@ namespace MonoGameProject
                 ColorIndex = 0;
         }
         public static Color GetColor() { return Colors[ColorIndex]; }
+        public static Color GetPreviousColor()
+        {
+            if (ColorIndex > 0)
+                return Colors[ColorIndex - 1];
+            else
+                return Colors[Colors.Length - 1];
+        }
+        public static Color GetPreviousColor2()
+        {
+            if (ColorIndex > 1)
+                return Colors[ColorIndex - 2];
+            else
+                return Colors[Colors.Length - 2];
+        }
 
         public static MyRandom ArmorColor = new MyRandom();
         public static MyRandom RandomTresure = new MyRandom();

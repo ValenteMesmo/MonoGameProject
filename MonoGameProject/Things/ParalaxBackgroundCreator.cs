@@ -12,14 +12,17 @@ namespace MonoGameProject
         
         private readonly Func<int, int, int, int, Animation> imgName;
         private readonly int parallax;
+        private readonly float zindex;        
 
         public ParalaxBackgroundCreator(
             WorldMover WorldMover
             , Action<Thing> AddToWOrld
             , Game1 Game1
             , Func<int, int, int, int, Animation> imgName
-            , int parallax)
+            , int parallax
+            , float zindex)
         {
+            this.zindex = zindex;
             this.parallax = parallax;
             this.imgName = imgName;
             this.Game1 = Game1;
@@ -44,10 +47,10 @@ namespace MonoGameProject
             var anchorY = 1500;
             if (lastModule != null)
             {
-                anchorX = 
+                anchorX = (int)(
                     lastModule.X 
                     + MapModule.WIDTH/2 
-                    - (WorldMover.WorldHorizontalSpeed / parallax);
+                    - (WorldMover.WorldHorizontalSpeed / parallax));
             }
 
             lastModule = new ParallaxBackGround(
@@ -56,6 +59,7 @@ namespace MonoGameProject
                 , MapModule.WIDTH 
                 , MapModule.HEIGHT
                 , parallax
+                , zindex
                 , imgName);
             lastModule.X = anchorX;
             lastModule.Y = anchorY;
