@@ -17,8 +17,6 @@ namespace MonoGameProject
             if (Player.LegState == LegState.TakingDamage)
                 return;
 
-            //|| Player.roofChecker.Colliding<BlockVerticalMovement>()
-
             if (Player.groundChecker.Colliding<BlockVerticalMovement>()
                 && Player.VerticalSpeed >= 0)
             {
@@ -26,6 +24,7 @@ namespace MonoGameProject
                     && 
                     ((Player.Inputs.Right && !Player.Inputs.Left)
                     || (!Player.Inputs.Right && Player.Inputs.Left));
+
                 if (shouldWalk)
                     Player.LegState = LegState.Walking;
 
@@ -35,16 +34,9 @@ namespace MonoGameProject
                     return;
 
                 if (shouldWalk)
+                {
                     Player.TorsoState = TorsoState.Standing;
-
-                //TODO: move this to ohter class
-                if (Player.Inputs.Right && !Player.Inputs.Left)
-                {
-                    Player.FacingRight = true;
-                }
-                else if (!Player.Inputs.Right && Player.Inputs.Left)
-                {
-                    Player.FacingRight = false;
+                    Player.HeadState = HeadState.Standing;
                 }
             }
         }

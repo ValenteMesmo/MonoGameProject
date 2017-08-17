@@ -36,13 +36,9 @@ namespace MonoGameProject
             if (Player.TorsoState == TorsoState.Attack)
                 return;
 
-            if (Player.Inputs.Left && !Player.Inputs.Right)
-                Player.FacingRight = false;
-            else if (!Player.Inputs.Left && Player.Inputs.Right)
-                Player.FacingRight = true;
-
             Player.LegState = LegState.Falling;
             Player.TorsoState = TorsoState.Standing;
+            Player.HeadState = HeadState.Standing;
         }
     }
 }

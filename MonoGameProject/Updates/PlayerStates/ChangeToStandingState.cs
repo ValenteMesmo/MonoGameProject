@@ -29,6 +29,7 @@ namespace MonoGameProject
                 {
                     Player.LegState = LegState.Standing;
                     Player.TorsoState = TorsoState.Standing;
+                    Player.HeadState = HeadState.Standing;
                 }
             }
         }

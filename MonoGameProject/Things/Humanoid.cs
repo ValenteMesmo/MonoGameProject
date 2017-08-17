@@ -6,6 +6,32 @@ using Microsoft.Xna.Framework;
 
 namespace MonoGameProject
 {
+    public class ChangeDirectionOnInput : UpdateHandler
+    {
+        private readonly Humanoid Player;
+
+        public ChangeDirectionOnInput(Humanoid Player)
+        {
+            this.Player = Player;
+        }
+
+        public void Update()
+        {
+            if (Player.TorsoState == TorsoState.Attack
+                || Player.TorsoState == TorsoState.AttackCrouching
+                || Player.LegState == LegState.SlidingWall
+                || Player.LegState == LegState.WallJumping
+                || Player.LegState == LegState.HeadBump
+                || Player.LegState == LegState.TakingDamage)
+                return;
+
+            if (Player.Inputs.Left && !Player.Inputs.Right)
+                Player.FacingRight = false;
+            else if (!Player.Inputs.Left && Player.Inputs.Right)
+                Player.FacingRight = true;
+        }
+    }
+
     public class SolidCollider : Collider, BlockHorizontalMovement
     {
 
@@ -54,6 +80,8 @@ namespace MonoGameProject
             CreateColliders();
 
             AddUpdate(this.Inputs);
+            AddUpdate(new ChangeDirectionOnInput(this));
+
             AddUpdate(new ChangeToStandingState(this));
             AddUpdate(new ChangeToWalkingState(this));
             AddUpdate(new ChangeToFallingState(this));

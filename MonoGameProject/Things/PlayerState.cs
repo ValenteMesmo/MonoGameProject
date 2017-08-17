@@ -16,7 +16,8 @@ namespace MonoGameProject
     {
         Standing,
         Bump,
-        TakingDamage
+        TakingDamage,
+        Crouching
     }
 
     public enum LegState

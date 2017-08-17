@@ -256,39 +256,21 @@ namespace MonoGameProject
             headbang_right_armored.RenderingLayer = Z_INDEX;
 
             var nakedAnimator = new Animator(
-                new AnimationTransitionOnCondition(stand_left, () => thing.LegState == LegState.Walking && thing.FacingRight == false)
-                , new AnimationTransitionOnCondition(stand_right, () => thing.LegState == LegState.Walking && thing.FacingRight == true)
-                , new AnimationTransitionOnCondition(stand_left, () => thing.LegState == LegState.Standing && thing.FacingRight == false)
-                , new AnimationTransitionOnCondition(stand_right, () => thing.LegState == LegState.Standing && thing.FacingRight == true)
-                , new AnimationTransitionOnCondition(crouch_left, () => thing.LegState == LegState.Crouching && thing.FacingRight == false)
-                , new AnimationTransitionOnCondition(crouch_right, () => thing.LegState == LegState.Crouching && thing.FacingRight == true)
-                , new AnimationTransitionOnCondition(stand_left, () => thing.LegState == LegState.Falling && thing.FacingRight == false)
-                , new AnimationTransitionOnCondition(stand_right, () => thing.LegState == LegState.Falling && thing.FacingRight == true)
-                , new AnimationTransitionOnCondition(stand_left, () => thing.LegState == LegState.WallJumping && thing.FacingRight == false)
-                , new AnimationTransitionOnCondition(stand_right, () => thing.LegState == LegState.WallJumping && thing.FacingRight == true)
-                , new AnimationTransitionOnCondition(headbang_left, () => thing.LegState == LegState.HeadBump && thing.FacingRight == false)
-                , new AnimationTransitionOnCondition(headbang_right, () => thing.LegState == LegState.HeadBump && thing.FacingRight == true)
-                , new AnimationTransitionOnCondition(stand_left, () => thing.LegState == LegState.SlidingWall && thing.FacingRight == false)
-                , new AnimationTransitionOnCondition(stand_right, () => thing.LegState == LegState.SlidingWall && thing.FacingRight == true)
-                , new AnimationTransitionOnCondition(stand_left, () => thing.LegState == LegState.TakingDamage && thing.FacingRight == false)
+                new AnimationTransitionOnCondition(stand_left, () => thing.HeadState == HeadState.Standing && thing.FacingRight == false)
+                , new AnimationTransitionOnCondition(stand_right, () => thing.HeadState == HeadState.Standing && thing.FacingRight == true)
+                , new AnimationTransitionOnCondition(crouch_left, () => thing.HeadState == HeadState.Crouching && thing.FacingRight == false)
+                , new AnimationTransitionOnCondition(crouch_right, () => thing.HeadState == HeadState.Crouching && thing.FacingRight == true)
+                , new AnimationTransitionOnCondition(headbang_left, () => thing.HeadState == HeadState.Bump && thing.FacingRight == false)
+                , new AnimationTransitionOnCondition(headbang_right, () => thing.HeadState == HeadState.Bump && thing.FacingRight == true)
             );
 
             var armoredAnimator = new Animator(
-                new AnimationTransitionOnCondition(stand_left_armored, () => thing.LegState == LegState.Walking && thing.FacingRight == false)
-                , new AnimationTransitionOnCondition(stand_right_armored, () => thing.LegState == LegState.Walking && thing.FacingRight == true)
-                , new AnimationTransitionOnCondition(stand_left_armored, () => thing.LegState == LegState.Standing && thing.FacingRight == false)
-                , new AnimationTransitionOnCondition(stand_right_armored, () => thing.LegState == LegState.Standing && thing.FacingRight == true)
-                , new AnimationTransitionOnCondition(crouch_left_armored, () => thing.LegState == LegState.Crouching && thing.FacingRight == false)
-                , new AnimationTransitionOnCondition(crouch_right_armored, () => thing.LegState == LegState.Crouching && thing.FacingRight == true)
-                , new AnimationTransitionOnCondition(stand_left_armored, () => thing.LegState == LegState.Falling && thing.FacingRight == false)
-                , new AnimationTransitionOnCondition(stand_right_armored, () => thing.LegState == LegState.Falling && thing.FacingRight == true)
-                , new AnimationTransitionOnCondition(stand_left_armored, () => thing.LegState == LegState.WallJumping && thing.FacingRight == false)
-                , new AnimationTransitionOnCondition(stand_right_armored, () => thing.LegState == LegState.WallJumping && thing.FacingRight == true)
-                , new AnimationTransitionOnCondition(headbang_left_armored, () => thing.LegState == LegState.HeadBump && thing.FacingRight == false)
-                , new AnimationTransitionOnCondition(headbang_right_armored, () => thing.LegState == LegState.HeadBump && thing.FacingRight == true)
-                , new AnimationTransitionOnCondition(stand_left_armored, () => thing.LegState == LegState.SlidingWall && thing.FacingRight == false)
-                , new AnimationTransitionOnCondition(stand_right_armored, () => thing.LegState == LegState.SlidingWall && thing.FacingRight == true)
-                , new AnimationTransitionOnCondition(stand_left_armored, () => thing.LegState == LegState.TakingDamage && thing.FacingRight == false)
+                new AnimationTransitionOnCondition(stand_left_armored, () => thing.HeadState == HeadState.Standing && thing.FacingRight == false)
+                , new AnimationTransitionOnCondition(stand_right_armored, () => thing.HeadState == HeadState.Standing && thing.FacingRight == true)
+                , new AnimationTransitionOnCondition(crouch_left_armored, () => thing.HeadState == HeadState.Crouching && thing.FacingRight == false)
+                , new AnimationTransitionOnCondition(crouch_right_armored, () => thing.HeadState == HeadState.Crouching && thing.FacingRight == true)
+                , new AnimationTransitionOnCondition(headbang_left_armored, () => thing.HeadState == HeadState.Bump && thing.FacingRight == false)
+                , new AnimationTransitionOnCondition(headbang_right_armored, () => thing.HeadState == HeadState.Bump && thing.FacingRight == true)
             );
 
             var animatorsWrapper =

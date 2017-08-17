@@ -28,6 +28,7 @@ namespace MonoGameProject.Updates.PlayerStates
                 {
                     Player.LegState = LegState.Crouching;
                     Player.TorsoState = TorsoState.Crouch;
+                    Player.HeadState = HeadState.Crouching;
                     return;
                 }
             }
