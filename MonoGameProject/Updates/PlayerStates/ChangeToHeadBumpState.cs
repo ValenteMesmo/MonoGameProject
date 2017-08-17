@@ -42,7 +42,7 @@ namespace MonoGameProject
         }
 
         public void Update()
-        {            
+        {
             if (Player.roofChecker.Colliding<BlockVerticalMovement>()
                 && Math.Abs(Player.roofChecker.GetGolliders<BlockVerticalMovement>().First().Bottom() - Player.roofChecker.Top()) == 90
                 && Player.VerticalSpeed < 0)

@@ -35,7 +35,7 @@ namespace MonoGameProject
 
         private void OnUpdate()
         {
-            if (lastModule.X < MapModule.WIDTH)
+            if (lastModule.X < MapModule.WIDTH*2)
             {
                 CreateGroundOnTheRight();
             }

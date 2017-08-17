@@ -33,12 +33,12 @@ namespace MonoGameProject
 
         private void FallToTheLeft()
         {
+            Player.HeadState = HeadState.Standing;
+            Player.LegState = LegState.Falling;
+
             if (Player.TorsoState == TorsoState.Attack)
                 return;
-
-            Player.LegState = LegState.Falling;
             Player.TorsoState = TorsoState.Standing;
-            Player.HeadState = HeadState.Standing;
         }
     }
 }

@@ -11,7 +11,7 @@ namespace MonoGameProject
             animation.LoopDisabled = true;
             animation.ScaleX = animation.ScaleY = 10;
             var color = new Microsoft.Xna.Framework.Color(1, 1, 1, 0.5f);
-            animation.ColorGetter = ()=>color;
+            animation.ColorGetter = () => color;
             animation.FrameDuration = 2;
             animation.RenderingLayer = 0f;
             AddAnimation(animation);
@@ -133,7 +133,6 @@ namespace MonoGameProject
 
     public class Player : Humanoid
     {
-
         /* criar um modulo assim (obrigar a usar walljump)
               __________
               __        |
@@ -192,7 +191,7 @@ namespace MonoGameProject
                          new GamePadChecker(0)
                         , new KeyboardChecker())
                 ), Game1.Camera)
-        {   
+        {
             HitPoints = 2;
 
             AddUpdate(new TakesDamage(this, Game1, AddToWorld));
