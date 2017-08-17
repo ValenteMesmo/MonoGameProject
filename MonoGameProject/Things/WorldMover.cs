@@ -53,14 +53,6 @@ namespace MonoGameProject
                 Height = 10000
             };
 
-            //if (ShouldDrawBorders)
-            //    AddAnimation(new Animation(new AnimationFrame(
-            //      "block",
-            //      rightCollider.OffsetX,
-            //      rightCollider.OffsetY,
-            //      rightCollider.Width,
-            //      rightCollider.Height)));
-
             rightCollider.AddLeftCollisionHandler(StoreTheRightMovementCause);
             rightCollider.AddRightCollisionHandler(StoreTheRightMovementCause);
             rightCollider.AddTopCollisionHandler(StoreTheRightMovementCause);
@@ -90,14 +82,6 @@ namespace MonoGameProject
                 Width = 6000,
                 Height = 10000
             };
-
-            //if (ShouldDrawBorders)
-            //    AddAnimation(new Animation(new AnimationFrame(
-            //  "block",
-            //  leftCollider.OffsetX,
-            //  leftCollider.OffsetY,
-            //  leftCollider.Width,
-            //  leftCollider.Height)));
 
             leftCollider.AddLeftCollisionHandler(StoreTheLeftMovementCause);
             leftCollider.AddRightCollisionHandler(StoreTheLeftMovementCause);
