@@ -8,8 +8,11 @@ namespace MonoGameProject
     {
         public const int WIDTH = 2000;
         public const int HEIGHT = 8 * 1000 * 2;
+        public readonly WorldMover WorldMover;
+
         public BackBlocker(WorldMover WorldMover)
         {
+            this.WorldMover = WorldMover;
             AddCollider(new SolidCollider
             {
                 Width = WIDTH,

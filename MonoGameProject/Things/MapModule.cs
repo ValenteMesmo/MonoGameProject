@@ -44,9 +44,9 @@ namespace MonoGameProject
         public const int WIDTH = CELL_SIZE * CELL_NUMBER;
         public const int HEIGHT = CELL_SIZE * CELL_NUMBER;
 
-        
-        public readonly MapModuleInfo Info;        
-        private readonly Action<Thing> AddToWorld;        
+
+        public readonly MapModuleInfo Info;
+        private readonly Action<Thing> AddToWorld;
 
         public MapModule(int X, int Y, BackBlocker Blocker, MapModuleInfo Info, Action<Thing> AddToWorld, Game1 Game1)
         {
@@ -81,11 +81,11 @@ namespace MonoGameProject
             {
                 AddToWorld(new Spikes(
                     Color.Red,
-                    tile.Width ,
+                    tile.Width,
                     tile.Height)
                 {
                     X = X + ((tile.X - 1) * CELL_SIZE + 1),
-                    Y = Y + ((tile.Y - 1) * CELL_SIZE +  1)
+                    Y = Y + ((tile.Y - 1) * CELL_SIZE + 1)
                 });
             }
 
@@ -158,6 +158,34 @@ namespace MonoGameProject
                             Y = Y + i * CELL_SIZE
                         });
                         CreateBackground(i, j);
+                    }
+                    if (type == 'x')
+                    {
+                        //var camlocker = new Thing();
+                        //camlocker.AddUpdate(new MoveHorizontallyWithTheWorld(camlocker));
+                        //AddToWorld(camlocker);
+                        //Blocker
+                        //    .WorldMover.camlocker = camlocker;
+                    }
+                    if (type == 'y')
+                    {
+                        //var locker = new Thing();
+                        //locker.X = X + j * CELL_SIZE;
+                        //locker.Y = Y + i * CELL_SIZE;
+                        //var animation = GeneratedContent.Create_knight_block(
+                        //   0
+                        //   , 0
+                        //   , MapModule.CELL_SIZE
+                        //   , MapModule.CELL_SIZE*2
+                        //);
+                        //animation.RenderingLayer = 0f;
+                        //locker. AddAnimation(animation);
+                        //locker.AddUpdate(new MoveHorizontallyWithTheWorld(locker));
+                        //AddToWorld(locker);
+                        ////var collider = new Collider() { Width = CELL_SIZE, Height = CELL_SIZE };
+                        ////locker.AddCollider(collider);
+                        ////Blocker
+                        ////    .WorldMover.Locks.Add(locker);
                     }
                     if (type == 'l')
                     {
@@ -260,7 +288,7 @@ namespace MonoGameProject
             animation.ScaleX = 10;
             animation.ScaleY = 10;
             var color = GameState.GetPreviousColor();
-            animation.ColorGetter = ()=>color;
+            animation.ColorGetter = () => color;
             AddAnimation(animation);
 
             AddUpdate(new MoveHorizontallyWithTheWorld(this, parallax));

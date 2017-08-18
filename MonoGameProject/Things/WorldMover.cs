@@ -1,4 +1,5 @@
 ﻿using GameCore;
+using System;
 
 namespace MonoGameProject
 {
@@ -11,6 +12,7 @@ namespace MonoGameProject
         private bool BackBlocking;
         private const int VELOCITY = 6;
         private const int FRICTION = 8;
+        internal Thing camlocker;
 
         public WorldMover(Camera2d Camera)
         {
@@ -34,6 +36,31 @@ namespace MonoGameProject
                         if (WorldHorizontalSpeed > 0)
                             WorldHorizontalSpeed = 0;
                     }
+                }
+                if (camlocker != null)
+                {
+                    var expected = -MapModule.WIDTH;
+
+                    //-8001   -8000
+                    if (camlocker.X < expected && Math.Abs(camlocker.X - expected) > 100)
+                    {
+                        WorldHorizontalSpeed = -100;
+                        if (camlocker.X > expected)
+                        {
+                            WorldHorizontalSpeed = 0;
+                        }
+                    }
+                    //-7999   -8000
+                    else if (camlocker.X > expected && Math.Abs(expected - camlocker.X) > 100)
+                    {
+                        WorldHorizontalSpeed = 100;
+                        if (camlocker.X < expected)
+                        {
+                            WorldHorizontalSpeed = 0;
+                        }
+                    }
+                    else
+                        WorldHorizontalSpeed = 0;
                 }
             });
 
@@ -62,7 +89,8 @@ namespace MonoGameProject
 
             AddUpdate(() =>
             {
-                if (MovingRightBy != null
+                if (camlocker == null
+                && MovingRightBy != null
                 && MovingRightBy.HorizontalSpeed > 0)
                 {
                     if (WorldHorizontalSpeed < MovingRightBy.HorizontalSpeed)
@@ -92,8 +120,8 @@ namespace MonoGameProject
 
             AddUpdate(() =>
             {
-                if (
-                MovingLeftBy != null
+                if (camlocker == null
+                && MovingLeftBy != null
                 && MovingLeftBy.HorizontalSpeed < 0
                 )
                     if (WorldHorizontalSpeed > MovingLeftBy.HorizontalSpeed)

@@ -23,7 +23,7 @@ namespace MonoGameProject
                     , true
                     , true
                     , "1111111111111111"//
-                    , "================"//E
+                    , "======y========="//E
                     , "================"//E
                     , "1111111========="//
                     , "1111111========="//
@@ -59,8 +59,8 @@ namespace MonoGameProject
                     , "=========1111111"//
                     , "=========1111111"//
                     , "=========1111111"//
-                    , "================"//E
-                    , "================"//E
+                    , "=========y======"//E
+                    , "x==============="//E
                     , "1111111111111111");
 
 
@@ -634,7 +634,7 @@ namespace MonoGameProject
             }
         }
 
-        private const int STAGE_LENGTH = 10;
+        private const int STAGE_LENGTH = 3;
     }
 
     public class Tiles
