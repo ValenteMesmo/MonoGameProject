@@ -31,7 +31,7 @@ namespace GameCore
 
         public void Add(Thing thing)
         {
-            thing.OnDestroy = Remove;
+            thing.OnDestroyInternal = Remove;
             Things.Add(thing);
         }
 

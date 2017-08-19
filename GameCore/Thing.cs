@@ -50,11 +50,16 @@ namespace GameCore
                 Sounds.Add(name);
         }
 
-        internal Action<Thing> OnDestroy = t => { };
+        internal Action<Thing> OnDestroyInternal = t => { };
 
         public void Destroy()
         {
-            OnDestroy(this);
+            OnDestroy();
+            OnDestroyInternal(this);
+        }
+
+        public virtual void OnDestroy()
+        {
         }
     }
 }

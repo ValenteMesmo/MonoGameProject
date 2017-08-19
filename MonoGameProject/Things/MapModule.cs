@@ -252,6 +252,15 @@ namespace MonoGameProject
                         });
                         CreateBackground(i, j);
                     }
+                    if (type == 'm')
+                    {
+                        AddToWorld(new Boss(Game1, AddToWorld)
+                        {
+                            X = X + j * CELL_SIZE,
+                            Y = Y + i * CELL_SIZE
+                        });
+                        CreateBackground(i, j);
+                    }
                     if (type == 'a')
                     {
                         AddToWorld(new Armor()

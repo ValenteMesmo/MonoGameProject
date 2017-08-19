@@ -3,6 +3,19 @@ using System;
 
 namespace MonoGameProject
 {
+    public class Boss : Enemy
+    {
+        public Boss(Game1 WorldMover, Action<Thing> AddToWorld) : base(WorldMover, AddToWorld)
+        {
+            
+        }
+
+        public override void OnDestroy()
+        {
+            GameState.BossMode = false;            
+        }
+    }
+
     public class Enemy : Humanoid
     {
         private const int width = 1000;
