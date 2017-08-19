@@ -11,7 +11,7 @@ namespace MonoGameProject
         {
             GameState.Load();
             var player = new Player(this, AddThing);
-            player.X = 300;
+            player.X = 1000;
             if (GameState.BotExit)
                 player.Y = (14 * MapModule.CELL_SIZE) + 1000;
             else if (GameState.MidExit)

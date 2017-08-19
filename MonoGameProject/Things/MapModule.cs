@@ -1,11 +1,39 @@
 ﻿using GameCore;
 using Microsoft.Xna.Framework;
-using MonoGameProject.Things;
 using System;
 using System.Linq;
 
 namespace MonoGameProject
 {
+    public class BossBattleTrigger : Thing
+    {
+        public BossBattleTrigger()
+        {
+            var trigger = new Collider
+            {
+                Width = 18 * MapModule.CELL_SIZE,
+                Height = 10 * MapModule.CELL_SIZE
+            };
+
+            trigger.AddBotCollisionHandler(asdasd);
+            trigger.AddLeftCollisionHandler(asdasd);
+            trigger.AddTopCollisionHandler(asdasd);
+            trigger.AddRightCollisionHandler(asdasd);
+            AddCollider(trigger);
+
+            AddUpdate(new MoveHorizontallyWithTheWorld(this));
+        }
+
+        private void asdasd(Collider source, Collider target)
+        {
+            if (target.Parent is Player)
+            {
+                source.Disabled = true;
+                GameState.BossMode = true;
+            }
+        }
+    }
+
     public struct MapModuleInfo
     {
         public readonly bool TopEntry;
@@ -43,7 +71,6 @@ namespace MonoGameProject
         public const int CELL_NUMBER = 16;
         public const int WIDTH = CELL_SIZE * CELL_NUMBER;
         public const int HEIGHT = CELL_SIZE * CELL_NUMBER;
-
 
         public readonly MapModuleInfo Info;
         private readonly Action<Thing> AddToWorld;
@@ -159,33 +186,53 @@ namespace MonoGameProject
                         });
                         CreateBackground(i, j);
                     }
+                    if (type == '@')
+                    {
+                        AddToWorld(new BossBattleTrigger
+                        {
+                            X = X + j * CELL_SIZE,
+                            Y = Y + i * CELL_SIZE
+                        });
+                    }
                     if (type == 'x')
                     {
-                        //var camlocker = new Thing();
-                        //camlocker.AddUpdate(new MoveHorizontallyWithTheWorld(camlocker));
-                        //AddToWorld(camlocker);
-                        //Blocker
-                        //    .WorldMover.camlocker = camlocker;
+                        var camlocker = new Thing();
+                        camlocker.AddUpdate(new MoveHorizontallyWithTheWorld(camlocker));
+                        AddToWorld(camlocker);
+                        Blocker
+                            .WorldMover.camlocker = camlocker;
                     }
                     if (type == 'y')
                     {
-                        //var locker = new Thing();
-                        //locker.X = X + j * CELL_SIZE;
-                        //locker.Y = Y + i * CELL_SIZE;
-                        //var animation = GeneratedContent.Create_knight_block(
-                        //   0
-                        //   , 0
-                        //   , MapModule.CELL_SIZE
-                        //   , MapModule.CELL_SIZE*2
-                        //);
-                        //animation.RenderingLayer = 0f;
-                        //locker. AddAnimation(animation);
-                        //locker.AddUpdate(new MoveHorizontallyWithTheWorld(locker));
-                        //AddToWorld(locker);
-                        ////var collider = new Collider() { Width = CELL_SIZE, Height = CELL_SIZE };
-                        ////locker.AddCollider(collider);
-                        ////Blocker
-                        ////    .WorldMover.Locks.Add(locker);
+                        var locker = new Thing();
+                        locker.X = X + j * CELL_SIZE;
+                        locker.Y = (Y + i * CELL_SIZE);
+                        var animation = GeneratedContent.Create_knight_block(
+                           0
+                           , 0
+                           , CELL_SIZE
+                           , CELL_SIZE * 2
+                        );
+                        animation.RenderingLayer = 0f;
+                        locker.AddAnimation(animation);
+                        locker.AddUpdate(new MoveHorizontallyWithTheWorld(locker));
+                        AddToWorld(locker);
+                        var originalY = locker.Y;
+                        locker.AddUpdate(() =>
+                        {
+                            if (GameState.BossMode)
+                                locker.Y = originalY;
+                            else
+                                locker.Y = originalY - CELL_SIZE * 2;
+                        });
+                        var collider = new GroundCollider()
+                        {
+                            OffsetX = 1,
+                            OffsetY = 1,
+                            Width = CELL_SIZE,
+                            Height = CELL_SIZE * 2
+                        };
+                        locker.AddCollider(collider);
                     }
                     if (type == 'l')
                     {

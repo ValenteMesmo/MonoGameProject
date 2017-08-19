@@ -69,6 +69,7 @@ namespace MonoGameProject
                 return Colors[Colors.Length - 2];
         }
 
+        public static bool BossMode = false;
         public static MyRandom ArmorColor = new MyRandom();
         public static MyRandom RandomTresure = new MyRandom();
         public static MyRandom RandomMonster = new MyRandom();
@@ -104,6 +105,7 @@ namespace MonoGameProject
             TopExit = SavedCheckpointTopOpen;
             MidExit = SavedCheckpointMidOpen;
             BotExit = SavedCheckpointBotOpen;
+            BossMode = false;
         }
 
         public static void Save()
