@@ -5,6 +5,17 @@ namespace GameCore
 {
     public class Collider
     {
+        public Collider()
+        {
+
+        }
+
+        public Collider(int Width, int Height)
+        {
+            this.Width = Width;
+            this.Height = Height;
+        }
+
         public Thing Parent { get; internal set; }
 
         public int X { get { return Parent.X + OffsetX; } }
@@ -43,6 +54,14 @@ namespace GameCore
         public void AddRightCollisionHandler(Action<Collider, Collider> RightCollisionHandler)
         {
             RightCollisionHandlers.Add(RightCollisionHandler);
+        }
+
+        public void AddCollisionHandler(Action<Collider, Collider> CollisionHandler)
+        {
+            TopCollisionHandlers.Add(CollisionHandler);
+            LeftCollisionHandlers.Add(CollisionHandler);
+            RightCollisionHandlers.Add(CollisionHandler);
+            BotCollisionHandlers.Add(CollisionHandler);
         }
     }
 }

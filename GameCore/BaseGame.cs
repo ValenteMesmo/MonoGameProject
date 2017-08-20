@@ -101,11 +101,11 @@ internal class BaseGame : OriginalGameClass
         var state = Keyboard.GetState();
 #if DEBUG
         if (state.CapsLock)
-            Camera.Zoom = 0.02f;
+            Camera.Zoom = 0.05f;
         else
             Camera.Zoom = 0.1f;
 
-        DisplayColliders = state.NumLock;
+        DisplayColliders = state.CapsLock;
 
         if (state.IsKeyDown(Keys.Escape))
             Parent.Restart();

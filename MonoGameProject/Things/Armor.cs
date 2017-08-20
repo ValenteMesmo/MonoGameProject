@@ -39,12 +39,18 @@ namespace MonoGameProject
     public static class GameState
     {
         private static Color[] Colors = new Color[] {
-              new Color(0.3f,0.8f,0.3f)//Color.Green
-            , new Color(0.8f,0.8f,0.3f)//Color.Yellow
-            , new Color(0.8f,0.3f,0.3f)//Color.Red
-            , new Color(0.3f,0.8f,0.8f)//Color.Purple
-            , new Color(0.3f,0.3f,0.8f)//Color.Blue
-            , new Color(0.3f,0.8f,0.8f)//Color.Cyan
+              new Color(0.3f,0.9f,0.3f)//GREEN
+            , new Color(0.6f,0.9f,0.3f)
+            , new Color(0.9f,0.9f,0.3f)//YELLOW
+            , new Color(0.9f,0.6f,0.3f)
+            , new Color(0.9f,0.3f,0.3f)//RED
+            , new Color(0.9f,0.3f,0.6f)
+            , new Color(0.9f,0.3f,0.9f)//MAGENTA
+            , new Color(0.6f,0.3f,0.9f)
+            , new Color(0.3f,0.3f,0.9f)//BLUE
+            , new Color(0.3f,0.6f,0.9f)
+            , new Color(0.3f,0.9f,0.9f)//CYAN
+            , new Color(0.3f,0.9f,0.6f)
         };
         private static int ColorIndex = 0;
         public static void ChangeColor()
@@ -53,7 +59,11 @@ namespace MonoGameProject
             if (ColorIndex >= Colors.Length)
                 ColorIndex = 0;
         }
-        public static Color GetColor() { return Colors[ColorIndex]; }
+
+        public static Color GetColor()
+        {
+            return Colors[ColorIndex];
+        }
         public static Color GetPreviousColor()
         {
             if (ColorIndex > 0)
@@ -125,6 +135,8 @@ namespace MonoGameProject
 
     public class MyRandom
     {
+        private const long RAND_MAX = int.MaxValue;
+
         public long Seed { get; set; }
 
         public MyRandom()
@@ -144,7 +156,6 @@ namespace MonoGameProject
             return Seed;
         }
 
-        const long RAND_MAX = int.MaxValue;
         public int Next(int begin, int end)
         {
             long range = (end - begin) + 1;

@@ -9,10 +9,10 @@ namespace MonoGameProject
         WorldMover WorldMover;
         Action<Thing> AddToWOrld;
         Game1 Game1;
-        
+
         private readonly Func<int, int, int, int, Animation> imgName;
         private readonly int parallax;
-        private readonly float zindex;        
+        private readonly float zindex;
 
         public ParalaxBackgroundCreator(
             WorldMover WorldMover
@@ -35,7 +35,7 @@ namespace MonoGameProject
 
         private void OnUpdate()
         {
-            if (lastModule.X < MapModule.WIDTH*2)
+            if (lastModule.X < MapModule.WIDTH * 2)
             {
                 CreateGroundOnTheRight();
             }
@@ -48,22 +48,23 @@ namespace MonoGameProject
             if (lastModule != null)
             {
                 anchorX = (int)(
-                    lastModule.X 
-                    + MapModule.WIDTH/2 
+                    lastModule.X
+                    + MapModule.WIDTH / 2
                     - (WorldMover.WorldHorizontalSpeed / parallax));
             }
-
+            
             lastModule = new ParallaxBackGround(
                 0
-                , MapModule.HEIGHT/2
-                , MapModule.WIDTH 
+                , MapModule.HEIGHT / 2
+                , MapModule.WIDTH
                 , MapModule.HEIGHT
                 , parallax
                 , zindex
                 , imgName);
             lastModule.X = anchorX;
             lastModule.Y = anchorY;
-            AddToWOrld(lastModule);
+            //if (WorldMover.camlocker == null)
+                AddToWOrld(lastModule);
         }
     }
 }

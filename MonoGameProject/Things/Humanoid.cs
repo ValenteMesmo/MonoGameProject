@@ -39,7 +39,16 @@ namespace MonoGameProject
 
     public class GroundCollider : Collider, SomeKindOfGround, BlockVerticalMovement, BlockHorizontalMovement
     {
+        public GroundCollider()
+        {
 
+        }
+
+        public GroundCollider(int width, int height)
+        {
+            Width = width;
+            Height = height;
+        }
     }
 
     public class AttackCollider : Collider
@@ -115,7 +124,7 @@ namespace MonoGameProject
 
         private void CreateColliders()
         {
-            MainCollider = new SolidCollider()
+            MainCollider = new Collider()
             {
                 OffsetX = width / 3,
                 Width = width / 3,

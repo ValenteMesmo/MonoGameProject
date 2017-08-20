@@ -254,7 +254,7 @@ namespace MonoGameProject
                     }
                     if (type == 'm')
                     {
-                        AddToWorld(new Boss(Game1, AddToWorld)
+                        AddToWorld(new Boss
                         {
                             X = X + j * CELL_SIZE,
                             Y = Y + i * CELL_SIZE
