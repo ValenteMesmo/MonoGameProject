@@ -207,14 +207,26 @@ namespace MonoGameProject
                         var locker = new Thing();
                         locker.X = X + j * CELL_SIZE;
                         locker.Y = (Y + i * CELL_SIZE);
+
                         var animation = GeneratedContent.Create_knight_block(
-                           0
-                           , 0
-                           , CELL_SIZE
-                           , CELL_SIZE * 2
-                        );
-                        animation.RenderingLayer = 0f;
+                                - 5
+                               ,  - 5
+                               , MapModule.CELL_SIZE + 10
+                               , (MapModule.CELL_SIZE + 10)*2);
+                        animation.RenderingLayer = 0.5f;
+                        var color = GameState.GetColor();
+                        animation.ColorGetter = () => color;
                         locker.AddAnimation(animation);
+
+                        var animationborder = GeneratedContent.Create_knight_block(
+                               - 25
+                               , - 25
+                               , MapModule.CELL_SIZE + 50
+                               , (MapModule.CELL_SIZE + 50)*2);
+                        animationborder.RenderingLayer = 0.51f;
+                        animationborder.ColorGetter = () => Color.Black;//Colors[ColorIndex];
+                        locker.AddAnimation(animationborder);
+
                         locker.AddUpdate(new MoveHorizontallyWithTheWorld(locker));
                         AddToWorld(locker);
                         var originalY = locker.Y;
@@ -284,9 +296,9 @@ namespace MonoGameProject
             animation.RenderingLayer = 0.52f;
             var oColor = GameState.GetColor();
             var color = new Color(
-                oColor.R - 100
-                , oColor.G - 100
-                , oColor.B - 100
+                oColor.R - 50
+                , oColor.G - 50
+                , oColor.B - 50
                 , oColor.A
             );
             animation.ColorGetter = () => color;

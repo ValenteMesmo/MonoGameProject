@@ -39,18 +39,18 @@ namespace MonoGameProject
     public static class GameState
     {
         private static Color[] Colors = new Color[] {
-              new Color(0.3f,0.9f,0.3f)//GREEN
-            , new Color(0.6f,0.9f,0.3f)
-            , new Color(0.9f,0.9f,0.3f)//YELLOW
-            , new Color(0.9f,0.6f,0.3f)
-            , new Color(0.9f,0.3f,0.3f)//RED
-            , new Color(0.9f,0.3f,0.6f)
-            , new Color(0.9f,0.3f,0.9f)//MAGENTA
-            , new Color(0.6f,0.3f,0.9f)
-            , new Color(0.3f,0.3f,0.9f)//BLUE
-            , new Color(0.3f,0.6f,0.9f)
-            , new Color(0.3f,0.9f,0.9f)//CYAN
-            , new Color(0.3f,0.9f,0.6f)
+              new Color(0.6f,1.0f,0.6f)//GREEN
+            , new Color(0.8f,1.0f,0.6f)
+            , new Color(1.0f,1.0f,0.6f)//YELLOW
+            , new Color(1.0f,0.8f,0.6f)
+            , new Color(1.0f,0.6f,0.6f)//RED
+            , new Color(1.0f,0.6f,0.8f)
+            , new Color(1.0f,0.6f,1.0f)//MAGENTA
+            , new Color(0.8f,0.6f,1.0f)
+            , new Color(0.6f,0.6f,1.0f)//BLUE
+            , new Color(0.6f,0.8f,1.0f)
+            , new Color(0.6f,1.0f,1.0f)//CYAN
+            , new Color(0.6f,1.0f,0.8f)
         };
         private static int ColorIndex = 0;
         public static void ChangeColor()
@@ -64,6 +64,25 @@ namespace MonoGameProject
         {
             return Colors[ColorIndex];
         }
+
+        public static Color GetComplimentColor()
+        {
+            var tempIndex = ColorIndex - 2;
+            var newIndex = tempIndex + ((Colors.Length - 1) / 2);
+            if (newIndex > Colors.Length - 1)
+                newIndex = newIndex - Colors.Length;
+            return Colors[newIndex];
+        }
+
+        public static Color GetComplimentColor2()
+        {
+            var tempIndex = ColorIndex + 2;
+            var newIndex = tempIndex + ((Colors.Length - 1) / 2);
+            if (newIndex > Colors.Length - 1)
+                newIndex = newIndex - Colors.Length;
+            return Colors[newIndex];
+        }
+
         public static Color GetPreviousColor()
         {
             if (ColorIndex > 0)
@@ -171,8 +190,6 @@ namespace MonoGameProject
 
     public class Armor : Thing
     {
-        private static Color[] Colors = new Color[] { Color.OrangeRed, Color.Olive, Color.Orchid, Color.PapayaWhip };
-
         public Color Color;
         public Armor()
         {
@@ -184,7 +201,7 @@ namespace MonoGameProject
             var animation = GeneratedContent.Create_knight_head_armor1(-400, -200);
             animation.RenderingLayer = 0.49f;
             animation.ScaleX = animation.ScaleY = 5;
-            Color = Colors[GameState.ArmorColor.Next(0, Colors.Length - 1)];
+            Color = GameState.GetComplimentColor2();//Colors[GameState.ArmorColor.Next(0, Colors.Length - 1)];
             animation.ColorGetter = () => Color;
             AddAnimation(animation);
 

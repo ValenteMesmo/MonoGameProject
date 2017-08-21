@@ -57,11 +57,14 @@ internal class BaseGame : OriginalGameClass
 
     protected override void Initialize()
     {
-        Graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
-        Graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
         //TODO: fullscreen on alt+enter
 #if RELEASE
         Graphics.IsFullScreen = true;
+        Graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
+        Graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
+#else
+        Graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width / 2;
+        Graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height / 2;
 #endif
         Graphics.ApplyChanges();
 

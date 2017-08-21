@@ -1,37 +1,99 @@
 ﻿using GameCore;
+using Microsoft.Xna.Framework;
+using MonoGameProject.Things;
 using System;
 
 namespace MonoGameProject
 {
     public class Boss : Thing
     {
+        private int state = 0;
+        private bool facingRight = false;
+        private int state1Duration = 0;
+
         public Boss()
         {
-            var width = 2000;
-            var height = 2000;
+            var width = 1500;
+            var height = 1500;
 
             var collider = new Collider(width, height);
+
+            //var velocity = 100;
+            collider.AddLeftCollisionHandler((s, t) =>
+            {
+                if (t is BlockHorizontalMovement)
+                {
+                    facingRight = true;
+                    state = 1;
+                    state1Duration = 50;
+                }
+            });
+            collider.AddRightCollisionHandler((s, t) =>
+            {
+                if (t is BlockHorizontalMovement)
+                {
+                    facingRight = false;
+                    state = 1;
+                    state1Duration = 50;
+                }
+            });
+
             collider.AddBotCollisionHandler(StopsWhenHitting.Bot);
             collider.AddLeftCollisionHandler(StopsWhenHitting.Left);
             collider.AddRightCollisionHandler(StopsWhenHitting.Right);
             collider.AddTopCollisionHandler(StopsWhenHitting.Top);
 
-            collider.AddCollisionHandler((s,t)=> {
+            collider.AddCollisionHandler((s, t) =>
+            {
                 if (t is AttackCollider
-                && t.Parent is Player)
+                && t.Parent is Player
+                //&& state == 2
+                )
                 {
                     Destroy();
                     GameState.BossMode = false;
                 }
             });
+
             AddCollider(collider);
 
-            var animation = GeneratedContent.Create_knight_block(0, 0, width, height);
-            animation.ColorGetter = GameState.GetColor;
+            var animation = GeneratedContent.Create_knight_wolf(0, -height, width * 2, height * 2);//new Animation(new AnimationFrame("pixel", 0, 0, width, height));
+            animation.RenderingLayer = 0.4f;
+            animation.ColorGetter = () => state == 2 ? Color.Red : GameState.GetComplimentColor();
             AddAnimation(animation);
 
             AddUpdate(new MoveHorizontallyWithTheWorld(this));
             AddUpdate(new AfectedByGravity(this));
+            //AddUpdate(() => HorizontalSpeed = velocity);
+            AddUpdate(UpdateBasedOnState);
+        }
+
+        private void UpdateBasedOnState()
+        {
+            if (state == 0)
+            {
+                if (facingRight)
+                    HorizontalSpeed = 100;
+                else
+                    HorizontalSpeed = -100;
+            }
+            if (state == 1)
+            {
+                state1Duration--;
+                HorizontalSpeed = 0;
+                if (state1Duration <= 0)
+                {
+                    VerticalSpeed = -150;
+                    state = 0;
+                }
+            }
+            //if (state == 2)
+            //{
+            //    state1Duration--;
+            //    HorizontalSpeed = 0;
+            //    if (state1Duration <= 0)
+            //        state = 0;
+            //}
         }
 
         public override void OnDestroy()

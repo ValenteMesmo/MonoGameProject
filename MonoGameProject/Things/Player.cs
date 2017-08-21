@@ -133,6 +133,14 @@ namespace MonoGameProject
 
     public class Player : Humanoid
     {
+        /*MUST
+         * 1 boss
+         * animacao de dano
+         * animacao de morte
+         * 2 players
+         * 2 tipos de monstros
+         * bloquear teto
+         */
         /* criar um modulo assim (obrigar a usar walljump)
               __________
               __        |
@@ -157,12 +165,32 @@ namespace MonoGameProject
             D --
              \
         */
+        //main menu
+        //  5... 4... 3... 2... (estilo old movies?)
+        //
+
+        //Enemy Posturing
+        //  The boss leaves itself open to attack when it takes time out of the battle just to taunt you.
+        //Shielded Core Boss
+        //  A boss whose weak point is protected by some kind of protrusion which needs to be destroyed before it takes damage
+        //Smashed Eggs Hatching
+        //  A boss's smashed eggs contain enemy monsters.
+        //Teleport Spam
+        //  A boss that teleports all over the place.
+        //Tennis Boss
+        //  You have to reflect his attacks back onto him to defeat him.
+        //Whack-a-Monster 
+        //  Fighting a Boss(or other critter) that is only vulnerable when it temporarily appears.
+        //Wolfpack Boss
+        //    A boss consisting of several Mooks who wouldn't be difficult by themselves, but when acting together provide a significant challenge.
+
+        //Se move quando o player se move
+        //se move da esquerda para direita sem parar
+        //Se move quando o player se move (no chão) (sempre na direção dele) 
+        //se move para longe do jogador
 
         //textura de intestino grosso, em uma dungeon
         //textura igual ao cenario do ricknmorty s3e4... (inferno)
-
-        //animacao de dano no player ta baguncada
-        //evitar que player ande sobre o teto, no estilo mario bros
 
         //mudar/tocar musica quando um baú aparecer na tela
         //      Ele deve brilhar também
