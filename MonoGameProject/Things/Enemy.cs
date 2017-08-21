@@ -57,9 +57,29 @@ namespace MonoGameProject
 
             AddCollider(collider);
 
-            var animation = GeneratedContent.Create_knight_wolf(0, -height, width * 2, height * 2);//new Animation(new AnimationFrame("pixel", 0, 0, width, height));
-            animation.RenderingLayer = 0.4f;
-            animation.ColorGetter = () => state == 2 ? Color.Red : GameState.GetComplimentColor();
+            var standing_left = GeneratedContent.Create_knight_wolf(
+                    -width/2
+                    , -height
+                    , width * 2
+                    , height * 2
+                );
+            standing_left.RenderingLayer = 0.4f;
+            standing_left.ColorGetter = () => state == 2 ? Color.Red : GameState.GetComplimentColor();
+            var standing_right = GeneratedContent.Create_knight_wolf(
+                    -width/2
+                    , -height
+                    , width * 2
+                    , height * 2
+                    , true
+            );
+            standing_right.RenderingLayer = 0.4f;
+            standing_right.ColorGetter = () => state == 2 ? Color.Red : GameState.GetComplimentColor();
+            var animation =
+                new Animator(
+                    new AnimationTransitionOnCondition(standing_left, () => !facingRight)
+                    , new AnimationTransitionOnCondition(standing_right, () => facingRight)
+            );
+
             AddAnimation(animation);
 
             AddUpdate(new MoveHorizontallyWithTheWorld(this));

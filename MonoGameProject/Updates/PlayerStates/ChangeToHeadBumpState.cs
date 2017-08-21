@@ -58,7 +58,6 @@ namespace MonoGameProject
                     if (Player is Player)
                         Camera.ShakeUp(-Player.VerticalSpeed / 8);
                 }
-
             }
             PreviousState = Player.LegState;
         }
