@@ -50,15 +50,19 @@ namespace MonoGameProject
                 if (Player.LegState == LegState.TakingDamage)
                     return;
 
-                Player.LegState = LegState.HeadBump;
-                Player.HeadState = HeadState.Bump;
-
                 if (PreviousState != LegState.HeadBump)
                 {
+                    if (Player.VerticalSpeed > -50)
+                        return;
+
                     if (Player is Player)
                         Camera.ShakeUp(-Player.VerticalSpeed / 8);
                 }
+
+                Player.LegState = LegState.HeadBump;
+                Player.HeadState = HeadState.Bump;
             }
+
             PreviousState = Player.LegState;
         }
     }
