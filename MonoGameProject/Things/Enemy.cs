@@ -57,36 +57,55 @@ namespace MonoGameProject
 
             AddCollider(collider);
 
-            var standing_left = GeneratedContent.Create_knight_wolf(
-                    -width/2
-                    , -height
-                    , width * 2
-                    , height * 2
-                );
-            standing_left.RenderingLayer = 0.4f;
-            standing_left.ColorGetter = () => state == 2 ? Color.Red : GameState.GetComplimentColor();
-            var standing_right = GeneratedContent.Create_knight_wolf(
-                    -width/2
-                    , -height
-                    , width * 2
-                    , height * 2
-                    , true
-            );
-            standing_right.RenderingLayer = 0.4f;
-            standing_right.ColorGetter = () => state == 2 ? Color.Red : GameState.GetComplimentColor();
-            var animation =
-                new Animator(
-                    new AnimationTransitionOnCondition(standing_left, () => !facingRight)
-                    , new AnimationTransitionOnCondition(standing_right, () => facingRight)
-            );
-
-            AddAnimation(animation);
+            asdsasd(GeneratedContent.Create_knight_wolf_body, 0.42f);
+            asdsasd(GeneratedContent.Create_knight_wolf_head, 0.41f);
+            asdsasd(GeneratedContent.Create_knight_wolf_eye, 0.4f, Color.Red);
 
             AddUpdate(new MoveHorizontallyWithTheWorld(this));
             AddUpdate(new AfectedByGravity(this));
             //AddUpdate(() => HorizontalSpeed = velocity);
             AddUpdate(UpdateBasedOnState);
+
         }
+        private void asdsasd(Func<int, int, int?, int?, bool, Animation> createAnimation, float z, Color? color = null)
+        {
+            var width = 1500;
+            var height = 1500;
+
+            var standing_left = createAnimation(
+                                -width / 2
+                                , -height
+                                , width * 2
+                                , height * 2
+                                , false
+                            );
+            standing_left.RenderingLayer = z;
+            if (color != null)
+                standing_left.ColorGetter = ()=> color.Value;
+            else
+                standing_left.ColorGetter = GameState.GetComplimentColor;
+
+            var standing_right = createAnimation(
+                    -width / 2
+                    , -height
+                    , width * 2
+                    , height * 2
+                    , true
+            );
+            standing_right.RenderingLayer = z;
+            if (color != null)
+                standing_right.ColorGetter = () => color.Value;
+            else
+                standing_right.ColorGetter =  GameState.GetComplimentColor;
+
+            var animation =
+                new Animator(
+                    new AnimationTransitionOnCondition(standing_left, () => !facingRight)
+                    , new AnimationTransitionOnCondition(standing_right, () => facingRight)
+            );
+            AddAnimation(animation);
+        }
+
 
         private void UpdateBasedOnState()
         {
