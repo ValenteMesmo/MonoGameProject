@@ -10,6 +10,8 @@ namespace MonoGameProject
         private int state = 0;
         private bool facingRight = false;
         private int state1Duration = 0;
+        private int damageTaken = 0;
+        private int damageCooldown = 0;
 
         public Boss()
         {
@@ -47,9 +49,17 @@ namespace MonoGameProject
             {
                 if (t is AttackCollider
                 && t.Parent is Player
-                //&& state == 2
                 )
                 {
+                    if (damageCooldown > 0)
+                        return;
+
+                    damageCooldown = 10;
+                    damageTaken++;
+
+                    if (damageTaken < 5)
+                        return;
+
                     Destroy();
                     GameState.BossMode = false;
                 }
@@ -81,9 +91,9 @@ namespace MonoGameProject
                             );
             standing_left.RenderingLayer = z;
             if (color != null)
-                standing_left.ColorGetter = ()=> color.Value;
+                standing_left.ColorGetter = () => color.Value;
             else
-                standing_left.ColorGetter = GameState.GetComplimentColor;
+                standing_left.ColorGetter = () => damageCooldown > 0 ? Color.Red : GameState.GetComplimentColor();
 
             var standing_right = createAnimation(
                     -width / 2
@@ -96,7 +106,7 @@ namespace MonoGameProject
             if (color != null)
                 standing_right.ColorGetter = () => color.Value;
             else
-                standing_right.ColorGetter =  GameState.GetComplimentColor;
+                standing_right.ColorGetter = () => damageCooldown > 0 ? Color.Red : GameState.GetComplimentColor();
 
             var animation =
                 new Animator(
@@ -106,9 +116,11 @@ namespace MonoGameProject
             AddAnimation(animation);
         }
 
-
         private void UpdateBasedOnState()
         {
+            if (damageCooldown >= 0)
+                damageCooldown--;
+
             if (state == 0)
             {
                 if (facingRight)
@@ -126,13 +138,6 @@ namespace MonoGameProject
                     state = 0;
                 }
             }
-            //if (state == 2)
-            //{
-            //    state1Duration--;
-            //    HorizontalSpeed = 0;
-            //    if (state1Duration <= 0)
-            //        state = 0;
-            //}
         }
 
         public override void OnDestroy()
