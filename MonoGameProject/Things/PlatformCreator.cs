@@ -722,7 +722,7 @@ namespace MonoGameProject
             {
                 GameState.CaveMode = !GameState.CaveMode;
                 GameState.ChangeColor();
-                GameState.Save();
+                GameState.PreSave();
                 stageCount = STAGE_LENGTH;
             }
         }

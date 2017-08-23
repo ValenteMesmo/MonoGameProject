@@ -70,6 +70,7 @@ namespace MonoGameProject
                     if (damageTaken < 20)
                         return;
 
+                    GameState.Save();
                     Destroy();
                     GameState.BossMode = false;
                 }
@@ -165,11 +166,6 @@ MyRandom = new
         MyRandom()
 { Seed = GameState.RandomTresure.Next() };
 
-
-        public override void OnDestroy()
-        {
-            GameState.BossMode = false;
-        }
     }
 
     public class Enemy : Humanoid

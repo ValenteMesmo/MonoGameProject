@@ -106,49 +106,78 @@ namespace MonoGameProject
         public static MyRandom PlatformRandomModule = new MyRandom();
         public static bool CaveMode;
 
-        private static long SeedArmorColor = 1;
-        private static long SeedRandomTresure = 666;
-        private static long SeedRandomMonster = 999;
-        private static long SeedParalaxRandomModule = 1;
-        private static long SeedPlatformRandomModule = 1;
-        private static int SavedColorIndex = 0;
-        public static bool WasCaveMode = false;
-
         public static bool TopExit = true;
         public static bool MidExit = true;
         public static bool BotExit = true;
 
+        private static long SavedArmorColor = 1;
+        private static long SavedTresure = 666;
+        private static long SavedMonster = 999;
+        private static long SavedParalax = 1;
+        private static long SavedPlatform = 1;
+        private static int SavedColorIndex = 0;
+        public static bool SavedCaveMode = false;
         private static bool SavedCheckpointTopOpen = true;
         private static bool SavedCheckpointMidOpen = true;
         private static bool SavedCheckpointBotOpen = true;
+        private static bool SavedBossMode = false;
+
+
+        private static long PreSavedArmorColor;
+        private static bool PreSavedCheckpointBotOpen;
+        private static long PreSavedMonster;
+        private static long PreSavedParalax;
+        private static long PreSavedPlatform;
+        private static long PreSavedTresure;
+        private static int PreSavedColorIndex;
+        private static bool PreSavedCaveMode;
+        private static bool PreSavedCheckpointTopOpen;
+        private static bool PreSavedCheckpointMidOpen;
+        private static bool PreSavedBossMode ;
 
         public static void Load()
         {
-            ArmorColor.Seed = SeedArmorColor;
-            RandomTresure.Seed = SeedRandomTresure;
-            RandomMonster.Seed = SeedRandomMonster;
-            ParalaxRandomModule.Seed = SeedParalaxRandomModule;
-            PlatformRandomModule.Seed = SeedPlatformRandomModule;
+            ArmorColor.Seed = SavedArmorColor;
+            RandomTresure.Seed = SavedTresure;
+            RandomMonster.Seed =SavedMonster;
+            ParalaxRandomModule.Seed = SavedParalax;
+            PlatformRandomModule.Seed = SavedPlatform;
             ColorIndex = SavedColorIndex;
-            CaveMode = WasCaveMode;
+            CaveMode = SavedCaveMode;
             TopExit = SavedCheckpointTopOpen;
             MidExit = SavedCheckpointMidOpen;
             BotExit = SavedCheckpointBotOpen;
-            BossMode = false;
+            BossMode = SavedBossMode;
         }
 
         public static void Save()
         {
-            SeedArmorColor = ArmorColor.Seed;
-            SeedRandomTresure = RandomTresure.Seed;
-            SeedRandomMonster = RandomMonster.Seed;
-            SeedParalaxRandomModule = ParalaxRandomModule.Seed;
-            SeedPlatformRandomModule = PlatformRandomModule.Seed;
-            SavedColorIndex = ColorIndex;
-            WasCaveMode = CaveMode;
-            SavedCheckpointTopOpen = TopExit;
-            SavedCheckpointMidOpen = MidExit;
-            SavedCheckpointBotOpen = BotExit;
+            SavedArmorColor = PreSavedArmorColor;
+            SavedTresure = PreSavedTresure;
+            SavedMonster = PreSavedMonster;
+            SavedParalax = PreSavedParalax;
+            SavedPlatform = PreSavedPlatform;
+            SavedColorIndex = PreSavedColorIndex;
+            SavedCaveMode = PreSavedCaveMode;
+            SavedCheckpointTopOpen = PreSavedCheckpointTopOpen;
+            SavedCheckpointMidOpen = PreSavedCheckpointMidOpen;
+            SavedCheckpointBotOpen = PreSavedCheckpointBotOpen;
+            SavedBossMode = PreSavedBossMode;
+        }
+
+        public static void PreSave()
+        {
+            PreSavedArmorColor = ArmorColor.Seed;
+            PreSavedTresure = RandomTresure.Seed;
+            PreSavedMonster = RandomMonster.Seed;
+            PreSavedParalax = ParalaxRandomModule.Seed;
+            PreSavedPlatform = PlatformRandomModule.Seed;
+            PreSavedColorIndex = ColorIndex;
+            PreSavedCaveMode = CaveMode;
+            PreSavedCheckpointTopOpen = TopExit;
+            PreSavedCheckpointMidOpen = MidExit;
+            PreSavedCheckpointBotOpen = BotExit;
+            PreSavedBossMode = false;
         }
     }
 
