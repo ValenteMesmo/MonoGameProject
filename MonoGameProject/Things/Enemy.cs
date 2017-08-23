@@ -20,9 +20,10 @@ namespace MonoGameProject
 
             var attackCollider = new AttackCollider
             {
-                Height = 1500,
+                Height = height / 2,
                 Width = 500,
                 OffsetX = -500,
+                OffsetY = 500,
                 Disabled = false
             };
             AddCollider(attackCollider);
@@ -66,7 +67,7 @@ namespace MonoGameProject
                     damageCooldown = 20;
                     damageTaken++;
 
-                    if (damageTaken < 5)
+                    if (damageTaken < 20)
                         return;
 
                     Destroy();
@@ -92,7 +93,7 @@ namespace MonoGameProject
                     attackCollider.OffsetX = -attackCollider.Width;
             });
             AddUpdate(() =>
-            {                
+            {
                 attackCollider.Disabled = state != 0;
             });
         }
@@ -153,11 +154,17 @@ namespace MonoGameProject
                 HorizontalSpeed = 0;
                 if (state1Duration <= 0)
                 {
-                    VerticalSpeed = -150;
+                    if (MyRandom.Next(0, 100) > 50)
+                        VerticalSpeed = -150;
                     state = 0;
                 }
             }
         }
+        MyRandom
+MyRandom = new
+        MyRandom()
+{ Seed = GameState.RandomTresure.Next() };
+
 
         public override void OnDestroy()
         {
