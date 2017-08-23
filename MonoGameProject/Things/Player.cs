@@ -140,6 +140,7 @@ namespace MonoGameProject
          * 2 players
          * 2 tipos de monstros
          * bloquear teto
+         * attack anticipation (boss)
          */
         /* criar um modulo assim (obrigar a usar walljump)
               __________

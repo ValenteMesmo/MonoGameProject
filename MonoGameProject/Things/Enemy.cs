@@ -18,10 +18,19 @@ namespace MonoGameProject
             var width = 1500;
             var height = 1500;
 
-            var collider = new Collider(width, height);
+            var attackCollider = new AttackCollider
+            {
+                Height = 1500,
+                Width = 500,
+                OffsetX = -500,
+                Disabled = false
+            };
+            AddCollider(attackCollider);
+
+            var mainCollider = new Collider(width, height);
 
             //var velocity = 100;
-            collider.AddLeftCollisionHandler((s, t) =>
+            mainCollider.AddLeftCollisionHandler((s, t) =>
             {
                 if (t is BlockHorizontalMovement)
                 {
@@ -30,7 +39,7 @@ namespace MonoGameProject
                     state1Duration = 50;
                 }
             });
-            collider.AddRightCollisionHandler((s, t) =>
+            mainCollider.AddRightCollisionHandler((s, t) =>
             {
                 if (t is BlockHorizontalMovement)
                 {
@@ -40,12 +49,12 @@ namespace MonoGameProject
                 }
             });
 
-            collider.AddBotCollisionHandler(StopsWhenHitting.Bot);
-            collider.AddLeftCollisionHandler(StopsWhenHitting.Left);
-            collider.AddRightCollisionHandler(StopsWhenHitting.Right);
-            collider.AddTopCollisionHandler(StopsWhenHitting.Top);
+            mainCollider.AddBotCollisionHandler(StopsWhenHitting.Bot);
+            mainCollider.AddLeftCollisionHandler(StopsWhenHitting.Left);
+            mainCollider.AddRightCollisionHandler(StopsWhenHitting.Right);
+            mainCollider.AddTopCollisionHandler(StopsWhenHitting.Top);
 
-            collider.AddCollisionHandler((s, t) =>
+            mainCollider.AddCollisionHandler((s, t) =>
             {
                 if (t is AttackCollider
                 && t.Parent is Player
@@ -54,7 +63,7 @@ namespace MonoGameProject
                     if (damageCooldown > 0)
                         return;
 
-                    damageCooldown = 10;
+                    damageCooldown = 20;
                     damageTaken++;
 
                     if (damageTaken < 5)
@@ -65,7 +74,7 @@ namespace MonoGameProject
                 }
             });
 
-            AddCollider(collider);
+            AddCollider(mainCollider);
 
             asdsasd(GeneratedContent.Create_knight_wolf_body, 0.42f);
             asdsasd(GeneratedContent.Create_knight_wolf_head, 0.41f);
@@ -75,7 +84,17 @@ namespace MonoGameProject
             AddUpdate(new AfectedByGravity(this));
             //AddUpdate(() => HorizontalSpeed = velocity);
             AddUpdate(UpdateBasedOnState);
-
+            AddUpdate(() =>
+            {
+                if (facingRight)
+                    attackCollider.OffsetX = mainCollider.Width;
+                else
+                    attackCollider.OffsetX = -attackCollider.Width;
+            });
+            AddUpdate(() =>
+            {                
+                attackCollider.Disabled = state != 0;
+            });
         }
         private void asdsasd(Func<int, int, int?, int?, bool, Animation> createAnimation, float z, Color? color = null)
         {
