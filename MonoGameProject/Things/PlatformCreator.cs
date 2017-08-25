@@ -674,6 +674,7 @@ namespace MonoGameProject
             var anchorY = 1500;
 
             var newMap = CurrentModules[GameState.PlatformRandomModule.Next(0, CurrentModules.Count - 1)];
+            GameState.State.Platform = GameState.PlatformRandomModule.Seed;
             if (lastModule != null)
             {
                 anchorX = lastModule.X + MapModule.WIDTH - WorldMover.WorldHorizontalSpeed;
@@ -708,6 +709,7 @@ namespace MonoGameProject
                     break;
 
                 newMap = CurrentModules[GameState.PlatformRandomModule.Next(0, CurrentModules.Count - 1)];
+                GameState.State.Platform = GameState.PlatformRandomModule.Seed;
             }
 
             lastModule = new MapModule(anchorX, anchorY, BackBlocker, newMap, AddToWOrld, Game1);
@@ -721,7 +723,7 @@ namespace MonoGameProject
             if (stageCount < 0)
             {
                 GameState.State.CaveMode = !GameState.State.CaveMode;
-                GameState.ChangeColor();
+                GameState.ChangeColor();                
                 GameState.PreSave();
                 stageCount = STAGE_LENGTH;
             }

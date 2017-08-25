@@ -72,10 +72,8 @@ namespace MonoGameProject
 
         //arvore seca, cheia de criaturas voadoras que parecem passaros... faz barulho perto, que elas voam
         //monstro que vira criaturas voadoras quando apanhas
-        //modulos de transicao... tipo castlevania entrando no castelo
 
         //ficar espada na parede, enquanto faz o slide.... isso vai servir para matar boss no estilo shadow of collosus
-        //bad status... slow
         //plataforma "barco"... igual mario....
         //breakable blocks
         //traps

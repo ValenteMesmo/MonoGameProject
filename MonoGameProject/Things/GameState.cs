@@ -101,31 +101,41 @@ namespace MonoGameProject
                 return Colors[Colors.Length - 2];
         }
 
-        public static GameStateData State = new GameStateData();
+        private static GameStateData _state;
+        public static GameStateData State
+        {
+            get { return _state; }
+            set
+            {
+                _state = value;
 
-        public static MyRandom ArmorColor = new MyRandom(State.ArmorColor);
-        public static MyRandom RandomTresure = new MyRandom(State.Tresure);
-        public static MyRandom RandomMonster = new MyRandom(State.Monster);
-        public static MyRandom ParalaxRandomModule = new MyRandom(State.Paralax);
-        public static MyRandom PlatformRandomModule = new MyRandom(State.Platform);
+                ArmorColor.Seed = _state.ArmorColor;
+                RandomTresure.Seed = _state.Tresure;
+                RandomMonster.Seed = _state.Monster;
+                ParalaxRandomModule.Seed = _state.Paralax;
+                PlatformRandomModule.Seed = _state.Platform;
+            }
+        }
+
+        private static GameStateData PreSavedData;
+
+        public static MyRandom ArmorColor = new MyRandom();
+        public static MyRandom RandomTresure = new MyRandom();
+        public static MyRandom RandomMonster = new MyRandom();
+        public static MyRandom ParalaxRandomModule = new MyRandom();
+        public static MyRandom PlatformRandomModule = new MyRandom();
 
         public static void Load()
         {
             State = new GameStateData();
-            ArmorColor.Seed = State.ArmorColor;
-            RandomTresure.Seed = State.Tresure;
-            RandomMonster.Seed = State.Monster;
-            ParalaxRandomModule.Seed = State.Paralax;
-            PlatformRandomModule.Seed = State.Platform;
 
             if (File.Exists("save.json") == false)
             {
-                File.WriteAllText("save.json", JsonConvert.SerializeObject(State));                
+                File.WriteAllText("save.json", JsonConvert.SerializeObject(State));
             }
             var savedContent = File.ReadAllText("save.json");
             var loadedState = JsonConvert.DeserializeObject<GameStateData>(savedContent);
-
-            State = loadedState;            
+            State = loadedState;
         }
 
         public static void Save()
@@ -134,10 +144,14 @@ namespace MonoGameProject
             File.WriteAllText("save.json", JsonConvert.SerializeObject(PreSavedData));
         }
 
-        static GameStateData PreSavedData;
         public static void PreSave()
-        {            
+        {
             PreSavedData = State;
+            PreSavedData.ArmorColor = ArmorColor.Seed;
+            PreSavedData.Tresure = RandomTresure.Seed;
+            PreSavedData.Monster = RandomMonster.Seed;
+            PreSavedData.Paralax = ParalaxRandomModule.Seed;
+            PreSavedData.Platform = PlatformRandomModule.Seed;
         }
     }
 }
