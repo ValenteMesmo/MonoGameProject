@@ -23,6 +23,10 @@ namespace MonoGameProject
             AddThing(WorldMover);
             AddThing(player);
             AddThing(new PlatformCreator(WorldMover, AddThing, this));
+
+            var roof = new Thing();
+            roof.AddCollider(new SolidCollider { OffsetY = - MapModule.CELL_SIZE, Height = 4*MapModule.CELL_SIZE, Width = 16*2 * MapModule.CELL_SIZE });
+            AddThing(roof);
             //var background = new Thing();
 
             //for (int i = 0; i < MapModule.CELL_SIZE; i++)

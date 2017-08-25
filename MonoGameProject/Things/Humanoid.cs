@@ -32,7 +32,7 @@ namespace MonoGameProject
         }
     }
 
-    public class SolidCollider : Collider, BlockHorizontalMovement
+    public class SolidCollider : Collider, BlockHorizontalMovement, BlockVerticalMovement
     {
     }
 

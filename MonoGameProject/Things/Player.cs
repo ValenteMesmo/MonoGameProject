@@ -134,12 +134,9 @@ namespace MonoGameProject
     public class Player : Humanoid
     {
         /*MUST
-         * 1 boss
-         * animacao de dano
          * animacao de morte
          * 2 players
          * 2 tipos de monstros
-         * bloquear teto
          * attack anticipation (boss)
          */
         /* criar um modulo assim (obrigar a usar walljump)
