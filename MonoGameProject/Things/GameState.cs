@@ -1,7 +1,43 @@
 ﻿using Microsoft.Xna.Framework;
+using Newtonsoft.Json;
+using System.IO;
 
 namespace MonoGameProject
 {
+    public class GameStateData
+    {
+        public long ArmorColor;
+        public long Monster;
+        public long Tresure;
+        public long Paralax;
+        public long Platform;
+        public int ColorIndex;
+        public bool CaveMode;
+        public bool CheckpointTopOpen;
+        public bool CheckpointMidOpen;
+        public bool CheckpointBotOpen;
+        public bool BossMode;
+
+        public GameStateData()
+        {
+            CheckpointTopOpen = true;
+            CheckpointMidOpen = true;
+            CheckpointBotOpen = true;
+
+            ArmorColor = 1;
+            Tresure = 666;
+            Monster = 999;
+            Paralax = 1;
+            Platform = 1;
+            ColorIndex = 0;
+            CaveMode = false;
+            CheckpointTopOpen = true;
+            CheckpointMidOpen = true;
+            CheckpointBotOpen = true;
+            BossMode = false;
+        }
+    }
+
     public static class GameState
     {
         private static Color[] Colors = new Color[] {
@@ -18,22 +54,22 @@ namespace MonoGameProject
             , new Color(0.6f,1.0f,1.0f)//CYAN
             , new Color(0.6f,1.0f,0.8f)
         };
-        private static int ColorIndex = 0;
+
         public static void ChangeColor()
         {
-            ColorIndex++;
-            if (ColorIndex >= Colors.Length)
-                ColorIndex = 0;
+            State.ColorIndex++;
+            if (State.ColorIndex >= Colors.Length)
+                State.ColorIndex = 0;
         }
 
         public static Color GetColor()
         {
-            return Colors[ColorIndex];
+            return Colors[State.ColorIndex];
         }
 
         public static Color GetComplimentColor()
         {
-            var tempIndex = ColorIndex - 2;
+            var tempIndex = State.ColorIndex - 2;
             var newIndex = tempIndex + ((Colors.Length - 1) / 2);
             if (newIndex > Colors.Length - 1)
                 newIndex = newIndex - Colors.Length;
@@ -42,7 +78,7 @@ namespace MonoGameProject
 
         public static Color GetComplimentColor2()
         {
-            var tempIndex = ColorIndex + 2;
+            var tempIndex = State.ColorIndex + 2;
             var newIndex = tempIndex + ((Colors.Length - 1) / 2);
             if (newIndex > Colors.Length - 1)
                 newIndex = newIndex - Colors.Length;
@@ -51,99 +87,57 @@ namespace MonoGameProject
 
         public static Color GetPreviousColor()
         {
-            if (ColorIndex > 0)
-                return Colors[ColorIndex - 1];
+            if (State.ColorIndex > 0)
+                return Colors[State.ColorIndex - 1];
             else
                 return Colors[Colors.Length - 1];
         }
+
         public static Color GetPreviousColor2()
         {
-            if (ColorIndex > 1)
-                return Colors[ColorIndex - 2];
+            if (State.ColorIndex > 1)
+                return Colors[State.ColorIndex - 2];
             else
                 return Colors[Colors.Length - 2];
         }
 
-        public static bool BossMode = false;
-        public static MyRandom ArmorColor = new MyRandom();
-        public static MyRandom RandomTresure = new MyRandom();
-        public static MyRandom RandomMonster = new MyRandom();
-        public static MyRandom ParalaxRandomModule = new MyRandom();
-        public static MyRandom PlatformRandomModule = new MyRandom();
-        public static bool CaveMode;
+        public static GameStateData State = new GameStateData();
 
-        public static bool TopExit = true;
-        public static bool MidExit = true;
-        public static bool BotExit = true;
-
-        private static long SavedArmorColor = 1;
-        private static long SavedTresure = 666;
-        private static long SavedMonster = 999;
-        private static long SavedParalax = 1;
-        private static long SavedPlatform = 1;
-        private static int SavedColorIndex = 0;
-        public static bool SavedCaveMode = false;
-        private static bool SavedCheckpointTopOpen = true;
-        private static bool SavedCheckpointMidOpen = true;
-        private static bool SavedCheckpointBotOpen = true;
-        private static bool SavedBossMode = false;
-
-
-        private static long PreSavedArmorColor;
-        private static bool PreSavedCheckpointBotOpen;
-        private static long PreSavedMonster;
-        private static long PreSavedParalax;
-        private static long PreSavedPlatform;
-        private static long PreSavedTresure;
-        private static int PreSavedColorIndex;
-        private static bool PreSavedCaveMode;
-        private static bool PreSavedCheckpointTopOpen;
-        private static bool PreSavedCheckpointMidOpen;
-        private static bool PreSavedBossMode ;
+        public static MyRandom ArmorColor = new MyRandom(State.ArmorColor);
+        public static MyRandom RandomTresure = new MyRandom(State.Tresure);
+        public static MyRandom RandomMonster = new MyRandom(State.Monster);
+        public static MyRandom ParalaxRandomModule = new MyRandom(State.Paralax);
+        public static MyRandom PlatformRandomModule = new MyRandom(State.Platform);
 
         public static void Load()
         {
-            ArmorColor.Seed = SavedArmorColor;
-            RandomTresure.Seed = SavedTresure;
-            RandomMonster.Seed =SavedMonster;
-            ParalaxRandomModule.Seed = SavedParalax;
-            PlatformRandomModule.Seed = SavedPlatform;
-            ColorIndex = SavedColorIndex;
-            CaveMode = SavedCaveMode;
-            TopExit = SavedCheckpointTopOpen;
-            MidExit = SavedCheckpointMidOpen;
-            BotExit = SavedCheckpointBotOpen;
-            BossMode = SavedBossMode;
+            State = new GameStateData();
+            ArmorColor.Seed = State.ArmorColor;
+            RandomTresure.Seed = State.Tresure;
+            RandomMonster.Seed = State.Monster;
+            ParalaxRandomModule.Seed = State.Paralax;
+            PlatformRandomModule.Seed = State.Platform;
+
+            if (File.Exists("save.json") == false)
+            {
+                File.WriteAllText("save.json", JsonConvert.SerializeObject(State));                
+            }
+            var savedContent = File.ReadAllText("save.json");
+            var loadedState = JsonConvert.DeserializeObject<GameStateData>(savedContent);
+
+            State = loadedState;            
         }
 
         public static void Save()
         {
-            SavedArmorColor = PreSavedArmorColor;
-            SavedTresure = PreSavedTresure;
-            SavedMonster = PreSavedMonster;
-            SavedParalax = PreSavedParalax;
-            SavedPlatform = PreSavedPlatform;
-            SavedColorIndex = PreSavedColorIndex;
-            SavedCaveMode = PreSavedCaveMode;
-            SavedCheckpointTopOpen = PreSavedCheckpointTopOpen;
-            SavedCheckpointMidOpen = PreSavedCheckpointMidOpen;
-            SavedCheckpointBotOpen = PreSavedCheckpointBotOpen;
-            SavedBossMode = PreSavedBossMode;
+            PreSavedData.BossMode = false;
+            File.WriteAllText("save.json", JsonConvert.SerializeObject(PreSavedData));
         }
 
+        static GameStateData PreSavedData;
         public static void PreSave()
-        {
-            PreSavedArmorColor = ArmorColor.Seed;
-            PreSavedTresure = RandomTresure.Seed;
-            PreSavedMonster = RandomMonster.Seed;
-            PreSavedParalax = ParalaxRandomModule.Seed;
-            PreSavedPlatform = PlatformRandomModule.Seed;
-            PreSavedColorIndex = ColorIndex;
-            PreSavedCaveMode = CaveMode;
-            PreSavedCheckpointTopOpen = TopExit;
-            PreSavedCheckpointMidOpen = MidExit;
-            PreSavedCheckpointBotOpen = BotExit;
-            PreSavedBossMode = false;
+        {            
+            PreSavedData = State;
         }
     }
 }

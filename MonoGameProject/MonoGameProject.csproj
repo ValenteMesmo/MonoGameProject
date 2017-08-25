@@ -49,16 +49,19 @@
     <Compile Include="Things\DestroyIfLeftBehind.cs" />
     <Compile Include="Things\Enemy.cs" />
     <Compile Include="Things\FireBall.cs" />
+    <Compile Include="Things\GameState.cs" />
     <Compile Include="Things\Humanoid.cs" />
     <Compile Include="Things\HumanoidAnimatorFactory.cs" />
     <Compile Include="Things\LeftFireBallTrap.cs" />
     <Compile Include="Things\MapModule.cs" />
+    <Compile Include="Things\MyRandom.cs" />
     <Compile Include="Things\ParalaxBackgroundCreator.cs" />
     <Compile Include="Things\PatrolAiInputs.cs" />
     <Compile Include="Things\PlayerState.cs" />
     <Compile Include="Things\PreventPlayerFromAccicentlyFalling.cs" />
     <Compile Include="Things\ReduceSizeWhenCrouching.cs" />
     <Compile Include="Things\RightFireBallTrap.cs" />
+    <Compile Include="Things\Spikes.cs" />
     <Compile Include="Things\WorldHelper.cs" />
     <Compile Include="Updates\AfectedByGravity.cs" />
     <Compile Include="Things\BackBlocker.cs" />
@@ -88,6 +91,9 @@
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
       <HintPath>$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\MonoGame.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
@@ -145,6 +151,7 @@
     <None Include="app.manifest" />
     <None Include="Content\knight.json" />
     <None Include="Content\SpriteFont.spritefont" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GameCore\GameCore.csproj">

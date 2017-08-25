@@ -110,7 +110,7 @@ namespace MonoGameProject
 
                     GameState.Save();
                     Destroy();
-                    GameState.BossMode = false;
+                    GameState.State.BossMode = false;
                 }
             });
 

@@ -11,6 +11,11 @@
             Seed = 1;
         }
 
+        public MyRandom(long Seed)
+        {
+            this.Seed = Seed;
+        }
+
         public int Next()
         {
             return (int)Rand();

@@ -665,7 +665,7 @@ namespace MonoGameProject
 
         private void CreateGroundOnTheRight()
         {
-            if (GameState.CaveMode)
+            if (GameState.State.CaveMode)
                 CurrentModules = CaveModules;
             else
                 CurrentModules = Modules;
@@ -683,9 +683,9 @@ namespace MonoGameProject
             {
                 if (stageCount == 2)
                 {
-                    if (GameState.TopExit == newMap.TopEntry
-                    && GameState.MidExit == newMap.MidEntry
-                    && GameState.BotExit == newMap.BotEntry
+                    if (GameState.State.CheckpointTopOpen == newMap.TopEntry
+                    && GameState.State.CheckpointMidOpen == newMap.MidEntry
+                    && GameState.State.CheckpointBotOpen == newMap.BotEntry
                     && newMap.TopExit
                     && !newMap.MidExit
                     && !newMap.BotExit)
@@ -702,9 +702,9 @@ namespace MonoGameProject
                     break;
                 }
                 else if (
-                    GameState.TopExit == newMap.TopEntry
-                    && GameState.MidExit == newMap.MidEntry
-                    && GameState.BotExit == newMap.BotEntry)
+                    GameState.State.CheckpointTopOpen == newMap.TopEntry
+                    && GameState.State.CheckpointMidOpen == newMap.MidEntry
+                    && GameState.State.CheckpointBotOpen == newMap.BotEntry)
                     break;
 
                 newMap = CurrentModules[GameState.PlatformRandomModule.Next(0, CurrentModules.Count - 1)];
@@ -712,15 +712,15 @@ namespace MonoGameProject
 
             lastModule = new MapModule(anchorX, anchorY, BackBlocker, newMap, AddToWOrld, Game1);
 
-            GameState.TopExit = lastModule.Info.TopExit;
-            GameState.MidExit = lastModule.Info.MidExit;
-            GameState.BotExit = lastModule.Info.BotExit;
+            GameState.State.CheckpointTopOpen = lastModule.Info.TopExit;
+            GameState.State.CheckpointMidOpen = lastModule.Info.MidExit;
+            GameState.State.CheckpointBotOpen = lastModule.Info.BotExit;
 
             AddToWOrld(lastModule);
             stageCount--;
             if (stageCount < 0)
             {
-                GameState.CaveMode = !GameState.CaveMode;
+                GameState.State.CaveMode = !GameState.State.CaveMode;
                 GameState.ChangeColor();
                 GameState.PreSave();
                 stageCount = STAGE_LENGTH;

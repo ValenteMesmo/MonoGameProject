@@ -29,7 +29,7 @@ namespace MonoGameProject
             if (target.Parent is Player)
             {
                 source.Disabled = true;
-                GameState.BossMode = true;
+                GameState.State.BossMode = true;
             }
         }
     }
@@ -232,7 +232,7 @@ namespace MonoGameProject
                         var originalY = locker.Y;
                         locker.AddUpdate(() =>
                         {
-                            if (GameState.BossMode)
+                            if (GameState.State.BossMode)
                                 locker.Y = originalY;
                             else
                                 locker.Y = originalY - CELL_SIZE * 2;

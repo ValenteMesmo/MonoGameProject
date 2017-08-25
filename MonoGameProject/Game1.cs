@@ -12,9 +12,9 @@ namespace MonoGameProject
             GameState.Load();
             var player = new Player(this, AddThing);
             player.X = 1000;
-            if (GameState.BotExit)
+            if (GameState.State.CheckpointBotOpen)
                 player.Y = (14 * MapModule.CELL_SIZE) + 1000;
-            else if (GameState.MidExit)
+            else if (GameState.State.CheckpointMidOpen)
                 player.Y = (8 * MapModule.CELL_SIZE) + 1000;
             else
                 player.Y = 2 * MapModule.CELL_SIZE + 1000;

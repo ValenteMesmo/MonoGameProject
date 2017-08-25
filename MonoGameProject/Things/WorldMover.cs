@@ -37,7 +37,7 @@ namespace MonoGameProject
                             WorldHorizontalSpeed = 0;
                     }
                 }
-                if (GameState.BossMode)
+                if (GameState.State.BossMode)
                 {
                     var expected = -MapModule.WIDTH;
 
@@ -89,7 +89,7 @@ namespace MonoGameProject
 
             AddUpdate(() =>
             {
-                if (GameState.BossMode == false
+                if (GameState.State.BossMode == false
                 && MovingRightBy != null
                 && MovingRightBy.HorizontalSpeed > 0)
                 {
@@ -120,7 +120,7 @@ namespace MonoGameProject
 
             AddUpdate(() =>
             {
-                if (GameState.BossMode == false
+                if (GameState.State.BossMode == false
                     && MovingLeftBy != null
                     && MovingLeftBy.HorizontalSpeed < 0
                 )
