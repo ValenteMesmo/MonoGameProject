@@ -265,8 +265,8 @@ namespace MonoGameProject
                         CreateBackground(i, j);
                     }
                     if (type == 'm')
-                    {
-                        AddToWorld(new Boss
+                    {//This game1 dependency is ugly
+                        AddToWorld(new Boss(Game1,AddToWorld)
                         {
                             X = X + j * CELL_SIZE,
                             Y = Y + i * CELL_SIZE

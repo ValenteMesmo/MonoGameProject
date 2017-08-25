@@ -1,17 +1,18 @@
 ﻿using GameCore;
+using Microsoft.Xna.Framework;
 using System;
 
 namespace MonoGameProject
 {
     public class HitEffect : Thing
     {
+        public Color Color = Color.White;
         public HitEffect()
         {
-            var animation = GeneratedContent.Create_knight_hit_effect(-400, -400, 0);
+            var animation = GeneratedContent.Create_knight_hit_effect(-400, -400);
             animation.LoopDisabled = true;
             animation.ScaleX = animation.ScaleY = 10;
-            var color = new Microsoft.Xna.Framework.Color(1, 1, 1, 0.5f);
-            animation.ColorGetter = () => color;
+            animation.ColorGetter = () => Color;
             animation.FrameDuration = 2;
             animation.RenderingLayer = 0f;
             AddAnimation(animation);
@@ -79,11 +80,10 @@ namespace MonoGameProject
                 Parent.HitPoints--;
                 Parent.LegState = LegState.TakingDamage;
                 Parent.HorizontalSpeed = target.Parent.HorizontalSpeed / 2;
-                //This vspeed is not working
                 Parent.VerticalSpeed = Jump.maxJumpSpeed;
 
                 DamageDuration = 25;
-                if (target.Parent is Player)
+               // if (target.Parent is Player)
                 {
                     Game1.Sleep();
                     Game1.Camera.ShakeUp(20);
