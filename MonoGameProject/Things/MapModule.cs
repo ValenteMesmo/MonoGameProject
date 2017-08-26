@@ -209,20 +209,20 @@ namespace MonoGameProject
                         locker.Y = (Y + i * CELL_SIZE);
 
                         var animation = GeneratedContent.Create_knight_block(
-                                - 5
-                               ,  - 5
+                                -5
+                               , -5
                                , MapModule.CELL_SIZE + 10
-                               , (MapModule.CELL_SIZE + 10)*2);
+                               , (MapModule.CELL_SIZE + 10) * 2);
                         animation.RenderingLayer = 0.5f;
                         var color = GameState.GetColor();
                         animation.ColorGetter = () => color;
                         locker.AddAnimation(animation);
 
                         var animationborder = GeneratedContent.Create_knight_block(
-                               - 25
-                               , - 25
+                               -25
+                               , -25
                                , MapModule.CELL_SIZE + 50
-                               , (MapModule.CELL_SIZE + 50)*2);
+                               , (MapModule.CELL_SIZE + 50) * 2);
                         animationborder.RenderingLayer = 0.51f;
                         animationborder.ColorGetter = () => Color.Black;//Colors[ColorIndex];
                         locker.AddAnimation(animationborder);
@@ -266,7 +266,7 @@ namespace MonoGameProject
                     }
                     if (type == 'm')
                     {//This game1 dependency is ugly
-                        AddToWorld(new Boss(Game1,AddToWorld)
+                        AddToWorld(new Boss(Game1, AddToWorld)
                         {
                             X = X + j * CELL_SIZE,
                             Y = Y + i * CELL_SIZE

@@ -12,9 +12,9 @@ namespace MonoGameProject
             GameState.Load();
             var player = new Player(this, AddThing);
             player.X = 1000;
-            if (GameState.State.CheckpointBotOpen)
+            if (GameState.State.BotExit)
                 player.Y = (14 * MapModule.CELL_SIZE) + 1000;
-            else if (GameState.State.CheckpointMidOpen)
+            else if (GameState.State.MidExit)
                 player.Y = (8 * MapModule.CELL_SIZE) + 1000;
             else
                 player.Y = 2 * MapModule.CELL_SIZE + 1000;
@@ -27,26 +27,7 @@ namespace MonoGameProject
             var roof = new Thing();
             roof.AddCollider(new SolidCollider { OffsetY = - MapModule.CELL_SIZE, Height = 4*MapModule.CELL_SIZE, Width = 16*2 * MapModule.CELL_SIZE });
             AddThing(roof);
-            //var background = new Thing();
-
-            //for (int i = 0; i < MapModule.CELL_SIZE; i++)
-            //{
-            //    for (int j = 0; j < MapModule.CELL_SIZE; j++)
-            //    {
-
-            //        background.AddAnimation(
-            //        GeneratedContent.Create_knight_block(
-            //            j * MapModule.CELL_SIZE
-            //            , 1500 + i * MapModule.CELL_SIZE
-            //            , 1
-            //            , (int)(MapModule.CELL_SIZE)
-            //            , (int)(MapModule.CELL_SIZE)));
-
-            //    }
-            //}
-            //AddThing(background);
             var runningOnGoodPc = false;
-            //if (runningOnGoodPc)
             {
                 AddThing(new ParalaxBackgroundCreator(WorldMover, AddThing, this, (x, y, width, height) => GeneratedContent.Create_knight_dead_tree(x, y), 3, 0.91f));
                 AddThing(new ParalaxBackgroundCreator(WorldMover, AddThing, this, (x, y, width, height) => GeneratedContent.Create_knight_dead_tree(x, y), 2, 0.90f));

@@ -7,6 +7,8 @@ namespace MonoGameProject
 {
     public class PlatformCreator : Thing
     {
+        private const int STAGE_LENGTH = 5;
+        int stageCount = STAGE_LENGTH;
         private MapModule lastModule;
         private WorldMover WorldMover;
         private Action<Thing> AddToWOrld;
@@ -470,6 +472,29 @@ namespace MonoGameProject
                     ,true
                     ,false
                     ,true
+                    ,false
+                    ,false
+                    ,"1111111111111111"//
+                    ,"================"//E
+                    ,"=====22===22===="//E
+                    ,"=====22===22===1"//
+                    ,"=====22===22===1"//
+                    ,"=====22===22===1"//
+                    ,"=====22===22===1"//
+                    ,"1====22===22===1"//E
+                    ,"1====22===22===1"//E
+                    ,"1====22===22===1"//
+                    ,"1====22===22===1"//
+                    ,"1====22===22===1"//
+                    ,"1====22===22===1"//
+                    ,"1==============1"//E
+                    ,"1==============1"//E
+                    ,"1111111111111111")
+                    ,new MapModuleInfo(
+                    true
+                    ,true
+                    ,false
+                    ,true
                     ,true
                     ,false
                     ,"1111111111111111"//
@@ -661,7 +686,6 @@ namespace MonoGameProject
             }
         }
 
-        int stageCount = STAGE_LENGTH;
 
         private void CreateGroundOnTheRight()
         {
@@ -674,7 +698,6 @@ namespace MonoGameProject
             var anchorY = 1500;
 
             var newMap = CurrentModules[GameState.PlatformRandomModule.Next(0, CurrentModules.Count - 1)];
-            GameState.State.Platform = GameState.PlatformRandomModule.Seed;
             if (lastModule != null)
             {
                 anchorX = lastModule.X + MapModule.WIDTH - WorldMover.WorldHorizontalSpeed;
@@ -684,9 +707,9 @@ namespace MonoGameProject
             {
                 if (stageCount == 2)
                 {
-                    if (GameState.State.CheckpointTopOpen == newMap.TopEntry
-                    && GameState.State.CheckpointMidOpen == newMap.MidEntry
-                    && GameState.State.CheckpointBotOpen == newMap.BotEntry
+                    if (GameState.State.TopExit == newMap.TopEntry
+                    && GameState.State.MidExit == newMap.MidEntry
+                    && GameState.State.BotExit == newMap.BotEntry
                     && newMap.TopExit
                     && !newMap.MidExit
                     && !newMap.BotExit)
@@ -703,33 +726,31 @@ namespace MonoGameProject
                     break;
                 }
                 else if (
-                    GameState.State.CheckpointTopOpen == newMap.TopEntry
-                    && GameState.State.CheckpointMidOpen == newMap.MidEntry
-                    && GameState.State.CheckpointBotOpen == newMap.BotEntry)
+                    GameState.State.TopExit == newMap.TopEntry
+                    && GameState.State.MidExit == newMap.MidEntry
+                    && GameState.State.BotExit == newMap.BotEntry)
                     break;
 
                 newMap = CurrentModules[GameState.PlatformRandomModule.Next(0, CurrentModules.Count - 1)];
-                GameState.State.Platform = GameState.PlatformRandomModule.Seed;
             }
 
             lastModule = new MapModule(anchorX, anchorY, BackBlocker, newMap, AddToWOrld, Game1);
 
-            GameState.State.CheckpointTopOpen = lastModule.Info.TopExit;
-            GameState.State.CheckpointMidOpen = lastModule.Info.MidExit;
-            GameState.State.CheckpointBotOpen = lastModule.Info.BotExit;
+            GameState.State.TopExit = lastModule.Info.TopExit;
+            GameState.State.MidExit = lastModule.Info.MidExit;
+            GameState.State.BotExit = lastModule.Info.BotExit;
 
             AddToWOrld(lastModule);
             stageCount--;
             if (stageCount < 0)
             {
                 GameState.State.CaveMode = !GameState.State.CaveMode;
-                GameState.ChangeColor();                
+                GameState.ChangeColor();
                 GameState.PreSave();
                 stageCount = STAGE_LENGTH;
             }
-        }
 
-        private const int STAGE_LENGTH = 3;
+        }
     }
 
     public class Tiles

@@ -15,7 +15,7 @@ namespace MonoGameProject
         private bool grounded;
         private MyRandom MyRandom = new MyRandom()
         {
-            Seed = GameState.PlatformRandomModule.Next()
+            Seed = GameState.PlatformRandomModule.Seed
         };
         private Color BodyColor
         {
@@ -105,7 +105,7 @@ namespace MonoGameProject
                     else
                         AddToWorld(new HitEffect() { X = player.AttackLeftCollider.X, Y = player.AttackLeftCollider.Y, Color = _actualBodyColor });
 
-                    if (damageTaken < 20)
+                    if (damageTaken < 10)
                         return;
 
                     GameState.Save();

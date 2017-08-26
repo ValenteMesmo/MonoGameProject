@@ -13,16 +13,16 @@ namespace MonoGameProject
         public long Platform;
         public int ColorIndex;
         public bool CaveMode;
-        public bool CheckpointTopOpen;
-        public bool CheckpointMidOpen;
-        public bool CheckpointBotOpen;
+        public bool TopExit;
+        public bool MidExit;
+        public bool BotExit;
         public bool BossMode;
 
         public GameStateData()
         {
-            CheckpointTopOpen = true;
-            CheckpointMidOpen = true;
-            CheckpointBotOpen = true;
+            TopExit = true;
+            MidExit = true;
+            BotExit = true;
 
             ArmorColor = 1;
             Tresure = 666;
@@ -31,9 +31,9 @@ namespace MonoGameProject
             Platform = 1;
             ColorIndex = 0;
             CaveMode = false;
-            CheckpointTopOpen = true;
-            CheckpointMidOpen = true;
-            CheckpointBotOpen = true;
+            TopExit = true;
+            MidExit = true;
+            BotExit = true;
             BossMode = false;
         }
     }
@@ -117,7 +117,7 @@ namespace MonoGameProject
             }
         }
 
-        private static GameStateData PreSavedData;
+        private static GameStateData PreSavedData = new GameStateData();
 
         public static MyRandom ArmorColor = new MyRandom();
         public static MyRandom RandomTresure = new MyRandom();
@@ -146,7 +146,13 @@ namespace MonoGameProject
 
         public static void PreSave()
         {
-            PreSavedData = State;
+            PreSavedData.BossMode = false;
+            PreSavedData.TopExit= State.TopExit;
+            PreSavedData.MidExit= State.MidExit;
+            PreSavedData.BotExit= State.BotExit;
+            PreSavedData.CaveMode= State.CaveMode;
+            PreSavedData.ColorIndex= State.ColorIndex;
+
             PreSavedData.ArmorColor = ArmorColor.Seed;
             PreSavedData.Tresure = RandomTresure.Seed;
             PreSavedData.Monster = RandomMonster.Seed;
