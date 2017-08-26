@@ -59,18 +59,20 @@ namespace MonoGameProject
         //Se move quando o player se move (no chão) (sempre na direção dele) 
         //se move para longe do jogador
 
-        //cara
-        //  de lobo, de urso, de boi, de cavalo, de porco, de aranha, de leão, de dragao, de caveira
+        //cara (2 layers... duas cores! uma para fuça...)
+        //  de lobo, de urso, de boi, de cavalo, de porco, de aranha, de leão, de dragao, de caveira, cthulu
         //olhos
         //  1, 2, 4, 6
         //testa
         //  chifre de boi, chifre de unicornio, coroa
         //pescoço
         //  juba, caveiras, colar do akuma
-        //corpo
+        //corpo (2 layers... duas cores! uma para barriga...)
         //  lobo,   cavalo, lagarto, chimera
         //costas
-        //  asa, pentagrama, chifres, casco, capa, sela
+        //  asa (anjo e capeta), pentagrama, chifres, casco, capa, sela
+        // rabo
+        //  lobo, leao, demonio, escorpião
 
         //textura de intestino grosso, em uma dungeon
         //textura igual ao cenario do ricknmorty s3e4... (inferno)
