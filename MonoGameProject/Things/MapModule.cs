@@ -355,7 +355,7 @@ namespace MonoGameProject
             animation.RenderingLayer = zIndex;
             animation.ScaleX = 10;
             animation.ScaleY = 10;
-            var color = GameState.GetPreviousColor();
+            var color = GameState.GetComplimentColor();
             animation.ColorGetter = () => color;
             AddAnimation(animation);
 

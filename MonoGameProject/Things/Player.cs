@@ -60,7 +60,7 @@ namespace MonoGameProject
         //se move para longe do jogador
 
         //cara (2 layers... duas cores! uma para fuça...)
-        //  de lobo, de urso, de boi, de cavalo, de porco, de aranha, de leão, de dragao, de caveira, cthulu
+        //  de lobo, de urso, de boi, de cavalo, de porco, de aranha, de leão, de dragao, de caveira, cthulu, bills
         //olhos
         //  1, 2, 4, 6
         //testa

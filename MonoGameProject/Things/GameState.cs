@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
+using System;
 using System.IO;
 
 namespace MonoGameProject
@@ -55,6 +56,51 @@ namespace MonoGameProject
             , new Color(0.6f,1.0f,0.8f)
         };
 
+        private static Color[] Colors2 = new Color[] {
+              new Color(1.0f,0.6f,0.6f)//RED
+            , new Color(1.0f,0.6f,0.8f)
+            , new Color(1.0f,0.6f,1.0f)//MAGENTA
+            , new Color(0.8f,0.6f,1.0f)
+            , new Color(0.6f,0.6f,1.0f)//BLUE
+            , new Color(0.6f,0.8f,1.0f)
+            , new Color(0.6f,1.0f,1.0f)//CYAN
+            , new Color(0.6f,1.0f,0.8f)
+            , new Color(0.6f,1.0f,0.6f)//GREEN
+            , new Color(0.8f,1.0f,0.6f)
+            , new Color(1.0f,1.0f,0.6f)//YELLOW
+            , new Color(1.0f,0.8f,0.6f)
+        };
+
+        private static Color[] Colors3 = new Color[] {
+              new Color(1.0f,0.6f,1.0f)//MAGENTA
+            , new Color(0.8f,0.6f,1.0f)
+            , new Color(0.6f,0.6f,1.0f)//BLUE
+            , new Color(0.6f,0.8f,1.0f)
+            , new Color(0.6f,1.0f,1.0f)//CYAN
+            , new Color(0.6f,1.0f,0.8f)
+            , new Color(0.6f,1.0f,0.6f)//GREEN
+            , new Color(0.8f,1.0f,0.6f)
+            , new Color(1.0f,1.0f,0.6f)//YELLOW
+            , new Color(1.0f,0.8f,0.6f)
+            , new Color(1.0f,0.6f,0.6f)//RED
+            , new Color(1.0f,0.6f,0.8f)
+        };
+
+        private static Color[] Colors4 = new Color[] {
+              new Color(0.6f,1.0f,1.0f)//CYAN
+            , new Color(0.6f,1.0f,0.8f)
+            , new Color(0.6f,1.0f,0.6f)//GREEN
+            , new Color(0.8f,1.0f,0.6f)
+            , new Color(1.0f,1.0f,0.6f)//YELLOW
+            , new Color(1.0f,0.8f,0.6f)
+            , new Color(1.0f,0.6f,0.6f)//RED
+            , new Color(1.0f,0.6f,0.8f)
+            , new Color(1.0f,0.6f,1.0f)//MAGENTA
+            , new Color(0.8f,0.6f,1.0f)
+            , new Color(0.6f,0.6f,1.0f)//BLUE
+            , new Color(0.6f,0.8f,1.0f)
+        };
+
         public static void ChangeColor()
         {
             State.ColorIndex++;
@@ -69,36 +115,17 @@ namespace MonoGameProject
 
         public static Color GetComplimentColor()
         {
-            var tempIndex = State.ColorIndex - 2;
-            var newIndex = tempIndex + ((Colors.Length - 1) / 2);
-            if (newIndex > Colors.Length - 1)
-                newIndex = newIndex - Colors.Length;
-            return Colors[newIndex];
+            return Colors2[State.ColorIndex];
         }
 
         public static Color GetComplimentColor2()
         {
-            var tempIndex = State.ColorIndex + 2;
-            var newIndex = tempIndex + ((Colors.Length - 1) / 2);
-            if (newIndex > Colors.Length - 1)
-                newIndex = newIndex - Colors.Length;
-            return Colors[newIndex];
-        }
-
-        public static Color GetPreviousColor()
-        {
-            if (State.ColorIndex > 0)
-                return Colors[State.ColorIndex - 1];
-            else
-                return Colors[Colors.Length - 1];
+            return Colors3[State.ColorIndex];
         }
 
         public static Color GetPreviousColor2()
         {
-            if (State.ColorIndex > 1)
-                return Colors[State.ColorIndex - 2];
-            else
-                return Colors[Colors.Length - 2];
+            return Colors4[State.ColorIndex];
         }
 
         private static GameStateData _state;
@@ -129,11 +156,11 @@ namespace MonoGameProject
         {
             State = new GameStateData();
 
-            if (File.Exists("save.json") == false)
+            if (File.Exists("main.save") == false)
             {
-                File.WriteAllText("save.json", JsonConvert.SerializeObject(State));
+                File.WriteAllText("main.save", JsonConvert.SerializeObject(State));
             }
-            var savedContent = File.ReadAllText("save.json");
+            var savedContent = File.ReadAllText("main.save");
             var loadedState = JsonConvert.DeserializeObject<GameStateData>(savedContent);
             State = loadedState;
         }
@@ -141,17 +168,17 @@ namespace MonoGameProject
         public static void Save()
         {
             PreSavedData.BossMode = false;
-            File.WriteAllText("save.json", JsonConvert.SerializeObject(PreSavedData));
+            File.WriteAllText("main.save", JsonConvert.SerializeObject(PreSavedData));
         }
 
         public static void PreSave()
         {
             PreSavedData.BossMode = false;
-            PreSavedData.TopExit= State.TopExit;
-            PreSavedData.MidExit= State.MidExit;
-            PreSavedData.BotExit= State.BotExit;
-            PreSavedData.CaveMode= State.CaveMode;
-            PreSavedData.ColorIndex= State.ColorIndex;
+            PreSavedData.TopExit = State.TopExit;
+            PreSavedData.MidExit = State.MidExit;
+            PreSavedData.BotExit = State.BotExit;
+            PreSavedData.CaveMode = State.CaveMode;
+            PreSavedData.ColorIndex = State.ColorIndex;
 
             PreSavedData.ArmorColor = ArmorColor.Seed;
             PreSavedData.Tresure = RandomTresure.Seed;
