@@ -10,6 +10,7 @@ namespace MonoGameProject
          * 2 players
          * 2 tipos de monstros
          * attack anticipation (boss)
+         * change map only after 5 or 10 stages
          */
         /* criar um modulo assim (obrigar a usar walljump)
               __________

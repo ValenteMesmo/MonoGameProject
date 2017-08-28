@@ -45,6 +45,7 @@
     <Compile Include="GeneratedContent.cs" />
     <Compile Include="Things\Armor.cs" />
     <Compile Include="Things\Boss.cs" />
+    <Compile Include="Things\BossBattleTrigger.cs" />
     <Compile Include="Things\ChangeToAttackState.cs" />
     <Compile Include="Things\DestroyIfLeftBehind.cs" />
     <Compile Include="Things\Enemy.cs" />
@@ -55,8 +56,10 @@
     <Compile Include="Things\HumanoidAnimatorFactory.cs" />
     <Compile Include="Things\LeftFireBallTrap.cs" />
     <Compile Include="Things\MapModule.cs" />
+    <Compile Include="Things\MapModuleInfo.cs" />
     <Compile Include="Things\MyRandom.cs" />
     <Compile Include="Things\ParalaxBackgroundCreator.cs" />
+    <Compile Include="Things\ParallaxBackGround.cs" />
     <Compile Include="Things\PatrolAiInputs.cs" />
     <Compile Include="Things\PlayerState.cs" />
     <Compile Include="Things\PreventPlayerFromAccicentlyFalling.cs" />

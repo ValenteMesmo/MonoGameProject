@@ -5,6 +5,34 @@ using System;
 
 namespace MonoGameProject
 {
+    public static class BossAnimationsFactory
+    {
+        private static MyRandom Random = new MyRandom();
+        private static int asd;
+
+        public static void Update()
+        {
+            asd = Random.Next(0, 100);
+        }
+
+        public static Animation HeadAnimation(int X, int Y, int? Width = null, int? Height = null, bool Flipped = false)
+        {            
+            if (asd > 50)
+                return GeneratedContent.Create_knight_bills_head(X, Y, Width, Height, Flipped);
+            else
+                return GeneratedContent.Create_knight_wolf_head(X, Y, Width, Height, Flipped);
+        }
+
+        public static Animation HeadAttackAnimation(int X, int Y, int? Width = null, int? Height = null, bool Flipped = false)
+        {
+            if (asd > 50)
+                return GeneratedContent.Create_knight_bills_head_attack(X, Y, Width, Height, Flipped);
+            else
+                return GeneratedContent.Create_knight_wolf_head_attack(X, Y, Width, Height, Flipped);
+
+        }
+    }
+
     public class Boss : Thing
     {
         private int state = 0;
@@ -17,6 +45,7 @@ namespace MonoGameProject
         {
             Seed = GameState.PlatformRandomModule.Seed
         };
+
         private Color BodyColor
         {
             get
@@ -24,7 +53,7 @@ namespace MonoGameProject
                 //if (damageCooldown > 0)
                 //    return Color.Red;
                 //else
-                    return _actualBodyColor;
+                return _actualBodyColor;
             }
             set
             {
@@ -36,6 +65,8 @@ namespace MonoGameProject
 
         public Boss(Game1 Game1, Action<Thing> AddToWorld)
         {
+            BossAnimationsFactory.Update();
+
             var width = 1500;
             var height = 1500;
 
@@ -101,9 +132,19 @@ namespace MonoGameProject
 
                     var player = t.Parent as Player;
                     if (player.FacingRight)
-                        AddToWorld(new HitEffect() { X = player.AttackRightCollider.X, Y = player.AttackRightCollider.Y , Color = _actualBodyColor });
+                        AddToWorld(new HitEffect(0.4f)
+                        {
+                            X = player.AttackRightCollider.X,
+                            Y = player.AttackRightCollider.Y,
+                            Color = _actualBodyColor
+                        });
                     else
-                        AddToWorld(new HitEffect() { X = player.AttackLeftCollider.X, Y = player.AttackLeftCollider.Y, Color = _actualBodyColor });
+                        AddToWorld(new HitEffect(0.4f)
+                        {
+                            X = player.AttackLeftCollider.X,
+                            Y = player.AttackLeftCollider.Y,
+                            Color = _actualBodyColor
+                        });
 
                     if (damageTaken < 10)
                         return;
@@ -116,9 +157,9 @@ namespace MonoGameProject
 
             AddCollider(mainCollider);
 
-            CreateBodyAnimator(0.42f);
-            CreateHeadAnimator(0.41f);
-            CreateAnimator(GeneratedContent.Create_knight_wolf_eye, 0.4f, Color.Red);
+            CreateBodyAnimator(0.43f);
+            CreateHeadAnimator(0.42f);
+            CreateAnimator(GeneratedContent.Create_knight_wolf_eye, 0.41f, Color.Red);
 
             AddUpdate(new MoveHorizontallyWithTheWorld(this));
             AddUpdate(new AfectedByGravity(this));
@@ -179,7 +220,7 @@ namespace MonoGameProject
             var width = 1500;
             var height = 1500;
 
-            var standing_left = GeneratedContent.Create_knight_wolf_head(
+            var standing_left = BossAnimationsFactory.HeadAnimation(
                                 -width / 2
                                 , -height
                                 , width * 2
@@ -190,7 +231,7 @@ namespace MonoGameProject
 
             standing_left.ColorGetter = () => BodyColor;
 
-            var standing_right = GeneratedContent.Create_knight_wolf_head(
+            var standing_right = BossAnimationsFactory.HeadAnimation(
                     -width / 2
                     , -height
                     , width * 2
@@ -202,7 +243,7 @@ namespace MonoGameProject
 
 
 
-            var attack_left = GeneratedContent.Create_knight_wolf_head_attack(
+            var attack_left = BossAnimationsFactory.HeadAttackAnimation(
                                 -width / 2
                                 , -height
                                 , width * 2
@@ -213,7 +254,7 @@ namespace MonoGameProject
 
             attack_left.ColorGetter = () => BodyColor;
 
-            var attack_right = GeneratedContent.Create_knight_wolf_head_attack(
+            var attack_right = BossAnimationsFactory.HeadAttackAnimation(
                     -width / 2
                     , -height
                     , width * 2

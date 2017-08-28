@@ -38,7 +38,8 @@ namespace MonoGameProject
             MidExit = true;
             BotExit = true;
             BossMode = false;
-            StageNumber = 0;
+            StageNumber = 1;
+            ShowStageNumber = true;
         }
     }
 

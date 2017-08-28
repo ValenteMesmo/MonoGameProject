@@ -6,14 +6,14 @@ namespace MonoGameProject
     public class HitEffect : Thing
     {
         public Color Color = Color.White;
-        public HitEffect()
+        public HitEffect(float z = 0f)
         {
-            var animation = GeneratedContent.Create_knight_hit_effect(-400, -400);
+            var animation = GeneratedContent.Create_knight_hit_effect(-1600, -1200);
             animation.LoopDisabled = true;
             animation.ScaleX = animation.ScaleY = 10;
             animation.ColorGetter = () => Color;
             animation.FrameDuration = 2;
-            animation.RenderingLayer = 0f;
+            animation.RenderingLayer = z;
             AddAnimation(animation);
 
             var duration = 100;

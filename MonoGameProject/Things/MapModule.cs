@@ -5,65 +5,6 @@ using System.Linq;
 
 namespace MonoGameProject
 {
-    public class BossBattleTrigger : Thing
-    {
-        public BossBattleTrigger()
-        {
-            var trigger = new Collider
-            {
-                Width = 18 * MapModule.CELL_SIZE,
-                Height = 10 * MapModule.CELL_SIZE
-            };
-
-            trigger.AddBotCollisionHandler(asdasd);
-            trigger.AddLeftCollisionHandler(asdasd);
-            trigger.AddTopCollisionHandler(asdasd);
-            trigger.AddRightCollisionHandler(asdasd);
-            AddCollider(trigger);
-
-            AddUpdate(new MoveHorizontallyWithTheWorld(this));
-        }
-
-        private void asdasd(Collider source, Collider target)
-        {
-            if (target.Parent is Player)
-            {
-                source.Disabled = true;
-                GameState.State.BossMode = true;
-            }
-        }
-    }
-
-    public struct MapModuleInfo
-    {
-        public readonly bool TopEntry;
-        public readonly bool MidEntry;
-        public readonly bool BotEntry;
-        public readonly bool TopExit;
-        public readonly bool MidExit;
-        public readonly bool BotExit;
-        public readonly string[] Tiles;
-
-        public MapModuleInfo(
-            bool TopEntry
-            , bool MidEntry
-            , bool BotEntry
-           , bool TopExit
-           , bool MidExit
-           , bool BotExit
-           , params string[] Tiles
-            )
-        {
-            this.TopEntry = TopEntry;
-            this.MidEntry = MidEntry;
-            this.BotEntry = BotEntry;
-            this.TopExit = TopExit;
-            this.MidExit = MidExit;
-            this.BotExit = BotExit;
-            this.Tiles = Tiles;
-        }
-    }
-
     public class MapModule : Thing
     {
         public const int SCALE = 5;
@@ -117,7 +58,6 @@ namespace MonoGameProject
                     Y = Y + ((tile.Y - 1) * CELL_SIZE + 1)
                 });
             }
-
             {
                 var sky = new Animation(new AnimationFrame("pixel",
                                   0
@@ -391,30 +331,4 @@ namespace MonoGameProject
         //    });
         //}
     }
-    public class ParallaxBackGround : Thing
-    {
-        //static Color[] Colors = new Color[] { Color.Yellow, Color.Orange, Color.Blue };
-        //static int index = 0;
-        public ParallaxBackGround(
-            int x
-            , int y
-            , int width
-            , int height
-            , int parallax
-            , float zIndex
-            , Func<int, int, int, int, Animation> imgName)
-        {
-            var animation = imgName(x, y, width, height);
-            animation.RenderingLayer = zIndex;
-            animation.ScaleX = 10;
-            animation.ScaleY = 10;
-            var color = GameState.GetComplimentColor();
-            animation.ColorGetter = () => color;
-            AddAnimation(animation);
-
-            AddUpdate(new MoveHorizontallyWithTheWorld(this, parallax));
-            AddUpdate(new DestroyIfLeftBehind(this));
-        }
-    }
 }
-
