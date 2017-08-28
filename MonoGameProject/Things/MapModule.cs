@@ -82,6 +82,8 @@ namespace MonoGameProject
             this.Info = Info;
             this.AddToWorld = AddToWorld;
 
+            AddStageNumber();
+
             AddUpdate(new MoveHorizontallyWithTheWorld(this));
 
             AddUpdate(() =>
@@ -284,6 +286,52 @@ namespace MonoGameProject
                     }
                 }
             }
+        }
+
+        private void AddStageNumber()
+        {
+            var number = GameState.State.StageNumber.ToString();
+            var i = 1;
+            foreach (var n in number)
+            {
+                Func<int, int, int?, int?, bool, Animation> create = null;
+
+                if (n == '0')
+                    create = GeneratedContent.Create_knight_number0;
+                else if (n == '1')
+                    create = GeneratedContent.Create_knight_number1;
+                else if (n == '2')
+                    create = GeneratedContent.Create_knight_number2;
+                else if (n == '3')
+                    create = GeneratedContent.Create_knight_number3;
+                else if (n == '4')
+                    create = GeneratedContent.Create_knight_number4;
+                else if (n == '5')
+                    create = GeneratedContent.Create_knight_number5;
+                else if (n == '6')
+                    create = GeneratedContent.Create_knight_number6;
+                else if (n == '7')
+                    create = GeneratedContent.Create_knight_number7;
+                else if (n == '8')
+                    create = GeneratedContent.Create_knight_number8;
+                else if (n == '9')
+                    create = GeneratedContent.Create_knight_number9;
+                else
+                    return;
+
+                var stageNumber = create(
+                                              CELL_SIZE * i
+                                             , CELL_SIZE * 14
+                                             , CELL_SIZE
+                                             , CELL_SIZE
+                                             ,false);
+                stageNumber.RenderingLayer = 0f;
+                stageNumber.ColorGetter = () => Color.Red;
+                AddAnimation(stageNumber);
+
+                i++;
+            }
+            
         }
 
         private void CreateBackground(int i, int j)

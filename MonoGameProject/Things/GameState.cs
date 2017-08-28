@@ -18,6 +18,8 @@ namespace MonoGameProject
         public bool MidExit;
         public bool BotExit;
         public bool BossMode;
+        public long StageNumber;
+        public bool ShowStageNumber;
 
         public GameStateData()
         {
@@ -36,6 +38,7 @@ namespace MonoGameProject
             MidExit = true;
             BotExit = true;
             BossMode = false;
+            StageNumber = 0;
         }
     }
 
@@ -179,6 +182,7 @@ namespace MonoGameProject
             PreSavedData.BotExit = State.BotExit;
             PreSavedData.CaveMode = State.CaveMode;
             PreSavedData.ColorIndex = State.ColorIndex;
+            PreSavedData.StageNumber= State.StageNumber;
 
             PreSavedData.ArmorColor = ArmorColor.Seed;
             PreSavedData.Tresure = RandomTresure.Seed;

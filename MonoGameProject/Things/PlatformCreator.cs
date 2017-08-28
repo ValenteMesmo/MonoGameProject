@@ -744,12 +744,13 @@ namespace MonoGameProject
             stageCount--;
             if (stageCount < 0)
             {
+                GameState.State.ShowStageNumber = true;
+                GameState.State.StageNumber++;
                 GameState.State.CaveMode = !GameState.State.CaveMode;
                 GameState.ChangeColor();
                 GameState.PreSave();
                 stageCount = STAGE_LENGTH;
             }
-
         }
     }
 
