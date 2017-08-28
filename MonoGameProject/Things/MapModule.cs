@@ -326,17 +326,17 @@ namespace MonoGameProject
 
                 var stageNumber = create(
                                               CELL_SIZE * i
-                                             , CELL_SIZE * 14
                                              , CELL_SIZE
                                              , CELL_SIZE
-                                             ,false);
+                                             , CELL_SIZE
+                                             , false);
                 stageNumber.RenderingLayer = 0f;
-                stageNumber.ColorGetter = () => Color.Red;
+                stageNumber.ColorGetter = () => new Color(0, 0, 0, 0.5f);
                 AddAnimation(stageNumber);
 
                 i++;
             }
-            
+
         }
 
         private void CreateBackground(int i, int j)
