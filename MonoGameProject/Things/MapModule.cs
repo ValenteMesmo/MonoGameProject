@@ -290,6 +290,11 @@ namespace MonoGameProject
 
         private void AddStageNumber()
         {
+            if (GameState.State.ShowStageNumber == false)
+                return;
+
+            GameState.State.ShowStageNumber = false;
+
             var number = GameState.State.StageNumber.ToString();
             var i = 1;
             foreach (var n in number)

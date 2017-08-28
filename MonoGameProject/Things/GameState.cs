@@ -182,7 +182,8 @@ namespace MonoGameProject
             PreSavedData.BotExit = State.BotExit;
             PreSavedData.CaveMode = State.CaveMode;
             PreSavedData.ColorIndex = State.ColorIndex;
-            PreSavedData.StageNumber= State.StageNumber;
+            PreSavedData.StageNumber = State.StageNumber;
+            PreSavedData.ShowStageNumber = true;
 
             PreSavedData.ArmorColor = ArmorColor.Seed;
             PreSavedData.Tresure = RandomTresure.Seed;
