@@ -45,6 +45,7 @@
     <Compile Include="GeneratedContent.cs" />
     <Compile Include="Things\Armor.cs" />
     <Compile Include="Things\Boss.cs" />
+    <Compile Include="Things\BossAnimationsFactory.cs" />
     <Compile Include="Things\BossBattleTrigger.cs" />
     <Compile Include="Things\ChangeToAttackState.cs" />
     <Compile Include="Things\DestroyIfLeftBehind.cs" />

@@ -6,11 +6,17 @@ namespace MonoGameProject
     public class Player : Humanoid
     {
         /*MUST
+         * ANIMATION BUG: powerslide attack walk
          * animacao de morte
          * 2 players
          * 2 tipos de monstros
          * attack anticipation (boss)
-         * change map only after 5 or 10 stages
+         * vincular abilidade do boss a aparencia
+         * -corpo de lobo segue o player?
+         * -corpo de diarreia de divide quando apanha?
+         * -corpo de aranha só anda pulando?
+         * -cara de dragao cospe fogo
+         * -cara de aranha cospe ovos no chao
          */
         /* criar um modulo assim (obrigar a usar walljump)
               __________

@@ -5,197 +5,401 @@ using System;
 
 namespace MonoGameProject
 {
-    public static class BossAnimationsFactory
+    class BossBodyFactory2
     {
-        private static MyRandom Random = new MyRandom();
+        private readonly Boss boss;
+        private int patience;
+        private Player player;
 
-        public static Animation HeadAnimation(int X, int Y, int? Width = null, int? Height = null, bool Flipped = false)
+        public BossBodyFactory2(Boss boss)
         {
-            Random.Seed = GameState.PlatformRandomModule.Seed;
-            if (Random.Next(0, 100) > 50)
-                return GeneratedContent.Create_knight_bills_head(X, Y, Width, Height, Flipped);
-            else
-                return GeneratedContent.Create_knight_wolf_head(X, Y, Width, Height, Flipped);
+            this.boss = boss;
+            boss.state = -1;
+            boss.mainCollider.AddCollisionHandler(FindPlayer);
+
+            CreateBodyAnimator(0.43f);
+
+            boss.AddUpdate(UpdateBasedOnState);
         }
 
-        public static Animation HeadAttackAnimation(int X, int Y, int? Width = null, int? Height = null, bool Flipped = false)
+        private void FindPlayer(Collider s, Collider t)
         {
-            Random.Seed = GameState.PlatformRandomModule.Seed;
-            if (Random.Next(0, 100) > 50)
-                return GeneratedContent.Create_knight_bills_head_attack(X, Y, Width, Height, Flipped);
-            else
-                return GeneratedContent.Create_knight_wolf_head_attack(X, Y, Width, Height, Flipped);
-
+            if (s.Parent is Player)
+            {
+                player = s.Parent as Player;
+                boss.state = 0;
+            }
+            if (t.Parent is Player)
+            {
+                player = t.Parent as Player;
+                boss.state = 0;
+            }
         }
 
-        public static Animation EyeAnimation(int X, int Y, int? Width = null, int? Height = null, bool Flipped = false)
+        private void UpdateBasedOnState()
         {
-            Random.Seed = GameState.PlatformRandomModule.Seed;
-            Random.Next();
+            if (boss.state == -1)
+                return;
 
-            Animation result;
-            var index = Random.Next(0, 2);
-            if (index == 0)
-                result = GeneratedContent.Create_knight_spider_eye(X, Y, Width, Height, Flipped);
-            else if (index == 1)
-                result = GeneratedContent.Create_knight_wolf_eye(X, Y, Width, Height, Flipped);
+            if (boss.damageCooldown >= 0)
+                boss.damageCooldown--;
+
+            if (SameHightOfPlayer())
+            {
+                if (player.MainCollider.Left() > boss.mainCollider.Right())
+                    boss.facingRight = true;
+                else
+                    boss.facingRight = false;
+            }
+
+            if (SameHightOfPlayer())
+                boss.state = 0;
             else
-                result = GeneratedContent.Create_knight_one_eye(X, Y, Width, Height, Flipped);
+                boss.state = 1;
 
-            result.ColorGetter = GameState.GetColor;
-            return result;
+            if (boss.state == 0)
+            {
+                if (SameHightOfPlayer())
+                {
+                    if (boss.facingRight)
+                        boss.HorizontalSpeed = 25 + (boss.damageTaken > 5 ? 25 : 0);
+                    else
+                        boss.HorizontalSpeed = -25 - (boss.damageTaken > 5 ? 25 : 0);
+                }
+                else
+                {
+                    boss.HorizontalSpeed = 0;
+                }
+            }
+
+            if (boss.state == 0)
+                patience = 80 - (boss.damageTaken > 10 ? 30 : 0);
+            else
+                patience--;
+
+            if (patience <= 0)
+            {
+                if (boss.MyRandom.Next(0, 100) > 50)
+                    boss.VerticalSpeed = -150;
+                patience = 80 - (boss.damageTaken > 10 ? 30 : 0);
+            }
+
+            boss.attackCollider.Disabled = boss.state != 0;
         }
 
-        public static Animation EyeAttackAnimation(int X, int Y, int? Width = null, int? Height = null, bool Flipped = false)
+        private bool SameHightOfPlayer()
         {
-            Random.Seed = GameState.PlatformRandomModule.Seed;
-            Random.Next();
+            return player != null
+                && Math.Abs(
+                    player.MainCollider.Bottom()
+                    - boss.mainCollider.Bottom()
+                ) < MapModule.CELL_SIZE * 2;
+        }
 
-            Animation result;
-            var index = Random.Next(0, 2);
-            if (index == 0)
-                result = GeneratedContent.Create_knight_spider_eye_attack(X, Y, Width, Height, Flipped);
-            else if (index == 1)
-                result = GeneratedContent.Create_knight_wolf_eye_attack(X, Y, Width, Height, Flipped);
-            else
-                result = GeneratedContent.Create_knight_one_eye_attack(X, Y, Width, Height, Flipped);
-            result.ColorGetter = GameState.GetColor;
+        private void CreateBodyAnimator(float z)
+        {
+            var width = 1500;
+            var height = 1500;
 
-            return result;
+            var standing_left = GeneratedContent.Create_knight_wolf_body(
+                                -width / 2
+                                , -height
+                                , width * 2
+                                , height * 2
+                                , false
+                            );
+            standing_left.RenderingLayer = z;
+            standing_left.ColorGetter = () => boss.BodyColor;
+
+            var standing_right = GeneratedContent.Create_knight_wolf_body(
+                    -width / 2
+                    , -height
+                    , width * 2
+                    , height * 2
+                    , true
+            );
+            standing_right.RenderingLayer = z;
+            standing_right.ColorGetter = () => boss.BodyColor;
+
+            var jump_left = GeneratedContent.Create_knight_wolf_body_jump(
+                                -width / 2
+                                , -height
+                                , width * 2
+                                , height * 2
+                                , false
+                            );
+            jump_left.RenderingLayer = z;
+            jump_left.ColorGetter = () => boss.BodyColor;
+
+            var jump_right = GeneratedContent.Create_knight_wolf_body_jump(
+                    -width / 2
+                    , -height
+                    , width * 2
+                    , height * 2
+                    , true
+            );
+            jump_right.RenderingLayer = z;
+            jump_right.ColorGetter = () => boss.BodyColor;
+
+            var animation =
+                new Animator(
+                    new AnimationTransitionOnCondition(standing_left, () => !boss.facingRight && boss.grounded)
+                    , new AnimationTransitionOnCondition(standing_right, () => boss.facingRight && boss.grounded)
+                    , new AnimationTransitionOnCondition(jump_left, () => !boss.facingRight && !boss.grounded)
+                    , new AnimationTransitionOnCondition(jump_right, () => boss.facingRight && !boss.grounded)
+            );
+            boss.AddAnimation(animation);
+        }
+    }
+
+    class BossBodyFactory
+    {
+        private readonly Boss boss;
+
+        public BossBodyFactory(Boss boss)
+        {
+            this.boss = boss;
+
+            boss.mainCollider.AddLeftCollisionHandler((s, t) =>
+            {
+                if (t is BlockHorizontalMovement)
+                {
+                    boss.facingRight = true;
+                    boss.state = 1;
+                    boss.state1Duration = boss.MyRandom.Next(0, 100) > 50 ? 50 : 10;
+                }
+            });
+
+            boss.mainCollider.AddRightCollisionHandler((s, t) =>
+            {
+                if (t is BlockHorizontalMovement)
+                {
+                    boss.facingRight = false;
+                    boss.state = 1;
+                    boss.state1Duration = boss.MyRandom.Next(0, 100) > 50 ? 50 : 10;
+                }
+            });
+
+            CreateBodyAnimator(0.43f);
+
+            boss.AddUpdate(UpdateBasedOnState);
+        }
+
+        private void UpdateBasedOnState()
+        {
+            if (boss.damageCooldown >= 0)
+                boss.damageCooldown--;
+
+            if (boss.state == 0)
+            {
+                if (boss.facingRight)
+                    boss.HorizontalSpeed = 100;
+                else
+                    boss.HorizontalSpeed = -100;
+            }
+            if (boss.state == 1)
+            {
+                boss.state1Duration--;
+                boss.HorizontalSpeed = 0;
+                if (boss.state1Duration <= 0)
+                {
+                    if (boss.MyRandom.Next(0, 100) > 50)
+                        boss.VerticalSpeed = -150;
+                    boss.state = 0;
+                }
+            }
+
+            boss.attackCollider.Disabled = boss.state != 0;
+        }
+
+        private void CreateBodyAnimator(float z)
+        {
+            var width = 1500;
+            var height = 1500;
+
+            var standing_left = GeneratedContent.Create_knight_wolf_body(
+                                -width / 2
+                                , -height
+                                , width * 2
+                                , height * 2
+                                , false
+                            );
+            standing_left.RenderingLayer = z;
+            standing_left.ColorGetter = () => boss.BodyColor;
+
+            var standing_right = GeneratedContent.Create_knight_wolf_body(
+                    -width / 2
+                    , -height
+                    , width * 2
+                    , height * 2
+                    , true
+            );
+            standing_right.RenderingLayer = z;
+            standing_right.ColorGetter = () => boss.BodyColor;
+
+            var jump_left = GeneratedContent.Create_knight_wolf_body_jump(
+                                -width / 2
+                                , -height
+                                , width * 2
+                                , height * 2
+                                , false
+                            );
+            jump_left.RenderingLayer = z;
+            jump_left.ColorGetter = () => boss.BodyColor;
+
+            var jump_right = GeneratedContent.Create_knight_wolf_body_jump(
+                    -width / 2
+                    , -height
+                    , width * 2
+                    , height * 2
+                    , true
+            );
+            jump_right.RenderingLayer = z;
+            jump_right.ColorGetter = () => boss.BodyColor;
+
+            var animation =
+                new Animator(
+                    new AnimationTransitionOnCondition(standing_left, () => !boss.facingRight && boss.grounded)
+                    , new AnimationTransitionOnCondition(standing_right, () => boss.facingRight && boss.grounded)
+                    , new AnimationTransitionOnCondition(jump_left, () => !boss.facingRight && !boss.grounded)
+                    , new AnimationTransitionOnCondition(jump_right, () => boss.facingRight && !boss.grounded)
+            );
+            boss.AddAnimation(animation);
         }
     }
 
     public class Boss : Thing
     {
-        private int state = 0;
-        private bool facingRight = false;
-        private int state1Duration = 0;
-        private int damageTaken = 0;
-        private int damageCooldown = 0;
-        private bool grounded;
+        public int state = 0;
+        public bool facingRight = false;
+        public int state1Duration = 0;
+        public int damageTaken = 0;
+        public int damageCooldown = 0;
+        public bool grounded;
 
-        private MyRandom MyRandom = new MyRandom()
+        public MyRandom MyRandom = new MyRandom()
         {
             Seed = GameState.PlatformRandomModule.Seed
         };
 
-        private Color BodyColor;
+        public Color BodyColor;
+        private Game1 Game1;
+        private Action<Thing> AddToWorld;
+        public readonly AttackCollider attackCollider;
+        public readonly Collider mainCollider;
+        public readonly CollisionChecker groundDetector;
 
         public Boss(Game1 Game1, Action<Thing> AddToWorld)
         {
+            this.Game1 = Game1;
+            this.AddToWorld = AddToWorld;
             var width = 1500;
             var height = 1500;
 
             BodyColor = GameState.GetComplimentColor();
 
-            var groundDetector = new CollisionChecker();
+            groundDetector = new CollisionChecker();
             groundDetector.Width = width / 2;
             groundDetector.Height = height / 10;
             groundDetector.OffsetY = height;
 
             AddCollider(groundDetector);
 
-            var attackCollider = new AttackCollider
+            attackCollider = new AttackCollider
             {
                 Height = height / 2,
                 Width = 500,
                 OffsetX = -500,
                 OffsetY = 500,
-                Disabled = false
+                Disabled = true
             };
             AddCollider(attackCollider);
 
-            var mainCollider = new Collider(width, height);
+            mainCollider = new Collider(width, height);
 
-            mainCollider.AddLeftCollisionHandler((s, t) =>
-            {
-                if (t is BlockHorizontalMovement)
-                {
-                    facingRight = true;
-                    state = 1;
-                    state1Duration = MyRandom.Next(0,100) > 50 ? 50 : 10;
-                }
-            });
-            mainCollider.AddRightCollisionHandler((s, t) =>
-            {
-                if (t is BlockHorizontalMovement)
-                {
-                    facingRight = false;
-                    state = 1;
-                    state1Duration = MyRandom.Next(0, 100) > 50 ? 50 : 10;
-                }
-            });
 
             mainCollider.AddBotCollisionHandler(StopsWhenHitting.Bot);
             mainCollider.AddLeftCollisionHandler(StopsWhenHitting.Left);
             mainCollider.AddRightCollisionHandler(StopsWhenHitting.Right);
             mainCollider.AddTopCollisionHandler(StopsWhenHitting.Top);
 
-            mainCollider.AddCollisionHandler((s, t) =>
-            {
-                if (t is AttackCollider
-                && t.Parent is Player
-                )
-                {
-                    if (damageCooldown > 0)
-                        return;
-
-                    damageCooldown = 20;
-                    BodyColor = Color.Lerp(BodyColor, Color.Red, 0.05f);
-                    damageTaken++;
-                    Game1.Sleep();
-                    Game1.Camera.ShakeUp(20);
-
-                    var player = t.Parent as Player;
-                    if (player.FacingRight)
-                        AddToWorld(new HitEffect(0.4f)
-                        {
-                            X = player.AttackRightCollider.X,
-                            Y = player.AttackRightCollider.Y,
-                            Color = BodyColor,
-                            HorizontalSpeed = HorizontalSpeed,
-                            VerticalSpeed = VerticalSpeed
-                        });
-                    else
-                        AddToWorld(new HitEffect(0.4f)
-                        {
-                            X = player.AttackLeftCollider.X,
-                            Y = player.AttackLeftCollider.Y,
-                            Color = BodyColor,
-                            HorizontalSpeed = HorizontalSpeed,
-                            VerticalSpeed = VerticalSpeed
-                        });
-
-                    if (damageTaken < 20)
-                        return;
-
-                    GameState.Save();
-                    Destroy();
-                    GameState.State.BossMode = false;
-                }
-            });
+            mainCollider.AddCollisionHandler(HandlePlayerAttack);
 
             AddCollider(mainCollider);
 
-            CreateBodyAnimator(0.43f);
             CreateHeadAnimator(0.42f);
             CreateEyeAnimator(0.41f);
 
+            MyRandom.Next();
+            if (MyRandom.Next(0, 100) > 50)
+            {
+                new BossBodyFactory2(this);
+            }
+            else
+            {
+                new BossBodyFactory(this);
+            }
+
             AddUpdate(new MoveHorizontallyWithTheWorld(this));
             AddUpdate(new AfectedByGravity(this));
-            AddUpdate(UpdateBasedOnState);
-            AddUpdate(() =>
+            AddUpdate(MoveAttackCollider);
+            AddUpdate(CheckIfGrounded);
+        }
+
+        private void CheckIfGrounded()
+        {
+            grounded = groundDetector.Colliding<BlockVerticalMovement>();
+        }
+
+        private void MoveAttackCollider()
+        {
+            if (facingRight)
+                attackCollider.OffsetX = mainCollider.Width;
+            else
+                attackCollider.OffsetX = -attackCollider.Width;
+        }
+
+        private void HandlePlayerAttack(Collider s, Collider t)
+        {
+            if (t is AttackCollider
+            && t.Parent is Player)
             {
-                if (facingRight)
-                    attackCollider.OffsetX = mainCollider.Width;
+                if (damageCooldown > 0)
+                    return;
+
+                damageCooldown = 20;
+                BodyColor = Color.Lerp(BodyColor, Color.Red, 0.05f);
+                damageTaken++;
+                Game1.Sleep();
+                Game1.Camera.ShakeUp(20);
+
+                var player = t.Parent as Player;
+                if (player.FacingRight)
+                    AddToWorld(new HitEffect(0.4f)
+                    {
+                        X = player.AttackRightCollider.X,
+                        Y = player.AttackRightCollider.Y,
+                        Color = BodyColor,
+                        HorizontalSpeed = HorizontalSpeed,
+                        VerticalSpeed = VerticalSpeed
+                    });
                 else
-                    attackCollider.OffsetX = -attackCollider.Width;
-            });
-            AddUpdate(() =>
-            {
-                attackCollider.Disabled = state != 0;
-                grounded = groundDetector.Colliding<BlockVerticalMovement>();
-            });
+                    AddToWorld(new HitEffect(0.4f)
+                    {
+                        X = player.AttackLeftCollider.X,
+                        Y = player.AttackLeftCollider.Y,
+                        Color = BodyColor,
+                        HorizontalSpeed = HorizontalSpeed,
+                        VerticalSpeed = VerticalSpeed
+                    });
+
+                if (damageTaken < 20)
+                    return;
+
+                GameState.Save();
+                GameState.State.BossMode = false;
+                Destroy();
+            }
         }
 
         private void CreateHeadAnimator(float z)
@@ -223,8 +427,6 @@ namespace MonoGameProject
             );
             standing_right.RenderingLayer = z;
             standing_right.ColorGetter = () => BodyColor;
-
-
 
             var attack_left = BossAnimationsFactory.HeadAttackAnimation(
                                 -width / 2
@@ -312,85 +514,5 @@ namespace MonoGameProject
             AddAnimation(animation);
         }
 
-
-        private void CreateBodyAnimator(float z)
-        {
-            var width = 1500;
-            var height = 1500;
-
-            var standing_left = GeneratedContent.Create_knight_wolf_body(
-                                -width / 2
-                                , -height
-                                , width * 2
-                                , height * 2
-                                , false
-                            );
-            standing_left.RenderingLayer = z;
-            standing_left.ColorGetter = () => BodyColor;
-
-            var standing_right = GeneratedContent.Create_knight_wolf_body(
-                    -width / 2
-                    , -height
-                    , width * 2
-                    , height * 2
-                    , true
-            );
-            standing_right.RenderingLayer = z;
-            standing_right.ColorGetter = () => BodyColor;
-
-            var jump_left = GeneratedContent.Create_knight_wolf_body_jump(
-                                -width / 2
-                                , -height
-                                , width * 2
-                                , height * 2
-                                , false
-                            );
-            jump_left.RenderingLayer = z;
-            jump_left.ColorGetter = () => BodyColor;
-
-            var jump_right = GeneratedContent.Create_knight_wolf_body_jump(
-                    -width / 2
-                    , -height
-                    , width * 2
-                    , height * 2
-                    , true
-            );
-            jump_right.RenderingLayer = z;
-            jump_right.ColorGetter = () => BodyColor;
-
-            var animation =
-                new Animator(
-                    new AnimationTransitionOnCondition(standing_left, () => !facingRight && grounded)
-                    , new AnimationTransitionOnCondition(standing_right, () => facingRight && grounded)
-                    , new AnimationTransitionOnCondition(jump_left, () => !facingRight && !grounded)
-                    , new AnimationTransitionOnCondition(jump_right, () => facingRight && !grounded)
-            );
-            AddAnimation(animation);
-        }
-
-        private void UpdateBasedOnState()
-        {
-            if (damageCooldown >= 0)
-                damageCooldown--;
-
-            if (state == 0)
-            {
-                if (facingRight)
-                    HorizontalSpeed = 100;
-                else
-                    HorizontalSpeed = -100;
-            }
-            if (state == 1)
-            {
-                state1Duration--;
-                HorizontalSpeed = 0;
-                if (state1Duration <= 0)
-                {
-                    if (MyRandom.Next(0, 100) > 50)
-                        VerticalSpeed = -150;
-                    state = 0;
-                }
-            }
-        }
     }
 }

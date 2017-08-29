@@ -7,7 +7,7 @@ namespace MonoGameProject
 {
     public class PlatformCreator : Thing
     {
-        private const int STAGE_LENGTH = 5;
+        private const int STAGE_LENGTH = 3;//12;
         int stageCount = STAGE_LENGTH;
         private MapModule lastModule;
         private WorldMover WorldMover;
@@ -64,7 +64,6 @@ namespace MonoGameProject
                     , "1111111111111111"//
                     , "1111111111111111"//
                     , "1111111111111111");
-
 
         public PlatformCreator(WorldMover WorldMover, Action<Thing> AddToWOrld, Game1 Game1)
         {
@@ -685,7 +684,6 @@ namespace MonoGameProject
                 CreateGroundOnTheRight();
             }
         }
-
 
         private void CreateGroundOnTheRight()
         {

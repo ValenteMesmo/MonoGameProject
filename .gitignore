@@ -57,3 +57,4 @@ monodroid*.msi
 *.dll
 /packages/*
 .vs/MonoGameProject/v15/Browse.VC.opendb
+.vs/MonoGameProject/v15/Browse.VC.db
