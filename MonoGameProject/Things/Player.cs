@@ -71,7 +71,7 @@ namespace MonoGameProject
         //corpo (2 layers... duas cores! uma para barriga...)
         //  lobo,   cavalo, lagarto, chimera
         //costas
-        //  asa (anjo e capeta), pentagrama, chifres, casco, capa, sela
+        //  asa (anjo e capeta), pentagrama, chifres, casco, capa, sela, asa de mosca
         // rabo
         //  lobo, leao, demonio, escorpião
 

@@ -1,7 +1,54 @@
-﻿using GameCore;
+﻿using System;
+using GameCore;
 
 namespace MonoGameProject
 {
+    public class HitEffectFriction : UpdateHandler
+    {
+        private const int VELOCITY = 3;
+        private readonly Thing Parent;
+
+        public HitEffectFriction(Thing Parent)
+        {
+            this.Parent = Parent;
+        }
+
+        public void Update()
+        {
+            if (Parent.HorizontalSpeed > 0)
+            {
+                Parent.HorizontalSpeed -= VELOCITY;
+                if (Parent.HorizontalSpeed < 0)
+                    Parent.HorizontalSpeed = 0;
+            }
+            else if (Parent.HorizontalSpeed < 0)
+            {
+                Parent.HorizontalSpeed += VELOCITY;
+                if (Parent.HorizontalSpeed > 0)
+                    Parent.HorizontalSpeed = 0;
+            }
+
+            if (Parent.VerticalSpeed > 0)
+            {
+                Parent.VerticalSpeed -= VELOCITY;
+                if (Parent.VerticalSpeed > 100)
+                    Parent.VerticalSpeed /= 2;
+
+                if (Parent.VerticalSpeed < 0)
+                    Parent.VerticalSpeed = 0;
+            }
+            else if (Parent.VerticalSpeed < 0)
+            {
+                Parent.VerticalSpeed += VELOCITY;
+                if (Parent.VerticalSpeed < -100)
+                    Parent.VerticalSpeed /= 2;
+
+                if (Parent.VerticalSpeed > 0)
+                    Parent.VerticalSpeed = 0;
+            }
+        }
+    }
+
     public class HorizontalFriction : UpdateHandler
     {
         private const int VELOCITY = 3;

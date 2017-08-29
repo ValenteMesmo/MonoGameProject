@@ -8,16 +8,11 @@ namespace MonoGameProject
     public static class BossAnimationsFactory
     {
         private static MyRandom Random = new MyRandom();
-        private static int asd;
-
-        public static void Update()
-        {
-            asd = Random.Next(0, 100);
-        }
 
         public static Animation HeadAnimation(int X, int Y, int? Width = null, int? Height = null, bool Flipped = false)
-        {            
-            if (asd > 50)
+        {
+            Random.Seed = GameState.PlatformRandomModule.Seed;
+            if (Random.Next(0, 100) > 50)
                 return GeneratedContent.Create_knight_bills_head(X, Y, Width, Height, Flipped);
             else
                 return GeneratedContent.Create_knight_wolf_head(X, Y, Width, Height, Flipped);
@@ -25,11 +20,48 @@ namespace MonoGameProject
 
         public static Animation HeadAttackAnimation(int X, int Y, int? Width = null, int? Height = null, bool Flipped = false)
         {
-            if (asd > 50)
+            Random.Seed = GameState.PlatformRandomModule.Seed;
+            if (Random.Next(0, 100) > 50)
                 return GeneratedContent.Create_knight_bills_head_attack(X, Y, Width, Height, Flipped);
             else
                 return GeneratedContent.Create_knight_wolf_head_attack(X, Y, Width, Height, Flipped);
 
+        }
+
+        public static Animation EyeAnimation(int X, int Y, int? Width = null, int? Height = null, bool Flipped = false)
+        {
+            Random.Seed = GameState.PlatformRandomModule.Seed;
+            Random.Next();
+
+            Animation result;
+            var index = Random.Next(0, 2);
+            if (index == 0)
+                result = GeneratedContent.Create_knight_spider_eye(X, Y, Width, Height, Flipped);
+            else if( index == 1)
+                result = GeneratedContent.Create_knight_wolf_eye(X, Y, Width, Height, Flipped);
+            else
+                result = GeneratedContent.Create_knight_one_eye(X, Y, Width, Height, Flipped);
+
+            result.ColorGetter = GameState.GetColor;
+            return result;
+        }
+
+        public static Animation EyeAttackAnimation(int X, int Y, int? Width = null, int? Height = null, bool Flipped = false)
+        {
+            Random.Seed = GameState.PlatformRandomModule.Seed;
+            Random.Next();
+
+            Animation result;
+            var index = Random.Next(0, 2);
+            if (index == 0)
+                result = GeneratedContent.Create_knight_spider_eye_attack(X, Y, Width, Height, Flipped);
+            else if (index == 1)
+                result = GeneratedContent.Create_knight_wolf_eye_attack(X, Y, Width, Height, Flipped);
+            else
+                result = GeneratedContent.Create_knight_one_eye_attack(X, Y, Width, Height, Flipped);
+            result.ColorGetter = GameState.GetColor;
+
+            return result;
         }
     }
 
@@ -41,32 +73,16 @@ namespace MonoGameProject
         private int damageTaken = 0;
         private int damageCooldown = 0;
         private bool grounded;
+
         private MyRandom MyRandom = new MyRandom()
         {
             Seed = GameState.PlatformRandomModule.Seed
         };
 
-        private Color BodyColor
-        {
-            get
-            {
-                //if (damageCooldown > 0)
-                //    return Color.Red;
-                //else
-                return _actualBodyColor;
-            }
-            set
-            {
-                _actualBodyColor = value;
-            }
-        }
-        private Color _actualBodyColor;
-
+        private Color BodyColor;
 
         public Boss(Game1 Game1, Action<Thing> AddToWorld)
         {
-            BossAnimationsFactory.Update();
-
             var width = 1500;
             var height = 1500;
 
@@ -125,7 +141,7 @@ namespace MonoGameProject
                         return;
 
                     damageCooldown = 20;
-                    _actualBodyColor = Color.Lerp(_actualBodyColor, Color.Red, 0.05f);
+                    BodyColor = Color.Lerp(BodyColor, Color.Red, 0.05f);
                     damageTaken++;
                     Game1.Sleep();
                     Game1.Camera.ShakeUp(20);
@@ -136,17 +152,21 @@ namespace MonoGameProject
                         {
                             X = player.AttackRightCollider.X,
                             Y = player.AttackRightCollider.Y,
-                            Color = _actualBodyColor
+                            Color = BodyColor,
+                            HorizontalSpeed = HorizontalSpeed,
+                            VerticalSpeed = VerticalSpeed
                         });
                     else
                         AddToWorld(new HitEffect(0.4f)
                         {
                             X = player.AttackLeftCollider.X,
                             Y = player.AttackLeftCollider.Y,
-                            Color = _actualBodyColor
+                            Color = BodyColor,
+                            HorizontalSpeed = HorizontalSpeed,
+                            VerticalSpeed = VerticalSpeed
                         });
 
-                    if (damageTaken < 10)
+                    if (damageTaken < 20)
                         return;
 
                     GameState.Save();
@@ -159,7 +179,7 @@ namespace MonoGameProject
 
             CreateBodyAnimator(0.43f);
             CreateHeadAnimator(0.42f);
-            CreateAnimator(GeneratedContent.Create_knight_wolf_eye, 0.41f, Color.Red);
+            CreateEyeAnimator(0.41f);
 
             AddUpdate(new MoveHorizontallyWithTheWorld(this));
             AddUpdate(new AfectedByGravity(this));
@@ -177,44 +197,7 @@ namespace MonoGameProject
                 grounded = groundDetector.Colliding<BlockVerticalMovement>();
             });
         }
-        private void CreateAnimator(Func<int, int, int?, int?, bool, Animation> createAnimation, float z, Color? color = null)
-        {
-            var width = 1500;
-            var height = 1500;
 
-            var standing_left = createAnimation(
-                                -width / 2
-                                , -height
-                                , width * 2
-                                , height * 2
-                                , false
-                            );
-            standing_left.RenderingLayer = z;
-            if (color != null)
-                standing_left.ColorGetter = () => color.Value;
-            else
-                standing_left.ColorGetter = () => BodyColor;
-
-            var standing_right = createAnimation(
-                    -width / 2
-                    , -height
-                    , width * 2
-                    , height * 2
-                    , true
-            );
-            standing_right.RenderingLayer = z;
-            if (color != null)
-                standing_right.ColorGetter = () => color.Value;
-            else
-                standing_right.ColorGetter = () => BodyColor;
-
-            var animation =
-                new Animator(
-                    new AnimationTransitionOnCondition(standing_left, () => !facingRight)
-                    , new AnimationTransitionOnCondition(standing_right, () => facingRight)
-            );
-            AddAnimation(animation);
-        }
         private void CreateHeadAnimator(float z)
         {
             var width = 1500;
@@ -273,6 +256,62 @@ namespace MonoGameProject
             );
             AddAnimation(animation);
         }
+
+        private void CreateEyeAnimator(float z)
+        {
+            var width = 1500;
+            var height = 1500;
+
+            var standing_left = BossAnimationsFactory.EyeAnimation(
+                                -width / 2
+                                , -height
+                                , width * 2
+                                , height * 2
+                                , false
+                            );
+            standing_left.RenderingLayer = z;
+
+
+            var standing_right = BossAnimationsFactory.EyeAnimation(
+                    -width / 2
+                    , -height
+                    , width * 2
+                    , height * 2
+                    , true
+            );
+            standing_right.RenderingLayer = z;
+
+
+
+            var attack_left = BossAnimationsFactory.EyeAttackAnimation(
+                                -width / 2
+                                , -height
+                                , width * 2
+                                , height * 2
+                                , false
+                            );
+            attack_left.RenderingLayer = z;
+
+
+            var attack_right = BossAnimationsFactory.EyeAttackAnimation(
+                    -width / 2
+                    , -height
+                    , width * 2
+                    , height * 2
+                    , true
+            );
+            attack_right.RenderingLayer = z;
+
+            var animation =
+                new Animator(
+                    new AnimationTransitionOnCondition(standing_left, () => state == 1 && !facingRight)
+                    , new AnimationTransitionOnCondition(standing_right, () => state == 1 && facingRight)
+                    , new AnimationTransitionOnCondition(attack_left, () => state == 0 && !facingRight)
+                    , new AnimationTransitionOnCondition(attack_right, () => state == 0 && facingRight)
+            );
+            AddAnimation(animation);
+        }
+
 
         private void CreateBodyAnimator(float z)
         {
@@ -353,6 +392,5 @@ namespace MonoGameProject
                 }
             }
         }
-
     }
 }

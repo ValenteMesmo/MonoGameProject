@@ -24,6 +24,7 @@ namespace MonoGameProject
                     Destroy();
             });
             AddUpdate(new MoveHorizontallyWithTheWorld(this));
+            AddUpdate(new HitEffectFriction(this));
         }
     }
 }
