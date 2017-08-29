@@ -37,7 +37,7 @@ namespace MonoGameProject
             var index = Random.Next(0, 2);
             if (index == 0)
                 result = GeneratedContent.Create_knight_spider_eye(X, Y, Width, Height, Flipped);
-            else if( index == 1)
+            else if (index == 1)
                 result = GeneratedContent.Create_knight_wolf_eye(X, Y, Width, Height, Flipped);
             else
                 result = GeneratedContent.Create_knight_one_eye(X, Y, Width, Height, Flipped);
@@ -113,7 +113,7 @@ namespace MonoGameProject
                 {
                     facingRight = true;
                     state = 1;
-                    state1Duration = 50;
+                    state1Duration = MyRandom.Next(0,100) > 50 ? 50 : 10;
                 }
             });
             mainCollider.AddRightCollisionHandler((s, t) =>
@@ -122,7 +122,7 @@ namespace MonoGameProject
                 {
                     facingRight = false;
                     state = 1;
-                    state1Duration = 50;
+                    state1Duration = MyRandom.Next(0, 100) > 50 ? 50 : 10;
                 }
             });
 
