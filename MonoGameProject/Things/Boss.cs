@@ -101,7 +101,7 @@ namespace MonoGameProject
             var width = 1500;
             var height = 1500;
 
-            var standing_left = GeneratedContent.Create_knight_wolf_body(
+            var standing_left = GeneratedContent.Create_knight_spider_body(
                                 -width / 2
                                 , -height
                                 , width * 2
@@ -111,7 +111,7 @@ namespace MonoGameProject
             standing_left.RenderingLayer = z;
             standing_left.ColorGetter = () => boss.BodyColor;
 
-            var standing_right = GeneratedContent.Create_knight_wolf_body(
+            var standing_right = GeneratedContent.Create_knight_spider_body(
                     -width / 2
                     , -height
                     , width * 2
@@ -121,7 +121,7 @@ namespace MonoGameProject
             standing_right.RenderingLayer = z;
             standing_right.ColorGetter = () => boss.BodyColor;
 
-            var jump_left = GeneratedContent.Create_knight_wolf_body_jump(
+            var jump_left = GeneratedContent.Create_knight_spider_body_jump(
                                 -width / 2
                                 , -height
                                 , width * 2
@@ -131,7 +131,7 @@ namespace MonoGameProject
             jump_left.RenderingLayer = z;
             jump_left.ColorGetter = () => boss.BodyColor;
 
-            var jump_right = GeneratedContent.Create_knight_wolf_body_jump(
+            var jump_right = GeneratedContent.Create_knight_spider_body_jump(
                     -width / 2
                     , -height
                     , width * 2
