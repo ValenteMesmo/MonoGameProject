@@ -11,14 +11,15 @@ namespace MonoGameProject
         public WolfBossBody(Boss boss)
         {
             this.boss = boss;
+            boss.state = BossState.BodyAttack1;
 
             boss.mainCollider.AddLeftCollisionHandler((s, t) =>
             {
+                //mudar estado na colisao...
                 if (t is BlockHorizontalMovement)
                 {
                     boss.facingRight = true;
-                    boss.state = BossState.BodyAttack1;
-                    state1Duration = boss.MyRandom.Next(0, 100) > 50 ? 50 : 10;
+                    ChangeState();
                 }
             });
 
@@ -27,14 +28,37 @@ namespace MonoGameProject
                 if (t is BlockHorizontalMovement)
                 {
                     boss.facingRight = false;
-                    boss.state = BossState.BodyAttack1;
-                    state1Duration = boss.MyRandom.Next(0, 100) > 50 ? 50 : 10;
+                    ChangeState();
                 }
             });
 
             CreateBodyAnimator(0.43f);
 
             boss.AddUpdate(UpdateBasedOnState);
+        }
+
+        private void ChangeState()
+        {
+            var rnd = boss.MyRandom.Next(1, 3);
+            if (boss.state != BossState.Idle && rnd == 1)
+            {
+                boss.MouthOpen = false;
+                boss.state = BossState.Idle;
+                state1Duration = 100;
+            }
+            else if (rnd == 2)
+            {
+                boss.MouthOpen = true;
+
+                boss.state = BossState.BodyAttack1;
+            }
+            else
+            {
+                boss.MouthOpen = true;
+
+                boss.state = BossState.HeadAttack1;
+                state1Duration = 100;
+            }
         }
 
         private void UpdateBasedOnState()
@@ -49,7 +73,8 @@ namespace MonoGameProject
                 else
                     boss.HorizontalSpeed = -100;
             }
-            if (boss.state == BossState.BodyAttack2)
+
+            if (boss.state == BossState.Idle)
             {
                 state1Duration--;
                 boss.HorizontalSpeed = 0;
@@ -61,7 +86,19 @@ namespace MonoGameProject
                 }
             }
 
-            boss.MouthOpen = boss.HorizontalSpeed != 0;
+            if (boss.state == BossState.HeadAttack1)
+            {
+                state1Duration--;
+                boss.HorizontalSpeed = 0;
+                if (state1Duration <= 0)
+                {
+                    if (boss.MyRandom.Next(0, 100) > 50)
+                        boss.VerticalSpeed = -150;
+                    boss.state = BossState.BodyAttack1;
+                }
+            }
+
+            //boss.MouthOpen = boss.HorizontalSpeed != 0;
         }
 
         private void CreateBodyAnimator(float z)

@@ -7,6 +7,8 @@ namespace MonoGameProject
     {
         /*MUST
          * ANIMATION BUG: powerslide attack walk
+         * ANIMATION BUG: jump attack wallslide
+         * 
          * animacao de morte
          * 2 players
          * 2 tipos de monstros
@@ -18,6 +20,12 @@ namespace MonoGameProject
          * -cara de dragao cospe fogo
          * -cara de aranha cospe ovos no chao
          */
+         //State features
+         //- os blocos aparecem quando player chega perto
+         //-
+
+        //bau virar um player?
+
         /* criar um modulo assim (obrigar a usar walljump)
               __________
               __        |
@@ -153,6 +161,5 @@ namespace MonoGameProject
             new HumanoidAnimatorFactory()
                 .CreateAnimator(this);
         }
-
     }
 }

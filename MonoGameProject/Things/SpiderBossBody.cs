@@ -49,6 +49,7 @@ namespace MonoGameProject
             if (stateCooldown <= 0)
             {
                 var rnd = boss.MyRandom.Next(0, 2);
+
                 if (rnd == 0 && boss.state != BossState.Idle)
                 {
                     boss.state = BossState.Idle;
@@ -72,19 +73,12 @@ namespace MonoGameProject
                 {
                     boss.HorizontalSpeed = 80 * boss.MyRandom.Next(-1, 1);
                     directionCooldown = 15;
-                    //if (boss.facingRight && boss.HorizontalSpeed > 0)
-                    //    boss.MouthOpen = true;
-                    //else if (!boss.facingRight && boss.HorizontalSpeed < 0)
-                    //    boss.MouthOpen = true;
-                    //else
-                    //    boss.MouthOpen = false;
                 }
                 else
                     directionCooldown--;
 
                 stateCooldown--;
                 boss.MouthOpen = true;
-
             }
 
             if (boss.state == BossState.Idle)

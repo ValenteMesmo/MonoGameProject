@@ -48,6 +48,7 @@ namespace MonoGameProject
             groundDetector.Width = width / 2;
             groundDetector.Height = height / 10;
             groundDetector.OffsetY = height;
+            groundDetector.OffsetX = width / 3;
 
             AddCollider(groundDetector);
 

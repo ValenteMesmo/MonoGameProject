@@ -17,7 +17,7 @@ namespace MonoGameProject
 
             CreateBodyAnimator(0.43f);
 
-            boss.AddUpdate(UpdateBasedOnState);
+            boss.AddUpdate(MainUpdate);
         }
 
         private void FindPlayer(Collider s, Collider t)
@@ -25,20 +25,15 @@ namespace MonoGameProject
             if (s.Parent is Player)
             {
                 player = s.Parent as Player;
-                boss.state = BossState.BodyAttack1;
             }
             if (t.Parent is Player)
             {
                 player = t.Parent as Player;
-                boss.state = BossState.BodyAttack1;
             }
         }
 
-        private void UpdateBasedOnState()
+        private void MainUpdate()
         {
-            //if (boss.state == BossState.Idle)
-            //    return;
-
             if (boss.damageCooldown >= 0)
                 boss.damageCooldown--;
 
@@ -50,30 +45,37 @@ namespace MonoGameProject
                     boss.facingRight = false;
             }
 
-            if (SameHightOfPlayer())
-                boss.state = BossState.BodyAttack1;
-            else
-                boss.state = BossState.BodyAttack2;
+            ChangeState();
 
             if (boss.state == BossState.BodyAttack1)
             {
-                if (SameHightOfPlayer())
-                {
+                //if (SameHightOfPlayer())
+                //{
                     if (boss.facingRight)
-                        boss.HorizontalSpeed = 25 + (boss.damageTaken > 5 ? 25 : 0);
+                        boss.HorizontalSpeed = 25 + (boss.damageTaken > 5 ? 15 : 0);
                     else
-                        boss.HorizontalSpeed = -25 - (boss.damageTaken > 5 ? 25 : 0);
+                        boss.HorizontalSpeed = -25 - (boss.damageTaken > 5 ? 15 : 0);
 
                     boss.MouthOpen = true;
-                }
-                else
-                {
-                    boss.HorizontalSpeed = 0;
-                    boss.MouthOpen = false;
-                }
+                //}
+                //else
+                //{
+                //    boss.HorizontalSpeed = 0;
+                //    boss.MouthOpen = false;
+                //}
+            }
+            else if (boss.state == BossState.Idle)
+            {
+                boss.HorizontalSpeed = 0;
+                boss.MouthOpen = false;
+            }
+            else if (boss.state == BossState.HeadAttack1)
+            {
+                boss.HorizontalSpeed = 0;
+                boss.MouthOpen = false;
             }
 
-            if (boss.state == BossState.BodyAttack2)
+            if (SameHightOfPlayer())
                 patience = 80 - (boss.damageTaken > 10 ? 30 : 0);
             else
                 patience--;
@@ -85,6 +87,33 @@ namespace MonoGameProject
                 patience = 80 - (boss.damageTaken > 10 ? 30 : 0);
             }
 
+        }
+
+        private int stateDuration;
+        private void ChangeState()
+        {
+            stateDuration--;
+            if (stateDuration > 0)
+                return;
+
+            var rnd = boss.MyRandom.Next(1, 3);
+            if (rnd == 1 
+                && boss.state != BossState.Idle 
+                && boss.grounded)
+            {
+                boss.state = BossState.Idle;
+                stateDuration = 150;
+            }
+            else if (rnd == 2)
+            {
+                boss.state = BossState.HeadAttack1;
+                stateDuration = 50;
+            }
+            else
+            {
+                boss.state = BossState.BodyAttack1;
+                stateDuration = 100;
+            }
         }
 
         private bool SameHightOfPlayer()
