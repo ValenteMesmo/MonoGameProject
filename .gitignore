@@ -58,3 +58,4 @@ monodroid*.msi
 /packages/*
 .vs/MonoGameProject/v15/Browse.VC.opendb
 .vs/MonoGameProject/v15/Browse.VC.db
+.vs/MonoGameProject/v15/sqlite3/storage.ide

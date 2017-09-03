@@ -37,6 +37,11 @@ namespace MonoGameProject
               ____ ___ _____
                 |^^^^^^^| 
 
+             |vvvvvvvvvvvv|__
+             |         ______
+            _|    --      |
+            ____^^^^^^^^^^|
+
             dragao que dispara em 3 direcoes
                 /
             D --
