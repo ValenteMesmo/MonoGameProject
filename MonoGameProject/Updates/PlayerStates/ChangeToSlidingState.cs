@@ -15,7 +15,8 @@ namespace MonoGameProject
         public void Update()
         {
             if (Player.LegState == LegState.TakingDamage
-                || Player.HeadState == HeadState.Bump)
+                || Player.HeadState == HeadState.Bump
+                || Player.TorsoState == TorsoState.Attack)
                 return;
 
             if (Player.groundChecker.Colliding<SomeKindOfGround>() == false

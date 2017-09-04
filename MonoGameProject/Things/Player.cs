@@ -6,8 +6,6 @@ namespace MonoGameProject
     public class Player : Humanoid
     {
         /*MUST
-         * ANIMATION BUG: jump attack wallslide
-         * 
          * animacao de morte
          * 2 players
          * 2 tipos de monstros
