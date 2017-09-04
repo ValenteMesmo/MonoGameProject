@@ -6,7 +6,6 @@ namespace MonoGameProject
     public class Player : Humanoid
     {
         /*MUST
-         * ANIMATION BUG: powerslide attack walk
          * ANIMATION BUG: jump attack wallslide
          * 
          * animacao de morte
@@ -22,7 +21,17 @@ namespace MonoGameProject
          */
          //State features
          //- os blocos aparecem quando player chega perto
-         //-
+         //- pulsar cor
+         //- pulsar tamanho
+         //- pulsar transparencia
+         //- separar borda do miolo, para poder fazer o miolo transparente?
+
+        //rocks, trees, bushes, mushrooms, algo similar a um cacho de uva,abacaxi
+        //criar os etc seguindo o padrão   pmggmppmmmgmppp (nao pula do p para g)
+        //criar particulas para renderizar uma em cima da outra... sobre chao e sobre parede (vai ser mais randomizavel assim!)
+        //  quadrado, triangulo, bola, x, redemoinho, costura
+        
+        
 
         //bau virar um player?
 
