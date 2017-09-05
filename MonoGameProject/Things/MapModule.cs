@@ -99,46 +99,8 @@ namespace MonoGameProject
 
                         //fazer uns tiles com olhos e bocas, que abrem quando player da as costas
 
-                        {
-                            var animation_ground_top = GeneratedContent.Create_knight_ground_top(
-                               j * CELL_SIZE - 125
-                               , i * CELL_SIZE - 125
-                               , MapModule.CELL_SIZE + 250
-                               , MapModule.CELL_SIZE + 250);
-                            animation_ground_top.RenderingLayer = 0.501f;
-                            var groundcolor = GameState.GetComplimentColor2();
-                            animation_ground_top.ColorGetter = () => groundcolor;
-                            AddAnimation(animation_ground_top);
-
-                            var animation_ground_top_border = GeneratedContent.Create_knight_ground_top(
-                                   j * CELL_SIZE - 150
-                                   , i * CELL_SIZE - 140
-                                   , MapModule.CELL_SIZE + 300
-                                   , MapModule.CELL_SIZE + 300);
-                            animation_ground_top_border.RenderingLayer = 0.5011f;
-                            animation_ground_top_border.ColorGetter = () => Color.Black;//Colors[ColorIndex];
-                            AddAnimation(animation_ground_top_border);
-                        }
-                        
-
-                        var animation = GeneratedContent.Create_knight_ground(
-                               j * CELL_SIZE - 125
-                               , i * CELL_SIZE - 125
-                               , MapModule.CELL_SIZE + 250
-                               , MapModule.CELL_SIZE + 250);
-                        animation.RenderingLayer = 0.51f;
-                        var color = GameState.GetColor();
-                        animation.ColorGetter = () => color;
-                        AddAnimation(animation);
-
-                        var animationborder = GeneratedContent.Create_knight_block(
-                               j * CELL_SIZE - 25
-                               , i * CELL_SIZE - 25
-                               , MapModule.CELL_SIZE + 50
-                               , MapModule.CELL_SIZE + 50);
-                        animationborder.RenderingLayer = 0.511f;
-                        animationborder.ColorGetter = () => Color.Black;//Colors[ColorIndex];
-                        AddAnimation(animationborder);
+                        CreateBlock(i, j, 0.21f, GameState.GetComplimentColor2(), GeneratedContent.Create_knight_ground_top, 100);
+                        CreateBlock(i, j, 0.22f, GameState.GetColor(), GeneratedContent.Create_knight_ground);
                     }
 
                     if (type == '=')
@@ -255,6 +217,38 @@ namespace MonoGameProject
             }
         }
 
+        MyRandom MyRandom = new MyRandom();
+        private void CreateBlock(int i, int j, float z, Color color, Func<int, int, int?, int?, bool, Animation> CreateAnimation, int bugBonus = 0)
+        {
+            var offsetx = j * CELL_SIZE - 125;
+            var offsety = i * CELL_SIZE - 125;
+            var width = MapModule.CELL_SIZE + 250;
+            var height = MapModule.CELL_SIZE + 250;
+
+            var flipped = MyRandom.Next(0, 1).ToBool();
+
+            var animation_ground_top = CreateAnimation(
+                offsetx
+                , offsety
+                , width
+                , height
+                , flipped);
+            animation_ground_top.RenderingLayer = z;//+ 0.001f;
+            //var groundcolor = GameState.GetComplimentColor2();
+            animation_ground_top.ColorGetter = () => color;
+            AddAnimation(animation_ground_top);
+
+            var animation_ground_top_border = CreateAnimation(
+                offsetx - 25
+                , offsety - 25
+                , width + 50
+                , height + 50 + bugBonus,
+                flipped);
+            animation_ground_top_border.RenderingLayer = z + 0.001f;
+            animation_ground_top_border.ColorGetter = () => Color.Black;
+            AddAnimation(animation_ground_top_border);
+        }
+
         private void AddStageNumber()
         {
             if (GameState.State.ShowStageNumber == false)
@@ -308,12 +302,6 @@ namespace MonoGameProject
 
         private void CreateBackground(int i, int j)
         {
-            var animation = GeneratedContent.Create_knight_block(
-                               (j * CELL_SIZE) - 5
-                               , (i * CELL_SIZE) - 5
-                               , MapModule.CELL_SIZE + 10
-                               , MapModule.CELL_SIZE + 10);
-            animation.RenderingLayer = 0.52f;
             var oColor = GameState.GetColor();
             var color = new Color(
                 oColor.R - 50
@@ -321,18 +309,7 @@ namespace MonoGameProject
                 , oColor.B - 50
                 , oColor.A
             );
-            animation.ColorGetter = () => color;
-            AddAnimation(animation);
-
-
-            var animationborder = GeneratedContent.Create_knight_block(
-                               j * CELL_SIZE - 25
-                               , i * CELL_SIZE - 25
-                               , MapModule.CELL_SIZE + 50
-                               , MapModule.CELL_SIZE + 50);
-            animationborder.RenderingLayer = 0.521f;
-            animationborder.ColorGetter = () => Color.Black;//Colors[ColorIndex];
-            AddAnimation(animationborder);
+            CreateBlock(i, j, 0.52f, color, GeneratedContent.Create_knight_ground);
         }
 
         //private void CreateSolid(int i, int j)

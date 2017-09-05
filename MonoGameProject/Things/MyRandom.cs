@@ -8,7 +8,7 @@
 
         public MyRandom()
         {
-            Seed = 1;
+            Seed = 171;
         }
 
         public MyRandom(long Seed)

@@ -3,6 +3,14 @@ using System.Collections.Generic;
 
 namespace GameCore
 {
+    public static class IntExtensions
+    {
+        public static bool ToBool(this int value)
+        {
+            return value > 0;
+        }
+    }
+
     public static class IListExtensions
     {
         public static void ForEachCombination<T>(
