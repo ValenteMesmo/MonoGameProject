@@ -105,29 +105,28 @@ namespace MonoGameProject
                                , i * CELL_SIZE - 125
                                , MapModule.CELL_SIZE + 250
                                , MapModule.CELL_SIZE + 250);
-                            animation_ground_top.RenderingLayer = 0.4f;
-                            var groundcolor = Color.Red;
+                            animation_ground_top.RenderingLayer = 0.501f;
+                            var groundcolor = GameState.GetComplimentColor2();
                             animation_ground_top.ColorGetter = () => groundcolor;
                             AddAnimation(animation_ground_top);
 
                             var animation_ground_top_border = GeneratedContent.Create_knight_ground_top(
                                    j * CELL_SIZE - 150
-                                   , i * CELL_SIZE - 125
+                                   , i * CELL_SIZE - 140
                                    , MapModule.CELL_SIZE + 300
                                    , MapModule.CELL_SIZE + 300);
-                            animation_ground_top_border.RenderingLayer = 0.41f;
+                            animation_ground_top_border.RenderingLayer = 0.5011f;
                             animation_ground_top_border.ColorGetter = () => Color.Black;//Colors[ColorIndex];
                             AddAnimation(animation_ground_top_border);
                         }
-
-
+                        
 
                         var animation = GeneratedContent.Create_knight_ground(
                                j * CELL_SIZE - 125
                                , i * CELL_SIZE - 125
                                , MapModule.CELL_SIZE + 250
                                , MapModule.CELL_SIZE + 250);
-                        animation.RenderingLayer = 0.5f;
+                        animation.RenderingLayer = 0.51f;
                         var color = GameState.GetColor();
                         animation.ColorGetter = () => color;
                         AddAnimation(animation);
@@ -137,7 +136,7 @@ namespace MonoGameProject
                                , i * CELL_SIZE - 25
                                , MapModule.CELL_SIZE + 50
                                , MapModule.CELL_SIZE + 50);
-                        animationborder.RenderingLayer = 0.51f;
+                        animationborder.RenderingLayer = 0.511f;
                         animationborder.ColorGetter = () => Color.Black;//Colors[ColorIndex];
                         AddAnimation(animationborder);
                     }
