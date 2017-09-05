@@ -94,11 +94,39 @@ namespace MonoGameProject
                     var type = Info.Tiles[i][j];
                     if (type == '1')
                     {
-                        var animation = GeneratedContent.Create_knight_block(
-                               j * CELL_SIZE - 5
-                               , i * CELL_SIZE - 5
-                               , MapModule.CELL_SIZE + 10
-                               , MapModule.CELL_SIZE + 10);
+                        //TODO: manter o esquema de bloco e borda
+                        //repetir esse esquema para cobertura
+
+                        //fazer uns tiles com olhos e bocas, que abrem quando player da as costas
+
+                        {
+                            var animation_ground_top = GeneratedContent.Create_knight_ground_top(
+                               j * CELL_SIZE - 125
+                               , i * CELL_SIZE - 125
+                               , MapModule.CELL_SIZE + 250
+                               , MapModule.CELL_SIZE + 250);
+                            animation_ground_top.RenderingLayer = 0.4f;
+                            var groundcolor = Color.Red;
+                            animation_ground_top.ColorGetter = () => groundcolor;
+                            AddAnimation(animation_ground_top);
+
+                            var animation_ground_top_border = GeneratedContent.Create_knight_ground_top(
+                                   j * CELL_SIZE - 150
+                                   , i * CELL_SIZE - 125
+                                   , MapModule.CELL_SIZE + 300
+                                   , MapModule.CELL_SIZE + 300);
+                            animation_ground_top_border.RenderingLayer = 0.41f;
+                            animation_ground_top_border.ColorGetter = () => Color.Black;//Colors[ColorIndex];
+                            AddAnimation(animation_ground_top_border);
+                        }
+
+
+
+                        var animation = GeneratedContent.Create_knight_ground(
+                               j * CELL_SIZE - 125
+                               , i * CELL_SIZE - 125
+                               , MapModule.CELL_SIZE + 250
+                               , MapModule.CELL_SIZE + 250);
                         animation.RenderingLayer = 0.5f;
                         var color = GameState.GetColor();
                         animation.ColorGetter = () => color;
