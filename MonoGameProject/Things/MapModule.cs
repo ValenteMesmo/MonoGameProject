@@ -37,7 +37,7 @@ namespace MonoGameProject
             });
 
             var tiles = new TilesFromStrings().Create(Info.Tiles);
-            foreach (var tile in tiles.Where(f => f.Type == '1'))
+            foreach (var tile in tiles.Where(f => f.Type == '1' || f.Type == '2'))
             {
                 AddCollider(new GroundCollider
                 {
@@ -70,36 +70,16 @@ namespace MonoGameProject
                 sky.RenderingLayer = 1f;
                 AddAnimation(sky);
             }
-            //}
-            //{
-            //    var sky = GeneratedContent.Create_knight_sky(
-            //                      0
-            //                      , 0
-            //                      , 0.6f
-            //                      , CELL_SIZE * CELL_NUMBER
-            //                      , (CELL_SIZE * CELL_NUMBER)/3);
-            //    sky.Color = new Color(
-            //        Colors[ColorIndex].R - 100
-            //        , Colors[ColorIndex].G + 100
-            //        , Colors[ColorIndex].B - 100
-            //        , Colors[ColorIndex].A - 200
-            //    );
-            //    AddAnimation(sky);
-            //}
 
             for (int i = 0; i < CELL_NUMBER; i++)
             {
                 for (int j = 0; j < CELL_NUMBER; j++)
                 {
                     var type = Info.Tiles[i][j];
-                    if (type == '1')
+                    if (type == '1' || type == '2')
                     {
-                        //TODO: manter o esquema de bloco e borda
-                        //repetir esse esquema para cobertura
-
-                        //fazer uns tiles com olhos e bocas, que abrem quando player da as costas
-
-                        CreateBlock(i, j, 0.21f, GameState.GetComplimentColor2(), GeneratedContent.Create_knight_ground_top, 100);
+                        if (type == '2')
+                            CreateBlock(i, j, 0.21f, GameState.GetComplimentColor2(), GeneratedContent.Create_knight_ground_top, 100);
                         CreateBlock(i, j, 0.22f, GameState.GetColor(), GeneratedContent.Create_knight_ground);
                     }
 
