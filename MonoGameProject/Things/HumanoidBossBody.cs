@@ -15,7 +15,7 @@ namespace MonoGameProject
             boss.state = BossState.Idle;
             boss.mainCollider.AddCollisionHandler(FindPlayer);
 
-            CreateBodyAnimator(0.43f);
+            CreateBodyAnimator(Boss.TORSO_Z);
 
             boss.AddUpdate(MainUpdate);
         }
@@ -32,17 +32,24 @@ namespace MonoGameProject
             }
         }
 
+        private int TurnCooldown;
+
         private void MainUpdate()
         {
             if (boss.damageCooldown >= 0)
                 boss.damageCooldown--;
 
-            if (SameHightOfPlayer())
+            if (TurnCooldown > 0)
+                TurnCooldown--;
+
+            if (SameHightOfPlayer() && TurnCooldown <= 0)
             {
-                if (player.MainCollider.Left() > boss.mainCollider.Right())
+                if (player.MainCollider.Left() > boss.mainCollider.CenterX())
                     boss.facingRight = true;
                 else
                     boss.facingRight = false;
+
+                TurnCooldown = 50;
             }
 
             ChangeState();
@@ -51,12 +58,12 @@ namespace MonoGameProject
             {
                 //if (SameHightOfPlayer())
                 //{
-                    if (boss.facingRight)
-                        boss.HorizontalSpeed = 25 + (boss.damageTaken > 5 ? 15 : 0);
-                    else
-                        boss.HorizontalSpeed = -25 - (boss.damageTaken > 5 ? 15 : 0);
+                if (boss.facingRight)
+                    boss.HorizontalSpeed = 25 + (boss.damageTaken > 5 ? 15 : 0);
+                else
+                    boss.HorizontalSpeed = -25 - (boss.damageTaken > 5 ? 15 : 0);
 
-                    boss.MouthOpen = true;
+                boss.MouthOpen = true;
                 //}
                 //else
                 //{
@@ -97,8 +104,8 @@ namespace MonoGameProject
                 return;
 
             var rnd = boss.MyRandom.Next(1, 3);
-            if (rnd == 1 
-                && boss.state != BossState.Idle 
+            if (rnd == 1
+                && boss.state != BossState.Idle
                 && boss.grounded)
             {
                 boss.state = BossState.Idle;

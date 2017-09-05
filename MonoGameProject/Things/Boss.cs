@@ -15,6 +15,10 @@ namespace MonoGameProject
 
     public class Boss : Thing
     {
+        public const float HEAD_Z = 0.101f;
+        public const float TORSO_Z = 0.102f;
+        public const float EYE_Z = 0.100f;
+
         public BossState state;
         public bool MouthOpen;
         public bool facingRight = false;
@@ -73,8 +77,8 @@ namespace MonoGameProject
 
             AddCollider(mainCollider);
 
-            CreateHeadAnimator(0.42f);
-            CreateEyeAnimator(0.41f);
+            CreateHeadAnimator(HEAD_Z);
+            CreateEyeAnimator(EYE_Z);
 
             MyRandom.Next();
             var bodyType = MyRandom.Next(1, 3);
@@ -128,7 +132,7 @@ namespace MonoGameProject
 
                 var player = t.Parent as Player;
                 if (player.FacingRight)
-                    AddToWorld(new HitEffect(0.4f)
+                    AddToWorld(new HitEffect(0.04f)
                     {
                         X = player.AttackRightCollider.X,
                         Y = player.AttackRightCollider.Y,
@@ -137,7 +141,7 @@ namespace MonoGameProject
                         VerticalSpeed = VerticalSpeed
                     });
                 else
-                    AddToWorld(new HitEffect(0.4f)
+                    AddToWorld(new HitEffect(0.04f)
                     {
                         X = player.AttackLeftCollider.X,
                         Y = player.AttackLeftCollider.Y,

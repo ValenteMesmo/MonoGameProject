@@ -24,9 +24,9 @@ namespace MonoGameProject
         public void CreateAnimator(Humanoid thing)
         {
             thing.ArmorColor = Color.White;
-            HeadAnimator(thing, 0.10f);
-            TorsoAnimator(thing, 0.11f);
-            LegsAnimator(thing, 0.10f);
+            HeadAnimator(thing, 0.120f);
+            TorsoAnimator(thing, 0.122f);
+            LegsAnimator(thing, 0.120f);
         }
 
         private void LegsAnimator(Humanoid thing, float Z_INDEX)

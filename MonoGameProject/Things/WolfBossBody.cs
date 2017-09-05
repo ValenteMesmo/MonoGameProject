@@ -32,7 +32,7 @@ namespace MonoGameProject
                 }
             });
 
-            CreateBodyAnimator(0.43f);
+            CreateBodyAnimator(Boss.TORSO_Z);
 
             boss.AddUpdate(UpdateBasedOnState);
         }

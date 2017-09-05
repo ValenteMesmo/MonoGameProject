@@ -16,7 +16,7 @@ namespace MonoGameProject
             boss.state = BossState.Idle;
             boss.mainCollider.AddCollisionHandler(FindPlayer);
 
-            CreateBodyAnimator(0.43f);
+            CreateBodyAnimator(Boss.TORSO_Z);
 
             boss.AddUpdate(UpdateBasedOnState);
         }
