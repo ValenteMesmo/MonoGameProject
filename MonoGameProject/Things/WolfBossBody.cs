@@ -42,23 +42,22 @@ namespace MonoGameProject
             var rnd = boss.MyRandom.Next(1, 3);
             if (boss.state != BossState.Idle && rnd == 1)
             {
-                boss.MouthOpen = false;
                 boss.state = BossState.Idle;
                 state1Duration = 100;
+                boss.MouthOpen = false;
             }
             else if (rnd == 2)
             {
-                boss.MouthOpen = true;
-
                 boss.state = BossState.BodyAttack1;
+                boss.MouthOpen = true;
             }
             else
             {
-                boss.MouthOpen = true;
-
                 boss.state = BossState.HeadAttack1;
                 state1Duration = 100;
+                boss.MouthOpen = true;
             }
+            
         }
 
         private void UpdateBasedOnState()
@@ -81,8 +80,11 @@ namespace MonoGameProject
                 if (state1Duration <= 0)
                 {
                     if (boss.MyRandom.Next(0, 100) > 50)
+                    {
                         boss.VerticalSpeed = -150;
+                    }
                     boss.state = BossState.BodyAttack1;
+                    boss.MouthOpen = true;
                 }
             }
 
@@ -97,7 +99,6 @@ namespace MonoGameProject
                     boss.state = BossState.BodyAttack1;
                 }
             }
-
             //boss.MouthOpen = boss.HorizontalSpeed != 0;
         }
 
@@ -145,33 +146,11 @@ namespace MonoGameProject
             );
             jump_right.RenderingLayer = z;
             jump_right.ColorGetter = () => boss.BodyColor;
-
-            var walk_left = GeneratedContent.Create_knight_wolf_body_walk(
-                                -width / 2
-                                , -height
-                                , width * 2
-                                , height * 2
-                                , false
-                            );
-            walk_left.RenderingLayer = z;
-            walk_left.ColorGetter = () => boss.BodyColor;
-
-            var walk_right = GeneratedContent.Create_knight_wolf_body_walk(
-                    -width / 2
-                    , -height
-                    , width * 2
-                    , height * 2
-                    , true
-            );
-            walk_right.RenderingLayer = z;
-            walk_right.ColorGetter = () => boss.BodyColor;
-
+            
             var animation =
                 new Animator(
-                    new AnimationTransitionOnCondition(standing_left, () => !boss.facingRight && boss.grounded && boss.HorizontalSpeed == 0)
-                    , new AnimationTransitionOnCondition(standing_right, () => boss.facingRight && boss.grounded && boss.HorizontalSpeed == 0)
-                    , new AnimationTransitionOnCondition(walk_left, () => !boss.facingRight && boss.grounded && boss.HorizontalSpeed != 0)
-                    , new AnimationTransitionOnCondition(walk_right, () => boss.facingRight && boss.grounded && boss.HorizontalSpeed != 0)
+                    new AnimationTransitionOnCondition(standing_left, () => !boss.facingRight && boss.grounded )
+                    , new AnimationTransitionOnCondition(standing_right, () => boss.facingRight && boss.grounded )
                     , new AnimationTransitionOnCondition(jump_left, () => !boss.facingRight && !boss.grounded)
                     , new AnimationTransitionOnCondition(jump_right, () => boss.facingRight && !boss.grounded)
             );
