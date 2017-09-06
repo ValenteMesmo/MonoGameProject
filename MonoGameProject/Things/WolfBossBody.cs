@@ -146,10 +146,32 @@ namespace MonoGameProject
             jump_right.RenderingLayer = z;
             jump_right.ColorGetter = () => boss.BodyColor;
 
+            var walk_left = GeneratedContent.Create_knight_wolf_body_walk(
+                                -width / 2
+                                , -height
+                                , width * 2
+                                , height * 2
+                                , false
+                            );
+            walk_left.RenderingLayer = z;
+            walk_left.ColorGetter = () => boss.BodyColor;
+
+            var walk_right = GeneratedContent.Create_knight_wolf_body_walk(
+                    -width / 2
+                    , -height
+                    , width * 2
+                    , height * 2
+                    , true
+            );
+            walk_right.RenderingLayer = z;
+            walk_right.ColorGetter = () => boss.BodyColor;
+
             var animation =
                 new Animator(
-                    new AnimationTransitionOnCondition(standing_left, () => !boss.facingRight && boss.grounded)
-                    , new AnimationTransitionOnCondition(standing_right, () => boss.facingRight && boss.grounded)
+                    new AnimationTransitionOnCondition(standing_left, () => !boss.facingRight && boss.grounded && boss.HorizontalSpeed == 0)
+                    , new AnimationTransitionOnCondition(standing_right, () => boss.facingRight && boss.grounded && boss.HorizontalSpeed == 0)
+                    , new AnimationTransitionOnCondition(walk_left, () => !boss.facingRight && boss.grounded && boss.HorizontalSpeed != 0)
+                    , new AnimationTransitionOnCondition(walk_right, () => boss.facingRight && boss.grounded && boss.HorizontalSpeed != 0)
                     , new AnimationTransitionOnCondition(jump_left, () => !boss.facingRight && !boss.grounded)
                     , new AnimationTransitionOnCondition(jump_right, () => boss.facingRight && !boss.grounded)
             );
