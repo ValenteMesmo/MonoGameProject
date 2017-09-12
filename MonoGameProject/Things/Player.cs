@@ -5,6 +5,9 @@ namespace MonoGameProject
 {
     public class Player : Humanoid
     {
+        //usar a tecnica de borda para criar arvores randomicas...
+        //  uma arvore sobre a outra, sem borda
+
         /*MUST
          * animacao de morte
          * 2 players
@@ -17,6 +20,9 @@ namespace MonoGameProject
          * -cara de dragao cospe fogo
          * -cara de aranha cospe ovos no chao
          */
+
+            // ciclo lunar
+
         //State features
         //- os blocos aparecem quando player chega perto
         //- pulsar cor
@@ -31,7 +37,11 @@ namespace MonoGameProject
         //criar particulas para renderizar uma em cima da outra... sobre chao e sobre parede (vai ser mais randomizavel assim!)
         //  quadrado, triangulo, bola, x, redemoinho, costura
         // Janela em forma de fechadura...  aparece um olho de vez em quando?
+        //macarrão de espinhos (planta)
 
+        //eyes: crystal
+        //background: pizza... fish
+        
 
         //bau virar um player?
 

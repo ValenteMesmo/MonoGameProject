@@ -19,6 +19,11 @@ public abstract class Game : IDisposable
         BaseGame = new BaseGame(ContentLoader, this);
     }
 
+    public void AddToWorld(Thing thing)
+    {
+        BaseGame.World.Add(thing);
+    }
+
     public void Start()
     {
         Camera.Pos = new Vector2(7000f, 5500f);

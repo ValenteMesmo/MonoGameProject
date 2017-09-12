@@ -56,7 +56,7 @@ namespace GameCore
             RightCollisionHandlers.Add(RightCollisionHandler);
         }
 
-        public void AddCollisionHandler(Action<Collider, Collider> CollisionHandler)
+        public void AddHandler(Action<Collider, Collider> CollisionHandler)
         {
             TopCollisionHandlers.Add(CollisionHandler);
             LeftCollisionHandlers.Add(CollisionHandler);

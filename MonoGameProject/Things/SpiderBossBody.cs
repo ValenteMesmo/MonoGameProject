@@ -14,7 +14,7 @@ namespace MonoGameProject
         {
             this.boss = boss;
             boss.state = BossState.Idle;
-            boss.mainCollider.AddCollisionHandler(FindPlayer);
+            boss.mainCollider.AddHandler(FindPlayer);
 
             CreateBodyAnimator(Boss.TORSO_Z);
 
@@ -78,20 +78,20 @@ namespace MonoGameProject
                     directionCooldown--;
 
                 stateCooldown--;
-                boss.MouthOpen = true;
+                boss.MouthState = BossMouthState.BiteOpen;
             }
 
             if (boss.state == BossState.Idle)
             {
                 boss.HorizontalSpeed = 0;
-                boss.MouthOpen = false;
+                boss.MouthState = BossMouthState.Idle;
                 stateCooldown--;
             }
 
             if (boss.state == BossState.HeadAttack1)
             {
                 boss.HorizontalSpeed = 0;
-                boss.MouthOpen = true;
+                boss.MouthState = BossMouthState.BiteOpen;
                 stateCooldown--;
             }
 

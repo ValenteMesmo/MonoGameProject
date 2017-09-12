@@ -13,6 +13,13 @@ namespace MonoGameProject
         HeadAttack1
     }
 
+    public enum BossMouthState
+    {
+        Idle
+        , BiteOpen
+        , Shoot
+    }
+
     public class Boss : Thing
     {
         public const float HEAD_Z = 0.101f;
@@ -20,12 +27,17 @@ namespace MonoGameProject
         public const float EYE_Z = 0.100f;
 
         public BossState state;
-        public bool MouthOpen;
+        //public bool MouthOpen;
+        public BossMouthState MouthState;
         public bool facingRight = false;
         //public int state1Duration = 0;
         public int damageTaken = 0;
         public int damageCooldown = 0;
         public bool grounded;
+
+        private const int width = 1500;
+        private const int height = 1500;
+        private const int offsetY = -height;
 
         public MyRandom MyRandom = new MyRandom()
         {
@@ -34,15 +46,14 @@ namespace MonoGameProject
 
         public Color BodyColor;
         private Game1 Game1;
-        private Action<Thing> AddToWorld;
+
         public readonly AttackCollider attackCollider;
         public readonly Collider mainCollider;
         public readonly CollisionChecker groundDetector;
 
-        public Boss(Game1 Game1, Action<Thing> AddToWorld)
+        public Boss(Game1 Game1)
         {
             this.Game1 = Game1;
-            this.AddToWorld = AddToWorld;
             var width = 1500;
             var height = 1500;
 
@@ -73,7 +84,7 @@ namespace MonoGameProject
             mainCollider.AddRightCollisionHandler(StopsWhenHitting.Right);
             mainCollider.AddTopCollisionHandler(StopsWhenHitting.Top);
 
-            mainCollider.AddCollisionHandler(HandlePlayerAttack);
+            mainCollider.AddHandler(HandlePlayerAttack);
 
             AddCollider(mainCollider);
 
@@ -82,18 +93,18 @@ namespace MonoGameProject
 
             MyRandom.Next();
             var bodyType = MyRandom.Next(1, 3);
-            if (bodyType == 1)
-            {
-                new SpiderBossBody(this);
-            }
-            else if (bodyType == 2)
-            {
-                new WolfBossBody(this);
-            }
-            else
-            {
-                new HumanoidBossBody(this);
-            }
+            //if (bodyType == 1)
+            //{
+            //    new SpiderBossBody(this);
+            //}
+            //else if (bodyType == 2)
+            //{
+            new WolfBossBody(this, Game1.AddToWorld);
+            //}
+            //else
+            //{
+            //    new HumanoidBossBody(this);
+            //}
 
             AddUpdate(new MoveHorizontallyWithTheWorld(this));
             AddUpdate(new AfectedByGravity(this));
@@ -113,13 +124,14 @@ namespace MonoGameProject
             else
                 attackCollider.OffsetX = -attackCollider.Width;
 
-            attackCollider.Disabled = !MouthOpen;
+            attackCollider.Disabled =
+                MouthState != BossMouthState.BiteOpen;
         }
 
         private void HandlePlayerAttack(Collider s, Collider t)
         {
             if (t is AttackCollider
-            && t.Parent is Player)
+                && t.Parent is Player)
             {
                 if (damageCooldown > 0)
                     return;
@@ -132,7 +144,7 @@ namespace MonoGameProject
 
                 var player = t.Parent as Player;
                 if (player.FacingRight)
-                    AddToWorld(new HitEffect(0.04f)
+                    Game1.AddToWorld(new HitEffect(0.04f)
                     {
                         X = player.AttackRightCollider.X,
                         Y = player.AttackRightCollider.Y,
@@ -141,7 +153,7 @@ namespace MonoGameProject
                         VerticalSpeed = VerticalSpeed
                     });
                 else
-                    AddToWorld(new HitEffect(0.04f)
+                    Game1.AddToWorld(new HitEffect(0.04f)
                     {
                         X = player.AttackLeftCollider.X,
                         Y = player.AttackLeftCollider.Y,
@@ -161,12 +173,9 @@ namespace MonoGameProject
 
         private void CreateHeadAnimator(float z)
         {
-            var width = 1500;
-            var height = 1500;
-
             var standing_left = BossAnimationsFactory.HeadAnimation(
                                 -width / 2
-                                , -height
+                                , offsetY
                                 , width * 2
                                 , height * 2
                                 , false
@@ -177,7 +186,7 @@ namespace MonoGameProject
 
             var standing_right = BossAnimationsFactory.HeadAnimation(
                     -width / 2
-                    , -height
+                    , offsetY
                     , width * 2
                     , height * 2
                     , true
@@ -187,7 +196,7 @@ namespace MonoGameProject
 
             var attack_left = BossAnimationsFactory.HeadAttackAnimation(
                                 -width / 2
-                                , -height
+                                , offsetY
                                 , width * 2
                                 , height * 2
                                 , false
@@ -198,7 +207,7 @@ namespace MonoGameProject
 
             var attack_right = BossAnimationsFactory.HeadAttackAnimation(
                     -width / 2
-                    , -height
+                    , offsetY
                     , width * 2
                     , height * 2
                     , true
@@ -206,24 +215,56 @@ namespace MonoGameProject
             attack_right.RenderingLayer = z;
             attack_right.ColorGetter = () => BodyColor;
 
+            var shoot_left = BossAnimationsFactory.HeadShootAnimation(
+                            -width / 2
+                            , offsetY
+                            , width * 2
+                            , height * 2
+                            , false
+                        );
+            shoot_left.RenderingLayer = z;
+
+            shoot_left.ColorGetter = () => BodyColor;
+
+            var shoot_right = BossAnimationsFactory.HeadShootAnimation(
+                    -width / 2
+                    , offsetY
+                    , width * 2
+                    , height * 2
+                    , true
+            );
+            shoot_right.RenderingLayer = z;
+            shoot_right.ColorGetter = () => BodyColor;
+
             var animation =
                 new Animator(
-                    new AnimationTransitionOnCondition(standing_left, () => !MouthOpen && !facingRight)
-                    , new AnimationTransitionOnCondition(standing_right, () => !MouthOpen && facingRight)
-                    , new AnimationTransitionOnCondition(attack_left, () => MouthOpen && !facingRight)
-                    , new AnimationTransitionOnCondition(attack_right, () => MouthOpen && facingRight)
+                    new AnimationTransitionOnCondition(standing_left, () =>
+                        MouthState == BossMouthState.Idle
+                        && !facingRight)
+                    , new AnimationTransitionOnCondition(standing_right, () =>
+                        MouthState == BossMouthState.Idle
+                        && facingRight)
+                    , new AnimationTransitionOnCondition(attack_left, () =>
+                        MouthState == BossMouthState.BiteOpen
+                        && !facingRight)
+                    , new AnimationTransitionOnCondition(attack_right, () =>
+                        MouthState == BossMouthState.BiteOpen
+                        && facingRight)
+                    , new AnimationTransitionOnCondition(shoot_left, () =>
+                        MouthState == BossMouthState.Shoot
+                        && !facingRight)
+                    , new AnimationTransitionOnCondition(shoot_right, () =>
+                        MouthState == BossMouthState.Shoot
+                        && facingRight)
             );
             AddAnimation(animation);
         }
-
         private void CreateEyeAnimator(float z)
         {
-            var width = 1500;
-            var height = 1500;
 
             var standing_left = BossAnimationsFactory.EyeAnimation(
                                 -width / 2
-                                , -height
+                                , offsetY
                                 , width * 2
                                 , height * 2
                                 , false
@@ -233,18 +274,16 @@ namespace MonoGameProject
 
             var standing_right = BossAnimationsFactory.EyeAnimation(
                     -width / 2
-                    , -height
+                    , offsetY
                     , width * 2
                     , height * 2
                     , true
             );
             standing_right.RenderingLayer = z;
 
-
-
             var attack_left = BossAnimationsFactory.EyeAttackAnimation(
                                 -width / 2
-                                , -height
+                                , offsetY
                                 , width * 2
                                 , height * 2
                                 , false
@@ -254,19 +293,55 @@ namespace MonoGameProject
 
             var attack_right = BossAnimationsFactory.EyeAttackAnimation(
                     -width / 2
-                    , -height
+                    , offsetY
                     , width * 2
                     , height * 2
                     , true
             );
             attack_right.RenderingLayer = z;
 
+            var shoot_left = BossAnimationsFactory.EyeAttackAnimation(
+                                -width / 2
+                                , offsetY
+                                , width * 2
+                                , height * 2
+                                , false
+                            );
+            shoot_left.LoopDisabled = true;
+            shoot_left.RenderingLayer = z;
+
+
+            var shoot_right = BossAnimationsFactory.EyeAttackAnimation(
+                    -width / 2
+                    , offsetY
+                    , width * 2
+                    , height * 2
+                    , true
+            );
+            shoot_right.LoopDisabled = true;
+            shoot_right.RenderingLayer = z;
+
+
             var animation =
                 new Animator(
-                    new AnimationTransitionOnCondition(standing_left, () => !MouthOpen && !facingRight)
-                    , new AnimationTransitionOnCondition(standing_right, () => !MouthOpen && facingRight)
-                    , new AnimationTransitionOnCondition(attack_left, () => MouthOpen && !facingRight)
-                    , new AnimationTransitionOnCondition(attack_right, () => MouthOpen && facingRight)
+                    new AnimationTransitionOnCondition(standing_left, () =>
+                        MouthState == BossMouthState.Idle
+                        && !facingRight)
+                    , new AnimationTransitionOnCondition(standing_right, () =>
+                        MouthState == BossMouthState.Idle
+                        && facingRight)
+                    , new AnimationTransitionOnCondition(attack_left, () =>
+                        MouthState == BossMouthState.BiteOpen
+                        && !facingRight)
+                    , new AnimationTransitionOnCondition(attack_right, () =>
+                        MouthState == BossMouthState.BiteOpen
+                        && facingRight)
+                    , new AnimationTransitionOnCondition(shoot_left, () =>
+                        MouthState == BossMouthState.Shoot
+                        && !facingRight)
+                    , new AnimationTransitionOnCondition(shoot_right, () =>
+                        MouthState == BossMouthState.Shoot
+                        && facingRight)
             );
             AddAnimation(animation);
         }

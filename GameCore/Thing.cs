@@ -16,7 +16,7 @@ namespace GameCore
         internal List<Collider> Colliders = new List<Collider>();
         internal List<Action> Updates = new List<Action>();
         internal List<IHandleTouchInputs> Touchables = new List<IHandleTouchInputs>();
-
+        
         public void AddTouchHandler(IHandleTouchInputs touchHandler)
         {
             touchHandler.Parent = this;

@@ -14,14 +14,12 @@ namespace MonoGameProject
         public const int HEIGHT = CELL_SIZE * CELL_NUMBER;
 
         public readonly MapModuleInfo Info;
-        private readonly Action<Thing> AddToWorld;
 
-        public MapModule(int X, int Y, BackBlocker Blocker, MapModuleInfo Info, Action<Thing> AddToWorld, Game1 Game1)
+        public MapModule(int X, int Y, BackBlocker Blocker, MapModuleInfo Info, Game1 Game1)
         {
             this.X = X;
             this.Y = Y;
             this.Info = Info;
-            this.AddToWorld = AddToWorld;
 
             AddStageNumber();
 
@@ -49,7 +47,7 @@ namespace MonoGameProject
             }
             foreach (var tile in tiles.Where(f => f.Type == '^'))
             {
-                AddToWorld(new Spikes(
+                Game1.AddToWorld(new Spikes(
                     Color.Red,
                     tile.Width,
                     tile.Height)
@@ -90,7 +88,7 @@ namespace MonoGameProject
 
                     if (type == 'r')
                     {
-                        AddToWorld(new LeftFireBallTrap(AddToWorld, i % 2 == 0 ? 50 : 0)
+                        Game1.AddToWorld(new LeftFireBallTrap(Game1.AddToWorld, i % 2 == 0 ? 50 : 0)
                         {
                             X = X + j * CELL_SIZE,
                             Y = Y + i * CELL_SIZE
@@ -99,7 +97,7 @@ namespace MonoGameProject
                     }
                     if (type == '@')
                     {
-                        AddToWorld(new BossBattleTrigger
+                        Game1.AddToWorld(new BossBattleTrigger
                         {
                             X = X + j * CELL_SIZE,
                             Y = Y + i * CELL_SIZE
@@ -109,7 +107,7 @@ namespace MonoGameProject
                     {
                         var camlocker = new Thing();
                         camlocker.AddUpdate(new MoveHorizontallyWithTheWorld(camlocker));
-                        AddToWorld(camlocker);
+                        Game1.AddToWorld(camlocker);
                         Blocker
                             .WorldMover.camlocker = camlocker;
                     }
@@ -139,7 +137,7 @@ namespace MonoGameProject
                         locker.AddAnimation(animationborder);
 
                         locker.AddUpdate(new MoveHorizontallyWithTheWorld(locker));
-                        AddToWorld(locker);
+                        Game1.AddToWorld(locker);
                         var originalY = locker.Y;
                         locker.AddUpdate(() =>
                         {
@@ -159,7 +157,7 @@ namespace MonoGameProject
                     }
                     if (type == 'l')
                     {
-                        AddToWorld(new RightFireBallTrap(AddToWorld, i % 2 == 0 ? 50 : 0)
+                        Game1.AddToWorld(new RightFireBallTrap(Game1.AddToWorld, i % 2 == 0 ? 50 : 0)
                         {
                             X = X + j * CELL_SIZE,
                             Y = Y + i * CELL_SIZE
@@ -168,7 +166,7 @@ namespace MonoGameProject
                     }
                     if (type == 'z')
                     {
-                        AddToWorld(new Enemy(Game1, AddToWorld)
+                        Game1.AddToWorld(new Enemy(Game1, Game1.AddToWorld)
                         {
                             X = X + j * CELL_SIZE,
                             Y = Y + i * CELL_SIZE
@@ -177,7 +175,7 @@ namespace MonoGameProject
                     }
                     if (type == 'm')
                     {//This game1 dependency is ugly
-                        AddToWorld(new Boss(Game1, AddToWorld)
+                        Game1.AddToWorld(new Boss(Game1)
                         {
                             X = X + j * CELL_SIZE,
                             Y = Y + i * CELL_SIZE
@@ -186,7 +184,7 @@ namespace MonoGameProject
                     }
                     if (type == 'a')
                     {
-                        AddToWorld(new Armor()
+                        Game1.AddToWorld(new Armor()
                         {
                             X = X + j * CELL_SIZE,
                             Y = Y + i * CELL_SIZE
@@ -198,12 +196,15 @@ namespace MonoGameProject
         }
 
         MyRandom MyRandom = new MyRandom();
-        private void CreateBlock(int i, int j, float z, Color color, Func<int, int, int?, int?, bool, Animation> CreateAnimation, int bugBonus = 0)
+        private void CreateBlock(int i, int j, float z, Color color, Func<int, int, int?, int?, bool, Animation> CreateAnimation, int bugBonus = 0, Color? borderColor = null)
         {
-            var offsetx = j * CELL_SIZE - 125;
-            var offsety = i * CELL_SIZE - 125;
-            var width = MapModule.CELL_SIZE + 250;
-            var height = MapModule.CELL_SIZE + 250;
+            if (borderColor == null)
+                borderColor = Color.Black;
+
+            var offsetx = j * CELL_SIZE - 80;
+            var offsety = i * CELL_SIZE - 80;
+            var width = MapModule.CELL_SIZE + 160;
+            var height = MapModule.CELL_SIZE + 160;
 
             var flipped = MyRandom.Next(0, 1).ToBool();
 
@@ -225,7 +226,7 @@ namespace MonoGameProject
                 , height + 50 + bugBonus,
                 flipped);
             animation_ground_top_border.RenderingLayer = z + 0.001f;
-            animation_ground_top_border.ColorGetter = () => Color.Black;
+            animation_ground_top_border.ColorGetter = () => borderColor.Value;
             AddAnimation(animation_ground_top_border);
         }
 
@@ -238,6 +239,7 @@ namespace MonoGameProject
 
             var number = GameState.State.StageNumber.ToString();
             var i = 1;
+
             foreach (var n in number)
             {
                 Func<int, int, int?, int?, bool, Animation> create = null;
@@ -266,11 +268,11 @@ namespace MonoGameProject
                     return;
 
                 var stageNumber = create(
-                                              CELL_SIZE * i
-                                             , CELL_SIZE
-                                             , CELL_SIZE
-                                             , CELL_SIZE
-                                             , false);
+                                            CELL_SIZE * i
+                                            , CELL_SIZE
+                                            , CELL_SIZE
+                                            , CELL_SIZE
+                                            , false);
                 stageNumber.RenderingLayer = 0f;
                 stageNumber.ColorGetter = () => new Color(0, 0, 0, 0.5f);
                 AddAnimation(stageNumber);
@@ -289,7 +291,7 @@ namespace MonoGameProject
                 , oColor.B - 50
                 , oColor.A
             );
-            CreateBlock(i, j, 0.52f, color, GeneratedContent.Create_knight_ground);
+            CreateBlock(i, j, 0.52f, color, GeneratedContent.Create_knight_ground, 0, new Color(120, 120, 120));
         }
 
         //private void CreateSolid(int i, int j)

@@ -732,7 +732,7 @@ namespace MonoGameProject
                 newMap = CurrentModules[GameState.PlatformRandomModule.Next(0, CurrentModules.Count - 1)];
             }
 
-            lastModule = new MapModule(anchorX, anchorY, BackBlocker, newMap, AddToWOrld, Game1);
+            lastModule = new MapModule(anchorX, anchorY, BackBlocker, newMap, Game1);
 
             GameState.State.TopExit = lastModule.Info.TopExit;
             GameState.State.MidExit = lastModule.Info.MidExit;

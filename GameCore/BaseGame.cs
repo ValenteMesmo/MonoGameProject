@@ -107,10 +107,10 @@ internal class BaseGame : OriginalGameClass
 
         var state = Keyboard.GetState();
 #if DEBUG
-        if (state.CapsLock)
-            Camera.Zoom = 0.05f;
-        else
-            Camera.Zoom = 0.1f;
+        //if (state.CapsLock)
+        //    Camera.Zoom = 0.05f;
+        //else
+        //    Camera.Zoom = 0.1f;
 
         DisplayColliders = state.CapsLock;
 

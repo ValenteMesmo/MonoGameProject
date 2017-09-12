@@ -13,7 +13,7 @@ namespace MonoGameProject
         {
             this.boss = boss;
             boss.state = BossState.Idle;
-            boss.mainCollider.AddCollisionHandler(FindPlayer);
+            boss.mainCollider.AddHandler(FindPlayer);
 
             CreateBodyAnimator(Boss.TORSO_Z);
 
@@ -63,7 +63,7 @@ namespace MonoGameProject
                 else
                     boss.HorizontalSpeed = -25 - (boss.damageTaken > 5 ? 15 : 0);
 
-                boss.MouthOpen = true;
+                boss.MouthState = BossMouthState.BiteOpen;
                 //}
                 //else
                 //{
@@ -74,12 +74,12 @@ namespace MonoGameProject
             else if (boss.state == BossState.Idle)
             {
                 boss.HorizontalSpeed = 0;
-                boss.MouthOpen = false;
+                boss.MouthState = BossMouthState.Idle;
             }
             else if (boss.state == BossState.HeadAttack1)
             {
                 boss.HorizontalSpeed = 0;
-                boss.MouthOpen = false;
+                boss.MouthState = BossMouthState.BiteOpen;
             }
 
             if (SameHightOfPlayer())

@@ -1,21 +1,23 @@
 ﻿using GameCore;
 using MonoGameProject.Things;
+using System;
 
 namespace MonoGameProject
 {
     class WolfBossBody
     {
+        private readonly Action<Thing> AddToWorld;
         private readonly Boss boss;
         private int state1Duration;
 
-        public WolfBossBody(Boss boss)
+        public WolfBossBody(Boss boss, Action<Thing> AddToWorld)
         {
+            this.AddToWorld = AddToWorld;
             this.boss = boss;
             boss.state = BossState.BodyAttack1;
 
             boss.mainCollider.AddLeftCollisionHandler((s, t) =>
             {
-                //mudar estado na colisao...
                 if (t is BlockHorizontalMovement)
                 {
                     boss.facingRight = true;
@@ -35,6 +37,9 @@ namespace MonoGameProject
             CreateBodyAnimator(Boss.TORSO_Z);
 
             boss.AddUpdate(UpdateBasedOnState);
+
+            boss.AddUpdate(() => Game.LOG += $@"
+{boss.MouthState}");
         }
 
         private void ChangeState()
@@ -43,21 +48,24 @@ namespace MonoGameProject
             if (boss.state != BossState.Idle && rnd == 1)
             {
                 boss.state = BossState.Idle;
+                boss.MouthState = BossMouthState.Idle;
                 state1Duration = 100;
-                boss.MouthOpen = false;
             }
             else if (rnd == 2)
             {
                 boss.state = BossState.BodyAttack1;
-                boss.MouthOpen = true;
+                boss.MouthState = BossMouthState.BiteOpen;
+
+                if (boss.MyRandom.Next(0, 100) > 50)
+                    boss.VerticalSpeed = -150;
             }
             else
             {
                 boss.state = BossState.HeadAttack1;
-                state1Duration = 100;
-                boss.MouthOpen = true;
+                boss.MouthState = BossMouthState.Shoot;
+                state1Duration = 50;
             }
-            
+
         }
 
         private void UpdateBasedOnState()
@@ -79,12 +87,7 @@ namespace MonoGameProject
                 boss.HorizontalSpeed = 0;
                 if (state1Duration <= 0)
                 {
-                    if (boss.MyRandom.Next(0, 100) > 50)
-                    {
-                        boss.VerticalSpeed = -150;
-                    }
-                    boss.state = BossState.BodyAttack1;
-                    boss.MouthOpen = true;
+                    ChangeState();
                 }
             }
 
@@ -92,11 +95,24 @@ namespace MonoGameProject
             {
                 state1Duration--;
                 boss.HorizontalSpeed = 0;
+
+                if (state1Duration == 25)
+                {
+                    var speed = -FireBall.SPEED;
+                    if (boss.facingRight)
+                        speed = -speed;
+                    AddToWorld(new FireBall(speed, 0) { X = boss.attackCollider.X, Y = boss.attackCollider.Y });
+                }
+
+                if (state1Duration == 5)
+                {
+                    //boss.state = BossState.Idle;
+                    boss.MouthState = BossMouthState.Idle;
+                }
+
                 if (state1Duration <= 0)
                 {
-                    if (boss.MyRandom.Next(0, 100) > 50)
-                        boss.VerticalSpeed = -150;
-                    boss.state = BossState.BodyAttack1;
+                    ChangeState();
                 }
             }
             //boss.MouthOpen = boss.HorizontalSpeed != 0;
@@ -146,11 +162,11 @@ namespace MonoGameProject
             );
             jump_right.RenderingLayer = z;
             jump_right.ColorGetter = () => boss.BodyColor;
-            
+
             var animation =
                 new Animator(
-                    new AnimationTransitionOnCondition(standing_left, () => !boss.facingRight && boss.grounded )
-                    , new AnimationTransitionOnCondition(standing_right, () => boss.facingRight && boss.grounded )
+                    new AnimationTransitionOnCondition(standing_left, () => !boss.facingRight && boss.grounded)
+                    , new AnimationTransitionOnCondition(standing_right, () => boss.facingRight && boss.grounded)
                     , new AnimationTransitionOnCondition(jump_left, () => !boss.facingRight && !boss.grounded)
                     , new AnimationTransitionOnCondition(jump_right, () => boss.facingRight && !boss.grounded)
             );
