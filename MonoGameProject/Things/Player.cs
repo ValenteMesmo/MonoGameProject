@@ -8,6 +8,9 @@ namespace MonoGameProject
         //usar a tecnica de borda para criar arvores randomicas...
         //  uma arvore sobre a outra, sem borda
 
+        //fireball trail (like dragron from ch)
+        //
+
         /*MUST
          * animacao de morte
          * 2 players
@@ -21,7 +24,7 @@ namespace MonoGameProject
          * -cara de aranha cospe ovos no chao
          */
 
-            // ciclo lunar
+        // ciclo lunar
 
         //State features
         //- os blocos aparecem quando player chega perto
@@ -41,7 +44,7 @@ namespace MonoGameProject
 
         //eyes: crystal
         //background: pizza... fish
-        
+
 
         //bau virar um player?
 

@@ -99,7 +99,7 @@ namespace MonoGameProject
             //}
             //else if (bodyType == 2)
             //{
-            new WolfBossBody(this, Game1.AddToWorld);
+                new WolfBossBody(this, Game1.AddToWorld);
             //}
             //else
             //{
