@@ -5,6 +5,8 @@ namespace MonoGameProject
 {
     public class Player : Humanoid
     {
+        //add black and white colors
+
         //usar a tecnica de borda para criar arvores randomicas...
         //  uma arvore sobre a outra, sem borda
 

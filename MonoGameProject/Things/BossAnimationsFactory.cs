@@ -30,7 +30,7 @@ namespace MonoGameProject
             Random.Seed = GameState.PlatformRandomModule.Seed;
             if (Random.Next(0, 100) > 50)
             {
-                var animation = GeneratedContent.Create_knight_wolf_head_shoot(X, Y, Width, Height, Flipped);
+                var animation = GeneratedContent.Create_knight_bills_head_shoot(X, Y, Width, Height, Flipped);
                 animation.LoopDisabled = true;
                 return animation;
             }
