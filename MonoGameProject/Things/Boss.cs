@@ -48,6 +48,7 @@ namespace MonoGameProject
         private Game1 Game1;
 
         public readonly AttackCollider attackCollider;
+        private readonly Collider headCollider;
         public readonly Collider mainCollider;
         public readonly CollisionChecker groundDetector;
 
@@ -77,6 +78,15 @@ namespace MonoGameProject
             };
             AddCollider(attackCollider);
 
+            headCollider = new Collider
+            {
+                Height = height / 2 ,
+                Width = 500,
+                OffsetX = -500,
+                OffsetY = 100//500
+            };
+            AddCollider(headCollider);
+
             mainCollider = new Collider(width, height);
 
             mainCollider.AddBotCollisionHandler(StopsWhenHitting.Bot);
@@ -85,6 +95,7 @@ namespace MonoGameProject
             mainCollider.AddTopCollisionHandler(StopsWhenHitting.Top);
 
             mainCollider.AddHandler(HandlePlayerAttack);
+            headCollider.AddHandler(HandlePlayerAttack);
 
             AddCollider(mainCollider);
 
@@ -93,18 +104,18 @@ namespace MonoGameProject
 
             MyRandom.Next();
             var bodyType = MyRandom.Next(1, 3);
-            //if (bodyType == 1)
-            //{
-            //    new SpiderBossBody(this);
-            //}
-            //else if (bodyType == 2)
-            //{
+            if (bodyType == 1)
+            {
+                new SpiderBossBody(this);
+            }
+            else if (bodyType == 2)
+            {
                 new WolfBossBody(this, Game1.AddToWorld);
-            //}
-            //else
-            //{
-            //    new HumanoidBossBody(this);
-            //}
+            }
+            else
+            {
+                new HumanoidBossBody(this);
+            }
 
             AddUpdate(new MoveHorizontallyWithTheWorld(this));
             AddUpdate(new AfectedByGravity(this));
@@ -126,6 +137,11 @@ namespace MonoGameProject
 
             attackCollider.Disabled =
                 MouthState != BossMouthState.BiteOpen;
+
+            if (facingRight)
+                headCollider.OffsetX = mainCollider.Width;
+            else
+                headCollider.OffsetX = -headCollider.Width;
         }
 
         private void HandlePlayerAttack(Collider s, Collider t)
@@ -146,7 +162,7 @@ namespace MonoGameProject
                 if (player.FacingRight)
                     Game1.AddToWorld(new HitEffect(0.04f)
                     {
-                        X = player.AttackRightCollider.X,
+                        X = player.AttackRightCollider.Right(),
                         Y = player.AttackRightCollider.Y,
                         Color = BodyColor,
                         HorizontalSpeed = HorizontalSpeed,
@@ -155,7 +171,7 @@ namespace MonoGameProject
                 else
                     Game1.AddToWorld(new HitEffect(0.04f)
                     {
-                        X = player.AttackLeftCollider.X,
+                        X = player.AttackLeftCollider.Left(),
                         Y = player.AttackLeftCollider.Y,
                         Color = BodyColor,
                         HorizontalSpeed = HorizontalSpeed,

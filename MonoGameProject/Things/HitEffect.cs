@@ -8,9 +8,11 @@ namespace MonoGameProject
         public Color Color = Color.White;
         public HitEffect(float z = 0f)
         {
-            var animation = GeneratedContent.Create_knight_hit_effect(-1600, -1200);
+            var random = new System.Random();
+
+            var animation = GeneratedContent.Create_knight_hit_effect(-1000 - random.Next(0, 500), -500 - random.Next(0, 500), 2000, 2000);
             animation.LoopDisabled = true;
-            animation.ScaleX = animation.ScaleY = 10;
+            //animation.ScaleX = animation.ScaleY = 5;            
             animation.ColorGetter = () => Color;
             animation.FrameDuration = 2;
             animation.RenderingLayer = z;

@@ -174,7 +174,7 @@ namespace MonoGameProject
                         CreateBackground(i, j);
                     }
                     if (type == 'm')
-                    {//This game1 dependency is ugly
+                    {
                         Game1.AddToWorld(new Boss(Game1)
                         {
                             X = X + j * CELL_SIZE,
@@ -291,7 +291,7 @@ namespace MonoGameProject
                 , oColor.B - 50
                 , oColor.A
             );
-            CreateBlock(i, j, 0.52f, color, GeneratedContent.Create_knight_ground, 0, new Color(120, 120, 120));
+            CreateBlock(i, j, 0.52f, color, GeneratedContent.Create_knight_ground, 0, new Color(80, 80, 80));
         }
 
         //private void CreateSolid(int i, int j)

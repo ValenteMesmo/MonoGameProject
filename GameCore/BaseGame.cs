@@ -63,10 +63,10 @@ internal class BaseGame : OriginalGameClass
         Graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
         Graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
 #else
-        //Graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width / 2;
-        //Graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height / 2;
-        Graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
-        Graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
+        Graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width / 2;
+        Graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height / 2;
+        //Graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
+        //Graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
 #endif
         //Graphics.IsFullScreen = true;
 

@@ -6,8 +6,19 @@ namespace MonoGameProject
     {
         private static MyRandom Random = new MyRandom();
 
+        private static int GetHeadBonusX(bool flipped)
+        {
+            var bonus = 250;
+
+            if (flipped)
+                return bonus;
+            else
+                return -bonus;
+        }
+
         public static Animation HeadAnimation(int X, int Y, int? Width = null, int? Height = null, bool Flipped = false)
         {
+            X += GetHeadBonusX(Flipped);
             Random.Seed = GameState.PlatformRandomModule.Seed;
             if (Random.Next(0, 100) > 50)
                 return GeneratedContent.Create_knight_bills_head(X, Y, Width, Height, Flipped);
@@ -17,6 +28,7 @@ namespace MonoGameProject
 
         public static Animation HeadAttackAnimation(int X, int Y, int? Width = null, int? Height = null, bool Flipped = false)
         {
+            X += GetHeadBonusX(Flipped);
             Random.Seed = GameState.PlatformRandomModule.Seed;
             if (Random.Next(0, 100) > 50)
                 return GeneratedContent.Create_knight_bills_head_attack(X, Y, Width, Height, Flipped);
@@ -27,6 +39,7 @@ namespace MonoGameProject
 
         public static Animation HeadShootAnimation(int X, int Y, int? Width = null, int? Height = null, bool Flipped = false)
         {
+            X += GetHeadBonusX(Flipped);
             Random.Seed = GameState.PlatformRandomModule.Seed;
             if (Random.Next(0, 100) > 50)
             {
@@ -45,6 +58,7 @@ namespace MonoGameProject
 
         public static Animation EyeAnimation(int X, int Y, int? Width = null, int? Height = null, bool Flipped = false)
         {
+            X += GetHeadBonusX(Flipped);
             Random.Seed = GameState.PlatformRandomModule.Seed;
             Random.Next();
 
@@ -63,6 +77,7 @@ namespace MonoGameProject
 
         public static Animation EyeAttackAnimation(int X, int Y, int? Width = null, int? Height = null, bool Flipped = false)
         {
+            X += GetHeadBonusX(Flipped);
             Random.Seed = GameState.PlatformRandomModule.Seed;
             Random.Next();
 

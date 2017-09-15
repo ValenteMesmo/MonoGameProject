@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
-using System;
 using System.IO;
 
 namespace MonoGameProject
@@ -55,6 +54,8 @@ namespace MonoGameProject
             , new Color(1.0f,0.6f,1.0f)//MAGENTA
             , new Color(0.8f,0.6f,1.0f)
             , new Color(0.6f,0.6f,1.0f)//BLUE
+            , new Color(0.8f,0.8f,8.0f)//graaay
+            , new Color(0.8f,0.8f,8.0f)//white
             , new Color(0.6f,0.8f,1.0f)
             , new Color(0.6f,1.0f,1.0f)//CYAN
             , new Color(0.6f,1.0f,0.8f)
@@ -66,6 +67,8 @@ namespace MonoGameProject
             , new Color(1.0f,0.6f,1.0f)//MAGENTA
             , new Color(0.8f,0.6f,1.0f)
             , new Color(0.6f,0.6f,1.0f)//BLUE
+            , new Color(0.8f,0.8f,8.0f)//graaay
+            , new Color(0.8f,0.8f,8.0f)//white
             , new Color(0.6f,0.8f,1.0f)
             , new Color(0.6f,1.0f,1.0f)//CYAN
             , new Color(0.6f,1.0f,0.8f)
@@ -79,6 +82,8 @@ namespace MonoGameProject
               new Color(1.0f,0.6f,1.0f)//MAGENTA
             , new Color(0.8f,0.6f,1.0f)
             , new Color(0.6f,0.6f,1.0f)//BLUE
+            , new Color(0.8f,0.8f,8.0f)//graaay
+            , new Color(0.8f,0.8f,8.0f)//white
             , new Color(0.6f,0.8f,1.0f)
             , new Color(0.6f,1.0f,1.0f)//CYAN
             , new Color(0.6f,1.0f,0.8f)
@@ -102,6 +107,8 @@ namespace MonoGameProject
             , new Color(1.0f,0.6f,1.0f)//MAGENTA
             , new Color(0.8f,0.6f,1.0f)
             , new Color(0.6f,0.6f,1.0f)//BLUE
+            , new Color(0.8f,0.8f,8.0f)//graaay
+            , new Color(0.8f,0.8f,8.0f)//white
             , new Color(0.6f,0.8f,1.0f)
         };
 

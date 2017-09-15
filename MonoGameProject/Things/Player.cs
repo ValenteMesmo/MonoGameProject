@@ -5,6 +5,14 @@ namespace MonoGameProject
 {
     public class Player : Humanoid
     {
+        //boss spells...
+        //for eyes... make leaf shield
+        //pilar explosion
+        //create minions
+
+
+        //add thunder effect on whip attack
+
         //add black and white colors
 
         //usar a tecnica de borda para criar arvores randomicas...
