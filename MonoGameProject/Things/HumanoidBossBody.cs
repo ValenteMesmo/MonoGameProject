@@ -7,35 +7,25 @@ namespace MonoGameProject
     {
         private readonly Boss boss;
         private int patience;
-        private Player player;
+        //private Player player;
 
         public HumanoidBossBody(Boss boss)
         {
             this.boss = boss;
             boss.state = BossState.Idle;
-            boss.mainCollider.AddHandler(FindPlayer);
 
             CreateBodyAnimator(Boss.TORSO_Z);
 
             boss.AddUpdate(MainUpdate);
         }
 
-        private void FindPlayer(Collider s, Collider t)
-        {
-            if (s.Parent is Player)
-            {
-                player = s.Parent as Player;
-            }
-            if (t.Parent is Player)
-            {
-                player = t.Parent as Player;
-            }
-        }
-
         private int TurnCooldown;
 
         private void MainUpdate()
         {
+            if (boss.player == null)
+                return;
+
             if (boss.damageCooldown >= 0)
                 boss.damageCooldown--;
 
@@ -44,7 +34,7 @@ namespace MonoGameProject
 
             if (SameHightOfPlayer() && TurnCooldown <= 0)
             {
-                if (player.MainCollider.Left() > boss.mainCollider.CenterX())
+                if (boss.player.MainCollider.Left() > boss.mainCollider.CenterX())
                     boss.facingRight = true;
                 else
                     boss.facingRight = false;
@@ -125,9 +115,9 @@ namespace MonoGameProject
 
         private bool SameHightOfPlayer()
         {
-            return player != null
+            return boss.player != null
                 && Math.Abs(
-                    player.MainCollider.Bottom()
+                    boss.player.MainCollider.Bottom()
                     - boss.mainCollider.Bottom()
                 ) < MapModule.CELL_SIZE * 2;
         }

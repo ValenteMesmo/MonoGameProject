@@ -35,6 +35,9 @@ namespace MonoGameProject
 
         private void UpdateBasedOnState()
         {
+            if (boss.player == null)
+                return;
+
             if (boss.damageCooldown >= 0)
                 boss.damageCooldown--;
 

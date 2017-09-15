@@ -26,6 +26,8 @@ namespace MonoGameProject
         public const float TORSO_Z = 0.102f;
         public const float EYE_Z = 0.100f;
 
+        public Player player;
+
         public BossState state;
         //public bool MouthOpen;
         public BossMouthState MouthState;
@@ -80,7 +82,7 @@ namespace MonoGameProject
 
             headCollider = new Collider
             {
-                Height = height / 2 ,
+                Height = height / 2,
                 Width = 500,
                 OffsetX = -500,
                 OffsetY = 100//500
@@ -94,6 +96,7 @@ namespace MonoGameProject
             mainCollider.AddRightCollisionHandler(StopsWhenHitting.Right);
             mainCollider.AddTopCollisionHandler(StopsWhenHitting.Top);
 
+            mainCollider.AddHandler(FindPlayer);
             mainCollider.AddHandler(HandlePlayerAttack);
             headCollider.AddHandler(HandlePlayerAttack);
 
@@ -121,6 +124,18 @@ namespace MonoGameProject
             AddUpdate(new AfectedByGravity(this));
             AddUpdate(MoveAttackCollider);
             AddUpdate(CheckIfGrounded);
+        }
+
+        private void FindPlayer(Collider s, Collider t)
+        {
+            if (s.Parent is Player)
+            {
+                player = s.Parent as Player;
+            }
+            if (t.Parent is Player)
+            {
+                player = t.Parent as Player;
+            }
         }
 
         private void CheckIfGrounded()

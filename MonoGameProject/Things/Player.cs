@@ -5,13 +5,10 @@ namespace MonoGameProject
 {
     public class Player : Humanoid
     {
-        //fazer o boss atacar só depois do primeiro ataque
-
         //boss spells...
         //for eyes... make leaf shield
         //pilar explosion
         //create minions
-
 
         //add thunder effect on whip attack
 
