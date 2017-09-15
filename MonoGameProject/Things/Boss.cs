@@ -178,7 +178,7 @@ namespace MonoGameProject
                         VerticalSpeed = VerticalSpeed
                     });
 
-                if (damageTaken < 20)
+                if (damageTaken < 2)
                     return;
 
                 GameState.Save();
