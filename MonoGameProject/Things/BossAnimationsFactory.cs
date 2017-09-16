@@ -20,10 +20,13 @@ namespace MonoGameProject
         {
             X += GetHeadBonusX(Flipped);
             Random.Seed = GameState.PlatformRandomModule.Seed;
-            if (Random.Next(0, 100) > 50)
+            var random = Random.Next(1, 3);
+            if (random == 1)
                 return GeneratedContent.Create_knight_bills_head(X, Y, Width, Height, Flipped);
-            else
+            else if (random == 2)
                 return GeneratedContent.Create_knight_wolf_head(X, Y, Width, Height, Flipped);
+            else
+                return GeneratedContent.Create_knight_skull_head(X, Y, Width, Height, Flipped);
         }
 
         public static Animation HeadAttackAnimation(int X, int Y, int? Width = null, int? Height = null, bool Flipped = false)

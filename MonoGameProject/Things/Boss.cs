@@ -96,7 +96,10 @@ namespace MonoGameProject
             mainCollider.AddRightCollisionHandler(StopsWhenHitting.Right);
             mainCollider.AddTopCollisionHandler(StopsWhenHitting.Top);
 
-            mainCollider.AddHandler(FindPlayer);
+            var playerFinder = new Collider(width * 4, height) { OffsetX = -width * 2 };
+            playerFinder.AddHandler(FindPlayer);
+            AddCollider(playerFinder);
+
             mainCollider.AddHandler(HandlePlayerAttack);
             headCollider.AddHandler(HandlePlayerAttack);
 
