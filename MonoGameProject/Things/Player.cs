@@ -5,6 +5,9 @@ namespace MonoGameProject
 {
     public class Player : Humanoid
     {
+        //remake head/eye animation
+        //-----para evitar que 1 dos 4 olhos suma
+
         //boss spells...
         //for eyes... make leaf shield
         //pilar explosion
