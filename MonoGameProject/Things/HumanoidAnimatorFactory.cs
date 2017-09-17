@@ -82,6 +82,23 @@ namespace MonoGameProject
             crouch_right.ScaleY = scale;
             crouch_right.RenderingLayer = Z_INDEX;
 
+            var sweetDreams_left = GeneratedContent.Create_knight_Legs_Sweet_dreams(
+                x
+                , crouch_y + y_bonus);
+            sweetDreams_left.ScaleX = scale;
+            sweetDreams_left.ScaleY = scale;
+            sweetDreams_left.RenderingLayer = Z_INDEX;
+
+            var sweetDreams_right = GeneratedContent.Create_knight_Legs_Sweet_dreams(
+                flippedx
+                , crouch_y + y_bonus
+                , null
+                , null
+                , true);
+            sweetDreams_right.ScaleX = scale;
+            sweetDreams_right.ScaleY = scale;
+            sweetDreams_right.RenderingLayer = Z_INDEX;
+
             var walk_left = GeneratedContent.Create_knight_Legs_Walking(
                 x
                 , feet_y + y_bonus);
@@ -140,6 +157,8 @@ namespace MonoGameProject
                 , new AnimationTransitionOnCondition(stand_right, () => thing.LegState == LegState.Standing && thing.FacingRight == true)
                 , new AnimationTransitionOnCondition(crouch_left, () => thing.LegState == LegState.Crouching && thing.FacingRight == false)
                 , new AnimationTransitionOnCondition(crouch_right, () => thing.LegState == LegState.Crouching && thing.FacingRight == true)
+                , new AnimationTransitionOnCondition(sweetDreams_left, () => thing.LegState == LegState.SweetDreams && thing.FacingRight == false)
+                , new AnimationTransitionOnCondition(sweetDreams_right, () => thing.LegState == LegState.SweetDreams && thing.FacingRight == true)
                 , new AnimationTransitionOnCondition(fall_left, () => thing.LegState == LegState.Falling && thing.FacingRight == false)
                 , new AnimationTransitionOnCondition(fall_right, () => thing.LegState == LegState.Falling && thing.FacingRight == true)
                 , new AnimationTransitionOnCondition(fall_right, () => thing.LegState == LegState.WallJumping && thing.FacingRight == true)

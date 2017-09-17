@@ -23,13 +23,17 @@ namespace MonoGameProject.Updates.PlayerStates
                 && Player.groundChecker.Colliding<BlockVerticalMovement>())
             {
                 if (Player.LegState == LegState.Standing
-                    || Player.LegState == LegState.Walking
-                    || Player.LegState == LegState.Falling)
+                    || Player.LegState == LegState.Walking)
                 {
                     Player.LegState = LegState.Crouching;
                     Player.TorsoState = TorsoState.Crouch;
                     Player.HeadState = HeadState.Crouching;
-                    return;
+                }
+                else if (Player.LegState == LegState.Falling)
+                {
+                    Player.LegState = LegState.SweetDreams;
+                    Player.TorsoState = TorsoState.Crouch;
+                    Player.HeadState = HeadState.Crouching;
                 }
             }
         }

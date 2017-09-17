@@ -29,6 +29,7 @@ namespace MonoGameProject
         Falling,
         HeadBump,
         Crouching,
+        SweetDreams,
         TakingDamage
     }
 }

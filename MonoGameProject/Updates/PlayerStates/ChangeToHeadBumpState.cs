@@ -20,7 +20,8 @@ namespace MonoGameProject
 
         public void Update()
         {
-            if (Player.LegState == LegState.Crouching
+            if ((Player.LegState == LegState.Crouching
+                || Player.LegState == LegState.SweetDreams)
                   && Player.VerticalSpeed < 0)
             {
                 Player.MainCollider.Height = OriginalHeight;

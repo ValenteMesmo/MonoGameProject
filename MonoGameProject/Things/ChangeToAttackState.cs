@@ -59,7 +59,7 @@ namespace MonoGameProject
                 Humanoid.AttackRightCollider.Disabled = !Humanoid.FacingRight;
             }
 
-            if (Humanoid.LegState == LegState.Crouching)
+            if (Humanoid.LegState == LegState.Crouching || Humanoid.LegState == LegState.SweetDreams)
             {
                 Humanoid.TorsoState = TorsoState.AttackCrouching;
             }

@@ -16,7 +16,8 @@ namespace MonoGameProject
         public void Update()
         {
             if (Player.LegState == LegState.Standing
-                || Player.LegState == LegState.Crouching)
+                || Player.LegState == LegState.Crouching
+                || Player.LegState == LegState.SweetDreams)
             {
                 if (Player.HorizontalSpeed > 0
                     && Player.Inputs.Right == false

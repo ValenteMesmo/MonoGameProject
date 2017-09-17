@@ -66,7 +66,8 @@ namespace MonoGameProject
             {
                 NewMethod(VELOCITY);
             }
-            else if (Parent.LegState == LegState.Crouching)
+            else if (Parent.LegState == LegState.Crouching
+                || Parent.LegState == LegState.SweetDreams)
             {
                 NewMethod(CROUCH_VELOCITY);
             }
