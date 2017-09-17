@@ -5,6 +5,8 @@ namespace MonoGameProject
 {
     public class Player : Humanoid
     {
+        //mandar o sweet dreams só quando abaixar caindo... se não, usar outra animação
+
         //remake head/eye animation
         //-----para evitar que 1 dos 4 olhos suma
 
