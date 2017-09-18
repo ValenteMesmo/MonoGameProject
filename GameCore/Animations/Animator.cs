@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
+using System.Collections.Generic;
 
 namespace GameCore
 {
@@ -60,7 +61,7 @@ namespace GameCore
             }
         }
 
-        public AnimationFrame GetCurretFrame()
+        public IEnumerable<AnimationFrame> GetCurretFrame()
         {
             return CurrentAnimation.GetCurretFrame();
         }

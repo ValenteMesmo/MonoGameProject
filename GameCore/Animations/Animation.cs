@@ -17,13 +17,13 @@ namespace GameCore
         //Color ColorYellow { get;  }
         //Color ColorCyan { get;  }
         //Color ColorMagenta { get;  }
-        AnimationFrame GetCurretFrame();
+        IEnumerable<AnimationFrame> GetCurretFrame();
         void Update();
         void Restart();
     }
 
     public class Animation : IHandleAnimation
-    {        
+    {
         public float RenderingLayer { get; set; }
         private readonly List<AnimationFrame> Frames;
         private int CurrentFrameIndex;
@@ -38,7 +38,7 @@ namespace GameCore
 
         public Animation(params AnimationFrame[] Frames)
         {
-            
+
             RenderingLayer = 0.5f;
             UpdatesUntilNextFrame = FrameDuration;
             this.Frames = Frames.ToList();
@@ -70,9 +70,10 @@ namespace GameCore
             UpdatesUntilNextFrame = FrameDuration;
         }
 
-        public AnimationFrame GetCurretFrame()
+        public IEnumerable<AnimationFrame> GetCurretFrame()
         {
-            return Frames[CurrentFrameIndex];
+            if (Frames.Any())
+                yield return Frames[CurrentFrameIndex];
         }
 
         public void Restart()

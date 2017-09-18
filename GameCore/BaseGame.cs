@@ -280,25 +280,30 @@ internal class BaseGame : OriginalGameClass
 
         thing.Animations.ForEach(animation =>
         {
-            var frame = animation.GetCurretFrame();
-            var x = thing.X + frame.X;
-            var width = frame.Width * (animation.ScaleX > 0 ? animation.ScaleX : 1);
-            if (x < 14000 && x + width > 0)
+            foreach (var frame in animation.GetCurretFrame())
+            {
 
-                SpriteBatch.Draw(
-                        Textures[frame.Name]
-                        , new Rectangle(
-                            thing.X + frame.X,
-                            thing.Y + frame.Y,
-                            frame.Width * (animation.ScaleX > 0 ? animation.ScaleX : 1),
-                            frame.Height * (animation.ScaleY > 0 ? animation.ScaleY : 1))
-                        , frame.PositionOnSpriteSheet
-                        , animation.GetColor()
-                        , 0
-                        , Vector2.Zero
-                        , frame.Flipped ? SpriteEffects.FlipHorizontally : SpriteEffects.None
-                        , animation.RenderingLayer//frame.RenderingLayer
-                );
+
+                //var frame = animation.GetCurretFrame();
+                var x = thing.X + frame.X;
+                var width = frame.Width * (animation.ScaleX > 0 ? animation.ScaleX : 1);
+                if (x < 14000 && x + width > 0)
+
+                    SpriteBatch.Draw(
+                            Textures[frame.Name]
+                            , new Rectangle(
+                                thing.X + frame.X,
+                                thing.Y + frame.Y,
+                                frame.Width * (animation.ScaleX > 0 ? animation.ScaleX : 1),
+                                frame.Height * (animation.ScaleY > 0 ? animation.ScaleY : 1))
+                            , frame.PositionOnSpriteSheet
+                            , animation.GetColor()
+                            , 0
+                            , Vector2.Zero
+                            , frame.Flipped ? SpriteEffects.FlipHorizontally : SpriteEffects.None
+                            , animation.RenderingLayer//frame.RenderingLayer
+                    );
+            }
         });
     }
 
