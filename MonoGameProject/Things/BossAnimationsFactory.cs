@@ -47,9 +47,16 @@ namespace MonoGameProject
         {
             X += GetHeadBonusX(Flipped);
             Random.Seed = GameState.PlatformRandomModule.Seed;
-            if (Random.Next(0, 100) > 50)
+            var random = Random.Next(1, 3);
+            if (random == 1)
             {
                 var animation = GeneratedContent.Create_knight_bills_head_shoot(X, Y, Width, Height, Flipped);
+                animation.LoopDisabled = true;
+                return animation;
+            }
+            else if (random == 2)
+            {
+                var animation = GeneratedContent.Create_knight_wolf_head_shoot(X, Y, Width, Height, Flipped);
                 animation.LoopDisabled = true;
                 return animation;
             }
@@ -59,7 +66,6 @@ namespace MonoGameProject
                 animation.LoopDisabled = true;
                 return animation;
             }
-
         }
 
         public static Animation EyeAnimation(int X, int Y, int? Width = null, int? Height = null, bool Flipped = false)

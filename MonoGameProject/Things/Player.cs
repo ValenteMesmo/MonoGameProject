@@ -5,15 +5,18 @@ namespace MonoGameProject
 {
     public class Player : Humanoid
     {
-        //mandar o sweet dreams só quando abaixar caindo... se não, usar outra animação
-
         //remake head/eye animation
         //-----para evitar que 1 dos 4 olhos suma
 
         //boss spells...
-        //for eyes... make leaf shield
-        //pilar explosion
-        //create minions
+        //for eyes... 
+        //  make leaf shield
+        //  pilar explosion
+        //  create minions
+        //for heads
+        //  fast fireball
+        //  slow seeker
+        //  move like wave
 
         //add thunder effect on whip attack
 
