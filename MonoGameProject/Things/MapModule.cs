@@ -76,9 +76,10 @@ namespace MonoGameProject
                     var type = Info.Tiles[i][j];
                     if (type == '1' || type == '2')
                     {
+                        var color = GameState.GetColor();
                         if (type == '2')
-                            CreateBlock(i, j, 0.21f, GameState.GetColor(), GeneratedContent.Create_knight_ground_top, 100);
-                        CreateBlock(i, j, 0.22f, GameState.GetComplimentColor(), GeneratedContent.Create_knight_ground);
+                            CreateBlock(i, j, 0.21f, GameState.GetComplimentColor2(), GeneratedContent.Create_knight_ground_top, 100);
+                        CreateBlock(i, j, 0.22f, new Color(color.R-30,color.G - 30, color.B - 30), GeneratedContent.Create_knight_ground);
                     }
 
                     if (type == '=')
@@ -284,11 +285,11 @@ namespace MonoGameProject
 
         private void CreateBackground(int i, int j)
         {
-            var oColor = GameState.GetComplimentColor();
+            var oColor = GameState.GetColor();
             var color = new Color(
-                oColor.R - 50
-                , oColor.G - 50
-                , oColor.B - 50
+                  oColor.R - 60
+                , oColor.G - 60
+                , oColor.B - 60
                 , oColor.A
             );
             CreateBlock(i, j, 0.52f, color, GeneratedContent.Create_knight_ground, 0, new Color(80, 80, 80));

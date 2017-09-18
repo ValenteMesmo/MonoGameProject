@@ -5,6 +5,8 @@ namespace MonoGameProject
 {
     public class Player : Humanoid
     {
+        //permitir que outros players transpassem a porta do boss (de fora para dentro)
+
         //remake head/eye animation
         //-----para evitar que 1 dos 4 olhos suma
 
@@ -48,6 +50,7 @@ namespace MonoGameProject
         //- pulsar cor
         //- pulsar tamanho
         //- pulsar transparencia
+        //- cobertura (grama) destruída quando pisa
         //- separar borda do miolo, para poder fazer o miolo transparente?
 
         //fazer uns tiles com olhos e bocas, que abrem quando player da as costas
