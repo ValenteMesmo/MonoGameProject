@@ -103,7 +103,8 @@ internal class BaseGame : OriginalGameClass
 
     protected override void Update(GameTime gameTime)
     {
-        Camera.Update();
+        if (!World.Sleeping())
+            Camera.Update();
 
         var state = Keyboard.GetState();
 #if DEBUG
