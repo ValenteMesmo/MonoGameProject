@@ -77,8 +77,8 @@ namespace MonoGameProject
                     if (type == '1' || type == '2')
                     {
                         if (type == '2')
-                            CreateBlock(i, j, 0.21f, GameState.GetComplimentColor2(), GeneratedContent.Create_knight_ground_top, 100);
-                        CreateBlock(i, j, 0.22f, GameState.GetColor(), GeneratedContent.Create_knight_ground);
+                            CreateBlock(i, j, 0.21f, GameState.GetColor(), GeneratedContent.Create_knight_ground_top, 100);
+                        CreateBlock(i, j, 0.22f, GameState.GetComplimentColor(), GeneratedContent.Create_knight_ground);
                     }
 
                     if (type == '=')
@@ -284,7 +284,7 @@ namespace MonoGameProject
 
         private void CreateBackground(int i, int j)
         {
-            var oColor = GameState.GetColor();
+            var oColor = GameState.GetComplimentColor();
             var color = new Color(
                 oColor.R - 50
                 , oColor.G - 50
