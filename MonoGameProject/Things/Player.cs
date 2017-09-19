@@ -12,7 +12,6 @@ namespace MonoGameProject
 
         //boss spells...
         //for eyes... 
-        //  make leaf shield
         //  pilar explosion
         //  create minions
         //for heads

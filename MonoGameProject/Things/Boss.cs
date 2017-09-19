@@ -253,19 +253,38 @@ namespace MonoGameProject
             }
             else if (random == 2)
             {
+                StateChanged = () =>
+                {
+                    if (state == BossState.EyeAttack)
+                    {
+                        var pilar = new Thing();
+                        var anim = GeneratedContent.Create_knight_pilar(0,-2000,2000,4000);
+                        pilar.AddAnimation(anim);
+                        pilar.X = X;
+                        pilar.Y = Y;
+                        var duration = 50;
+                        pilar.AddUpdate(()=> { duration--;
+                            if (duration <= 0)
+                            {
+                                pilar.Destroy();
+                            }
+                        });
+                        Game1.AddToWorld(pilar);                        
+                    }
+                };
             }
             else
             {
             }
 
             var standing_left = BossAnimationsFactory.EyeAnimation(
-            random
-            , -width / 2
-            , offsetY
-            , width * 2
-            , height * 2
-            , false
-        );
+                random
+                , -width / 2
+                , offsetY
+                , width * 2
+                , height * 2
+                , false
+            );
             standing_left.RenderingLayer = z;
 
             var standing_right = BossAnimationsFactory.EyeAnimation(
