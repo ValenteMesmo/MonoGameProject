@@ -55,7 +55,7 @@
     <Compile Include="Things\HitEffect.cs" />
     <Compile Include="Things\Humanoid.cs" />
     <Compile Include="Things\HumanoidAnimatorFactory.cs" />
-    <Compile Include="Things\HumanoidBossBody.cs" />
+    <Compile Include="Things\BossBody\HumanoidBossBody.cs" />
     <Compile Include="Things\LeftFireBallTrap.cs" />
     <Compile Include="Things\MapModule.cs" />
     <Compile Include="Things\MapModuleInfo.cs" />
@@ -67,10 +67,10 @@
     <Compile Include="Things\PreventPlayerFromAccicentlyFalling.cs" />
     <Compile Include="Things\ReduceSizeWhenCrouching.cs" />
     <Compile Include="Things\RightFireBallTrap.cs" />
-    <Compile Include="Things\SpiderBossBody.cs" />
+    <Compile Include="Things\BossBody\SpiderBossBody.cs" />
     <Compile Include="Things\Spikes.cs" />
     <Compile Include="Things\TakesDamage.cs" />
-    <Compile Include="Things\WolfBossBody.cs" />
+    <Compile Include="Things\BossBody\WolfBossBody.cs" />
     <Compile Include="Things\WorldHelper.cs" />
     <Compile Include="Updates\AfectedByGravity.cs" />
     <Compile Include="Things\BackBlocker.cs" />

@@ -3,37 +3,25 @@ using System;
 
 namespace MonoGameProject
 {
-    public class SpiderBossBody
+    public class HumanoidBossBody
     {
         private readonly Boss boss;
-        private Player player;
-        private int stateCooldown;
-        private int directionCooldown;
+        private int patience;
+        //private Player player;
 
-        public SpiderBossBody(Boss boss)
+        public HumanoidBossBody(Boss boss)
         {
             this.boss = boss;
             boss.state = BossState.Idle;
-            boss.mainCollider.AddHandler(FindPlayer);
 
             CreateBodyAnimator(Boss.TORSO_Z);
 
-            boss.AddUpdate(UpdateBasedOnState);
+            boss.AddUpdate(MainUpdate);
         }
 
-        private void FindPlayer(Collider s, Collider t)
-        {
-            if (s.Parent is Player)
-            {
-                player = s.Parent as Player;
-            }
-            if (t.Parent is Player)
-            {
-                player = t.Parent as Player;
-            }
-        }
+        private int TurnCooldown;
 
-        private void UpdateBasedOnState()
+        private void MainUpdate()
         {
             if (boss.player == null)
                 return;
@@ -41,71 +29,100 @@ namespace MonoGameProject
             if (boss.damageCooldown >= 0)
                 boss.damageCooldown--;
 
-            if (SameHightOfPlayer())
+            if (TurnCooldown > 0)
+                TurnCooldown--;
+
+            if (SameHightOfPlayer() && TurnCooldown <= 0)
             {
-                if (player.MainCollider.Left() > boss.mainCollider.Right())
+                if (boss.player.MainCollider.Left() > boss.mainCollider.CenterX())
                     boss.facingRight = true;
                 else
                     boss.facingRight = false;
+
+                TurnCooldown = 50;
             }
 
-            if (stateCooldown <= 0)
-            {
-                var rnd = boss.MyRandom.Next(0, 2);
-
-                if (rnd == 0 && boss.state != BossState.Idle)
-                {
-                    boss.state = BossState.Idle;
-                    stateCooldown = 150;
-                }
-                else if (rnd == 1)
-                {
-                    boss.state = BossState.HeadAttack1;
-                    stateCooldown = 50;
-                }
-                else
-                {
-                    boss.state = BossState.BodyAttack1;
-                    stateCooldown = 100;
-                }
-            }
+            ChangeState();
 
             if (boss.state == BossState.BodyAttack1)
             {
-                if (directionCooldown <= 0)
-                {
-                    boss.HorizontalSpeed = 80 * boss.MyRandom.Next(-1, 1);
-                    directionCooldown = 15;
-                }
+                //if (SameHightOfPlayer())
+                //{
+                if (boss.facingRight)
+                    boss.HorizontalSpeed = 25 + (boss.damageTaken > 5 ? 15 : 0);
                 else
-                    directionCooldown--;
+                    boss.HorizontalSpeed = -25 - (boss.damageTaken > 5 ? 15 : 0);
 
-                stateCooldown--;
                 boss.MouthState = BossMouthState.BiteOpen;
+                //}
+                //else
+                //{
+                //    boss.HorizontalSpeed = 0;
+                //    boss.MouthOpen = false;
+                //}
             }
-
-            if (boss.state == BossState.Idle)
+            else if (boss.state == BossState.Idle || boss.state == BossState.EyeAttack)
             {
                 boss.HorizontalSpeed = 0;
                 boss.MouthState = BossMouthState.Idle;
-                stateCooldown--;
             }
-
-            if (boss.state == BossState.HeadAttack1)
+            else if (boss.state == BossState.HeadAttack1)
             {
                 boss.HorizontalSpeed = 0;
                 boss.MouthState = BossMouthState.BiteOpen;
-                stateCooldown--;
             }
 
-            Game1.LOG += boss.state;
+            if (SameHightOfPlayer())
+                patience = 80 - (boss.damageTaken > 10 ? 30 : 0);
+            else
+                patience--;
+
+            if (patience <= 0)
+            {
+                if (boss.MyRandom.Next(0, 100) > 50)
+                    boss.VerticalSpeed = -150;
+                patience = 80 - (boss.damageTaken > 10 ? 30 : 0);
+            }
+
+        }
+
+        private int stateDuration;
+        private void ChangeState()
+        {
+            stateDuration--;
+            if (stateDuration > 0)
+                return;
+
+            var rnd = boss.MyRandom.Next(1, 4);
+            if (rnd == 1
+                && boss.state != BossState.Idle
+                && boss.grounded)
+            {
+                boss.state = BossState.Idle;
+                stateDuration = 150;
+            }
+            else if (rnd == 2)
+            {
+                boss.state = BossState.HeadAttack1;
+                stateDuration = 50;
+            }
+            else if (rnd == 3)
+            {
+                boss.state = BossState.EyeAttack;
+                stateDuration = 50;
+            }
+            else
+            {
+                boss.state = BossState.BodyAttack1;
+                stateDuration = 100;
+            }
         }
 
         private bool SameHightOfPlayer()
         {
-            return player != null
+            return boss.player != null
                 && Math.Abs(
-                    player.MainCollider.Bottom()
+                    boss.player.MainCollider.Bottom()
                     - boss.mainCollider.Bottom()
                 ) < MapModule.CELL_SIZE * 2;
         }
@@ -115,7 +132,7 @@ namespace MonoGameProject
             var width = 1500;
             var height = 1500;
 
-            var standing_left = GeneratedContent.Create_knight_spider_body(
+            var standing_left = GeneratedContent.Create_knight_human_body(
                                 -width / 2
                                 , -height
                                 , width * 2
@@ -125,7 +142,7 @@ namespace MonoGameProject
             standing_left.RenderingLayer = z;
             standing_left.ColorGetter = () => boss.BodyColor;
 
-            var standing_right = GeneratedContent.Create_knight_spider_body(
+            var standing_right = GeneratedContent.Create_knight_human_body(
                     -width / 2
                     , -height
                     , width * 2
@@ -135,7 +152,7 @@ namespace MonoGameProject
             standing_right.RenderingLayer = z;
             standing_right.ColorGetter = () => boss.BodyColor;
 
-            var jump_left = GeneratedContent.Create_knight_spider_body_jump(
+            var jump_left = GeneratedContent.Create_knight_human_body(
                                 -width / 2
                                 , -height
                                 , width * 2
@@ -145,7 +162,7 @@ namespace MonoGameProject
             jump_left.RenderingLayer = z;
             jump_left.ColorGetter = () => boss.BodyColor;
 
-            var jump_right = GeneratedContent.Create_knight_spider_body_jump(
+            var jump_right = GeneratedContent.Create_knight_human_body(
                     -width / 2
                     , -height
                     , width * 2

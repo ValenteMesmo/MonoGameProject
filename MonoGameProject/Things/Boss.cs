@@ -9,7 +9,7 @@ namespace MonoGameProject
     {
         public LeafShieldCell(Boss boss)
         {
-            var ballAnimation = GeneratedContent.Create_knight_leaf_shield(0, 0, 1000, 1000);
+            var ballAnimation = GeneratedContent.Create_knight_leaf_shield(0, 0, 1500, 1500);
             ballAnimation.ColorGetter = () => boss.BodyColor;
             ballAnimation.RenderingLayer = 0;
             AddAnimation(ballAnimation);
@@ -241,7 +241,8 @@ namespace MonoGameProject
 
         private void CreateEyeAnimator(int random, float z, Game1 Game1)
         {
-            if(random == 1)
+            if (random == 1)
+            {
                 StateChanged = () =>
                 {
                     if (state == BossState.EyeAttack)
@@ -249,15 +250,22 @@ namespace MonoGameProject
                         Game1.AddToWorld(new LeafShieldCell(this));
                     }
                 };
-            
+            }
+            else if (random == 2)
+            {
+            }
+            else
+            {
+            }
+
             var standing_left = BossAnimationsFactory.EyeAnimation(
-                random
-                , -width / 2
-                , offsetY
-                , width * 2
-                , height * 2
-                , false
-            );
+            random
+            , -width / 2
+            , offsetY
+            , width * 2
+            , height * 2
+            , false
+        );
             standing_left.RenderingLayer = z;
 
             var standing_right = BossAnimationsFactory.EyeAnimation(
