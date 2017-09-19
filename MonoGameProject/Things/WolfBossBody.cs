@@ -44,7 +44,7 @@ namespace MonoGameProject
 
         private void ChangeState()
         {
-            var rnd = boss.MyRandom.Next(1, 3);
+            var rnd = boss.MyRandom.Next(1, 5);
             if (boss.state != BossState.Idle && rnd == 1)
             {
                 boss.state = BossState.Idle;
@@ -59,13 +59,18 @@ namespace MonoGameProject
                 if (boss.MyRandom.Next(0, 100) > 50)
                     boss.VerticalSpeed = -150;
             }
+            else if (rnd == 3)
+            {
+                boss.state = BossState.EyeAttack;
+                boss.MouthState = BossMouthState.Shoot;
+                state1Duration = 50;
+            }
             else
             {
                 boss.state = BossState.HeadAttack1;
                 boss.MouthState = BossMouthState.Shoot;
                 state1Duration = 50;
             }
-
         }
 
         private void UpdateBasedOnState()
@@ -84,7 +89,7 @@ namespace MonoGameProject
                     boss.HorizontalSpeed = -100;
             }
 
-            if (boss.state == BossState.Idle)
+            if (boss.state == BossState.Idle || boss.state == BossState.EyeAttack)
             {
                 state1Duration--;
                 boss.HorizontalSpeed = 0;
