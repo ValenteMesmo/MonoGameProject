@@ -26,7 +26,7 @@ namespace GameCore
 
         public void Sleep()
         {
-            sleep = 4;
+            sleep = 9;
         }
 
         public void Add(Thing thing)
