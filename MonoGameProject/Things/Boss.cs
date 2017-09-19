@@ -25,9 +25,14 @@ namespace MonoGameProject
             var velocityVertical = speed;
             var velocityHorizontal = -speed;
 
+            var duration = 500;
             //rotatingBall.AddUpdate(new MoveHorizontallyWithTheWorld(rotatingBall));
             AddUpdate(() =>
             {
+                duration--;
+                if (duration <= 0)
+                    Destroy();
+
                 if (horizontalSpeed < -max)
                     velocityHorizontal = speed;
                 if (horizontalSpeed > max)
