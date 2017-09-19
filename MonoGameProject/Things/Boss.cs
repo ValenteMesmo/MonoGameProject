@@ -5,6 +5,50 @@ using System;
 
 namespace MonoGameProject
 {
+    class LeafShieldCell : Thing
+    {
+        public LeafShieldCell(Boss boss)
+        {
+            var ballAnimation = GeneratedContent.Create_knight_leaf_shield(0, 0, 1000, 1000);
+            ballAnimation.ColorGetter = () => boss.BodyColor;
+            ballAnimation.RenderingLayer = 0;
+            AddAnimation(ballAnimation);
+
+            X = boss.X;
+            Y = boss.Y;
+
+            var max = 1000;
+            var speed = 50;
+
+            var horizontalSpeed = max;
+            var verticalSpeed = 0;
+            var velocityVertical = speed;
+            var velocityHorizontal = -speed;
+
+            //rotatingBall.AddUpdate(new MoveHorizontallyWithTheWorld(rotatingBall));
+            AddUpdate(() =>
+            {
+                if (horizontalSpeed < -max)
+                    velocityHorizontal = speed;
+                if (horizontalSpeed > max)
+                    velocityHorizontal = -speed;
+
+                if (verticalSpeed < -max)
+                    velocityVertical = speed;
+                if (verticalSpeed > max)
+                    velocityVertical = -speed;
+
+                horizontalSpeed += velocityHorizontal;
+                verticalSpeed += velocityVertical;
+
+                X = horizontalSpeed + boss.X;
+                Y = verticalSpeed + boss.Y;
+                //+ (player.groundChecker.Colliding<SomeKindOfGround>() ? 0 : player.VerticalSpeed);
+            });
+
+        }
+    }
+
     public enum BossState
     {
         Idle,
@@ -117,22 +161,6 @@ namespace MonoGameProject
             AddUpdate(CheckIfGrounded);
         }
 
-        private void CreateBody(int bodyType, Game1 Game1)
-        {
-            if (bodyType == 1)
-            {
-                new SpiderBossBody(this);
-            }
-            else if (bodyType == 2)
-            {
-                new WolfBossBody(this, Game1.AddToWorld);
-            }
-            else
-            {
-                new HumanoidBossBody(this);
-            }
-        }
-
         private void FindPlayer(Collider s, Collider t)
         {
             if (s.Parent is Player)
@@ -209,6 +237,122 @@ namespace MonoGameProject
             }
         }
 
+
+
+        private void CreateEyeAnimator(int random, float z, Game1 Game1)
+        {
+            if(random == 1)
+                StateChanged = () =>
+                {
+                    if (state == BossState.EyeAttack)
+                    {
+                        Game1.AddToWorld(new LeafShieldCell(this));
+                    }
+                };
+            
+            var standing_left = BossAnimationsFactory.EyeAnimation(
+                random
+                , -width / 2
+                , offsetY
+                , width * 2
+                , height * 2
+                , false
+            );
+            standing_left.RenderingLayer = z;
+
+            var standing_right = BossAnimationsFactory.EyeAnimation(
+                random
+                , -width / 2
+                , offsetY
+                , width * 2
+                , height * 2
+                , true
+            );
+            standing_right.RenderingLayer = z;
+
+            var attack_left = BossAnimationsFactory.EyeAttackAnimation(
+                random
+                , -width / 2
+                , offsetY
+                , width * 2
+                , height * 2
+                , false
+            );
+            attack_left.RenderingLayer = z;
+
+            var attack_right = BossAnimationsFactory.EyeAttackAnimation(
+                random
+                , -width / 2
+                , offsetY
+                , width * 2
+                , height * 2
+                , true
+            );
+            attack_right.RenderingLayer = z;
+
+            var shoot_left = BossAnimationsFactory.EyeAttackAnimation(
+                random
+                , -width / 2
+                , offsetY
+                , width * 2
+                , height * 2
+                , false
+            );
+            shoot_left.LoopDisabled = true;
+            shoot_left.RenderingLayer = z;
+
+            var shoot_right = BossAnimationsFactory.EyeAttackAnimation(
+                random
+                , -width / 2
+                , offsetY
+                , width * 2
+                , height * 2
+                , true
+            );
+            shoot_right.LoopDisabled = true;
+            shoot_right.RenderingLayer = z;
+
+            var animation =
+                new Animator(
+                    new AnimationTransitionOnCondition(standing_left, () =>
+                        MouthState == BossMouthState.Idle
+                        && !facingRight)
+                    , new AnimationTransitionOnCondition(standing_right, () =>
+                        MouthState == BossMouthState.Idle
+                        && facingRight)
+                    , new AnimationTransitionOnCondition(attack_left, () =>
+                        MouthState == BossMouthState.BiteOpen
+                        && !facingRight)
+                    , new AnimationTransitionOnCondition(attack_right, () =>
+                        MouthState == BossMouthState.BiteOpen
+                        && facingRight)
+                    , new AnimationTransitionOnCondition(shoot_left, () =>
+                        MouthState == BossMouthState.Shoot
+                        && !facingRight)
+                    , new AnimationTransitionOnCondition(shoot_right, () =>
+                        MouthState == BossMouthState.Shoot
+                        && facingRight)
+            );
+
+            AddAnimation(animation);
+        }
+
+        private void CreateBody(int bodyType, Game1 Game1)
+        {
+            if (bodyType == 1)
+            {
+                new SpiderBossBody(this);
+            }
+            else if (bodyType == 2)
+            {
+                new WolfBossBody(this, Game1.AddToWorld);
+            }
+            else
+            {
+                new HumanoidBossBody(this);
+            }
+        }
+
         private void CreateHeadAnimator(int random, float z)
         {
             var standing_left = BossAnimationsFactory.HeadAnimation(
@@ -218,7 +362,7 @@ namespace MonoGameProject
                 , width * 2
                 , height * 2
                 , false
-                            );
+            );
             standing_left.RenderingLayer = z;
 
             standing_left.ColorGetter = () => BodyColor;
@@ -301,156 +445,6 @@ namespace MonoGameProject
                         MouthState == BossMouthState.Shoot
                         && facingRight)
             );
-            AddAnimation(animation);
-        }
-
-        class RotatingSpike : Thing
-        {
-            public RotatingSpike(Boss boss)
-            {
-                var ballAnimation = GeneratedContent.Create_knight_ground(0, 0, 1000, 1000);
-                ballAnimation.RenderingLayer = 0;
-                AddAnimation(ballAnimation);
-
-                X = boss.X;
-                Y = boss.Y;
-
-                var max = 2000;
-                var speed = 100;
-
-                var horizontalSpeed = max;
-                var verticalSpeed = 0;
-                var velocityVertical = speed;
-                var velocityHorizontal = -speed;
-
-                //rotatingBall.AddUpdate(new MoveHorizontallyWithTheWorld(rotatingBall));
-                AddUpdate(() =>
-                {
-                    if (horizontalSpeed < -max)
-                        velocityHorizontal = speed;
-                    if (horizontalSpeed > max)
-                        velocityHorizontal = -speed;
-
-                    if (verticalSpeed < -max)
-                        velocityVertical = speed;
-                    if (verticalSpeed > max)
-                        velocityVertical = -speed;
-
-                    horizontalSpeed += velocityHorizontal;
-                    verticalSpeed += velocityVertical;
-
-                    X = horizontalSpeed + boss.X;
-                    Y = verticalSpeed + boss.Y;
-                    //+ (player.groundChecker.Colliding<SomeKindOfGround>() ? 0 : player.VerticalSpeed);
-                });
-
-            }
-        }
-
-        private void CreateEyeAnimator(int random, float z, Game1 Game1)
-        {
-            var standing_left = BossAnimationsFactory.EyeAnimation(
-                random
-                , -width / 2
-                , offsetY
-                , width * 2
-                , height * 2
-                , false
-            );
-            standing_left.RenderingLayer = z;
-
-            var standing_right = BossAnimationsFactory.EyeAnimation(
-                random
-                , -width / 2
-                , offsetY
-                , width * 2
-                , height * 2
-                , true
-            );
-            standing_right.RenderingLayer = z;
-
-            var attack_left = BossAnimationsFactory.EyeAttackAnimation(
-                random
-                , -width / 2
-                , offsetY
-                , width * 2
-                , height * 2
-                , false
-            );
-            attack_left.RenderingLayer = z;
-
-            var attack_right = BossAnimationsFactory.EyeAttackAnimation(
-                random
-                , -width / 2
-                , offsetY
-                , width * 2
-                , height * 2
-                , true
-            );
-            attack_right.RenderingLayer = z;
-
-            var shoot_left = BossAnimationsFactory.EyeAttackAnimation(
-                random
-                , -width / 2
-                , offsetY
-                , width * 2
-                , height * 2
-                , false
-            );
-            shoot_left.LoopDisabled = true;
-            shoot_left.RenderingLayer = z;
-
-            var shoot_right = BossAnimationsFactory.EyeAttackAnimation(
-                random
-                , -width / 2
-                , offsetY
-                , width * 2
-                , height * 2
-                , true
-            );
-            shoot_right.LoopDisabled = true;
-            shoot_right.RenderingLayer = z;
-
-            //var interval = 100;
-            //AddUpdate(() =>
-            //{
-            //    interval--;
-            //    if (interval <= 0)
-            //    {
-            //        interval = 100;
-            //        Game1.AddToWorld(new RotatingSpike(this));
-            //    }
-            //});
-            StateChanged = () =>
-            {
-                if (state == BossState.EyeAttack)
-                {
-                    Game1.AddToWorld(new RotatingSpike(this));
-                }
-            };
-
-            var animation =
-                new Animator(
-                    new AnimationTransitionOnCondition(standing_left, () =>
-                        MouthState == BossMouthState.Idle
-                        && !facingRight)
-                    , new AnimationTransitionOnCondition(standing_right, () =>
-                        MouthState == BossMouthState.Idle
-                        && facingRight)
-                    , new AnimationTransitionOnCondition(attack_left, () =>
-                        MouthState == BossMouthState.BiteOpen
-                        && !facingRight)
-                    , new AnimationTransitionOnCondition(attack_right, () =>
-                        MouthState == BossMouthState.BiteOpen
-                        && facingRight)
-                    , new AnimationTransitionOnCondition(shoot_left, () =>
-                        MouthState == BossMouthState.Shoot
-                        && !facingRight)
-                    , new AnimationTransitionOnCondition(shoot_right, () =>
-                        MouthState == BossMouthState.Shoot
-                        && facingRight)
-            );
-
             AddAnimation(animation);
         }
     }
