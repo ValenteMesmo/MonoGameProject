@@ -79,7 +79,7 @@ namespace MonoGameProject
                         var color = GameState.GetColor();
                         if (type == '2')
                             CreateBlock(i, j, 0.21f, GameState.GetComplimentColor2(), GeneratedContent.Create_knight_ground_top, 100);
-                        CreateBlock(i, j, 0.22f, new Color(color.R-30,color.G - 30, color.B - 30), GeneratedContent.Create_knight_ground);
+                        CreateBlock(i, j, 0.22f, new Color(color.R-30,color.G - 30, color.B - 30), GeneratedContent.Create_knight_ground_2);
                     }
 
                     if (type == '=')

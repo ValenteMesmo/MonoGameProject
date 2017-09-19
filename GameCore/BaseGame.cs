@@ -302,7 +302,7 @@ internal class BaseGame : OriginalGameClass
                             , 0
                             , Vector2.Zero
                             , frame.Flipped ? SpriteEffects.FlipHorizontally : SpriteEffects.None
-                            , animation.RenderingLayer//frame.RenderingLayer
+                            , animation.RenderingLayer
                     );
             }
         });
