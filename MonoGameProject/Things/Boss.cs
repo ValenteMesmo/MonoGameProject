@@ -5,55 +5,6 @@ using System;
 
 namespace MonoGameProject
 {
-    class LeafShieldCell : Thing
-    {
-        public LeafShieldCell(Boss boss)
-        {
-            var ballAnimation = GeneratedContent.Create_knight_leaf_shield(0, 0, 1500, 1500);
-            ballAnimation.ColorGetter = () => boss.BodyColor;
-            ballAnimation.RenderingLayer = 0;
-            AddAnimation(ballAnimation);
-
-            X = boss.X;
-            Y = boss.Y;
-
-            var max = 1000;
-            var speed = 50;
-
-            var horizontalSpeed = max;
-            var verticalSpeed = 0;
-            var velocityVertical = speed;
-            var velocityHorizontal = -speed;
-
-            var duration = 500;
-            //rotatingBall.AddUpdate(new MoveHorizontallyWithTheWorld(rotatingBall));
-            AddUpdate(() =>
-            {
-                duration--;
-                if (duration <= 0)
-                    Destroy();
-
-                if (horizontalSpeed < -max)
-                    velocityHorizontal = speed;
-                if (horizontalSpeed > max)
-                    velocityHorizontal = -speed;
-
-                if (verticalSpeed < -max)
-                    velocityVertical = speed;
-                if (verticalSpeed > max)
-                    velocityVertical = -speed;
-
-                horizontalSpeed += velocityHorizontal;
-                verticalSpeed += velocityVertical;
-
-                X = horizontalSpeed + boss.X;
-                Y = verticalSpeed + boss.Y;
-                //+ (player.groundChecker.Colliding<SomeKindOfGround>() ? 0 : player.VerticalSpeed);
-            });
-
-        }
-    }
-
     public enum BossState
     {
         Idle,
@@ -263,23 +214,51 @@ namespace MonoGameProject
                     if (state == BossState.EyeAttack)
                     {
                         var pilar = new Thing();
-                        var anim = GeneratedContent.Create_knight_pilar(0,-2000,2000,4000);
+                        var anim = GeneratedContent.Create_knight_pilar(0, -2000, 2000, 4000);
                         pilar.AddAnimation(anim);
                         pilar.X = X;
                         pilar.Y = Y;
                         var duration = 50;
-                        pilar.AddUpdate(()=> { duration--;
+                        pilar.AddUpdate(() =>
+                        {
+                            duration--;
                             if (duration <= 0)
                             {
                                 pilar.Destroy();
                             }
                         });
-                        Game1.AddToWorld(pilar);                        
+                        Game1.AddToWorld(pilar);
                     }
                 };
             }
             else
             {
+                StateChanged = () =>
+                {
+                    if (state == BossState.EyeAttack)
+                    {
+                        var size = 1500;
+                        var bat = new Thing();
+                        var collider = new Collider(size/2, size/2);
+                        bat.AddCollider(collider);
+                        var anim = GeneratedContent.Create_knight_spike_dropped(-size / 4, -size/2, size, size);
+                        bat.AddAnimation(anim);
+                        bat.X = facingRight  ? X : (int)mainCollider.CenterX();
+                        bat.Y = Y;
+                        collider.AddBotCollisionHandler(StopsWhenHitting.Bot);
+                        bat.AddUpdate(new AfectedByGravity(bat));
+                        var duration = 500;
+                        bat.AddUpdate(() =>
+                        {
+                            duration--;
+                            if (duration <= 0)
+                            {
+                                bat.Destroy();
+                            }
+                        });
+                        Game1.AddToWorld(bat);
+                    }
+                };
             }
 
             var standing_left = BossAnimationsFactory.EyeAnimation(
