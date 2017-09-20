@@ -6,6 +6,16 @@ namespace MonoGameProject
     {
         public LeafShieldCell(Boss boss)
         {
+            var size = 1500;
+            var collider = new AttackCollider()
+            {
+                OffsetX = size / 3,
+                OffsetY = size / 3,
+                Width = size/3,
+                Height = size/3
+            };
+            AddCollider(collider);
+
             var ballAnimation = GeneratedContent.Create_knight_leaf_shield(0, 0, 1500, 1500);
             ballAnimation.ColorGetter = () => boss.BodyColor;
             ballAnimation.RenderingLayer = 0;
