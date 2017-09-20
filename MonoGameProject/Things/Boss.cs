@@ -150,6 +150,11 @@ namespace MonoGameProject
                 headCollider.OffsetX = -headCollider.Width;
         }
 
+        public bool Dead()
+        {
+            return damageTaken >= 2;
+        }
+
         private void HandlePlayerAttack(Collider s, Collider t)
         {
             if (t is AttackCollider
@@ -184,7 +189,7 @@ namespace MonoGameProject
                         VerticalSpeed = VerticalSpeed
                     });
 
-                if (damageTaken < 2)
+                if (Dead() == false)
                     return;
 
                 GameState.Save();
@@ -238,25 +243,27 @@ namespace MonoGameProject
                     if (state == BossState.EyeAttack)
                     {
                         var size = 1500;
-                        var bat = new Thing();
+                        var spikeBall = new Thing();
                         var collider = new Collider(size/2, size/2);
-                        bat.AddCollider(collider);
+                        spikeBall.AddCollider(collider);
                         var anim = GeneratedContent.Create_knight_spike_dropped(-size / 4, -size/2, size, size);
-                        bat.AddAnimation(anim);
-                        bat.X = facingRight  ? X : (int)mainCollider.CenterX();
-                        bat.Y = Y;
+                        anim.RenderingLayer = Boss.HEAD_Z;
+                        spikeBall.AddAnimation(anim);
+                        spikeBall.X = facingRight  ? X : (int)mainCollider.CenterX();
+                        spikeBall.Y = Y;
                         collider.AddBotCollisionHandler(StopsWhenHitting.Bot);
-                        bat.AddUpdate(new AfectedByGravity(bat));
+                        spikeBall.AddUpdate(new AfectedByGravity(spikeBall));
+                        spikeBall.AddUpdate(new MoveHorizontallyWithTheWorld(spikeBall));
                         var duration = 500;
-                        bat.AddUpdate(() =>
+                        spikeBall.AddUpdate(() =>
                         {
                             duration--;
                             if (duration <= 0)
                             {
-                                bat.Destroy();
+                                spikeBall.Destroy();
                             }
                         });
-                        Game1.AddToWorld(bat);
+                        Game1.AddToWorld(spikeBall);
                     }
                 };
             }

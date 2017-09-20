@@ -24,6 +24,7 @@ namespace MonoGameProject
 
             var duration = 500;
             //rotatingBall.AddUpdate(new MoveHorizontallyWithTheWorld(rotatingBall));
+            AddUpdate(new MoveHorizontallyWithTheWorld(this));
             AddUpdate(() =>
             {
                 duration--;
@@ -43,9 +44,11 @@ namespace MonoGameProject
                 horizontalSpeed += velocityHorizontal;
                 verticalSpeed += velocityVertical;
 
-                X = horizontalSpeed + boss.X;
-                Y = verticalSpeed + boss.Y;
-                //+ (player.groundChecker.Colliding<SomeKindOfGround>() ? 0 : player.VerticalSpeed);
+                if (boss.Dead() == false)
+                {
+                    X = horizontalSpeed + boss.X;
+                    Y = verticalSpeed + boss.Y;
+                }
             });
 
         }
