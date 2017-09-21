@@ -5,6 +5,8 @@ namespace MonoGameProject
 {
     public class Player : Humanoid
     {
+        //pennywise dance
+
         //permitir que outros players transpassem a porta do boss (de fora para dentro)
 
         //remake head/eye animation

@@ -216,10 +216,25 @@ namespace MonoGameProject
             {
                 StateChanged = () =>
                 {
-                    if (state == BossState.EyeAttack)
+                    //if (state == BossState.EyeAttack)
                     {
                         var pilar = new Thing();
-                        var anim = GeneratedContent.Create_knight_pilar(0, -2000, 2000, 4000);
+                        var size = 2000;
+                        var collider = new AttackCollider
+                        {
+                            OffsetX = 0,
+                            OffsetY = -size / 3,
+                            Width = size / 2,
+                            Height = size / 2
+                        };
+                        pilar.AddCollider(collider);
+                        var anim = GeneratedContent.Create_knight_pilar(
+                            facingRight ? 0 : -size / 3
+                            , (int)(-size*0.6f)
+                            , size
+                            , size);
+                        anim.LoopDisabled = true;
+                        anim.RenderingLayer = Boss.TORSO_Z + 0.0001f;
                         pilar.AddAnimation(anim);
                         pilar.X = X;
                         pilar.Y = Y;
@@ -244,12 +259,12 @@ namespace MonoGameProject
                     {
                         var size = 1500;
                         var spikeBall = new Thing();
-                        var collider = new Collider(size/2, size/2);
+                        var collider = new Collider(size / 2, size / 2);
                         spikeBall.AddCollider(collider);
-                        var anim = GeneratedContent.Create_knight_spike_dropped(-size / 4, -size/2, size, size);
+                        var anim = GeneratedContent.Create_knight_spike_dropped(-size / 4, -size / 2, size, size);
                         anim.RenderingLayer = Boss.HEAD_Z;
                         spikeBall.AddAnimation(anim);
-                        spikeBall.X = facingRight  ? X : (int)mainCollider.CenterX();
+                        spikeBall.X = facingRight ? X : (int)mainCollider.CenterX();
                         spikeBall.Y = Y;
                         collider.AddBotCollisionHandler(StopsWhenHitting.Bot);
                         spikeBall.AddUpdate(new AfectedByGravity(spikeBall));

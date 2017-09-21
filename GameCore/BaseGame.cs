@@ -262,7 +262,7 @@ internal class BaseGame : OriginalGameClass
                         thing.Y + collider.OffsetY,
                         collider.Width,
                         collider.Height),
-                    30,
+                    50,
                     collider.Disabled ? Color.Red : Color.Green
                 )
             );
