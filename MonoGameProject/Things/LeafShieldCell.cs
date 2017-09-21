@@ -24,8 +24,8 @@ namespace MonoGameProject
             X = boss.X;
             Y = boss.Y;
 
-            var max = 1000;
-            var speed = 50;
+            var max = 600;
+            var speed = 30;
 
             var horizontalSpeed = max;
             var verticalSpeed = 0;
@@ -57,7 +57,7 @@ namespace MonoGameProject
                 if (boss.Dead() == false)
                 {
                     X = horizontalSpeed + boss.X;
-                    Y = verticalSpeed + boss.Y;
+                    Y = verticalSpeed + boss.Y-250;
                 }
             });
 

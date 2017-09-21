@@ -216,7 +216,7 @@ namespace MonoGameProject
             {
                 StateChanged = () =>
                 {
-                    //if (state == BossState.EyeAttack)
+                    if (state == BossState.EyeAttack)
                     {
                         var pilar = new Thing();
                         var size = 2000;
@@ -225,12 +225,13 @@ namespace MonoGameProject
                             OffsetX = 0,
                             OffsetY = -size / 3,
                             Width = size / 2,
-                            Height = size / 2
+                            Height = size / 2,
+                            Disabled = true
                         };
                         pilar.AddCollider(collider);
                         var anim = GeneratedContent.Create_knight_pilar(
                             facingRight ? 0 : -size / 3
-                            , (int)(-size*0.6f)
+                            , (int)(-size * 0.6f)
                             , size
                             , size);
                         anim.LoopDisabled = true;
@@ -239,8 +240,21 @@ namespace MonoGameProject
                         pilar.X = X;
                         pilar.Y = Y;
                         var duration = 50;
+                        pilar.AddUpdate(new MoveHorizontallyWithTheWorld(pilar));
                         pilar.AddUpdate(() =>
                         {
+                            if (Dead() == false)
+                            {
+                                pilar.X = X;
+                                pilar.Y = Y;
+                            }
+
+                            if (duration < 45)
+                                collider.Disabled = false;
+
+                            if (duration < 10)
+                                collider.Disabled = true;
+
                             duration--;
                             if (duration <= 0)
                             {
