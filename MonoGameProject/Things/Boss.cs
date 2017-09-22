@@ -223,19 +223,22 @@ namespace MonoGameProject
                         var collider = new AttackCollider
                         {
                             OffsetX = 0,
-                            OffsetY = -size / 3,
-                            Width = size / 2,
+                            OffsetY = -size / 2,
+                            Width = size,
                             Height = size / 2,
                             Disabled = true
                         };
                         pilar.AddCollider(collider);
                         var anim = GeneratedContent.Create_knight_pilar(
-                            facingRight ? 0 : -size / 3
-                            , (int)(-size * 0.6f)
-                            , size
-                            , size);
+                             -width / 2 + BossAnimationsFactory.GetHeadBonusX(facingRight)
+                            , offsetY
+                            , width * 2
+                            , height * 2
+                            , facingRight);
+
+                        anim.ColorGetter = GameState.GetColor;
                         anim.LoopDisabled = true;
-                        anim.RenderingLayer = Boss.TORSO_Z + 0.0001f;
+                        anim.RenderingLayer = Boss.EYE_Z- 0.0001f;
                         pilar.AddAnimation(anim);
                         pilar.X = X;
                         pilar.Y = Y;
@@ -273,9 +276,9 @@ namespace MonoGameProject
                     {
                         var size = 1500;
                         var spikeBall = new Thing();
-                        var collider = new Collider(size / 2, size / 2);
+                        var collider = new AttackCollider { Width = size / 2, Height = size / 3, OffsetY= size / 3 };
                         spikeBall.AddCollider(collider);
-                        var anim = GeneratedContent.Create_knight_spike_dropped(-size / 4, -size / 2, size, size);
+                        var anim = GeneratedContent.Create_knight_spike_dropped(-size / 4, -size / 3, size, size);
                         anim.RenderingLayer = Boss.HEAD_Z;
                         spikeBall.AddAnimation(anim);
                         spikeBall.X = facingRight ? X : (int)mainCollider.CenterX();

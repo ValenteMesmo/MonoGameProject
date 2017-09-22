@@ -3,12 +3,40 @@ using System;
 
 namespace MonoGameProject
 {
+    public class DelayedAction
+    {
+        private Action action = ()=> { };
+        private int delay;
+
+        public void Execute(Action action, int delay)
+        {
+            if (this.action == action)
+            {
+                Update();
+                return;
+            }
+            this.action = action;
+            this.delay = delay;
+        }
+
+        private void Update()
+        {
+            delay--;
+            if (delay <= 0)
+            {
+                action();
+                action = () => { };
+            }
+        }
+    }
+
     public class SpiderBossBody
     {
         private readonly Boss boss;
         private Player player;
         private int stateCooldown;
         private int directionCooldown;
+        private DelayedAction DelayedAction = new DelayedAction();
 
         public SpiderBossBody(Boss boss)
         {
@@ -44,9 +72,9 @@ namespace MonoGameProject
             if (SameHightOfPlayer())
             {
                 if (player.MainCollider.Left() > boss.mainCollider.Right())
-                    boss.facingRight = true;
+                    DelayedAction.Execute(()=>boss.facingRight = true, 25);
                 else
-                    boss.facingRight = false;
+                    DelayedAction.Execute(()=>boss.facingRight = false, 25);
             }
 
             if (stateCooldown <= 0)
