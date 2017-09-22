@@ -198,8 +198,6 @@ namespace MonoGameProject
             }
         }
 
-
-
         private void CreateEyeAnimator(int random, float z, Game1 Game1)
         {
             if (random == 1)
@@ -255,7 +253,7 @@ namespace MonoGameProject
                             if (duration < 45)
                                 collider.Disabled = false;
 
-                            if (duration < 10)
+                            if (duration < 25)
                                 collider.Disabled = true;
 
                             duration--;
@@ -280,6 +278,7 @@ namespace MonoGameProject
                         spikeBall.AddCollider(collider);
                         var anim = GeneratedContent.Create_knight_spike_dropped(-size / 4, -size / 3, size, size);
                         anim.RenderingLayer = Boss.HEAD_Z;
+                        anim.ColorGetter = GameState.GetColor;
                         spikeBall.AddAnimation(anim);
                         spikeBall.X = facingRight ? X : (int)mainCollider.CenterX();
                         spikeBall.Y = Y;
@@ -495,6 +494,7 @@ namespace MonoGameProject
                         MouthState == BossMouthState.Shoot
                         && facingRight)
             );
+
             AddAnimation(animation);
         }
     }

@@ -3,50 +3,47 @@ using System;
 
 namespace MonoGameProject
 {
-    public class DelayedAction
-    {
-        private Action action = ()=> { };
-        private int delay;
-
-        public void Execute(Action action, int delay)
-        {
-            if (this.action == action)
-            {
-                Update();
-                return;
-            }
-            this.action = action;
-            this.delay = delay;
-        }
-
-        private void Update()
-        {
-            delay--;
-            if (delay <= 0)
-            {
-                action();
-                action = () => { };
-            }
-        }
-    }
-
     public class SpiderBossBody
     {
         private readonly Boss boss;
         private Player player;
         private int stateCooldown;
-        private int directionCooldown;
         private DelayedAction DelayedAction = new DelayedAction();
+        int flyingMod = -1;
+        int horizontalSpeedMod = -1;
 
         public SpiderBossBody(Boss boss)
         {
             this.boss = boss;
             boss.state = BossState.Idle;
             boss.mainCollider.AddHandler(FindPlayer);
+            boss.mainCollider.AddLeftCollisionHandler(LeftCollision);
+            boss.mainCollider.AddRightCollisionHandler(RightCollision);
+            boss.mainCollider.AddTopCollisionHandler(TopCollision);
+            boss.mainCollider.AddBotCollisionHandler(TopCollision);
 
             CreateBodyAnimator(Boss.TORSO_Z);
 
             boss.AddUpdate(UpdateBasedOnState);
+        }
+
+
+        private void RightCollision(Collider s, Collider t)
+        {
+            if (t is GroundCollider)
+                horizontalSpeedMod = -1;
+        }
+
+        private void TopCollision(Collider s, Collider t)
+        {
+            if (t is GroundCollider)
+                flyingMod = boss.MyRandom.Next(-1, 1);
+        }
+
+        private void LeftCollision(Collider s, Collider t)
+        {
+            if (t is GroundCollider)
+                horizontalSpeedMod = 1;
         }
 
         private void FindPlayer(Collider s, Collider t)
@@ -66,15 +63,18 @@ namespace MonoGameProject
             if (boss.player == null)
                 return;
 
+            if (idleCooldown > 0)
+                idleCooldown--;
+
             if (boss.damageCooldown >= 0)
                 boss.damageCooldown--;
 
-            if (SameHightOfPlayer())
+            if (player != null)
             {
                 if (player.MainCollider.Left() > boss.mainCollider.Right())
-                    DelayedAction.Execute(()=>boss.facingRight = true, 25);
+                    DelayedAction.Execute(() => boss.facingRight = true, 25);
                 else
-                    DelayedAction.Execute(()=>boss.facingRight = false, 25);
+                    DelayedAction.Execute(() => boss.facingRight = false, 25);
             }
 
             if (stateCooldown <= 0)
@@ -84,13 +84,8 @@ namespace MonoGameProject
 
             if (boss.state == BossState.BodyAttack1)
             {
-                if (directionCooldown <= 0)
-                {
-                    boss.HorizontalSpeed = 80 * boss.MyRandom.Next(-1, 1);
-                    directionCooldown = 15;
-                }
-                else
-                    directionCooldown--;
+                boss.HorizontalSpeed = 80 * horizontalSpeedMod;
+                boss.VerticalSpeed = 80 * flyingMod;
 
                 stateCooldown--;
                 boss.MouthState = BossMouthState.BiteOpen;
@@ -113,12 +108,15 @@ namespace MonoGameProject
             Game1.LOG += boss.state;
         }
 
+        int idleCooldown = 0;
+
         private void ChangeState()
         {
             var rnd = boss.MyRandom.Next(1, 4);
 
-            if (rnd == 1 && boss.state != BossState.Idle)
+            if (rnd == 1 && idleCooldown <= 0)
             {
+                idleCooldown = 500;
                 boss.state = BossState.Idle;
                 stateCooldown = 150;
             }
@@ -132,11 +130,12 @@ namespace MonoGameProject
                 boss.state = BossState.EyeAttack;
                 stateCooldown = 100;
             }
-            else 
+            else
             {
                 boss.state = BossState.BodyAttack1;
                 stateCooldown = 100;
             }
+
         }
 
         private bool SameHightOfPlayer()

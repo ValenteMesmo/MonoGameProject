@@ -8,6 +8,7 @@ namespace MonoGameProject
         private readonly Boss boss;
         private int patience;
         //private Player player;
+        private DelayedAction DelayedAction = new DelayedAction();
 
         public HumanoidBossBody(Boss boss)
         {
@@ -19,8 +20,6 @@ namespace MonoGameProject
             boss.AddUpdate(MainUpdate);
         }
 
-        private int TurnCooldown;
-
         private void MainUpdate()
         {
             if (boss.player == null)
@@ -29,17 +28,12 @@ namespace MonoGameProject
             if (boss.damageCooldown >= 0)
                 boss.damageCooldown--;
 
-            if (TurnCooldown > 0)
-                TurnCooldown--;
-
-            if (SameHightOfPlayer() && TurnCooldown <= 0)
+            if (SameHightOfPlayer())
             {
                 if (boss.player.MainCollider.Left() > boss.mainCollider.CenterX())
-                    boss.facingRight = true;
+                    DelayedAction.Execute(() => boss.facingRight = true, 25);
                 else
-                    boss.facingRight = false;
-
-                TurnCooldown = 50;
+                    DelayedAction.Execute(() => boss.facingRight = false, 25);
             }
 
             ChangeState();

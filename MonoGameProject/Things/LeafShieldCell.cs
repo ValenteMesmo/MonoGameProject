@@ -17,7 +17,7 @@ namespace MonoGameProject
             AddCollider(collider);
 
             var ballAnimation = GeneratedContent.Create_knight_leaf_shield(0, 0, 1500, 1500);
-            ballAnimation.ColorGetter = () => boss.BodyColor;
+            ballAnimation.ColorGetter = GameState.GetColor;
             ballAnimation.RenderingLayer = 0;
             AddAnimation(ballAnimation);
 

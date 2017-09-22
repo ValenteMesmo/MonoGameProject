@@ -47,6 +47,7 @@
     <Compile Include="Things\Boss.cs" />
     <Compile Include="Things\BossAnimationsFactory.cs" />
     <Compile Include="Things\BossBattleTrigger.cs" />
+    <Compile Include="Things\BossBody\DelayedAction.cs" />
     <Compile Include="Things\ChangeToAttackState.cs" />
     <Compile Include="Things\DestroyIfLeftBehind.cs" />
     <Compile Include="Things\Enemy.cs" />

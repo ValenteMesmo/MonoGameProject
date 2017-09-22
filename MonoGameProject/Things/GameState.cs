@@ -26,11 +26,11 @@ namespace MonoGameProject
             MidExit = true;
             BotExit = true;
 
-            ArmorColor = 666;
-            Tresure = 666;
-            Monster = 999;
-            Paralax = 666;
-            Platform = 666;
+            ArmorColor = 666666666;
+            Tresure =    666999666;
+            Monster =    999666999;
+            Paralax =    999999999;
+            Platform =   666999999;
             ColorIndex = 0;
             CaveMode = false;
             TopExit = true;

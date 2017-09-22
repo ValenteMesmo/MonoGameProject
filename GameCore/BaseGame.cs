@@ -108,10 +108,10 @@ internal class BaseGame : OriginalGameClass
 
         var state = Keyboard.GetState();
 #if DEBUG
-        //if (state.CapsLock)
-        //    Camera.Zoom = 0.05f;
-        //else
-        //    Camera.Zoom = 0.1f;
+        if (!state.NumLock)
+            Camera.Zoom = 0.05f;
+        else
+            Camera.Zoom = 0.1f;
 
         DisplayColliders = state.CapsLock;
 
@@ -122,8 +122,6 @@ internal class BaseGame : OriginalGameClass
 
         base.Update(gameTime);
     }
-
-    //private List<Animation> AnimationsToRender = new List<Animation>();
 
     protected override void Draw(GameTime gameTime)
     {
