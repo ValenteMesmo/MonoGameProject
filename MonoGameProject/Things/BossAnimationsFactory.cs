@@ -6,7 +6,7 @@ namespace MonoGameProject
     {
         private static MyRandom Random = new MyRandom();
 
-        private static int GetHeadBonusX(bool flipped)
+        public static int GetHeadBonusX(bool flipped)
         {
             var bonus = 250;
 
