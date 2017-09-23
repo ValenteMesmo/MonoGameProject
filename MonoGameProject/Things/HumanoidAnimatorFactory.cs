@@ -82,6 +82,24 @@ namespace MonoGameProject
             crouch_right.ScaleY = scale;
             crouch_right.RenderingLayer = Z_INDEX;
 
+            var crouch_left_edge = GeneratedContent.Create_knight_Legs_Crouching_edge(
+                x
+                , crouch_y + y_bonus);
+            crouch_left_edge.ScaleX = scale;
+            crouch_left_edge.ScaleY = scale;
+            crouch_left_edge.RenderingLayer = Z_INDEX;
+
+            var crouch_right_edge = GeneratedContent.Create_knight_Legs_Crouching_edge(
+                flippedx
+                , crouch_y + y_bonus
+                , null
+                , null
+                , true);
+            crouch_right_edge.ScaleX = scale;
+            crouch_right_edge.ScaleY = scale;
+            crouch_right_edge.RenderingLayer = Z_INDEX;
+
+
             var sweetDreams_left = GeneratedContent.Create_knight_Legs_Sweet_dreams(
                 x
                 , crouch_y + y_bonus);
@@ -155,8 +173,10 @@ namespace MonoGameProject
                 , new AnimationTransitionOnCondition(walk_right, () => thing.LegState == LegState.Walking && thing.FacingRight == true)
                 , new AnimationTransitionOnCondition(stand_left, () => thing.LegState == LegState.Standing && thing.FacingRight == false)
                 , new AnimationTransitionOnCondition(stand_right, () => thing.LegState == LegState.Standing && thing.FacingRight == true)
-                , new AnimationTransitionOnCondition(crouch_left, () => thing.LegState == LegState.Crouching && thing.FacingRight == false)
-                , new AnimationTransitionOnCondition(crouch_right, () => thing.LegState == LegState.Crouching && thing.FacingRight == true)
+                , new AnimationTransitionOnCondition(crouch_left, () => thing.LegState == LegState.Crouching && thing.FacingRight == false && thing.LeftGroundAcidentChecker.Colliding<GroundCollider>())
+                , new AnimationTransitionOnCondition(crouch_right, () => thing.LegState == LegState.Crouching && thing.FacingRight == true && thing.RightGroundAcidentChecker.Colliding<GroundCollider>())
+                , new AnimationTransitionOnCondition(crouch_left_edge, () => thing.LegState == LegState.Crouching && thing.FacingRight == false && !thing.LeftGroundAcidentChecker.Colliding<GroundCollider>())
+                , new AnimationTransitionOnCondition(crouch_right_edge, () => thing.LegState == LegState.Crouching && thing.FacingRight == true && !thing.RightGroundAcidentChecker.Colliding<GroundCollider>())
                 , new AnimationTransitionOnCondition(sweetDreams_left, () => thing.LegState == LegState.SweetDreams && thing.FacingRight == false)
                 , new AnimationTransitionOnCondition(sweetDreams_right, () => thing.LegState == LegState.SweetDreams && thing.FacingRight == true)
                 , new AnimationTransitionOnCondition(fall_left, () => thing.LegState == LegState.Falling && thing.FacingRight == false)
