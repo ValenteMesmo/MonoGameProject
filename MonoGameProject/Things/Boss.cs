@@ -390,7 +390,7 @@ namespace MonoGameProject
         {
             if (bodyType == 1)
             {
-                new SpiderBossBody(this);
+                new SpiderBossBody(this,Game1.AddToWorld);
             }
             else if (bodyType == 2)
             {
@@ -398,7 +398,7 @@ namespace MonoGameProject
             }
             else
             {
-                new HumanoidBossBody(this);
+                new HumanoidBossBody(this, Game1.AddToWorld);
             }
         }
 

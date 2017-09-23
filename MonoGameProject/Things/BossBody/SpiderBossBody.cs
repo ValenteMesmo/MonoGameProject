@@ -6,17 +6,17 @@ namespace MonoGameProject
     public class SpiderBossBody
     {
         private readonly Boss boss;
-        private Player player;
+        private readonly Action<Thing> AddToWorld;
         private int stateCooldown;
         private DelayedAction DelayedAction = new DelayedAction();
         int flyingMod = -1;
         int horizontalSpeedMod = -1;
 
-        public SpiderBossBody(Boss boss)
+        public SpiderBossBody(Boss boss, Action<Thing> AddToWorld)
         {
             this.boss = boss;
+            this.AddToWorld = AddToWorld;
             boss.state = BossState.Idle;
-            boss.mainCollider.AddHandler(FindPlayer);
             boss.mainCollider.AddLeftCollisionHandler(LeftCollision);
             boss.mainCollider.AddRightCollisionHandler(RightCollision);
             boss.mainCollider.AddTopCollisionHandler(TopCollision);
@@ -46,18 +46,6 @@ namespace MonoGameProject
                 horizontalSpeedMod = 1;
         }
 
-        private void FindPlayer(Collider s, Collider t)
-        {
-            if (s.Parent is Player)
-            {
-                player = s.Parent as Player;
-            }
-            if (t.Parent is Player)
-            {
-                player = t.Parent as Player;
-            }
-        }
-
         private void UpdateBasedOnState()
         {
             if (boss.player == null)
@@ -69,9 +57,9 @@ namespace MonoGameProject
             if (boss.damageCooldown >= 0)
                 boss.damageCooldown--;
 
-            if (player != null)
+            if (boss.player != null)
             {
-                if (player.MainCollider.Left() > boss.mainCollider.Right())
+                if (boss.player.MainCollider.Left() > boss.mainCollider.Right())
                     DelayedAction.Execute(() => boss.facingRight = true, 25);
                 else
                     DelayedAction.Execute(() => boss.facingRight = false, 25);
@@ -85,7 +73,7 @@ namespace MonoGameProject
             if (boss.state == BossState.BodyAttack1)
             {
                 boss.HorizontalSpeed = 80 * horizontalSpeedMod;
-                boss.VerticalSpeed = 80 * flyingMod;
+                boss.VerticalSpeed = 40 * flyingMod;
 
                 stateCooldown--;
                 boss.MouthState = BossMouthState.BiteOpen;
@@ -100,9 +88,31 @@ namespace MonoGameProject
 
             if (boss.state == BossState.HeadAttack1)
             {
-                boss.HorizontalSpeed = 0;
-                boss.MouthState = BossMouthState.BiteOpen;
+                //boss.HorizontalSpeed = 0;
+                //boss.MouthState = BossMouthState.BiteOpen;
+                //stateCooldown--;
+
                 stateCooldown--;
+                boss.HorizontalSpeed = 0;
+
+                if (stateCooldown == 25)
+                {
+                    var speed = -FireBall.SPEED;
+                    if (boss.facingRight)
+                        speed = -speed;
+                    AddToWorld(new FireBall(speed, 0) { X = boss.attackCollider.X, Y = boss.attackCollider.Y });
+                }
+
+                if (stateCooldown == 5)
+                {
+                    //boss.state = BossState.Idle;
+                    boss.MouthState = BossMouthState.Idle;
+                }
+
+                if (stateCooldown <= 0)
+                {
+                    ChangeState();
+                }
             }
 
             Game1.LOG += boss.state;
@@ -123,6 +133,7 @@ namespace MonoGameProject
             else if (rnd == 2)
             {
                 boss.state = BossState.HeadAttack1;
+                boss.MouthState = BossMouthState.Shoot;
                 stateCooldown = 50;
             }
             else if (rnd == 3)
@@ -140,9 +151,9 @@ namespace MonoGameProject
 
         private bool SameHightOfPlayer()
         {
-            return player != null
+            return boss.player != null
                 && Math.Abs(
-                    player.MainCollider.Bottom()
+                    boss.player.MainCollider.Bottom()
                     - boss.mainCollider.Bottom()
                 ) < MapModule.CELL_SIZE * 2;
         }

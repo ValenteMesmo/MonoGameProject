@@ -5,6 +5,8 @@ namespace MonoGameProject
 {
     public class Player : Humanoid
     {
+        //remove autojump when player takes damage
+
         //pennywise dance
 
         //permitir que outros players transpassem a porta do boss (de fora para dentro)

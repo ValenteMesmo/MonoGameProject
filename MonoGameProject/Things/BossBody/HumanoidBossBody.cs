@@ -5,13 +5,14 @@ namespace MonoGameProject
 {
     public class HumanoidBossBody
     {
+        private readonly Action<Thing> AddToWorld;
         private readonly Boss boss;
         private int patience;
-        //private Player player;
         private DelayedAction DelayedAction = new DelayedAction();
 
-        public HumanoidBossBody(Boss boss)
+        public HumanoidBossBody(Boss boss, Action<Thing> AddToWorld)
         {
+            this.AddToWorld = AddToWorld;
             this.boss = boss;
             boss.state = BossState.Idle;
 
@@ -19,7 +20,7 @@ namespace MonoGameProject
 
             boss.AddUpdate(MainUpdate);
         }
-
+        int FireBallDuration;
         private void MainUpdate()
         {
             if (boss.player == null)
@@ -55,15 +56,40 @@ namespace MonoGameProject
                 //    boss.MouthOpen = false;
                 //}
             }
-            else if (boss.state == BossState.Idle || boss.state == BossState.EyeAttack)
+            else if (boss.state == BossState.Idle)
             {
                 boss.HorizontalSpeed = 0;
                 boss.MouthState = BossMouthState.Idle;
             }
             else if (boss.state == BossState.HeadAttack1)
             {
+                if (FireBallDuration <= 0)
+                {
+                    FireBallDuration = 50;
+                    boss.MouthState = BossMouthState.Shoot;
+                }
+
+                FireBallDuration--;
                 boss.HorizontalSpeed = 0;
-                boss.MouthState = BossMouthState.BiteOpen;
+
+                if (FireBallDuration == 25)
+                {
+                    var speed = -FireBall.SPEED;
+                    if (boss.facingRight)
+                        speed = -speed;
+                    AddToWorld(new FireBall(speed, 0) { X = boss.attackCollider.X, Y = boss.attackCollider.Y });
+                }
+
+                if (FireBallDuration == 5)
+                {
+                    //boss.state = BossState.Idle;
+                    boss.MouthState = BossMouthState.Idle;
+                }
+
+                if (FireBallDuration <= 0)
+                {
+                    ChangeState();
+                }
             }
 
             if (SameHightOfPlayer())
