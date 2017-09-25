@@ -5,6 +5,8 @@ namespace MonoGameProject
 {
     public class Player : Humanoid
     {
+        //ter uma idle animation para o player, mas permitir que ele use walk como idle segurando algum botao
+
         //remove autojump when player takes damage
 
         //pennywise dance

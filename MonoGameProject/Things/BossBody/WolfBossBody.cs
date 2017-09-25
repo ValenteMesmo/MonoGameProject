@@ -62,7 +62,7 @@ namespace MonoGameProject
             else if (rnd == 3)
             {
                 boss.state = BossState.EyeAttack;
-                boss.MouthState = BossMouthState.Shoot;
+                boss.MouthState = BossMouthState.Idle;
                 state1Duration = 50;
             }
             else

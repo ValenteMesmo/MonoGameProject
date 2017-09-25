@@ -59,7 +59,7 @@ internal class BaseGame : OriginalGameClass
     {
         //TODO: fullscreen on alt+enter
 #if RELEASE
-        Graphics.IsFullScreen = true;
+        //Graphics.IsFullScreen = true;
         Graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
         Graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
 #else

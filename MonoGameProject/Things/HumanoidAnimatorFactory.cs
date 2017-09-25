@@ -21,22 +21,26 @@ namespace MonoGameProject
         protected int scale = 5;
         protected int y_bonus = 0;
 
+        private float HEAD_Z = 0.120f;
+        private float TORSO_Z = 0.121f;
+        private float LEG_Z = 0.122f;
+
         public void CreateAnimator(Humanoid thing)
         {
             thing.ArmorColor = Color.White;
-            HeadAnimator(thing, 0.120f);
-            TorsoAnimator(thing, 0.122f);
-            LegsAnimator(thing, 0.120f);
+            HeadAnimator(thing);
+            TorsoAnimator(thing);
+            LegsAnimator(thing);
         }
 
-        private void LegsAnimator(Humanoid thing, float Z_INDEX)
+        private void LegsAnimator(Humanoid thing)
         {
             var stand_left = GeneratedContent.Create_knight_Legs_Standing(
                 x
                 , feet_y + y_bonus);
             stand_left.ScaleX = scale;
             stand_left.ScaleY = scale;
-            stand_left.RenderingLayer = Z_INDEX;
+            stand_left.RenderingLayer = LEG_Z;
 
             var stand_right = GeneratedContent.Create_knight_Legs_Standing(
                 flippedx
@@ -46,14 +50,14 @@ namespace MonoGameProject
                 , true);
             stand_right.ScaleX = scale;
             stand_right.ScaleY = scale;
-            stand_right.RenderingLayer = Z_INDEX;
+            stand_right.RenderingLayer = LEG_Z;
 
             var fall_left = GeneratedContent.Create_knight_Legs_Falling(
                 x
                 , feet_y + y_bonus);
             fall_left.ScaleX = scale;
             fall_left.ScaleY = scale;
-            fall_left.RenderingLayer = Z_INDEX;
+            fall_left.RenderingLayer = LEG_Z;
 
             var fall_right = GeneratedContent.Create_knight_Legs_Falling(
                 flippedx
@@ -63,14 +67,14 @@ namespace MonoGameProject
                 , true);
             fall_right.ScaleX = scale;
             fall_right.ScaleY = scale;
-            fall_right.RenderingLayer = Z_INDEX;
+            fall_right.RenderingLayer = LEG_Z;
 
             var crouch_left = GeneratedContent.Create_knight_Legs_Crouching(
                 x
                 , crouch_y + y_bonus);
             crouch_left.ScaleX = scale;
             crouch_left.ScaleY = scale;
-            crouch_left.RenderingLayer = Z_INDEX;
+            crouch_left.RenderingLayer = LEG_Z;
 
             var crouch_right = GeneratedContent.Create_knight_Legs_Crouching(
                 flippedx
@@ -80,14 +84,14 @@ namespace MonoGameProject
                 , true);
             crouch_right.ScaleX = scale;
             crouch_right.ScaleY = scale;
-            crouch_right.RenderingLayer = Z_INDEX;
+            crouch_right.RenderingLayer = LEG_Z;
 
             var crouch_left_edge = GeneratedContent.Create_knight_Legs_Crouching_edge(
                 x
                 , crouch_y + y_bonus);
             crouch_left_edge.ScaleX = scale;
             crouch_left_edge.ScaleY = scale;
-            crouch_left_edge.RenderingLayer = Z_INDEX;
+            crouch_left_edge.RenderingLayer = LEG_Z;
 
             var crouch_right_edge = GeneratedContent.Create_knight_Legs_Crouching_edge(
                 flippedx
@@ -97,7 +101,7 @@ namespace MonoGameProject
                 , true);
             crouch_right_edge.ScaleX = scale;
             crouch_right_edge.ScaleY = scale;
-            crouch_right_edge.RenderingLayer = Z_INDEX;
+            crouch_right_edge.RenderingLayer = LEG_Z;
 
 
             var sweetDreams_left = GeneratedContent.Create_knight_Legs_Sweet_dreams(
@@ -105,7 +109,7 @@ namespace MonoGameProject
                 , crouch_y + y_bonus);
             sweetDreams_left.ScaleX = scale;
             sweetDreams_left.ScaleY = scale;
-            sweetDreams_left.RenderingLayer = Z_INDEX;
+            sweetDreams_left.RenderingLayer = LEG_Z;
 
             var sweetDreams_right = GeneratedContent.Create_knight_Legs_Sweet_dreams(
                 flippedx
@@ -115,14 +119,14 @@ namespace MonoGameProject
                 , true);
             sweetDreams_right.ScaleX = scale;
             sweetDreams_right.ScaleY = scale;
-            sweetDreams_right.RenderingLayer = Z_INDEX;
+            sweetDreams_right.RenderingLayer = LEG_Z;
 
             var walk_left = GeneratedContent.Create_knight_Legs_Walking(
                 x
                 , feet_y + y_bonus);
             walk_left.ScaleX = scale;
             walk_left.ScaleY = scale;
-            walk_left.RenderingLayer = Z_INDEX;
+            walk_left.RenderingLayer = LEG_Z;
 
             var walk_right = GeneratedContent.Create_knight_Legs_Walking(
                 flippedx
@@ -132,14 +136,14 @@ namespace MonoGameProject
                 , true);
             walk_right.ScaleX = scale;
             walk_right.ScaleY = scale;
-            walk_right.RenderingLayer = Z_INDEX;
+            walk_right.RenderingLayer = LEG_Z;
 
             var headbang_left = GeneratedContent.Create_knight_roof_bang_legs(
                 x
                 , feet_y + y_bonus);
             headbang_left.ScaleX = scale;
             headbang_left.ScaleY = scale;
-            headbang_left.RenderingLayer = Z_INDEX;
+            headbang_left.RenderingLayer = LEG_Z;
 
             var headbang_right = GeneratedContent.Create_knight_roof_bang_legs(
                 flippedx
@@ -149,14 +153,14 @@ namespace MonoGameProject
                 , true);
             headbang_right.ScaleX = scale;
             headbang_right.ScaleY = scale;
-            headbang_right.RenderingLayer = Z_INDEX;
+            headbang_right.RenderingLayer = LEG_Z;
 
             var sliding_left = GeneratedContent.Create_knight_Legs_slide_wall(
                 x
                 , feet_y + y_bonus);
             sliding_left.ScaleX = scale;
             sliding_left.ScaleY = scale;
-            sliding_left.RenderingLayer = Z_INDEX;
+            sliding_left.RenderingLayer = LEG_Z;
 
             var sliding_right = GeneratedContent.Create_knight_Legs_slide_wall(
                 flippedx
@@ -166,7 +170,7 @@ namespace MonoGameProject
                 , true);
             sliding_right.ScaleX = scale;
             sliding_right.ScaleY = scale;
-            sliding_right.RenderingLayer = Z_INDEX;
+            sliding_right.RenderingLayer = LEG_Z;
 
             thing.AddAnimation(new Animator(
                 new AnimationTransitionOnCondition(walk_left, () => thing.LegState == LegState.Walking && thing.FacingRight == false)
@@ -191,14 +195,14 @@ namespace MonoGameProject
             ));
         }
 
-        private void HeadAnimator(Humanoid thing, float Z_INDEX)
+        private void HeadAnimator(Humanoid thing)
         {
             var stand_left = GeneratedContent.Create_knight_head(
                 x
                 , feet_y + y_bonus);
             stand_left.ScaleX = scale;
             stand_left.ScaleY = scale;
-            stand_left.RenderingLayer = Z_INDEX;
+            stand_left.RenderingLayer = HEAD_Z;
 
             var stand_right = GeneratedContent.Create_knight_head(
                 flippedx
@@ -208,7 +212,7 @@ namespace MonoGameProject
                 , true);
             stand_right.ScaleX = scale;
             stand_right.ScaleY = scale;
-            stand_right.RenderingLayer = Z_INDEX;
+            stand_right.RenderingLayer = HEAD_Z;
 
             var stand_left_armored = GeneratedContent.Create_knight_head_armor1(
                 x
@@ -216,7 +220,7 @@ namespace MonoGameProject
             stand_left_armored.ScaleX = scale;
             stand_left_armored.ScaleY = scale;
             stand_left_armored.ColorGetter = () => thing.ArmorColor;
-            stand_left_armored.RenderingLayer = Z_INDEX;
+            stand_left_armored.RenderingLayer = HEAD_Z;
 
             var stand_right_armored = GeneratedContent.Create_knight_head_armor1(
                 flippedx
@@ -227,14 +231,14 @@ namespace MonoGameProject
             stand_right_armored.ScaleX = scale;
             stand_right_armored.ScaleY = scale;
             stand_right_armored.ColorGetter = () => thing.ArmorColor;
-            stand_right_armored.RenderingLayer = Z_INDEX;
+            stand_right_armored.RenderingLayer = HEAD_Z;
 
             var crouch_left = GeneratedContent.Create_knight_head(
                 x
                 , crouch_y + y_bonus);
             crouch_left.ScaleX = scale;
             crouch_left.ScaleY = scale;
-            crouch_left.RenderingLayer = Z_INDEX;
+            crouch_left.RenderingLayer = HEAD_Z;
 
             var crouch_right = GeneratedContent.Create_knight_head(
                 flippedx
@@ -244,14 +248,14 @@ namespace MonoGameProject
                 , true);
             crouch_right.ScaleX = scale;
             crouch_right.ScaleY = scale;
-            crouch_right.RenderingLayer = Z_INDEX;
+            crouch_right.RenderingLayer = HEAD_Z;
 
             var headbang_left = GeneratedContent.Create_knight_roof_bang_head(
                 x
                 , feet_y + y_bonus);
             headbang_left.ScaleX = scale;
             headbang_left.ScaleY = scale;
-            headbang_left.RenderingLayer = Z_INDEX;
+            headbang_left.RenderingLayer = HEAD_Z;
 
             var headbang_right = GeneratedContent.Create_knight_roof_bang_head(
                 flippedx
@@ -261,7 +265,7 @@ namespace MonoGameProject
                 , true);
             headbang_right.ScaleX = scale;
             headbang_right.ScaleY = scale;
-            headbang_right.RenderingLayer = Z_INDEX;
+            headbang_right.RenderingLayer = HEAD_Z;
 
             var crouch_left_armored = GeneratedContent.Create_knight_head_armor1(
                 x
@@ -269,7 +273,7 @@ namespace MonoGameProject
             crouch_left_armored.ScaleX = scale;
             crouch_left_armored.ScaleY = scale;
             crouch_left_armored.ColorGetter = () => thing.ArmorColor;
-            crouch_left_armored.RenderingLayer = Z_INDEX;
+            crouch_left_armored.RenderingLayer = HEAD_Z;
 
             var crouch_right_armored = GeneratedContent.Create_knight_head_armor1(
                 flippedx
@@ -280,7 +284,7 @@ namespace MonoGameProject
             crouch_right_armored.ScaleX = scale;
             crouch_right_armored.ScaleY = scale;
             crouch_right_armored.ColorGetter = () => thing.ArmorColor;
-            crouch_right_armored.RenderingLayer = Z_INDEX;
+            crouch_right_armored.RenderingLayer = HEAD_Z;
 
             var headbang_left_armored = GeneratedContent.Create_knight_head_armor_bang1(
                 x
@@ -288,7 +292,7 @@ namespace MonoGameProject
             headbang_left_armored.ScaleX = scale;
             headbang_left_armored.ScaleY = scale;
             headbang_left_armored.ColorGetter = () => thing.ArmorColor;
-            headbang_left_armored.RenderingLayer = Z_INDEX;
+            headbang_left_armored.RenderingLayer = HEAD_Z;
 
             var headbang_right_armored = GeneratedContent.Create_knight_head_armor_bang1(
                 flippedx
@@ -299,7 +303,7 @@ namespace MonoGameProject
             headbang_right_armored.ScaleX = scale;
             headbang_right_armored.ScaleY = scale;
             headbang_right_armored.ColorGetter = () => thing.ArmorColor;
-            headbang_right_armored.RenderingLayer = Z_INDEX;
+            headbang_right_armored.RenderingLayer = HEAD_Z;
 
             var nakedAnimator = new Animator(
                 new AnimationTransitionOnCondition(stand_left, () => thing.HeadState == HeadState.Standing && thing.FacingRight == false)
@@ -327,14 +331,14 @@ namespace MonoGameProject
             thing.AddAnimation(animatorsWrapper);
         }
 
-        private void TorsoAnimator(Humanoid thing, float Z_INDEX)
+        private void TorsoAnimator(Humanoid thing)
         {
             var stand_left = GeneratedContent.Create_knight_torso_stand(
                 x
                 , feet_y + y_bonus);
             stand_left.ScaleX = scale;
             stand_left.ScaleY = scale;
-            stand_left.RenderingLayer = Z_INDEX;
+            stand_left.RenderingLayer = TORSO_Z;
 
             var stand_right = GeneratedContent.Create_knight_torso_stand(
                 flippedx
@@ -344,14 +348,14 @@ namespace MonoGameProject
                 , true);
             stand_right.ScaleX = scale;
             stand_right.ScaleY = scale;
-            stand_right.RenderingLayer = Z_INDEX;
+            stand_right.RenderingLayer = TORSO_Z;
 
             var crouch_left = GeneratedContent.Create_knight_torso_stand(
                 x
                 , crouch_y + y_bonus);
             crouch_left.ScaleX = scale;
             crouch_left.ScaleY = scale;
-            crouch_left.RenderingLayer = Z_INDEX;
+            crouch_left.RenderingLayer = TORSO_Z;
 
             var crouch_right = GeneratedContent.Create_knight_torso_stand(
                 flippedx
@@ -361,14 +365,14 @@ namespace MonoGameProject
                 , true);
             crouch_right.ScaleX = scale;
             crouch_right.ScaleY = scale;
-            crouch_right.RenderingLayer = Z_INDEX;
+            crouch_right.RenderingLayer = TORSO_Z;
 
             var stand_attack_left = GeneratedContent.Create_knight_torso_attack(
                 x
                 , feet_y + y_bonus);
             stand_attack_left.ScaleX = scale;
             stand_attack_left.ScaleY = scale;
-            stand_attack_left.RenderingLayer = Z_INDEX;
+            stand_attack_left.RenderingLayer = TORSO_Z;
             stand_attack_left.LoopDisabled = true;
 
 
@@ -377,7 +381,7 @@ namespace MonoGameProject
                 , feet_y + y_bonus);
             stand_attack_left_2.ScaleX = scale;
             stand_attack_left_2.ScaleY = scale;
-            stand_attack_left_2.RenderingLayer = Z_INDEX - 0.01f;
+            stand_attack_left_2.RenderingLayer = TORSO_Z - 0.01f;
             stand_attack_left_2.LoopDisabled = true;
 
 
@@ -389,7 +393,7 @@ namespace MonoGameProject
                 , true);
             stand_attack_right.ScaleX = scale;
             stand_attack_right.ScaleY = scale;
-            stand_attack_right.RenderingLayer = Z_INDEX;
+            stand_attack_right.RenderingLayer = TORSO_Z;
             stand_attack_right.LoopDisabled = true;
 
             var stand_attack_right_2 = GeneratedContent.Create_knight_torso_attack_part2(
@@ -400,7 +404,7 @@ namespace MonoGameProject
                 , true);
             stand_attack_right_2.ScaleX = scale;
             stand_attack_right_2.ScaleY = scale;
-            stand_attack_right_2.RenderingLayer = Z_INDEX - 0.01f;
+            stand_attack_right_2.RenderingLayer = TORSO_Z - 0.01f;
             stand_attack_right_2.LoopDisabled = true;
 
             var crouch_attack_left = GeneratedContent.Create_knight_torso_attack(
@@ -409,7 +413,7 @@ namespace MonoGameProject
             crouch_attack_left.ScaleX = scale;
             crouch_attack_left.ScaleY = scale;
             crouch_attack_left.LoopDisabled = true;
-            crouch_attack_left.RenderingLayer = Z_INDEX;
+            crouch_attack_left.RenderingLayer = TORSO_Z;
 
             var crouch_attack_left_2 = GeneratedContent.Create_knight_torso_attack_part2(
                 x
@@ -417,7 +421,7 @@ namespace MonoGameProject
             crouch_attack_left_2.ScaleX = scale;
             crouch_attack_left_2.ScaleY = scale;
             crouch_attack_left_2.LoopDisabled = true;
-            crouch_attack_left_2.RenderingLayer = Z_INDEX - 0.01f;
+            crouch_attack_left_2.RenderingLayer = TORSO_Z - 0.01f;
 
             var crouch_attack_right = GeneratedContent.Create_knight_torso_attack(
                 flippedx
@@ -428,7 +432,7 @@ namespace MonoGameProject
             crouch_attack_right.ScaleX = scale;
             crouch_attack_right.ScaleY = scale;
             crouch_attack_right.LoopDisabled = true;
-            crouch_attack_right.RenderingLayer = Z_INDEX;
+            crouch_attack_right.RenderingLayer = TORSO_Z;
 
             var crouch_attack_right_2 = GeneratedContent.Create_knight_torso_attack_part2(
                 flippedx
@@ -439,49 +443,49 @@ namespace MonoGameProject
             crouch_attack_right_2.ScaleX = scale;
             crouch_attack_right_2.ScaleY = scale;
             crouch_attack_right_2.LoopDisabled = true;
-            crouch_attack_right_2.RenderingLayer = Z_INDEX - 0.01f;
+            crouch_attack_right_2.RenderingLayer = TORSO_Z - 0.01f;
 
             var whip_left = GeneratedContent.Create_knight_whip_attack(-1500, feet_y);
             whip_left.ScaleX = scale;
             whip_left.ScaleY = scale;
             whip_left.LoopDisabled = true;
-            whip_left.RenderingLayer = Z_INDEX - 0.01f;
+            whip_left.RenderingLayer = TORSO_Z - 0.01f;
             var whip_left_crouch = GeneratedContent.Create_knight_whip_attack(-1500, crouch_y);
             whip_left_crouch.ScaleX = scale;
             whip_left_crouch.ScaleY = scale;
             whip_left_crouch.LoopDisabled = true;
-            whip_left_crouch.RenderingLayer = Z_INDEX - 0.01f;
+            whip_left_crouch.RenderingLayer = TORSO_Z - 0.01f;
             var whip_right = GeneratedContent.Create_knight_whip_attack(-1400, feet_y, null, null, true);
             whip_right.ScaleX = scale;
             whip_right.ScaleY = scale;
             whip_right.LoopDisabled = true;
-            whip_right.RenderingLayer = Z_INDEX - 0.01f;
+            whip_right.RenderingLayer = TORSO_Z - 0.01f;
             var whip_right_crouch = GeneratedContent.Create_knight_whip_attack(-1400, crouch_y, null, null, true);
             whip_right_crouch.ScaleX = scale;
             whip_right_crouch.ScaleY = scale;
             whip_right_crouch.LoopDisabled = true;
-            whip_right_crouch.RenderingLayer = Z_INDEX - 0.01f;
+            whip_right_crouch.RenderingLayer = TORSO_Z - 0.01f;
 
             var whipi_left = GeneratedContent.Create_knight_whip_idle(-1500, feet_y);
             whipi_left.ScaleX = scale;
             whipi_left.ScaleY = scale;
             whipi_left.LoopDisabled = true;
-            whipi_left.RenderingLayer = Z_INDEX - 0.01f;
+            whipi_left.RenderingLayer = TORSO_Z - 0.01f;
             var whipi_left_crouch = GeneratedContent.Create_knight_whip_idle(-1500, crouch_y);
             whipi_left_crouch.ScaleX = scale;
             whipi_left_crouch.ScaleY = scale;
             whipi_left_crouch.LoopDisabled = true;
-            whipi_left_crouch.RenderingLayer = Z_INDEX - 0.01f;
+            whipi_left_crouch.RenderingLayer = TORSO_Z - 0.01f;
             var whipi_right = GeneratedContent.Create_knight_whip_idle(-1400, feet_y, null, null, true);
             whipi_right.ScaleX = scale;
             whipi_right.ScaleY = scale;
             whipi_right.LoopDisabled = true;
-            whipi_right.RenderingLayer = Z_INDEX - 0.01f;
+            whipi_right.RenderingLayer = TORSO_Z - 0.01f;
             var whipi_right_crouch = GeneratedContent.Create_knight_whip_idle(-1400, crouch_y, null, null, true);
             whipi_right_crouch.ScaleX = scale;
             whipi_right_crouch.ScaleY = scale;
             whipi_right_crouch.LoopDisabled = true;
-            whipi_right_crouch.RenderingLayer = Z_INDEX - 0.01f;
+            whipi_right_crouch.RenderingLayer = TORSO_Z - 0.01f;
 
             thing.AddAnimation(new Animator(
                 new AnimationTransitionOnCondition(whipi_left, () => thing.TorsoState == TorsoState.Standing && !thing.FacingRight)
@@ -502,7 +506,7 @@ namespace MonoGameProject
                 , new AnimationTransitionOnCondition(stand_attack_right_2, () => thing.TorsoState == TorsoState.Attack && thing.FacingRight)
                 , new AnimationTransitionOnCondition(crouch_attack_left_2, () => thing.TorsoState == TorsoState.AttackCrouching && !thing.FacingRight)
                 , new AnimationTransitionOnCondition(crouch_attack_right_2, () => thing.TorsoState == TorsoState.AttackCrouching && thing.FacingRight)
-                , new AnimationTransitionOnCondition(emptyAnimation, () => thing.TorsoState != TorsoState.Attack && thing.TorsoState != TorsoState.AttackCrouching )
+                , new AnimationTransitionOnCondition(emptyAnimation, () => thing.TorsoState != TorsoState.Attack && thing.TorsoState != TorsoState.AttackCrouching)
             ));
 
             thing.AddAnimation(new Animator(

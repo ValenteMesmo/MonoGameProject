@@ -150,9 +150,11 @@ namespace MonoGameProject
                 headCollider.OffsetX = -headCollider.Width;
         }
 
+        public const int HEALTH = 20;
+
         public bool Dead()
         {
-            return damageTaken >= 2;
+            return damageTaken >= HEALTH;
         }
 
         private void HandlePlayerAttack(Collider s, Collider t)
