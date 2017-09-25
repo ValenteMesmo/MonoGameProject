@@ -5,13 +5,15 @@ namespace MonoGameProject
 {
     public class HumanoidBossBody
     {
+        private readonly Action ShakeCamera;
         private readonly Action<Thing> AddToWorld;
         private readonly Boss boss;
         private int patience;
         private DelayedAction DelayedAction = new DelayedAction();
 
-        public HumanoidBossBody(Boss boss, Action<Thing> AddToWorld)
+        public HumanoidBossBody(Boss boss, Action<Thing> AddToWorld, Action ShakeCamera)
         {
+            this.ShakeCamera = ShakeCamera;
             this.AddToWorld = AddToWorld;
             this.boss = boss;
             boss.state = BossState.Idle;
@@ -41,20 +43,15 @@ namespace MonoGameProject
 
             if (boss.state == BossState.BodyAttack1)
             {
-                //if (SameHightOfPlayer())
-                //{
+                if (stateDuration % (5*3) == 0)
+                    ShakeCamera();
+
                 if (boss.facingRight)
                     boss.HorizontalSpeed = 25 + (boss.damageTaken > 5 ? 15 : 0);
                 else
                     boss.HorizontalSpeed = -25 - (boss.damageTaken > 5 ? 15 : 0);
 
                 boss.MouthState = BossMouthState.BiteOpen;
-                //}
-                //else
-                //{
-                //    boss.HorizontalSpeed = 0;
-                //    boss.MouthOpen = false;
-                //}
             }
             else if (boss.state == BossState.Idle)
             {

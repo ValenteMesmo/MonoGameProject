@@ -8,12 +8,14 @@ namespace MonoGameProject
     {
         private readonly Action<Thing> AddToWorld;
         private readonly Boss boss;
+        private readonly Action ShakeCamera;
         private int state1Duration;
 
-        public WolfBossBody(Boss boss, Action<Thing> AddToWorld)
+        public WolfBossBody(Boss boss, Action<Thing> AddToWorld, Action ShakeCamera)
         {
             this.AddToWorld = AddToWorld;
             this.boss = boss;
+            this.ShakeCamera = ShakeCamera;
             boss.state = BossState.BodyAttack1;
 
             boss.mainCollider.AddLeftCollisionHandler((s, t) =>
@@ -58,6 +60,8 @@ namespace MonoGameProject
 
                 if (boss.MyRandom.Next(0, 100) > 50)
                     boss.VerticalSpeed = -150;
+
+                state1Duration = 100;
             }
             else if (rnd == 3)
             {
@@ -78,6 +82,9 @@ namespace MonoGameProject
             if (boss.player == null)
                 return;
 
+            if (state1Duration > 0)
+                state1Duration--;
+
             if (boss.damageCooldown >= 0)
                 boss.damageCooldown--;
 
@@ -87,11 +94,13 @@ namespace MonoGameProject
                     boss.HorizontalSpeed = 100;
                 else
                     boss.HorizontalSpeed = -100;
+
+                if (state1Duration % (5 * 3) == 0)
+                    ShakeCamera();
             }
 
             if (boss.state == BossState.Idle || boss.state == BossState.EyeAttack)
             {
-                state1Duration--;
                 boss.HorizontalSpeed = 0;
                 if (state1Duration <= 0)
                 {
@@ -99,9 +108,9 @@ namespace MonoGameProject
                 }
             }
 
+
             if (boss.state == BossState.HeadAttack1)
             {
-                state1Duration--;
                 boss.HorizontalSpeed = 0;
 
                 if (state1Duration == 25)

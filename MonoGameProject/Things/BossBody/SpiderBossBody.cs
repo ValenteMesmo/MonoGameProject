@@ -5,6 +5,7 @@ namespace MonoGameProject
 {
     public class SpiderBossBody
     {
+        private readonly Action ShakeCamera;
         private readonly Boss boss;
         private readonly Action<Thing> AddToWorld;
         private int stateCooldown;
@@ -12,8 +13,9 @@ namespace MonoGameProject
         int flyingMod = -1;
         int horizontalSpeedMod = -1;
 
-        public SpiderBossBody(Boss boss, Action<Thing> AddToWorld)
+        public SpiderBossBody(Boss boss, Action<Thing> AddToWorld, Action ShakeCamera)
         {
+            this.ShakeCamera = ShakeCamera;
             this.boss = boss;
             this.AddToWorld = AddToWorld;
             boss.state = BossState.Idle;
@@ -72,6 +74,9 @@ namespace MonoGameProject
 
             if (boss.state == BossState.BodyAttack1)
             {
+                if (stateCooldown % (5 * 3) == 0)
+                    ShakeCamera();
+
                 boss.HorizontalSpeed = 80 * horizontalSpeedMod;
                 boss.VerticalSpeed = 40 * flyingMod;
 
