@@ -16,8 +16,8 @@ namespace MonoGameProject
     {
         private int x = -200;
         private int flippedx = -130;
-        private int feet_y = -350;
-        private int crouch_y = -50;
+        private int feet_y = -300;
+        private int crouch_y = 0;
         protected int scale = 5;
         protected int y_bonus = 0;
 
