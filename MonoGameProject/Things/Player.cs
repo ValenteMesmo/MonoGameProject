@@ -5,6 +5,8 @@ namespace MonoGameProject
 {
     public class Player : Humanoid
     {
+        //reduzir bem o collider das fireballs... near miss feel good
+
         //ter uma idle animation para o player, mas permitir que ele use walk como idle segurando algum botao
 
         //remove autojump when player takes damage

@@ -23,7 +23,9 @@ namespace MonoGameProject
 
         public void HandleFireball(Collider source, Collider target)
         {
-            if (target.Parent is FireBall)
+            if (target.Parent is FireBall
+                || target.Parent is WavedFireBall
+                || target.Parent is SeekerFireBall)
             {
                 if (Parent.LegState == LegState.TakingDamage)
                     return;

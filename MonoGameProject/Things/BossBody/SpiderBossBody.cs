@@ -5,6 +5,7 @@ namespace MonoGameProject
 {
     public class SpiderBossBody
     {
+        private readonly Action<Boss> CreateFireBall;
         private readonly Action ShakeCamera;
         private readonly Boss boss;
         private readonly Action<Thing> AddToWorld;
@@ -13,8 +14,9 @@ namespace MonoGameProject
         int flyingMod = -1;
         int horizontalSpeedMod = -1;
 
-        public SpiderBossBody(Boss boss, Action<Thing> AddToWorld, Action ShakeCamera)
+        public SpiderBossBody(Boss boss, Action<Thing> AddToWorld, Action ShakeCamera, Action<Boss> CreateFireBall)
         {
+            this.CreateFireBall = CreateFireBall;
             this.ShakeCamera = ShakeCamera;
             this.boss = boss;
             this.AddToWorld = AddToWorld;
@@ -102,10 +104,7 @@ namespace MonoGameProject
 
                 if (stateCooldown == 25)
                 {
-                    var speed = -FireBall.SPEED;
-                    if (boss.facingRight)
-                        speed = -speed;
-                    AddToWorld(new FireBall(speed, 0) { X = boss.attackCollider.X, Y = boss.attackCollider.Y });
+                    CreateFireBall(boss);
                 }
 
                 if (stateCooldown == 5)

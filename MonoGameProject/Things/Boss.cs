@@ -107,9 +107,10 @@ namespace MonoGameProject
 
             AddCollider(mainCollider);
 
-            CreateHeadAnimator(MyRandom.Next(1, 3), HEAD_Z);
+            var headType = MyRandom.Next(1, 3);
+            CreateHeadAnimator(headType, HEAD_Z);
             CreateEyeAnimator(MyRandom.Next(1, 3), EYE_Z, Game1);
-            CreateBody(MyRandom.Next(1, 3), Game1);
+            CreateBody(MyRandom.Next(1, 3), Game1, headType);
 
             AddUpdate(new MoveHorizontallyWithTheWorld(this));
             AddUpdate(new AfectedByGravity(this));
@@ -238,7 +239,7 @@ namespace MonoGameProject
 
                         anim.ColorGetter = GameState.GetColor;
                         anim.LoopDisabled = true;
-                        anim.RenderingLayer = Boss.EYE_Z- 0.0001f;
+                        anim.RenderingLayer = Boss.EYE_Z - 0.0001f;
                         pilar.AddAnimation(anim);
                         pilar.X = X;
                         pilar.Y = Y;
@@ -276,7 +277,7 @@ namespace MonoGameProject
                     {
                         var size = 1500;
                         var spikeBall = new Thing();
-                        var collider = new AttackCollider { Width = size / 2, Height = size / 3, OffsetY= size / 3 };
+                        var collider = new AttackCollider { Width = size / 2, Height = size / 3, OffsetY = size / 3 };
                         spikeBall.AddCollider(collider);
                         var anim = GeneratedContent.Create_knight_spike_dropped(-size / 4, -size / 3, size, size);
                         anim.RenderingLayer = Boss.HEAD_Z;
@@ -388,21 +389,47 @@ namespace MonoGameProject
             AddAnimation(animation);
         }
 
-        private void CreateBody(int bodyType, Game1 Game1)
+        private void CreateBody(int bodyType, Game1 Game1, int headType)
         {
+            Action<Boss> CreateFireBall = CreateFileBallAction(Game1, headType);
+
             Action ShakeCamera = () => Game1.Camera.ShakeUp(10);
             if (bodyType == 1)
             {
-                new SpiderBossBody(this,Game1.AddToWorld, ShakeCamera);
+                new SpiderBossBody(this, Game1.AddToWorld, ShakeCamera, CreateFireBall);
             }
             else if (bodyType == 2)
             {
-                new WolfBossBody(this, Game1.AddToWorld, ShakeCamera);
+
+                new WolfBossBody(this, Game1.AddToWorld, ShakeCamera, CreateFireBall);
             }
             else
             {
-                new HumanoidBossBody(this, Game1.AddToWorld, ShakeCamera);
+                new HumanoidBossBody(this, Game1.AddToWorld, ShakeCamera, CreateFireBall);
             }
+        }
+
+        private static Action<Boss> CreateFileBallAction(Game1 Game1, int headType)
+        {
+            if(headType == 1)
+                return boss =>
+            {
+                Game1.AddToWorld(new WavedFireBall(boss.facingRight) { X = boss.attackCollider.X, Y = boss.attackCollider.Y });
+            };
+
+            if(headType == 2)
+                return boss =>
+            {
+                var speed = -FireBall.SPEED;
+                if (boss.facingRight)
+                    speed = -speed;
+                Game1.AddToWorld(new FireBall(speed, 0) { X = boss.attackCollider.X, Y = boss.attackCollider.Y });
+            };
+
+            return boss =>
+            {
+                Game1.AddToWorld(new SeekerFireBall(boss) { X = boss.attackCollider.X, Y = boss.attackCollider.Y });
+            };
         }
 
         private void CreateHeadAnimator(int random, float z)

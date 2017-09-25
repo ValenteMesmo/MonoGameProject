@@ -5,14 +5,16 @@ namespace MonoGameProject
 {
     public class HumanoidBossBody
     {
+        private readonly Action<Boss> CreateFireBall;
         private readonly Action ShakeCamera;
         private readonly Action<Thing> AddToWorld;
         private readonly Boss boss;
         private int patience;
         private DelayedAction DelayedAction = new DelayedAction();
 
-        public HumanoidBossBody(Boss boss, Action<Thing> AddToWorld, Action ShakeCamera)
+        public HumanoidBossBody(Boss boss, Action<Thing> AddToWorld, Action ShakeCamera, Action<Boss> CreateFireBall)
         {
+            this.CreateFireBall = CreateFireBall;
             this.ShakeCamera = ShakeCamera;
             this.AddToWorld = AddToWorld;
             this.boss = boss;
@@ -71,10 +73,7 @@ namespace MonoGameProject
 
                 if (FireBallDuration == 25)
                 {
-                    var speed = -FireBall.SPEED;
-                    if (boss.facingRight)
-                        speed = -speed;
-                    AddToWorld(new FireBall(speed, 0) { X = boss.attackCollider.X, Y = boss.attackCollider.Y });
+                    CreateFireBall(boss);
                 }
 
                 if (FireBallDuration == 5)

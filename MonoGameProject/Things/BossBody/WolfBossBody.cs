@@ -6,13 +6,15 @@ namespace MonoGameProject
 {
     class WolfBossBody
     {
+        private readonly Action<Boss> CreateFireBall;
         private readonly Action<Thing> AddToWorld;
         private readonly Boss boss;
         private readonly Action ShakeCamera;
         private int state1Duration;
 
-        public WolfBossBody(Boss boss, Action<Thing> AddToWorld, Action ShakeCamera)
+        public WolfBossBody(Boss boss, Action<Thing> AddToWorld, Action ShakeCamera, Action<Boss> CreateFireBall)
         {
+            this.CreateFireBall = CreateFireBall;
             this.AddToWorld = AddToWorld;
             this.boss = boss;
             this.ShakeCamera = ShakeCamera;
@@ -115,10 +117,7 @@ namespace MonoGameProject
 
                 if (state1Duration == 25)
                 {
-                    var speed = -FireBall.SPEED;
-                    if (boss.facingRight)
-                        speed = -speed;
-                    AddToWorld(new FireBall(speed, 0) { X = boss.attackCollider.X, Y = boss.attackCollider.Y });
+                    CreateFireBall(boss);
                 }
 
                 if (state1Duration == 5)
