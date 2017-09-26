@@ -13,6 +13,7 @@ namespace MonoGameProject
         private DelayedAction DelayedAction = new DelayedAction();
         int flyingMod = -1;
         int horizontalSpeedMod = -1;
+        private int IdleCooldown = 500;
 
         public SpiderBossBody(Boss boss, Action<Thing> AddToWorld, Action ShakeCamera, Action<Boss> CreateFireBall)
         {
@@ -55,13 +56,15 @@ namespace MonoGameProject
             if (boss.player == null)
                 return;
 
-            if (idleCooldown > 0)
-                idleCooldown--;
+            if (IdleCooldown > 0)
+                IdleCooldown--;
 
             if (boss.damageCooldown >= 0)
                 boss.damageCooldown--;
 
-            if (boss.player != null)
+            if (boss.player != null 
+                && boss.state != BossState.Idle 
+                && boss.state != BossState.EyeAttack)
             {
                 if (boss.player.MainCollider.Left() > boss.mainCollider.Right())
                     DelayedAction.Execute(() => boss.facingRight = true, 25);
@@ -121,18 +124,16 @@ namespace MonoGameProject
 
             Game1.LOG += boss.state;
         }
-
-        int idleCooldown = 0;
-
+        
         private void ChangeState()
         {
-            var rnd = boss.MyRandom.Next(1, 4);
+            var rnd = boss.MyRandom.Next(2, 4);
 
-            if (rnd == 1 && idleCooldown <= 0)
+            if (IdleCooldown == 0)
             {
-                idleCooldown = 500;
                 boss.state = BossState.Idle;
-                stateCooldown = 150;
+                stateCooldown = 250;
+                IdleCooldown = 500 + stateCooldown;
             }
             else if (rnd == 2)
             {
