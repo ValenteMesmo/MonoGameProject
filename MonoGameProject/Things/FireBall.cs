@@ -84,11 +84,10 @@ namespace MonoGameProject
         }
     }
 
-
     public class SeekerFireBall : Thing
     {
-        public const int SPEED = 20;
-        public int duration = 500;
+        public const int MAX_SPEED = 50;
+        public int duration = 300;
 
         public SeekerFireBall(Boss boss)
         {
@@ -100,7 +99,8 @@ namespace MonoGameProject
             , MapModule.CELL_SIZE
             , MapModule.CELL_SIZE
             );
-            animation.RenderingLayer = 0.4f;
+
+            animation.RenderingLayer = 0f;
             AddAnimation(animation);
 
             HorizontalSpeed = 0;
@@ -116,17 +116,30 @@ namespace MonoGameProject
 
                 duration--;
 
+                var velocity = 1;
                 if (boss.player != null)
                 {
                     if (boss.player.X > X)
-                        HorizontalSpeed = SPEED;
+                        HorizontalSpeed += velocity;
                     if (boss.player.X < X)
-                        HorizontalSpeed = -SPEED;
+                        HorizontalSpeed -= velocity;
 
                     if (boss.player.Y > Y)
-                        VerticalSpeed = SPEED;
+                        VerticalSpeed += velocity;
                     if (boss.player.Y < Y)
-                        VerticalSpeed = -SPEED;
+                        VerticalSpeed -= velocity;
+
+                    if (HorizontalSpeed > MAX_SPEED)
+                        HorizontalSpeed = MAX_SPEED;
+
+                    if (HorizontalSpeed < -MAX_SPEED)
+                        HorizontalSpeed = -MAX_SPEED;
+
+                    if (VerticalSpeed > MAX_SPEED)
+                        VerticalSpeed = MAX_SPEED;
+
+                    if (VerticalSpeed < -MAX_SPEED)
+                        VerticalSpeed = -MAX_SPEED;
                 }
             });
 
