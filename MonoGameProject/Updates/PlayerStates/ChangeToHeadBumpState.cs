@@ -48,8 +48,6 @@ namespace MonoGameProject
                 && Math.Abs(Player.roofChecker.GetGolliders<BlockVerticalMovement>().First().Bottom() - Player.roofChecker.Top()) == 90
                 && Player.VerticalSpeed < 0)
             {
-                if (Player.LegState == LegState.TakingDamage)
-                    return;
 
                 if (PreviousState != LegState.HeadBump)
                 {

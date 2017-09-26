@@ -183,7 +183,6 @@ namespace MonoGameProject
                 , new AnimationTransitionOnCondition(headbang_right, () => thing.LegState == LegState.HeadBump && thing.FacingRight == true)
                 , new AnimationTransitionOnCondition(sliding_left, () => thing.LegState == LegState.SlidingWall && thing.FacingRight == false)
                 , new AnimationTransitionOnCondition(sliding_right, () => thing.LegState == LegState.SlidingWall && thing.FacingRight == true)
-                , new AnimationTransitionOnCondition(fall_left, () => thing.LegState == LegState.TakingDamage)
             ));
         }
 

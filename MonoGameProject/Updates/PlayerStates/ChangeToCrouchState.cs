@@ -14,8 +14,6 @@ namespace MonoGameProject.Updates.PlayerStates
 
         public void Update()
         {
-            if (Player.LegState == LegState.TakingDamage)
-                return;
             if (Player.TorsoState == TorsoState.Attack)
                 return;
 

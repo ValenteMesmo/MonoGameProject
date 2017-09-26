@@ -14,8 +14,7 @@ namespace MonoGameProject
 
         public void Update()
         {
-            if (Player.LegState == LegState.TakingDamage
-                || Player.LegState == LegState.WallJumping
+            if (Player.LegState == LegState.WallJumping
                 || Player.TorsoState == TorsoState.AttackCrouching)
                 return;
 

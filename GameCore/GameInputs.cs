@@ -24,7 +24,9 @@
         public bool Down { get; private set; }
         public bool Action { get; private set; }
         public bool JumpDown { get; private set; }
-        
+
+        public bool Disabled { get; set; }
+
         public GameInputs(InputChecker InputChecker)
         {
             this.InputChecker = InputChecker;
@@ -32,6 +34,17 @@
 
         public void Update()
         {
+            if (Disabled)
+            {
+                Left = false;
+                Right = false;
+                Up = false;
+                Down = false;
+                Action = false;
+                JumpDown = false;
+                return;
+            }
+
             InputChecker.Update();
 
             Left = InputChecker.Left;

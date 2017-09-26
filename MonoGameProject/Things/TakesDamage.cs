@@ -3,11 +3,12 @@ using System;
 
 namespace MonoGameProject
 {
+    //eu estava limpando essa classe.... 
     public class TakesDamage : UpdateHandler
     {
+        private const int DAMAGE_DURATION = 100;
         private readonly Humanoid Parent;
         private readonly Game1 Game1;
-        private int DamageDuration;
         private readonly Action<Thing> AddToTheWorld;
 
         public TakesDamage(Humanoid Parent, Game1 Game1, Action<Thing> AddToTheWorld)
@@ -27,82 +28,61 @@ namespace MonoGameProject
                 || target.Parent is WavedFireBall
                 || target.Parent is SeekerFireBall)
             {
-                if (Parent.LegState == LegState.TakingDamage)
-                    return;
-
-                NewMethod(source);
-
-                Parent.HitPoints--;
-                Parent.LegState = LegState.TakingDamage;
-                Parent.HorizontalSpeed = target.Parent.HorizontalSpeed / 2;
-                Parent.VerticalSpeed = -50;
-
-                DamageDuration = 25;
+                if (Parent.DamageDuration == 0)
+                {
+                    Parent.HitPoints--;
+                    if (Parent is Player)
+                    {
+                        Game1.Sleep();
+                        Game1.Camera.ShakeUp(20);
+                    }
+                    CreateHitEffect(source);
+                    Parent.DamageDuration = DAMAGE_DURATION;
+                }
                 target.Disabled = true;
                 target.Parent.Destroy();
-                if (Parent is Player)
-                {
-                    Game1.Sleep();
-                    Game1.Camera.ShakeUp(20);
-                }
             }
             else if (target is AttackCollider ||
                 target.Parent is Spikes)
             {
-                if (Parent.LegState == LegState.TakingDamage)
-                    return;
-
-                NewMethod(source);
-
-                Parent.HitPoints--;
-                Parent.LegState = LegState.TakingDamage;
-                Parent.HorizontalSpeed = target.Parent.HorizontalSpeed / 2;
-                Parent.VerticalSpeed = Jump.maxJumpSpeed;
-
-                DamageDuration = 25;
-               // if (target.Parent is Player)
+                if (Parent.DamageDuration == 0)
                 {
-                    Game1.Sleep();
-                    Game1.Camera.ShakeUp(20);
-                }
+                    Parent.HitPoints--;
 
-                if (Parent.HitPoints < 0 && target.Parent is Player)
-                {
-                    if ((target.Parent as Player).TorsoState == TorsoState.Attack
-                        || (target.Parent as Player).TorsoState == TorsoState.AttackCrouching)
+                    if (target.Parent is Player || source.Parent is Player)
                     {
-                        if ((target.Parent as Player).FacingRight)
-                            Parent.HorizontalSpeed = +100;
-                        else
-                            Parent.HorizontalSpeed = -100;
+                        Game1.Sleep();
+                        Game1.Camera.ShakeUp(20);
                     }
 
-                    source.Disabled = true;
+                    if (target.Parent is Player)
+                        CreateHitEffect(target);
+                    if (source.Parent is Player)
+                        CreateHitEffect(source);
+
+                    Parent.DamageDuration = DAMAGE_DURATION;
                 }
             }
         }
 
-        private void NewMethod(Collider source)
+        private void CreateHitEffect(Collider source)
         {
-            AddToTheWorld(new HitEffect() { X = source.X, Y = source.Y });
+            AddToTheWorld(new HitEffect() { X = (int)source.CenterX(), Y = source.Y });
         }
 
         public void Update()
         {
-            if (Parent.LegState == LegState.TakingDamage)
+            if (Parent.DamageDuration > 0)
+                Parent.DamageDuration--;
+
+            if (Parent.DamageDuration == 1)
             {
-                DamageDuration--;
-                if (DamageDuration <= 0)
+                if (Parent.HitPoints <= 0)
                 {
-                    DamageDuration = 0;
-                    Parent.LegState = LegState.Falling;
-                    if (Parent.HitPoints <= 0)
-                    {
-                        if (Parent is Player)
-                            Game1.Restart();
-                        else
-                            Parent.Destroy();
-                    }
+                    if (Parent is Player)
+                        Game1.Restart();
+                    else
+                        Parent.Destroy();
                 }
             }
         }

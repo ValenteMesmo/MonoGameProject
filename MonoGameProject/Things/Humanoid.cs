@@ -21,8 +21,7 @@ namespace MonoGameProject
                 || Player.TorsoState == TorsoState.AttackCrouching
                 || Player.LegState == LegState.SlidingWall
                 || Player.LegState == LegState.WallJumping
-                || Player.LegState == LegState.HeadBump
-                || Player.LegState == LegState.TakingDamage)
+                || Player.LegState == LegState.HeadBump)
                 return;
 
             if (Player.Inputs.Left && !Player.Inputs.Right)
@@ -79,6 +78,7 @@ namespace MonoGameProject
         public GameInputs Inputs { get; private set; }
 
         public int HitPoints { get; set; }
+        public int DamageDuration { get; set; }
         public Color ArmorColor { get; internal set; }
 
         public Humanoid(GameInputs Inputs, Camera2d Camera)

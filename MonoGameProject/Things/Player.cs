@@ -18,18 +18,9 @@ namespace MonoGameProject
         //remake head/eye animation
         //-----para evitar que 1 dos 4 olhos suma
 
-        //boss spells...
-        //for eyes... 
-        //  pilar explosion
-        //  create minions
-        //for heads
-        //  fast fireball
-        //  slow seeker
-        //  move like wave
-
         //add thunder effect on whip attack
 
-        //add black and white colors
+        //add black and white colors?        
 
         //usar a tecnica de borda para criar arvores randomicas...
         //  uma arvore sobre a outra, sem borda
@@ -49,8 +40,6 @@ namespace MonoGameProject
          * -cara de dragao cospe fogo
          * -cara de aranha cospe ovos no chao
          */
-
-        // ciclo lunar
 
         //State features
         //- os blocos aparecem quando player chega perto
@@ -128,7 +117,7 @@ namespace MonoGameProject
         //Se move quando o player se move (no chão) (sempre na direção dele) 
         //se move para longe do jogador
 
-        //cara (2 layers... duas cores! uma para fuça...)
+        //cara 
         //  de lobo, techugo, de urso, de boi, de cavalo, de porco, de aranha, de leão, de dragao, de caveira, cthulu, bills
         //olhos
         //  1, 2, 4, 6
@@ -154,10 +143,6 @@ namespace MonoGameProject
 
         //spawn de zumbis
 
-        //arvore seca, cheia de criaturas voadoras que parecem passaros... faz barulho perto, que elas voam
-        //monstro que vira criaturas voadoras quando apanhas
-
-        //ficar espada na parede, enquanto faz o slide.... isso vai servir para matar boss no estilo shadow of collosus
         //plataforma "barco"... igual mario....
         //breakable blocks
         //traps
@@ -173,6 +158,14 @@ namespace MonoGameProject
                 ), Game1.Camera)
         {
             HitPoints = 2;
+
+            AddUpdate(() =>
+            {
+                if (HitPoints == 0)
+                    Inputs.Disabled = true;
+                else
+                    Inputs.Disabled = false;
+            });
 
             AddUpdate(new TakesDamage(this, Game1, AddToWorld));
 
