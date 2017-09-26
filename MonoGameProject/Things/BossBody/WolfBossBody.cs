@@ -11,6 +11,7 @@ namespace MonoGameProject
         private readonly Boss boss;
         private readonly Action ShakeCamera;
         private int state1Duration;
+        private int IdleCooldown = 500;
 
         public WolfBossBody(Boss boss, Action<Thing> AddToWorld, Action ShakeCamera, Action<Boss> CreateFireBall)
         {
@@ -48,12 +49,13 @@ namespace MonoGameProject
 
         private void ChangeState()
         {
-            var rnd = boss.MyRandom.Next(1, 5);
-            if (boss.state != BossState.Idle && rnd == 1)
+            var rnd = boss.MyRandom.Next(2, 5);
+            if (IdleCooldown == 0)
             {
                 boss.state = BossState.Idle;
                 boss.MouthState = BossMouthState.Idle;
-                state1Duration = 100;
+                state1Duration = 250;
+                IdleCooldown = 500 + state1Duration;
             }
             else if (rnd == 2)
             {
@@ -83,6 +85,9 @@ namespace MonoGameProject
         {
             if (boss.player == null)
                 return;
+
+            if (IdleCooldown > 0)
+                IdleCooldown--;
 
             if (state1Duration > 0)
                 state1Duration--;
