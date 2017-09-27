@@ -5,6 +5,7 @@ namespace MonoGameProject
 {
     public class Player : Humanoid
     {
+        //make seeker fireball collide with each other
         //stacks de spell... para o cooldown do bosss.
 
         //chuva de dinheiro

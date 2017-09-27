@@ -36,7 +36,7 @@ namespace MonoGameProject
         public bool facingRight = false;
         //public int state1Duration = 0;
         public int damageTaken = 0;
-        public int damageCooldown = 0;
+        public int damageCooldown;
         public bool grounded;
 
         private const int width = 1500;
@@ -411,13 +411,13 @@ namespace MonoGameProject
 
         private static Action<Boss> CreateFileBallAction(Game1 Game1, int headType)
         {
-            if(headType == 1)
+            if (headType == 1)
                 return boss =>
             {
                 Game1.AddToWorld(new WavedFireBall(boss.facingRight, Game1.AddToWorld) { X = boss.attackCollider.X, Y = boss.attackCollider.Y });
             };
 
-            if(headType == 2)
+            if (headType == 2)
                 return boss =>
             {
                 var speed = -FireBall.SPEED;

@@ -13,6 +13,9 @@ namespace MonoGameProject
         private DelayedAction DelayedAction = new DelayedAction();
         int FireBallDuration;
 
+        int fireballStacks = 3;
+        int eyeSpellStacks = 3;
+
         public HumanoidBossBody(Boss boss, Action<Thing> AddToWorld, Action ShakeCamera, Action<Boss> CreateFireBall)
         {
             this.CreateFireBall = CreateFireBall;
@@ -31,20 +34,34 @@ namespace MonoGameProject
             if (boss.player == null)
                 return;
 
-            if (boss.damageCooldown >= 0)
-                boss.damageCooldown--;
+            boss.damageCooldown--;
+            if (boss.damageCooldown < 0)
+                boss.damageCooldown = 0;
 
-            if (stateDuration > 0)
-                stateDuration--;
+            stateDuration--;
+            if (stateDuration < 0)
+                stateDuration = 0;
 
-            if (IdleCooldown > 0)
-                IdleCooldown--;
+            IdleCooldown--;
+            if (IdleCooldown < 0)
+                IdleCooldown = 0;
+
+            if (IdleCooldown % 100 == 0)
+            {
+                fireballStacks++;
+                if (fireballStacks > 3)
+                    fireballStacks = 3;
+
+                eyeSpellStacks++;
+                if (eyeSpellStacks > 3)
+                    eyeSpellStacks = 3;
+            }
 
             if (stateDuration == 0)
             {
                 ChangeState();
             }
-            
+
             if (SameHightOfPlayer())
             {
                 if (boss.player.MainCollider.Left() > boss.mainCollider.CenterX())
@@ -52,10 +69,10 @@ namespace MonoGameProject
                 else
                     DelayedAction.Execute(() => boss.facingRight = false, 25);
             }
-            
+
             if (boss.state == BossState.BodyAttack1)
             {
-                if (stateDuration % (5*3) == 0)
+                if (stateDuration % (5 * 3) == 0)
                     ShakeCamera();
 
                 if (boss.facingRight)
@@ -119,13 +136,15 @@ namespace MonoGameProject
                 stateDuration = 150;
                 IdleCooldown = 500 + stateDuration;
             }
-            else if (rnd == 2)
+            else if (rnd == 2 && fireballStacks > 0)
             {
+                fireballStacks--;
                 boss.state = BossState.HeadAttack1;
                 stateDuration = 50;
             }
-            else if (rnd == 3)
+            else if (rnd == 3 && eyeSpellStacks > 0)
             {
+                eyeSpellStacks--;
                 boss.state = BossState.EyeAttack;
                 stateDuration = 50;
             }
