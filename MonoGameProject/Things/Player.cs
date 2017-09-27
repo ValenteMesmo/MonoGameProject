@@ -5,6 +5,8 @@ namespace MonoGameProject
 {
     public class Player : Humanoid
     {
+        //stacks de spell... para o cooldown do bosss.
+
         //chuva de dinheiro
         //chuva de cookies
 

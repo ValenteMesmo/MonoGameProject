@@ -11,6 +11,7 @@ namespace MonoGameProject
         private readonly Boss boss;
         private int patience;
         private DelayedAction DelayedAction = new DelayedAction();
+        int FireBallDuration;
 
         public HumanoidBossBody(Boss boss, Action<Thing> AddToWorld, Action ShakeCamera, Action<Boss> CreateFireBall)
         {
@@ -24,7 +25,7 @@ namespace MonoGameProject
 
             boss.AddUpdate(MainUpdate);
         }
-        int FireBallDuration;
+
         private void MainUpdate()
         {
             if (boss.player == null)
@@ -33,6 +34,17 @@ namespace MonoGameProject
             if (boss.damageCooldown >= 0)
                 boss.damageCooldown--;
 
+            if (stateDuration > 0)
+                stateDuration--;
+
+            if (IdleCooldown > 0)
+                IdleCooldown--;
+
+            if (stateDuration == 0)
+            {
+                ChangeState();
+            }
+            
             if (SameHightOfPlayer())
             {
                 if (boss.player.MainCollider.Left() > boss.mainCollider.CenterX())
@@ -40,9 +52,7 @@ namespace MonoGameProject
                 else
                     DelayedAction.Execute(() => boss.facingRight = false, 25);
             }
-
-            ChangeState();
-
+            
             if (boss.state == BossState.BodyAttack1)
             {
                 if (stateDuration % (5*3) == 0)
@@ -81,11 +91,6 @@ namespace MonoGameProject
                     //boss.state = BossState.Idle;
                     boss.MouthState = BossMouthState.Idle;
                 }
-
-                if (FireBallDuration <= 0)
-                {
-                    ChangeState();
-                }
             }
 
             if (SameHightOfPlayer())
@@ -103,19 +108,16 @@ namespace MonoGameProject
         }
 
         private int stateDuration;
+        private int IdleCooldown = 500;
+
         private void ChangeState()
         {
-            stateDuration--;
-            if (stateDuration > 0)
-                return;
-
-            var rnd = boss.MyRandom.Next(1, 4);
-            if (rnd == 1
-                && boss.state != BossState.Idle
-                && boss.grounded)
+            var rnd = boss.MyRandom.Next(2, 4);
+            if (boss.grounded && IdleCooldown == 0)
             {
                 boss.state = BossState.Idle;
                 stateDuration = 150;
+                IdleCooldown = 500 + stateDuration;
             }
             else if (rnd == 2)
             {
