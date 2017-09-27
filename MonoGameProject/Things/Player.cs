@@ -5,6 +5,10 @@ namespace MonoGameProject
 {
     public class Player : Humanoid
     {
+        //chuva de dinheiro
+        //chuva de cookies
+
+        //mover o quadril na animacao 
         //voar sangue quando hittar o boss.. (c sotn)
 
         //creeps
