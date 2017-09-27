@@ -45,8 +45,8 @@ namespace MonoGameProject
             IdleCooldown--;
             if (IdleCooldown < 0)
                 IdleCooldown = 0;
-
-            if (IdleCooldown % 100 == 0)
+            
+            if (IdleCooldown % 500 == 0)
             {
                 fireballStacks++;
                 if (fireballStacks > 3)
