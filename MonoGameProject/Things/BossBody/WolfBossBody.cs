@@ -13,6 +13,10 @@ namespace MonoGameProject
         private int state1Duration;
         private int IdleCooldown = 500;
 
+        int fireballStacks = 3;
+        int eyeSpellStacks = 3;
+
+
         public WolfBossBody(Boss boss, Action<Thing> AddToWorld, Action ShakeCamera, Action<Boss> CreateFireBall)
         {
             this.CreateFireBall = CreateFireBall;
@@ -49,7 +53,7 @@ namespace MonoGameProject
 
         private void ChangeState()
         {
-            var rnd = boss.MyRandom.Next(2, 5);
+            var rnd = boss.MyRandom.Next(1, 4);
             if (IdleCooldown == 0)
             {
                 boss.state = BossState.Idle;
@@ -57,7 +61,23 @@ namespace MonoGameProject
                 state1Duration = 250;
                 IdleCooldown = 500 + state1Duration;
             }
-            else if (rnd == 2)
+            else if (rnd <= 2 && fireballStacks > 0)
+            {
+                fireballStacks--;
+
+                boss.state = BossState.HeadAttack1;
+                boss.MouthState = BossMouthState.Shoot;
+                state1Duration = 50;
+            }
+            else if (rnd <= 3 && eyeSpellStacks > 0)
+            {
+                eyeSpellStacks--;
+
+                boss.state = BossState.EyeAttack;
+                boss.MouthState = BossMouthState.Idle;
+                state1Duration = 50;
+            }
+            else
             {
                 boss.state = BossState.BodyAttack1;
                 boss.MouthState = BossMouthState.BiteOpen;
@@ -66,18 +86,6 @@ namespace MonoGameProject
                     boss.VerticalSpeed = -150;
 
                 state1Duration = 100;
-            }
-            else if (rnd == 3)
-            {
-                boss.state = BossState.EyeAttack;
-                boss.MouthState = BossMouthState.Idle;
-                state1Duration = 50;
-            }
-            else
-            {
-                boss.state = BossState.HeadAttack1;
-                boss.MouthState = BossMouthState.Shoot;
-                state1Duration = 50;
             }
         }
 
@@ -94,6 +102,17 @@ namespace MonoGameProject
 
             if (boss.damageCooldown >= 0)
                 boss.damageCooldown--;
+
+            if (IdleCooldown % 500 == 0)
+            {
+                fireballStacks++;
+                if (fireballStacks > 3)
+                    fireballStacks = 3;
+
+                eyeSpellStacks++;
+                if (eyeSpellStacks > 3)
+                    eyeSpellStacks = 3;
+            }
 
             if (boss.state == BossState.BodyAttack1)
             {
@@ -114,7 +133,6 @@ namespace MonoGameProject
                     ChangeState();
                 }
             }
-
 
             if (boss.state == BossState.HeadAttack1)
             {
