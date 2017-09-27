@@ -414,7 +414,7 @@ namespace MonoGameProject
             if(headType == 1)
                 return boss =>
             {
-                Game1.AddToWorld(new WavedFireBall(boss.facingRight) { X = boss.attackCollider.X, Y = boss.attackCollider.Y });
+                Game1.AddToWorld(new WavedFireBall(boss.facingRight, Game1.AddToWorld) { X = boss.attackCollider.X, Y = boss.attackCollider.Y });
             };
 
             if(headType == 2)
@@ -423,12 +423,12 @@ namespace MonoGameProject
                 var speed = -FireBall.SPEED;
                 if (boss.facingRight)
                     speed = -speed;
-                Game1.AddToWorld(new FireBall(speed, 0) { X = boss.attackCollider.X, Y = boss.attackCollider.Y });
+                Game1.AddToWorld(new FireBall(speed, 0, Game1.AddToWorld) { X = boss.attackCollider.X, Y = boss.attackCollider.Y });
             };
 
             return boss =>
             {
-                Game1.AddToWorld(new SeekerFireBall(boss) { X = boss.attackCollider.X, Y = boss.attackCollider.Y });
+                Game1.AddToWorld(new SeekerFireBall(boss, Game1.AddToWorld) { X = boss.attackCollider.X, Y = boss.attackCollider.Y });
             };
         }
 

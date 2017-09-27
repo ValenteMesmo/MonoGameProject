@@ -5,6 +5,13 @@ namespace MonoGameProject
 {
     public class Player : Humanoid
     {
+        //voar sangue quando hittar o boss.. (c sotn)
+
+        //creeps
+        //poo
+
+        //virar caveira gargalhando quando morrer?
+
         //reduzir bem o collider das fireballs... near miss feel good
 
         //ter uma idle animation para o player, mas permitir que ele use walk como idle segurando algum botao
@@ -174,14 +181,6 @@ namespace MonoGameProject
                    }
                }
            };
-            //AddUpdate(() =>
-            //{
-            //    if (Inputs.ClickedAction1)
-            //    {
-            //        Game1.Sleep();
-            //        Game1.Camera.ShakeUp(20);
-            //    }
-            //});
 
             MainCollider.AddBotCollisionHandler(HandleFireball);
             MainCollider.AddTopCollisionHandler(HandleFireball);

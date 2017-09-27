@@ -1,13 +1,30 @@
 ﻿using GameCore;
+using System;
 
 namespace MonoGameProject
 {
-    public class WavedFireBall : Thing
+    public abstract class BaseFireBall : Thing
+    {
+        private readonly Action<Thing> AddToWorld;
+
+        public BaseFireBall(Action<Thing> AddToWorld)
+        {
+            this.AddToWorld = AddToWorld;
+        }
+
+        public override void OnDestroy()
+        {
+            AddToWorld(new HitEffect() { X = X, Y = Y });
+            base.OnDestroy();
+        }
+    }
+
+    public class WavedFireBall : BaseFireBall
     {
         public const int SPEED = 100;
         public const int VELOCITY = 10;
 
-        public WavedFireBall(bool facingRight)
+        public WavedFireBall(bool facingRight, Action<Thing> AddToWorld) : base(AddToWorld)
         {
             var width = 400;
             var height = 400;
@@ -57,11 +74,11 @@ namespace MonoGameProject
         }
     }
 
-    public class FireBall : Thing
+    public class FireBall : BaseFireBall
     {
         public const int SPEED = 150;
 
-        public FireBall(int speedX, int speedY)
+        public FireBall(int speedX, int speedY, Action<Thing> AddToWorld):base(AddToWorld)
         {
             var width = 400;
             var height = 400;
@@ -84,12 +101,12 @@ namespace MonoGameProject
         }
     }
 
-    public class SeekerFireBall : Thing
+    public class SeekerFireBall : BaseFireBall
     {
         public const int MAX_SPEED = 50;
         public int duration = 300;
 
-        public SeekerFireBall(Boss boss)
+        public SeekerFireBall(Boss boss, Action<Thing> AddToWorld):base(AddToWorld)
         {
             var width = 400;
             var height = 400;

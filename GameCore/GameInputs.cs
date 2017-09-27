@@ -42,6 +42,18 @@
                 Down = false;
                 Action = false;
                 JumpDown = false;
+                WasPressedLeft = false;
+                WasPressedRight = false;
+                WasPressedUp = false;
+                WasPressedDown = false;
+                WasPressedAction1 = false;
+                WasPressedJump = false;
+                ClickedLeft = false;
+                ClickedRight = false;
+                ClickedUp = false;
+                ClickedDown = false;
+                ClickedAction1 = false;
+                ClickedJump = false;
                 return;
             }
 

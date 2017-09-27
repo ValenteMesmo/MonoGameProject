@@ -3,7 +3,6 @@ using System;
 
 namespace MonoGameProject
 {
-    //eu estava limpando essa classe.... 
     public class TakesDamage : UpdateHandler
     {
         private const int DAMAGE_DURATION = 100;
@@ -24,51 +23,45 @@ namespace MonoGameProject
 
         public void HandleFireball(Collider source, Collider target)
         {
-            if (target.Parent is FireBall
-                || target.Parent is WavedFireBall
-                || target.Parent is SeekerFireBall)
+            if (target.Parent is BaseFireBall)
             {
-                if (Parent.DamageDuration == 0)
-                {
-                    Parent.HitPoints--;
-                    if (Parent is Player)
-                    {
-                        Game1.Sleep();
-                        Game1.Camera.ShakeUp(20);
-                    }
-                    CreateHitEffect(source);
-                    Parent.DamageDuration = DAMAGE_DURATION;
-                }
+                DefaultDamageHandler(source, target);
+
                 target.Disabled = true;
                 target.Parent.Destroy();
             }
-            else if (target is AttackCollider ||
-                target.Parent is Spikes)
+            else if (target is AttackCollider
+                || target.Parent is Spikes)
             {
-                if (Parent.DamageDuration == 0)
-                {
-                    Parent.HitPoints--;
-
-                    if (target.Parent is Player || source.Parent is Player)
-                    {
-                        Game1.Sleep();
-                        Game1.Camera.ShakeUp(20);
-                    }
-
-                    if (target.Parent is Player)
-                        CreateHitEffect(target);
-                    if (source.Parent is Player)
-                        CreateHitEffect(source);
-
-                    Parent.DamageDuration = DAMAGE_DURATION;
-                }
+                DefaultDamageHandler(source, target);
             }
         }
 
-        private void CreateHitEffect(Collider source)
+        private void DefaultDamageHandler(Collider source, Collider target)
         {
-            AddToTheWorld(new HitEffect() { X = (int)source.CenterX(), Y = source.Y });
+            if (Parent.DamageDuration == 0)
+            {
+                Parent.HitPoints--;
+
+                if (target.Parent is Player || source.Parent is Player)
+                {
+                    Game1.Sleep();
+                    Game1.Camera.ShakeUp(20);
+                }
+
+                //if (target.Parent is Player)
+                //    CreateHitEffect(target);
+                //if (source.Parent is Player)
+                //    CreateHitEffect(source);
+
+                Parent.DamageDuration = DAMAGE_DURATION;
+            }
         }
+
+        //private void CreateHitEffect(Collider source)
+        //{
+        //    AddToTheWorld(new HitEffect() { X = (int)source.CenterX(), Y = source.Y });
+        //}
 
         public void Update()
         {
