@@ -77,8 +77,11 @@ namespace GameCore
         private int shakeUpPower;
         public void ShakeUp(int power)
         {
-            shakeUpDuration = 5;
-            shakeUpPower = power;
+            if (shakeUpPower < power)
+            {
+                shakeUpDuration = 5;
+                shakeUpPower = power;
+            }
         }
 
         internal void Update()
@@ -92,6 +95,7 @@ namespace GameCore
             else
             {
                 shakeUpDuration = 0;
+                shakeUpPower = 0;
                 _pos.Y = OriginalPosition.Y;
             }
         }
