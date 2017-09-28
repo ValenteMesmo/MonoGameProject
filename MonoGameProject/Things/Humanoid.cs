@@ -142,7 +142,7 @@ namespace MonoGameProject
 
             RightGroundAcidentChecker = new CollisionChecker()
             {
-                Width = width / 3,
+                Width = width / 4,
                 Height = height / 4,
                 OffsetX = width / 3 + width / 3 + 1,
                 OffsetY = height + 1
@@ -151,9 +151,9 @@ namespace MonoGameProject
 
             LeftGroundAcidentChecker = new CollisionChecker()
             {
-                Width = width / 3,
+                Width = width / 4,
                 Height = height / 4,
-                OffsetX = width / 3 - width / 3 - 1,
+                OffsetX = (width / 4)/3 - 1,
                 OffsetY = height + 1
             };
             AddCollider(LeftGroundAcidentChecker);

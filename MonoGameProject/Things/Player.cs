@@ -5,10 +5,20 @@ namespace MonoGameProject
 {
     public class Player : Humanoid
     {
+        //abertura do trailer igual looneytoones ( https://www.youtube.com/watch?v=yqg9mloJk04 )
+
+        //tentar causar uma boa primeira impressao.... (fazer pensar que é um jogo bom, com trofeus? coroas? coroa de mato na cabeça?)
+
+        //eyebeam aumentar a distancia... puxar de baixo para cima
+
+        //edge crouch de costas
+
         //make seeker fireball collide with each other
 
         //chuva de dinheiro - sacos de dinheiro que podem se explodidos
         //chuva de cookies
+
+        //cowboy nas costas do boss?
 
         //mover o quadril na animacao 
         //voar sangue quando hittar o boss.. (c sotn)
