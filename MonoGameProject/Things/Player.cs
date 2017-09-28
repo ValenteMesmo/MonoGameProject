@@ -7,7 +7,7 @@ namespace MonoGameProject
     {
         //make seeker fireball collide with each other
 
-        //chuva de dinheiro
+        //chuva de dinheiro - sacos de dinheiro que podem se explodidos
         //chuva de cookies
 
         //mover o quadril na animacao 
