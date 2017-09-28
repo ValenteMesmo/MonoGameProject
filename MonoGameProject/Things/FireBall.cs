@@ -22,7 +22,7 @@ namespace MonoGameProject
     public class WavedFireBall : BaseFireBall
     {
         public const int SPEED = 100;
-        public const int VELOCITY = 10;
+        public const int VELOCITY = 8;
 
         public WavedFireBall(bool facingRight, Action<Thing> AddToWorld) : base(AddToWorld)
         {
@@ -40,22 +40,12 @@ namespace MonoGameProject
             AddUpdate(new DestroyIfLeftBehind(this));
             AddUpdate(new MoveHorizontallyWithTheWorld(this));
 
-            HorizontalSpeed = facingRight ? SPEED : -SPEED;
-            VerticalSpeed = 0;
-            //var hvelocity = -VELOCITY;
+            HorizontalSpeed = facingRight ? 80 : -80;
+            VerticalSpeed = -SPEED;
             var vvelocity = VELOCITY;
 
             AddUpdate(() =>
             {
-                //if (HorizontalSpeed >= SPEED)
-                //{
-                //    hvelocity = -VELOCITY;
-                //}
-                //else if (HorizontalSpeed <= 0)
-                //{
-                //    hvelocity = VELOCITY;
-                //}
-
                 if (VerticalSpeed >= SPEED)
                 {
                     vvelocity = -VELOCITY;
