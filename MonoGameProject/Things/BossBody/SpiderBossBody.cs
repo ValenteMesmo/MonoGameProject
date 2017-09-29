@@ -14,6 +14,8 @@ namespace MonoGameProject
         int flyingMod = -1;
         int horizontalSpeedMod = -1;
         private int IdleCooldown = 500;
+        int fireballStacks = 3;
+        int eyeSpellStacks = 3;
 
         public SpiderBossBody(Boss boss, Action<Thing> AddToWorld, Action ShakeCamera, Action<Boss> CreateFireBall)
         {
@@ -59,11 +61,22 @@ namespace MonoGameProject
             if (IdleCooldown > 0)
                 IdleCooldown--;
 
+            if (IdleCooldown % 500 == 0)
+            {
+                fireballStacks++;
+                if (fireballStacks > 3)
+                    fireballStacks = 3;
+
+                eyeSpellStacks++;
+                if (eyeSpellStacks > 3)
+                    eyeSpellStacks = 3;
+            }
+
             if (boss.damageCooldown >= 0)
                 boss.damageCooldown--;
 
-            if (boss.player != null 
-                && boss.state != BossState.Idle 
+            if (boss.player != null
+                && boss.state != BossState.Idle
                 && boss.state != BossState.EyeAttack)
             {
                 if (boss.player.MainCollider.Left() > boss.mainCollider.Right())
@@ -124,10 +137,10 @@ namespace MonoGameProject
 
             Game1.LOG += boss.state;
         }
-        
+
         private void ChangeState()
         {
-            var rnd = boss.MyRandom.Next(2, 4);
+            var rnd = boss.MyRandom.Next(2, 6);
 
             if (IdleCooldown == 0)
             {
@@ -135,16 +148,18 @@ namespace MonoGameProject
                 stateCooldown = 250;
                 IdleCooldown = 500 + stateCooldown;
             }
-            else if (rnd == 2)
+            else if (rnd <= 2 && eyeSpellStacks > 0)
             {
+                eyeSpellStacks--;
+                boss.state = BossState.EyeAttack;
+                stateCooldown = 100;
+            }
+            else if (rnd <= 3 && fireballStacks > 0)
+            {
+                fireballStacks--;
                 boss.state = BossState.HeadAttack1;
                 boss.MouthState = BossMouthState.Shoot;
                 stateCooldown = 50;
-            }
-            else if (rnd == 3)
-            {
-                boss.state = BossState.EyeAttack;
-                stateCooldown = 100;
             }
             else
             {
