@@ -27,23 +27,6 @@ namespace MonoGameProject
 
         private void LegsAnimator(Humanoid thing)
         {
-            var stand_left = GeneratedContent.Create_knight_Legs_Standing(
-                x
-                , feet_y);
-            stand_left.ScaleX = scale;
-            stand_left.ScaleY = scale;
-            stand_left.RenderingLayer = LEG_Z;
-
-            var stand_right = GeneratedContent.Create_knight_Legs_Standing(
-                flippedx
-                , feet_y
-                , null
-                , null
-                , true);
-            stand_right.ScaleX = scale;
-            stand_right.ScaleY = scale;
-            stand_right.RenderingLayer = LEG_Z;
-
             var fall_left = GeneratedContent.Create_knight_Legs_Falling(
                 x
                 , feet_y);
@@ -119,6 +102,7 @@ namespace MonoGameProject
             walk_left.ScaleX = scale;
             walk_left.ScaleY = scale;
             walk_left.RenderingLayer = LEG_Z;
+            walk_left.FrameDuration = 2;
 
             var walk_right = GeneratedContent.Create_knight_Legs_Walking(
                 flippedx
@@ -129,6 +113,7 @@ namespace MonoGameProject
             walk_right.ScaleX = scale;
             walk_right.ScaleY = scale;
             walk_right.RenderingLayer = LEG_Z;
+            walk_right.FrameDuration = 2;
 
             var headbang_left = GeneratedContent.Create_knight_roof_bang_legs(
                 x
@@ -165,10 +150,8 @@ namespace MonoGameProject
             sliding_right.RenderingLayer = LEG_Z;
 
             thing.AddAnimation(new Animator(
-                new AnimationTransitionOnCondition(walk_left, () => thing.LegState == LegState.Walking && thing.FacingRight == false)
-                , new AnimationTransitionOnCondition(walk_right, () => thing.LegState == LegState.Walking && thing.FacingRight == true)
-                , new AnimationTransitionOnCondition(stand_left, () => thing.LegState == LegState.Standing && thing.FacingRight == false)
-                , new AnimationTransitionOnCondition(stand_right, () => thing.LegState == LegState.Standing && thing.FacingRight == true)
+                new AnimationTransitionOnCondition(walk_left, () => (thing.LegState == LegState.Walking || thing.LegState == LegState.Standing) && thing.FacingRight == false)
+                , new AnimationTransitionOnCondition(walk_right, () => (thing.LegState == LegState.Walking || thing.LegState == LegState.Standing) && thing.FacingRight == true)
                 , new AnimationTransitionOnCondition(crouch_left, () => thing.LegState == LegState.Crouching && thing.FacingRight == false && thing.LeftGroundAcidentChecker.Colliding<GroundCollider>())
                 , new AnimationTransitionOnCondition(crouch_right, () => thing.LegState == LegState.Crouching && thing.FacingRight == true && thing.RightGroundAcidentChecker.Colliding<GroundCollider>())
                 , new AnimationTransitionOnCondition(crouch_left_edge, () => thing.LegState == LegState.Crouching && thing.FacingRight == false && !thing.LeftGroundAcidentChecker.Colliding<GroundCollider>())
@@ -324,14 +307,15 @@ namespace MonoGameProject
 
         private void TorsoAnimator(Humanoid thing)
         {
-            var stand_left = GeneratedContent.Create_knight_torso_stand(
+            var stand_left = GeneratedContent.Create_knight_torso_walking(
                 x
                 , feet_y);
             stand_left.ScaleX = scale;
             stand_left.ScaleY = scale;
             stand_left.RenderingLayer = TORSO_Z;
+            stand_left.FrameDuration = 2;
 
-            var stand_right = GeneratedContent.Create_knight_torso_stand(
+            var stand_right = GeneratedContent.Create_knight_torso_walking(
                 flippedx
                 , feet_y
                 , null
@@ -340,15 +324,16 @@ namespace MonoGameProject
             stand_right.ScaleX = scale;
             stand_right.ScaleY = scale;
             stand_right.RenderingLayer = TORSO_Z;
+            stand_right.FrameDuration = 2;
 
-            var crouch_left = GeneratedContent.Create_knight_torso_stand(
+            var crouch_left = GeneratedContent.Create_knight_torso_walking(
                 x
                 , crouch_y);
             crouch_left.ScaleX = scale;
             crouch_left.ScaleY = scale;
             crouch_left.RenderingLayer = TORSO_Z;
 
-            var crouch_right = GeneratedContent.Create_knight_torso_stand(
+            var crouch_right = GeneratedContent.Create_knight_torso_walking(
                 flippedx
                 , crouch_y
                 , null

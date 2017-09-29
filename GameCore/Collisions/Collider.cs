@@ -46,6 +46,7 @@ namespace GameCore
             BotCollisionHandlers.Add(BotCollisionHandler);
         }
 
+        //TODO: tornar esses metodos generics. sempre esqueco de por if type dentro do handler
         public void AddLeftCollisionHandler(Action<Collider, Collider> LeftCollisionHandler)
         {
             LeftCollisionHandlers.Add(LeftCollisionHandler);

@@ -46,22 +46,12 @@ namespace MonoGameProject
                 if (target.Parent is Player || source.Parent is Player)
                 {
                     Game1.Sleep();
-                    Game1.Camera.ShakeUp(20);
+                    Game1.Camera.ShakeUp(40);
                 }
-
-                //if (target.Parent is Player)
-                //    CreateHitEffect(target);
-                //if (source.Parent is Player)
-                //    CreateHitEffect(source);
 
                 Parent.DamageDuration = DAMAGE_DURATION;
             }
         }
-
-        //private void CreateHitEffect(Collider source)
-        //{
-        //    AddToTheWorld(new HitEffect() { X = (int)source.CenterX(), Y = source.Y });
-        //}
 
         public void Update()
         {
