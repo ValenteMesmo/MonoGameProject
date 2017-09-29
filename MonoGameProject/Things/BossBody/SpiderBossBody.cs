@@ -92,7 +92,7 @@ namespace MonoGameProject
                 ChangeState();
             }
 
-            if(boss.state != BossState.Idle)
+            if (boss.state != BossState.Idle)
                 boss.VerticalSpeed = 40 * flyingMod;
 
             if (boss.state == BossState.BodyAttack1)
@@ -108,8 +108,8 @@ namespace MonoGameProject
 
             if (boss.state == BossState.Idle || boss.state == BossState.EyeAttack)
             {
-                if (boss.state == BossState.Idle)
-                    boss.HorizontalSpeed = 0;
+                //if (boss.state == BossState.Idle)
+                boss.HorizontalSpeed = 0;
                 boss.MouthState = BossMouthState.Idle;
                 stateCooldown--;
             }
