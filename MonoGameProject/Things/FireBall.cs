@@ -10,6 +10,18 @@ namespace MonoGameProject
         public BaseFireBall(Action<Thing> AddToWorld)
         {
             this.AddToWorld = AddToWorld;
+
+            var size = 400;
+            var bonus = size / 3;
+
+            var collider = new Collider
+            {
+                OffsetX = bonus,
+                OffsetY = bonus,
+                Width = size - bonus,
+                Height = size - bonus
+            };
+            AddCollider(collider);
         }
 
         public override void OnDestroy()
@@ -26,8 +38,7 @@ namespace MonoGameProject
 
         public WavedFireBall(bool facingRight, Action<Thing> AddToWorld) : base(AddToWorld)
         {
-            var width = 400;
-            var height = 400;
+
             var animation = GeneratedContent.Create_knight_block(
             0
             , 0
@@ -59,8 +70,6 @@ namespace MonoGameProject
                 VerticalSpeed += vvelocity;
             });
 
-            var collider = new Collider { Width = width, Height = height };
-            AddCollider(collider);
         }
     }
 
@@ -68,10 +77,8 @@ namespace MonoGameProject
     {
         public const int SPEED = 150;
 
-        public FireBall(int speedX, int speedY, Action<Thing> AddToWorld):base(AddToWorld)
+        public FireBall(int speedX, int speedY, Action<Thing> AddToWorld) : base(AddToWorld)
         {
-            var width = 400;
-            var height = 400;
             var animation = GeneratedContent.Create_knight_block(
             0
             , 0
@@ -85,9 +92,6 @@ namespace MonoGameProject
             VerticalSpeed = speedY;
             AddUpdate(new DestroyIfLeftBehind(this));
             AddUpdate(new MoveHorizontallyWithTheWorld(this));
-
-            var collider = new Collider() { Width = width, Height = height };
-            AddCollider(collider);
         }
     }
 
@@ -96,12 +100,10 @@ namespace MonoGameProject
         public const int MAX_SPEED = 50;
         public int duration = 300;
 
-        public SeekerFireBall(Boss boss, Action<Thing> AddToWorld):base(AddToWorld)
+        public SeekerFireBall(Boss boss, Action<Thing> AddToWorld) : base(AddToWorld)
         {
             var target = boss.player;
 
-            var width = 400;
-            var height = 400;
             var animation = GeneratedContent.Create_knight_block(
             0
             , 0
@@ -151,9 +153,6 @@ namespace MonoGameProject
                         VerticalSpeed = -MAX_SPEED;
                 }
             });
-
-            var collider = new Collider() { Width = width, Height = height };
-            AddCollider(collider);
         }
     }
 }

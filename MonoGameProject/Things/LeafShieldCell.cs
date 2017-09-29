@@ -7,16 +7,18 @@ namespace MonoGameProject
         public LeafShieldCell(Boss boss)
         {
             var size = 1500;
+            var bonus = 300;
             var collider = new AttackCollider()
             {
-                OffsetX = size / 3,
-                OffsetY = size / 3,
-                Width = size/3,
-                Height = size/3
+                OffsetX = (size / 3) + bonus/2,
+                OffsetY = (size / 3) + bonus/2,
+                Width =  (size/3) - bonus,
+                Height = (size/3) - bonus
             };
             AddCollider(collider);
 
-            var ballAnimation = GeneratedContent.Create_knight_leaf_shield(0, 0, 1500, 1500);
+            var ballAnimation = GeneratedContent.Create_knight_leaf_shield(
+                0, 0, size, size);
             ballAnimation.ColorGetter = GameState.GetColor;
             ballAnimation.RenderingLayer = 0;
             AddAnimation(ballAnimation);

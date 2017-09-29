@@ -31,10 +31,8 @@ namespace MonoGameProject
         private BossState _state;
         public BossState state { get { return _state; } set { _state = value; StateChanged(); } }
         private Action StateChanged = () => { };
-        //public bool MouthOpen;
         public BossMouthState MouthState;
         public bool facingRight = false;
-        //public int state1Duration = 0;
         public int damageTaken = 0;
         public int damageCooldown;
         public bool grounded;
@@ -277,9 +275,22 @@ namespace MonoGameProject
                     {
                         var size = 1500;
                         var spikeBall = new Thing();
-                        var collider = new AttackCollider { Width = size / 2, Height = size / 3, OffsetY = size / 3 };
+                        var collider = new AttackCollider
+                        {
+                            Width = size / 2 - (size / 3)/2
+                            ,
+                            Height = size / 3  - (size / 6)
+                            ,
+                            OffsetY = size / 3 + (size / 6)
+                            ,
+                            OffsetX = (size / 3)/4
+                        };
                         spikeBall.AddCollider(collider);
-                        var anim = GeneratedContent.Create_knight_spike_dropped(-size / 4, -size / 3, size, size);
+                        var anim = GeneratedContent.Create_knight_spike_dropped(
+                            -size / 4
+                            , -size / 3, 
+                            size, 
+                            size);
                         anim.RenderingLayer = Boss.HEAD_Z;
                         anim.ColorGetter = GameState.GetColor;
                         spikeBall.AddAnimation(anim);
