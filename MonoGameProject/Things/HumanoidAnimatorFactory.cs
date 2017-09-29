@@ -326,6 +326,25 @@ namespace MonoGameProject
             stand_right.RenderingLayer = TORSO_Z;
             stand_right.FrameDuration = 2;
 
+            var stand_left_armored = GeneratedContent.Create_knight_torso_walking_armored(
+                x
+                , feet_y);
+            stand_left_armored.ScaleX = scale;
+            stand_left_armored.ScaleY = scale;
+            stand_left_armored.RenderingLayer = TORSO_Z;
+            stand_left_armored.FrameDuration = 2;
+
+            var stand_right_armored = GeneratedContent.Create_knight_torso_walking_armored(
+                flippedx
+                , feet_y
+                , null
+                , null
+                , true);
+            stand_right_armored.ScaleX = scale;
+            stand_right_armored.ScaleY = scale;
+            stand_right_armored.RenderingLayer = TORSO_Z;
+            stand_right_armored.FrameDuration = 2;
+
             var crouch_left = GeneratedContent.Create_knight_torso_walking(
                 x
                 , crouch_y);
@@ -342,6 +361,26 @@ namespace MonoGameProject
             crouch_right.ScaleX = scale;
             crouch_right.ScaleY = scale;
             crouch_right.RenderingLayer = TORSO_Z;
+
+
+            var crouch_left_armored = GeneratedContent.Create_knight_torso_walking_armored(
+                x
+                , crouch_y);
+            crouch_left_armored.ScaleX = scale;
+            crouch_left_armored.ScaleY = scale;
+            crouch_left_armored.RenderingLayer = TORSO_Z;
+
+            var crouch_right_armored = GeneratedContent.Create_knight_torso_walking_armored(
+                flippedx
+                , crouch_y
+                , null
+                , null
+                , true);
+            crouch_right_armored.ScaleX = scale;
+            crouch_right_armored.ScaleY = scale;
+            crouch_right_armored.RenderingLayer = TORSO_Z;
+
+
 
             var stand_attack_left = GeneratedContent.Create_knight_torso_attack(
                 x
@@ -485,7 +524,7 @@ namespace MonoGameProject
                 , new AnimationTransitionOnCondition(emptyAnimation, () => thing.TorsoState != TorsoState.Attack && thing.TorsoState != TorsoState.AttackCrouching)
             ));
 
-            thing.AddAnimation(new Animator(
+            var naked_torso = new Animator(
                 new AnimationTransitionOnCondition(stand_left,
                     () =>
                     thing.TorsoState == TorsoState.Standing
@@ -526,7 +565,57 @@ namespace MonoGameProject
                     thing.TorsoState == TorsoState.AttackCrouching
                     && thing.FacingRight == true
                 )
-            ));
+            );
+
+
+            var armored_torso = new Animator(
+                new AnimationTransitionOnCondition(stand_left_armored,
+                    () =>
+                    thing.TorsoState == TorsoState.Standing
+                    && thing.FacingRight == false
+                )
+                , new AnimationTransitionOnCondition(stand_right_armored,
+                    () =>
+                    thing.TorsoState == TorsoState.Standing
+                    && thing.FacingRight == true
+                )
+                , new AnimationTransitionOnCondition(crouch_left_armored,
+                    () =>
+                    thing.TorsoState == TorsoState.Crouch
+                    && thing.FacingRight == false
+                )
+                , new AnimationTransitionOnCondition(crouch_right_armored,
+                    () =>
+                    thing.TorsoState == TorsoState.Crouch
+                    && thing.FacingRight == true
+                )
+                , new AnimationTransitionOnCondition(stand_attack_left,
+                    () =>
+                    thing.TorsoState == TorsoState.Attack
+                    && thing.FacingRight == false
+                    )
+                , new AnimationTransitionOnCondition(stand_attack_right,
+                    () =>
+                    thing.TorsoState == TorsoState.Attack
+                    && thing.FacingRight == true
+                    )
+                , new AnimationTransitionOnCondition(crouch_attack_left,
+                    () =>
+                    thing.TorsoState == TorsoState.AttackCrouching
+                    && thing.FacingRight == false
+                    )
+                , new AnimationTransitionOnCondition(crouch_attack_right,
+                    () =>
+                    thing.TorsoState == TorsoState.AttackCrouching
+                    && thing.FacingRight == true
+                )
+            );
+
+            thing.AddAnimation(new Animator(
+                new AnimationTransitionOnCondition(armored_torso, () => thing.HitPoints > 1)
+                , new AnimationTransitionOnCondition(naked_torso, () => thing.HitPoints <= 1)
+                )
+            );
         }
 
     }
