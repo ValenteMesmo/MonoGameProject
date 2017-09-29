@@ -12,13 +12,15 @@ namespace MonoGameProject
         private int stateCooldown;
         private DelayedAction DelayedAction = new DelayedAction();
         int flyingMod = -1;
-        int horizontalSpeedMod = -1;
+        int horizontalSpeedMod = 0;
         private int IdleCooldown = 500;
         int fireballStacks = 3;
         int eyeSpellStacks = 3;
 
         public SpiderBossBody(Boss boss, Action<Thing> AddToWorld, Action ShakeCamera, Action<Boss> CreateFireBall)
         {
+            horizontalSpeedMod = boss.MyRandom.Next(0, 1) == 0 ? -1 : 1;
+
             this.CreateFireBall = CreateFireBall;
             this.ShakeCamera = ShakeCamera;
             this.boss = boss;
@@ -90,13 +92,15 @@ namespace MonoGameProject
                 ChangeState();
             }
 
+            if(boss.state != BossState.Idle)
+                boss.VerticalSpeed = 40 * flyingMod;
+
             if (boss.state == BossState.BodyAttack1)
             {
                 if (stateCooldown % (5 * 3) == 0)
                     ShakeCamera();
 
                 boss.HorizontalSpeed = 80 * horizontalSpeedMod;
-                boss.VerticalSpeed = 40 * flyingMod;
 
                 stateCooldown--;
                 boss.MouthState = BossMouthState.BiteOpen;
@@ -104,17 +108,14 @@ namespace MonoGameProject
 
             if (boss.state == BossState.Idle || boss.state == BossState.EyeAttack)
             {
-                boss.HorizontalSpeed = 0;
+                if (boss.state == BossState.Idle)
+                    boss.HorizontalSpeed = 0;
                 boss.MouthState = BossMouthState.Idle;
                 stateCooldown--;
             }
 
             if (boss.state == BossState.HeadAttack1)
             {
-                //boss.HorizontalSpeed = 0;
-                //boss.MouthState = BossMouthState.BiteOpen;
-                //stateCooldown--;
-
                 stateCooldown--;
                 boss.HorizontalSpeed = 0;
 

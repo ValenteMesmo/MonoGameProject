@@ -61,20 +61,20 @@ namespace MonoGameProject
                 state1Duration = 250;
                 IdleCooldown = 500 + state1Duration;
             }
-            else if (rnd <= 2 && fireballStacks > 0)
-            {
-                fireballStacks--;
-
-                boss.state = BossState.HeadAttack1;
-                boss.MouthState = BossMouthState.Shoot;
-                state1Duration = 50;
-            }
-            else if (rnd <= 3 && eyeSpellStacks > 0)
+            else if (rnd <= 2 && eyeSpellStacks > 0)
             {
                 eyeSpellStacks--;
 
                 boss.state = BossState.EyeAttack;
                 boss.MouthState = BossMouthState.Idle;
+                state1Duration = 50;
+            }
+            else if (rnd <= 3 && fireballStacks > 0)
+            {
+                fireballStacks--;
+
+                boss.state = BossState.HeadAttack1;
+                boss.MouthState = BossMouthState.Shoot;
                 state1Duration = 50;
             }
             else

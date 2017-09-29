@@ -98,6 +98,8 @@ namespace MonoGameProject
 
         public SeekerFireBall(Boss boss, Action<Thing> AddToWorld):base(AddToWorld)
         {
+            var target = boss.player;
+
             var width = 400;
             var height = 400;
             var animation = GeneratedContent.Create_knight_block(
@@ -124,16 +126,16 @@ namespace MonoGameProject
                 duration--;
 
                 var velocity = 1;
-                if (boss.player != null)
+                if (target != null)
                 {
-                    if (boss.player.X > X)
+                    if (target.X > X)
                         HorizontalSpeed += velocity;
-                    if (boss.player.X < X)
+                    if (target.X < X)
                         HorizontalSpeed -= velocity;
 
-                    if (boss.player.Y > Y)
+                    if (target.Y > Y)
                         VerticalSpeed += velocity;
-                    if (boss.player.Y < Y)
+                    if (target.Y < Y)
                         VerticalSpeed -= velocity;
 
                     if (HorizontalSpeed > MAX_SPEED)
