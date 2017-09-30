@@ -72,10 +72,10 @@ namespace MonoGameProject
 
             attackCollider = new AttackCollider
             {
-                Height = height / 2,
+                Height = (height / 2) +100,
                 Width = 500,
                 OffsetX = -500,
-                OffsetY = 500,
+                OffsetY = 200 ,
                 Disabled = true
             };
             AddCollider(attackCollider);

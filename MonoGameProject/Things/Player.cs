@@ -29,12 +29,6 @@ namespace MonoGameProject
 
         //virar caveira gargalhando quando morrer?
 
-        //reduzir bem o collider das fireballs... near miss feel good
-
-        //ter uma idle animation para o player, mas permitir que ele use walk como idle segurando algum botao
-
-        //remove autojump when player takes damage
-
         //pennywise dance
 
         //permitir que outros players transpassem a porta do boss (de fora para dentro)
@@ -44,19 +38,10 @@ namespace MonoGameProject
 
         //add thunder effect on whip attack
 
-        //add black and white colors?        
-
         //usar a tecnica de borda para criar arvores randomicas...
         //  uma arvore sobre a outra, sem borda
 
         //fireball trail (like dragron from ch)
-        //
-
-        /*MUST
-         * animacao de morte
-         * 2 players
-         * 2 tipos de monstros
-         */
 
         //State features
         //- os blocos aparecem quando player chega perto
@@ -77,7 +62,6 @@ namespace MonoGameProject
 
         //eyes: crystal
         //background: pizza... fish
-
 
         //bau virar um player?
 
@@ -110,24 +94,6 @@ namespace MonoGameProject
             D --
              \
         */
-        //main menu
-        //  5... 4... 3... 2... (estilo old movies?)
-        //
-
-        //Enemy Posturing
-        //  The boss leaves itself open to attack when it takes time out of the battle just to taunt you.
-        //Shielded Core Boss
-        //  A boss whose weak point is protected by some kind of protrusion which needs to be destroyed before it takes damage
-        //Smashed Eggs Hatching
-        //  A boss's smashed eggs contain enemy monsters.
-        //Teleport Spam
-        //  A boss that teleports all over the place.
-        //Tennis Boss
-        //  You have to reflect his attacks back onto him to defeat him.
-        //Whack-a-Monster 
-        //  Fighting a Boss(or other critter) that is only vulnerable when it temporarily appears.
-        //Wolfpack Boss
-        //    A boss consisting of several Mooks who wouldn't be difficult by themselves, but when acting together provide a significant challenge.
 
         //Se move quando o player se move
         //se move da esquerda para direita sem parar
@@ -136,14 +102,12 @@ namespace MonoGameProject
 
         //cara 
         //  de lobo, techugo, de urso, de boi, de cavalo, de porco, de aranha, de leão, de dragao, de caveira, cthulu, bills
-        //olhos
-        //  1, 2, 4, 6
         //testa
         //  chifre de boi, chifre de unicornio, coroa
         //pescoço
         //  juba, caveiras, colar do akuma
-        //corpo (2 layers... duas cores! uma para barriga...)
-        //  lobo,   cavalo, lagarto, chimera
+        //corpo
+        //  lobo, cavalo, lagarto, chimera
         //costas
         //  asa (anjo e capeta), pentagrama, chifres, casco, capa, sela, asa de mosca
         // rabo
