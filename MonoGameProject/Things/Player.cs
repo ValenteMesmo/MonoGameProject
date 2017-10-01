@@ -15,6 +15,9 @@ namespace MonoGameProject
 
         //make seeker fireball collide with each other
 
+            //flash on hit
+
+        //corvos (itachi genjutsu)
         //baloons
         //chuva de dinheiro - sacos de dinheiro que podem se explodidos
         //chuva de cookies
