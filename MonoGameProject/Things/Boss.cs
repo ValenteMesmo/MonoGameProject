@@ -72,10 +72,10 @@ namespace MonoGameProject
 
             attackCollider = new AttackCollider
             {
-                Height = (height / 2) +100,
+                Height = (height / 2) + 100,
                 Width = 500,
                 OffsetX = -500,
-                OffsetY = 200 ,
+                OffsetY = 200,
                 Disabled = true
             };
             AddCollider(attackCollider);
@@ -277,19 +277,19 @@ namespace MonoGameProject
                         var spikeBall = new Thing();
                         var collider = new AttackCollider
                         {
-                            Width = size / 2 - (size / 3)/2
+                            Width = size / 2 - (size / 3) / 2
                             ,
-                            Height = size / 3  - (size / 6)
+                            Height = size / 3 - (size / 6)
                             ,
                             OffsetY = size / 3 + (size / 6)
                             ,
-                            OffsetX = (size / 3)/4
+                            OffsetX = (size / 3) / 4
                         };
                         spikeBall.AddCollider(collider);
                         var anim = GeneratedContent.Create_knight_spike_dropped(
                             -size / 4
-                            , -size / 3, 
-                            size, 
+                            , -size / 3,
+                            size,
                             size);
                         anim.RenderingLayer = Boss.HEAD_Z;
                         anim.ColorGetter = GameState.GetColor;
@@ -434,7 +434,7 @@ namespace MonoGameProject
                 var speed = -FireBall.SPEED;
                 if (boss.facingRight)
                     speed = -speed;
-                Game1.AddToWorld(new FireBall(speed, 0, Game1.AddToWorld) { X = boss.attackCollider.X, Y = boss.attackCollider.Y });
+                Game1.AddToWorld(new FireBall(speed, 0, Game1.AddToWorld) { X = boss.attackCollider.X, Y = (int)boss.attackCollider.CenterY() - 200 });
             };
 
             return boss =>

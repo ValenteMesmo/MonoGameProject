@@ -15,7 +15,7 @@ namespace MonoGameProject
 
         //make seeker fireball collide with each other
 
-            //baloons
+        //baloons
         //chuva de dinheiro - sacos de dinheiro que podem se explodidos
         //chuva de cookies
 

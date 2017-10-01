@@ -115,6 +115,27 @@ namespace MonoGameProject
             walk_right.RenderingLayer = LEG_Z;
             walk_right.FrameDuration = 2;
 
+            var walk_left_armored = GeneratedContent.Create_knight_Legs_Walking_armored(
+                x
+                , feet_y);
+            walk_left_armored.ScaleX = scale;
+            walk_left_armored.ScaleY = scale;
+            walk_left_armored.RenderingLayer = LEG_Z;
+            walk_left_armored.FrameDuration = 2;
+            walk_left_armored.ColorGetter = () => thing.ArmorColor;
+
+            var walk_right_armored = GeneratedContent.Create_knight_Legs_Walking_armored(
+                flippedx
+                , feet_y
+                , null
+                , null
+                , true);
+            walk_right_armored.ScaleX = scale;
+            walk_right_armored.ScaleY = scale;
+            walk_right_armored.RenderingLayer = LEG_Z;
+            walk_right_armored.FrameDuration = 2;
+            walk_right_armored.ColorGetter = () => thing.ArmorColor;
+
             var headbang_left = GeneratedContent.Create_knight_roof_bang_legs(
                 x
                 , feet_y + bump_y);
@@ -149,7 +170,7 @@ namespace MonoGameProject
             sliding_right.ScaleY = scale;
             sliding_right.RenderingLayer = LEG_Z;
 
-            thing.AddAnimation(new Animator(
+            var nakedLegs = new Animator(
                 new AnimationTransitionOnCondition(walk_left, () => (thing.LegState == LegState.Walking || thing.LegState == LegState.Standing) && thing.FacingRight == false)
                 , new AnimationTransitionOnCondition(walk_right, () => (thing.LegState == LegState.Walking || thing.LegState == LegState.Standing) && thing.FacingRight == true)
                 , new AnimationTransitionOnCondition(crouch_left, () => thing.LegState == LegState.Crouching && thing.FacingRight == false && thing.LeftGroundAcidentChecker.Colliding<GroundCollider>())
@@ -166,7 +187,33 @@ namespace MonoGameProject
                 , new AnimationTransitionOnCondition(headbang_right, () => thing.LegState == LegState.HeadBump && thing.FacingRight == true)
                 , new AnimationTransitionOnCondition(sliding_left, () => thing.LegState == LegState.SlidingWall && thing.FacingRight == false)
                 , new AnimationTransitionOnCondition(sliding_right, () => thing.LegState == LegState.SlidingWall && thing.FacingRight == true)
-            ));
+            );
+
+            var armoredLegs = new Animator(
+                new AnimationTransitionOnCondition(walk_left_armored, () => (thing.LegState == LegState.Walking || thing.LegState == LegState.Standing) && thing.FacingRight == false)
+                , new AnimationTransitionOnCondition(walk_right_armored, () => (thing.LegState == LegState.Walking || thing.LegState == LegState.Standing) && thing.FacingRight == true)
+                , new AnimationTransitionOnCondition(crouch_left, () => thing.LegState == LegState.Crouching && thing.FacingRight == false && thing.LeftGroundAcidentChecker.Colliding<GroundCollider>())
+                , new AnimationTransitionOnCondition(crouch_right, () => thing.LegState == LegState.Crouching && thing.FacingRight == true && thing.RightGroundAcidentChecker.Colliding<GroundCollider>())
+                , new AnimationTransitionOnCondition(crouch_left_edge, () => thing.LegState == LegState.Crouching && thing.FacingRight == false && !thing.LeftGroundAcidentChecker.Colliding<GroundCollider>())
+                , new AnimationTransitionOnCondition(crouch_right_edge, () => thing.LegState == LegState.Crouching && thing.FacingRight == true && !thing.RightGroundAcidentChecker.Colliding<GroundCollider>())
+                , new AnimationTransitionOnCondition(sweetDreams_left, () => thing.LegState == LegState.SweetDreams && thing.FacingRight == false)
+                , new AnimationTransitionOnCondition(sweetDreams_right, () => thing.LegState == LegState.SweetDreams && thing.FacingRight == true)
+                , new AnimationTransitionOnCondition(fall_left, () => thing.LegState == LegState.Falling && thing.FacingRight == false)
+                , new AnimationTransitionOnCondition(fall_right, () => thing.LegState == LegState.Falling && thing.FacingRight == true)
+                , new AnimationTransitionOnCondition(fall_right, () => thing.LegState == LegState.WallJumping && thing.FacingRight == true)
+                , new AnimationTransitionOnCondition(fall_left, () => thing.LegState == LegState.WallJumping && thing.FacingRight == false)
+                , new AnimationTransitionOnCondition(headbang_left, () => thing.LegState == LegState.HeadBump && thing.FacingRight == false)
+                , new AnimationTransitionOnCondition(headbang_right, () => thing.LegState == LegState.HeadBump && thing.FacingRight == true)
+                , new AnimationTransitionOnCondition(sliding_left, () => thing.LegState == LegState.SlidingWall && thing.FacingRight == false)
+                , new AnimationTransitionOnCondition(sliding_right, () => thing.LegState == LegState.SlidingWall && thing.FacingRight == true)
+            );
+
+            thing.AddAnimation(
+                new Animator(
+                    new AnimationTransitionOnCondition(armoredLegs, () => thing.HitPoints > 1)
+                    ,new AnimationTransitionOnCondition(nakedLegs, () => thing.HitPoints <= 1)
+                )
+            );
         }
 
         private void HeadAnimator(Humanoid thing)
@@ -333,6 +380,7 @@ namespace MonoGameProject
             stand_left_armored.ScaleY = scale;
             stand_left_armored.RenderingLayer = TORSO_Z;
             stand_left_armored.FrameDuration = 2;
+            stand_left_armored.ColorGetter = () => thing.ArmorColor;
 
             var stand_right_armored = GeneratedContent.Create_knight_torso_walking_armored(
                 flippedx
@@ -344,6 +392,7 @@ namespace MonoGameProject
             stand_right_armored.ScaleY = scale;
             stand_right_armored.RenderingLayer = TORSO_Z;
             stand_right_armored.FrameDuration = 2;
+            stand_right_armored.ColorGetter = () => thing.ArmorColor;
 
             var crouch_left = GeneratedContent.Create_knight_torso_walking(
                 x
@@ -369,6 +418,7 @@ namespace MonoGameProject
             crouch_left_armored.ScaleX = scale;
             crouch_left_armored.ScaleY = scale;
             crouch_left_armored.RenderingLayer = TORSO_Z;
+            crouch_left_armored.ColorGetter = () => thing.ArmorColor;
 
             var crouch_right_armored = GeneratedContent.Create_knight_torso_walking_armored(
                 flippedx
@@ -379,7 +429,7 @@ namespace MonoGameProject
             crouch_right_armored.ScaleX = scale;
             crouch_right_armored.ScaleY = scale;
             crouch_right_armored.RenderingLayer = TORSO_Z;
-
+            crouch_right_armored.ColorGetter = () => thing.ArmorColor;
 
 
             var stand_attack_left = GeneratedContent.Create_knight_torso_attack(
