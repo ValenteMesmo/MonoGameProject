@@ -44,6 +44,23 @@ namespace MonoGameProject
             fall_right.ScaleY = scale;
             fall_right.RenderingLayer = LEG_Z;
 
+            var fall_left_armored = GeneratedContent.Create_knight_Legs_Falling_armored(
+                x
+                , feet_y);
+            fall_left_armored.ScaleX = scale;
+            fall_left_armored.ScaleY = scale;
+            fall_left_armored.RenderingLayer = LEG_Z;
+
+            var fall_right_armored = GeneratedContent.Create_knight_Legs_Falling_armored(
+                flippedx
+                , feet_y
+                , null
+                , null
+                , true);
+            fall_right_armored.ScaleX = scale;
+            fall_right_armored.ScaleY = scale;
+            fall_right_armored.RenderingLayer = LEG_Z;
+
             var crouch_left = GeneratedContent.Create_knight_Legs_Crouching(
                 x
                 , crouch_y);
@@ -250,10 +267,10 @@ namespace MonoGameProject
                 , new AnimationTransitionOnCondition(crouch_right_edge, () => thing.LegState == LegState.Crouching && thing.FacingRight == true && !thing.RightGroundAcidentChecker.Colliding<GroundCollider>())
                 , new AnimationTransitionOnCondition(sweetDreams_left_armored, () => thing.LegState == LegState.SweetDreams && thing.FacingRight == false)
                 , new AnimationTransitionOnCondition(sweetDreams_right_armored, () => thing.LegState == LegState.SweetDreams && thing.FacingRight == true)
-                , new AnimationTransitionOnCondition(fall_left, () => thing.LegState == LegState.Falling && thing.FacingRight == false)
-                , new AnimationTransitionOnCondition(fall_right, () => thing.LegState == LegState.Falling && thing.FacingRight == true)
-                , new AnimationTransitionOnCondition(fall_right, () => thing.LegState == LegState.WallJumping && thing.FacingRight == true)
-                , new AnimationTransitionOnCondition(fall_left, () => thing.LegState == LegState.WallJumping && thing.FacingRight == false)
+                , new AnimationTransitionOnCondition(fall_left_armored, () => thing.LegState == LegState.Falling && thing.FacingRight == false)
+                , new AnimationTransitionOnCondition(fall_right_armored, () => thing.LegState == LegState.Falling && thing.FacingRight == true)
+                , new AnimationTransitionOnCondition(fall_right_armored, () => thing.LegState == LegState.WallJumping && thing.FacingRight == true)
+                , new AnimationTransitionOnCondition(fall_left_armored, () => thing.LegState == LegState.WallJumping && thing.FacingRight == false)
                 , new AnimationTransitionOnCondition(headbang_left_armored, () => thing.LegState == LegState.HeadBump && thing.FacingRight == false)
                 , new AnimationTransitionOnCondition(headbang_right_armored, () => thing.LegState == LegState.HeadBump && thing.FacingRight == true)
                 , new AnimationTransitionOnCondition(sliding_left_armored, () => thing.LegState == LegState.SlidingWall && thing.FacingRight == false)
