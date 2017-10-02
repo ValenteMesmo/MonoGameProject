@@ -96,6 +96,24 @@ namespace MonoGameProject
             sweetDreams_right.ScaleY = scale;
             sweetDreams_right.RenderingLayer = LEG_Z;
 
+            var sweetDreams_left_armored = GeneratedContent.Create_knight_Legs_Sweet_dreams_armored(
+                x
+                , crouch_y);
+            sweetDreams_left_armored.ScaleX = scale;
+            sweetDreams_left_armored.ScaleY = scale;
+            sweetDreams_left_armored.RenderingLayer = LEG_Z;
+
+            var sweetDreams_right_armored = GeneratedContent.Create_knight_Legs_Sweet_dreams_armored(
+                flippedx
+                , crouch_y
+                , null
+                , null
+                , true);
+            sweetDreams_right_armored.ScaleX = scale;
+            sweetDreams_right_armored.ScaleY = scale;
+            sweetDreams_right_armored.RenderingLayer = LEG_Z;
+
+
             var walk_left = GeneratedContent.Create_knight_Legs_Walking(
                 x
                 , feet_y);
@@ -196,8 +214,8 @@ namespace MonoGameProject
                 , new AnimationTransitionOnCondition(crouch_right, () => thing.LegState == LegState.Crouching && thing.FacingRight == true && thing.RightGroundAcidentChecker.Colliding<GroundCollider>())
                 , new AnimationTransitionOnCondition(crouch_left_edge, () => thing.LegState == LegState.Crouching && thing.FacingRight == false && !thing.LeftGroundAcidentChecker.Colliding<GroundCollider>())
                 , new AnimationTransitionOnCondition(crouch_right_edge, () => thing.LegState == LegState.Crouching && thing.FacingRight == true && !thing.RightGroundAcidentChecker.Colliding<GroundCollider>())
-                , new AnimationTransitionOnCondition(sweetDreams_left, () => thing.LegState == LegState.SweetDreams && thing.FacingRight == false)
-                , new AnimationTransitionOnCondition(sweetDreams_right, () => thing.LegState == LegState.SweetDreams && thing.FacingRight == true)
+                , new AnimationTransitionOnCondition(sweetDreams_left_armored, () => thing.LegState == LegState.SweetDreams && thing.FacingRight == false)
+                , new AnimationTransitionOnCondition(sweetDreams_right_armored, () => thing.LegState == LegState.SweetDreams && thing.FacingRight == true)
                 , new AnimationTransitionOnCondition(fall_left, () => thing.LegState == LegState.Falling && thing.FacingRight == false)
                 , new AnimationTransitionOnCondition(fall_right, () => thing.LegState == LegState.Falling && thing.FacingRight == true)
                 , new AnimationTransitionOnCondition(fall_right, () => thing.LegState == LegState.WallJumping && thing.FacingRight == true)
@@ -211,7 +229,7 @@ namespace MonoGameProject
             thing.AddAnimation(
                 new Animator(
                     new AnimationTransitionOnCondition(armoredLegs, () => thing.HitPoints > 1)
-                    ,new AnimationTransitionOnCondition(nakedLegs, () => thing.HitPoints <= 1)
+                    , new AnimationTransitionOnCondition(nakedLegs, () => thing.HitPoints <= 1)
                 )
             );
         }
@@ -440,16 +458,6 @@ namespace MonoGameProject
             stand_attack_left.RenderingLayer = TORSO_Z;
             stand_attack_left.LoopDisabled = true;
 
-
-            var stand_attack_left_2 = GeneratedContent.Create_knight_torso_attack_part2(
-                x
-                , feet_y);
-            stand_attack_left_2.ScaleX = scale;
-            stand_attack_left_2.ScaleY = scale;
-            stand_attack_left_2.RenderingLayer = TORSO_Z - 0.01f;
-            stand_attack_left_2.LoopDisabled = true;
-
-
             var stand_attack_right = GeneratedContent.Create_knight_torso_attack(
                 flippedx
                 , feet_y
@@ -461,17 +469,6 @@ namespace MonoGameProject
             stand_attack_right.RenderingLayer = TORSO_Z;
             stand_attack_right.LoopDisabled = true;
 
-            var stand_attack_right_2 = GeneratedContent.Create_knight_torso_attack_part2(
-                flippedx
-                , feet_y
-                , null
-                , null
-                , true);
-            stand_attack_right_2.ScaleX = scale;
-            stand_attack_right_2.ScaleY = scale;
-            stand_attack_right_2.RenderingLayer = TORSO_Z - 0.01f;
-            stand_attack_right_2.LoopDisabled = true;
-
             var crouch_attack_left = GeneratedContent.Create_knight_torso_attack(
                 x
                 , crouch_y);
@@ -479,15 +476,7 @@ namespace MonoGameProject
             crouch_attack_left.ScaleY = scale;
             crouch_attack_left.LoopDisabled = true;
             crouch_attack_left.RenderingLayer = TORSO_Z;
-
-            var crouch_attack_left_2 = GeneratedContent.Create_knight_torso_attack_part2(
-                x
-                , crouch_y);
-            crouch_attack_left_2.ScaleX = scale;
-            crouch_attack_left_2.ScaleY = scale;
-            crouch_attack_left_2.LoopDisabled = true;
-            crouch_attack_left_2.RenderingLayer = TORSO_Z - 0.01f;
-
+            
             var crouch_attack_right = GeneratedContent.Create_knight_torso_attack(
                 flippedx
                 , crouch_y
@@ -498,18 +487,7 @@ namespace MonoGameProject
             crouch_attack_right.ScaleY = scale;
             crouch_attack_right.LoopDisabled = true;
             crouch_attack_right.RenderingLayer = TORSO_Z;
-
-            var crouch_attack_right_2 = GeneratedContent.Create_knight_torso_attack_part2(
-                flippedx
-                , crouch_y
-                , null
-                , null
-                , true);
-            crouch_attack_right_2.ScaleX = scale;
-            crouch_attack_right_2.ScaleY = scale;
-            crouch_attack_right_2.LoopDisabled = true;
-            crouch_attack_right_2.RenderingLayer = TORSO_Z - 0.01f;
-
+            
             var whip_left = GeneratedContent.Create_knight_whip_attack(-1500, feet_y);
             whip_left.ScaleX = scale;
             whip_left.ScaleY = scale;
@@ -564,16 +542,7 @@ namespace MonoGameProject
                 , new AnimationTransitionOnCondition(whip_left_crouch, () => thing.TorsoState == TorsoState.AttackCrouching && !thing.FacingRight)
                 , new AnimationTransitionOnCondition(whip_right_crouch, () => thing.TorsoState == TorsoState.AttackCrouching && thing.FacingRight)
             ));
-
-            var emptyAnimation = new Animation();
-            thing.AddAnimation(new Animator(
-                 new AnimationTransitionOnCondition(stand_attack_left_2, () => thing.TorsoState == TorsoState.Attack && !thing.FacingRight)
-                , new AnimationTransitionOnCondition(stand_attack_right_2, () => thing.TorsoState == TorsoState.Attack && thing.FacingRight)
-                , new AnimationTransitionOnCondition(crouch_attack_left_2, () => thing.TorsoState == TorsoState.AttackCrouching && !thing.FacingRight)
-                , new AnimationTransitionOnCondition(crouch_attack_right_2, () => thing.TorsoState == TorsoState.AttackCrouching && thing.FacingRight)
-                , new AnimationTransitionOnCondition(emptyAnimation, () => thing.TorsoState != TorsoState.Attack && thing.TorsoState != TorsoState.AttackCrouching)
-            ));
-
+            
             var naked_torso = new Animator(
                 new AnimationTransitionOnCondition(stand_left,
                     () =>

@@ -15,8 +15,10 @@ namespace MonoGameProject
 
         //make seeker fireball collide with each other
 
-            //flash on hit
-
+        //background igual o liadst
+        //flash on hit
+        
+        //floresta de bambus;;; nevoa com fantasmas nadando
         //corvos (itachi genjutsu)
         //baloons
         //chuva de dinheiro - sacos de dinheiro que podem se explodidos
