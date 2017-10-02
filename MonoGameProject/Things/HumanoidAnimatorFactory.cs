@@ -205,6 +205,23 @@ namespace MonoGameProject
             sliding_right.ScaleY = scale;
             sliding_right.RenderingLayer = LEG_Z;
 
+            var sliding_left_armored = GeneratedContent.Create_knight_Legs_slide_wall_armored(
+                x
+                , feet_y);
+            sliding_left_armored.ScaleX = scale;
+            sliding_left_armored.ScaleY = scale;
+            sliding_left_armored.RenderingLayer = LEG_Z;
+
+            var sliding_right_armored = GeneratedContent.Create_knight_Legs_slide_wall_armored(
+                flippedx
+                , feet_y
+                , null
+                , null
+                , true);
+            sliding_right_armored.ScaleX = scale;
+            sliding_right_armored.ScaleY = scale;
+            sliding_right_armored.RenderingLayer = LEG_Z;
+
             var nakedLegs = new Animator(
                 new AnimationTransitionOnCondition(walk_left, () => (thing.LegState == LegState.Walking || thing.LegState == LegState.Standing) && thing.FacingRight == false)
                 , new AnimationTransitionOnCondition(walk_right, () => (thing.LegState == LegState.Walking || thing.LegState == LegState.Standing) && thing.FacingRight == true)
@@ -239,8 +256,8 @@ namespace MonoGameProject
                 , new AnimationTransitionOnCondition(fall_left, () => thing.LegState == LegState.WallJumping && thing.FacingRight == false)
                 , new AnimationTransitionOnCondition(headbang_left_armored, () => thing.LegState == LegState.HeadBump && thing.FacingRight == false)
                 , new AnimationTransitionOnCondition(headbang_right_armored, () => thing.LegState == LegState.HeadBump && thing.FacingRight == true)
-                , new AnimationTransitionOnCondition(sliding_left, () => thing.LegState == LegState.SlidingWall && thing.FacingRight == false)
-                , new AnimationTransitionOnCondition(sliding_right, () => thing.LegState == LegState.SlidingWall && thing.FacingRight == true)
+                , new AnimationTransitionOnCondition(sliding_left_armored, () => thing.LegState == LegState.SlidingWall && thing.FacingRight == false)
+                , new AnimationTransitionOnCondition(sliding_right_armored, () => thing.LegState == LegState.SlidingWall && thing.FacingRight == true)
             );
 
             thing.AddAnimation(
