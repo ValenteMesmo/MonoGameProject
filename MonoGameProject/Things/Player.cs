@@ -5,6 +5,8 @@ namespace MonoGameProject
 {
     public class Player : Humanoid
     {
+        //poeira de fall damage
+
         //abertura do trailer igual looneytoones ( https://www.youtube.com/watch?v=yqg9mloJk04 )
 
         //tentar causar uma boa primeira impressao.... (fazer pensar que é um jogo bom, com trofeus? coroas? coroa de mato na cabeça?)
