@@ -78,6 +78,24 @@ namespace MonoGameProject
             crouch_right.ScaleY = scale;
             crouch_right.RenderingLayer = LEG_Z;
 
+            var crouch_left_armored = GeneratedContent.Create_knight_Legs_Crouching_armored(
+                x
+                , crouch_y);
+            crouch_left_armored.ScaleX = scale;
+            crouch_left_armored.ScaleY = scale;
+            crouch_left_armored.RenderingLayer = LEG_Z;
+
+            var crouch_right_armored = GeneratedContent.Create_knight_Legs_Crouching_armored(
+                flippedx
+                , crouch_y
+                , null
+                , null
+                , true);
+            crouch_right_armored.ScaleX = scale;
+            crouch_right_armored.ScaleY = scale;
+            crouch_right_armored.RenderingLayer = LEG_Z;
+
+
             var crouch_left_edge = GeneratedContent.Create_knight_Legs_Crouching_edge(
                 x
                 , crouch_y);
@@ -278,8 +296,8 @@ namespace MonoGameProject
             var armoredLegs = new Animator(
                 new AnimationTransitionOnCondition(walk_left_armored, () => (thing.LegState == LegState.Walking || thing.LegState == LegState.Standing) && thing.FacingRight == false)
                 , new AnimationTransitionOnCondition(walk_right_armored, () => (thing.LegState == LegState.Walking || thing.LegState == LegState.Standing) && thing.FacingRight == true)
-                , new AnimationTransitionOnCondition(crouch_left, () => thing.LegState == LegState.Crouching && thing.FacingRight == false && thing.LeftGroundAcidentChecker.Colliding<GroundCollider>())
-                , new AnimationTransitionOnCondition(crouch_right, () => thing.LegState == LegState.Crouching && thing.FacingRight == true && thing.RightGroundAcidentChecker.Colliding<GroundCollider>())
+                , new AnimationTransitionOnCondition(crouch_left_armored, () => thing.LegState == LegState.Crouching && thing.FacingRight == false && thing.LeftGroundAcidentChecker.Colliding<GroundCollider>())
+                , new AnimationTransitionOnCondition(crouch_right_armored, () => thing.LegState == LegState.Crouching && thing.FacingRight == true && thing.RightGroundAcidentChecker.Colliding<GroundCollider>())
                 , new AnimationTransitionOnCondition(crouch_left_edge_armored, () => thing.LegState == LegState.Crouching && thing.FacingRight == false && !thing.LeftGroundAcidentChecker.Colliding<GroundCollider>())
                 , new AnimationTransitionOnCondition(crouch_right_edge_armored, () => thing.LegState == LegState.Crouching && thing.FacingRight == true && !thing.RightGroundAcidentChecker.Colliding<GroundCollider>())
                 , new AnimationTransitionOnCondition(sweetDreams_left_armored, () => thing.LegState == LegState.SweetDreams && thing.FacingRight == false)
