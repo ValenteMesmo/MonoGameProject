@@ -598,22 +598,22 @@ namespace MonoGameProject
             var whipi_left = GeneratedContent.Create_knight_whip_idle(-1500, feet_y);
             whipi_left.ScaleX = scale;
             whipi_left.ScaleY = scale;
-            whipi_left.LoopDisabled = true;
+            whipi_left.FrameDuration = 2;
             whipi_left.RenderingLayer = TORSO_Z - 0.01f;
             var whipi_left_crouch = GeneratedContent.Create_knight_whip_idle(-1500, crouch_y);
             whipi_left_crouch.ScaleX = scale;
             whipi_left_crouch.ScaleY = scale;
-            whipi_left_crouch.LoopDisabled = true;
+            //whipi_left_crouch.FrameDuration = 2;
             whipi_left_crouch.RenderingLayer = TORSO_Z - 0.01f;
             var whipi_right = GeneratedContent.Create_knight_whip_idle(-1400, feet_y, null, null, true);
             whipi_right.ScaleX = scale;
             whipi_right.ScaleY = scale;
-            whipi_right.LoopDisabled = true;
+            whipi_right.FrameDuration = 2;
             whipi_right.RenderingLayer = TORSO_Z - 0.01f;
             var whipi_right_crouch = GeneratedContent.Create_knight_whip_idle(-1400, crouch_y, null, null, true);
             whipi_right_crouch.ScaleX = scale;
             whipi_right_crouch.ScaleY = scale;
-            whipi_right_crouch.LoopDisabled = true;
+            //whipi_right_crouch.FrameDuration = 2;
             whipi_right_crouch.RenderingLayer = TORSO_Z - 0.01f;
 
             thing.AddAnimation(new Animator(

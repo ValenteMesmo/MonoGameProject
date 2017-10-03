@@ -7,7 +7,7 @@ namespace MonoGameProject
     {
         public Spikes(Color Color, int width, int height)
         {
-            var collider = new Collider();
+            var collider = new GroundCollider();
             collider.OffsetY = 100;
             collider.Width = width * MapModule.CELL_SIZE;
             collider.Height = height * MapModule.CELL_SIZE;
