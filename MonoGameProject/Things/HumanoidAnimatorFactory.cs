@@ -564,6 +564,28 @@ namespace MonoGameProject
             stand_attack_right.RenderingLayer = TORSO_Z;
             stand_attack_right.LoopDisabled = true;
 
+            var stand_attack_left_armored = GeneratedContent.Create_knight_torso_attack_armored(
+                x
+                , feet_y);
+            stand_attack_left_armored.ScaleX = scale;
+            stand_attack_left_armored.ScaleY = scale;
+            stand_attack_left_armored.RenderingLayer = TORSO_Z;
+            stand_attack_left_armored.LoopDisabled = true;
+            stand_attack_left_armored.ColorGetter = () => thing.ArmorColor;
+
+            var stand_attack_right_armored = GeneratedContent.Create_knight_torso_attack_armored(
+                flippedx
+                , feet_y
+                , null
+                , null
+                , true);
+            stand_attack_right_armored.ScaleX = scale;
+            stand_attack_right_armored.ScaleY = scale;
+            stand_attack_right_armored.RenderingLayer = TORSO_Z;
+            stand_attack_right_armored.LoopDisabled = true;
+            stand_attack_right_armored.ColorGetter = () => thing.ArmorColor;
+
+
             var crouch_attack_left = GeneratedContent.Create_knight_torso_attack(
                 x
                 , crouch_y);
@@ -582,7 +604,28 @@ namespace MonoGameProject
             crouch_attack_right.ScaleY = scale;
             crouch_attack_right.LoopDisabled = true;
             crouch_attack_right.RenderingLayer = TORSO_Z;
-            
+
+            var crouch_attack_left_armored = GeneratedContent.Create_knight_torso_attack_armored(
+                x
+                , crouch_y);
+            crouch_attack_left_armored.ScaleX = scale;
+            crouch_attack_left_armored.ScaleY = scale;
+            crouch_attack_left_armored.LoopDisabled = true;
+            crouch_attack_left_armored.RenderingLayer = TORSO_Z;
+            crouch_attack_left_armored.ColorGetter = () => thing.ArmorColor;
+
+            var crouch_attack_right_armored = GeneratedContent.Create_knight_torso_attack_armored(
+                flippedx
+                , crouch_y
+                , null
+                , null
+                , true);
+            crouch_attack_right_armored.ScaleX = scale;
+            crouch_attack_right_armored.ScaleY = scale;
+            crouch_attack_right_armored.LoopDisabled = true;
+            crouch_attack_right_armored.RenderingLayer = TORSO_Z;
+            crouch_attack_right_armored.ColorGetter = () => thing.ArmorColor;
+
             var whip_left = GeneratedContent.Create_knight_whip_attack(-1500, feet_y);
             whip_left.ScaleX = scale;
             whip_left.ScaleY = scale;
@@ -703,22 +746,22 @@ namespace MonoGameProject
                     thing.TorsoState == TorsoState.Crouch
                     && thing.FacingRight == true
                 )
-                , new AnimationTransitionOnCondition(stand_attack_left,
+                , new AnimationTransitionOnCondition(stand_attack_left_armored,
                     () =>
                     thing.TorsoState == TorsoState.Attack
                     && thing.FacingRight == false
                     )
-                , new AnimationTransitionOnCondition(stand_attack_right,
+                , new AnimationTransitionOnCondition(stand_attack_right_armored,
                     () =>
                     thing.TorsoState == TorsoState.Attack
                     && thing.FacingRight == true
                     )
-                , new AnimationTransitionOnCondition(crouch_attack_left,
+                , new AnimationTransitionOnCondition(crouch_attack_left_armored,
                     () =>
                     thing.TorsoState == TorsoState.AttackCrouching
                     && thing.FacingRight == false
                     )
-                , new AnimationTransitionOnCondition(crouch_attack_right,
+                , new AnimationTransitionOnCondition(crouch_attack_right_armored,
                     () =>
                     thing.TorsoState == TorsoState.AttackCrouching
                     && thing.FacingRight == true
