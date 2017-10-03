@@ -164,6 +164,9 @@ namespace MonoGameProject
                 if (damageCooldown > 0)
                     return;
 
+                var playerIndex = (t.Parent as Player).PlayerIndex;
+                Game1.VibrationCenter.Vibrate(playerIndex, 10);
+
                 damageCooldown = 20;
                 BodyColor = Color.Lerp(BodyColor, Color.Red, 0.05f);
                 damageTaken++;
