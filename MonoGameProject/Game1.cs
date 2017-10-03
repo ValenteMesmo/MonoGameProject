@@ -1,6 +1,4 @@
 ﻿using GameCore;
-using Microsoft.Xna.Framework;
-using MonoGameProject.Things;
 
 namespace MonoGameProject
 {
@@ -11,7 +9,8 @@ namespace MonoGameProject
         protected override void OnStart()
         {
             GameState.Load();
-            var player = new Player(this, AddThing);
+
+            var player = new Player(this, 0, AddThing);
             player.X = 1000;
             if (GameState.State.BotExit)
                 player.Y = (14 * MapModule.CELL_SIZE) + 1000;

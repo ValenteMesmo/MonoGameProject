@@ -10,7 +10,10 @@ namespace MonoGameProject
         private readonly Game1 Game1;
         private readonly Action<Thing> AddToTheWorld;
 
-        public TakesDamage(Humanoid Parent, Game1 Game1, Action<Thing> AddToTheWorld)
+        public TakesDamage(
+            Humanoid Parent
+            , Game1 Game1
+            , Action<Thing> AddToTheWorld)
         {
             this.Parent = Parent;
             this.Game1 = Game1;
@@ -47,6 +50,7 @@ namespace MonoGameProject
                 {
                     Game1.Sleep();
                     Game1.Camera.ShakeUp(40);
+                    Game1. VibrationCenter.Vibrate(Parent.PlayerIndex, 20);
                 }
 
                 Parent.DamageDuration = DAMAGE_DURATION;

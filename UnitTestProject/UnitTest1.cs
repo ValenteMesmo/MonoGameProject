@@ -15,7 +15,7 @@ namespace UnitTestProject
         public void PreventStandWhileCrouchAttackingLeft()
         {
             var inputs = Substitute.For<InputChecker>();
-            var sut = new Humanoid(new GameInputs(inputs), new Camera2d());
+            var sut = new Humanoid(new GameInputs(inputs), new Camera2d(), new VibrationCenter());
             sut.groundChecker.CollidingWith.Add(new GroundCollider());
 
             inputs.Down.Returns(true);
@@ -45,7 +45,7 @@ namespace UnitTestProject
         public void PreventCrouchAttackingLeft()
         {
             var inputs = Substitute.For<InputChecker>();
-            var sut = new Humanoid(new GameInputs(inputs), new Camera2d());
+            var sut = new Humanoid(new GameInputs(inputs), new Camera2d(), new VibrationCenter());
             sut.groundChecker.CollidingWith.Add(new GroundCollider());
 
             sut.Updates.ForEach(f => f());
@@ -74,7 +74,7 @@ namespace UnitTestProject
         public void PreventDirectionCHangeWhileCrouchAttackingLeft()
         {
             var inputs = Substitute.For<InputChecker>();
-            var sut = new Humanoid(new GameInputs(inputs), new Camera2d());
+            var sut = new Humanoid(new GameInputs(inputs), new Camera2d(), new VibrationCenter());
             sut.groundChecker.CollidingWith.Add(new GroundCollider());
 
             inputs.Down.Returns(true);
@@ -106,7 +106,7 @@ namespace UnitTestProject
         public void PreventDirectionCHangeWhileCrouchAttackingRight()
         {
             var inputs = Substitute.For<InputChecker>();
-            var sut = new Humanoid(new GameInputs(inputs), new Camera2d());
+            var sut = new Humanoid(new GameInputs(inputs), new Camera2d(), new VibrationCenter());
             sut.groundChecker.CollidingWith.Add(new GroundCollider());
 
             inputs.Down.Returns(true);

@@ -39,7 +39,7 @@ namespace GameCore
             Up = controller.DPad.Up == ButtonState.Pressed
                     || controller.ThumbSticks.Right.Y < -0.5f
                     || controller.ThumbSticks.Right.Y > 0.5f;
-        }
+        }        
     }
 }
 

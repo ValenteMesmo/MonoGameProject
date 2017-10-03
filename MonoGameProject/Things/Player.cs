@@ -5,6 +5,8 @@ namespace MonoGameProject
 {
     public class Player : Humanoid
     {
+        //reduce skull head border
+
         //poeira de fall damage
 
         //abertura do trailer igual looneytoones ( https://www.youtube.com/watch?v=yqg9mloJk04 )
@@ -19,7 +21,7 @@ namespace MonoGameProject
 
         //background igual o liadst
         //flash on hit
-        
+
         //floresta de bambus;;; nevoa com fantasmas nadando
         //corvos (itachi genjutsu)
         //baloons
@@ -138,14 +140,16 @@ namespace MonoGameProject
         private const int width = 1000;
         private const int height = 900;
 
-        public Player(Game1 Game1, Action<Thing> AddToWorld) : base(
-                new GameInputs(
-                    new InputCheckerAggregation(
-                         new GamePadChecker(0)
-                        , new KeyboardChecker())
-                ), Game1.Camera)
+        public Player(Game1 Game1, int index, Action<Thing> AddToWorld) : base(
+            new GameInputs(
+                new InputCheckerAggregation(
+                        new GamePadChecker(index)
+                    , new KeyboardChecker())
+            ), Game1.Camera
+            , Game1.VibrationCenter)
         {
             HitPoints = 2;
+            PlayerIndex = index;
 
             AddUpdate(() =>
             {

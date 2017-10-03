@@ -60,6 +60,7 @@ namespace MonoGameProject
         public TorsoState TorsoState { get; set; }
         public LegState LegState { get; set; }
         public bool FacingRight { get; set; }
+        public int PlayerIndex { get; set; }
         
         private const int width = 1000;
         private const int height = 900;
@@ -81,7 +82,7 @@ namespace MonoGameProject
         public int DamageDuration { get; set; }
         public Color ArmorColor { get; internal set; }
 
-        public Humanoid(GameInputs Inputs, Camera2d Camera)
+        public Humanoid(GameInputs Inputs, Camera2d Camera, VibrationCenter VibrationCenter)
         {
             this.Inputs = Inputs;
 
@@ -95,7 +96,7 @@ namespace MonoGameProject
             AddUpdate(new ChangeToFallingState(this));
             AddUpdate(new ChangeToSlidingState(this));
             AddUpdate(new ChangeToWallJumping(this));
-            AddUpdate(new ChangeToHeadBumpState(this, Camera));
+            AddUpdate(new ChangeToHeadBumpState(this, Camera, VibrationCenter));
             AddUpdate(new ChangeToCrouchState(this));
             AddUpdate(new ChangeToAttackState(this));
 

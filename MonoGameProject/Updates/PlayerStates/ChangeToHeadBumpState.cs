@@ -35,11 +35,13 @@ namespace MonoGameProject
         private readonly Humanoid Player;
         private readonly Camera2d Camera;
         private LegState PreviousState;
+        private readonly VibrationCenter VibrationCenter;
 
-        public ChangeToHeadBumpState(Humanoid Player, Camera2d Camera)
+        public ChangeToHeadBumpState(Humanoid Player, Camera2d Camera, VibrationCenter VibrationCenter)
         {
             this.Player = Player;
             this.Camera = Camera;
+            this.VibrationCenter = VibrationCenter;
         }
 
         public void Update()
@@ -55,7 +57,10 @@ namespace MonoGameProject
                         return;
 
                     if (Player is Player)
+                    {
+                        VibrationCenter.Vibrate(Player.PlayerIndex, (-Player.VerticalSpeed / 8)/2);
                         Camera.ShakeUp(-Player.VerticalSpeed / 8);
+                    }
                 }
 
                 Player.LegState = LegState.HeadBump;

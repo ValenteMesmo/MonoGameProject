@@ -38,7 +38,7 @@ namespace GameCore
             Up = keyboard.IsKeyDown(Keys.K)
                 || keyboard.IsKeyDown(Keys.Space)
                 ;
-        }        
+        }
     }
 
     public class MirroredKeyboardChecker : InputChecker
@@ -79,6 +79,6 @@ namespace GameCore
                 ;
         }
     }
-    
+
 }
 

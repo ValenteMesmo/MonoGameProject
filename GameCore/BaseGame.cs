@@ -36,8 +36,11 @@ internal class BaseGame : OriginalGameClass
         }
     }
 
+    public VibrationCenter VibrationCenter { get; set; }
+
     public BaseGame(ILoadContents ContentLoader, Game Parent)
     {
+        this.VibrationCenter = new VibrationCenter();
         this.Parent = Parent;
         this.ContentLoader = ContentLoader;
 #if DEBUG
@@ -63,10 +66,10 @@ internal class BaseGame : OriginalGameClass
         Graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
         Graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
 #else
-        Graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width / 2;
-        Graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height / 2;
-        //Graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
-        //Graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
+        //Graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width / 2;
+        //Graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height / 2;
+        Graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
+        Graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
 #endif
         //Graphics.IsFullScreen = true;
 
@@ -104,6 +107,7 @@ internal class BaseGame : OriginalGameClass
     protected override void Update(GameTime gameTime)
     {
         Camera.Update();
+        VibrationCenter.Update();
 
         var state = Keyboard.GetState();
 #if DEBUG
