@@ -28,6 +28,15 @@ namespace MonoGameProject
         //chuva de dinheiro - sacos de dinheiro que podem se explodidos
         //chuva de cookies
 
+        //congelar a tela com alguma anim~ção de vitória ao derrotar o boss?
+
+        //  floorr    
+        //chess 
+        //candy
+        //stone
+        //wood
+        //grass
+
         //cowboy nas costas do boss?
 
         //mover o quadril na animacao 
