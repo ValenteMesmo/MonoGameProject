@@ -22,6 +22,8 @@ namespace MonoGameProject
         //background igual o liadst
         //flash on hit
 
+        //youtube trailler... fundo vermelho no texto, para parecer uma live
+
         //floresta de bambus;;; nevoa com fantasmas nadando
         //corvos (itachi genjutsu)
         //baloons
@@ -29,6 +31,8 @@ namespace MonoGameProject
         //chuva de cookies
 
         //congelar a tela com alguma anim~ção de vitória ao derrotar o boss?
+
+            //GAMEOVER fechar que nem fim de cartoon circulo fechando.
 
         //  floorr    
         //chess 
