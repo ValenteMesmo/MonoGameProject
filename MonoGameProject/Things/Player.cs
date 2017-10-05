@@ -12,6 +12,7 @@ namespace MonoGameProject
         //reduce skull head border
 
         //animar frames do braço parado
+        //criar animator para whip quando estiver armored.
 
         //poeira de fall damage
 
