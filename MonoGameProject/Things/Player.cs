@@ -5,6 +5,7 @@ namespace MonoGameProject
 {
     public class Player : Humanoid
     {
+        //reduce idle duration when damage taken
         //reduce skull head border
 
         //poeira de fall damage
