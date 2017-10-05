@@ -6,10 +6,14 @@ namespace MonoGameProject.Updates.PlayerStates
     class ChangeToCrouchState : UpdateHandler
     {
         public readonly Humanoid Player;
+        private readonly VibrationCenter VibrationCenter;
+        private readonly Camera2d Camera;
 
-        public ChangeToCrouchState(Humanoid Player)
+        public ChangeToCrouchState(Humanoid Player, Camera2d Camera, VibrationCenter VibrationCenter)
         {
             this.Player = Player;
+            this.VibrationCenter = VibrationCenter;
+            this.Camera = Camera;
         }
 
         public void Update()
@@ -29,6 +33,9 @@ namespace MonoGameProject.Updates.PlayerStates
                 }
                 else if (Player.LegState == LegState.Falling)
                 {
+                    VibrationCenter.Vibrate(Player.PlayerIndex, 7);
+                    Camera.ShakeUp(7);
+
                     Player.LegState = LegState.SweetDreams;
                     Player.TorsoState = TorsoState.Crouch;
                     Player.HeadState = HeadState.Crouching;

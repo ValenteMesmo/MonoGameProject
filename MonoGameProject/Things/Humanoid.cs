@@ -97,7 +97,7 @@ namespace MonoGameProject
             AddUpdate(new ChangeToSlidingState(this));
             AddUpdate(new ChangeToWallJumping(this));
             AddUpdate(new ChangeToHeadBumpState(this, Camera, VibrationCenter));
-            AddUpdate(new ChangeToCrouchState(this));
+            AddUpdate(new ChangeToCrouchState(this, Camera, VibrationCenter));
             AddUpdate(new ChangeToAttackState(this));
 
             AddUpdate(new DestroyIfLeftBehind(this));
