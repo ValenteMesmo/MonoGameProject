@@ -5,8 +5,13 @@ namespace MonoGameProject
 {
     public class Player : Humanoid
     {
+        //stalagmite, roots, cipós
+        //frog eyes?
         //reduce idle duration when damage taken
+        //leave breakable skulls when enemy killed
         //reduce skull head border
+
+        //animar frames do braço parado
 
         //poeira de fall damage
 
@@ -33,7 +38,7 @@ namespace MonoGameProject
 
         //congelar a tela com alguma anim~ção de vitória ao derrotar o boss?
 
-            //GAMEOVER fechar que nem fim de cartoon circulo fechando.
+        //GAMEOVER fechar que nem fim de cartoon circulo fechando.
 
         //  floorr    
         //chess 
