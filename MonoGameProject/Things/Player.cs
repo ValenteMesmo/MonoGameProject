@@ -185,18 +185,15 @@ namespace MonoGameProject
             });
 
             AddUpdate(new TakesDamage(this, Game1, AddToWorld));
-                        
+
             Action<Collider, Collider> PickupArmor = (s, t) =>
            {
                if (t.Parent is Armor)
                {
-                   if (HitPoints < 2)
-                   {
-                       HitPoints = 2;
-                       ArmorColor = (t.Parent as Armor).Color;
-                       t.Parent.Destroy();
-                       Game1.ScreenFader.Flash(ArmorColor.R, ArmorColor.G, ArmorColor.B);
-                   }
+                   HitPoints = 2;
+                   ArmorColor = (t.Parent as Armor).Color;
+                   t.Parent.Destroy();
+                   Game1.ScreenFader.Flash(ArmorColor.R, ArmorColor.G, ArmorColor.B);
                }
            };
 

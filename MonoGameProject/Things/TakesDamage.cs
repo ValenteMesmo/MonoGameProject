@@ -53,7 +53,7 @@ namespace MonoGameProject
             {
                 if (Parent.DamageDuration == 0)
                 {
-                Game1.Camera.ShakeUp(40);
+                    Game1.Camera.ShakeUp(40);
                     Game1.Sleep();
                     Game1.VibrationCenter.Vibrate(Parent.PlayerIndex, 20);
                 }
