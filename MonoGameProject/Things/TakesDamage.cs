@@ -43,17 +43,21 @@ namespace MonoGameProject
         private void DefaultDamageHandler(Collider source, Collider target)
         {
             if (Parent.DamageDuration == 0)
-            {                
+            {
                 Parent.HitPoints--;
 
-                if (target.Parent is Player || source.Parent is Player)
+                Parent.DamageDuration = DAMAGE_DURATION;
+            }
+
+            if (target.Parent is Player || source.Parent is Player)
+            {
+                if (Parent.DamageDuration == 0)
                 {
+                Game1.Camera.ShakeUp(40);
                     Game1.Sleep();
-                    Game1.Camera.ShakeUp(40);
                     Game1.VibrationCenter.Vibrate(Parent.PlayerIndex, 20);
                 }
-
-                Parent.DamageDuration = DAMAGE_DURATION;
+                Game1.ScreenFader.Flash();
             }
         }
 

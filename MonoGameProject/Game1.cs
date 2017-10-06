@@ -1,4 +1,5 @@
 ﻿using GameCore;
+using Microsoft.Xna.Framework;
 
 namespace MonoGameProject
 {
@@ -6,9 +7,15 @@ namespace MonoGameProject
     {
         public Game1() : base(new GeneratedContent()) { }
 
+        public ScreenFader ScreenFader;
+
         protected override void OnStart()
         {
             GameState.Load();
+
+            ScreenFader = new ScreenFader();
+            AddToWorld(ScreenFader);
+
 
             var player = new Player(this, 0, AddThing);
             player.X = 1000;
@@ -33,6 +40,67 @@ namespace MonoGameProject
                 AddThing(new ParalaxBackgroundCreator(WorldMover, AddThing, this, (x, y, width, height) => GeneratedContent.Create_knight_dead_tree(x, y), 2, 0.90f));
                 AddThing(new ParalaxBackgroundCreator(WorldMover, AddThing, this, (x, y, width, height) => GeneratedContent.Create_knight_dead_tree(x, y, 500, 400), 1, 0.01f));
             }
+        }
+    }
+
+    public class ScreenFader : Thing
+    {
+        private int Red;
+        private int Green;
+        private int Blue;
+        private int Alpha;
+        private const int Speed = 80;
+
+        public ScreenFader()
+        {
+            var faderAnimation = new Animation(new AnimationFrame("pixel", 0, 0, 14000, 10000));
+            faderAnimation.ColorGetter = () => new Color(Red, Green, Blue, Alpha);
+            faderAnimation.RenderingLayer = 0;
+            AddAnimation(faderAnimation);
+
+            AddUpdate(() =>
+            {
+                Red = UpdateValue(Red, 0);
+                Green = UpdateValue(Green, 0);
+                Blue = UpdateValue(Blue, 0);
+                Alpha = UpdateValue(Alpha, 50);
+            });
+        }
+
+        private int UpdateValue(int value, int limit)
+        {
+            if (value > limit)
+            {
+                value -= Speed;
+                if (value < limit)
+                    value = limit;
+            }
+            else if (value < limit)
+            {
+                value += Speed;
+                if (value > limit)
+                    value = limit;
+            }
+
+            return value;
+        }
+
+        public void Flash(int red, int green, int blue)
+        {
+            Alpha = 255;
+
+            Red = red;
+            Green = green;
+            Blue = blue;
+        }
+
+        public void Flash()
+        {
+            Alpha = 200;
+
+            Red =
+            Green =
+            Blue = 200;
         }
     }
 }

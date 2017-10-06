@@ -185,8 +185,8 @@ namespace MonoGameProject
             });
 
             AddUpdate(new TakesDamage(this, Game1, AddToWorld));
-
-            Action<Collider, Collider> HandleFireball = (s, t) =>
+                        
+            Action<Collider, Collider> PickupArmor = (s, t) =>
            {
                if (t.Parent is Armor)
                {
@@ -195,14 +195,15 @@ namespace MonoGameProject
                        HitPoints = 2;
                        ArmorColor = (t.Parent as Armor).Color;
                        t.Parent.Destroy();
+                       Game1.ScreenFader.Flash(ArmorColor.R, ArmorColor.G, ArmorColor.B);
                    }
                }
            };
 
-            MainCollider.AddBotCollisionHandler(HandleFireball);
-            MainCollider.AddTopCollisionHandler(HandleFireball);
-            MainCollider.AddLeftCollisionHandler(HandleFireball);
-            MainCollider.AddRightCollisionHandler(HandleFireball);
+            MainCollider.AddBotCollisionHandler(PickupArmor);
+            MainCollider.AddTopCollisionHandler(PickupArmor);
+            MainCollider.AddLeftCollisionHandler(PickupArmor);
+            MainCollider.AddRightCollisionHandler(PickupArmor);
 
             MainCollider.AddBotCollisionHandler(StopsWhenHitting.Bot);
             MainCollider.AddLeftCollisionHandler(StopsWhenHitting.Left);
@@ -211,6 +212,8 @@ namespace MonoGameProject
 
             new HumanoidAnimatorFactory()
                 .CreateAnimator(this);
+
+
         }
     }
 }
