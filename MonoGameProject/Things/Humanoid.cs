@@ -127,7 +127,7 @@ namespace MonoGameProject
 
             AddUpdate(() =>
         {
-            if (HitPoints <= 1)
+            if (HitPoints == 1)
             {
                 if (DamageDuration == 100
                     || DamageDuration == 51
