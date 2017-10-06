@@ -129,25 +129,29 @@ namespace MonoGameProject
         {
             if (HitPoints == 1)
             {
-                if (DamageDuration == 100
-                    || DamageDuration == 51
-                    || DamageDuration == 1)
-                    NewMethod(HumanoidAnimatorFactory.HEAD_Z - 0.001f, AddToWorld);
+                if (DamageDuration == 100)
+                    NewMethod(
+                        HumanoidAnimatorFactory.HEAD_Z - 0.001f,
+                        HumanoidAnimatorFactory.feet_y * 2,
+                        AddToWorld);
+                else if (DamageDuration == 51)
+                    NewMethod(
+                        HumanoidAnimatorFactory.HEAD_Z - 0.001f,
+                        HumanoidAnimatorFactory.feet_y ,
+                        AddToWorld);
+                else if (DamageDuration == 2)
+                    NewMethod(
+                        HumanoidAnimatorFactory.HEAD_Z - 0.001f,
+                        0,
+                        AddToWorld);
+
             }
         });
         }
 
-        private void NewMethod(float z, Action<Thing> AddToWorld)
+        private void NewMethod(float z, int bonus, Action<Thing> AddToWorld)
         {
-            var hitEffect = new HitEffect(z, false)
-            {
-                Color = ArmorColor
-            };
-            hitEffect.AddUpdate(() =>
-            {
-                hitEffect.X = X + 400;
-                hitEffect.Y = Y - 200;
-            });
+            var hitEffect = new ArmorBreaking(this, bonus);
             AddToWorld(hitEffect);
         }
 

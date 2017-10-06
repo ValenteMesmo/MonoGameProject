@@ -5,7 +5,7 @@ namespace MonoGameProject
 {
     public class TakesDamage : UpdateHandler
     {
-        private const int DAMAGE_DURATION = 100;
+        public const int DAMAGE_DURATION = 100;
         private readonly Humanoid Parent;
         private readonly Game1 Game1;
         private readonly Action<Thing> AddToTheWorld;

@@ -7,9 +7,9 @@ namespace MonoGameProject
     {
         private int x = -200;
         private int flippedx = -130;
-        private int feet_y = -300;
-        private int crouch_y = 0;
-        protected int scale = 5;
+        public const int feet_y = -300;
+        public const int crouch_y = 0;
+        public const int scale = 5;
 
         public const float HEAD_Z = 0.120f;
         public const float TORSO_Z = 0.121f;
@@ -324,9 +324,9 @@ namespace MonoGameProject
             thing.AddAnimation(
                 new Animator(
                     new AnimationTransitionOnCondition(armoredLegs, () => thing.HitPoints > 1)
-                    , new AnimationTransitionOnCondition(nakedLegs, () => thing.HitPoints <= 1 && thing.DamageDuration == 0)
+                    , new AnimationTransitionOnCondition(nakedLegs, () => thing.HitPoints <= 1 && thing.DamageDuration <= 1)
                 )
-            );            
+            );
         }
 
         private void HeadAnimator(Humanoid thing)
@@ -459,7 +459,7 @@ namespace MonoGameProject
 
             var animatorsWrapper =
                 new Animator(
-                    new AnimationTransitionOnCondition(nakedAnimator, () => thing.HitPoints <= 1)
+                    new AnimationTransitionOnCondition(nakedAnimator, () => thing.HitPoints <= 1 && thing.DamageDuration == TakesDamage.DAMAGE_DURATION - 5)
                     , new AnimationTransitionOnCondition(armoredAnimator, () => thing.HitPoints == 2));
 
             thing.AddAnimation(animatorsWrapper);
@@ -770,7 +770,7 @@ namespace MonoGameProject
 
             thing.AddAnimation(new Animator(
                 new AnimationTransitionOnCondition(armored_torso, () => thing.HitPoints > 1)
-                , new AnimationTransitionOnCondition(naked_torso, () => thing.HitPoints <= 1 && thing.DamageDuration < 50)
+                , new AnimationTransitionOnCondition(naked_torso, () => thing.HitPoints <= 1 && thing.DamageDuration == TakesDamage.DAMAGE_DURATION / 2)
                 )
             );
         }
