@@ -324,7 +324,7 @@ namespace MonoGameProject
             thing.AddAnimation(
                 new Animator(
                     new AnimationTransitionOnCondition(armoredLegs, () => thing.HitPoints > 1)
-                    , new AnimationTransitionOnCondition(nakedLegs, () => thing.HitPoints <= 1)
+                    , new AnimationTransitionOnCondition(nakedLegs, () => thing.HitPoints <= 1 && thing.DamageDuration == 0)
                 )
             );
         }
@@ -770,7 +770,7 @@ namespace MonoGameProject
 
             thing.AddAnimation(new Animator(
                 new AnimationTransitionOnCondition(armored_torso, () => thing.HitPoints > 1)
-                , new AnimationTransitionOnCondition(naked_torso, () => thing.HitPoints <= 1)
+                , new AnimationTransitionOnCondition(naked_torso, () => thing.HitPoints <= 1 && thing.DamageDuration < 50)
                 )
             );
         }

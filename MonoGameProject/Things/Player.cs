@@ -5,6 +5,9 @@ namespace MonoGameProject
 {
     public class Player : Humanoid
     {
+        //easter egg: pegar armadura depois de morto revive sem capacete
+
+        //break spikes on hit
         //stalagmite, roots, cipós
         //frog eyes?
         //reduce idle duration when damage taken
