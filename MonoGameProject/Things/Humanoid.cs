@@ -61,7 +61,7 @@ namespace MonoGameProject
         public LegState LegState { get; set; }
         public bool FacingRight { get; set; }
         public int PlayerIndex { get; set; }
-        
+
         private const int width = 1000;
         private const int height = 900;
 
@@ -82,7 +82,11 @@ namespace MonoGameProject
         public int DamageDuration { get; set; }
         public Color ArmorColor { get; internal set; }
 
-        public Humanoid(GameInputs Inputs, Camera2d Camera, VibrationCenter VibrationCenter)
+        public Humanoid(
+            GameInputs Inputs
+            , Camera2d Camera
+            , VibrationCenter VibrationCenter
+            , Action<Thing> AddToWorld)
         {
             this.Inputs = Inputs;
 
@@ -120,6 +124,31 @@ namespace MonoGameProject
                 Game.LOG +=
                 $@"{GetType().Name} {LegState.ToString()} {FacingRight} {Environment.NewLine}");
 #endif
+
+            AddUpdate(() =>
+        {
+            if (HitPoints <= 1)
+            {
+                if (DamageDuration == 100
+                    || DamageDuration == 51
+                    || DamageDuration == 1)
+                    NewMethod(HumanoidAnimatorFactory.HEAD_Z - 0.001f, AddToWorld);
+            }
+        });
+        }
+
+        private void NewMethod(float z, Action<Thing> AddToWorld)
+        {
+            var hitEffect = new HitEffect(z, false)
+            {
+                Color = ArmorColor
+            };
+            hitEffect.AddUpdate(() =>
+            {
+                hitEffect.X = X + 400;
+                hitEffect.Y = Y - 200;
+            });
+            AddToWorld(hitEffect);
         }
 
         private void CreateColliders()
@@ -154,7 +183,7 @@ namespace MonoGameProject
             {
                 Width = width / 4,
                 Height = height / 4,
-                OffsetX = (width / 4)/3 - 1,
+                OffsetX = (width / 4) / 3 - 1,
                 OffsetY = height + 1
             };
             AddCollider(LeftGroundAcidentChecker);

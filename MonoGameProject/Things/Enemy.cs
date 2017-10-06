@@ -14,8 +14,10 @@ namespace MonoGameProject
                         //new MirroredKeyboardChecker()
                         new PatrolAiInputs()
                     )
-                ), WorldMover.Camera
-                , WorldMover.VibrationCenter)
+                )
+            , WorldMover.Camera
+            , WorldMover.VibrationCenter
+            , WorldMover.AddToWorld)
         {
             AddUpdate(new TakesDamage(this, WorldMover, AddToWorld));
 

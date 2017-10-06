@@ -168,8 +168,10 @@ namespace MonoGameProject
                 new InputCheckerAggregation(
                         new GamePadChecker(index)
                     , new KeyboardChecker())
-            ), Game1.Camera
-            , Game1.VibrationCenter)
+            )
+            , Game1.Camera
+            , Game1.VibrationCenter
+            , AddToWorld)
         {
             HitPoints = 2;
             PlayerIndex = index;

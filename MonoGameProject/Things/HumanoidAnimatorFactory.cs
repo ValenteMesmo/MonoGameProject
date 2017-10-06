@@ -11,9 +11,9 @@ namespace MonoGameProject
         private int crouch_y = 0;
         protected int scale = 5;
 
-        private float HEAD_Z = 0.120f;
-        private float TORSO_Z = 0.121f;
-        private float LEG_Z = 0.122f;
+        public const float HEAD_Z = 0.120f;
+        public const float TORSO_Z = 0.121f;
+        public const float LEG_Z = 0.122f;
 
         private const int bump_y = -50;
 
@@ -326,7 +326,7 @@ namespace MonoGameProject
                     new AnimationTransitionOnCondition(armoredLegs, () => thing.HitPoints > 1)
                     , new AnimationTransitionOnCondition(nakedLegs, () => thing.HitPoints <= 1 && thing.DamageDuration == 0)
                 )
-            );
+            );            
         }
 
         private void HeadAnimator(Humanoid thing)
