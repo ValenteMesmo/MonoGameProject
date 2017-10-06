@@ -26,7 +26,11 @@ namespace MonoGameProject
 
         public override void OnDestroy()
         {
-            AddToWorld(new HitEffect() { X = X, Y = Y });
+            AddToWorld(new HitEffect()
+            {
+                X = X,
+                Y = Y
+            });
             base.OnDestroy();
         }
     }

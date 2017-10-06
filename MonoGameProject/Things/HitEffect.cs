@@ -10,7 +10,6 @@ namespace MonoGameProject
         {
             var random = new System.Random();
 
-
             var animation = GeneratedContent.Create_knight_hit_effect(
                 -1000 - (randomv ? random.Next(0, 500) : 0)
                 , -500 - (randomv ? random.Next(0, 500) : 0)
@@ -19,7 +18,6 @@ namespace MonoGameProject
             );
 
             animation.LoopDisabled = true;
-            //animation.ScaleX = animation.ScaleY = 5;            
             animation.ColorGetter = () => Color;
             animation.FrameDuration = 2;
             animation.RenderingLayer = z;
@@ -36,7 +34,6 @@ namespace MonoGameProject
             AddUpdate(new HitEffectFriction(this));
         }
     }
-
 
     public class ArmorBreaking : Thing
     {
@@ -58,8 +55,7 @@ namespace MonoGameProject
                     Destroy();
 
                 X = player.X - 250;
-                
-                //if crouching
+
                 Y = player.Y + yBonus;
             });
 

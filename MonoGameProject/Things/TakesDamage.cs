@@ -45,19 +45,15 @@ namespace MonoGameProject
             if (Parent.DamageDuration == 0)
             {
                 Parent.HitPoints--;
-
                 Parent.DamageDuration = DAMAGE_DURATION;
-            }
 
-            if (target.Parent is Player || source.Parent is Player)
-            {
-                if (Parent.DamageDuration == 0)
+                if (target.Parent is Player || source.Parent is Player)
                 {
                     Game1.Camera.ShakeUp(40);
                     Game1.Sleep();
                     Game1.VibrationCenter.Vibrate(Parent.PlayerIndex, 20);
+                    Game1.ScreenFader.Flash();
                 }
-                Game1.ScreenFader.Flash();
             }
         }
 
