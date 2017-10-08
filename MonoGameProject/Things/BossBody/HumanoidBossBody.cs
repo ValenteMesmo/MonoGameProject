@@ -166,6 +166,9 @@ namespace MonoGameProject
 
         private void CreateBodyAnimator(float z)
         {
+            return;
+
+
             var width = 1500;
             var height = 1500;
 

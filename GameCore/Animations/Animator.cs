@@ -56,6 +56,9 @@ namespace GameCore
 
                     CurrentAnimation = item.Target;
 
+                    //ops!
+                    CurrentAnimation.Update();
+                    CurrentAnimation.Restart();
                     break;
                 }
             }

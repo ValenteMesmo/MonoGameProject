@@ -34,11 +34,23 @@ namespace GameCore
         public int ScaleY { get; set; }
         public Func<Color> ColorGetter = () => Color.White;
 
+        public int StartingFrame
+        {
+            get
+            {
+                return _startingFrame;
+            }
+            set
+            {
+                if (value < Frames.Count)
+                    _startingFrame = CurrentFrameIndex = value;
+            }
+        }
+        public int _startingFrame;
         public int FrameDuration = 3;
 
         public Animation(params AnimationFrame[] Frames)
         {
-
             RenderingLayer = 0.5f;
             UpdatesUntilNextFrame = FrameDuration;
             this.Frames = Frames.ToList();
@@ -78,7 +90,7 @@ namespace GameCore
 
         public void Restart()
         {
-            CurrentFrameIndex = 0;
+            CurrentFrameIndex = StartingFrame;
             Ended = false;
         }
     }

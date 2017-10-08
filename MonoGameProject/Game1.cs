@@ -17,8 +17,11 @@ namespace MonoGameProject
             AddToWorld(ScreenFader);
 
 
+
             var player = new Player(this, 0, AddThing);
             player.X = 1000;
+            AddThing(player);
+
             if (GameState.State.BotExit)
                 player.Y = (14 * MapModule.CELL_SIZE) + 1000;
             else if (GameState.State.MidExit)
@@ -26,13 +29,28 @@ namespace MonoGameProject
             else
                 player.Y = 2 * MapModule.CELL_SIZE + 1000;
 
+            //for (var i = 1; i < 7; i++)
+            //{
+            //    var player2 = new Player(this, 0, AddThing);
+            //    player2.X = player.X + 200 * i;
+            //    player2.Y = player.Y;
+            //    AddThing(player2);
+            //}
+
+
+
+
             var WorldMover = new WorldMover(Camera);
             AddThing(WorldMover);
-            AddThing(player);
             AddThing(new PlatformCreator(WorldMover, AddThing, this));
 
             var roof = new Thing();
-            roof.AddCollider(new SolidCollider { OffsetY = -MapModule.CELL_SIZE, Height = 4 * MapModule.CELL_SIZE, Width = 16 * 2 * MapModule.CELL_SIZE });
+            roof.AddCollider(new SolidCollider
+            {
+                OffsetY = -MapModule.CELL_SIZE,
+                Height = 4 * MapModule.CELL_SIZE,
+                Width = 16 * 2 * MapModule.CELL_SIZE
+            });
             AddThing(roof);
 
             {
@@ -55,7 +73,7 @@ namespace MonoGameProject
         {
             var faderAnimation = new Animation(new AnimationFrame("pixel", 0, 0, 14000, 10000));
             faderAnimation.ColorGetter = () => new Color(Red, Green, Blue, Alpha);
-            faderAnimation.RenderingLayer = 0;
+            faderAnimation.RenderingLayer = 0.001f;
             AddAnimation(faderAnimation);
 
             AddUpdate(() =>
@@ -63,7 +81,7 @@ namespace MonoGameProject
                 Red = UpdateValue(Red, 0);
                 Green = UpdateValue(Green, 0);
                 Blue = UpdateValue(Blue, 0);
-                Alpha = UpdateValue(Alpha, 50);
+                Alpha = UpdateValue(Alpha, 30);
             });
         }
 

@@ -5,7 +5,9 @@ namespace MonoGameProject
 {
     public class Player : Humanoid
     {
-        //easter egg: pegar armadura depois de morto revive sem capacete
+        //planning: 
+        //  hoje vou fazer o walk cycle da tartaruga, a tarde fazer o attack animation e ajustar os colliders.
+        //  fazer o render index do player passar entre as pernas do boss.
 
         //break spikes on hit
         //stalagmite, roots, cipós
@@ -21,8 +23,6 @@ namespace MonoGameProject
 
         //abertura do trailer igual looneytoones ( https://www.youtube.com/watch?v=yqg9mloJk04 )
 
-        //tentar causar uma boa primeira impressao.... (fazer pensar que é um jogo bom, com trofeus? coroas? coroa de mato na cabeça?)
-
         //eyebeam aumentar a distancia... puxar de baixo para cima
 
         //edge crouch de costas
@@ -30,9 +30,8 @@ namespace MonoGameProject
         //make seeker fireball collide with each other
 
         //background igual o liadst
-        //flash on hit
 
-        //youtube trailler... fundo vermelho no texto, para parecer uma live
+        //youtube thumbnail... fundo vermelho no texto, para parecer uma live
 
         //floresta de bambus;;; nevoa com fantasmas nadando
         //corvos (itachi genjutsu)
@@ -56,7 +55,6 @@ namespace MonoGameProject
         //mover o quadril na animacao 
         //voar sangue quando hittar o boss.. (c sotn)
 
-        //creeps
         //poo
 
         //virar caveira gargalhando quando morrer?
@@ -94,8 +92,6 @@ namespace MonoGameProject
 
         //eyes: crystal
         //background: pizza... fish
-
-        //bau virar um player?
 
         /* criar um modulo assim (obrigar a usar walljump)
               __________
@@ -160,6 +156,7 @@ namespace MonoGameProject
         //breakable blocks
         //traps
         //fire balls (vertical)
+        //fireballs vertical lenta...
         private const int width = 1000;
         private const int height = 900;
 
@@ -187,15 +184,15 @@ namespace MonoGameProject
             AddUpdate(new TakesDamage(this, Game1, AddToWorld));
 
             Action<Collider, Collider> PickupArmor = (s, t) =>
-           {
-               if (t.Parent is Armor)
-               {
-                   HitPoints = 2;
-                   ArmorColor = (t.Parent as Armor).Color;
-                   t.Parent.Destroy();
-                   Game1.ScreenFader.Flash(ArmorColor.R, ArmorColor.G, ArmorColor.B);
-               }
-           };
+            {
+                if (t.Parent is Armor)
+                {
+                    HitPoints = 2;
+                    ArmorColor = (t.Parent as Armor).Color;
+                    t.Parent.Destroy();
+                    Game1.ScreenFader.Flash(ArmorColor.R, ArmorColor.G, ArmorColor.B);
+                }
+            };
 
             MainCollider.AddBotCollisionHandler(PickupArmor);
             MainCollider.AddTopCollisionHandler(PickupArmor);
@@ -209,8 +206,6 @@ namespace MonoGameProject
 
             new HumanoidAnimatorFactory()
                 .CreateAnimator(this);
-
-
         }
     }
 }
