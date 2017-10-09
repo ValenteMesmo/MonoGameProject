@@ -6,6 +6,7 @@ namespace MonoGameProject
     public abstract class BaseFireBall : Thing
     {
         private readonly Action<Thing> AddToWorld;
+        public readonly Collider collider;
 
         public BaseFireBall(Action<Thing> AddToWorld)
         {
@@ -14,7 +15,7 @@ namespace MonoGameProject
             var size = 400;
             var bonus = size / 3;
 
-            var collider = new Collider
+            collider = new Collider
             {
                 OffsetX = bonus,
                 OffsetY = bonus,
@@ -91,6 +92,35 @@ namespace MonoGameProject
             );
             animation.RenderingLayer = 0.4f;
             AddAnimation(animation);
+
+            HorizontalSpeed = speedX;
+            VerticalSpeed = speedY;
+            AddUpdate(new DestroyIfLeftBehind(this));
+            AddUpdate(new MoveHorizontallyWithTheWorld(this));
+        }
+    }
+
+    public class BigFireBall : BaseFireBall
+    {
+        public const int SPEED = 150;
+
+        public BigFireBall(int speedX, int speedY, Action<Thing> AddToWorld) : base(AddToWorld)
+        {
+            var animation = GeneratedContent.Create_knight_FireBall(
+            0
+            , 0
+            , MapModule.CELL_SIZE * 5
+            , MapModule.CELL_SIZE * 5
+            , speedX>0
+            );
+            animation.LoopDisabled = true;
+            animation.RenderingLayer = 0.4f;
+            AddAnimation(animation);
+
+            collider.OffsetX *= 5;
+            collider.OffsetY *= 5;
+            collider.Width *=   5;
+            collider.Height *=  5;
 
             HorizontalSpeed = speedX;
             VerticalSpeed = speedY;

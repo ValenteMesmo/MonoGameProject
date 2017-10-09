@@ -44,7 +44,7 @@ namespace MonoGameProject
                 }
             });
 
-            CreateBodyAnimator(Boss.TORSO_Z);
+            //CreateBodyAnimator(Boss.TORSO_Z);
 
             boss.AddUpdate(UpdateBasedOnState);
 
@@ -174,59 +174,59 @@ namespace MonoGameProject
             }
         }
 
-        private void CreateBodyAnimator(float z)
-        {
-            var width = 1500;
-            var height = 1500;
+        //private void CreateBodyAnimator(float z)
+        //{
+        //    var width = 1500;
+        //    var height = 1500;
 
-            var standing_left = GeneratedContent.Create_knight_wolf_body(
-                                -width / 2
-                                , -height
-                                , width * 2
-                                , height * 2
-                                , false
-                            );
-            standing_left.RenderingLayer = z;
-            standing_left.ColorGetter = () => boss.BodyColor;
+        //    var standing_left = GeneratedContent.Create_knight_wolf_body(
+        //                        -width / 2
+        //                        , -height
+        //                        , width * 2
+        //                        , height * 2
+        //                        , false
+        //                    );
+        //    standing_left.RenderingLayer = z;
+        //    standing_left.ColorGetter = () => boss.BodyColor;
 
-            var standing_right = GeneratedContent.Create_knight_wolf_body(
-                    -width / 2
-                    , -height
-                    , width * 2
-                    , height * 2
-                    , true
-            );
-            standing_right.RenderingLayer = z;
-            standing_right.ColorGetter = () => boss.BodyColor;
+        //    var standing_right = GeneratedContent.Create_knight_wolf_body(
+        //            -width / 2
+        //            , -height
+        //            , width * 2
+        //            , height * 2
+        //            , true
+        //    );
+        //    standing_right.RenderingLayer = z;
+        //    standing_right.ColorGetter = () => boss.BodyColor;
 
-            var jump_left = GeneratedContent.Create_knight_wolf_body_jump(
-                                -width / 2
-                                , -height
-                                , width * 2
-                                , height * 2
-                                , false
-                            );
-            jump_left.RenderingLayer = z;
-            jump_left.ColorGetter = () => boss.BodyColor;
+        //    var jump_left = GeneratedContent.Create_knight_wolf_body_jump(
+        //                        -width / 2
+        //                        , -height
+        //                        , width * 2
+        //                        , height * 2
+        //                        , false
+        //                    );
+        //    jump_left.RenderingLayer = z;
+        //    jump_left.ColorGetter = () => boss.BodyColor;
 
-            var jump_right = GeneratedContent.Create_knight_wolf_body_jump(
-                    -width / 2
-                    , -height
-                    , width * 2
-                    , height * 2
-                    , true
-            );
-            jump_right.RenderingLayer = z;
-            jump_right.ColorGetter = () => boss.BodyColor;
+        //    var jump_right = GeneratedContent.Create_knight_wolf_body_jump(
+        //            -width / 2
+        //            , -height
+        //            , width * 2
+        //            , height * 2
+        //            , true
+        //    );
+        //    jump_right.RenderingLayer = z;
+        //    jump_right.ColorGetter = () => boss.BodyColor;
 
-            var animation =
-                new Animator(
-                    new AnimationTransitionOnCondition(standing_left, () => !boss.facingRight && boss.grounded)
-                    , new AnimationTransitionOnCondition(standing_right, () => boss.facingRight && boss.grounded)
-                    , new AnimationTransitionOnCondition(jump_left, () => !boss.facingRight && !boss.grounded)
-                    , new AnimationTransitionOnCondition(jump_right, () => boss.facingRight && !boss.grounded)
-            );
-            boss.AddAnimation(animation);
-        }
+        //    var animation =
+        //        new Animator(
+        //            new AnimationTransitionOnCondition(standing_left, () => !boss.facingRight && boss.grounded)
+        //            , new AnimationTransitionOnCondition(standing_right, () => boss.facingRight && boss.grounded)
+        //            , new AnimationTransitionOnCondition(jump_left, () => !boss.facingRight && !boss.grounded)
+        //            , new AnimationTransitionOnCondition(jump_right, () => boss.facingRight && !boss.grounded)
+        //    );
+        //    boss.AddAnimation(animation);
+        //}
     }
 }
