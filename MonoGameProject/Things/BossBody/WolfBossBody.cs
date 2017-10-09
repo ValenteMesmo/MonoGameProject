@@ -1,6 +1,7 @@
 ﻿using GameCore;
 using MonoGameProject.Things;
 using System;
+using System.Linq;
 
 namespace MonoGameProject
 {
@@ -114,15 +115,33 @@ namespace MonoGameProject
                     eyeSpellStacks = 3;
             }
 
+            boss.AttackingWithTheHand = false;
             if (boss.state == BossState.BodyAttack1)
             {
-                if (boss.facingRight)
-                    boss.HorizontalSpeed = 100;
-                else
-                    boss.HorizontalSpeed = -100;
+                foreach (var collider in boss.playerFinder.CollidingWith)
+                {
+                    if (collider.Parent is Player)
+                    {
+                        boss.AttackingWithTheHand = true;
+                        break;
+                    }
+                }
 
-                if (state1Duration % (5 * 3) == 0)
-                    ShakeCamera();
+                var stage1 = Boss.HEALTH / 4;
+                var stage2 = Boss.HEALTH / 2;
+
+                var speed = 0;
+                if (boss.damageTaken < stage1)
+                    speed = 50;
+                else if (boss.damageTaken < stage2)
+                    speed = 80;
+                else 
+                    speed = 100;
+
+                if (boss.facingRight)
+                    boss.HorizontalSpeed = speed;
+                else
+                    boss.HorizontalSpeed = -speed;
             }
 
             if (boss.state == BossState.Idle || boss.state == BossState.EyeAttack)
@@ -145,7 +164,6 @@ namespace MonoGameProject
 
                 if (state1Duration == 5)
                 {
-                    //boss.state = BossState.Idle;
                     boss.MouthState = BossMouthState.Idle;
                 }
 
@@ -154,7 +172,6 @@ namespace MonoGameProject
                     ChangeState();
                 }
             }
-            //boss.MouthOpen = boss.HorizontalSpeed != 0;
         }
 
         private void CreateBodyAnimator(float z)

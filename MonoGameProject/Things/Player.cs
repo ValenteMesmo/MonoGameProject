@@ -6,8 +6,8 @@ namespace MonoGameProject
     public class Player : Humanoid
     {
         //planning: 
-        //  hoje vou fazer o walk cycle da tartaruga, a tarde fazer o attack animation e ajustar os colliders.
-        //  fazer o render index do player passar entre as pernas do boss.
+        //  hoje vou renderizar a cabeça do boss no lugar certo
+        //  fazer a fireball do boss sair na diagonal, para acertar o player
 
         //break spikes on hit
         //stalagmite, roots, cipós
@@ -190,7 +190,7 @@ namespace MonoGameProject
                     HitPoints = 2;
                     ArmorColor = (t.Parent as Armor).Color;
                     t.Parent.Destroy();
-                    Game1.ScreenFader.Flash(ArmorColor.R, ArmorColor.G, ArmorColor.B);
+                    Game1.ScreenFader.Flash(ArmorColor.R, ArmorColor.G, ArmorColor.B, X,Y);
                 }
             };
 

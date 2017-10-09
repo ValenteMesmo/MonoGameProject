@@ -58,6 +58,7 @@ namespace MonoGameProject
         private readonly Collider headCollider;
         public readonly Collider mainCollider;
         public readonly CollisionChecker groundDetector;
+        public readonly Collider playerFinder;
 
         public Boss(Game1 Game1)
         {
@@ -101,7 +102,14 @@ namespace MonoGameProject
             mainCollider.AddRightCollisionHandler(StopsWhenHitting.Right);
             mainCollider.AddTopCollisionHandler(StopsWhenHitting.Top);
 
-            var playerFinder = new Collider(width * 4, height) { OffsetX = -width * 2 };
+            playerFinder = new Collider(
+                width * 2
+                , height * 3
+            )
+            {
+                OffsetX = -width,
+                OffsetY = -height
+            };
             playerFinder.AddHandler(FindPlayer);
             AddCollider(playerFinder);
 
@@ -123,7 +131,7 @@ namespace MonoGameProject
 
             var green = new Color(0.5f, 0.8f, 0.5f);
             var yellow = new Color(0.8f, 0.8f, 0.5f);
-            
+
             AddAnimation(CreateFlippableAnimation(green, BACK_Z, GeneratedContent.Create_knight_Torso_Humanoid_Shell_Back));
             AddAnimation(CreateFlippableAnimation(yellow, TORSO_Z, GeneratedContent.Create_knight_Torso_Humanoid_Shell_Front));
 
@@ -133,11 +141,11 @@ namespace MonoGameProject
                 new Animator(
                     new AnimationTransitionOnCondition(
                         arm
-                        , () => state != BossState.BodyAttack1
+                        , () => state != BossState.BodyAttack1 && !AttackingWithTheHand
                     )
                     , new AnimationTransitionOnCondition(
                         arm_attack
-                        , () => state == BossState.BodyAttack1
+                        , () => state == BossState.BodyAttack1 && AttackingWithTheHand
                     )
                 )
             );
@@ -216,20 +224,23 @@ namespace MonoGameProject
         private void MoveAttackCollider()
         {
             if (facingRight)
+            {
                 attackCollider.OffsetX = mainCollider.Width;
-            else
-                attackCollider.OffsetX = -attackCollider.Width;
-
-            attackCollider.Disabled =
-                MouthState != BossMouthState.BiteOpen;
-
-            if (facingRight)
                 headCollider.OffsetX = mainCollider.Width;
+                playerFinder.OffsetX = mainCollider.Width;
+            }
             else
+            {
+                attackCollider.OffsetX = -attackCollider.Width;
                 headCollider.OffsetX = -headCollider.Width;
+                playerFinder.OffsetX = -playerFinder.Width;
+            }
+
+            attackCollider.Disabled = !AttackingWithTheHand;
         }
 
         public const int HEALTH = 20;
+        internal bool AttackingWithTheHand;
 
         public bool Dead()
         {

@@ -6,7 +6,7 @@ namespace MonoGameProject
     public class HitEffect : Thing
     {
         public Color Color = Color.White;
-        public HitEffect(float z = 0f, bool randomv = true)
+        public HitEffect(float z = 0.001f, bool randomv = true)
         {
             var random = new System.Random();
 

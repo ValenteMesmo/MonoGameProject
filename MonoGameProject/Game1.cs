@@ -67,21 +67,26 @@ namespace MonoGameProject
         private int Green;
         private int Blue;
         private int Alpha;
-        private const int Speed = 80;
+        private const int Speed = 100;
+        private int duration;
 
         public ScreenFader()
         {
-            var faderAnimation = new Animation(new AnimationFrame("pixel", 0, 0, 14000, 10000));
+            var faderAnimation = GeneratedContent.Create_knight_Flash(-20000, -20000, 40000, 40000);
             faderAnimation.ColorGetter = () => new Color(Red, Green, Blue, Alpha);
-            faderAnimation.RenderingLayer = 0.001f;
+            faderAnimation.RenderingLayer = 0f;
             AddAnimation(faderAnimation);
 
             AddUpdate(() =>
             {
+                duration++;
+                if (duration > 20)
+                    duration = 20;
+
                 Red = UpdateValue(Red, 0);
                 Green = UpdateValue(Green, 0);
                 Blue = UpdateValue(Blue, 0);
-                Alpha = UpdateValue(Alpha, 30);
+                Alpha = UpdateValue(Alpha, 0);
             });
         }
 
@@ -89,13 +94,13 @@ namespace MonoGameProject
         {
             if (value > limit)
             {
-                value -= Speed;
+                value -= (duration * 100) / Speed;
                 if (value < limit)
                     value = limit;
             }
             else if (value < limit)
             {
-                value += Speed;
+                value += (duration * 100) / Speed;
                 if (value > limit)
                     value = limit;
             }
@@ -103,22 +108,21 @@ namespace MonoGameProject
             return value;
         }
 
-        public void Flash(int red, int green, int blue)
+        public void Flash(int red, int green, int blue, int x, int y)
         {
-            Alpha = 255;
+            duration = 0;
+            X = x;
+            Y = y;
+            Alpha = 200;
 
             Red = red;
             Green = green;
             Blue = blue;
         }
 
-        public void Flash()
+        public void Flash(int x, int y)
         {
-            Alpha = 200;
-
-            Red =
-            Green =
-            Blue = 200;
+            Flash(200, 200, 200, x, y);
         }
     }
 }
