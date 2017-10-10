@@ -430,7 +430,7 @@ namespace MonoGameProject
                         
                         //spikeBall.AddUpdate(new AfectedByGravity(spikeBall));
                         spikeBall.AddUpdate(new MoveHorizontallyWithTheWorld(spikeBall));
-                        var duration = 1000;
+                        var duration = 500;
                         spikeBall.AddUpdate(() =>
                         {
                             duration--;
