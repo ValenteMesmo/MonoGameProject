@@ -477,7 +477,7 @@ namespace MonoGameProject
                         , 0
                         , Game1.AddToWorld
                     );
-
+                fireball.ColorGetter = GameState.GetColor;
                 fireball.X = boss.mainCollider.X;
                 fireball.Y = boss.mainCollider.Y - fireball.collider.Height;
                 Game1.AddToWorld(fireball);

@@ -1,4 +1,5 @@
 ﻿using GameCore;
+using Microsoft.Xna.Framework;
 using System;
 
 namespace MonoGameProject
@@ -7,6 +8,7 @@ namespace MonoGameProject
     {
         private readonly Action<Thing> AddToWorld;
         public readonly Collider collider;
+        public Func<Color> ColorGetter = () => Color.White;
 
         public BaseFireBall(Action<Thing> AddToWorld)
         {
@@ -25,12 +27,14 @@ namespace MonoGameProject
             AddCollider(collider);
         }
 
+        //TODO: remove? ...
         public override void OnDestroy()
         {
-            AddToWorld(new HitEffect()
+            AddToWorld(new HitEffect(0.4f, 0, -collider.Height/2, collider.Width * 3, collider.Height * 3)
             {
                 X = X,
-                Y = Y
+                Y = Y,
+                Color = ColorGetter()
             });
             base.OnDestroy();
         }
@@ -111,16 +115,17 @@ namespace MonoGameProject
             , 0
             , MapModule.CELL_SIZE * 5
             , MapModule.CELL_SIZE * 5
-            , speedX>0
+            , speedX > 0
             );
+            animation.ColorGetter = () => ColorGetter();
             animation.LoopDisabled = true;
             animation.RenderingLayer = 0.4f;
             AddAnimation(animation);
 
             collider.OffsetX *= 5;
             collider.OffsetY *= 5;
-            collider.Width *=   5;
-            collider.Height *=  5;
+            collider.Width *= 5;
+            collider.Height *= 5;
 
             HorizontalSpeed = speedX;
             VerticalSpeed = speedY;
