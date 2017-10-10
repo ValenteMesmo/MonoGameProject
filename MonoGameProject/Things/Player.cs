@@ -6,13 +6,14 @@ namespace MonoGameProject
     public class Player : Humanoid
     {
         //planning: 
-        //  hoje vou renderizar a cabeça do boss no lugar certo
-        //  fazer a fireball do boss sair na diagonal, para acertar o player
+        //melhorar a saida do bigfireball
+        // fazer o spikeball kickar no chão e no teto
+        //  reduce idle duration when damage taken
 
         //break spikes on hit
         //stalagmite, roots, cipós
         //frog eyes?
-        //reduce idle duration when damage taken
+        //star iris eye (cp hd)
         //leave breakable skulls when enemy killed
         //reduce skull head border
 

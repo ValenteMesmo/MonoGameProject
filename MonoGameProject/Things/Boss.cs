@@ -380,7 +380,7 @@ namespace MonoGameProject
                         spikeBall.AddCollider(collider);
                         var anim = GeneratedContent.Create_knight_spike_dropped(
                             -size / 4
-                            , -size / 3,
+                            , -size / 6,
                             size,
                             size);
                         anim.RenderingLayer = Boss.HEAD_Z;
@@ -389,9 +389,48 @@ namespace MonoGameProject
                         spikeBall.X = facingRight ? X : (int)mainCollider.CenterX();
                         spikeBall.Y = Y;
                         collider.AddBotCollisionHandler(StopsWhenHitting.Bot);
-                        spikeBall.AddUpdate(new AfectedByGravity(spikeBall));
+                        collider.AddTopCollisionHandler(StopsWhenHitting.Top);
+                        collider.AddLeftCollisionHandler(StopsWhenHitting.Left);
+                        collider.AddRightCollisionHandler(StopsWhenHitting.Right);
+                        var speed = 80;
+                        spikeBall.VerticalSpeed = speed;
+                        collider.AddBotCollisionHandler((s, t) =>
+                        {
+                            if (t is GroundCollider)
+                            {
+                                spikeBall.VerticalSpeed = 0;
+                                spikeBall.HorizontalSpeed = speed;
+                            }
+                        });
+                        collider.AddRightCollisionHandler((s, t) =>
+                        {
+                            if (t is GroundCollider)
+                            {
+                                spikeBall.VerticalSpeed = -speed;
+                                spikeBall.HorizontalSpeed = 0;
+                            }
+                        });
+                        collider.AddTopCollisionHandler((s, t) =>
+                        {
+                            if (t is GroundCollider)
+                            {
+                                spikeBall.VerticalSpeed = 0;
+                                spikeBall.HorizontalSpeed = -speed;
+                            }
+                        });
+                        collider.AddLeftCollisionHandler((s, t) =>
+                        {
+                            if (t is GroundCollider)
+                            {
+                                spikeBall.VerticalSpeed = speed;
+                                spikeBall.HorizontalSpeed = 0;
+                            }
+                        });
+                        
+                        
+                        //spikeBall.AddUpdate(new AfectedByGravity(spikeBall));
                         spikeBall.AddUpdate(new MoveHorizontallyWithTheWorld(spikeBall));
-                        var duration = 500;
+                        var duration = 1000;
                         spikeBall.AddUpdate(() =>
                         {
                             duration--;
