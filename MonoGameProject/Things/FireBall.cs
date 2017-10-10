@@ -30,7 +30,7 @@ namespace MonoGameProject
         //TODO: remove? ...
         public override void OnDestroy()
         {
-            AddToWorld(new HitEffect(0.4f, 0, -collider.Height/2, collider.Width * 3, collider.Height * 3)
+            AddToWorld(new HitEffect(0.4f, 0, -collider.Height / 2, collider.Width * 3, collider.Height * 3)
             {
                 X = X,
                 Y = Y,
@@ -104,27 +104,27 @@ namespace MonoGameProject
         }
     }
 
-    public class BigFireBall : BaseFireBall
+    public class SonicBoom : BaseFireBall
     {
         public const int SPEED = 150;
 
-        public BigFireBall(int speedX, int speedY, Action<Thing> AddToWorld) : base(AddToWorld)
+        public SonicBoom(int speedX, int speedY, Action<Thing> AddToWorld) : base(AddToWorld)
         {
-            var animation = GeneratedContent.Create_knight_FireBall(
+            var animation = GeneratedContent.Create_knight_SoniicBoom(
             0
             , 0
-            , MapModule.CELL_SIZE * 5
-            , MapModule.CELL_SIZE * 5
+            , (int)(MapModule.CELL_SIZE * 4f)
+            , (int)(MapModule.CELL_SIZE * 4f)
             , speedX > 0
             );
             animation.ColorGetter = () => ColorGetter();
             animation.LoopDisabled = true;
-            animation.RenderingLayer = 0.4f;
+            animation.RenderingLayer = Boss.EYE_Z;
             AddAnimation(animation);
 
             collider.OffsetX *= 5;
             collider.OffsetY *= 5;
-            collider.Width *= 5;
+            collider.Width *= 2;
             collider.Height *= 5;
 
             HorizontalSpeed = speedX;

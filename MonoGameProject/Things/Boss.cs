@@ -426,8 +426,8 @@ namespace MonoGameProject
                                 spikeBall.HorizontalSpeed = 0;
                             }
                         });
-                        
-                        
+
+
                         //spikeBall.AddUpdate(new AfectedByGravity(spikeBall));
                         spikeBall.AddUpdate(new MoveHorizontallyWithTheWorld(spikeBall));
                         var duration = 500;
@@ -511,14 +511,14 @@ namespace MonoGameProject
                 if (boss.facingRight)
                     speed = -speed;
 
-                var fireball = new BigFireBall(
+                var fireball = new SonicBoom(
                         speed
                         , 0
                         , Game1.AddToWorld
                     );
                 fireball.ColorGetter = GameState.GetColor;
-                fireball.X = boss.mainCollider.X;
-                fireball.Y = boss.mainCollider.Y - fireball.collider.Height;
+                fireball.X = boss.mainCollider.X + speed * 10 ;
+                fireball.Y = boss.mainCollider.Y - fireball.collider.Height + 200;
                 Game1.AddToWorld(fireball);
 
             };
