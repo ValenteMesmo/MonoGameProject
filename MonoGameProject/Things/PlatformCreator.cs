@@ -74,6 +74,8 @@ namespace MonoGameProject
                 Y = 0
             };
             AddToWOrld(BackBlocker);
+            AddToWOrld(new DownBlocker());
+
             this.WorldMover = WorldMover;
             this.AddToWOrld = AddToWOrld;
 

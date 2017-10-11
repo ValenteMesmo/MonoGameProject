@@ -142,9 +142,9 @@ namespace MonoGameProject
         {
             var leftCollider = new Collider
             {
-                OffsetX = -7000,
+                OffsetX = -5000,
                 OffsetY = -5000,
-                Width = 6000,
+                Width = 4000,
                 Height = 10000
             };
 
@@ -197,7 +197,6 @@ namespace MonoGameProject
 
                 if (DownBlocking)
                     WorldVerticalSpeed = 0;
-
             });
             AddUpdate(() => MovingBotBy = null);
         }
@@ -241,12 +240,11 @@ namespace MonoGameProject
         {
             if (c2.Parent is Player)
                 MovingBotBy = c2.Parent;
-            //if (c2.Parent is ViewDownBlocker)
-            //{
-            //    DownBlocking = true;
-            //}
+            if (c2.Parent is DownBlocker)
+            {
+                DownBlocking = true;
+            }
         }
-
 
         private void StoreTheRightMovementCause(Collider c1, Collider c2)
         {

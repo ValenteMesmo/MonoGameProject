@@ -13,7 +13,7 @@ namespace MonoGameProject
             
         //vibrar quando pegar armadura
         //reduzir o playerfinder do wolfboss
-        // "it" like gauthled II  (uma chapeu de burro? ou uma coroa? pomba!)
+        // "it" like gauthled II  (uma chapeu de burro? ou uma coroa? pomba! libelula)
         //turn into a controllable ghost after death
         // comes back to life on checkpoint
 
