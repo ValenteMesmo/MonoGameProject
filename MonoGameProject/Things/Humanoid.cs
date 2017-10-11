@@ -112,7 +112,7 @@ namespace MonoGameProject
             AddUpdate(new HorizontalFriction(this));
             AddUpdate(new AfectedByGravity(this));
             AddUpdate(new MoveLeftOrRight(this));
-            AddUpdate(new MoveHorizontallyWithTheWorld(this));
+            AddAfterUpdate(new MoveHorizontallyWithTheWorld(this));
             AddUpdate(new Jump(this));
             AddUpdate(new ForceOriginalHeightAndOffsetWhenCrouchJumping(this));
 

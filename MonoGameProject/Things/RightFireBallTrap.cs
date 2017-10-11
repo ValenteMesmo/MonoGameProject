@@ -19,7 +19,7 @@ namespace MonoGameProject
                 }
             });
             AddUpdate(new DestroyIfLeftBehind(this));
-            AddUpdate(new MoveHorizontallyWithTheWorld(this));
+            AddAfterUpdate(new MoveHorizontallyWithTheWorld(this));
         }
     }
 }

@@ -131,6 +131,10 @@ namespace GameCore
                         ColliderExtensions.HandleVerticalCollision(source, target);
                 });
             });
+
+            Things.ToList().ForEach(thing =>
+                thing.AfterUpdates.ForEach(update =>
+                    update()));
         }
 
         public void Clear()

@@ -75,7 +75,7 @@ public abstract class Game : IDisposable
 
     public void Start()
     {
-        Camera.Pos = new Vector2(7000f, 5500f);
+        Camera.Pos = new Vector2(7900f, 4500f);
         Camera.Zoom =
              0.1f;
         /*

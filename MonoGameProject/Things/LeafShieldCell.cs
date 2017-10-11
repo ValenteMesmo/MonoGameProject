@@ -36,7 +36,7 @@ namespace MonoGameProject
 
             var duration = 500;
             //rotatingBall.AddUpdate(new MoveHorizontallyWithTheWorld(rotatingBall));
-            AddUpdate(new MoveHorizontallyWithTheWorld(this));
+            AddAfterUpdate(new MoveHorizontallyWithTheWorld(this));
             AddUpdate(() =>
             {
                 duration--;

@@ -2,7 +2,7 @@
 
 namespace MonoGameProject
 {
-    public class MoveHorizontallyWithTheWorld : UpdateHandler
+    public class MoveHorizontallyWithTheWorld : AfterUpdateHandler
     {
         private readonly Thing Parent;
         private readonly int scale;
@@ -16,6 +16,7 @@ namespace MonoGameProject
         public void Update()
         {
             Parent.X -= WorldMover.WorldHorizontalSpeed / scale;
+            Parent.Y -= WorldMover.WorldVerticalSpeed / scale;
         }
     }
 }

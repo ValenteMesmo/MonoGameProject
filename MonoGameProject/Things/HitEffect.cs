@@ -30,7 +30,7 @@ namespace MonoGameProject
                 if (duration <= 0)
                     Destroy();
             });
-            AddUpdate(new MoveHorizontallyWithTheWorld(this));
+            AddAfterUpdate(new MoveHorizontallyWithTheWorld(this));
             AddUpdate(new HitEffectFriction(this));
         }
     }
@@ -59,7 +59,7 @@ namespace MonoGameProject
                 Y = player.Y + yBonus;
             });
 
-            AddUpdate(new MoveHorizontallyWithTheWorld(this));
+            AddAfterUpdate(new MoveHorizontallyWithTheWorld(this));
             AddUpdate(new HitEffectFriction(this));
         }
     }

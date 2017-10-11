@@ -18,7 +18,7 @@ namespace MonoGameProject
             trigger.AddRightCollisionHandler(asdasd);
             AddCollider(trigger);
 
-            AddUpdate(new MoveHorizontallyWithTheWorld(this));
+            AddAfterUpdate(new MoveHorizontallyWithTheWorld(this));
         }
 
         private void asdasd(Collider source, Collider target)

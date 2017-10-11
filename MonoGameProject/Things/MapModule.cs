@@ -23,7 +23,7 @@ namespace MonoGameProject
 
             AddStageNumber();
 
-            AddUpdate(new MoveHorizontallyWithTheWorld(this));
+            AddAfterUpdate(new MoveHorizontallyWithTheWorld(this));
 
             AddUpdate(() =>
             {
@@ -107,7 +107,7 @@ namespace MonoGameProject
                     if (type == 'x')
                     {
                         var camlocker = new Thing();
-                        camlocker.AddUpdate(new MoveHorizontallyWithTheWorld(camlocker));
+                        camlocker.AddAfterUpdate(new MoveHorizontallyWithTheWorld(camlocker));
                         Game1.AddToWorld(camlocker);
                         Blocker
                             .WorldMover.camlocker = camlocker;
@@ -137,16 +137,10 @@ namespace MonoGameProject
                         animationborder.ColorGetter = () => Color.Black;//Colors[ColorIndex];
                         locker.AddAnimation(animationborder);
 
-                        locker.AddUpdate(new MoveHorizontallyWithTheWorld(locker));
+                        locker.AddAfterUpdate(new MoveHorizontallyWithTheWorld(locker));
                         Game1.AddToWorld(locker);
-                        var originalY = locker.Y;
-                        locker.AddUpdate(() =>
-                        {
-                            if (GameState.State.BossMode)
-                                locker.Y = originalY;
-                            else
-                                locker.Y = originalY - CELL_SIZE * 2;
-                        });
+                        //var originalY = locker.Y;
+
                         var collider = new GroundCollider()
                         {
                             OffsetX = 1,
@@ -155,6 +149,16 @@ namespace MonoGameProject
                             Height = CELL_SIZE * 2
                         };
                         locker.AddCollider(collider);
+
+                        locker.AddUpdate(() =>
+                        {
+                            collider.Disabled = !GameState.State.BossMode;
+                            //if (GameState.State.BossMode)
+                            //    locker.Y = originalY;
+                            //else
+                            //    locker.Y = originalY - CELL_SIZE * 2;
+                        });
+                    
                     }
                     if (type == 'l')
                     {

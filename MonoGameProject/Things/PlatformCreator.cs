@@ -699,6 +699,7 @@ namespace MonoGameProject
             if (lastModule != null)
             {
                 anchorX = lastModule.X + MapModule.WIDTH - WorldMover.WorldHorizontalSpeed;
+                anchorY = lastModule.Y;
             }
 
             while (true)

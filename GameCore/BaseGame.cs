@@ -66,12 +66,12 @@ internal class BaseGame : OriginalGameClass
         Graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
         Graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
 #else
-        Graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width / 2;
-        Graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height / 2;
-        //Graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
-        //Graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
+        //Graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width / 2;
+        //Graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height / 2;
+        Graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
+        Graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
 #endif
-        //Graphics.IsFullScreen = true;
+        Graphics.IsFullScreen = true;
 
         Graphics.ApplyChanges();
 
@@ -112,9 +112,9 @@ internal class BaseGame : OriginalGameClass
         var state = Keyboard.GetState();
 #if DEBUG
         if (!state.NumLock)
-            Camera.Zoom = 0.04f;
+            Camera.Zoom = 0.06f;
         else
-            Camera.Zoom = 0.1f;
+            Camera.Zoom = 0.15f;
 
         DisplayColliders = state.CapsLock;
 
@@ -263,7 +263,7 @@ internal class BaseGame : OriginalGameClass
                         thing.Y + collider.OffsetY,
                         collider.Width,
                         collider.Height),
-                    50,
+                    20,
                     collider.Disabled ? Color.Red : Color.Green
                 )
             );

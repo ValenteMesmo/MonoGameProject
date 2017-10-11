@@ -58,7 +58,7 @@ namespace MonoGameProject
             AddAnimation(animation);
 
             AddUpdate(new DestroyIfLeftBehind(this));
-            AddUpdate(new MoveHorizontallyWithTheWorld(this));
+            AddAfterUpdate(new MoveHorizontallyWithTheWorld(this));
 
             HorizontalSpeed = facingRight ? 80 : -80;
             VerticalSpeed = -SPEED;
@@ -100,7 +100,7 @@ namespace MonoGameProject
             HorizontalSpeed = speedX;
             VerticalSpeed = speedY;
             AddUpdate(new DestroyIfLeftBehind(this));
-            AddUpdate(new MoveHorizontallyWithTheWorld(this));
+            AddAfterUpdate(new MoveHorizontallyWithTheWorld(this));
         }
     }
 
@@ -130,7 +130,7 @@ namespace MonoGameProject
             HorizontalSpeed = speedX;
             VerticalSpeed = speedY;
             AddUpdate(new DestroyIfLeftBehind(this));
-            AddUpdate(new MoveHorizontallyWithTheWorld(this));
+            AddAfterUpdate(new MoveHorizontallyWithTheWorld(this));
         }
     }
 
@@ -157,7 +157,7 @@ namespace MonoGameProject
             VerticalSpeed = 0;
 
             AddUpdate(new DestroyIfLeftBehind(this));
-            AddUpdate(new MoveHorizontallyWithTheWorld(this));
+            AddAfterUpdate(new MoveHorizontallyWithTheWorld(this));
 
             AddUpdate(() =>
             {

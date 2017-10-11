@@ -22,7 +22,7 @@ namespace MonoGameProject
             animation.ColorGetter = () => Color;
             AddAnimation(animation);
 
-            AddUpdate(new MoveHorizontallyWithTheWorld(this));
+            AddAfterUpdate(new MoveHorizontallyWithTheWorld(this));
             AddUpdate(new DestroyIfLeftBehind(this));
         }
     }

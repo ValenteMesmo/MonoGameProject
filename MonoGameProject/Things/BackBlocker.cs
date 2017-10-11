@@ -18,7 +18,7 @@ namespace MonoGameProject
                 Width = WIDTH,
                 Height = HEIGHT
             });
-            AddUpdate(new MoveHorizontallyWithTheWorld(this));
+            AddAfterUpdate(new MoveHorizontallyWithTheWorld(this));
 
             var block = GeneratedContent.Create_knight_block(0, 0, WIDTH, HEIGHT);
             block.RenderingLayer = 1.5f;

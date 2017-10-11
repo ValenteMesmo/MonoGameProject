@@ -9,6 +9,17 @@ namespace MonoGameProject
         //melhorar a saida do bigfireball
         // fazer o spikeball kickar no chão e no teto
         //  reduce idle duration when damage taken
+        //  ajust camera to the new zoom
+            
+        //vibrar quando pegar armadura
+        //reduzir o playerfinder do wolfboss
+        // "it" like gauthled II  (uma chapeu de burro? ou uma coroa? pomba!)
+        //turn into a controllable ghost after death
+        // comes back to life on checkpoint
+
+        //grunidos no timing certo da musica
+        //  quando atacar, pular, apanhar, pegar item, matar
+        //      , quebrar, sweetdreams, headbump
 
         //break spikes on hit
         //stalagmite, roots, cipós

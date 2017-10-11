@@ -18,7 +18,7 @@ namespace MonoGameProject
                     cooldown = 200;
                 }
             });
-            AddUpdate(new MoveHorizontallyWithTheWorld(this));
+            AddAfterUpdate(new MoveHorizontallyWithTheWorld(this));
             AddUpdate(new DestroyIfLeftBehind(this));
         }
     }

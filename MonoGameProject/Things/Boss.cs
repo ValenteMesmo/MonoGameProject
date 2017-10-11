@@ -125,7 +125,7 @@ namespace MonoGameProject
             CreateEyeAnimator(MyRandom.Next(1, 3), EYE_Z, Game1);
             CreateBody(MyRandom.Next(1, 3), Game1, headType);
 
-            AddUpdate(new MoveHorizontallyWithTheWorld(this));
+            AddAfterUpdate(new MoveHorizontallyWithTheWorld(this));
             AddUpdate(new AfectedByGravity(this));
             AddUpdate(MoveAttackCollider);
             AddUpdate(CheckIfGrounded);
@@ -334,7 +334,7 @@ namespace MonoGameProject
                         pilar.X = X;
                         pilar.Y = Y;
                         var duration = 50;
-                        pilar.AddUpdate(new MoveHorizontallyWithTheWorld(pilar));
+                        pilar.AddAfterUpdate(new MoveHorizontallyWithTheWorld(pilar));
                         pilar.AddUpdate(() =>
                         {
                             if (Dead() == false)
@@ -392,7 +392,7 @@ namespace MonoGameProject
                         collider.AddTopCollisionHandler(StopsWhenHitting.Top);
                         collider.AddLeftCollisionHandler(StopsWhenHitting.Left);
                         collider.AddRightCollisionHandler(StopsWhenHitting.Right);
-                        var speed = 80;
+                        var speed = 60;
                         spikeBall.VerticalSpeed = speed;
                         collider.AddBotCollisionHandler((s, t) =>
                         {
@@ -429,7 +429,7 @@ namespace MonoGameProject
 
 
                         //spikeBall.AddUpdate(new AfectedByGravity(spikeBall));
-                        spikeBall.AddUpdate(new MoveHorizontallyWithTheWorld(spikeBall));
+                        spikeBall.AddAfterUpdate(new MoveHorizontallyWithTheWorld(spikeBall));
                         var duration = 500;
                         spikeBall.AddUpdate(() =>
                         {

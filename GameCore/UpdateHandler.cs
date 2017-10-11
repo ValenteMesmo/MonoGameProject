@@ -4,4 +4,9 @@
     {
         void Update();
     }
+
+    public interface AfterUpdateHandler
+    {
+        void Update();
+    }
 }

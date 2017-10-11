@@ -7,9 +7,13 @@ namespace MonoGameProject
     {
         public readonly Camera2d Camera;
         public static int WorldHorizontalSpeed;
+        public static int WorldVerticalSpeed;
         private Thing MovingRightBy;
         private Thing MovingLeftBy;
+        private Thing MovingBotBy;
+        private Thing MovingTopBy;
         private bool BackBlocking;
+        private bool DownBlocking;
         private const int VELOCITY = 6;
         private const int FRICTION = 8;
         internal Thing camlocker;
@@ -22,52 +26,85 @@ namespace MonoGameProject
 
             AddUpdate(() =>
             {
-                if (MovingRightBy == null && MovingLeftBy == null)
-                {
-                    if (WorldHorizontalSpeed > 0)
-                    {
-                        WorldHorizontalSpeed -= FRICTION;
-                        if (WorldHorizontalSpeed < 0)
-                            WorldHorizontalSpeed = 0;
-                    }
-                    else if (WorldHorizontalSpeed < 0)
-                    {
-                        WorldHorizontalSpeed += FRICTION;
-                        if (WorldHorizontalSpeed > 0)
-                            WorldHorizontalSpeed = 0;
-                    }
-                }
-                if (GameState.State.BossMode)
-                {
-                    var expected = -MapModule.WIDTH;
-
-                    //-8001   -8000
-                    if (camlocker.X < expected && Math.Abs(camlocker.X - expected) > 100)
-                    {
-                        WorldHorizontalSpeed = -100;
-                        if (camlocker.X > expected)
-                        {
-                            WorldHorizontalSpeed = 0;
-                        }
-                    }
-                    //-7999   -8000
-                    else if (camlocker.X > expected && Math.Abs(expected - camlocker.X) > 100)
-                    {
-                        WorldHorizontalSpeed = 100;
-                        if (camlocker.X < expected)
-                        {
-                            WorldHorizontalSpeed = 0;
-                        }
-                    }
-                    else
-                        WorldHorizontalSpeed = 0;
-                }
+                GraduallyReduceHorizontalSpeed();
+                GraduallyReduceVerticalSpeed();
+                LockIfBossMode();
             });
 
             CreateLeftCollider();
             CreateRightCollider();
+            CreateBotCollider();
+            CreateTopCollider();
 
             AddUpdate(() => BackBlocking = false);
+            AddUpdate(() => DownBlocking = false);
+        }
+
+        private void LockIfBossMode()
+        {
+            if (GameState.State.BossMode)
+            {
+                var expected = -MapModule.WIDTH;
+
+                //-8001   -8000
+                if (camlocker.X < expected && Math.Abs(camlocker.X - expected) > 100)
+                {
+                    WorldHorizontalSpeed = -100;
+                    if (camlocker.X > expected)
+                    {
+                        WorldHorizontalSpeed = 0;
+                    }
+                }
+                //-7999   -8000
+                else if (camlocker.X > expected && Math.Abs(expected - camlocker.X) > 100)
+                {
+                    WorldHorizontalSpeed = 100;
+                    if (camlocker.X < expected)
+                    {
+                        WorldHorizontalSpeed = 0;
+                    }
+                }
+                else
+                    WorldHorizontalSpeed = 0;
+            }
+        }
+
+        private void GraduallyReduceHorizontalSpeed()
+        {
+            if (MovingRightBy == null && MovingLeftBy == null)
+            {
+                if (WorldHorizontalSpeed > 0)
+                {
+                    WorldHorizontalSpeed -= FRICTION;
+                    if (WorldHorizontalSpeed < 0)
+                        WorldHorizontalSpeed = 0;
+                }
+                else if (WorldHorizontalSpeed < 0)
+                {
+                    WorldHorizontalSpeed += FRICTION;
+                    if (WorldHorizontalSpeed > 0)
+                        WorldHorizontalSpeed = 0;
+                }
+            }
+        }
+
+        private void GraduallyReduceVerticalSpeed()
+        {
+            if (MovingBotBy == null && MovingTopBy == null)
+            {
+                if (WorldVerticalSpeed > 0)
+                {
+                    WorldVerticalSpeed -= FRICTION;
+                    if (WorldVerticalSpeed < 0)
+                        WorldVerticalSpeed = 0;
+                }
+                else if (WorldVerticalSpeed < 0)
+                {
+                    WorldVerticalSpeed += FRICTION;
+                    if (WorldVerticalSpeed > 0)
+                        WorldVerticalSpeed = 0;
+                }
+            }
         }
 
         private void CreateRightCollider()
@@ -131,6 +168,83 @@ namespace MonoGameProject
                     WorldHorizontalSpeed = 0;
             });
             AddUpdate(() => MovingLeftBy = null);
+        }
+
+        private void CreateBotCollider()
+        {
+            var BotCollider = new Collider
+            {
+                OffsetX = -6000,
+                OffsetY = 2000,
+                Width = 12000,
+                Height = MapModule.CELL_SIZE * 2
+            };
+
+            BotCollider.AddLeftCollisionHandler(StoreTheBotMovementCause);
+            BotCollider.AddRightCollisionHandler(StoreTheBotMovementCause);
+            BotCollider.AddTopCollisionHandler(StoreTheBotMovementCause);
+            BotCollider.AddBotCollisionHandler(StoreTheBotMovementCause);
+
+            AddCollider(BotCollider);
+
+            AddUpdate(() =>
+            {
+                if (
+                MovingBotBy != null
+                && MovingBotBy.VerticalSpeed > 0
+                )
+                    WorldVerticalSpeed = MovingBotBy.VerticalSpeed;
+
+                if (DownBlocking)
+                    WorldVerticalSpeed = 0;
+
+            });
+            AddUpdate(() => MovingBotBy = null);
+        }
+
+        private void CreateTopCollider()
+        {
+            var TopCollider = new Collider
+            {
+                OffsetX = -6000,
+                OffsetY = -5000,
+                Width = 12000,
+                Height = 4000
+            };
+
+            TopCollider.AddLeftCollisionHandler(StoreTheTopMovementCause);
+            TopCollider.AddRightCollisionHandler(StoreTheTopMovementCause);
+            TopCollider.AddTopCollisionHandler(StoreTheTopMovementCause);
+            TopCollider.AddBotCollisionHandler(StoreTheTopMovementCause);
+
+            AddCollider(TopCollider);
+
+            AddUpdate(() =>
+            {
+                if (
+                MovingTopBy != null
+                && MovingTopBy.VerticalSpeed < 0
+                )
+                    WorldVerticalSpeed = MovingTopBy.VerticalSpeed;
+
+            });
+            AddUpdate(() => MovingTopBy = null);
+        }
+
+        private void StoreTheTopMovementCause(Collider c1, Collider c2)
+        {
+            if (c2.Parent is Player)
+                MovingTopBy = c2.Parent;
+        }
+
+        private void StoreTheBotMovementCause(Collider c1, Collider c2)
+        {
+            if (c2.Parent is Player)
+                MovingBotBy = c2.Parent;
+            //if (c2.Parent is ViewDownBlocker)
+            //{
+            //    DownBlocking = true;
+            //}
         }
 
 
