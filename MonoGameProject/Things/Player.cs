@@ -6,11 +6,9 @@ namespace MonoGameProject
     public class Player : Humanoid
     {
         //planning: 
-        //melhorar a saida do bigfireball
         //corrigir distancia entre modulos
-        //colocar teto nos mapas abertos
         //  reduce idle duration when damage taken
-            
+
         //vibrar quando pegar armadura
         //reduzir o playerfinder do wolfboss
         // "it" like gauthled II  (uma chapeu de burro? ou uma coroa? pomba! libelula, mosquito [fazendo barulho])
@@ -203,7 +201,8 @@ namespace MonoGameProject
                     HitPoints = 2;
                     ArmorColor = (t.Parent as Armor).Color;
                     t.Parent.Destroy();
-                    Game1.ScreenFader.Flash(ArmorColor.R, ArmorColor.G, ArmorColor.B, X,Y);
+                    Game1.ScreenFader.Flash(ArmorColor.R, ArmorColor.G, ArmorColor.B, X, Y);
+                    Game1.VibrationCenter.Vibrate(PlayerIndex, 5);
                 }
             };
 

@@ -44,15 +44,15 @@ namespace MonoGameProject
             AddThing(WorldMover);
             AddThing(new PlatformCreator(WorldMover, AddThing, this));
 
-            //var roof = new Thing();
-            ////roof.AddAfterUpdate(new MoveHorizontallyWithTheWorld(roof));
-            //roof.AddCollider(new SolidCollider
-            //{
-            //    OffsetY = -MapModule.CELL_SIZE,
-            //    Height = 4 * MapModule.CELL_SIZE,
-            //    Width = 16 * 2 * MapModule.CELL_SIZE
-            //});
-            //AddThing(roof);
+            var roof = new Thing();
+            roof.AddAfterUpdate(new MoveHorizontallyWithTheWorld(roof,1,true));
+            roof.AddCollider(new SolidCollider
+            {
+                OffsetY = -MapModule.CELL_SIZE,
+                Height = 4 * MapModule.CELL_SIZE,
+                Width = 16 * 2 * MapModule.CELL_SIZE
+            });
+            AddThing(roof);
 
             {
                 AddThing(new ParalaxBackgroundCreator(WorldMover, AddThing, this, (x, y, width, height) => GeneratedContent.Create_knight_dead_tree(x, y), 3, 0.91f));
