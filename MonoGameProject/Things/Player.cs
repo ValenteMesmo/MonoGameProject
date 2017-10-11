@@ -9,7 +9,6 @@ namespace MonoGameProject
         //corrigir distancia entre modulos
         //  reduce idle duration when damage taken
 
-        //vibrar quando pegar armadura
         //reduzir o playerfinder do wolfboss
         // "it" like gauthled II  (uma chapeu de burro? ou uma coroa? pomba! libelula, mosquito [fazendo barulho])
         //turn into a controllable ghost after death

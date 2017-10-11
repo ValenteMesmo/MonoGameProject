@@ -701,7 +701,7 @@ namespace MonoGameProject
             var newMap = CurrentModules[GameState.PlatformRandomModule.Next(0, CurrentModules.Count - 1)];
             if (lastModule != null)
             {
-                anchorX = lastModule.X + MapModule.WIDTH - WorldMover.WorldHorizontalSpeed;
+                anchorX = lastModule.X + MapModule.WIDTH;
                 anchorY = lastModule.Y;
             }
 
