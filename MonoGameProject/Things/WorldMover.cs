@@ -18,6 +18,7 @@ namespace MonoGameProject
         private bool AllGoingTop;
         private bool AllGoingLeft;
         private bool AllGoingRight;
+        private bool UpBlocking;
 
         public WorldMover(Camera2d Camera, params Player[] Players)
         {
@@ -41,6 +42,7 @@ namespace MonoGameProject
 
             AddUpdate(() => BackBlocking = false);
             AddUpdate(() => DownBlocking = false);
+            AddUpdate(() => UpBlocking = false);
         }
 
         private void LockIfBossMode()
@@ -243,7 +245,7 @@ namespace MonoGameProject
                 if (AllGoingBot && verticalSpeed > 0)
                     WorldVerticalSpeed = verticalSpeed;
 
-                if (DownBlocking)
+                if (DownBlocking && verticalSpeed > 0)
                     WorldVerticalSpeed = 0;
             });
         }
@@ -258,7 +260,7 @@ namespace MonoGameProject
                 Height = 4000
             };
 
-            //TopCollider.addhandler(StoreTheTopMovementCause);
+            TopCollider.AddHandler(StoreTheTopMovementCause);
 
             AddCollider(TopCollider);
 
@@ -285,16 +287,16 @@ namespace MonoGameProject
                 if (AllGoingTop && verticalSpeed < 0)
                     WorldVerticalSpeed = verticalSpeed;
 
-                //if (UpBlocking)
-                //    WorldVerticalSpeed = 0;
+                if (UpBlocking && verticalSpeed < 0)
+                    WorldVerticalSpeed = 0;
             });
         }
 
-        //private void StoreTheTopMovementCause(Collider c1, Collider c2)
-        //{
-        //    if (c2.Parent is Player)
-        //        MovingTopBy = c2.Parent;
-        //}
+        private void StoreTheTopMovementCause(Collider c1, Collider c2)
+        {
+            if (c2.Parent is UpBlocker)
+                UpBlocking = true;
+        }
 
         private void StoreTheBotMovementCause(Collider c1, Collider c2)
         {

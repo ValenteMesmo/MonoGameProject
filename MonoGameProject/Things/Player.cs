@@ -7,9 +7,9 @@ namespace MonoGameProject
     {
         //planning: 
         //melhorar a saida do bigfireball
-        // fazer o spikeball kickar no chão e no teto
+        //corrigir distancia entre modulos
+        //colocar teto nos mapas abertos
         //  reduce idle duration when damage taken
-        //  ajust camera to the new zoom
             
         //vibrar quando pegar armadura
         //reduzir o playerfinder do wolfboss
@@ -20,6 +20,7 @@ namespace MonoGameProject
         //grunidos no timing certo da musica
         //  quando atacar, pular, apanhar, pegar item, matar
         //      , quebrar, sweetdreams, headbump
+        //  monstros falarem "tutum" e "ó" no ritmo da musica?
 
         //break spikes on hit
         //stalagmite, roots, cipós

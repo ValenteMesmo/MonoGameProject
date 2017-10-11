@@ -26,11 +26,24 @@ namespace MonoGameProject
         }
     }
 
+    public class UpBlocker : Thing
+    {
+        public UpBlocker()
+        {
+            AddAfterUpdate(new MoveHorizontallyWithTheWorld(this, 1, true));
+            AddCollider(new Collider(8000, 2000)
+            {
+                OffsetX = 4000,
+                OffsetY = -2450
+            });
+        }
+    }
+
     public class DownBlocker : Thing
     {
         public DownBlocker()
         {
-            AddAfterUpdate(new MoveHorizontallyWithTheWorld(this));
+            AddAfterUpdate(new MoveHorizontallyWithTheWorld(this, 1, true));
             AddCollider(new Collider(8000, 4000)
             {
                 OffsetX = 4000,
