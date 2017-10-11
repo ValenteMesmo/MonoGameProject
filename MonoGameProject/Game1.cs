@@ -40,7 +40,7 @@ namespace MonoGameProject
 
 
 
-            var WorldMover = new WorldMover(Camera);
+            var WorldMover = new WorldMover(Camera, player);
             AddThing(WorldMover);
             AddThing(new PlatformCreator(WorldMover, AddThing, this));
 
