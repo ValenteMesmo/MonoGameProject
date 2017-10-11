@@ -11,12 +11,15 @@ namespace MonoGameProject
 
         protected override void OnStart()
         {
+            Camera.Clear();
+            Camera.Pos = new Vector2(5000f, 4500f);
+            Camera.Zoom =
+                 0.1f;
+
             GameState.Load();
 
             ScreenFader = new ScreenFader();
             AddToWorld(ScreenFader);
-
-
 
             var player = new Player(this, 0, AddThing);
             player.X = 1000;
@@ -36,22 +39,20 @@ namespace MonoGameProject
             //    player2.Y = player.Y;
             //    AddThing(player2);
             //}
-
-
-
-
+                        
             var WorldMover = new WorldMover(Camera, player);
             AddThing(WorldMover);
             AddThing(new PlatformCreator(WorldMover, AddThing, this));
 
-            var roof = new Thing();
-            roof.AddCollider(new SolidCollider
-            {
-                OffsetY = -MapModule.CELL_SIZE,
-                Height = 4 * MapModule.CELL_SIZE,
-                Width = 16 * 2 * MapModule.CELL_SIZE
-            });
-            AddThing(roof);
+            //var roof = new Thing();
+            ////roof.AddAfterUpdate(new MoveHorizontallyWithTheWorld(roof));
+            //roof.AddCollider(new SolidCollider
+            //{
+            //    OffsetY = -MapModule.CELL_SIZE,
+            //    Height = 4 * MapModule.CELL_SIZE,
+            //    Width = 16 * 2 * MapModule.CELL_SIZE
+            //});
+            //AddThing(roof);
 
             {
                 AddThing(new ParalaxBackgroundCreator(WorldMover, AddThing, this, (x, y, width, height) => GeneratedContent.Create_knight_dead_tree(x, y), 3, 0.91f));

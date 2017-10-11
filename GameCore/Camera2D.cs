@@ -17,10 +17,19 @@ namespace GameCore
         protected float Rotation;
         private float _zoom;
 
+        private int shakeUpDuration;
+        private int shakeUpPower;
+
         //private const float VIRTUAL_WIDTH = 1280;
         //private const float VIRTUAL_HEIGHT = 720;
         private const float VIRTUAL_WIDTH = 1366;
         private const float VIRTUAL_HEIGHT = 768;
+
+        public void Clear()
+        {
+            shakeUpDuration = 0;
+            shakeUpPower = 0;
+        }
 
         public float Zoom
         {
@@ -73,8 +82,6 @@ namespace GameCore
             return Vector2.Transform(position, Transform);
         }
 
-        private int shakeUpDuration;
-        private int shakeUpPower;
         public void ShakeUp(int power)
         {
             if (shakeUpPower < power)

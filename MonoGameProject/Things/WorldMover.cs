@@ -23,6 +23,7 @@ namespace MonoGameProject
         {
             this.Players = Players;
             this.Camera = Camera;
+
             X = (int)Camera.Pos.X;
             Y = (int)Camera.Pos.Y;
 
@@ -47,7 +48,7 @@ namespace MonoGameProject
             if (GameState.State.BossMode)
             {
                 {
-                    var expected = -MapModule.WIDTH;
+                    var expected = 4950;
 
                     if (camlocker.X > expected)
                     {
@@ -65,7 +66,7 @@ namespace MonoGameProject
                 }
 
                 {
-                    var expected = -1500;
+                    var expected = 5500;
                     
                     if (camlocker.Y > expected)
                     {

@@ -107,6 +107,8 @@ namespace MonoGameProject
                     if (type == 'x')
                     {
                         var camlocker = new Thing();
+                        camlocker.X = X + j * CELL_SIZE;
+                        camlocker.Y = (Y + i * CELL_SIZE);
                         camlocker.AddAfterUpdate(new MoveHorizontallyWithTheWorld(camlocker));
                         Game1.AddToWorld(camlocker);
                         Blocker
