@@ -310,10 +310,10 @@ namespace MonoGameProject
                     if (state == BossState.EyeAttack)
                     {
                         var newThing = new Thing();
-                        var duration = 100;
+                        var duration = 50;
 
-                        var MAX = 50;
-                        var MIN = 2;
+                        var MAX = 80;
+                        var MIN = 10;
 
                         var hspeed = 0;
                         var vspeed = MAX;
@@ -322,7 +322,7 @@ namespace MonoGameProject
 
                         newThing.AddUpdate(() =>
                         {
-                            if (duration % 8 == 0)
+                            if (duration % 3 == 0)
                             {
                                 Game1.AddToWorld(
                                     new FireBall(
@@ -331,8 +331,8 @@ namespace MonoGameProject
                                         , Game1.AddToWorld
                                     )
                                     {
-                                        X = X,
-                                        Y = Y,
+                                        X = X + (facingRight? 600:0),
+                                        Y = Y-600,
                                         ColorGetter = GameState.GetColor
                                     }
                                 );
@@ -518,7 +518,7 @@ namespace MonoGameProject
             if (headType == 2)
                 return boss =>
             {
-                var speed = -FireBall.SPEED;
+                var speed = -100;
                 if (boss.facingRight)
                     speed = -speed;
 

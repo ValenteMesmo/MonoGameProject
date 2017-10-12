@@ -94,7 +94,8 @@ namespace MonoGameProject
             , MapModule.CELL_SIZE
             , MapModule.CELL_SIZE
             );
-            animation.RenderingLayer = 0.4f;
+            animation.RenderingLayer = Boss.RIGHT_ARM_Z - 0.001f;
+            animation.ColorGetter = () => ColorGetter();
             AddAnimation(animation);
 
             HorizontalSpeed = speedX;
@@ -106,8 +107,6 @@ namespace MonoGameProject
 
     public class SonicBoom : BaseFireBall
     {
-        public const int SPEED = 150;
-
         public SonicBoom(int speedX, int speedY, Action<Thing> AddToWorld) : base(AddToWorld)
         {
             var animation = GeneratedContent.Create_knight_SoniicBoom(
