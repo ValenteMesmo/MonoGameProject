@@ -38,3 +38,9 @@
 /processorParam:DebugMode=Auto
 /build:ColorChanger.fx
 
+#begin test.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:test.wav
+

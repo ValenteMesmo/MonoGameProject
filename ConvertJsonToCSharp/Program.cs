@@ -30,16 +30,19 @@ namespace ConvertJsonToCSharp
                     f.Extension == ".json"
                 );
 
-            CreateCSharpFile(SharedContentDirectoryPath, imageFiles, jsonFiles);
+            var wavFiles = new DirectoryInfo(SharedContentDirectoryPath)
+              .GetFiles("*.*", SearchOption.AllDirectories)
+              .Where(f =>
+                  f.Extension == ".wav"
+              );
+
+            CreateCSharpFile(SharedContentDirectoryPath, imageFiles, jsonFiles, wavFiles);
         }
 
-        private static void CreateCSharpFile(
-            string path,
-            IEnumerable<FileInfo> imageFiles,
-            IEnumerable<FileInfo> jsonFiles)
+        private static string GetFilesNamesAsStringfiedArray(IEnumerable<FileInfo> files)
         {
             var fileNamesArray = "new string[] {";
-            foreach (var image in imageFiles)
+            foreach (var image in files)
             {
                 if (image.Name.StartsWith("Icon"))
                     continue;
@@ -48,7 +51,17 @@ namespace ConvertJsonToCSharp
             }
             fileNamesArray = fileNamesArray.Remove(fileNamesArray.Length - 1);
             fileNamesArray += " }";
+            return fileNamesArray;
+        }
 
+        private static void CreateCSharpFile(
+            string path,
+            IEnumerable<FileInfo> imageFiles,
+            IEnumerable<FileInfo> jsonFiles,
+            IEnumerable<FileInfo>  wavFiles)
+        {
+            var fileNamesArray = GetFilesNamesAsStringfiedArray(imageFiles);
+            var soundFileNamesArray = GetFilesNamesAsStringfiedArray(wavFiles);
 
             var methods = "";
             foreach (var file in jsonFiles)
@@ -65,7 +78,7 @@ using System.Collections.Generic;
 public class GeneratedContent : ILoadContents
 {{  
     private string[] spriteNames = {fileNamesArray};
-    private string[] soundNames = new string[]{{}};
+    private string[] soundNames = {soundFileNamesArray};
 
     public IEnumerable<string> GetTextureNames()
     {{

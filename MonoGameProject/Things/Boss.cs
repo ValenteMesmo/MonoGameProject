@@ -57,7 +57,6 @@ namespace MonoGameProject
         private Game1 Game1;
 
         public readonly AttackCollider attackCollider;
-        private readonly Collider headCollider;
         public readonly Collider mainCollider;
         public readonly CollisionChecker groundDetector;
         public readonly Collider playerFinder;
@@ -88,15 +87,6 @@ namespace MonoGameProject
             };
             AddCollider(attackCollider);
 
-            headCollider = new Collider
-            {
-                Height = height / 2,
-                Width = 500,
-                OffsetX = -500,
-                OffsetY = 100//500
-            };
-            AddCollider(headCollider);
-
             mainCollider = new Collider(width, height);
 
             mainCollider.AddBotCollisionHandler(StopsWhenHitting.Bot);
@@ -116,7 +106,6 @@ namespace MonoGameProject
             AddCollider(playerFinder);
 
             mainCollider.AddHandler(HandlePlayerAttack);
-            headCollider.AddHandler(HandlePlayerAttack);
 
             AddCollider(mainCollider);
 
@@ -224,13 +213,11 @@ namespace MonoGameProject
             if (facingRight)
             {
                 attackCollider.OffsetX = mainCollider.Width;
-                headCollider.OffsetX = mainCollider.Width;
                 playerFinder.OffsetX = mainCollider.Width;
             }
             else
             {
                 attackCollider.OffsetX = -attackCollider.Width;
-                headCollider.OffsetX = -headCollider.Width;
                 playerFinder.OffsetX = -playerFinder.Width;
             }
 
@@ -326,13 +313,13 @@ namespace MonoGameProject
                             {
                                 Game1.AddToWorld(
                                     new FireBall(
-                                        hspeed 
+                                        hspeed
                                         , vspeed
                                         , Game1.AddToWorld
                                     )
                                     {
-                                        X = X + (facingRight? 600:0),
-                                        Y = Y-600,
+                                        X = X + (facingRight ? 600 : 0),
+                                        Y = Y - 600,
                                         ColorGetter = GameState.GetColor
                                     }
                                 );
@@ -394,30 +381,33 @@ namespace MonoGameProject
                             , -size / 6,
                             size,
                             size);
-                        anim.RenderingLayer = Boss.HEAD_Z;
+                        anim.RenderingLayer = Boss.RIGHT_ARM_Z - 0.001f;
                         anim.ColorGetter = GameState.GetColor;
                         spikeBall.AddAnimation(anim);
-                        spikeBall.X = facingRight ? X : (int)mainCollider.CenterX();
-                        spikeBall.Y = Y;
+                        spikeBall.X = facingRight ? X+1000 : X-200 ;
+                        spikeBall.Y = Y - 1200;
                         collider.AddBotCollisionHandler(StopsWhenHitting.Bot);
                         collider.AddTopCollisionHandler(StopsWhenHitting.Top);
                         collider.AddLeftCollisionHandler(StopsWhenHitting.Left);
                         collider.AddRightCollisionHandler(StopsWhenHitting.Right);
-                        var speed = 60;
+                        var speed = 40;
+
+                        var mod = facingRight ? -1 : 1;
                         spikeBall.VerticalSpeed = speed;
+
                         collider.AddBotCollisionHandler((s, t) =>
                         {
                             if (t is GroundCollider)
                             {
                                 spikeBall.VerticalSpeed = 0;
-                                spikeBall.HorizontalSpeed = speed;
+                                spikeBall.HorizontalSpeed = speed * mod;
                             }
                         });
                         collider.AddRightCollisionHandler((s, t) =>
                         {
                             if (t is GroundCollider)
                             {
-                                spikeBall.VerticalSpeed = -speed;
+                                spikeBall.VerticalSpeed = -speed * mod;
                                 spikeBall.HorizontalSpeed = 0;
                             }
                         });
@@ -426,14 +416,14 @@ namespace MonoGameProject
                             if (t is GroundCollider)
                             {
                                 spikeBall.VerticalSpeed = 0;
-                                spikeBall.HorizontalSpeed = -speed;
+                                spikeBall.HorizontalSpeed = -speed * mod;
                             }
                         });
                         collider.AddLeftCollisionHandler((s, t) =>
                         {
                             if (t is GroundCollider)
                             {
-                                spikeBall.VerticalSpeed = speed;
+                                spikeBall.VerticalSpeed = speed * mod;
                                 spikeBall.HorizontalSpeed = 0;
                             }
                         });
@@ -441,7 +431,7 @@ namespace MonoGameProject
 
                         //spikeBall.AddUpdate(new AfectedByGravity(spikeBall));
                         spikeBall.AddAfterUpdate(new MoveHorizontallyWithTheWorld(spikeBall));
-                        var duration = 500;
+                        var duration = 1000;
                         spikeBall.AddUpdate(() =>
                         {
                             duration--;

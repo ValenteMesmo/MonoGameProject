@@ -6,8 +6,16 @@ namespace MonoGameProject
     public class Player : Humanoid
     {
         //planning: 
-        //corrigir distancia entre modulos
-        //  reduce idle duration when damage taken        
+        //  reduce idle duration when damage taken
+
+        //HEALTH nos projéteis
+        
+        //espada
+        //foice
+        //hammer
+        
+        //staff
+        //wand
 
         //reduzir o playerfinder do wolfboss
         // "it" like gauthled II  (uma chapeu de burro? ou uma coroa? pomba! libelula, mosquito [fazendo barulho])
@@ -183,12 +191,21 @@ namespace MonoGameProject
             HitPoints = 2;
             PlayerIndex = index;
 
+            var aaaa = 0;
+            PlaySound("test");
             AddUpdate(() =>
             {
                 if (HitPoints == 0)
                     Inputs.Disabled = true;
                 else
                     Inputs.Disabled = false;
+
+                aaaa++;
+                if (aaaa == 98)
+                {
+                    aaaa = 0;
+                    PlaySound("test");
+                }
             });
 
             AddUpdate(new TakesDamage(this, Game1, AddToWorld));
