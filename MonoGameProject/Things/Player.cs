@@ -7,7 +7,7 @@ namespace MonoGameProject
     {
         //planning: 
         //corrigir distancia entre modulos
-        //  reduce idle duration when damage taken
+        //  reduce idle duration when damage taken        
 
         //reduzir o playerfinder do wolfboss
         // "it" like gauthled II  (uma chapeu de burro? ou uma coroa? pomba! libelula, mosquito [fazendo barulho])
@@ -139,7 +139,7 @@ namespace MonoGameProject
         //se move para longe do jogador
 
         //cara 
-        //  de lobo, techugo, de urso, de boi, de cavalo, de porco, de aranha, de leão, de dragao, de caveira, cthulu, bills
+        //  de lobo, techugo, preguiça, de urso, de boi, de cavalo, de porco, de aranha, de leão, de dragao, de caveira, cthulu, bills
         //testa
         //  chifre de boi, chifre de unicornio, coroa
         //pescoço

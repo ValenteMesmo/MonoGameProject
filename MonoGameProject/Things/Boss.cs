@@ -309,53 +309,64 @@ namespace MonoGameProject
                 {
                     if (state == BossState.EyeAttack)
                     {
-                        var pilar = new Thing();
-                        var size = 2000;
-                        var collider = new AttackCollider
-                        {
-                            OffsetX = 0,
-                            OffsetY = -size / 2,
-                            Width = size,
-                            Height = size / 2,
-                            Disabled = true
-                        };
-                        pilar.AddCollider(collider);
-                        var anim = GeneratedContent.Create_knight_pilar(
-                             -width / 2 + BossAnimationsFactory.GetHeadBonusX(facingRight)
-                            , offsetY
-                            , width * 2
-                            , height * 2
-                            , facingRight);
+                        var newThing = new Thing();
+                        var duration = 100;
 
-                        anim.ColorGetter = GameState.GetColor;
-                        anim.LoopDisabled = true;
-                        anim.RenderingLayer = Boss.EYE_Z - 0.0001f;
-                        pilar.AddAnimation(anim);
-                        pilar.X = X;
-                        pilar.Y = Y;
-                        var duration = 50;
-                        pilar.AddAfterUpdate(new MoveHorizontallyWithTheWorld(pilar));
-                        pilar.AddUpdate(() =>
+                        var MAX = 50;
+                        var MIN = 2;
+
+                        var hspeed = 0;
+                        var vspeed = MAX;
+                        var hvelocity = MIN;
+                        var vvelocity = -MIN;
+
+                        newThing.AddUpdate(() =>
                         {
-                            if (Dead() == false)
+                            if (duration % 8 == 0)
                             {
-                                pilar.X = X;
-                                pilar.Y = Y;
+                                Game1.AddToWorld(
+                                    new FireBall(
+                                        hspeed 
+                                        , vspeed
+                                        , Game1.AddToWorld
+                                    )
+                                    {
+                                        X = X,
+                                        Y = Y,
+                                        ColorGetter = GameState.GetColor
+                                    }
+                                );
                             }
 
-                            if (duration < 45)
-                                collider.Disabled = false;
+                            vspeed += vvelocity;
+                            hspeed += hvelocity;
 
-                            if (duration < 25)
-                                collider.Disabled = true;
+                            if (vspeed >= MAX)
+                            {
+                                vvelocity = -MIN;
+                            }
+                            if (vspeed <= -MAX)
+                            {
+                                vvelocity = MIN;
+                            }
+
+                            if (hspeed >= MAX)
+                            {
+                                hvelocity = -MIN;
+                            }
+                            if (hspeed <= -MAX)
+                            {
+                                hvelocity = MIN;
+                            }
 
                             duration--;
-                            if (duration <= 0)
+                            if (duration == 0 || Dead())
                             {
-                                pilar.Destroy();
+                                newThing.Destroy();
                             }
                         });
-                        Game1.AddToWorld(pilar);
+
+                        Game1.AddToWorld(newThing);
                     }
                 };
             }
@@ -517,7 +528,7 @@ namespace MonoGameProject
                         , Game1.AddToWorld
                     );
                 fireball.ColorGetter = GameState.GetColor;
-                fireball.X = boss.mainCollider.X + speed * 10 ;
+                fireball.X = boss.mainCollider.X + speed * 10;
                 fireball.Y = boss.mainCollider.Y - fireball.collider.Height + 200;
                 Game1.AddToWorld(fireball);
 
