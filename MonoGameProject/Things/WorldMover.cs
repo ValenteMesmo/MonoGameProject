@@ -50,7 +50,7 @@ namespace MonoGameProject
             if (GameState.State.BossMode)
             {
                 {
-                    var expected = 4950;
+                    var expected = 5000;
 
                     if (camlocker.X > expected)
                     {
