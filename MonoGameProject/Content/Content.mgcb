@@ -56,3 +56,9 @@
 /processorParam:Quality=Best
 /build:pom.wav
 
+#begin tumtum.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:tumtum.wav
+

@@ -18,32 +18,64 @@ namespace MonoGameProject
         {
             duration++;
 
-            var interval = 35;
-
+            var interval = 15;
+            var zzz = true;
             if (duration % interval == 0)
             {
-                Sounds("clap").CreateInstance().Play();
+                if (queued != "")
+                {
+                    Sounds(queued).CreateInstance().Play();
+                    queued = "";
+                    zzz = false;
+                }
+                else
+                    Sounds("clap").CreateInstance().Play();
             }
+            if (zzz)
+            {
 
-            if (duration == interval)
-            {
-                Sounds("pata").CreateInstance().Play();
-            }
-            if (duration == interval * 2)
-            {
-                Sounds("pata").CreateInstance().Play();
-            }
-            if (duration == interval * 3)
-            {
-                Sounds("pata").CreateInstance().Play();
-            }
-            if (duration == interval * 4)
-            {
-                Sounds("pom").CreateInstance().Play();
+                if (duration == interval * 2)
+                {
+                    Playe("pata");
+                }
+                if (duration == interval * 3)
+                {
+                    Playe("pom");
+                }
+                if (duration == interval * 4)
+                {
+                    Playe("pata");
+                }
+                //if (duration == interval * 6)
+                //{
+                //    Playe("pata");
+                //}
+                //if (duration == interval * 8)
+                //{
+                //    Playe("pom");
+                //}
             }
 
             if (duration == interval * 8)
                 duration = 0;
+        }
+
+        private void Playe(string soundName)
+        {
+            //if (queued != "")
+            //{
+            //    Sounds(queued).CreateInstance().Play();
+            //    queued = "";
+            //}
+            //else
+                Sounds(soundName).CreateInstance().Play();
+        }
+
+        string queued = "";
+
+        internal void Queue(string v)
+        {
+            queued =v;
         }
     }
 
@@ -266,6 +298,7 @@ namespace MonoGameProject
                     t.Parent.Destroy();
                     Game1.ScreenFader.Flash(ArmorColor.R, ArmorColor.G, ArmorColor.B, X, Y);
                     Game1.VibrationCenter.Vibrate(PlayerIndex, 5);
+                    Game1.MusicController.Queue("tumtum");
                 }
             };
 

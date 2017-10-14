@@ -47,7 +47,6 @@ namespace MonoGameProject
 
         public WavedFireBall(bool facingRight, Action<Thing> AddToWorld) : base(AddToWorld)
         {
-
             var animation = GeneratedContent.Create_knight_block(
             0
             , 0
@@ -60,7 +59,7 @@ namespace MonoGameProject
             AddUpdate(new DestroyIfLeftBehind(this));
             AddAfterUpdate(new MoveHorizontallyWithTheWorld(this));
 
-            HorizontalSpeed = facingRight ? 80 : -80;
+            HorizontalSpeed = facingRight ? 50 : -50;
             VerticalSpeed = -SPEED;
             var vvelocity = VELOCITY;
 
