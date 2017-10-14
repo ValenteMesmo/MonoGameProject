@@ -12,7 +12,6 @@ namespace GameCore
         public int HorizontalSpeed;
 
         internal List<IHandleAnimation> Animations = new List<IHandleAnimation>();
-        internal List<string> Sounds = new List<string>();
         internal List<Collider> Colliders = new List<Collider>();
         internal List<Action> Updates = new List<Action>();
         internal List<Action> AfterUpdates = new List<Action>();        
@@ -49,13 +48,7 @@ namespace GameCore
         {
             Animations.Add(Animation);
         }
-
-        public void PlaySound(string name)
-        {
-            if (Sounds.Contains(name) == false)
-                Sounds.Add(name);
-        }
-
+        
         internal Action<Thing> OnDestroyInternal = t => { };
 
         public void Destroy()

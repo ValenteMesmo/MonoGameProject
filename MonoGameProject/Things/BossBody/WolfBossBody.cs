@@ -76,7 +76,7 @@ namespace MonoGameProject
 
                 boss.state = BossState.HeadAttack1;
                 boss.MouthState = BossMouthState.Shoot;
-                state1Duration = 50;
+                state1Duration = 100;
             }
             else
             {
@@ -157,12 +157,12 @@ namespace MonoGameProject
             {
                 boss.HorizontalSpeed = 0;
 
-                if (state1Duration == 25)
+                if (state1Duration == 75)
                 {
                     CreateFireBall(boss);
                 }
 
-                if (state1Duration == 5)
+                if (state1Duration == 15)
                 {
                     boss.MouthState = BossMouthState.Idle;
                 }

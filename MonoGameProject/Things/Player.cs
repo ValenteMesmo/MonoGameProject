@@ -1,21 +1,74 @@
 ﻿using GameCore;
+using Microsoft.Xna.Framework.Audio;
 using System;
 
 namespace MonoGameProject
 {
+    public class MusicController
+    {
+        private readonly Func<string, SoundEffect> Sounds;
+
+        public MusicController(Func<string, SoundEffect> Sounds)
+        {
+            this.Sounds = Sounds;
+        }
+
+        int duration = 0;
+        public void Play()
+        {
+            duration++;
+
+            var interval = 35;
+
+            if (duration % interval == 0)
+            {
+                Sounds("clap").CreateInstance().Play();
+            }
+
+            if (duration == interval)
+            {
+                Sounds("pata").CreateInstance().Play();
+            }
+            if (duration == interval * 2)
+            {
+                Sounds("pata").CreateInstance().Play();
+            }
+            if (duration == interval * 3)
+            {
+                Sounds("pata").CreateInstance().Play();
+            }
+            if (duration == interval * 4)
+            {
+                Sounds("pom").CreateInstance().Play();
+            }
+
+            if (duration == interval * 8)
+                duration = 0;
+        }
+    }
+
     public class Player : Humanoid
     {
         //planning: 
         //  reduce idle duration when damage taken
 
         //HEALTH nos projéteis
-        
+        //barulho de btn no touch
+
+        //jogar contra 3 de super nintendo. inspiração platformer
+
         //espada
         //foice
         //hammer
-        
+
         //staff
         //wand
+
+        //pause game
+
+        //pedras voando no estilo dbz
+        //onda de lava passando... pra ter que pular
+        //musica em quanto houver fireball
 
         //reduzir o playerfinder do wolfboss
         // "it" like gauthled II  (uma chapeu de burro? ou uma coroa? pomba! libelula, mosquito [fazendo barulho])
@@ -191,8 +244,6 @@ namespace MonoGameProject
             HitPoints = 2;
             PlayerIndex = index;
 
-            var aaaa = 0;
-            PlaySound("test");
             AddUpdate(() =>
             {
                 if (HitPoints == 0)
@@ -200,12 +251,8 @@ namespace MonoGameProject
                 else
                     Inputs.Disabled = false;
 
-                aaaa++;
-                if (aaaa == 98)
-                {
-                    aaaa = 0;
-                    PlaySound("test");
-                }
+                //TODO: move this line
+                Game1.MusicController.Play();
             });
 
             AddUpdate(new TakesDamage(this, Game1, AddToWorld));

@@ -38,9 +38,21 @@
 /processorParam:DebugMode=Auto
 /build:ColorChanger.fx
 
-#begin test.wav
+#begin clap.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:test.wav
+/build:clap.wav
+
+#begin pata.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:pata.wav
+
+#begin pom.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:pom.wav
 

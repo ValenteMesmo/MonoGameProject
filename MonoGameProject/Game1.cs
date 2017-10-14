@@ -5,12 +5,16 @@ namespace MonoGameProject
 {
     public class Game1 : Game
     {
+        public MusicController MusicController;
+
         public Game1() : base(new GeneratedContent()) { }
 
         public ScreenFader ScreenFader;
-
+        
         protected override void OnStart()
         {
+            MusicController = new MusicController(GetSound);
+
             Camera.Clear();
             Camera.Pos = new Vector2(5000f, 4500f);
             Camera.Zoom =
@@ -39,13 +43,13 @@ namespace MonoGameProject
             //    player2.Y = player.Y;
             //    AddThing(player2);
             //}
-                        
+
             var WorldMover = new WorldMover(Camera, player);
             AddThing(WorldMover);
             AddThing(new PlatformCreator(WorldMover, AddThing, this));
 
             var roof = new Thing();
-            roof.AddAfterUpdate(new MoveHorizontallyWithTheWorld(roof,1,true));
+            roof.AddAfterUpdate(new MoveHorizontallyWithTheWorld(roof, 1, true));
             roof.AddCollider(new SolidCollider
             {
                 OffsetY = -MapModule.CELL_SIZE,
@@ -59,6 +63,7 @@ namespace MonoGameProject
                 AddThing(new ParalaxBackgroundCreator(WorldMover, AddThing, this, (x, y, width, height) => GeneratedContent.Create_knight_dead_tree(x, y), 2, 0.90f));
                 AddThing(new ParalaxBackgroundCreator(WorldMover, AddThing, this, (x, y, width, height) => GeneratedContent.Create_knight_dead_tree(x, y, 500, 400), 1, 0.01f));
             }
+
         }
     }
 

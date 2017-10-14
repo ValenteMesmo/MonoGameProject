@@ -1,5 +1,6 @@
 ﻿using GameCore;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
@@ -52,8 +53,13 @@ public class VibrationCenter
 }
 
 public abstract class Game : IDisposable
-{
+{    
     public VibrationCenter VibrationCenter { get { return BaseGame.VibrationCenter; } }
+    public SoundEffect GetSound(string name)
+    {
+        return BaseGame.Sounds[name];
+    }
+    
 #if DEBUG
     public static string LOG = "NO logs";
 #endif

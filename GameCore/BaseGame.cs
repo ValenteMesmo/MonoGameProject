@@ -12,7 +12,7 @@ internal class BaseGame : OriginalGameClass
     private SpriteBatch SpriteBatch;
     public readonly Camera2d Camera;
     private readonly ILoadContents ContentLoader;
-    private Dictionary<string, MySound> Sounds;
+    public Dictionary<string, SoundEffect> Sounds;
     private Dictionary<string, Texture2D> Textures;
     private readonly Game Parent;
     SpriteFont SpriteFont;
@@ -83,7 +83,7 @@ internal class BaseGame : OriginalGameClass
         Parent.Start();
         SpriteBatch = new SpriteBatch(GraphicsDevice);
         Textures = new Dictionary<string, Texture2D>();
-        Sounds = new Dictionary<string, MySound>();
+        Sounds = new Dictionary<string, SoundEffect>();
         SpriteFont = Content.Load<SpriteFont>("SpriteFont");
         //effect = Content.Load<Effect>("ColorChanger");
 
@@ -100,7 +100,7 @@ internal class BaseGame : OriginalGameClass
 
         foreach (var soundName in ContentLoader.GetSoundNames())
         {
-            Sounds.Add(soundName, new MySound(Content.Load<SoundEffect>(soundName)));
+            Sounds.Add(soundName, Content.Load<SoundEffect>(soundName));
         }
     }
 
@@ -305,13 +305,6 @@ internal class BaseGame : OriginalGameClass
                     );
             }
         });
-
-        foreach (var soundName in thing.Sounds)
-        {
-            Sounds[soundName].Play();
-        }
-
-        thing.Sounds.Clear();
     }
 
     private void DrawBorder(Rectangle rectangleToDraw, int thicknessOfBorder, Color borderColor)
@@ -321,23 +314,5 @@ internal class BaseGame : OriginalGameClass
         SpriteBatch.Draw(pixel, new Rectangle(rectangleToDraw.X, rectangleToDraw.Y, thicknessOfBorder, rectangleToDraw.Height), null, borderColor, 0, Vector2.Zero, SpriteEffects.None, 0);
         SpriteBatch.Draw(pixel, new Rectangle((rectangleToDraw.X + rectangleToDraw.Width - thicknessOfBorder), rectangleToDraw.Y, thicknessOfBorder, rectangleToDraw.Height), null, borderColor, 0, Vector2.Zero, SpriteEffects.None, 0);
         SpriteBatch.Draw(pixel, new Rectangle(rectangleToDraw.X, rectangleToDraw.Y + rectangleToDraw.Height - thicknessOfBorder, rectangleToDraw.Width, thicknessOfBorder), null, borderColor, 0, Vector2.Zero, SpriteEffects.None, 0);
-    }
-}
-
-public class MySound
-{
-    private readonly SoundEffect soundEffect;
-    private readonly SoundEffectInstance instance;
-
-    public MySound(SoundEffect soundEffect)
-    {
-        this.soundEffect = soundEffect;
-        instance = soundEffect.CreateInstance();
-        instance.Volume = 0.2f;
-    }
-
-    public void Play()
-    {
-        instance.Play();
     }
 }
