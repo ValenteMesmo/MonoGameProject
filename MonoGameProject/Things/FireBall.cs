@@ -25,18 +25,34 @@ namespace MonoGameProject
                 Height = size - bonus
             };
             AddCollider(collider);
+
+            var aaa = 0;
+            AddUpdate(() =>
+            {
+                aaa++;
+                if (aaa == 3)
+                {
+                    aaa = 0;
+                    NewMethod();
+                }
+            });
         }
 
         //TODO: remove? ...
         public override void OnDestroy()
         {
-            AddToWorld(new HitEffect(0.4f, 0, -collider.Height / 2, collider.Width * 3, collider.Height * 3)
+            NewMethod();
+            base.OnDestroy();
+        }
+
+        private void NewMethod()
+        {
+            AddToWorld(new HitEffect(Boss.EYE_Z - 0.002f, 0, 0, MapModule.CELL_SIZE*2, MapModule.CELL_SIZE * 2)
             {
                 X = X,
                 Y = Y,
                 Color = ColorGetter()
             });
-            base.OnDestroy();
         }
     }
 
@@ -97,10 +113,10 @@ namespace MonoGameProject
             animation.ColorGetter = () => ColorGetter();
             AddAnimation(animation);
 
-            collider.OffsetX = (MapModule.CELL_SIZE/2) -50;
-            collider.OffsetY = (MapModule.CELL_SIZE/2) -50;
+            collider.OffsetX = (MapModule.CELL_SIZE / 2) - 50;
+            collider.OffsetY = (MapModule.CELL_SIZE / 2) - 50;
             collider.Width = 50;
-            collider.Height= 50;
+            collider.Height = 50;
 
 
             HorizontalSpeed = speedX;

@@ -6,7 +6,6 @@ namespace MonoGameProject
     public class SpiderBossBody
     {
         private readonly Action<Boss> CreateFireBall;
-        private readonly Action ShakeCamera;
         private readonly Boss boss;
         private readonly Action<Thing> AddToWorld;
         private int stateCooldown;
@@ -17,12 +16,11 @@ namespace MonoGameProject
         int fireballStacks = 3;
         int eyeSpellStacks = 3;
 
-        public SpiderBossBody(Boss boss, Action<Thing> AddToWorld, Action ShakeCamera, Action<Boss> CreateFireBall)
+        public SpiderBossBody(Boss boss, Action<Thing> AddToWorld, Action<Boss> CreateFireBall)
         {
             horizontalSpeedMod = boss.MyRandom.Next(0, 1) == 0 ? -1 : 1;
 
             this.CreateFireBall = CreateFireBall;
-            this.ShakeCamera = ShakeCamera;
             this.boss = boss;
             this.AddToWorld = AddToWorld;
             boss.state = BossState.Idle;
@@ -97,9 +95,6 @@ namespace MonoGameProject
 
             if (boss.state == BossState.BodyAttack1)
             {
-                if (stateCooldown % (5 * 3) == 0)
-                    ShakeCamera();
-
                 boss.HorizontalSpeed = 80 * horizontalSpeedMod;
 
                 stateCooldown--;

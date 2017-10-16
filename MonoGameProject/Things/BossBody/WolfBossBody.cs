@@ -10,7 +10,6 @@ namespace MonoGameProject
         private readonly Action<Boss> CreateFireBall;
         private readonly Action<Thing> AddToWorld;
         private readonly Boss boss;
-        private readonly Action ShakeCamera;
         private int state1Duration;
         private int IdleCooldown = 500;
 
@@ -18,12 +17,11 @@ namespace MonoGameProject
         int eyeSpellStacks = 3;
 
 
-        public WolfBossBody(Boss boss, Action<Thing> AddToWorld, Action ShakeCamera, Action<Boss> CreateFireBall)
+        public WolfBossBody(Boss boss, Action<Thing> AddToWorld, Action<Boss> CreateFireBall)
         {
             this.CreateFireBall = CreateFireBall;
             this.AddToWorld = AddToWorld;
             this.boss = boss;
-            this.ShakeCamera = ShakeCamera;
             boss.state = BossState.BodyAttack1;
 
             boss.mainCollider.AddLeftCollisionHandler((s, t) =>

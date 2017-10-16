@@ -484,16 +484,16 @@ namespace MonoGameProject
             Action ShakeCamera = () => Game1.Camera.ShakeUp(10);
             if (bodyType == 1)
             {
-                new SpiderBossBody(this, Game1.AddToWorld, ShakeCamera, CreateFireBall);
+                new SpiderBossBody(this, Game1.AddToWorld, CreateFireBall);
             }
             else if (bodyType == 2)
             {
 
-                new WolfBossBody(this, Game1.AddToWorld, ShakeCamera, CreateFireBall);
+                new WolfBossBody(this, Game1.AddToWorld, CreateFireBall);
             }
             else
             {
-                new HumanoidBossBody(this, Game1.AddToWorld, ShakeCamera, CreateFireBall);
+                new HumanoidBossBody(this, Game1.AddToWorld, CreateFireBall);
             }
         }
 

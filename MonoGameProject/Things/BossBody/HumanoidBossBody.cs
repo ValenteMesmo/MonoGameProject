@@ -6,7 +6,6 @@ namespace MonoGameProject
     public class HumanoidBossBody
     {
         private readonly Action<Boss> CreateFireBall;
-        private readonly Action ShakeCamera;
         private readonly Action<Thing> AddToWorld;
         private readonly Boss boss;
         private int patience;
@@ -16,10 +15,9 @@ namespace MonoGameProject
         int fireballStacks = 3;
         int eyeSpellStacks = 3;
 
-        public HumanoidBossBody(Boss boss, Action<Thing> AddToWorld, Action ShakeCamera, Action<Boss> CreateFireBall)
+        public HumanoidBossBody(Boss boss, Action<Thing> AddToWorld, Action<Boss> CreateFireBall)
         {
             this.CreateFireBall = CreateFireBall;
-            this.ShakeCamera = ShakeCamera;
             this.AddToWorld = AddToWorld;
             this.boss = boss;
             boss.state = BossState.Idle;
@@ -72,9 +70,6 @@ namespace MonoGameProject
 
             if (boss.state == BossState.BodyAttack1)
             {
-                if (stateDuration % (5 * 3) == 0)
-                    ShakeCamera();
-
                 if (boss.facingRight)
                     boss.HorizontalSpeed = 25 + (boss.damageTaken > 5 ? 15 : 0);
                 else

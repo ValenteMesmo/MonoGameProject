@@ -7,14 +7,16 @@ namespace MonoGameProject
     public class Player : Humanoid
     {
         //planning: 
-        //  reduce idle duration when damage taken
 
+        //  reduce idle duration when damage taken
         //permitir que o player desvie to attack melee abaixando (boss)
 
         //HEALTH nos projéteis??? no
         //barulho de btn no touch
 
         //LIGAR O BOSS MAIS CEDO. ta mto apelao, principalemtne o lobo
+
+        //shoulders and triggers to make sounds
 
         //jogar contra 3 de super nintendo. inspiração platformer
 
