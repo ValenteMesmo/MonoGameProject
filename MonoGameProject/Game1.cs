@@ -5,16 +5,12 @@ namespace MonoGameProject
 {
     public class Game1 : Game
     {
-        public MusicController MusicController;
-
         public Game1() : base(new GeneratedContent()) { }
 
         public ScreenFader ScreenFader;
         
         protected override void OnStart()
         {
-            MusicController = new MusicController(GetSound);
-
             Camera.Clear();
             Camera.Pos = new Vector2(5000f, 4500f);
             Camera.Zoom =

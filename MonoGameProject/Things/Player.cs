@@ -4,88 +4,17 @@ using System;
 
 namespace MonoGameProject
 {
-    public class MusicController
-    {
-        private readonly Func<string, SoundEffect> Sounds;
-
-        public MusicController(Func<string, SoundEffect> Sounds)
-        {
-            this.Sounds = Sounds;
-        }
-
-        int duration = 0;
-        public void Play()
-        {
-            duration++;
-
-            var interval = 15;
-            var zzz = true;
-            if (duration % interval == 0)
-            {
-                if (queued != "")
-                {
-                    Sounds(queued).CreateInstance().Play();
-                    queued = "";
-                    zzz = false;
-                }
-                else
-                    Sounds("clap").CreateInstance().Play();
-            }
-            if (zzz)
-            {
-
-                if (duration == interval * 2)
-                {
-                    Playe("pata");
-                }
-                if (duration == interval * 3)
-                {
-                    Playe("pom");
-                }
-                if (duration == interval * 4)
-                {
-                    Playe("pata");
-                }
-                //if (duration == interval * 6)
-                //{
-                //    Playe("pata");
-                //}
-                //if (duration == interval * 8)
-                //{
-                //    Playe("pom");
-                //}
-            }
-
-            if (duration == interval * 8)
-                duration = 0;
-        }
-
-        private void Playe(string soundName)
-        {
-            //if (queued != "")
-            //{
-            //    Sounds(queued).CreateInstance().Play();
-            //    queued = "";
-            //}
-            //else
-                Sounds(soundName).CreateInstance().Play();
-        }
-
-        string queued = "";
-
-        internal void Queue(string v)
-        {
-            queued =v;
-        }
-    }
-
     public class Player : Humanoid
     {
         //planning: 
         //  reduce idle duration when damage taken
 
-        //HEALTH nos projéteis
+        //permitir que o player desvie to attack melee abaixando (boss)
+
+        //HEALTH nos projéteis??? no
         //barulho de btn no touch
+
+        //LIGAR O BOSS MAIS CEDO. ta mto apelao, principalemtne o lobo
 
         //jogar contra 3 de super nintendo. inspiração platformer
 
@@ -273,6 +202,7 @@ namespace MonoGameProject
             , Game1.VibrationCenter
             , AddToWorld)
         {
+
             HitPoints = 2;
             PlayerIndex = index;
 
@@ -283,8 +213,7 @@ namespace MonoGameProject
                 else
                     Inputs.Disabled = false;
 
-                //TODO: move this line
-                Game1.MusicController.Play();
+                
             });
 
             AddUpdate(new TakesDamage(this, Game1, AddToWorld));

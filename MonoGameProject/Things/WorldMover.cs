@@ -257,7 +257,7 @@ namespace MonoGameProject
                 OffsetX = -6000,
                 OffsetY = -5000,
                 Width = 12000,
-                Height = 4000
+                Height = 5000
             };
 
             TopCollider.AddHandler(StoreTheTopMovementCause);

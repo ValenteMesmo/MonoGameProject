@@ -3,8 +3,86 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 using System.Collections.Generic;
 using OriginalGameClass = Microsoft.Xna.Framework.Game;
+
+public class MusicController
+{
+    private readonly Func<string, SoundEffect> Sounds;
+
+    public MusicController(Func<string, SoundEffect> Sounds)
+    {
+        this.Sounds = Sounds;
+    }
+
+    int duration = 0;
+    internal void Play()
+    {
+        duration++;
+
+        var interval = 15;
+        var zzz = true;
+        if (duration % interval == 0)
+        {
+            if (queued != "")
+            {
+                Sounds(queued).CreateInstance().Play();
+                queued = "";
+                zzz = false;
+            }
+            else //if(player)
+            {
+                //Sounds("clap").CreateInstance().Play();
+            }
+        }
+        if (zzz)
+        {
+
+            if (duration == interval * 2)
+            {
+                Playe("beat");
+            }
+            if (duration == interval * 3)
+            {
+                //Playe("pom");
+            }
+            if (duration == interval * 4)
+            {
+                //Playe("pata");
+            }
+            //if (duration == interval * 6)
+            //{
+            //    Playe("pata");
+            //}
+            //if (duration == interval * 8)
+            //{
+            //    Playe("pom");
+            //}
+        }
+
+        if (duration == interval * 8)
+            duration = 0;
+    }
+
+    private void Playe(string soundName)
+    {
+        //if (queued != "")
+        //{
+        //    Sounds(queued).CreateInstance().Play();
+        //    queued = "";
+        //}
+        //else
+        Sounds(soundName).CreateInstance().Play();
+    }
+
+    string queued = "";
+
+    public void Queue(string v)
+    {
+        queued = v;
+    }
+}
 
 internal class BaseGame : OriginalGameClass
 {
@@ -12,7 +90,7 @@ internal class BaseGame : OriginalGameClass
     private SpriteBatch SpriteBatch;
     public readonly Camera2d Camera;
     private readonly ILoadContents ContentLoader;
-    public Dictionary<string, SoundEffect> Sounds;
+    private Dictionary<string, SoundEffect> Sounds;
     private Dictionary<string, Texture2D> Textures;
     private readonly Game Parent;
     SpriteFont SpriteFont;
@@ -37,9 +115,11 @@ internal class BaseGame : OriginalGameClass
     }
 
     public VibrationCenter VibrationCenter { get; set; }
+    public readonly MusicController MusicController;
 
     public BaseGame(ILoadContents ContentLoader, Game Parent)
     {
+        MusicController = new MusicController(n=> Sounds[n]);
         this.VibrationCenter = new VibrationCenter();
         this.Parent = Parent;
         this.ContentLoader = ContentLoader;
@@ -66,10 +146,10 @@ internal class BaseGame : OriginalGameClass
         Graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
         Graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
 #else
-        //Graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width / 2;
-        //Graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height / 2;
-        Graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
-        Graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
+        Graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width / 2;
+        Graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height / 2;
+        //Graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
+        //Graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
 #endif
         //Graphics.IsFullScreen = true;
 
@@ -108,6 +188,7 @@ internal class BaseGame : OriginalGameClass
     {
         Camera.Update();
         VibrationCenter.Update();
+        MusicController.Play();
 
         var state = Keyboard.GetState();
 #if DEBUG

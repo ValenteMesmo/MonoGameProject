@@ -299,8 +299,8 @@ namespace MonoGameProject
                         var newThing = new Thing();
                         var duration = 50;
 
-                        var MAX = 80;
-                        var MIN = 10;
+                        var MAX = 50;
+                        var MIN = 4;
 
                         var hspeed = 0;
                         var vspeed = MAX;
@@ -384,7 +384,7 @@ namespace MonoGameProject
                         anim.RenderingLayer = Boss.RIGHT_ARM_Z - 0.001f;
                         anim.ColorGetter = GameState.GetColor;
                         spikeBall.AddAnimation(anim);
-                        spikeBall.X = facingRight ? X+1000 : X-200 ;
+                        spikeBall.X = facingRight ? X + 1000 : X - 200;
                         spikeBall.Y = Y - 1200;
                         collider.AddBotCollisionHandler(StopsWhenHitting.Bot);
                         collider.AddTopCollisionHandler(StopsWhenHitting.Top);

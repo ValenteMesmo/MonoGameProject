@@ -62,3 +62,9 @@
 /processorParam:Quality=Best
 /build:tumtum.wav
 
+#begin beat.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:beat.wav
+

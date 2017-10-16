@@ -111,8 +111,8 @@ namespace MonoGameProject
                     fireballStacks = 3;
 
                 eyeSpellStacks++;
-                if (eyeSpellStacks > 3)
-                    eyeSpellStacks = 3;
+                if (eyeSpellStacks > 2)
+                    eyeSpellStacks = 2;
             }
 
             boss.AttackingWithTheHand = false;
