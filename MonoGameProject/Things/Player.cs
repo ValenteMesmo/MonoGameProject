@@ -7,6 +7,7 @@ namespace MonoGameProject
     public class Player : Humanoid
     {
         //planning: 
+        //add cooldwon to melee attack (boss)
 
         //  reduce idle duration when damage taken
         //permitir que o player desvie to attack melee abaixando (boss)

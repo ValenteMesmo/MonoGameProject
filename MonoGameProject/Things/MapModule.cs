@@ -171,15 +171,6 @@ namespace MonoGameProject
                         });
                         CreateBackground(i, j);
                     }
-                    if (type == 'z')
-                    {
-                        Game1.AddToWorld(new Enemy(Game1, Game1.AddToWorld)
-                        {
-                            X = X + j * CELL_SIZE,
-                            Y = Y + i * CELL_SIZE
-                        });
-                        CreateBackground(i, j);
-                    }
                     if (type == 'm')
                     {
                         Game1.AddToWorld(new Boss(Game1)

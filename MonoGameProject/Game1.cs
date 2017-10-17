@@ -21,6 +21,8 @@ namespace MonoGameProject
             ScreenFader = new ScreenFader();
             AddToWorld(ScreenFader);
 
+            AddThing(new Enemy(AddToWorld) { X=4000,Y=4000});
+
             var player = new Player(this, 0, AddThing);
             player.X = 1000;
             AddThing(player);

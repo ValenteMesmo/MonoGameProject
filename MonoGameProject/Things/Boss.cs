@@ -95,7 +95,7 @@ namespace MonoGameProject
             mainCollider.AddTopCollisionHandler(StopsWhenHitting.Top);
 
             playerFinder = new Collider(
-                width
+                attackCollider.Width*2
                 , height * 3
             )
             {
@@ -128,7 +128,7 @@ namespace MonoGameProject
                 new Animator(
                     new AnimationTransitionOnCondition(
                         arm
-                        , () => state != BossState.BodyAttack1 && !AttackingWithTheHand
+                        , () => state != BossState.BodyAttack1 || !AttackingWithTheHand
                     )
                     , new AnimationTransitionOnCondition(
                         arm_attack
