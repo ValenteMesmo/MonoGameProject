@@ -12,6 +12,7 @@ namespace MonoGameProject
         private int DamageCooldown = 0;
         private AttackCollider AttackCollider;
         private bool attacking;
+        private int attackDuration;
 
         public Enemy(Action<Thing> AddToWorld)
         {
@@ -29,7 +30,7 @@ namespace MonoGameProject
                 new Animator(
                     new AnimationTransitionOnCondition(idleAniamtion_left, () => HorizontalSpeed < 0 && !attacking),
                     new AnimationTransitionOnCondition(idleAniamtion_right, () => HorizontalSpeed > 0 && !attacking),
-                    new AnimationTransitionOnCondition(attackAniamtion_right, () => HorizontalSpeed > 0 && attacking),
+                    new AnimationTransitionOnCondition(attackAniamtion_left, () => HorizontalSpeed < 0 && attacking),
                     new AnimationTransitionOnCondition(attackAniamtion_right, () => HorizontalSpeed > 0 && attacking)
                 )
             );
@@ -46,11 +47,14 @@ namespace MonoGameProject
             AddCollider(MainCollider);
 
             var playerFinder = new Collider(size, size);
-            playerFinder.OffsetY = size / 2;
             playerFinder.AddHandler(AttackNearPlayer);
             AddCollider(playerFinder);
             AddUpdate(() =>
             {
+                if (attackDuration > 0)
+                    attackDuration--;
+
+                if (attackDuration ==0)
                 attacking = false;
             });
 
@@ -65,12 +69,13 @@ namespace MonoGameProject
                 if (HorizontalSpeed > 0)
                 {
                     AttackCollider.OffsetX = size;
+                    playerFinder.OffsetX = size;
                 }
                 else
                 {
                     AttackCollider.OffsetX = -size / 2;
+                    playerFinder.OffsetX = -size;
                 }
-                playerFinder.OffsetX = AttackCollider.OffsetX;
             });
 
             AddAfterUpdate(new MoveHorizontallyWithTheWorld(this));
@@ -87,8 +92,8 @@ namespace MonoGameProject
             if (arg2.Parent is Player)
             {
                 attacking = true;
+                attackDuration = 50;
             }
-
         }
 
         private void HandleDamageFromPlayer(Collider arg1, Collider arg2)
