@@ -18,10 +18,7 @@ namespace MonoGameProject
         {
             this.AddToWorld = AddToWorld;
             HorizontalSpeed = VELOCITY;
-
-            //var eye = GeneratedContent.Create_knight_wolf_eye(0, 0, size*2, size*2);
-            //eye.RenderingLayer = 0;
-            //AddAnimation(eye);
+            
             var idleAniamtion_left = GeneratedContent.Create_knight_Slime(-size / 2, -size, size * 2, size * 2);
             var idleAniamtion_right = GeneratedContent.Create_knight_Slime(-size / 2, -size, size * 2, size * 2, true);
             var attackAniamtion_left = GeneratedContent.Create_knight_Slime_attack(-size / 2, -size, size * 2, size * 2);
@@ -46,7 +43,8 @@ namespace MonoGameProject
             MainCollider.AddHandler(HandleDamageFromPlayer);
             AddCollider(MainCollider);
 
-            var playerFinder = new Collider(size, size);
+            var playerFinder = new Collider(size, size/2);
+            playerFinder.OffsetY = size / 2;
             playerFinder.AddHandler(AttackNearPlayer);
             AddCollider(playerFinder);
             AddUpdate(() =>
