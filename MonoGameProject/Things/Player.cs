@@ -7,12 +7,13 @@ namespace MonoGameProject
     public class Player : Humanoid
     {
         //planning: 
-        //add cooldwon to melee attack (boss)
-
+        // remove or add background according to map type
+        //  cooler dying animation (longer) boss
+        // dying animation player
         //  reduce idle duration when damage taken
         //permitir que o player desvie to attack melee abaixando (boss)
 
-        //HEALTH nos projéteis??? no
+        //HEALTH nos projéteis??? yes
         //barulho de btn no touch
 
         //LIGAR O BOSS MAIS CEDO. ta mto apelao, principalemtne o lobo
@@ -52,7 +53,6 @@ namespace MonoGameProject
         //reduce skull head border
 
         //animar frames do braço parado
-        //criar animator para whip quando estiver armored.
 
         //poeira de fall damage
 

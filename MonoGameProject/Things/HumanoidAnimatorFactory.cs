@@ -626,60 +626,14 @@ namespace MonoGameProject
             crouch_attack_right_armored.RenderingLayer = TORSO_Z;
             crouch_attack_right_armored.ColorGetter = () => thing.ArmorColor;
 
-            var whip_left = GeneratedContent.Create_knight_whip_attack(-1500, feet_y);
-            whip_left.ScaleX = scale;
-            whip_left.ScaleY = scale;
-            whip_left.LoopDisabled = true;
-            whip_left.RenderingLayer = TORSO_Z - 0.01f;
-            var whip_left_crouch = GeneratedContent.Create_knight_whip_attack(-1500, crouch_y);
-            whip_left_crouch.ScaleX = scale;
-            whip_left_crouch.ScaleY = scale;
-            whip_left_crouch.LoopDisabled = true;
-            whip_left_crouch.RenderingLayer = TORSO_Z - 0.01f;
-            var whip_right = GeneratedContent.Create_knight_whip_attack(-1400, feet_y, null, null, true);
-            whip_right.ScaleX = scale;
-            whip_right.ScaleY = scale;
-            whip_right.LoopDisabled = true;
-            whip_right.RenderingLayer = TORSO_Z - 0.01f;
-            var whip_right_crouch = GeneratedContent.Create_knight_whip_attack(-1400, crouch_y, null, null, true);
-            whip_right_crouch.ScaleX = scale;
-            whip_right_crouch.ScaleY = scale;
-            whip_right_crouch.LoopDisabled = true;
-            whip_right_crouch.RenderingLayer = TORSO_Z - 0.01f;
-
-            var whipi_left = GeneratedContent.Create_knight_whip_idle(-1500, feet_y);
-            whipi_left.ScaleX = scale;
-            whipi_left.ScaleY = scale;
-            whipi_left.FrameDuration = 2;
-            whipi_left.RenderingLayer = TORSO_Z - 0.01f;
-            var whipi_left_crouch = GeneratedContent.Create_knight_whip_idle(-1500, crouch_y);
-            whipi_left_crouch.ScaleX = scale;
-            whipi_left_crouch.ScaleY = scale;
-            //whipi_left_crouch.FrameDuration = 2;
-            whipi_left_crouch.RenderingLayer = TORSO_Z - 0.01f;
-            var whipi_right = GeneratedContent.Create_knight_whip_idle(-1400, feet_y, null, null, true);
-            whipi_right.ScaleX = scale;
-            whipi_right.ScaleY = scale;
-            whipi_right.FrameDuration = 2;
-            whipi_right.RenderingLayer = TORSO_Z - 0.01f;
-            var whipi_right_crouch = GeneratedContent.Create_knight_whip_idle(-1400, crouch_y, null, null, true);
-            whipi_right_crouch.ScaleX = scale;
-            whipi_right_crouch.ScaleY = scale;
-            //whipi_right_crouch.FrameDuration = 2;
-            whipi_right_crouch.RenderingLayer = TORSO_Z - 0.01f;
-
-            thing.AddAnimation(new Animator(
-                new AnimationTransitionOnCondition(whipi_left, () => thing.TorsoState == TorsoState.Standing && !thing.FacingRight)
-                , new AnimationTransitionOnCondition(whipi_right, () => thing.TorsoState == TorsoState.Standing && thing.FacingRight)
-                , new AnimationTransitionOnCondition(whipi_left_crouch, () => thing.TorsoState == TorsoState.Crouch && !thing.FacingRight)
-                , new AnimationTransitionOnCondition(whipi_right_crouch, () => thing.TorsoState == TorsoState.Crouch && thing.FacingRight)
-                , new AnimationTransitionOnCondition(whipi_left, () => thing.TorsoState == TorsoState.SlidingWall && !thing.FacingRight)
-                , new AnimationTransitionOnCondition(whipi_right, () => thing.TorsoState == TorsoState.SlidingWall && thing.FacingRight)
-                , new AnimationTransitionOnCondition(whip_left, () => thing.TorsoState == TorsoState.Attack && !thing.FacingRight)
-                , new AnimationTransitionOnCondition(whip_right, () => thing.TorsoState == TorsoState.Attack && thing.FacingRight)
-                , new AnimationTransitionOnCondition(whip_left_crouch, () => thing.TorsoState == TorsoState.AttackCrouching && !thing.FacingRight)
-                , new AnimationTransitionOnCondition(whip_right_crouch, () => thing.TorsoState == TorsoState.AttackCrouching && thing.FacingRight)
-            ));
+            Animator whipAnimator = CreateWhipAnimator(thing);
+            Animator whipAnimatorArmored = CreateWhipAnimator(thing);
+            thing.AddAnimation(
+                new Animator(
+                    new AnimationTransitionOnCondition(whipAnimatorArmored,()=> thing.HitPoints > 1)
+                    ,new AnimationTransitionOnCondition(whipAnimator, () => thing.HitPoints <= 1 && thing.DamageDuration == TakesDamage.DAMAGE_DURATION / 2)
+                )
+            );
 
             var naked_torso = new Animator(
                 new AnimationTransitionOnCondition(stand_left,
@@ -775,5 +729,62 @@ namespace MonoGameProject
             );
         }
 
+        private static Animator CreateWhipAnimator(Humanoid thing)
+        {
+            var whip_left = GeneratedContent.Create_knight_whip_attack(-1500, feet_y);
+            whip_left.ScaleX = scale;
+            whip_left.ScaleY = scale;
+            whip_left.LoopDisabled = true;
+            whip_left.RenderingLayer = TORSO_Z - 0.01f;
+            var whip_left_crouch = GeneratedContent.Create_knight_whip_attack(-1500, crouch_y);
+            whip_left_crouch.ScaleX = scale;
+            whip_left_crouch.ScaleY = scale;
+            whip_left_crouch.LoopDisabled = true;
+            whip_left_crouch.RenderingLayer = TORSO_Z - 0.01f;
+            var whip_right = GeneratedContent.Create_knight_whip_attack(-1400, feet_y, null, null, true);
+            whip_right.ScaleX = scale;
+            whip_right.ScaleY = scale;
+            whip_right.LoopDisabled = true;
+            whip_right.RenderingLayer = TORSO_Z - 0.01f;
+            var whip_right_crouch = GeneratedContent.Create_knight_whip_attack(-1400, crouch_y, null, null, true);
+            whip_right_crouch.ScaleX = scale;
+            whip_right_crouch.ScaleY = scale;
+            whip_right_crouch.LoopDisabled = true;
+            whip_right_crouch.RenderingLayer = TORSO_Z - 0.01f;
+
+            var whipi_left = GeneratedContent.Create_knight_whip_idle(-1500, feet_y);
+            whipi_left.ScaleX = scale;
+            whipi_left.ScaleY = scale;
+            whipi_left.FrameDuration = 2;
+            whipi_left.RenderingLayer = TORSO_Z - 0.01f;
+            var whipi_left_crouch = GeneratedContent.Create_knight_whip_idle(-1500, crouch_y);
+            whipi_left_crouch.ScaleX = scale;
+            whipi_left_crouch.ScaleY = scale;
+            //whipi_left_crouch.FrameDuration = 2;
+            whipi_left_crouch.RenderingLayer = TORSO_Z - 0.01f;
+            var whipi_right = GeneratedContent.Create_knight_whip_idle(-1400, feet_y, null, null, true);
+            whipi_right.ScaleX = scale;
+            whipi_right.ScaleY = scale;
+            whipi_right.FrameDuration = 2;
+            whipi_right.RenderingLayer = TORSO_Z - 0.01f;
+            var whipi_right_crouch = GeneratedContent.Create_knight_whip_idle(-1400, crouch_y, null, null, true);
+            whipi_right_crouch.ScaleX = scale;
+            whipi_right_crouch.ScaleY = scale;
+            //whipi_right_crouch.FrameDuration = 2;
+            whipi_right_crouch.RenderingLayer = TORSO_Z - 0.01f;
+            var whipAnimator = new Animator(
+                new AnimationTransitionOnCondition(whipi_left, () => thing.TorsoState == TorsoState.Standing && !thing.FacingRight)
+                , new AnimationTransitionOnCondition(whipi_right, () => thing.TorsoState == TorsoState.Standing && thing.FacingRight)
+                , new AnimationTransitionOnCondition(whipi_left_crouch, () => thing.TorsoState == TorsoState.Crouch && !thing.FacingRight)
+                , new AnimationTransitionOnCondition(whipi_right_crouch, () => thing.TorsoState == TorsoState.Crouch && thing.FacingRight)
+                , new AnimationTransitionOnCondition(whipi_left, () => thing.TorsoState == TorsoState.SlidingWall && !thing.FacingRight)
+                , new AnimationTransitionOnCondition(whipi_right, () => thing.TorsoState == TorsoState.SlidingWall && thing.FacingRight)
+                , new AnimationTransitionOnCondition(whip_left, () => thing.TorsoState == TorsoState.Attack && !thing.FacingRight)
+                , new AnimationTransitionOnCondition(whip_right, () => thing.TorsoState == TorsoState.Attack && thing.FacingRight)
+                , new AnimationTransitionOnCondition(whip_left_crouch, () => thing.TorsoState == TorsoState.AttackCrouching && !thing.FacingRight)
+                , new AnimationTransitionOnCondition(whip_right_crouch, () => thing.TorsoState == TorsoState.AttackCrouching && thing.FacingRight)
+            );
+            return whipAnimator;
+        }
     }
 }
