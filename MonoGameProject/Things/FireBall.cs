@@ -118,7 +118,6 @@ namespace MonoGameProject
             collider.Width = 50;
             collider.Height = 50;
 
-
             HorizontalSpeed = speedX;
             VerticalSpeed = speedY;
             AddUpdate(new DestroyIfLeftBehind(this));

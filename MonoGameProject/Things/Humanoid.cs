@@ -228,6 +228,7 @@ namespace MonoGameProject
                 OffsetY = 0,
                 Disabled = true
             };
+            AttackRightCollider.AddHandler(DestroyFireball);
             AddCollider(AttackRightCollider);
 
             AttackLeftCollider = new AttackCollider
@@ -238,7 +239,14 @@ namespace MonoGameProject
                 OffsetY = 0,
                 Disabled = true
             };
+            AttackLeftCollider.AddHandler(DestroyFireball);
             AddCollider(AttackLeftCollider);
+        }
+
+        private void DestroyFireball(Collider arg1, Collider arg2)
+        {
+            if (arg2.Parent is FireBall)
+                arg2.Parent.Destroy();
         }
     }
 }

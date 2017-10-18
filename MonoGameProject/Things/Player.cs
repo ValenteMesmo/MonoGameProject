@@ -7,6 +7,7 @@ namespace MonoGameProject
     public class Player : Humanoid
     {
         //planning: 
+        // dividir braços do torso
         // remove or add background according to map type
         //  cooler dying animation (longer) boss
         // dying animation player
