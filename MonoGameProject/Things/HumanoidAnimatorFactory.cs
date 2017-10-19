@@ -179,7 +179,30 @@ namespace MonoGameProject
             walk_left.RenderingLayer = LEG_Z;
             walk_left.FrameDuration = 2;
 
-            var walk_right = GeneratedContent.Create_knight_Legs_Walking(
+            var idle_right = GeneratedContent.Create_knight_Leg_idle(
+                flippedx
+                , feet_y
+                , null
+                , null
+                , true);
+            idle_right.ScaleX = scale;
+            idle_right.ScaleY = scale;
+            idle_right.RenderingLayer = TORSO_Z - 0.001f; ;
+            idle_right.FrameDuration = 2;
+
+            var idle_right_2 = GeneratedContent.Create_knight_Leg_idle(
+                flippedx - 225
+                , feet_y
+                , null
+                , null
+                , false);
+            idle_right_2.ScaleX = scale;
+            idle_right_2.ScaleY = scale;
+            idle_right_2.RenderingLayer = TORSO_Z + 0.001f; ;
+            idle_right_2.FrameDuration = 2;
+            //thing.AddAnimation(idle_right_2);
+
+            var walk_right = GeneratedContent.Create_knight_Leg_Walking(
                 flippedx
                 , feet_y
                 , null
@@ -187,8 +210,21 @@ namespace MonoGameProject
                 , true);
             walk_right.ScaleX = scale;
             walk_right.ScaleY = scale;
-            walk_right.RenderingLayer = LEG_Z;
+            walk_right.RenderingLayer = TORSO_Z - 0.001f; ;
             walk_right.FrameDuration = 2;
+
+            var walk_right_2 = GeneratedContent.Create_knight_Leg_Walking(
+                flippedx+ 225
+                , feet_y
+                , null
+                , null
+                , true);
+            walk_right_2.ScaleX = scale;
+            walk_right_2.ScaleY = scale;
+            walk_right_2.RenderingLayer = TORSO_Z + 0.001f; ;
+            walk_right_2.FrameDuration = 2;
+            walk_right_2.StartingFrame = 6;
+            thing.AddAnimation(walk_right_2);
 
             var walk_left_armored = GeneratedContent.Create_knight_Legs_Walking_armored(
                 x

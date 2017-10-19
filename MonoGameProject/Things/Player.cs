@@ -8,6 +8,7 @@ namespace MonoGameProject
     {
         //planning: 
         // dividir braços do torso
+        // mover a cabeça com analogico esquerdo
         // remove or add background according to map type
         //  cooler dying animation (longer) boss
         // dying animation player
