@@ -15,6 +15,11 @@ namespace MonoGameProject
         //  reduce idle duration when damage taken
         //permitir que o player desvie to attack melee abaixando (boss)
 
+        //dimitri hands
+
+        //boss voador +cara de coelho + 4 olhos, está muito fraco
+        //     O que fazer? mudar padrao de voo? fazer 
+
         //HEALTH nos projéteis??? yes
         //barulho de btn no touch
 
@@ -218,7 +223,7 @@ namespace MonoGameProject
                 else
                     Inputs.Disabled = false;
 
-                
+
             });
 
             AddUpdate(new TakesDamage(this, Game1, AddToWorld));
