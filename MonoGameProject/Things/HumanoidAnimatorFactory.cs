@@ -66,6 +66,10 @@ namespace MonoGameProject
             var frontLegCrouch = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_Crouching, crouch_y, frontLegIndex);
             var backLegCrouch = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_Crouching, crouch_y, backLegIndex, 225, 5);
 
+            var frontSweetDreams = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_SweetDreams_front, crouch_y, frontLegIndex);
+            var backSweetDreams = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_SweetDreams_back, crouch_y, backLegIndex, 225, 5);
+
+
             Func<bool> standing = () =>
                 thing.LegState == LegState.Standing
                 && thing.RightGroundAcidentChecker.Colliding<GroundCollider>()
@@ -97,6 +101,7 @@ namespace MonoGameProject
                     , new AnimationTransitionOnCondition(frontLegIdleEdge, edgeStanding)
                     //, new AnimationTransitionOnCondition(frontLegIdleEdge2, () => thing.LegState == LegState.Standing && ((thing.FacingRight && !thing.LeftGroundAcidentChecker.Colliding<GroundCollider>()) || (!thing.FacingRight && !thing.RightGroundAcidentChecker.Colliding<GroundCollider>())))
                     , new AnimationTransitionOnCondition(frontWall, wallSlide)
+                    , new AnimationTransitionOnCondition(frontSweetDreams, ()=> thing.LegState==LegState.SweetDreams)
                     , new AnimationTransitionOnCondition(frontLegWalking, () => thing.LegState == LegState.Walking)
                     , new AnimationTransitionOnCondition(frontLegFall, () => thing.LegState == LegState.Falling)
                     , new AnimationTransitionOnCondition(frontLegCrouch, () => thing.LegState == LegState.Crouching && ((!thing.FacingRight && thing.LeftGroundAcidentChecker.Colliding<GroundCollider>()) || (thing.FacingRight && thing.RightGroundAcidentChecker.Colliding<GroundCollider>())))
@@ -110,6 +115,7 @@ namespace MonoGameProject
                     , new AnimationTransitionOnCondition(backLegIdleEdge, edgeStanding)
                     //, new AnimationTransitionOnCondition(backLegIdleEdge2, () => thing.LegState == LegState.Standing && ((thing.FacingRight && !thing.LeftGroundAcidentChecker.Colliding<GroundCollider>()) || (!thing.FacingRight && !thing.RightGroundAcidentChecker.Colliding<GroundCollider>())))
                     , new AnimationTransitionOnCondition(backWall, wallSlide)
+                    , new AnimationTransitionOnCondition(backSweetDreams, () => thing.LegState == LegState.SweetDreams)
                     , new AnimationTransitionOnCondition(backLegWalking, () => thing.LegState == LegState.Walking)
                     , new AnimationTransitionOnCondition(backLegFall, () => thing.LegState == LegState.Falling)
                     , new AnimationTransitionOnCondition(backLegCrouch, () => thing.LegState == LegState.Crouching && ((!thing.FacingRight && thing.LeftGroundAcidentChecker.Colliding<GroundCollider>()) || (thing.FacingRight && thing.RightGroundAcidentChecker.Colliding<GroundCollider>())))
