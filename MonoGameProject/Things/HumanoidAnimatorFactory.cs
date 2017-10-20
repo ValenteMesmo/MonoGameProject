@@ -48,8 +48,11 @@ namespace MonoGameProject
             var frontLegIdle = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_idle, feet_y, frontLegIndex);
             var backLegIdle = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_idle, feet_y, backLegIndex, 225, 5, true);
 
-            //var frontLegIdleEdge = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_idle, frontLegIndex);
-            //var backLegIdleEdge = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_idle, backLegIndex, 225, 5);
+            //var frontLegIdleEdge = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_idle,feet_y, frontLegIndex);
+            //var backLegIdleEdge = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_idle,feet_y, backLegIndex, 225, 5);
+
+            var frontLegCrouchEdge = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_Crouching_edge, crouch_y, frontLegIndex);
+            var backLegCrouchEdge = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_Crouching_edge, crouch_y, backLegIndex, 225, 5);
 
             var frontLegCrouch = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_Crouching, crouch_y, frontLegIndex);
             var backLegCrouch = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_Crouching, crouch_y, backLegIndex, 225, 5);
@@ -58,7 +61,8 @@ namespace MonoGameProject
                 new Animator(
                     new AnimationTransitionOnCondition(frontLegIdle, () => thing.LegState == LegState.Standing)
                     , new AnimationTransitionOnCondition(frontLegWalking, () => thing.LegState == LegState.Walking)
-                    , new AnimationTransitionOnCondition(frontLegCrouch, () => thing.LegState == LegState.Crouching)
+                    , new AnimationTransitionOnCondition(frontLegCrouch, () => thing.LegState == LegState.Crouching && ((!thing.FacingRight && thing.LeftGroundAcidentChecker.Colliding<GroundCollider>()) || (thing.FacingRight && thing.RightGroundAcidentChecker.Colliding<GroundCollider>())))
+                    , new AnimationTransitionOnCondition(frontLegCrouchEdge, () => thing.LegState == LegState.Crouching && ((!thing.FacingRight && !thing.LeftGroundAcidentChecker.Colliding<GroundCollider>())||(thing.FacingRight && !thing.RightGroundAcidentChecker.Colliding<GroundCollider>())))
                 )
             );
 
@@ -66,7 +70,8 @@ namespace MonoGameProject
                 new Animator(
                     new AnimationTransitionOnCondition(backLegIdle, () => thing.LegState == LegState.Standing)
                     , new AnimationTransitionOnCondition(backLegWalking, () => thing.LegState == LegState.Walking)
-                    , new AnimationTransitionOnCondition(backLegCrouch, () => thing.LegState == LegState.Crouching)
+                    , new AnimationTransitionOnCondition(backLegCrouch, () => thing.LegState == LegState.Crouching && ((!thing.FacingRight && thing.LeftGroundAcidentChecker.Colliding<GroundCollider>()) || (thing.FacingRight && thing.RightGroundAcidentChecker.Colliding<GroundCollider>())))
+                    , new AnimationTransitionOnCondition(backLegCrouchEdge, () => thing.LegState == LegState.Crouching && ((!thing.FacingRight && !thing.LeftGroundAcidentChecker.Colliding<GroundCollider>()) || (thing.FacingRight && !thing.RightGroundAcidentChecker.Colliding<GroundCollider>())))
                 )
             );
         }
