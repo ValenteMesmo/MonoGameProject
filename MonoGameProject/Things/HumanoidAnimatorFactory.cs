@@ -28,26 +28,45 @@ namespace MonoGameProject
 
         private void LegsAnimator(Humanoid thing)
         {
-            var frontLegWalking = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_Walking, TORSO_Z - 0.001f);
-            var backLegWalking = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_Walking, TORSO_Z + 0.001f, 225, 5);
+            var buttIndex = TORSO_Z + 0.005f;
+            var frontLegIndex = TORSO_Z - 0.001f;
+            var backLegIndex = buttIndex + 0.001f;
 
-            var frontLegIdle = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_idle, TORSO_Z - 0.001f);
-            var backLegIdle = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_idle, TORSO_Z + 0.001f, 225, 5, true);
 
-            var frontLegIdleEdge = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_idle, TORSO_Z - 0.001f);
-            var backLegIdleEdge = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_idle, TORSO_Z + 0.001f, 225, 5);
+            var butt = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_butt_idle, feet_y, buttIndex);
+            var buttCrouch = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_butt_idle, crouch_y, buttIndex);
+            thing.AddAnimation(
+                new Animator(
+                    new AnimationTransitionOnCondition(butt, () => thing.LegState != LegState.Crouching && thing.LegState != LegState.SweetDreams)
+                    , new AnimationTransitionOnCondition(buttCrouch, () => thing.LegState == LegState.Crouching || thing.LegState == LegState.SweetDreams)
+                )
+            );
+
+            var frontLegWalking = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_Walking, feet_y, frontLegIndex);
+            var backLegWalking = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_Walking, feet_y, backLegIndex, 225, 5);
+
+            var frontLegIdle = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_idle, feet_y, frontLegIndex);
+            var backLegIdle = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_idle, feet_y, backLegIndex, 225, 5, true);
+
+            //var frontLegIdleEdge = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_idle, frontLegIndex);
+            //var backLegIdleEdge = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_idle, backLegIndex, 225, 5);
+
+            var frontLegCrouch = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_Crouching, crouch_y, frontLegIndex);
+            var backLegCrouch = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_Crouching, crouch_y, backLegIndex, 225, 5);
 
             thing.AddAnimation(
                 new Animator(
-                    new AnimationTransitionOnCondition(frontLegIdle, () => thing.HorizontalSpeed == 0)
-                    , new AnimationTransitionOnCondition(frontLegWalking, () => thing.HorizontalSpeed != 0)
+                    new AnimationTransitionOnCondition(frontLegIdle, () => thing.LegState == LegState.Standing)
+                    , new AnimationTransitionOnCondition(frontLegWalking, () => thing.LegState == LegState.Walking)
+                    , new AnimationTransitionOnCondition(frontLegCrouch, () => thing.LegState == LegState.Crouching)
                 )
             );
 
             thing.AddAnimation(
                 new Animator(
-                    new AnimationTransitionOnCondition(backLegIdle, () => thing.HorizontalSpeed == 0)
-                    , new AnimationTransitionOnCondition(backLegWalking, () => thing.HorizontalSpeed != 0)
+                    new AnimationTransitionOnCondition(backLegIdle, () => thing.LegState == LegState.Standing)
+                    , new AnimationTransitionOnCondition(backLegWalking, () => thing.LegState == LegState.Walking)
+                    , new AnimationTransitionOnCondition(backLegCrouch, () => thing.LegState == LegState.Crouching)
                 )
             );
         }
@@ -55,6 +74,7 @@ namespace MonoGameProject
         private IHandleAnimation CreateFlippableAnimation(
             Humanoid thing
             , Func<int, int, int?, int?, bool, Animation> createAnimation
+            , int y
             , float z
             , int bonus = 0
             , int startingFrame = 0
@@ -65,7 +85,7 @@ namespace MonoGameProject
 
             var flipped = createAnimation(
                                 flippedx + bonus
-                                , feet_y
+                                , y
                                 , null
                                 , null
                                 , !reverse);
@@ -77,7 +97,7 @@ namespace MonoGameProject
 
             var notFlipped = createAnimation(
                    x - bonus
-                   , feet_y
+                   , y
                    , null
                    , null
                    , reverse);
