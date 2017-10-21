@@ -52,7 +52,7 @@ namespace MonoGameProject
 
         private void ChangeState()
         {
-            var rnd = boss.MyRandom.Next(1, 4);
+            var rnd = boss.MyRandom.Next(1, 5);
             if (IdleCooldown == 0)
             {
                 boss.state = BossState.Idle;
@@ -60,7 +60,7 @@ namespace MonoGameProject
                 state1Duration = 250;
                 IdleCooldown = 500 + state1Duration;
             }
-            else if (rnd <= 2 && eyeSpellStacks > 0)
+            else if (rnd < 3 && eyeSpellStacks > 0)
             {
                 eyeSpellStacks--;
 
@@ -68,7 +68,7 @@ namespace MonoGameProject
                 boss.MouthState = BossMouthState.Idle;
                 state1Duration = 50;
             }
-            else if (rnd <= 3 && fireballStacks > 0)
+            else if (rnd < 5 && fireballStacks > 0)
             {
                 fireballStacks--;
 
@@ -133,7 +133,7 @@ namespace MonoGameProject
                     speed = 50;
                 else if (boss.damageTaken < stage2)
                     speed = 80;
-                else 
+                else
                     speed = 100;
 
                 if (boss.facingRight)
