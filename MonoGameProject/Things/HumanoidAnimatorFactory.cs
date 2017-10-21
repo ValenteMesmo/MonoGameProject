@@ -28,6 +28,7 @@ namespace MonoGameProject
 
         private void LegsAnimator(Humanoid thing)
         {
+            
             var buttIndex = TORSO_Z + 0.005f;
             var frontLegIndex = TORSO_Z - 0.001f;
             var backLegIndex = buttIndex + 0.001f;
@@ -42,7 +43,7 @@ namespace MonoGameProject
                 )
             );
 
-            var frontLegWalking = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_Walking, feet_y, frontLegIndex);
+            var frontLegWalking = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_Walking, feet_y, frontLegIndex);        
             var backLegWalking = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_Walking, feet_y, backLegIndex, 225, 5);
 
             var frontWall = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_wall_front, feet_y, frontLegIndex);
@@ -138,6 +139,8 @@ namespace MonoGameProject
             , int startingFrame = 0
             , bool reverse = false)
         {
+            var color = new Color(200, 165, 140);
+
             if (reverse)
                 bonus *= -1;
 
@@ -152,6 +155,8 @@ namespace MonoGameProject
             flipped.RenderingLayer = z;
             flipped.FrameDuration = 2;
             flipped.StartingFrame = startingFrame;
+
+            flipped.ColorGetter = () => color;
 
             var notFlipped = createAnimation(
                    x - bonus
