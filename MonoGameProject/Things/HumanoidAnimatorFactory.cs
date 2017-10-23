@@ -29,33 +29,46 @@ namespace MonoGameProject
 
         private void CreateArmAnimation(Humanoid thing)
         {
-
             var frontLegIndex = TORSO_Z - 0.002f;
             var backLegIndex = TORSO_Z + 0.002f;
 
-            var frontLegWalking = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_iddle_arm, feet_y, frontLegIndex);
-            var backLegWalking = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_iddle_arm, feet_y, backLegIndex, 200, 5, true);
+            var frontLegWalking = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Arm_Idle, feet_y, frontLegIndex);
+            var backLegWalking = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Arm_Idle, feet_y, backLegIndex, 200, 5, true);
 
-            var frontLegCrouch = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_iddle_arm, crouch_y, frontLegIndex);
-            var backLegCrouch = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_iddle_arm, crouch_y, backLegIndex, 200, 5, true);
+            var frontLegCrouch = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Arm_Idle, crouch_y, frontLegIndex);
+            var backLegCrouch = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Arm_Idle, crouch_y, backLegIndex, 200, 5, true);
 
-            Func<bool> walkCondition = () =>
-                thing.LegState != LegState.Crouching
-                && thing.LegState != LegState.SweetDreams;
+            var frontLegWalkingAttack = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Arm_Attack, feet_y, frontLegIndex, 0, 0, false, false);
+            var backLegWalkingAttack = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Arm_Attack, feet_y, backLegIndex, 200, 5, true, false);
+
+            var frontLegCrouchAttack = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Arm_Attack, crouch_y, frontLegIndex, 0, 0, false, false);
+            var backLegCrouchAttack = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Arm_Attack, crouch_y, backLegIndex, 200, 5, true, false);
 
             Func<bool> crouchCondition = () =>
                 thing.LegState == LegState.Crouching
                 || thing.LegState == LegState.SweetDreams;
 
+            Func<bool> attackCondition = () =>
+                thing.TorsoState == TorsoState.Attack
+                || thing.TorsoState == TorsoState.AttackCrouching;
+
+            Func<bool> walkIdle = () => !crouchCondition() && !attackCondition();
+            Func<bool> crouchIdle = () => crouchCondition() && !attackCondition();
+            Func<bool> walkAttack = () => !crouchCondition() && attackCondition();
+            Func<bool> crouchAttack = () => crouchCondition() && attackCondition();
 
             thing.AddAnimation(new Animator(
-                new AnimationTransitionOnCondition(frontLegWalking, walkCondition)
-                , new AnimationTransitionOnCondition(frontLegCrouch, crouchCondition)
+                new AnimationTransitionOnCondition(frontLegWalking, walkIdle)
+                , new AnimationTransitionOnCondition(frontLegCrouch, crouchIdle)
+                , new AnimationTransitionOnCondition(frontLegWalkingAttack, walkAttack)
+                , new AnimationTransitionOnCondition(frontLegCrouchAttack, crouchAttack)
             ));
 
             thing.AddAnimation(new Animator(
-                new AnimationTransitionOnCondition(backLegWalking, walkCondition)
-                , new AnimationTransitionOnCondition(backLegCrouch, crouchCondition)
+                new AnimationTransitionOnCondition(backLegWalking, walkIdle)
+                , new AnimationTransitionOnCondition(backLegCrouch, crouchIdle)
+                , new AnimationTransitionOnCondition(backLegWalkingAttack, walkAttack)
+                , new AnimationTransitionOnCondition(backLegCrouchAttack, crouchAttack)
             ));
         }
 
@@ -191,7 +204,9 @@ namespace MonoGameProject
             , float z
             , int bonus = 0
             , int startingFrame = 0
-            , bool reverse = false)
+            , bool reverse = false
+            , bool loop = true
+            )
         {
             var color = new Color(223, 168, 137);
 
@@ -209,6 +224,7 @@ namespace MonoGameProject
             flipped.RenderingLayer = z;
             flipped.FrameDuration = 2;
             flipped.StartingFrame = startingFrame;
+            flipped.LoopDisabled = !loop;
 
             flipped.ColorGetter = () => color;
 
@@ -223,9 +239,9 @@ namespace MonoGameProject
             notFlipped.RenderingLayer = z;
             notFlipped.FrameDuration = 2;
             notFlipped.StartingFrame = startingFrame;
+            notFlipped.LoopDisabled = !loop;
 
             notFlipped.ColorGetter = () => color;
-
 
             return new Animator(
                 new AnimationTransitionOnCondition(flipped, () => thing.FacingRight == true)
