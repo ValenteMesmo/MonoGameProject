@@ -15,6 +15,8 @@ namespace MonoGameProject
         //  reduce idle duration when damage taken
         //permitir que o player desvie to attack melee abaixando (boss)
 
+            //"barra de life" ser o torso... casco quebrando... pelos caindo... ferida abrindo?
+            //um boss que nao sai do lugar
             //boss humanoid só pode usar spells de longe .. tá injusto
         //amiibos easter eggs (marios mustache?)
 

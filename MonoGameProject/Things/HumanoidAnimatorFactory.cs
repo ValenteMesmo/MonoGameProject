@@ -23,10 +23,10 @@ namespace MonoGameProject
             thing.ArmorColor = Color.White;
             HeadAnimator(thing);
             TorsoAnimator(thing);
-            LegsAnimator(thing);
+            GreateLegsAnimator(thing);
         }
 
-        private void LegsAnimator(Humanoid thing)
+        private void GreateLegsAnimator(Humanoid thing)
         {
 
             var frontLegIndex = TORSO_Z - 0.001f;
@@ -50,8 +50,11 @@ namespace MonoGameProject
             var frontLegIdleEdge = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_idle, feet_y, frontLegIndex);
             var backLegIdleEdge = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_idle, feet_y, backLegIndex, 225, 5);
 
-            //var frontLegIdleEdge2 = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_idle, feet_y, frontLegIndex);
-            //var backLegIdleEdge2 = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_idle, feet_y, backLegIndex, 255, 0, true);
+            var frontLegIdleBackOnTheEdge = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_SweetDreams_front, feet_y, frontLegIndex);
+            var backLegIdleBackOnTheEdge = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_idle, feet_y, backLegIndex, 255, 0, true);
+
+            var frontLegCrouchBackOnTheEdge = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_Fall_back, crouch_y, frontLegIndex);
+            var backLegCrouchBackOnTheEdge = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_Crouching, crouch_y, backLegIndex, 255, 0);
 
             var frontLegCrouchEdge = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_Crouching_edge, crouch_y, frontLegIndex);
             var backLegCrouchEdge = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_Crouching_edge, crouch_y, backLegIndex, 225, 5);
@@ -62,59 +65,87 @@ namespace MonoGameProject
             var frontSweetDreams = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_SweetDreams_front, crouch_y, frontLegIndex);
             var backSweetDreams = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_SweetDreams_back, crouch_y, backLegIndex, 225, 5);
 
+            Func<bool> facingTheEdge = () =>
+                (
+                    !thing.FacingRight
+                    && !thing.LeftGroundAcidentChecker.Colliding<GroundCollider>()
+                )
+                ||
+                (
+                    thing.FacingRight
+                    && !thing.RightGroundAcidentChecker.Colliding<GroundCollider>()
+                );
 
-            Func<bool> standing = () =>
+            Func<bool> normal_standing = () =>
                 thing.LegState == LegState.Standing
                 && thing.RightGroundAcidentChecker.Colliding<GroundCollider>()
                 && thing.LeftGroundAcidentChecker.Colliding<GroundCollider>();
 
-            Func<bool> edgeStanding = () =>
+            Func<bool> edge_Standing = () =>
                 thing.LegState == LegState.Standing
-                &&
+                && facingTheEdge();
+
+            Func<bool> normal_Crouch = () =>
+                thing.LegState == LegState.Crouching
+                && thing.RightGroundAcidentChecker.Colliding<GroundCollider>()
+                && thing.LeftGroundAcidentChecker.Colliding<GroundCollider>();
+
+            Func<bool> edge_Crouch = () =>
+                thing.LegState == LegState.Crouching
+                && facingTheEdge();
+
+            Func<bool> isFacingBackTheEdge = () =>
                 (
-                    (
-                        !thing.FacingRight
-                        && !thing.LeftGroundAcidentChecker.Colliding<GroundCollider>()
-                    )
-                    ||
-                    (
-                        thing.FacingRight
-                        && !thing.RightGroundAcidentChecker.Colliding<GroundCollider>()
-                    )
+                    thing.FacingRight
+                    && !thing.LeftGroundAcidentChecker.Colliding<GroundCollider>()
+                )
+                ||
+                (
+                    !thing.FacingRight
+                    && !thing.RightGroundAcidentChecker.Colliding<GroundCollider>()
                 );
 
+            Func<bool> idleFacingBackEdge = () =>
+                thing.LegState == LegState.Standing
+                && isFacingBackTheEdge();
+
+            Func<bool> crouchFacingBackEdge = () =>
+                thing.LegState == LegState.Crouching
+                && isFacingBackTheEdge();
+
             Func<bool> wallSlide = () =>
-                thing.LegState == LegState.SlidingWall
-            ;
+                thing.LegState == LegState.SlidingWall;
 
 
             thing.AddAnimation(
                 new Animator(
-                    new AnimationTransitionOnCondition(frontLegIdle, standing)
-                    , new AnimationTransitionOnCondition(frontLegIdleEdge, edgeStanding)
-                    //, new AnimationTransitionOnCondition(frontLegIdleEdge2, () => thing.LegState == LegState.Standing && ((thing.FacingRight && !thing.LeftGroundAcidentChecker.Colliding<GroundCollider>()) || (!thing.FacingRight && !thing.RightGroundAcidentChecker.Colliding<GroundCollider>())))
+                    new AnimationTransitionOnCondition(frontLegIdle, normal_standing)
+                    , new AnimationTransitionOnCondition(frontLegIdleEdge, edge_Standing)
+                    , new AnimationTransitionOnCondition(frontLegIdleBackOnTheEdge, idleFacingBackEdge)
+                    , new AnimationTransitionOnCondition(frontLegCrouchBackOnTheEdge, crouchFacingBackEdge)
                     , new AnimationTransitionOnCondition(frontWall, wallSlide)
                     , new AnimationTransitionOnCondition(frontSweetDreams, () => thing.LegState == LegState.SweetDreams)
                     , new AnimationTransitionOnCondition(frontLegWalking, () => thing.LegState == LegState.Walking)
                     , new AnimationTransitionOnCondition(frontLegFall, () => thing.LegState == LegState.Falling)
                     , new AnimationTransitionOnCondition(frontLegRoof_bang, () => thing.LegState == LegState.HeadBump)
-                    , new AnimationTransitionOnCondition(frontLegCrouch, () => thing.LegState == LegState.Crouching && ((!thing.FacingRight && thing.LeftGroundAcidentChecker.Colliding<GroundCollider>()) || (thing.FacingRight && thing.RightGroundAcidentChecker.Colliding<GroundCollider>())))
-                    , new AnimationTransitionOnCondition(frontLegCrouchEdge, () => thing.LegState == LegState.Crouching && ((!thing.FacingRight && !thing.LeftGroundAcidentChecker.Colliding<GroundCollider>()) || (thing.FacingRight && !thing.RightGroundAcidentChecker.Colliding<GroundCollider>())))
+                    , new AnimationTransitionOnCondition(frontLegCrouch, normal_Crouch)
+                    , new AnimationTransitionOnCondition(frontLegCrouchEdge, edge_Crouch)
                 )
             );
 
             thing.AddAnimation(
                 new Animator(
-                    new AnimationTransitionOnCondition(backLegIdle, standing)
-                    , new AnimationTransitionOnCondition(backLegIdleEdge, edgeStanding)
-                    //, new AnimationTransitionOnCondition(backLegIdleEdge2, () => thing.LegState == LegState.Standing && ((thing.FacingRight && !thing.LeftGroundAcidentChecker.Colliding<GroundCollider>()) || (!thing.FacingRight && !thing.RightGroundAcidentChecker.Colliding<GroundCollider>())))
+                    new AnimationTransitionOnCondition(backLegIdle, normal_standing)
+                    , new AnimationTransitionOnCondition(backLegIdleEdge, edge_Standing)
+                    , new AnimationTransitionOnCondition(backLegIdleBackOnTheEdge, idleFacingBackEdge)
+                    , new AnimationTransitionOnCondition(backLegCrouchBackOnTheEdge, crouchFacingBackEdge)
                     , new AnimationTransitionOnCondition(backWall, wallSlide)
                     , new AnimationTransitionOnCondition(backSweetDreams, () => thing.LegState == LegState.SweetDreams)
                     , new AnimationTransitionOnCondition(backLegWalking, () => thing.LegState == LegState.Walking)
                     , new AnimationTransitionOnCondition(backLegFall, () => thing.LegState == LegState.Falling)
                     , new AnimationTransitionOnCondition(backLegRoof_bang, () => thing.LegState == LegState.HeadBump)
-                    , new AnimationTransitionOnCondition(backLegCrouch, () => thing.LegState == LegState.Crouching && ((!thing.FacingRight && thing.LeftGroundAcidentChecker.Colliding<GroundCollider>()) || (thing.FacingRight && thing.RightGroundAcidentChecker.Colliding<GroundCollider>())))
-                    , new AnimationTransitionOnCondition(backLegCrouchEdge, () => thing.LegState == LegState.Crouching && ((!thing.FacingRight && !thing.LeftGroundAcidentChecker.Colliding<GroundCollider>()) || (thing.FacingRight && !thing.RightGroundAcidentChecker.Colliding<GroundCollider>())))
+                    , new AnimationTransitionOnCondition(backLegCrouch, normal_Crouch)
+                    , new AnimationTransitionOnCondition(backLegCrouchEdge, edge_Crouch)
                 )
             );
         }
@@ -322,7 +353,7 @@ namespace MonoGameProject
 
         private void TorsoAnimator(Humanoid thing)
         {
-            var color = new Color(74,156,74);
+            var color = new Color(74, 156, 74);
 
             var stand_left = GeneratedContent.Create_knight_torso_walking(
                 x
