@@ -23,8 +23,42 @@ namespace MonoGameProject
             thing.ArmorColor = Color.White;
             HeadAnimator(thing);
             TorsoAnimator(thing);
+            CreateArmAnimation(thing);
             GreateLegsAnimator(thing);
         }
+
+        private void CreateArmAnimation(Humanoid thing)
+        {
+
+            var frontLegIndex = TORSO_Z - 0.002f;
+            var backLegIndex = TORSO_Z + 0.002f;
+
+            var frontLegWalking = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_iddle_arm, feet_y, frontLegIndex);
+            var backLegWalking = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_iddle_arm, feet_y, backLegIndex, 200, 5, true);
+
+            var frontLegCrouch = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_iddle_arm, crouch_y, frontLegIndex);
+            var backLegCrouch = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_iddle_arm, crouch_y, backLegIndex, 200, 5, true);
+
+            Func<bool> walkCondition = () =>
+                thing.LegState != LegState.Crouching
+                && thing.LegState != LegState.SweetDreams;
+
+            Func<bool> crouchCondition = () =>
+                thing.LegState == LegState.Crouching
+                || thing.LegState == LegState.SweetDreams;
+
+
+            thing.AddAnimation(new Animator(
+                new AnimationTransitionOnCondition(frontLegWalking, walkCondition)
+                , new AnimationTransitionOnCondition(frontLegCrouch, crouchCondition)
+            ));
+
+            thing.AddAnimation(new Animator(
+                new AnimationTransitionOnCondition(backLegWalking, walkCondition)
+                , new AnimationTransitionOnCondition(backLegCrouch, crouchCondition)
+            ));
+        }
+
 
         private void GreateLegsAnimator(Humanoid thing)
         {
