@@ -19,6 +19,8 @@ public class MusicController
     int duration = 0;
     internal void Play()
     {
+        return;
+
         duration++;
 
         var interval = 15;
