@@ -45,14 +45,16 @@ namespace MonoGameProject
             base.OnDestroy();
         }
 
+        float trail_z = Boss.EYE_Z - 0.002f;
         private void NewMethod()
         {
-            AddToWorld(new HitEffect(Boss.EYE_Z - 0.002f, 0, 0, MapModule.CELL_SIZE*2, MapModule.CELL_SIZE * 2)
+            AddToWorld(new HitEffect(trail_z, 0, 0, MapModule.CELL_SIZE*2, MapModule.CELL_SIZE * 2)
             {
                 X = X,
                 Y = Y,
                 Color = ColorGetter()
             });
+            trail_z -= 0.0001f;
         }
     }
 
