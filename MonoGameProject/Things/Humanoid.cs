@@ -219,12 +219,12 @@ namespace MonoGameProject
             };
             AddCollider(roofChecker);
 
-            var whipx = 800;
+            var whipWidth = (int)(width * 1.5f);
             AttackRightCollider = new AttackCollider
             {
-                Width = width / 2,
+                Width = whipWidth,
                 Height = height / 3,
-                OffsetX = width + whipx,
+                OffsetX = MainCollider.OffsetX + MainCollider.Width +1,
                 OffsetY = 0,
                 Disabled = true
             };
@@ -233,9 +233,9 @@ namespace MonoGameProject
 
             AttackLeftCollider = new AttackCollider
             {
-                Width = width / 2,
+                Width = whipWidth,
                 Height = height / 3,
-                OffsetX = -width / 2 - whipx,
+                OffsetX = MainCollider.OffsetX - whipWidth - 1,
                 OffsetY = 0,
                 Disabled = true
             };

@@ -113,10 +113,10 @@ namespace MonoGameProject
             animation.ColorGetter = () => ColorGetter();
             AddAnimation(animation);
 
-            collider.OffsetX = (MapModule.CELL_SIZE / 2) - 50;
-            collider.OffsetY = (MapModule.CELL_SIZE / 2) - 50;
-            collider.Width = 50;
-            collider.Height = 50;
+            collider.OffsetX = (MapModule.CELL_SIZE / 2) - 125;
+            collider.OffsetY = (MapModule.CELL_SIZE / 2) - 125;
+            collider.Width = 250;
+            collider.Height = 250;
 
             HorizontalSpeed = speedX;
             VerticalSpeed = speedY;
