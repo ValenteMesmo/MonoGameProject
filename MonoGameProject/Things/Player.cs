@@ -15,6 +15,8 @@ namespace MonoGameProject
         //  reduce idle duration when damage taken
         //permitir que o player desvie to attack melee abaixando (boss)
 
+            //em vez de tipo de arma afetar o dano, aumentar o cast time
+
         //nightelf color pattern
 
         //"barra de life" ser o torso... casco quebrando... pelos caindo... ferida abrindo?

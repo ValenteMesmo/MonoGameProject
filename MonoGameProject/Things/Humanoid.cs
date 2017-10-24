@@ -167,9 +167,9 @@ namespace MonoGameProject
 
             groundChecker = new CollisionChecker()
             {
-                Width = width / 3,
+                Width = MainCollider.Width ,
                 Height = height / 4,
-                OffsetX = width / 3,
+                OffsetX = MainCollider.OffsetX ,
                 OffsetY = height + 1
             };
             AddCollider(groundChecker);
@@ -178,7 +178,7 @@ namespace MonoGameProject
             {
                 Width = width / 4,
                 Height = height / 4,
-                OffsetX = width / 3 + width / 3 + 1,
+                OffsetX = (width / 3 + width / 3 + 1) +100,
                 OffsetY = height + 1
             };
             AddCollider(RightGroundAcidentChecker);
@@ -187,7 +187,7 @@ namespace MonoGameProject
             {
                 Width = width / 4,
                 Height = height / 4,
-                OffsetX = (width / 4) / 3 - 1,
+                OffsetX = ((width / 4) / 3 - 1) - 100,
                 OffsetY = height + 1
             };
             AddCollider(LeftGroundAcidentChecker);

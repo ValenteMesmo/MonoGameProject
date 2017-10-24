@@ -467,7 +467,7 @@ namespace MonoGameProject
             crouch_right.ColorGetter = () => color;
 
 
-            var crouch_left_armored = GeneratedContent.Create_knight_torso_walking_armored(
+            var crouch_left_armored = GeneratedContent.Create_knight_torso_walking(
                 x
                 , crouch_y);
             crouch_left_armored.ScaleX = scale;
@@ -475,7 +475,7 @@ namespace MonoGameProject
             crouch_left_armored.RenderingLayer = TORSO_Z;
             crouch_left_armored.ColorGetter = () => thing.ArmorColor;
 
-            var crouch_right_armored = GeneratedContent.Create_knight_torso_walking_armored(
+            var crouch_right_armored = GeneratedContent.Create_knight_torso_walking(
                 flippedx
                 , crouch_y
                 , null
