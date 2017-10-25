@@ -21,6 +21,7 @@ namespace MonoGameProject
 
         //"barra de life" ser o torso... casco quebrando... pelos caindo... ferida abrindo?
         //um boss que nao sai do lugar
+        //um boss que se move seguindo o player (x e y) em alta velocidade
         //boss humanoid só pode usar spells de longe .. tá injusto
         //amiibos easter eggs (marios mustache?)
 

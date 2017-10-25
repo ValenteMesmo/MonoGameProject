@@ -102,7 +102,7 @@ namespace MonoGameProject
                 {
                     return;
                 }
-                DamageCooldown = 100;
+                DamageCooldown = 25;
 
                 AddToWorld(new HitEffect(0.01f, 0, 0, size * 2, size * 2) { X = X, Y = Y });
                 Health--;
