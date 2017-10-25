@@ -515,7 +515,7 @@ namespace MonoGameProject
             stand_right.FrameDuration = 2;
             stand_right.ColorGetter = () => color;
 
-            var stand_left_armored = GeneratedContent.Create_knight_torso_walking(
+            var stand_left_armored = GeneratedContent.Create_knight_torso_walking_armored(
                 x
                 , feet_y);
             stand_left_armored.ScaleX = scale;
@@ -524,7 +524,7 @@ namespace MonoGameProject
             stand_left_armored.FrameDuration = 2;
             stand_left_armored.ColorGetter = () => thing.ArmorColor;
 
-            var stand_right_armored = GeneratedContent.Create_knight_torso_walking(
+            var stand_right_armored = GeneratedContent.Create_knight_torso_walking_armored(
                 flippedx
                 , feet_y
                 , null
@@ -556,7 +556,7 @@ namespace MonoGameProject
             crouch_right.ColorGetter = () => color;
 
 
-            var crouch_left_armored = GeneratedContent.Create_knight_torso_walking(
+            var crouch_left_armored = GeneratedContent.Create_knight_torso_walking_armored(
                 x
                 , crouch_y);
             crouch_left_armored.ScaleX = scale;
@@ -564,7 +564,7 @@ namespace MonoGameProject
             crouch_left_armored.RenderingLayer = TORSO_Z;
             crouch_left_armored.ColorGetter = () => thing.ArmorColor;
 
-            var crouch_right_armored = GeneratedContent.Create_knight_torso_walking(
+            var crouch_right_armored = GeneratedContent.Create_knight_torso_walking_armored(
                 flippedx
                 , crouch_y
                 , null
