@@ -24,11 +24,11 @@ namespace MonoGameProject
             HeadAnimator(thing);
             TorsoAnimator(thing);
 
-            var armoredArm = CreateArmAnimation(thing, () => thing.ArmorColor);
-            var armoredArm2 = CreateArmAnimation2(thing, () => thing.ArmorColor);
+            var armoredArm = CreateArmAnimation(thing, () => thing.ArmorColor, GeneratedContent.Create_knight_Arm_Idle_armored, GeneratedContent.Create_knight_Arm_Attack);
+            var armoredArm2 = CreateArmAnimation2(thing, () => thing.ArmorColor, GeneratedContent.Create_knight_Arm_Idle_armored, GeneratedContent.Create_knight_Arm_Attack);
 
-            var nakedArm = CreateArmAnimation(thing, () => new Color(223, 168, 137));
-            var nakedArm2 = CreateArmAnimation2(thing, () => new Color(223, 168, 137));
+            var nakedArm = CreateArmAnimation(thing, () => new Color(223, 168, 137), GeneratedContent.Create_knight_Arm_Idle, GeneratedContent.Create_knight_Arm_Attack);
+            var nakedArm2 = CreateArmAnimation2(thing, () => new Color(223, 168, 137), GeneratedContent.Create_knight_Arm_Idle, GeneratedContent.Create_knight_Arm_Attack);
 
             thing.AddAnimation(
                 CreateArmorAnimator(thing, nakedArm, armoredArm, TakesDamage.DAMAGE_DURATION/2)
@@ -67,17 +67,21 @@ namespace MonoGameProject
                 && thing.DamageDuration <= TakesDamage.DAMAGE_DURATION - asdzxc;
         }
 
-        private Animator CreateArmAnimation(Humanoid thing, Func<Color> ArmorColor)
+        private Animator CreateArmAnimation(
+            Humanoid thing
+            , Func<Color> ArmorColor
+            , Func<int, int, int?, int?, bool, Animation> Create_knight_Arm_Idle
+            , Func<int, int, int?, int?, bool, Animation> Create_knight_Arm_Attack)
         {
             var backLegIndex = TORSO_Z + 0.002f;
 
-            var backLegWalking = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Arm_Idle, ArmorColor, feet_y, backLegIndex, 200, 5, true);
+            var backLegWalking = CreateFlippableAnimation(thing, Create_knight_Arm_Idle, ArmorColor, feet_y, backLegIndex, 200, 5, true);
 
-            var backLegCrouch = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Arm_Idle, ArmorColor, crouch_y, backLegIndex, 200, 5, true);
+            var backLegCrouch = CreateFlippableAnimation(thing, Create_knight_Arm_Idle, ArmorColor, crouch_y, backLegIndex, 200, 5, true);
 
-            var backLegWalkingAttack = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Arm_Attack, ArmorColor, feet_y, backLegIndex, 200, 5, true, false);
+            var backLegWalkingAttack = CreateFlippableAnimation(thing, Create_knight_Arm_Attack, ArmorColor, feet_y, backLegIndex, 200, 5, true, false);
 
-            var backLegCrouchAttack = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Arm_Attack, ArmorColor, crouch_y, backLegIndex, 200, 5, true, false);
+            var backLegCrouchAttack = CreateFlippableAnimation(thing, Create_knight_Arm_Attack, ArmorColor, crouch_y, backLegIndex, 200, 5, true, false);
 
             Func<bool> crouchCondition = () =>
                 thing.LegState == LegState.Crouching
@@ -100,17 +104,21 @@ namespace MonoGameProject
             );
         }
 
-        private Animator CreateArmAnimation2(Humanoid thing, Func<Color> ArmorColor)
+        private Animator CreateArmAnimation2(
+            Humanoid thing
+            , Func<Color> ArmorColor
+            , Func<int, int, int?, int?, bool, Animation> Create_knight_Arm_Idle
+            , Func<int, int, int?, int?, bool, Animation> Create_knight_Arm_Attack)
         {
             var frontLegIndex = TORSO_Z - 0.002f;
 
-            var frontLegWalking = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Arm_Idle, ArmorColor, feet_y, frontLegIndex);
+            var frontLegWalking = CreateFlippableAnimation(thing, Create_knight_Arm_Idle, ArmorColor, feet_y, frontLegIndex);
 
-            var frontLegCrouch = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Arm_Idle, ArmorColor, crouch_y, frontLegIndex);
+            var frontLegCrouch = CreateFlippableAnimation(thing, Create_knight_Arm_Idle, ArmorColor, crouch_y, frontLegIndex);
 
-            var frontLegWalkingAttack = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Arm_Attack, ArmorColor, feet_y, frontLegIndex, 0, 0, false, false);
+            var frontLegWalkingAttack = CreateFlippableAnimation(thing, Create_knight_Arm_Attack, ArmorColor, feet_y, frontLegIndex, 0, 0, false, false);
 
-            var frontLegCrouchAttack = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Arm_Attack, ArmorColor, crouch_y, frontLegIndex, 0, 0, false, false);
+            var frontLegCrouchAttack = CreateFlippableAnimation(thing, Create_knight_Arm_Attack, ArmorColor, crouch_y, frontLegIndex, 0, 0, false, false);
 
             Func<bool> crouchCondition = () =>
                 thing.LegState == LegState.Crouching
