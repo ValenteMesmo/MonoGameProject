@@ -17,6 +17,9 @@ namespace MonoGameProject
         public const float LEG_Z = 0.122f;
 
         private const int bump_y = -50;
+        Func<Color> skinColorGetter = () => new Color(223, 168, 137);
+        Func<Color> CothColorGetter = () => new Color(74, 156, 74);
+        Func<Color> HairColorGetter = () => new Color(186,120,168);
 
         public void CreateAnimator(Humanoid thing)
         {
@@ -24,7 +27,6 @@ namespace MonoGameProject
             HeadAnimator(thing);
             TorsoAnimator(thing);
 
-            Func<Color> skinColorGetter = ()=> new Color(223, 168, 137);
 
             var armoredArm = CreateArmAnimation(thing, () => thing.ArmorColor, GeneratedContent.Create_knight_Arm_Idle_armored, GeneratedContent.Create_knight_Arm_Attack_armored);
             var armoredArm2 = CreateArmAnimation2(thing, () => thing.ArmorColor, GeneratedContent.Create_knight_Arm_Idle_armored, GeneratedContent.Create_knight_Arm_Attack_armored);
@@ -436,144 +438,161 @@ namespace MonoGameProject
 
         private void HeadAnimator(Humanoid thing)
         {
-            var stand_left = GeneratedContent.Create_knight_head(
-                x
-                , feet_y);
-            stand_left.ScaleX = scale;
-            stand_left.ScaleY = scale;
-            stand_left.RenderingLayer = HEAD_Z;
-
-            var stand_right = GeneratedContent.Create_knight_head(
-                flippedx
+            thing.AddAnimation(
+            CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_hair, HairColorGetter
                 , feet_y
-                , null
-                , null
-                , true);
-            stand_right.ScaleX = scale;
-            stand_right.ScaleY = scale;
-            stand_right.RenderingLayer = HEAD_Z;
-
-            var stand_left_armored = GeneratedContent.Create_knight_head_armor1(
-                x
-                , feet_y);
-            stand_left_armored.ScaleX = scale;
-            stand_left_armored.ScaleY = scale;
-            stand_left_armored.ColorGetter = () => thing.ArmorColor;
-            stand_left_armored.RenderingLayer = HEAD_Z;
-
-            var stand_right_armored = GeneratedContent.Create_knight_head_armor1(
-                flippedx
-                , feet_y
-                , null
-                , null
-                , true);
-            stand_right_armored.ScaleX = scale;
-            stand_right_armored.ScaleY = scale;
-            stand_right_armored.ColorGetter = () => thing.ArmorColor;
-            stand_right_armored.RenderingLayer = HEAD_Z;
-
-            var crouch_left = GeneratedContent.Create_knight_head(
-                x
-                , crouch_y);
-            crouch_left.ScaleX = scale;
-            crouch_left.ScaleY = scale;
-            crouch_left.RenderingLayer = HEAD_Z;
-
-            var crouch_right = GeneratedContent.Create_knight_head(
-                flippedx
-                , crouch_y
-                , null
-                , null
-                , true);
-            crouch_right.ScaleX = scale;
-            crouch_right.ScaleY = scale;
-            crouch_right.RenderingLayer = HEAD_Z;
-
-            var headbang_left = GeneratedContent.Create_knight_roof_bang_head(
-                x
-                , feet_y + bump_y);
-            headbang_left.ScaleX = scale;
-            headbang_left.ScaleY = scale;
-            headbang_left.RenderingLayer = HEAD_Z;
-
-            var headbang_right = GeneratedContent.Create_knight_roof_bang_head(
-                flippedx
-                , feet_y + bump_y
-                , null
-                , null
-                , true);
-            headbang_right.ScaleX = scale;
-            headbang_right.ScaleY = scale;
-            headbang_right.RenderingLayer = HEAD_Z;
-
-            var crouch_left_armored = GeneratedContent.Create_knight_head_armor1(
-                x
-                , crouch_y);
-            crouch_left_armored.ScaleX = scale;
-            crouch_left_armored.ScaleY = scale;
-            crouch_left_armored.ColorGetter = () => thing.ArmorColor;
-            crouch_left_armored.RenderingLayer = HEAD_Z;
-
-            var crouch_right_armored = GeneratedContent.Create_knight_head_armor1(
-                flippedx
-                , crouch_y
-                , null
-                , null
-                , true);
-            crouch_right_armored.ScaleX = scale;
-            crouch_right_armored.ScaleY = scale;
-            crouch_right_armored.ColorGetter = () => thing.ArmorColor;
-            crouch_right_armored.RenderingLayer = HEAD_Z;
-
-            var headbang_left_armored = GeneratedContent.Create_knight_head_armor_bang1(
-                x
-                , feet_y + bump_y);
-            headbang_left_armored.ScaleX = scale;
-            headbang_left_armored.ScaleY = scale;
-            headbang_left_armored.ColorGetter = () => thing.ArmorColor;
-            headbang_left_armored.RenderingLayer = HEAD_Z;
-
-            var headbang_right_armored = GeneratedContent.Create_knight_head_armor_bang1(
-                flippedx
-                , feet_y + bump_y
-                , null
-                , null
-                , true);
-            headbang_right_armored.ScaleX = scale;
-            headbang_right_armored.ScaleY = scale;
-            headbang_right_armored.ColorGetter = () => thing.ArmorColor;
-            headbang_right_armored.RenderingLayer = HEAD_Z;
-
-            var nakedAnimator = new Animator(
-                new AnimationTransitionOnCondition(stand_left, () => thing.HeadState == HeadState.Standing && thing.FacingRight == false)
-                , new AnimationTransitionOnCondition(stand_right, () => thing.HeadState == HeadState.Standing && thing.FacingRight == true)
-                , new AnimationTransitionOnCondition(crouch_left, () => thing.HeadState == HeadState.Crouching && thing.FacingRight == false)
-                , new AnimationTransitionOnCondition(crouch_right, () => thing.HeadState == HeadState.Crouching && thing.FacingRight == true)
-                , new AnimationTransitionOnCondition(headbang_left, () => thing.HeadState == HeadState.Bump && thing.FacingRight == false)
-                , new AnimationTransitionOnCondition(headbang_right, () => thing.HeadState == HeadState.Bump && thing.FacingRight == true)
+                , HEAD_Z - 0.002f)
             );
 
-            var armoredAnimator = new Animator(
-                new AnimationTransitionOnCondition(stand_left_armored, () => thing.HeadState == HeadState.Standing && thing.FacingRight == false)
-                , new AnimationTransitionOnCondition(stand_right_armored, () => thing.HeadState == HeadState.Standing && thing.FacingRight == true)
-                , new AnimationTransitionOnCondition(crouch_left_armored, () => thing.HeadState == HeadState.Crouching && thing.FacingRight == false)
-                , new AnimationTransitionOnCondition(crouch_right_armored, () => thing.HeadState == HeadState.Crouching && thing.FacingRight == true)
-                , new AnimationTransitionOnCondition(headbang_left_armored, () => thing.HeadState == HeadState.Bump && thing.FacingRight == false)
-                , new AnimationTransitionOnCondition(headbang_right_armored, () => thing.HeadState == HeadState.Bump && thing.FacingRight == true)
+            thing.AddAnimation(
+            CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_eyes, CothColorGetter
+                , feet_y
+                , HEAD_Z - 0.001f)
             );
 
-            var animatorsWrapper =
-                new Animator(
-                    new AnimationTransitionOnCondition(nakedAnimator, () => thing.HitPoints <= 1 && thing.DamageDuration == TakesDamage.DAMAGE_DURATION - 5)
-                    , new AnimationTransitionOnCondition(armoredAnimator, () => thing.HitPoints == 2));
+            thing.AddAnimation(
+            CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_face, skinColorGetter
+                , feet_y
+                , HEAD_Z)
+            );
 
-            thing.AddAnimation(animatorsWrapper);
+
+            //var stand_left = GeneratedContent.Create_knight_head(
+            //    x
+            //    , feet_y);
+            //stand_left.ScaleX = scale;
+            //stand_left.ScaleY = scale;
+            //stand_left.RenderingLayer = HEAD_Z;
+
+            //var stand_right = GeneratedContent.Create_knight_head(
+            //    flippedx
+            //    , feet_y
+            //    , null
+            //    , null
+            //    , true);
+            //stand_right.ScaleX = scale;
+            //stand_right.ScaleY = scale;
+            //stand_right.RenderingLayer = HEAD_Z;
+
+            //var stand_left_armored = GeneratedContent.Create_knight_head_armor1(
+            //    x
+            //    , feet_y);
+            //stand_left_armored.ScaleX = scale;
+            //stand_left_armored.ScaleY = scale;
+            //stand_left_armored.ColorGetter = () => thing.ArmorColor;
+            //stand_left_armored.RenderingLayer = HEAD_Z;
+
+            //var stand_right_armored = GeneratedContent.Create_knight_head_armor1(
+            //    flippedx
+            //    , feet_y
+            //    , null
+            //    , null
+            //    , true);
+            //stand_right_armored.ScaleX = scale;
+            //stand_right_armored.ScaleY = scale;
+            //stand_right_armored.ColorGetter = () => thing.ArmorColor;
+            //stand_right_armored.RenderingLayer = HEAD_Z;
+
+            //var crouch_left = GeneratedContent.Create_knight_head(
+            //    x
+            //    , crouch_y);
+            //crouch_left.ScaleX = scale;
+            //crouch_left.ScaleY = scale;
+            //crouch_left.RenderingLayer = HEAD_Z;
+
+            //var crouch_right = GeneratedContent.Create_knight_head(
+            //    flippedx
+            //    , crouch_y
+            //    , null
+            //    , null
+            //    , true);
+            //crouch_right.ScaleX = scale;
+            //crouch_right.ScaleY = scale;
+            //crouch_right.RenderingLayer = HEAD_Z;
+
+            //var headbang_left = GeneratedContent.Create_knight_roof_bang_head(
+            //    x
+            //    , feet_y + bump_y);
+            //headbang_left.ScaleX = scale;
+            //headbang_left.ScaleY = scale;
+            //headbang_left.RenderingLayer = HEAD_Z;
+
+            //var headbang_right = GeneratedContent.Create_knight_roof_bang_head(
+            //    flippedx
+            //    , feet_y + bump_y
+            //    , null
+            //    , null
+            //    , true);
+            //headbang_right.ScaleX = scale;
+            //headbang_right.ScaleY = scale;
+            //headbang_right.RenderingLayer = HEAD_Z;
+
+            //var crouch_left_armored = GeneratedContent.Create_knight_head_armor1(
+            //    x
+            //    , crouch_y);
+            //crouch_left_armored.ScaleX = scale;
+            //crouch_left_armored.ScaleY = scale;
+            //crouch_left_armored.ColorGetter = () => thing.ArmorColor;
+            //crouch_left_armored.RenderingLayer = HEAD_Z;
+
+            //var crouch_right_armored = GeneratedContent.Create_knight_head_armor1(
+            //    flippedx
+            //    , crouch_y
+            //    , null
+            //    , null
+            //    , true);
+            //crouch_right_armored.ScaleX = scale;
+            //crouch_right_armored.ScaleY = scale;
+            //crouch_right_armored.ColorGetter = () => thing.ArmorColor;
+            //crouch_right_armored.RenderingLayer = HEAD_Z;
+
+            //var headbang_left_armored = GeneratedContent.Create_knight_head_armor_bang1(
+            //    x
+            //    , feet_y + bump_y);
+            //headbang_left_armored.ScaleX = scale;
+            //headbang_left_armored.ScaleY = scale;
+            //headbang_left_armored.ColorGetter = () => thing.ArmorColor;
+            //headbang_left_armored.RenderingLayer = HEAD_Z;
+
+            //var headbang_right_armored = GeneratedContent.Create_knight_head_armor_bang1(
+            //    flippedx
+            //    , feet_y + bump_y
+            //    , null
+            //    , null
+            //    , true);
+            //headbang_right_armored.ScaleX = scale;
+            //headbang_right_armored.ScaleY = scale;
+            //headbang_right_armored.ColorGetter = () => thing.ArmorColor;
+            //headbang_right_armored.RenderingLayer = HEAD_Z;
+
+            //var nakedAnimator = new Animator(
+            //    new AnimationTransitionOnCondition(stand_left, () => thing.HeadState == HeadState.Standing && thing.FacingRight == false)
+            //    , new AnimationTransitionOnCondition(stand_right, () => thing.HeadState == HeadState.Standing && thing.FacingRight == true)
+            //    , new AnimationTransitionOnCondition(crouch_left, () => thing.HeadState == HeadState.Crouching && thing.FacingRight == false)
+            //    , new AnimationTransitionOnCondition(crouch_right, () => thing.HeadState == HeadState.Crouching && thing.FacingRight == true)
+            //    , new AnimationTransitionOnCondition(headbang_left, () => thing.HeadState == HeadState.Bump && thing.FacingRight == false)
+            //    , new AnimationTransitionOnCondition(headbang_right, () => thing.HeadState == HeadState.Bump && thing.FacingRight == true)
+            //);
+
+            //var armoredAnimator = new Animator(
+            //    new AnimationTransitionOnCondition(stand_left_armored, () => thing.HeadState == HeadState.Standing && thing.FacingRight == false)
+            //    , new AnimationTransitionOnCondition(stand_right_armored, () => thing.HeadState == HeadState.Standing && thing.FacingRight == true)
+            //    , new AnimationTransitionOnCondition(crouch_left_armored, () => thing.HeadState == HeadState.Crouching && thing.FacingRight == false)
+            //    , new AnimationTransitionOnCondition(crouch_right_armored, () => thing.HeadState == HeadState.Crouching && thing.FacingRight == true)
+            //    , new AnimationTransitionOnCondition(headbang_left_armored, () => thing.HeadState == HeadState.Bump && thing.FacingRight == false)
+            //    , new AnimationTransitionOnCondition(headbang_right_armored, () => thing.HeadState == HeadState.Bump && thing.FacingRight == true)
+            //);
+
+            //var animatorsWrapper =
+            //    new Animator(
+            //        new AnimationTransitionOnCondition(nakedAnimator, () => thing.HitPoints <= 1 && thing.DamageDuration == TakesDamage.DAMAGE_DURATION - 5)
+            //        , new AnimationTransitionOnCondition(armoredAnimator, () => thing.HitPoints == 2));
+
+            //thing.AddAnimation(animatorsWrapper);
         }
 
         private void TorsoAnimator(Humanoid thing)
         {
-            var color = new Color(74, 156, 74);
-
             var stand_left = GeneratedContent.Create_knight_torso_walking(
                 x
                 , feet_y);
@@ -581,7 +600,7 @@ namespace MonoGameProject
             stand_left.ScaleY = scale;
             stand_left.RenderingLayer = TORSO_Z;
             stand_left.FrameDuration = 2;
-            stand_left.ColorGetter = () => color;
+            stand_left.ColorGetter = CothColorGetter;
 
             var stand_right = GeneratedContent.Create_knight_torso_walking(
                 flippedx
@@ -593,7 +612,7 @@ namespace MonoGameProject
             stand_right.ScaleY = scale;
             stand_right.RenderingLayer = TORSO_Z;
             stand_right.FrameDuration = 2;
-            stand_right.ColorGetter = () => color;
+            stand_right.ColorGetter = CothColorGetter;
 
             var stand_left_armored = GeneratedContent.Create_knight_torso_walking_armored(
                 x
@@ -622,7 +641,7 @@ namespace MonoGameProject
             crouch_left.ScaleX = scale;
             crouch_left.ScaleY = scale;
             crouch_left.RenderingLayer = TORSO_Z;
-            crouch_left.ColorGetter = () => color;
+            crouch_left.ColorGetter = CothColorGetter;
 
             var crouch_right = GeneratedContent.Create_knight_torso_walking(
                 flippedx
@@ -633,7 +652,7 @@ namespace MonoGameProject
             crouch_right.ScaleX = scale;
             crouch_right.ScaleY = scale;
             crouch_right.RenderingLayer = TORSO_Z;
-            crouch_right.ColorGetter = () => color;
+            crouch_right.ColorGetter = CothColorGetter;
 
 
             var crouch_left_armored = GeneratedContent.Create_knight_torso_walking_armored(
