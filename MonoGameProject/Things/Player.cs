@@ -19,6 +19,17 @@ namespace MonoGameProject
 
         //nightelf color pattern
 
+
+            //level themes,   change color patterns to fixed pairs
+            //-lava
+            //  chão que quebra
+            //  chão que esquenta? chão que sobe e desce da lava?
+            //  labaredas (contra 3)
+            //-snow
+            //  diminuir visibilidade?
+            //  moving platforms horizontal... over spikes
+
+
         //"barra de life" ser o torso... casco quebrando... pelos caindo... ferida abrindo?
         //um boss que nao sai do lugar
         //um boss que se move seguindo o player (x e y) em alta velocidade

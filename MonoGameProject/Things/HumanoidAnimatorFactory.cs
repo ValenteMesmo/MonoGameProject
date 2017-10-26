@@ -31,18 +31,18 @@ namespace MonoGameProject
             var nakedArm2 = CreateArmAnimation2(thing, () => new Color(223, 168, 137), GeneratedContent.Create_knight_Arm_Idle, GeneratedContent.Create_knight_Arm_Attack);
 
             thing.AddAnimation(
-                CreateArmorAnimator(thing, nakedArm, armoredArm, TakesDamage.DAMAGE_DURATION/2)
+                CreateArmorAnimator(thing, nakedArm, armoredArm, TakesDamage.DAMAGE_DURATION / 2)
             );
 
             thing.AddAnimation(
-                CreateArmorAnimator(thing, nakedArm2, armoredArm2, TakesDamage.DAMAGE_DURATION/2)
+                CreateArmorAnimator(thing, nakedArm2, armoredArm2, TakesDamage.DAMAGE_DURATION / 2)
             );
 
-            var legArmored = GreateLegsAnimator(thing, () => thing.ArmorColor);
-            var legArmored2 = GreateLegsAnimator2(thing, () => thing.ArmorColor);
+            var legArmored = GreateLegsAnimator(thing, () => thing.ArmorColor, GeneratedContent.Create_knight_Leg_idle_aarmored, GeneratedContent.Create_knight_Leg_Walking);
+            var legArmored2 = GreateLegsAnimator2(thing, () => thing.ArmorColor, GeneratedContent.Create_knight_Leg_idle_aarmored, GeneratedContent.Create_knight_Leg_Walking);
 
-            var legNaked = GreateLegsAnimator(thing, () => new Color(223, 168, 137));
-            var legNaked2 = GreateLegsAnimator2(thing, () => new Color(223, 168, 137));
+            var legNaked = GreateLegsAnimator(thing, () => new Color(223, 168, 137),GeneratedContent.Create_knight_Leg_idle, GeneratedContent.Create_knight_Leg_Walking);
+            var legNaked2 = GreateLegsAnimator2(thing, () => new Color(223, 168, 137), GeneratedContent.Create_knight_Leg_idle, GeneratedContent.Create_knight_Leg_Walking);
 
             thing.AddAnimation(
                 CreateArmorAnimator(thing, legNaked, legArmored, TakesDamage.DAMAGE_DURATION)
@@ -56,8 +56,8 @@ namespace MonoGameProject
         private Animator CreateArmorAnimator(Humanoid thing, Animator naked, Animator armored, int asdzxc)
         {
             return new Animator(
-                    new AnimationTransitionOnCondition(naked, () => HeadIsArmored(thing,asdzxc))
-                    , new AnimationTransitionOnCondition(armored, () => !HeadIsArmored(thing,asdzxc))
+                    new AnimationTransitionOnCondition(naked, () => HeadIsArmored(thing, asdzxc))
+                    , new AnimationTransitionOnCondition(armored, () => !HeadIsArmored(thing, asdzxc))
             );
         }
 
@@ -141,11 +141,15 @@ namespace MonoGameProject
             );
         }
 
-        private Animator GreateLegsAnimator(Humanoid thing, Func<Color> ArmorColor)
+        private Animator GreateLegsAnimator(
+            Humanoid thing
+            , Func<Color> ArmorColor
+            , Func<int, int, int?, int?, bool, Animation> Create_knight_Leg_Idle
+            , Func<int, int, int?, int?, bool, Animation> Create_knight_Leg_Walking)
         {
             var backLegIndex = TORSO_Z + 0.001f;
 
-            var backLegWalking = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_Walking, ArmorColor, feet_y, backLegIndex, 225, 5);
+            var backLegWalking = CreateFlippableAnimation(thing, Create_knight_Leg_Walking, ArmorColor, feet_y, backLegIndex, 225, 5);
 
             var backWall = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_wall_back, ArmorColor, feet_y, backLegIndex, 225, 5);
 
@@ -153,11 +157,11 @@ namespace MonoGameProject
 
             var backLegRoof_bang = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_Roof_bang, ArmorColor, feet_y, backLegIndex, 225, 5);
 
-            var backLegIdle = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_idle, ArmorColor, feet_y, backLegIndex, 225, 5, true);
+            var backLegIdle = CreateFlippableAnimation(thing, Create_knight_Leg_Idle, ArmorColor, feet_y, backLegIndex, 225, 5, true);
 
-            var backLegIdleEdge = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_idle, ArmorColor, feet_y, backLegIndex, 225, 5);
+            var backLegIdleEdge = CreateFlippableAnimation(thing, Create_knight_Leg_Idle, ArmorColor, feet_y, backLegIndex, 225, 5);
 
-            var backLegIdleBackOnTheEdge = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_idle, ArmorColor, feet_y, backLegIndex, 255, 0, true);
+            var backLegIdleBackOnTheEdge = CreateFlippableAnimation(thing, Create_knight_Leg_Idle, ArmorColor, feet_y, backLegIndex, 255, 0, true);
 
             var backLegCrouchBackOnTheEdge = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_Crouching, ArmorColor, crouch_y, backLegIndex, 255, 0);
 
@@ -253,11 +257,13 @@ namespace MonoGameProject
                    );
         }
 
-        private Animator GreateLegsAnimator2(Humanoid thing, Func<Color> ArmorColor)
+        private Animator GreateLegsAnimator2(Humanoid thing, Func<Color> ArmorColor
+            , Func<int, int, int?, int?, bool, Animation> Create_knight_Leg_Idle
+            , Func<int, int, int?, int?, bool, Animation> Create_knight_Leg_Walking)
         {
             var frontLegIndex = TORSO_Z - 0.001f;
 
-            var frontLegWalking = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_Walking, ArmorColor, feet_y, frontLegIndex);
+            var frontLegWalking = CreateFlippableAnimation(thing, Create_knight_Leg_Walking, ArmorColor, feet_y, frontLegIndex);
 
             var frontWall = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_wall_front, ArmorColor, feet_y, frontLegIndex);
 
@@ -265,9 +271,9 @@ namespace MonoGameProject
 
             var frontLegRoof_bang = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_Roof_bang, ArmorColor, feet_y, frontLegIndex);
 
-            var frontLegIdle = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_idle, ArmorColor, feet_y, frontLegIndex);
+            var frontLegIdle = CreateFlippableAnimation(thing, Create_knight_Leg_Idle, ArmorColor, feet_y, frontLegIndex);
 
-            var frontLegIdleEdge = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_idle, ArmorColor, feet_y, frontLegIndex);
+            var frontLegIdleEdge = CreateFlippableAnimation(thing, Create_knight_Leg_Idle, ArmorColor, feet_y, frontLegIndex);
 
             var frontLegIdleBackOnTheEdge = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_SweetDreams_front, ArmorColor, feet_y, frontLegIndex);
 
