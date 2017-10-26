@@ -105,18 +105,18 @@ namespace MonoGameProject
             );
         }
 
-        private Animator CreateArmorAnimator(Humanoid thing, Animator naked, Animator armored, int asdzxc)
+        private Animator CreateArmorAnimator(Humanoid thing, Animator naked, Animator armored, int indexToDestroy)
         {
             return new Animator(
-                    new AnimationTransitionOnCondition(naked, () => HeadIsArmored(thing, asdzxc))
-                    , new AnimationTransitionOnCondition(armored, () => !HeadIsArmored(thing, asdzxc))
+                    new AnimationTransitionOnCondition(naked, () => ArmorPartIsDestroyed(thing, indexToDestroy))
+                    , new AnimationTransitionOnCondition(armored, () => !ArmorPartIsDestroyed(thing, indexToDestroy))
             );
         }
 
-        private bool HeadIsArmored(Humanoid thing, int asdzxc)
+        private bool ArmorPartIsDestroyed(Humanoid thing, int indexToDestroy)
         {
             return thing.HitPoints <= 1
-                && thing.DamageDuration <= TakesDamage.DAMAGE_DURATION - asdzxc;
+                && thing.DamageDuration <= TakesDamage.DAMAGE_DURATION - indexToDestroy;
         }
 
 
@@ -357,10 +357,30 @@ namespace MonoGameProject
         private Animator CreateCrouchAnimator(Humanoid thing, IHandleAnimation stand, IHandleAnimation crouch)
         {
             return new Animator(
-                new AnimationTransitionOnCondition(stand, ()=>!thing.IsCrouchingOrSweetDreaming())
+                new AnimationTransitionOnCondition(stand, () => !thing.IsCrouchingOrSweetDreaming())
                 , new AnimationTransitionOnCondition(crouch, thing.IsCrouchingOrSweetDreaming)
             );
         }
+
+        Animation EmptyAnimation = new Animation();
+
+        private Animator HideWhenArmored(Humanoid thing, IHandleAnimation animation)
+        {
+            return new Animator(
+                new AnimationTransitionOnCondition(animation, () => ArmorPartIsDestroyed(thing, 5))
+                , new AnimationTransitionOnCondition(EmptyAnimation, () => !ArmorPartIsDestroyed(thing, 5))
+            );
+        }
+
+        private Animator ShowWhenArmored(Humanoid thing, IHandleAnimation animation)
+        {
+            return new Animator(
+                new AnimationTransitionOnCondition(animation, () => !ArmorPartIsDestroyed(thing, 5))
+                , new AnimationTransitionOnCondition(EmptyAnimation, () => ArmorPartIsDestroyed(thing, 5))
+            );
+        }
+
+        
 
         private void HeadAnimator(Humanoid thing)
         {
@@ -384,9 +404,25 @@ namespace MonoGameProject
                 , crouch_y
                 , HEAD_Z);
 
-            thing.AddAnimation(CreateCrouchAnimator(thing, hair_standing, hair_crouching));
-            thing.AddAnimation(CreateCrouchAnimator(thing, eye_standing, eye_crouching));
-            thing.AddAnimation(CreateCrouchAnimator(thing, face_standing, face_crouching));
+            thing.AddAnimation(HideWhenArmored(thing,CreateCrouchAnimator(thing, hair_standing, hair_crouching)));
+            thing.AddAnimation(HideWhenArmored(thing, CreateCrouchAnimator(thing, eye_standing, eye_crouching)));
+            thing.AddAnimation(HideWhenArmored(thing, CreateCrouchAnimator(thing, face_standing, face_crouching)));
+
+
+
+
+
+
+
+            var helm_standing = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_armor1, ()=> thing.ArmorColor
+             , feet_y
+             , HEAD_Z );
+
+            var helm_crouching = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_armor1, () => thing.ArmorColor
+             , crouch_y
+             , HEAD_Z );
+
+            thing.AddAnimation(ShowWhenArmored(thing, CreateCrouchAnimator(thing, helm_standing, helm_crouching)));
             //var stand_left = GeneratedContent.Create_knight_head(
             //    x
             //    , feet_y);
