@@ -26,8 +26,8 @@ namespace MonoGameProject
 
             Func<Color> skinColorGetter = ()=> new Color(223, 168, 137);
 
-            var armoredArm = CreateArmAnimation(thing, () => thing.ArmorColor, GeneratedContent.Create_knight_Arm_Idle_armored, GeneratedContent.Create_knight_Arm_Attack);
-            var armoredArm2 = CreateArmAnimation2(thing, () => thing.ArmorColor, GeneratedContent.Create_knight_Arm_Idle_armored, GeneratedContent.Create_knight_Arm_Attack);
+            var armoredArm = CreateArmAnimation(thing, () => thing.ArmorColor, GeneratedContent.Create_knight_Arm_Idle_armored, GeneratedContent.Create_knight_Arm_Attack_armored);
+            var armoredArm2 = CreateArmAnimation2(thing, () => thing.ArmorColor, GeneratedContent.Create_knight_Arm_Idle_armored, GeneratedContent.Create_knight_Arm_Attack_armored);
 
             var nakedArm = CreateArmAnimation(thing, skinColorGetter, GeneratedContent.Create_knight_Arm_Idle, GeneratedContent.Create_knight_Arm_Attack);
             var nakedArm2 = CreateArmAnimation2(thing, skinColorGetter, GeneratedContent.Create_knight_Arm_Idle, GeneratedContent.Create_knight_Arm_Attack);
