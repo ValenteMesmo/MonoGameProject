@@ -38,11 +38,59 @@ namespace MonoGameProject
                 CreateArmorAnimator(thing, nakedArm2, armoredArm2, TakesDamage.DAMAGE_DURATION / 2)
             );
 
-            var legArmored = GreateLegsAnimator(thing, () => thing.ArmorColor, GeneratedContent.Create_knight_Leg_idle_aarmored, GeneratedContent.Create_knight_Leg_Walking);
-            var legArmored2 = GreateLegsAnimator2(thing, () => thing.ArmorColor, GeneratedContent.Create_knight_Leg_idle_aarmored, GeneratedContent.Create_knight_Leg_Walking);
+            var legArmored = GreateLegsAnimator(
+                thing
+                , () => thing.ArmorColor
+                , GeneratedContent.Create_knight_Leg_idle_armored
+                , GeneratedContent.Create_knight_Leg_Walking_armored
+                , GeneratedContent.Create_knight_Leg_wall_back_armored
+                , GeneratedContent.Create_knight_Leg_Fall_back_armored
+                , GeneratedContent.Create_knight_Leg_Roof_bang_armored
+                , GeneratedContent.Create_knight_Leg_Crouching_armored
+                , GeneratedContent.Create_knight_Leg_Crouching_edge_armored
+                , GeneratedContent.Create_knight_Leg_SweetDreams_back_armored
+            );
 
-            var legNaked = GreateLegsAnimator(thing, () => new Color(223, 168, 137),GeneratedContent.Create_knight_Leg_idle, GeneratedContent.Create_knight_Leg_Walking);
-            var legNaked2 = GreateLegsAnimator2(thing, () => new Color(223, 168, 137), GeneratedContent.Create_knight_Leg_idle, GeneratedContent.Create_knight_Leg_Walking);
+            var legArmored2 = GreateLegsAnimator2(
+                thing
+                , () => thing.ArmorColor
+                , GeneratedContent.Create_knight_Leg_idle_armored
+                , GeneratedContent.Create_knight_Leg_Walking_armored
+                , GeneratedContent.Create_knight_Leg_wall_front_armored
+                , GeneratedContent.Create_knight_Leg_Fall_front_armored
+                , GeneratedContent.Create_knight_Leg_Roof_bang_armored
+                , GeneratedContent.Create_knight_Leg_SweetDreams_front_armored
+                , GeneratedContent.Create_knight_Leg_Fall_back_armored
+                , GeneratedContent.Create_knight_Leg_Crouching_edge_armored
+                , GeneratedContent.Create_knight_Leg_Crouching_armored
+            );
+
+            var legNaked = GreateLegsAnimator(
+                thing
+                , () => new Color(223, 168, 137)
+                , GeneratedContent.Create_knight_Leg_idle_armored
+                , GeneratedContent.Create_knight_Leg_Walking
+                , GeneratedContent.Create_knight_Leg_wall_back
+                , GeneratedContent.Create_knight_Leg_Fall_back
+                , GeneratedContent.Create_knight_Leg_Roof_bang
+                , GeneratedContent.Create_knight_Leg_Crouching
+                , GeneratedContent.Create_knight_Leg_Crouching_edge
+                , GeneratedContent.Create_knight_Leg_SweetDreams_back
+            );
+
+            var legNaked2 = GreateLegsAnimator2(
+                thing
+                , () => new Color(223, 168, 137)
+                , GeneratedContent.Create_knight_Leg_idle
+                , GeneratedContent.Create_knight_Leg_Walking
+                , GeneratedContent.Create_knight_Leg_wall_front
+                , GeneratedContent.Create_knight_Leg_Fall_front
+                , GeneratedContent.Create_knight_Leg_Roof_bang
+                , GeneratedContent.Create_knight_Leg_SweetDreams_front
+                , GeneratedContent.Create_knight_Leg_Fall_back
+                , GeneratedContent.Create_knight_Leg_Crouching_edge
+                , GeneratedContent.Create_knight_Leg_Crouching
+            );
 
             thing.AddAnimation(
                 CreateArmorAnimator(thing, legNaked, legArmored, TakesDamage.DAMAGE_DURATION)
@@ -145,17 +193,24 @@ namespace MonoGameProject
             Humanoid thing
             , Func<Color> ArmorColor
             , Func<int, int, int?, int?, bool, Animation> Create_knight_Leg_Idle
-            , Func<int, int, int?, int?, bool, Animation> Create_knight_Leg_Walking)
+            , Func<int, int, int?, int?, bool, Animation> Create_knight_Leg_Walking
+            , Func<int, int, int?, int?, bool, Animation> Create_knight_Leg_wall_back
+            , Func<int, int, int?, int?, bool, Animation> Create_knight_Leg_Fall_back
+            , Func<int, int, int?, int?, bool, Animation> Create_knight_Leg_Roof_bang
+            , Func<int, int, int?, int?, bool, Animation> Create_knight_Leg_Crouching
+            , Func<int, int, int?, int?, bool, Animation> Create_knight_Leg_Crouching_edge
+            , Func<int, int, int?, int?, bool, Animation> Create_knight_Leg_SweetDreams_back
+            )
         {
             var backLegIndex = TORSO_Z + 0.001f;
 
             var backLegWalking = CreateFlippableAnimation(thing, Create_knight_Leg_Walking, ArmorColor, feet_y, backLegIndex, 225, 5);
 
-            var backWall = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_wall_back, ArmorColor, feet_y, backLegIndex, 225, 5);
+            var backWall = CreateFlippableAnimation(thing, Create_knight_Leg_wall_back, ArmorColor, feet_y, backLegIndex, 225, 5);
 
-            var backLegFall = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_Fall_back, ArmorColor, feet_y, backLegIndex, 225, 5);
+            var backLegFall = CreateFlippableAnimation(thing, Create_knight_Leg_Fall_back, ArmorColor, feet_y, backLegIndex, 225, 5);
 
-            var backLegRoof_bang = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_Roof_bang, ArmorColor, feet_y, backLegIndex, 225, 5);
+            var backLegRoof_bang = CreateFlippableAnimation(thing, Create_knight_Leg_Roof_bang, ArmorColor, feet_y, backLegIndex, 225, 5);
 
             var backLegIdle = CreateFlippableAnimation(thing, Create_knight_Leg_Idle, ArmorColor, feet_y, backLegIndex, 225, 5, true);
 
@@ -163,13 +218,13 @@ namespace MonoGameProject
 
             var backLegIdleBackOnTheEdge = CreateFlippableAnimation(thing, Create_knight_Leg_Idle, ArmorColor, feet_y, backLegIndex, 255, 0, true);
 
-            var backLegCrouchBackOnTheEdge = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_Crouching, ArmorColor, crouch_y, backLegIndex, 255, 0);
+            var backLegCrouchBackOnTheEdge = CreateFlippableAnimation(thing, Create_knight_Leg_Crouching, ArmorColor, crouch_y, backLegIndex, 255, 0);
 
-            var backLegCrouchEdge = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_Crouching_edge, ArmorColor, crouch_y, backLegIndex, 225, 5);
+            var backLegCrouchEdge = CreateFlippableAnimation(thing, Create_knight_Leg_Crouching_edge, ArmorColor, crouch_y, backLegIndex, 225, 5);
 
-            var backLegCrouch = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_Crouching, ArmorColor, crouch_y, backLegIndex, 225, 5);
+            var backLegCrouch = CreateFlippableAnimation(thing, Create_knight_Leg_Crouching, ArmorColor, crouch_y, backLegIndex, 225, 5);
 
-            var backSweetDreams = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_SweetDreams_back, ArmorColor, crouch_y, backLegIndex, 225, 5);
+            var backSweetDreams = CreateFlippableAnimation(thing, Create_knight_Leg_SweetDreams_back, ArmorColor, crouch_y, backLegIndex, 225, 5);
 
             return
                 new Animator(
@@ -187,103 +242,42 @@ namespace MonoGameProject
                 );
         }
 
-        private bool CrouchFacingBackEdge(Humanoid thing)
-        {
-            return thing.LegState == LegState.Crouching
-                            && IsFacingBackTheEdge(thing);
-        }
-
-        private bool IdleFacingBackEdge(Humanoid thing)
-        {
-            return thing.LegState == LegState.Standing
-                            && IsFacingBackTheEdge(thing);
-        }
-
-        private bool IsFacingBackTheEdge(Humanoid thing)
-        {
-            return
-                  (
-                      thing.FacingRight
-                      && !thing.LeftGroundAcidentChecker.Colliding<GroundCollider>()
-                  )
-                  ||
-                  (
-                      !thing.FacingRight
-                      && !thing.RightGroundAcidentChecker.Colliding<GroundCollider>()
-                  );
-        }
-
-        private bool EdgeCrouch(Humanoid thing)
-        {
-            return
-                  thing.LegState == LegState.Crouching
-                  && FacingTheEdge(thing);
-        }
-
-        private bool NormalCrouch(Humanoid thing)
-        {
-            return
-                  thing.LegState == LegState.Crouching
-                  && thing.RightGroundAcidentChecker.Colliding<GroundCollider>()
-                  && thing.LeftGroundAcidentChecker.Colliding<GroundCollider>();
-        }
-
-        private bool EdgeStanding(Humanoid thing)
-        {
-            return
-                  thing.LegState == LegState.Standing
-                  && FacingTheEdge(thing);
-        }
-
-        private bool NormalStanding(Humanoid thing)
-        {
-            return
-                  thing.LegState == LegState.Standing
-                  && thing.RightGroundAcidentChecker.Colliding<GroundCollider>()
-                  && thing.LeftGroundAcidentChecker.Colliding<GroundCollider>();
-        }
-
-        private bool FacingTheEdge(Humanoid thing)
-        {
-            return
-                   (
-                       !thing.FacingRight
-                       && !thing.LeftGroundAcidentChecker.Colliding<GroundCollider>()
-                   )
-                   ||
-                   (
-                       thing.FacingRight
-                       && !thing.RightGroundAcidentChecker.Colliding<GroundCollider>()
-                   );
-        }
-
         private Animator GreateLegsAnimator2(Humanoid thing, Func<Color> ArmorColor
-            , Func<int, int, int?, int?, bool, Animation> Create_knight_Leg_Idle
-            , Func<int, int, int?, int?, bool, Animation> Create_knight_Leg_Walking)
+           , Func<int, int, int?, int?, bool, Animation> Create_knight_Leg_Idle
+           , Func<int, int, int?, int?, bool, Animation> Create_knight_Leg_Walking
+           , Func<int, int, int?, int?, bool, Animation> Create_knight_Leg_wall_front
+           , Func<int, int, int?, int?, bool, Animation> Create_knight_Leg_Fall_front
+           , Func<int, int, int?, int?, bool, Animation> Create_knight_Leg_Roof_bang
+           , Func<int, int, int?, int?, bool, Animation> Create_knight_Leg_SweetDreams_front
+           , Func<int, int, int?, int?, bool, Animation> Create_knight_Leg_Fall_back
+           , Func<int, int, int?, int?, bool, Animation> Create_knight_Leg_Crouching_edge
+           , Func<int, int, int?, int?, bool, Animation> Create_knight_Leg_Crouching
+
+            )
         {
             var frontLegIndex = TORSO_Z - 0.001f;
 
             var frontLegWalking = CreateFlippableAnimation(thing, Create_knight_Leg_Walking, ArmorColor, feet_y, frontLegIndex);
 
-            var frontWall = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_wall_front, ArmorColor, feet_y, frontLegIndex);
+            var frontWall = CreateFlippableAnimation(thing, Create_knight_Leg_wall_front, ArmorColor, feet_y, frontLegIndex);
 
-            var frontLegFall = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_Fall_front, ArmorColor, feet_y, frontLegIndex);
+            var frontLegFall = CreateFlippableAnimation(thing, Create_knight_Leg_Fall_front, ArmorColor, feet_y, frontLegIndex);
 
-            var frontLegRoof_bang = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_Roof_bang, ArmorColor, feet_y, frontLegIndex);
+            var frontLegRoof_bang = CreateFlippableAnimation(thing, Create_knight_Leg_Roof_bang, ArmorColor, feet_y, frontLegIndex);
 
             var frontLegIdle = CreateFlippableAnimation(thing, Create_knight_Leg_Idle, ArmorColor, feet_y, frontLegIndex);
 
             var frontLegIdleEdge = CreateFlippableAnimation(thing, Create_knight_Leg_Idle, ArmorColor, feet_y, frontLegIndex);
 
-            var frontLegIdleBackOnTheEdge = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_SweetDreams_front, ArmorColor, feet_y, frontLegIndex);
+            var frontLegIdleBackOnTheEdge = CreateFlippableAnimation(thing, Create_knight_Leg_SweetDreams_front, ArmorColor, feet_y, frontLegIndex);
 
-            var frontLegCrouchBackOnTheEdge = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_Fall_back, ArmorColor, crouch_y, frontLegIndex);
+            var frontLegCrouchBackOnTheEdge = CreateFlippableAnimation(thing, Create_knight_Leg_Fall_back, ArmorColor, crouch_y, frontLegIndex);
 
-            var frontLegCrouchEdge = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_Crouching_edge, ArmorColor, crouch_y, frontLegIndex);
+            var frontLegCrouchEdge = CreateFlippableAnimation(thing, Create_knight_Leg_Crouching_edge, ArmorColor, crouch_y, frontLegIndex);
 
-            var frontLegCrouch = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_Crouching, ArmorColor, crouch_y, frontLegIndex);
+            var frontLegCrouch = CreateFlippableAnimation(thing, Create_knight_Leg_Crouching, ArmorColor, crouch_y, frontLegIndex);
 
-            var frontSweetDreams = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_Leg_SweetDreams_front, ArmorColor, crouch_y, frontLegIndex);
+            var frontSweetDreams = CreateFlippableAnimation(thing, Create_knight_Leg_SweetDreams_front, ArmorColor, crouch_y, frontLegIndex);
 
             return
                 new Animator(
@@ -366,6 +360,76 @@ namespace MonoGameProject
             walk_right_back.RenderingLayer = TORSO_Z + 0.001f; ;
             walk_right_back.FrameDuration = 2;
             walk_right_back.StartingFrame = 6;
+        }
+
+        private bool CrouchFacingBackEdge(Humanoid thing)
+        {
+            return thing.LegState == LegState.Crouching
+                            && IsFacingBackTheEdge(thing);
+        }
+
+        private bool IdleFacingBackEdge(Humanoid thing)
+        {
+            return thing.LegState == LegState.Standing
+                            && IsFacingBackTheEdge(thing);
+        }
+
+        private bool IsFacingBackTheEdge(Humanoid thing)
+        {
+            return
+                  (
+                      thing.FacingRight
+                      && !thing.LeftGroundAcidentChecker.Colliding<GroundCollider>()
+                  )
+                  ||
+                  (
+                      !thing.FacingRight
+                      && !thing.RightGroundAcidentChecker.Colliding<GroundCollider>()
+                  );
+        }
+
+        private bool EdgeCrouch(Humanoid thing)
+        {
+            return
+                  thing.LegState == LegState.Crouching
+                  && FacingTheEdge(thing);
+        }
+
+        private bool NormalCrouch(Humanoid thing)
+        {
+            return
+                  thing.LegState == LegState.Crouching
+                  && thing.RightGroundAcidentChecker.Colliding<GroundCollider>()
+                  && thing.LeftGroundAcidentChecker.Colliding<GroundCollider>();
+        }
+
+        private bool EdgeStanding(Humanoid thing)
+        {
+            return
+                  thing.LegState == LegState.Standing
+                  && FacingTheEdge(thing);
+        }
+
+        private bool NormalStanding(Humanoid thing)
+        {
+            return
+                  thing.LegState == LegState.Standing
+                  && thing.RightGroundAcidentChecker.Colliding<GroundCollider>()
+                  && thing.LeftGroundAcidentChecker.Colliding<GroundCollider>();
+        }
+
+        private bool FacingTheEdge(Humanoid thing)
+        {
+            return
+                   (
+                       !thing.FacingRight
+                       && !thing.LeftGroundAcidentChecker.Colliding<GroundCollider>()
+                   )
+                   ||
+                   (
+                       thing.FacingRight
+                       && !thing.RightGroundAcidentChecker.Colliding<GroundCollider>()
+                   );
         }
 
         private void HeadAnimator(Humanoid thing)
@@ -693,7 +757,7 @@ namespace MonoGameProject
             );
         }
 
-        private static Animator CreateWhipAnimator(Humanoid thing)
+        private Animator CreateWhipAnimator(Humanoid thing)
         {
             var whip_left = GeneratedContent.Create_knight_whip_attack(-1500, feet_y);
             whip_left.ScaleX = scale;
