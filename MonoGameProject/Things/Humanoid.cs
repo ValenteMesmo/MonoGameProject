@@ -137,7 +137,7 @@ namespace MonoGameProject
                 else if (DamageDuration == 51)
                     NewMethod(
                         HumanoidAnimatorFactory.HEAD_Z - 0.001f,
-                        HumanoidAnimatorFactory.feet_y ,
+                        HumanoidAnimatorFactory.feet_y,
                         AddToWorld);
                 else if (DamageDuration == 2)
                     NewMethod(
@@ -167,9 +167,9 @@ namespace MonoGameProject
 
             groundChecker = new CollisionChecker()
             {
-                Width = MainCollider.Width ,
+                Width = MainCollider.Width,
                 Height = height / 4,
-                OffsetX = MainCollider.OffsetX ,
+                OffsetX = MainCollider.OffsetX,
                 OffsetY = height + 1
             };
             AddCollider(groundChecker);
@@ -178,7 +178,7 @@ namespace MonoGameProject
             {
                 Width = width / 4,
                 Height = height / 4,
-                OffsetX = (width / 3 + width / 3 + 1) +100,
+                OffsetX = (width / 3 + width / 3 + 1) + 100,
                 OffsetY = height + 1
             };
             AddCollider(RightGroundAcidentChecker);
@@ -224,7 +224,7 @@ namespace MonoGameProject
             {
                 Width = whipWidth,
                 Height = height / 3,
-                OffsetX = MainCollider.OffsetX + MainCollider.Width +1,
+                OffsetX = MainCollider.OffsetX + MainCollider.Width + 1,
                 OffsetY = 0,
                 Disabled = true
             };
@@ -248,5 +248,104 @@ namespace MonoGameProject
             if (arg2.Parent is FireBall)
                 arg2.Parent.Destroy();
         }
+
+
+
+
+
+
+
+
+
+
+
+
+        //Helpers------------------------------------------
+        
+        public bool IsAttacking()
+        {
+            return TorsoState == TorsoState.Attack
+            || TorsoState == TorsoState.AttackCrouching;
+        }
+
+        public bool IsCrouchingOrSweetDreaming()
+        {
+            return LegState == LegState.Crouching
+           || LegState == LegState.SweetDreams;
+        }
+
+        public bool IsCrouchingOnTheEdgeFacingBack()
+        {
+            return LegState == LegState.Crouching
+                            && IsOnTheEdgeFacingBack();
+        }
+
+        public bool IsIdleOnTheEdgeFacingBack()
+        {
+            return LegState == LegState.Standing
+                            && IsOnTheEdgeFacingBack();
+        }
+
+        private bool IsOnTheEdgeFacingBack()
+        {
+            return
+                  (
+                      FacingRight
+                      && !LeftGroundAcidentChecker.Colliding<GroundCollider>()
+                  )
+                  ||
+                  (
+                      !FacingRight
+                      && !RightGroundAcidentChecker.Colliding<GroundCollider>()
+                  );
+        }
+
+        public bool IsCrouchingOnTheEdge()
+        {
+            return
+                  LegState == LegState.Crouching
+                  && IsOnTheEdge();
+        }
+
+        public bool IsCrouching()
+        {
+            return
+                  LegState == LegState.Crouching
+                  && RightGroundAcidentChecker.Colliding<GroundCollider>()
+                  && LeftGroundAcidentChecker.Colliding<GroundCollider>();
+        }
+
+        public bool IsIdleOnTheEdge()
+        {
+            return
+                  LegState == LegState.Standing
+                  && IsOnTheEdge();
+        }
+
+        public bool IsIdle()
+        {
+            return
+                  LegState == LegState.Standing
+                  && RightGroundAcidentChecker.Colliding<GroundCollider>()
+                  && LeftGroundAcidentChecker.Colliding<GroundCollider>();
+        }
+
+        private bool IsOnTheEdge()
+        {
+            return
+                   (
+                       !FacingRight
+                       && !LeftGroundAcidentChecker.Colliding<GroundCollider>()
+                   )
+                   ||
+                   (
+                       FacingRight
+                       && !RightGroundAcidentChecker.Colliding<GroundCollider>()
+                   );
+        }
+
+
+
+
     }
 }

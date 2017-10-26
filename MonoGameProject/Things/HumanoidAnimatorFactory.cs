@@ -19,7 +19,7 @@ namespace MonoGameProject
         private const int bump_y = -50;
         Func<Color> skinColorGetter = () => new Color(223, 168, 137);
         Func<Color> CothColorGetter = () => new Color(74, 156, 74);
-        Func<Color> HairColorGetter = () => new Color(186,120,168);
+        Func<Color> HairColorGetter = () => new Color(186, 120, 168);
 
         public void CreateAnimator(Humanoid thing)
         {
@@ -119,6 +119,7 @@ namespace MonoGameProject
                 && thing.DamageDuration <= TakesDamage.DAMAGE_DURATION - asdzxc;
         }
 
+
         private Animator CreateArmAnimation(
             Humanoid thing
             , Func<Color> ArmorColor
@@ -135,18 +136,10 @@ namespace MonoGameProject
 
             var backLegCrouchAttack = CreateFlippableAnimation(thing, Create_knight_Arm_Attack, ArmorColor, crouch_y, backLegIndex, 200, 5, true, false);
 
-            Func<bool> crouchCondition = () =>
-                thing.LegState == LegState.Crouching
-                || thing.LegState == LegState.SweetDreams;
-
-            Func<bool> attackCondition = () =>
-                thing.TorsoState == TorsoState.Attack
-                || thing.TorsoState == TorsoState.AttackCrouching;
-
-            Func<bool> walkIdle = () => !crouchCondition() && !attackCondition();
-            Func<bool> crouchIdle = () => crouchCondition() && !attackCondition();
-            Func<bool> walkAttack = () => !crouchCondition() && attackCondition();
-            Func<bool> crouchAttack = () => crouchCondition() && attackCondition();
+            Func<bool> walkIdle = () => !thing.IsCrouchingOrSweetDreaming() && !thing.IsAttacking();
+            Func<bool> crouchIdle = () => thing.IsCrouchingOrSweetDreaming() && !thing.IsAttacking();
+            Func<bool> walkAttack = () => !thing.IsCrouchingOrSweetDreaming() && thing.IsAttacking();
+            Func<bool> crouchAttack = () => thing.IsCrouchingOrSweetDreaming() && thing.IsAttacking();
 
             return new Animator(
                 new AnimationTransitionOnCondition(backLegWalking, walkIdle)
@@ -172,18 +165,10 @@ namespace MonoGameProject
 
             var frontLegCrouchAttack = CreateFlippableAnimation(thing, Create_knight_Arm_Attack, ArmorColor, crouch_y, frontLegIndex, 0, 0, false, false);
 
-            Func<bool> crouchCondition = () =>
-                thing.LegState == LegState.Crouching
-                || thing.LegState == LegState.SweetDreams;
-
-            Func<bool> attackCondition = () =>
-                thing.TorsoState == TorsoState.Attack
-                || thing.TorsoState == TorsoState.AttackCrouching;
-
-            Func<bool> walkIdle = () => !crouchCondition() && !attackCondition();
-            Func<bool> crouchIdle = () => crouchCondition() && !attackCondition();
-            Func<bool> walkAttack = () => !crouchCondition() && attackCondition();
-            Func<bool> crouchAttack = () => crouchCondition() && attackCondition();
+            Func<bool> walkIdle = () => !thing.IsCrouchingOrSweetDreaming() && !thing.IsAttacking();
+            Func<bool> crouchIdle = () => thing.IsCrouchingOrSweetDreaming() && !thing.IsAttacking();
+            Func<bool> walkAttack = () => !thing.IsCrouchingOrSweetDreaming() && thing.IsAttacking();
+            Func<bool> crouchAttack = () => thing.IsCrouchingOrSweetDreaming() && thing.IsAttacking();
 
             return new Animator(
                 new AnimationTransitionOnCondition(frontLegWalking, walkIdle)
@@ -193,6 +178,7 @@ namespace MonoGameProject
             );
         }
 
+        //rename to to mention backleg
         private Animator GreateLegsAnimator(
             Humanoid thing
             , Func<Color> ArmorColor
@@ -206,6 +192,7 @@ namespace MonoGameProject
             , Func<int, int, int?, int?, bool, Animation> Create_knight_Leg_SweetDreams_back
             )
         {
+            //remove back prefix
             var backLegIndex = TORSO_Z + 0.001f;
 
             var backLegWalking = CreateFlippableAnimation(thing, Create_knight_Leg_Walking, ArmorColor, feet_y, backLegIndex, 225, 5);
@@ -232,17 +219,17 @@ namespace MonoGameProject
 
             return
                 new Animator(
-                    new AnimationTransitionOnCondition(backLegIdle, () => NormalStanding(thing))
-                    , new AnimationTransitionOnCondition(backLegIdleEdge, () => EdgeStanding(thing))
-                    , new AnimationTransitionOnCondition(backLegIdleBackOnTheEdge, () => IdleFacingBackEdge(thing))
-                    , new AnimationTransitionOnCondition(backLegCrouchBackOnTheEdge, () => CrouchFacingBackEdge(thing))
+                    new AnimationTransitionOnCondition(backLegIdle, thing.IsIdle)
+                    , new AnimationTransitionOnCondition(backLegIdleEdge, thing.IsIdleOnTheEdge)
+                    , new AnimationTransitionOnCondition(backLegIdleBackOnTheEdge, thing.IsIdleOnTheEdgeFacingBack)
+                    , new AnimationTransitionOnCondition(backLegCrouchBackOnTheEdge, thing.IsCrouchingOnTheEdgeFacingBack)
                     , new AnimationTransitionOnCondition(backWall, () => thing.LegState == LegState.SlidingWall)
                     , new AnimationTransitionOnCondition(backSweetDreams, () => thing.LegState == LegState.SweetDreams)
                     , new AnimationTransitionOnCondition(backLegWalking, () => thing.LegState == LegState.Walking)
                     , new AnimationTransitionOnCondition(backLegFall, () => thing.LegState == LegState.Falling)
                     , new AnimationTransitionOnCondition(backLegRoof_bang, () => thing.LegState == LegState.HeadBump)
-                    , new AnimationTransitionOnCondition(backLegCrouch, () => NormalCrouch(thing))
-                    , new AnimationTransitionOnCondition(backLegCrouchEdge, () => EdgeCrouch(thing))
+                    , new AnimationTransitionOnCondition(backLegCrouch, thing.IsCrouching)
+                    , new AnimationTransitionOnCondition(backLegCrouchEdge, thing.IsCrouchingOnTheEdge)
                 );
         }
 
@@ -285,17 +272,17 @@ namespace MonoGameProject
 
             return
                 new Animator(
-                    new AnimationTransitionOnCondition(frontLegIdle, () => NormalStanding(thing))
-                    , new AnimationTransitionOnCondition(frontLegIdleEdge, () => EdgeStanding(thing))
-                    , new AnimationTransitionOnCondition(frontLegIdleBackOnTheEdge, () => IdleFacingBackEdge(thing))
-                    , new AnimationTransitionOnCondition(frontLegCrouchBackOnTheEdge, () => CrouchFacingBackEdge(thing))
+                    new AnimationTransitionOnCondition(frontLegIdle, thing.IsIdle)
+                    , new AnimationTransitionOnCondition(frontLegIdleEdge, thing.IsIdleOnTheEdge)
+                    , new AnimationTransitionOnCondition(frontLegIdleBackOnTheEdge, thing.IsIdleOnTheEdgeFacingBack)
+                    , new AnimationTransitionOnCondition(frontLegCrouchBackOnTheEdge, thing.IsCrouchingOnTheEdgeFacingBack)
                     , new AnimationTransitionOnCondition(frontWall, () => thing.LegState == LegState.SlidingWall)
                     , new AnimationTransitionOnCondition(frontSweetDreams, () => thing.LegState == LegState.SweetDreams)
                     , new AnimationTransitionOnCondition(frontLegWalking, () => thing.LegState == LegState.Walking)
                     , new AnimationTransitionOnCondition(frontLegFall, () => thing.LegState == LegState.Falling)
                     , new AnimationTransitionOnCondition(frontLegRoof_bang, () => thing.LegState == LegState.HeadBump)
-                    , new AnimationTransitionOnCondition(frontLegCrouch, () => NormalCrouch(thing))
-                    , new AnimationTransitionOnCondition(frontLegCrouchEdge, () => EdgeCrouch(thing))
+                    , new AnimationTransitionOnCondition(frontLegCrouch, thing.IsCrouching)
+                    , new AnimationTransitionOnCondition(frontLegCrouchEdge, thing.IsCrouchingOnTheEdge)
             );
         }
 
@@ -366,97 +353,40 @@ namespace MonoGameProject
             walk_right_back.StartingFrame = 6;
         }
 
-        private bool CrouchFacingBackEdge(Humanoid thing)
-        {
-            return thing.LegState == LegState.Crouching
-                            && IsFacingBackTheEdge(thing);
-        }
 
-        private bool IdleFacingBackEdge(Humanoid thing)
+        private Animator CreateCrouchAnimator(Humanoid thing, IHandleAnimation stand, IHandleAnimation crouch)
         {
-            return thing.LegState == LegState.Standing
-                            && IsFacingBackTheEdge(thing);
-        }
-
-        private bool IsFacingBackTheEdge(Humanoid thing)
-        {
-            return
-                  (
-                      thing.FacingRight
-                      && !thing.LeftGroundAcidentChecker.Colliding<GroundCollider>()
-                  )
-                  ||
-                  (
-                      !thing.FacingRight
-                      && !thing.RightGroundAcidentChecker.Colliding<GroundCollider>()
-                  );
-        }
-
-        private bool EdgeCrouch(Humanoid thing)
-        {
-            return
-                  thing.LegState == LegState.Crouching
-                  && FacingTheEdge(thing);
-        }
-
-        private bool NormalCrouch(Humanoid thing)
-        {
-            return
-                  thing.LegState == LegState.Crouching
-                  && thing.RightGroundAcidentChecker.Colliding<GroundCollider>()
-                  && thing.LeftGroundAcidentChecker.Colliding<GroundCollider>();
-        }
-
-        private bool EdgeStanding(Humanoid thing)
-        {
-            return
-                  thing.LegState == LegState.Standing
-                  && FacingTheEdge(thing);
-        }
-
-        private bool NormalStanding(Humanoid thing)
-        {
-            return
-                  thing.LegState == LegState.Standing
-                  && thing.RightGroundAcidentChecker.Colliding<GroundCollider>()
-                  && thing.LeftGroundAcidentChecker.Colliding<GroundCollider>();
-        }
-
-        private bool FacingTheEdge(Humanoid thing)
-        {
-            return
-                   (
-                       !thing.FacingRight
-                       && !thing.LeftGroundAcidentChecker.Colliding<GroundCollider>()
-                   )
-                   ||
-                   (
-                       thing.FacingRight
-                       && !thing.RightGroundAcidentChecker.Colliding<GroundCollider>()
-                   );
+            return new Animator(
+                new AnimationTransitionOnCondition(stand, ()=>!thing.IsCrouchingOrSweetDreaming())
+                , new AnimationTransitionOnCondition(crouch, thing.IsCrouchingOrSweetDreaming)
+            );
         }
 
         private void HeadAnimator(Humanoid thing)
         {
-            thing.AddAnimation(
-            CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_hair, HairColorGetter
+            var hair_standing = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_hair, HairColorGetter
+               , feet_y
+               , HEAD_Z - 0.002f);
+            var eye_standing = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_eyes, CothColorGetter
                 , feet_y
-                , HEAD_Z - 0.002f)
-            );
-
-            thing.AddAnimation(
-            CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_eyes, CothColorGetter
+                , HEAD_Z - 0.001f);
+            var face_standing = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_face, skinColorGetter
                 , feet_y
-                , HEAD_Z - 0.001f)
-            );
+                , HEAD_Z);
 
-            thing.AddAnimation(
-            CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_face, skinColorGetter
-                , feet_y
-                , HEAD_Z)
-            );
+            var hair_crouching = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_hair, HairColorGetter
+               , crouch_y
+               , HEAD_Z - 0.002f);
+            var eye_crouching = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_eyes, CothColorGetter
+                , crouch_y
+                , HEAD_Z - 0.001f);
+            var face_crouching = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_face, skinColorGetter
+                , crouch_y
+                , HEAD_Z);
 
-
+            thing.AddAnimation(CreateCrouchAnimator(thing, hair_standing, hair_crouching));
+            thing.AddAnimation(CreateCrouchAnimator(thing, eye_standing, eye_crouching));
+            thing.AddAnimation(CreateCrouchAnimator(thing, face_standing, face_crouching));
             //var stand_left = GeneratedContent.Create_knight_head(
             //    x
             //    , feet_y);
