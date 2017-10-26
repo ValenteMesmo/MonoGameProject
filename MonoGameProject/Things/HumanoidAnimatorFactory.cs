@@ -24,11 +24,13 @@ namespace MonoGameProject
             HeadAnimator(thing);
             TorsoAnimator(thing);
 
+            Func<Color> skinColorGetter = ()=> new Color(223, 168, 137);
+
             var armoredArm = CreateArmAnimation(thing, () => thing.ArmorColor, GeneratedContent.Create_knight_Arm_Idle_armored, GeneratedContent.Create_knight_Arm_Attack);
             var armoredArm2 = CreateArmAnimation2(thing, () => thing.ArmorColor, GeneratedContent.Create_knight_Arm_Idle_armored, GeneratedContent.Create_knight_Arm_Attack);
 
-            var nakedArm = CreateArmAnimation(thing, () => new Color(223, 168, 137), GeneratedContent.Create_knight_Arm_Idle, GeneratedContent.Create_knight_Arm_Attack);
-            var nakedArm2 = CreateArmAnimation2(thing, () => new Color(223, 168, 137), GeneratedContent.Create_knight_Arm_Idle, GeneratedContent.Create_knight_Arm_Attack);
+            var nakedArm = CreateArmAnimation(thing, skinColorGetter, GeneratedContent.Create_knight_Arm_Idle, GeneratedContent.Create_knight_Arm_Attack);
+            var nakedArm2 = CreateArmAnimation2(thing, skinColorGetter, GeneratedContent.Create_knight_Arm_Idle, GeneratedContent.Create_knight_Arm_Attack);
 
             thing.AddAnimation(
                 CreateArmorAnimator(thing, nakedArm, armoredArm, TakesDamage.DAMAGE_DURATION / 2)
@@ -67,7 +69,7 @@ namespace MonoGameProject
 
             var legNaked = GreateLegsAnimator(
                 thing
-                , () => new Color(223, 168, 137)
+                , skinColorGetter
                 , GeneratedContent.Create_knight_Leg_idle
                 , GeneratedContent.Create_knight_Leg_Walking
                 , GeneratedContent.Create_knight_Leg_wall_back
@@ -80,7 +82,7 @@ namespace MonoGameProject
 
             var legNaked2 = GreateLegsAnimator2(
                 thing
-                , () => new Color(223, 168, 137)
+                , skinColorGetter
                 , GeneratedContent.Create_knight_Leg_idle
                 , GeneratedContent.Create_knight_Leg_Walking
                 , GeneratedContent.Create_knight_Leg_wall_front
