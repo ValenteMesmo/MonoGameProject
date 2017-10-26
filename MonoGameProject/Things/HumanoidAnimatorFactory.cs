@@ -68,7 +68,7 @@ namespace MonoGameProject
             var legNaked = GreateLegsAnimator(
                 thing
                 , () => new Color(223, 168, 137)
-                , GeneratedContent.Create_knight_Leg_idle_armored
+                , GeneratedContent.Create_knight_Leg_idle
                 , GeneratedContent.Create_knight_Leg_Walking
                 , GeneratedContent.Create_knight_Leg_wall_back
                 , GeneratedContent.Create_knight_Leg_Fall_back
