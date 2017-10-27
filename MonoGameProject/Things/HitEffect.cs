@@ -42,7 +42,7 @@ namespace MonoGameProject
             var animation = GeneratedContent.Create_knight_damage_fog(0, 0, null, null, player.FacingRight);
             animation.ScaleX = animation.ScaleY = HumanoidAnimatorFactory.scale;
             animation.LoopDisabled = true;
-            animation.ColorGetter = () => player.ArmorColor;
+            animation.ColorGetter = player.GetArmorColor;
             //animation.FrameDuration = 2;
             animation.RenderingLayer = HumanoidAnimatorFactory.HEAD_Z - 0.01f;
             AddAnimation(animation);

@@ -15,19 +15,19 @@ namespace MonoGameProject
         //  reduce idle duration when damage taken
         //permitir que o player desvie to attack melee abaixando (boss)
 
-            //em vez de tipo de arma afetar o dano, aumentar o cast time
+        //em vez de tipo de arma afetar o dano, aumentar o cast time
 
         //nightelf color pattern
 
 
-            //level themes,   change color patterns to fixed pairs
-            //-lava
-            //  chão que quebra
-            //  chão que esquenta? chão que sobe e desce da lava?
-            //  labaredas (contra 3)
-            //-snow
-            //  diminuir visibilidade?
-            //  moving platforms horizontal... over spikes
+        //level themes,   change color patterns to fixed pairs
+        //-lava
+        //  chão que quebra
+        //  chão que esquenta? chão que sobe e desce da lava?
+        //  labaredas (contra 3)
+        //-snow
+        //  diminuir visibilidade?
+        //  moving platforms horizontal... over spikes
 
 
         //"barra de life" ser o torso... casco quebrando... pelos caindo... ferida abrindo?
@@ -254,10 +254,11 @@ namespace MonoGameProject
             {
                 if (t.Parent is Armor)
                 {
+                    var armorColor = (t.Parent as Armor).Color;
                     HitPoints = 2;
-                    ArmorColor = (t.Parent as Armor).Color;
+                    SetArmorColor(armorColor);
                     t.Parent.Destroy();
-                    Game1.ScreenFader.Flash(ArmorColor.R, ArmorColor.G, ArmorColor.B, X, Y);
+                    Game1.ScreenFader.Flash(armorColor.R, armorColor.G, armorColor.B, X, Y);
                     Game1.VibrationCenter.Vibrate(PlayerIndex, 5);
                     Game1.MusicController.Queue("tumtum");
                 }

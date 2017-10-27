@@ -80,7 +80,32 @@ namespace MonoGameProject
 
         public int HitPoints { get; set; }
         public int DamageDuration { get; set; }
-        public Color ArmorColor { get; internal set; }
+
+        private Color ArmorColor;
+        private Color SkinColor = new Color(223, 168, 137);
+        private Color HairColor = new Color(186, 120, 168);
+        private Color EyeColor = new Color(74, 156, 74);
+
+        public Color GetSkinColor()
+        {
+            return SkinColor;
+        }
+        public Color GetEyeColor()
+        {
+            return EyeColor;
+        }
+        public Color GetHairColor()
+        {
+            return HairColor;
+        }
+        public Color GetArmorColor()
+        {
+            return ArmorColor;
+        }
+        public void SetArmorColor(Color Value)
+        {
+            ArmorColor = Value;
+        }
 
         public Humanoid(
             GameInputs Inputs
@@ -261,7 +286,7 @@ namespace MonoGameProject
 
 
         //Helpers------------------------------------------
-        
+
         public bool IsAttacking()
         {
             return TorsoState == TorsoState.Attack
