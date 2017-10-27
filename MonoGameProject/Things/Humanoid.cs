@@ -33,6 +33,16 @@ namespace MonoGameProject
 
     public class SolidCollider : Collider, BlockHorizontalMovement, BlockVerticalMovement
     {
+        public SolidCollider()
+        {
+
+        }
+
+        public SolidCollider(int width, int height)
+        {
+            Width = width;
+            Height = height;
+        }
     }
 
     public class GroundCollider : Collider, SomeKindOfGround, BlockVerticalMovement, BlockHorizontalMovement

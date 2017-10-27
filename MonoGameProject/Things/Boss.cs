@@ -89,13 +89,13 @@ namespace MonoGameProject
 
             mainCollider = new Collider(width, height);
 
-            mainCollider.AddBotCollisionHandler(StopsWhenHitting.Bot);
-            mainCollider.AddLeftCollisionHandler(StopsWhenHitting.Left);
-            mainCollider.AddRightCollisionHandler(StopsWhenHitting.Right);
-            mainCollider.AddTopCollisionHandler(StopsWhenHitting.Top);
+            mainCollider.AddBotCollisionHandler(StopsWhenHitting.Bot<BlockVerticalMovement>());
+            mainCollider.AddTopCollisionHandler(StopsWhenHitting.Top<BlockVerticalMovement>());
+            mainCollider.AddLeftCollisionHandler(StopsWhenHitting.Left<BlockHorizontalMovement>());
+            mainCollider.AddRightCollisionHandler(StopsWhenHitting.Right<BlockHorizontalMovement>());
 
             playerFinder = new Collider(
-                attackCollider.Width*2
+                attackCollider.Width * 2
                 , height * 3
             )
             {
@@ -386,10 +386,10 @@ namespace MonoGameProject
                         spikeBall.AddAnimation(anim);
                         spikeBall.X = facingRight ? X + 1000 : X - 200;
                         spikeBall.Y = Y - 1200;
-                        collider.AddBotCollisionHandler(StopsWhenHitting.Bot);
-                        collider.AddTopCollisionHandler(StopsWhenHitting.Top);
-                        collider.AddLeftCollisionHandler(StopsWhenHitting.Left);
-                        collider.AddRightCollisionHandler(StopsWhenHitting.Right);
+                        collider.AddBotCollisionHandler(StopsWhenHitting.Bot<BlockVerticalMovement>());
+                        collider.AddTopCollisionHandler(StopsWhenHitting.Top<BlockVerticalMovement>());
+                        collider.AddLeftCollisionHandler(StopsWhenHitting.Left<BlockHorizontalMovement>());
+                        collider.AddRightCollisionHandler(StopsWhenHitting.Right<BlockHorizontalMovement>());
                         var speed = 40;
 
                         var mod = facingRight ? -1 : 1;

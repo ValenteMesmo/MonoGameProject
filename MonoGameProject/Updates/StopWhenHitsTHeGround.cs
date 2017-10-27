@@ -1,5 +1,6 @@
 ﻿using GameCore;
 using MonoGameProject.Things;
+using System;
 
 namespace MonoGameProject
 {
@@ -7,27 +8,42 @@ namespace MonoGameProject
     {
         private const int KNOCKBACK = 1;
         //TODO: moveback if your speed is highier
-        public static void Top(Collider Parent, Collider other)
+        public static Action<Collider, Collider> Top<T>()
         {
-            if (other is BlockVerticalMovement)
+            return TopHandler<T>;
+        }
+
+        private static void TopHandler<T>(Collider Parent, Collider other)
+        {
+            if (other is T)
             {
                 //Parent.Parent.VerticalSpeed = 0;
                 Parent.Parent.Y = other.Bottom() - Parent.OffsetY + KNOCKBACK;
             }
         }
 
-        public static void Bot(Collider Parent, Collider other)
+        public static Action<Collider, Collider> Bot<T>()
         {
-            if (other is BlockVerticalMovement)
+            return BotHandler<T>;
+        }
+
+        private static void BotHandler<T>(Collider Parent, Collider other)
+        {
+            if (other is T)
             {
                 Parent.Parent.VerticalSpeed = 0;
                 Parent.Parent.Y = other.Top() - Parent.Height - Parent.OffsetY - KNOCKBACK;
             }
         }
 
-        public static void Left(Collider Parent, Collider other)
+        public static Action<Collider, Collider> Left<T>()
         {
-            if (other is BlockHorizontalMovement)
+            return LeftHandler<T>;
+        }
+
+        private static void LeftHandler<T>(Collider Parent, Collider other)
+        {
+            if (other is T)
             {
                 Parent.Parent.HorizontalSpeed = 0;
                 //other.Parent.HorizontalSpeed = 0;
@@ -35,9 +51,14 @@ namespace MonoGameProject
             }
         }
 
-        public static void Right(Collider Parent, Collider other)
+        public static Action<Collider, Collider> Right<T>()
         {
-            if (other is BlockHorizontalMovement)
+            return RightHandler<T>;
+        }
+
+        public static void RightHandler<T>(Collider Parent, Collider other)
+        {
+            if (other is T)
             {
                 Parent.Parent.HorizontalSpeed = 0;
                 //other.Parent.HorizontalSpeed = 0;

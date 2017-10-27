@@ -1,4 +1,5 @@
 ﻿using GameCore;
+using MonoGameProject.Things;
 using System;
 
 namespace MonoGameProject
@@ -18,7 +19,7 @@ namespace MonoGameProject
         {
             this.AddToWorld = AddToWorld;
             HorizontalSpeed = VELOCITY;
-            
+
             var idleAniamtion_left = GeneratedContent.Create_knight_Slime(-size / 2, -size, size * 2, size * 2);
             var idleAniamtion_right = GeneratedContent.Create_knight_Slime(-size / 2, -size, size * 2, size * 2, true);
             var attackAniamtion_left = GeneratedContent.Create_knight_Slime_attack(-size / 2, -size, size * 2, size * 2);
@@ -34,16 +35,16 @@ namespace MonoGameProject
 
             var MainCollider = new Collider(size, size / 2);
             MainCollider.OffsetY = size / 2;
-            MainCollider.AddBotCollisionHandler(StopsWhenHitting.Bot);
-            MainCollider.AddLeftCollisionHandler(StopsWhenHitting.Left);
-            MainCollider.AddRightCollisionHandler(StopsWhenHitting.Right);
-            MainCollider.AddTopCollisionHandler(StopsWhenHitting.Top);
+            MainCollider.AddBotCollisionHandler(StopsWhenHitting.Bot<GroundCollider>());
+            MainCollider.AddLeftCollisionHandler(StopsWhenHitting.Left<GroundCollider>());
+            MainCollider.AddRightCollisionHandler(StopsWhenHitting.Right<GroundCollider>());
+            MainCollider.AddTopCollisionHandler(StopsWhenHitting.Top<GroundCollider>());
             MainCollider.AddLeftCollisionHandler(left);
             MainCollider.AddRightCollisionHandler(right);
             MainCollider.AddHandler(HandleDamageFromPlayer);
             AddCollider(MainCollider);
 
-            var playerFinder = new Collider(size, size/2);
+            var playerFinder = new Collider(size, size / 2);
             playerFinder.OffsetY = size / 2;
             playerFinder.AddHandler(AttackNearPlayer);
             AddCollider(playerFinder);
@@ -52,8 +53,8 @@ namespace MonoGameProject
                 if (attackDuration > 0)
                     attackDuration--;
 
-                if (attackDuration ==0)
-                attacking = false;
+                if (attackDuration == 0)
+                    attacking = false;
             });
 
             AttackCollider = new AttackCollider();

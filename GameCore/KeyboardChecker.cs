@@ -10,10 +10,19 @@ namespace GameCore
         public bool Down { get; private set; }
         public bool Action { get; private set; }
         public bool Jump { get; private set; }
+        private readonly int PlayerIndex;
+
+        public KeyboardChecker(int PlayerIndex)
+        {
+            this.PlayerIndex = PlayerIndex; 
+        }
 
         public void Update()
         {
             var keyboard = Keyboard.GetState();
+
+            if (PlayerIndex > 0 && keyboard.CapsLock)
+                return;
 
             Left = keyboard.IsKeyDown(Keys.A)
                     || keyboard.IsKeyDown(Keys.Left)

@@ -1,5 +1,6 @@
 ﻿using GameCore;
 using Microsoft.Xna.Framework.Audio;
+using MonoGameProject.Things;
 using System;
 
 namespace MonoGameProject
@@ -228,7 +229,7 @@ namespace MonoGameProject
             new GameInputs(
                 new InputCheckerAggregation(
                         new GamePadChecker(index)
-                    , new KeyboardChecker())
+                    , new KeyboardChecker(index))
             )
             , Game1.Camera
             , Game1.VibrationCenter
@@ -269,13 +270,13 @@ namespace MonoGameProject
             MainCollider.AddLeftCollisionHandler(PickupArmor);
             MainCollider.AddRightCollisionHandler(PickupArmor);
 
-            MainCollider.AddBotCollisionHandler(StopsWhenHitting.Bot);
-            MainCollider.AddLeftCollisionHandler(StopsWhenHitting.Left);
-            MainCollider.AddRightCollisionHandler(StopsWhenHitting.Right);
-            MainCollider.AddTopCollisionHandler(StopsWhenHitting.Top);
+            MainCollider.AddBotCollisionHandler(StopsWhenHitting.Bot<BlockVerticalMovement>());
+            MainCollider.AddLeftCollisionHandler(StopsWhenHitting.Left<BlockHorizontalMovement>());
+            MainCollider.AddRightCollisionHandler(StopsWhenHitting.Right<BlockHorizontalMovement>());
+            MainCollider.AddTopCollisionHandler(StopsWhenHitting.Top<BlockVerticalMovement>());
 
             new HumanoidAnimatorFactory()
-                .CreateAnimator(this,index);
+                .CreateAnimator(this, index);
         }
     }
 }
