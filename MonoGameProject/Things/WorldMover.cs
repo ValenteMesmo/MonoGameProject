@@ -19,6 +19,10 @@ namespace MonoGameProject
         private bool AllGoingLeft;
         private bool AllGoingRight;
         private bool UpBlocking;
+        private Collider leftCollider;
+        private Collider rightCollider;
+        private Collider BotCollider;
+        private Collider TopCollider;
 
         public WorldMover(Camera2d Camera, params Player[] Players)
         {
@@ -69,7 +73,7 @@ namespace MonoGameProject
 
                 {
                     var expected = 5500;
-                    
+
                     if (camlocker.Y > expected)
                     {
                         if (camlocker.Y - 100 < expected)
@@ -79,7 +83,7 @@ namespace MonoGameProject
                     }
                     else if (camlocker.Y < expected)
                     {
-                            WorldVerticalSpeed = -100;
+                        WorldVerticalSpeed = -100;
                     }
                     else
                         WorldVerticalSpeed = 0;
@@ -127,7 +131,7 @@ namespace MonoGameProject
 
         private void CreateRightCollider()
         {
-            var rightCollider = new Collider
+            rightCollider = new Collider
             {
                 OffsetX = 1000,
                 OffsetY = -5000,
@@ -143,18 +147,22 @@ namespace MonoGameProject
                 if (GameState.State.BossMode)
                     return;
 
-                AllGoingRight = true;
+                AllGoingRight = false;
                 var horizontalSpeed = 0;
                 foreach (var player in Players)
                 {
-                    if (rightCollider.CollidingWith.Contains(player.MainCollider) == false)
-                    {
-                        AllGoingRight = false;
-                    }
-                    else
+                    if (rightCollider.CollidingWith.Contains(player.MainCollider))
                     {
                         if (player.HorizontalSpeed > horizontalSpeed)
+                        {
                             horizontalSpeed = player.HorizontalSpeed;
+                            AllGoingRight = true;
+                        }
+                    }
+                    else if (leftCollider.CollidingWith.Contains(player.MainCollider))
+                    {
+                        AllGoingRight = false;
+                        break;
                     }
                 }
 
@@ -168,7 +176,7 @@ namespace MonoGameProject
 
         private void CreateLeftCollider()
         {
-            var leftCollider = new Collider
+            leftCollider = new Collider
             {
                 OffsetX = -5000,
                 OffsetY = -5000,
@@ -185,18 +193,22 @@ namespace MonoGameProject
                 if (GameState.State.BossMode)
                     return;
 
-                AllGoingLeft = true;
+                AllGoingLeft = false;
                 var horizontalSpeed = 0;
                 foreach (var player in Players)
                 {
-                    if (leftCollider.CollidingWith.Contains(player.MainCollider) == false)
-                    {
-                        AllGoingLeft = false;
-                    }
-                    else
+                    if (leftCollider.CollidingWith.Contains(player.MainCollider))
                     {
                         if (player.HorizontalSpeed < horizontalSpeed)
+                        {
                             horizontalSpeed = player.HorizontalSpeed;
+                            AllGoingLeft = true;
+                        }
+                    }
+                    else if (rightCollider.CollidingWith.Contains(player.MainCollider))
+                    {
+                        AllGoingLeft = false;
+                        break;
                     }
                 }
 
@@ -210,7 +222,7 @@ namespace MonoGameProject
 
         private void CreateBotCollider()
         {
-            var BotCollider = new Collider
+            BotCollider = new Collider
             {
                 OffsetX = -6000,
                 OffsetY = 2000,
@@ -227,32 +239,36 @@ namespace MonoGameProject
                 if (GameState.State.BossMode)
                     return;
 
-                AllGoingBot = true;
+                AllGoingBot = false;
                 var verticalSpeed = 0;
                 foreach (var player in Players)
                 {
-                    if (BotCollider.CollidingWith.Contains(player.MainCollider) == false)
-                    {
-                        AllGoingBot = false;
-                    }
-                    else
+                    if (BotCollider.CollidingWith.Contains(player.MainCollider))
                     {
                         if (player.VerticalSpeed > verticalSpeed)
+                        {
                             verticalSpeed = player.VerticalSpeed;
+                            AllGoingBot = true;
+                        }
+                    }
+                    else if (TopCollider.CollidingWith.Contains(player.MainCollider))
+                    {
+                        AllGoingBot = false;
+                        break;
                     }
                 }
 
                 if (AllGoingBot && verticalSpeed > 0)
                     WorldVerticalSpeed = verticalSpeed;
 
-                if (DownBlocking && verticalSpeed > 0)
+                if (DownBlocking && WorldVerticalSpeed > 0)
                     WorldVerticalSpeed = 0;
             });
         }
 
         private void CreateTopCollider()
         {
-            var TopCollider = new Collider
+            TopCollider = new Collider
             {
                 OffsetX = -6000,
                 OffsetY = -5000,
@@ -269,25 +285,29 @@ namespace MonoGameProject
                 if (GameState.State.BossMode)
                     return;
 
-                AllGoingTop = true;
+                AllGoingTop = false;
                 var verticalSpeed = 0;
                 foreach (var player in Players)
                 {
-                    if (TopCollider.CollidingWith.Contains(player.MainCollider) == false)
-                    {
-                        AllGoingTop = false;
-                    }
-                    else
+                    if (TopCollider.CollidingWith.Contains(player.MainCollider))
                     {
                         if (player.VerticalSpeed < verticalSpeed)
+                        {
                             verticalSpeed = player.VerticalSpeed;
+                            AllGoingTop = true;
+                        }
+                    }
+                    else if (BotCollider.CollidingWith.Contains(player.MainCollider))
+                    {
+                        AllGoingTop = false;
+                        break;
                     }
                 }
 
                 if (AllGoingTop && verticalSpeed < 0)
                     WorldVerticalSpeed = verticalSpeed;
 
-                if (UpBlocking && verticalSpeed < 0)
+                if (UpBlocking && WorldVerticalSpeed < 0)
                     WorldVerticalSpeed = 0;
             });
         }
