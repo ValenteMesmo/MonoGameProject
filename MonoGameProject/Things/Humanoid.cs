@@ -345,7 +345,41 @@ namespace MonoGameProject
         }
 
 
+        private bool ArmorPartIsDestroyed(int indexToDestroy)
+        {
+            return HitPoints <= 1
+                && DamageDuration <= TakesDamage.DAMAGE_DURATION - indexToDestroy;
+        }
 
+        public bool IsUsingHelmet()
+        {
+            return !IsNotUsingHelmet();
+        }
+
+        public bool IsUsingBreastPlate()
+        {
+            return !IsNotUsingBreastPlate();
+        }
+
+        public bool IsUsingPlateShoe()
+        {
+            return !IsNotUsingPlateShoe();
+        }
+
+        public bool IsNotUsingHelmet()
+        {
+            return ArmorPartIsDestroyed(5);
+        }
+
+        public bool IsNotUsingBreastPlate()
+        {
+            return ArmorPartIsDestroyed(TakesDamage.DAMAGE_DURATION / 2);
+        }
+
+        public bool IsNotUsingPlateShoe()
+        {
+            return ArmorPartIsDestroyed(TakesDamage.DAMAGE_DURATION);
+        }
 
     }
 }

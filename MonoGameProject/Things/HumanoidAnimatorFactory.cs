@@ -35,12 +35,19 @@ namespace MonoGameProject
             var nakedArm2 = CreateArmAnimation2(thing, skinColorGetter, GeneratedContent.Create_knight_Arm_Idle, GeneratedContent.Create_knight_Arm_Attack);
 
             thing.AddAnimation(
-                CreateArmorAnimator(thing, nakedArm, armoredArm, TakesDamage.DAMAGE_DURATION / 2)
+                ShowOnlyWhen(nakedArm, thing.IsNotUsingBreastPlate)
+            );
+            thing.AddAnimation(
+                ShowOnlyWhen(armoredArm, thing.IsUsingBreastPlate)
             );
 
             thing.AddAnimation(
-                CreateArmorAnimator(thing, nakedArm2, armoredArm2, TakesDamage.DAMAGE_DURATION / 2)
+                ShowOnlyWhen(nakedArm2, thing.IsNotUsingBreastPlate)
             );
+            thing.AddAnimation(
+                ShowOnlyWhen(armoredArm2, thing.IsUsingBreastPlate)
+            );
+
 
             var legArmored = GreateLegsAnimator(
                 thing
@@ -97,28 +104,29 @@ namespace MonoGameProject
             );
 
             thing.AddAnimation(
-                CreateArmorAnimator(thing, legNaked, legArmored, TakesDamage.DAMAGE_DURATION)
+                ShowOnlyWhen(legNaked, thing.IsNotUsingPlateShoe)
             );
 
             thing.AddAnimation(
-                CreateArmorAnimator(thing, legNaked2, legArmored2, TakesDamage.DAMAGE_DURATION)
+                ShowOnlyWhen(legArmored, thing.IsUsingPlateShoe)
+            );
+
+            thing.AddAnimation(
+                ShowOnlyWhen(legNaked2, thing.IsNotUsingPlateShoe)
+            );
+
+            thing.AddAnimation(
+                ShowOnlyWhen(legArmored2, thing.IsUsingPlateShoe)
             );
         }
 
-        private Animator CreateArmorAnimator(Humanoid thing, Animator naked, Animator armored, int indexToDestroy)
-        {
-            return new Animator(
-                    new AnimationTransitionOnCondition(naked, () => ArmorPartIsDestroyed(thing, indexToDestroy))
-                    , new AnimationTransitionOnCondition(armored, () => !ArmorPartIsDestroyed(thing, indexToDestroy))
-            );
-        }
-
-        private bool ArmorPartIsDestroyed(Humanoid thing, int indexToDestroy)
-        {
-            return thing.HitPoints <= 1
-                && thing.DamageDuration <= TakesDamage.DAMAGE_DURATION - indexToDestroy;
-        }
-
+        //private Animator CreateArmorAnimator(Humanoid thing, Animator naked, Animator armored, int indexToDestroy)
+        //{
+        //    return new Animator(
+        //            new AnimationTransitionOnCondition(naked, () => ArmorPartIsDestroyed(indexToDestroy))
+        //            , new AnimationTransitionOnCondition(armored, () => !ArmorPartIsDestroyed(thing, indexToDestroy))
+        //    );
+        //}
 
         private Animator CreateArmAnimation(
             Humanoid thing
@@ -364,197 +372,106 @@ namespace MonoGameProject
 
         Animation EmptyAnimation = new Animation();
 
-        private Animator HideWhenArmored(Humanoid thing, IHandleAnimation animation)
+        //private Animator HideWhenArmored(Humanoid thing, IHandleAnimation animation)
+        //{
+        //    return new Animator(
+        //        new AnimationTransitionOnCondition(animation, () => ArmorPartIsDestroyed(thing, 5))
+        //        , new AnimationTransitionOnCondition(EmptyAnimation, () => !ArmorPartIsDestroyed(thing, 5))
+        //    );
+        //}
+
+        private Animator ShowOnlyWhen(IHandleAnimation animation, Func<bool> condition)
         {
             return new Animator(
-                new AnimationTransitionOnCondition(animation, () => ArmorPartIsDestroyed(thing, 5))
-                , new AnimationTransitionOnCondition(EmptyAnimation, () => !ArmorPartIsDestroyed(thing, 5))
+                new AnimationTransitionOnCondition(animation, condition)
+                , new AnimationTransitionOnCondition(EmptyAnimation, () => !condition())
             );
         }
-
-        private Animator ShowWhenArmored(Humanoid thing, IHandleAnimation animation)
-        {
-            return new Animator(
-                new AnimationTransitionOnCondition(animation, () => !ArmorPartIsDestroyed(thing, 5))
-                , new AnimationTransitionOnCondition(EmptyAnimation, () => ArmorPartIsDestroyed(thing, 5))
-            );
-        }
-
-        
 
         private void HeadAnimator(Humanoid thing)
         {
-            var hair_standing = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_hair, HairColorGetter
-               , feet_y
-               , HEAD_Z - 0.002f);
-            var eye_standing = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_eyes, CothColorGetter
-                , feet_y
-                , HEAD_Z - 0.001f);
-            var face_standing = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_face, skinColorGetter
-                , feet_y
-                , HEAD_Z);
 
-            var hair_crouching = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_hair, HairColorGetter
-               , crouch_y
-               , HEAD_Z - 0.002f);
-            var eye_crouching = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_eyes, CothColorGetter
-                , crouch_y
-                , HEAD_Z - 0.001f);
-            var face_crouching = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_face, skinColorGetter
-                , crouch_y
-                , HEAD_Z);
+            Func<bool> NakedHead = () => !thing.IsUsingHelmet()
+                                 && thing.HeadState != HeadState.Bump;
+            Func<bool> NakedHeadBump = () => !thing.IsUsingHelmet()
+                                && thing.HeadState == HeadState.Bump;
+            Func<bool> ArmoredHead = () => thing.IsUsingHelmet()
+                                 && thing.HeadState != HeadState.Bump;
+            Func<bool> ArmoredHeadBump = () => thing.IsUsingHelmet()
+                                && thing.HeadState == HeadState.Bump;
 
-            thing.AddAnimation(HideWhenArmored(thing,CreateCrouchAnimator(thing, hair_standing, hair_crouching)));
-            thing.AddAnimation(HideWhenArmored(thing, CreateCrouchAnimator(thing, eye_standing, eye_crouching)));
-            thing.AddAnimation(HideWhenArmored(thing, CreateCrouchAnimator(thing, face_standing, face_crouching)));
+            {
+                var hair_standing = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_hair, HairColorGetter
+                   , feet_y
+                   , HEAD_Z - 0.002f);
+                var eye_standing = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_eyes, CothColorGetter
+                    , feet_y
+                    , HEAD_Z - 0.001f);
+                var face_standing = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_face, skinColorGetter
+                    , feet_y
+                    , HEAD_Z);
 
+                var hair_crouching = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_hair, HairColorGetter
+                   , crouch_y
+                   , HEAD_Z - 0.002f);
+                var eye_crouching = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_eyes, CothColorGetter
+                    , crouch_y
+                    , HEAD_Z - 0.001f);
+                var face_crouching = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_face, skinColorGetter
+                    , crouch_y
+                    , HEAD_Z);
 
+                thing.AddAnimation(ShowOnlyWhen(CreateCrouchAnimator(thing, hair_standing, hair_crouching), NakedHead));
+                thing.AddAnimation(ShowOnlyWhen(CreateCrouchAnimator(thing, eye_standing, eye_crouching), NakedHead));
+                thing.AddAnimation(ShowOnlyWhen(CreateCrouchAnimator(thing, face_standing, face_crouching), NakedHead));
+            }
 
+            {
+                var hair_standing = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_bang_hair, HairColorGetter
+                   , feet_y
+                   , HEAD_Z - 0.002f);
+                var eye_standing = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_bang_eye, CothColorGetter
+                    , feet_y
+                    , HEAD_Z - 0.001f);
+                var face_standing = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_bang_face, skinColorGetter
+                    , feet_y
+                    , HEAD_Z);
 
+                thing.AddAnimation(ShowOnlyWhen(hair_standing, NakedHeadBump));
+                thing.AddAnimation(ShowOnlyWhen(eye_standing, NakedHeadBump));
+                thing.AddAnimation(ShowOnlyWhen(face_standing, NakedHeadBump));
+            }
 
+            {
 
+                var helm_standing = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_armor1, () => thing.ArmorColor
+                 , feet_y
+                 , HEAD_Z);
 
-            var helm_standing = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_armor1, ()=> thing.ArmorColor
-             , feet_y
-             , HEAD_Z );
+                var helm_crouching = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_armor1, () => thing.ArmorColor
+                 , crouch_y
+                 , HEAD_Z);
 
-            var helm_crouching = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_armor1, () => thing.ArmorColor
-             , crouch_y
-             , HEAD_Z );
+                var normalHelm = CreateCrouchAnimator(
+                thing
+                , helm_standing
+                , helm_crouching
+            );
 
-            thing.AddAnimation(ShowWhenArmored(thing, CreateCrouchAnimator(thing, helm_standing, helm_crouching)));
-            //var stand_left = GeneratedContent.Create_knight_head(
-            //    x
-            //    , feet_y);
-            //stand_left.ScaleX = scale;
-            //stand_left.ScaleY = scale;
-            //stand_left.RenderingLayer = HEAD_Z;
+                thing.AddAnimation(
+                    ShowOnlyWhen(normalHelm, ArmoredHead)
+                );
+            }
 
-            //var stand_right = GeneratedContent.Create_knight_head(
-            //    flippedx
-            //    , feet_y
-            //    , null
-            //    , null
-            //    , true);
-            //stand_right.ScaleX = scale;
-            //stand_right.ScaleY = scale;
-            //stand_right.RenderingLayer = HEAD_Z;
+            {
+                var slamedHelm = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_armor_bang1, () => thing.ArmorColor
+                 , feet_y
+                 , HEAD_Z); ;
 
-            //var stand_left_armored = GeneratedContent.Create_knight_head_armor1(
-            //    x
-            //    , feet_y);
-            //stand_left_armored.ScaleX = scale;
-            //stand_left_armored.ScaleY = scale;
-            //stand_left_armored.ColorGetter = () => thing.ArmorColor;
-            //stand_left_armored.RenderingLayer = HEAD_Z;
-
-            //var stand_right_armored = GeneratedContent.Create_knight_head_armor1(
-            //    flippedx
-            //    , feet_y
-            //    , null
-            //    , null
-            //    , true);
-            //stand_right_armored.ScaleX = scale;
-            //stand_right_armored.ScaleY = scale;
-            //stand_right_armored.ColorGetter = () => thing.ArmorColor;
-            //stand_right_armored.RenderingLayer = HEAD_Z;
-
-            //var crouch_left = GeneratedContent.Create_knight_head(
-            //    x
-            //    , crouch_y);
-            //crouch_left.ScaleX = scale;
-            //crouch_left.ScaleY = scale;
-            //crouch_left.RenderingLayer = HEAD_Z;
-
-            //var crouch_right = GeneratedContent.Create_knight_head(
-            //    flippedx
-            //    , crouch_y
-            //    , null
-            //    , null
-            //    , true);
-            //crouch_right.ScaleX = scale;
-            //crouch_right.ScaleY = scale;
-            //crouch_right.RenderingLayer = HEAD_Z;
-
-            //var headbang_left = GeneratedContent.Create_knight_roof_bang_head(
-            //    x
-            //    , feet_y + bump_y);
-            //headbang_left.ScaleX = scale;
-            //headbang_left.ScaleY = scale;
-            //headbang_left.RenderingLayer = HEAD_Z;
-
-            //var headbang_right = GeneratedContent.Create_knight_roof_bang_head(
-            //    flippedx
-            //    , feet_y + bump_y
-            //    , null
-            //    , null
-            //    , true);
-            //headbang_right.ScaleX = scale;
-            //headbang_right.ScaleY = scale;
-            //headbang_right.RenderingLayer = HEAD_Z;
-
-            //var crouch_left_armored = GeneratedContent.Create_knight_head_armor1(
-            //    x
-            //    , crouch_y);
-            //crouch_left_armored.ScaleX = scale;
-            //crouch_left_armored.ScaleY = scale;
-            //crouch_left_armored.ColorGetter = () => thing.ArmorColor;
-            //crouch_left_armored.RenderingLayer = HEAD_Z;
-
-            //var crouch_right_armored = GeneratedContent.Create_knight_head_armor1(
-            //    flippedx
-            //    , crouch_y
-            //    , null
-            //    , null
-            //    , true);
-            //crouch_right_armored.ScaleX = scale;
-            //crouch_right_armored.ScaleY = scale;
-            //crouch_right_armored.ColorGetter = () => thing.ArmorColor;
-            //crouch_right_armored.RenderingLayer = HEAD_Z;
-
-            //var headbang_left_armored = GeneratedContent.Create_knight_head_armor_bang1(
-            //    x
-            //    , feet_y + bump_y);
-            //headbang_left_armored.ScaleX = scale;
-            //headbang_left_armored.ScaleY = scale;
-            //headbang_left_armored.ColorGetter = () => thing.ArmorColor;
-            //headbang_left_armored.RenderingLayer = HEAD_Z;
-
-            //var headbang_right_armored = GeneratedContent.Create_knight_head_armor_bang1(
-            //    flippedx
-            //    , feet_y + bump_y
-            //    , null
-            //    , null
-            //    , true);
-            //headbang_right_armored.ScaleX = scale;
-            //headbang_right_armored.ScaleY = scale;
-            //headbang_right_armored.ColorGetter = () => thing.ArmorColor;
-            //headbang_right_armored.RenderingLayer = HEAD_Z;
-
-            //var nakedAnimator = new Animator(
-            //    new AnimationTransitionOnCondition(stand_left, () => thing.HeadState == HeadState.Standing && thing.FacingRight == false)
-            //    , new AnimationTransitionOnCondition(stand_right, () => thing.HeadState == HeadState.Standing && thing.FacingRight == true)
-            //    , new AnimationTransitionOnCondition(crouch_left, () => thing.HeadState == HeadState.Crouching && thing.FacingRight == false)
-            //    , new AnimationTransitionOnCondition(crouch_right, () => thing.HeadState == HeadState.Crouching && thing.FacingRight == true)
-            //    , new AnimationTransitionOnCondition(headbang_left, () => thing.HeadState == HeadState.Bump && thing.FacingRight == false)
-            //    , new AnimationTransitionOnCondition(headbang_right, () => thing.HeadState == HeadState.Bump && thing.FacingRight == true)
-            //);
-
-            //var armoredAnimator = new Animator(
-            //    new AnimationTransitionOnCondition(stand_left_armored, () => thing.HeadState == HeadState.Standing && thing.FacingRight == false)
-            //    , new AnimationTransitionOnCondition(stand_right_armored, () => thing.HeadState == HeadState.Standing && thing.FacingRight == true)
-            //    , new AnimationTransitionOnCondition(crouch_left_armored, () => thing.HeadState == HeadState.Crouching && thing.FacingRight == false)
-            //    , new AnimationTransitionOnCondition(crouch_right_armored, () => thing.HeadState == HeadState.Crouching && thing.FacingRight == true)
-            //    , new AnimationTransitionOnCondition(headbang_left_armored, () => thing.HeadState == HeadState.Bump && thing.FacingRight == false)
-            //    , new AnimationTransitionOnCondition(headbang_right_armored, () => thing.HeadState == HeadState.Bump && thing.FacingRight == true)
-            //);
-
-            //var animatorsWrapper =
-            //    new Animator(
-            //        new AnimationTransitionOnCondition(nakedAnimator, () => thing.HitPoints <= 1 && thing.DamageDuration == TakesDamage.DAMAGE_DURATION - 5)
-            //        , new AnimationTransitionOnCondition(armoredAnimator, () => thing.HitPoints == 2));
-
-            //thing.AddAnimation(animatorsWrapper);
+                thing.AddAnimation(
+                    ShowOnlyWhen(slamedHelm, ArmoredHeadBump)
+                );
+            }
         }
 
         private void TorsoAnimator(Humanoid thing)
