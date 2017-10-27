@@ -275,7 +275,7 @@ namespace MonoGameProject
             MainCollider.AddTopCollisionHandler(StopsWhenHitting.Top);
 
             new HumanoidAnimatorFactory()
-                .CreateAnimator(this);
+                .CreateAnimator(this,index);
         }
     }
 }

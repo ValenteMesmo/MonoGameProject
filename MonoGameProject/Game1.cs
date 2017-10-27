@@ -27,6 +27,10 @@ namespace MonoGameProject
             player.X = 1000;
             AddThing(player);
 
+            var player2 = new Player(this,1, AddThing);
+            player2.X = 3000;
+            AddThing(player2);
+
             if (GameState.State.BotExit)
                 player.Y = (14 * MapModule.CELL_SIZE) + 1000;
             else if (GameState.State.MidExit)
@@ -34,15 +38,17 @@ namespace MonoGameProject
             else
                 player.Y = 2 * MapModule.CELL_SIZE + 1000;
 
-            //for (var i = 1; i < 7; i++)
-            //{
-            //    var player2 = new Player(this, 0, AddThing);
-            //    player2.X = player.X + 200 * i;
-            //    player2.Y = player.Y;
-            //    AddThing(player2);
-            //}
+            player2.Y = player.Y;
 
-            var WorldMover = new WorldMover(Camera, player);
+           //for (var i = 1; i < 7; i++)
+           //{
+           //    var player2 = new Player(this, 0, AddThing);
+           //    player2.X = player.X + 200 * i;
+           //    player2.Y = player.Y;
+           //    AddThing(player2);
+           //}
+
+           var WorldMover = new WorldMover(Camera, player, player2);
             AddThing(WorldMover);
             AddThing(new PlatformCreator(WorldMover, AddThing, this));
 

@@ -16,10 +16,19 @@ namespace MonoGameProject
         public const float TORSO_Z = 0.121f;
         public const float LEG_Z = 0.122f;
 
+        private float HeadZ = HEAD_Z;
+        private float TorsoZ = TORSO_Z;
+        private float LegZ = LEG_Z;
+
         private const int bump_y = -50;
 
-        public void CreateAnimator(Humanoid thing)
+        public void CreateAnimator(Humanoid thing, int playerIndex)
         {
+            //TODO: move to constructor... thing too
+            HeadZ += playerIndex / 100f;
+            TorsoZ += playerIndex / 100f;
+            LegZ += playerIndex / 100f;
+
             thing.SetArmorColor(Color.White);
             HeadAnimator(thing);
             TorsoAnimator(thing);
@@ -117,21 +126,13 @@ namespace MonoGameProject
             );
         }
 
-        //private Animator CreateArmorAnimator(Humanoid thing, Animator naked, Animator armored, int indexToDestroy)
-        //{
-        //    return new Animator(
-        //            new AnimationTransitionOnCondition(naked, () => ArmorPartIsDestroyed(indexToDestroy))
-        //            , new AnimationTransitionOnCondition(armored, () => !ArmorPartIsDestroyed(thing, indexToDestroy))
-        //    );
-        //}
-
         private Animator CreateArmAnimation(
             Humanoid thing
             , Func<Color> ArmorColor
             , Func<int, int, int?, int?, bool, Animation> Create_knight_Arm_Idle
             , Func<int, int, int?, int?, bool, Animation> Create_knight_Arm_Attack)
         {
-            var backLegIndex = TORSO_Z + 0.002f;
+            var backLegIndex = TorsoZ + 0.002f;
 
             var backLegWalking = CreateFlippableAnimation(thing, Create_knight_Arm_Idle, ArmorColor, feet_y, backLegIndex, 200, 5, true);
 
@@ -160,7 +161,7 @@ namespace MonoGameProject
             , Func<int, int, int?, int?, bool, Animation> Create_knight_Arm_Idle
             , Func<int, int, int?, int?, bool, Animation> Create_knight_Arm_Attack)
         {
-            var frontLegIndex = TORSO_Z - 0.002f;
+            var frontLegIndex = TorsoZ - 0.002f;
 
             var frontLegWalking = CreateFlippableAnimation(thing, Create_knight_Arm_Idle, ArmorColor, feet_y, frontLegIndex);
 
@@ -198,7 +199,7 @@ namespace MonoGameProject
             )
         {
             //remove back prefix
-            var backLegIndex = TORSO_Z + 0.001f;
+            var backLegIndex = TorsoZ + 0.001f;
 
             var backLegWalking = CreateFlippableAnimation(thing, Create_knight_Leg_Walking, ArmorColor, feet_y, backLegIndex, 225, 5);
 
@@ -251,7 +252,7 @@ namespace MonoGameProject
 
             )
         {
-            var frontLegIndex = TORSO_Z - 0.001f;
+            var frontLegIndex = TorsoZ - 0.001f;
 
             var frontLegWalking = CreateFlippableAnimation(thing, Create_knight_Leg_Walking, ArmorColor, feet_y, frontLegIndex);
 
@@ -353,7 +354,7 @@ namespace MonoGameProject
                 , true);
             walk_right_back.ScaleX = scale;
             walk_right_back.ScaleY = scale;
-            walk_right_back.RenderingLayer = TORSO_Z + 0.001f; ;
+            walk_right_back.RenderingLayer = TorsoZ + 0.001f; ;
             walk_right_back.FrameDuration = 2;
             walk_right_back.StartingFrame = 6;
         }
@@ -368,15 +369,7 @@ namespace MonoGameProject
         }
 
         Animation EmptyAnimation = new Animation();
-
-        //private Animator HideWhenArmored(Humanoid thing, IHandleAnimation animation)
-        //{
-        //    return new Animator(
-        //        new AnimationTransitionOnCondition(animation, () => ArmorPartIsDestroyed(thing, 5))
-        //        , new AnimationTransitionOnCondition(EmptyAnimation, () => !ArmorPartIsDestroyed(thing, 5))
-        //    );
-        //}
-
+        
         private Animator ShowOnlyWhen(IHandleAnimation animation, Func<bool> condition)
         {
             return new Animator(
@@ -400,23 +393,23 @@ namespace MonoGameProject
             {
                 var hair_standing = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_hair, thing.GetHairColor
                    , feet_y
-                   , HEAD_Z - 0.002f);
+                   , HeadZ - 0.002f);
                 var eye_standing = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_eyes, thing.GetEyeColor
                     , feet_y
-                    , HEAD_Z - 0.001f);
+                    , HeadZ - 0.001f);
                 var face_standing = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_face, thing.GetSkinColor
                     , feet_y
-                    , HEAD_Z);
+                    , HeadZ);
 
                 var hair_crouching = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_hair, thing.GetHairColor
                    , crouch_y
-                   , HEAD_Z - 0.002f);
+                   , HeadZ - 0.002f);
                 var eye_crouching = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_eyes, thing.GetEyeColor
                     , crouch_y
-                    , HEAD_Z - 0.001f);
+                    , HeadZ - 0.001f);
                 var face_crouching = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_face, thing.GetSkinColor
                     , crouch_y
-                    , HEAD_Z);
+                    , HeadZ);
 
                 thing.AddAnimation(ShowOnlyWhen(CreateCrouchAnimator(thing, hair_standing, hair_crouching), NakedHead));
                 thing.AddAnimation(ShowOnlyWhen(CreateCrouchAnimator(thing, eye_standing, eye_crouching), NakedHead));
@@ -426,13 +419,13 @@ namespace MonoGameProject
             {
                 var hair_standing = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_bang_hair, thing.GetHairColor
                    , feet_y
-                   , HEAD_Z - 0.002f);
+                   , HeadZ - 0.002f);
                 var eye_standing = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_bang_eye, thing.GetEyeColor
                     , feet_y
-                    , HEAD_Z - 0.001f);
+                    , HeadZ - 0.001f);
                 var face_standing = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_bang_face, thing.GetSkinColor
                     , feet_y
-                    , HEAD_Z);
+                    , HeadZ);
 
                 thing.AddAnimation(ShowOnlyWhen(hair_standing, NakedHeadBump));
                 thing.AddAnimation(ShowOnlyWhen(eye_standing, NakedHeadBump));
@@ -443,11 +436,11 @@ namespace MonoGameProject
 
                 var helm_standing = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_armor1, thing.GetArmorColor
                  , feet_y
-                 , HEAD_Z);
+                 , HeadZ);
 
                 var helm_crouching = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_armor1, thing.GetArmorColor
                  , crouch_y
-                 , HEAD_Z);
+                 , HeadZ);
 
                 var normalHelm = CreateCrouchAnimator(
                 thing
@@ -463,7 +456,7 @@ namespace MonoGameProject
             {
                 var slamedHelm = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_armor_bang1, thing.GetArmorColor
                  , feet_y
-                 , HEAD_Z); ;
+                 , HeadZ); ;
 
                 thing.AddAnimation(
                     ShowOnlyWhen(slamedHelm, ArmoredHeadBump)
@@ -478,7 +471,7 @@ namespace MonoGameProject
                 , feet_y);
             stand_left.ScaleX = scale;
             stand_left.ScaleY = scale;
-            stand_left.RenderingLayer = TORSO_Z;
+            stand_left.RenderingLayer = TorsoZ;
             stand_left.FrameDuration = 2;
             stand_left.ColorGetter = thing.GetEyeColor;
 
@@ -490,7 +483,7 @@ namespace MonoGameProject
                 , true);
             stand_right.ScaleX = scale;
             stand_right.ScaleY = scale;
-            stand_right.RenderingLayer = TORSO_Z;
+            stand_right.RenderingLayer = TorsoZ;
             stand_right.FrameDuration = 2;
             stand_right.ColorGetter = thing.GetEyeColor;
 
@@ -499,7 +492,7 @@ namespace MonoGameProject
                 , feet_y);
             stand_left_armored.ScaleX = scale;
             stand_left_armored.ScaleY = scale;
-            stand_left_armored.RenderingLayer = TORSO_Z;
+            stand_left_armored.RenderingLayer = TorsoZ;
             stand_left_armored.FrameDuration = 2;
             stand_left_armored.ColorGetter = thing.GetArmorColor;
 
@@ -511,7 +504,7 @@ namespace MonoGameProject
                 , true);
             stand_right_armored.ScaleX = scale;
             stand_right_armored.ScaleY = scale;
-            stand_right_armored.RenderingLayer = TORSO_Z;
+            stand_right_armored.RenderingLayer = TorsoZ;
             stand_right_armored.FrameDuration = 2;
             stand_right_armored.ColorGetter = thing.GetArmorColor;
 
@@ -520,7 +513,7 @@ namespace MonoGameProject
                 , crouch_y);
             crouch_left.ScaleX = scale;
             crouch_left.ScaleY = scale;
-            crouch_left.RenderingLayer = TORSO_Z;
+            crouch_left.RenderingLayer = TorsoZ;
             crouch_left.ColorGetter = thing.GetEyeColor;
 
             var crouch_right = GeneratedContent.Create_knight_torso_walking(
@@ -531,7 +524,7 @@ namespace MonoGameProject
                 , true);
             crouch_right.ScaleX = scale;
             crouch_right.ScaleY = scale;
-            crouch_right.RenderingLayer = TORSO_Z;
+            crouch_right.RenderingLayer = TorsoZ;
             crouch_right.ColorGetter = thing.GetEyeColor;
 
 
@@ -540,7 +533,7 @@ namespace MonoGameProject
                 , crouch_y);
             crouch_left_armored.ScaleX = scale;
             crouch_left_armored.ScaleY = scale;
-            crouch_left_armored.RenderingLayer = TORSO_Z;
+            crouch_left_armored.RenderingLayer = TorsoZ;
             crouch_left_armored.ColorGetter = thing.GetArmorColor;
 
             var crouch_right_armored = GeneratedContent.Create_knight_torso_walking_armored(
@@ -551,7 +544,7 @@ namespace MonoGameProject
                 , true);
             crouch_right_armored.ScaleX = scale;
             crouch_right_armored.ScaleY = scale;
-            crouch_right_armored.RenderingLayer = TORSO_Z;
+            crouch_right_armored.RenderingLayer = TorsoZ;
             crouch_right_armored.ColorGetter = thing.GetArmorColor;
 
             Animator whipAnimator = CreateWhipAnimator(thing);
@@ -664,43 +657,43 @@ namespace MonoGameProject
             whip_left.ScaleX = scale;
             whip_left.ScaleY = scale;
             whip_left.LoopDisabled = true;
-            whip_left.RenderingLayer = TORSO_Z - 0.01f;
+            whip_left.RenderingLayer = TorsoZ - 0.01f;
             var whip_left_crouch = GeneratedContent.Create_knight_whip_attack(-1500, crouch_y);
             whip_left_crouch.ScaleX = scale;
             whip_left_crouch.ScaleY = scale;
             whip_left_crouch.LoopDisabled = true;
-            whip_left_crouch.RenderingLayer = TORSO_Z - 0.01f;
+            whip_left_crouch.RenderingLayer = TorsoZ - 0.01f;
             var whip_right = GeneratedContent.Create_knight_whip_attack(-1400, feet_y, null, null, true);
             whip_right.ScaleX = scale;
             whip_right.ScaleY = scale;
             whip_right.LoopDisabled = true;
-            whip_right.RenderingLayer = TORSO_Z - 0.01f;
+            whip_right.RenderingLayer = TorsoZ - 0.01f;
             var whip_right_crouch = GeneratedContent.Create_knight_whip_attack(-1400, crouch_y, null, null, true);
             whip_right_crouch.ScaleX = scale;
             whip_right_crouch.ScaleY = scale;
             whip_right_crouch.LoopDisabled = true;
-            whip_right_crouch.RenderingLayer = TORSO_Z - 0.01f;
+            whip_right_crouch.RenderingLayer = TorsoZ - 0.01f;
 
             var whipi_left = GeneratedContent.Create_knight_whip_idle(-1500, feet_y);
             whipi_left.ScaleX = scale;
             whipi_left.ScaleY = scale;
             whipi_left.FrameDuration = 2;
-            whipi_left.RenderingLayer = TORSO_Z - 0.01f;
+            whipi_left.RenderingLayer = TorsoZ - 0.01f;
             var whipi_left_crouch = GeneratedContent.Create_knight_whip_idle(-1500, crouch_y);
             whipi_left_crouch.ScaleX = scale;
             whipi_left_crouch.ScaleY = scale;
             //whipi_left_crouch.FrameDuration = 2;
-            whipi_left_crouch.RenderingLayer = TORSO_Z - 0.01f;
+            whipi_left_crouch.RenderingLayer = TorsoZ - 0.01f;
             var whipi_right = GeneratedContent.Create_knight_whip_idle(-1400, feet_y, null, null, true);
             whipi_right.ScaleX = scale;
             whipi_right.ScaleY = scale;
             whipi_right.FrameDuration = 2;
-            whipi_right.RenderingLayer = TORSO_Z - 0.01f;
+            whipi_right.RenderingLayer = TorsoZ - 0.01f;
             var whipi_right_crouch = GeneratedContent.Create_knight_whip_idle(-1400, crouch_y, null, null, true);
             whipi_right_crouch.ScaleX = scale;
             whipi_right_crouch.ScaleY = scale;
             //whipi_right_crouch.FrameDuration = 2;
-            whipi_right_crouch.RenderingLayer = TORSO_Z - 0.01f;
+            whipi_right_crouch.RenderingLayer = TorsoZ - 0.01f;
             var whipAnimator = new Animator(
                 new AnimationTransitionOnCondition(whipi_left, () => thing.TorsoState == TorsoState.Standing && !thing.FacingRight)
                 , new AnimationTransitionOnCondition(whipi_right, () => thing.TorsoState == TorsoState.Standing && thing.FacingRight)
