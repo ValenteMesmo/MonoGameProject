@@ -6,7 +6,7 @@ namespace MonoGameProject
 {
     public static class StopsWhenHitting
     {
-        private const int KNOCKBACK = 1;
+        public const int KNOCKBACK = 1;
         //TODO: moveback if your speed is highier
         public static Action<Collider, Collider> Top<T>()
         {

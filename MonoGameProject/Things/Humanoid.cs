@@ -59,6 +59,10 @@ namespace MonoGameProject
         }
     }
 
+    public class GroundFromLeftToRightCollider : Collider, SomeKindOfGround
+    {
+    }
+
     public class AttackCollider : Collider
     {
 

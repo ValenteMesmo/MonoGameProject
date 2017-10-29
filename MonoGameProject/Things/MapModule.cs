@@ -114,7 +114,7 @@ namespace MonoGameProject
                         Blocker
                             .WorldMover.camlocker = camlocker;
                     }
-                    if (type == 'y')
+                    if (type == 'y' || type == 'z')
                     {
                         var locker = new Thing();
                         locker.X = X + j * CELL_SIZE;
@@ -143,24 +143,28 @@ namespace MonoGameProject
                         Game1.AddToWorld(locker);
                         //var originalY = locker.Y;
 
-                        var collider = new GroundCollider()
+                        Collider collider;
+                        if (type == 'z')
                         {
-                            OffsetX = 1,
-                            OffsetY = 1,
-                            Width = CELL_SIZE,
-                            Height = CELL_SIZE * 2
-                        };
+                            collider = new GroundCollider();
+                        }
+                        else
+                        {
+                            collider = new GroundFromLeftToRightCollider();
+                        }
+
+                        collider.OffsetX = 1;
+                        collider.OffsetY = 1;
+                        collider.Width = CELL_SIZE;
+                        collider.Height = CELL_SIZE * 2;
+
                         locker.AddCollider(collider);
 
                         locker.AddUpdate(() =>
                         {
                             collider.Disabled = !GameState.State.BossMode;
-                            //if (GameState.State.BossMode)
-                            //    locker.Y = originalY;
-                            //else
-                            //    locker.Y = originalY - CELL_SIZE * 2;
                         });
-                    
+
                     }
                     if (type == 'l')
                     {

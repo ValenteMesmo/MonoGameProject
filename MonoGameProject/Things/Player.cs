@@ -25,7 +25,6 @@ namespace MonoGameProject
 
 
 
-        // dividir braços do torso
         // mover a cabeça com analogico esquerdo
         // remove or add background according to map type
         //  cooler dying animation (longer) boss
@@ -33,10 +32,7 @@ namespace MonoGameProject
         //  reduce idle duration when damage taken
         //permitir que o player desvie to attack melee abaixando (boss)
 
-        //em vez de tipo de arma afetar o dano, aumentar o cast time
-
         //nightelf color pattern
-
 
         //level themes,   change color patterns to fixed pairs
         //-lava
@@ -290,10 +286,22 @@ namespace MonoGameProject
             MainCollider.AddBotCollisionHandler(StopsWhenHitting.Bot<BlockVerticalMovement>());
             MainCollider.AddLeftCollisionHandler(StopsWhenHitting.Left<BlockHorizontalMovement>());
             MainCollider.AddRightCollisionHandler(StopsWhenHitting.Right<BlockHorizontalMovement>());
+            MainCollider.AddLeftCollisionHandler(HandleLeftBossLock);
             MainCollider.AddTopCollisionHandler(StopsWhenHitting.Top<BlockVerticalMovement>());
 
             new HumanoidAnimatorFactory()
                 .CreateAnimator(this, index);
+        }
+
+        private void HandleLeftBossLock(Collider source, Collider target)
+        {
+            if (target is GroundFromLeftToRightCollider)
+            {
+                if (HorizontalSpeed < 0)
+                    HorizontalSpeed = 0;
+
+                X = target.Right() - source.OffsetX + StopsWhenHitting.KNOCKBACK;
+            }
         }
     }
 }

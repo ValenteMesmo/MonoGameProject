@@ -8,7 +8,7 @@
     {
     }
 
-    public interface SomeKindOfGround : BlockVerticalMovement, BlockHorizontalMovement
+    public interface SomeKindOfGround 
     {
 
     }
