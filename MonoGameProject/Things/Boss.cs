@@ -89,10 +89,10 @@ namespace MonoGameProject
 
             mainCollider = new Collider(width, height);
 
-            mainCollider.AddBotCollisionHandler(StopsWhenHitting.Bot<BlockVerticalMovement>());
-            mainCollider.AddTopCollisionHandler(StopsWhenHitting.Top<BlockVerticalMovement>());
-            mainCollider.AddLeftCollisionHandler(StopsWhenHitting.Left<BlockHorizontalMovement>());
-            mainCollider.AddRightCollisionHandler(StopsWhenHitting.Right<BlockHorizontalMovement>());
+            mainCollider.AddBotCollisionHandler(StopsWhenHitting.Bot<GroundCollider>());
+            mainCollider.AddTopCollisionHandler(StopsWhenHitting.Top<GroundCollider>());
+            mainCollider.AddLeftCollisionHandler(StopsWhenHitting.Left<GroundCollider>());
+            mainCollider.AddRightCollisionHandler(StopsWhenHitting.Right<GroundCollider>());
 
             playerFinder = new Collider(
                 attackCollider.Width * 2
@@ -386,10 +386,10 @@ namespace MonoGameProject
                         spikeBall.AddAnimation(anim);
                         spikeBall.X = facingRight ? X + 1000 : X - 200;
                         spikeBall.Y = Y - 1200;
-                        collider.AddBotCollisionHandler(StopsWhenHitting.Bot<BlockVerticalMovement>());
-                        collider.AddTopCollisionHandler(StopsWhenHitting.Top<BlockVerticalMovement>());
-                        collider.AddLeftCollisionHandler(StopsWhenHitting.Left<BlockHorizontalMovement>());
-                        collider.AddRightCollisionHandler(StopsWhenHitting.Right<BlockHorizontalMovement>());
+                        collider.AddBotCollisionHandler(StopsWhenHitting.Bot<GroundCollider>());
+                        collider.AddTopCollisionHandler(StopsWhenHitting.Top<GroundCollider>());
+                        collider.AddLeftCollisionHandler(StopsWhenHitting.Left<GroundCollider>());
+                        collider.AddRightCollisionHandler(StopsWhenHitting.Right<GroundCollider>());
                         var speed = 40;
 
                         var mod = facingRight ? -1 : 1;
