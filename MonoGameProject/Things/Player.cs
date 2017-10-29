@@ -8,6 +8,23 @@ namespace MonoGameProject
     public class Player : Humanoid
     {
         //planning: 
+        //kill player if it gets crushed by walls
+        //Main Screen
+        //  new game, continue, options
+        //Char Select Screen
+        //  apertar qualquer botão para entrar na partida
+        //      apertar start ou enter para iniciar
+        //Options
+        //  resolution default
+        //  fullscreen enabled
+        //  sound volume 100%
+        //  background 1 enabled
+        //  background 2 enabled
+        //  background 3 enabled
+
+
+
+
         // dividir braços do torso
         // mover a cabeça com analogico esquerdo
         // remove or add background according to map type

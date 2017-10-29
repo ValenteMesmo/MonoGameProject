@@ -1,4 +1,5 @@
-﻿using GameCore;
+﻿using System;
+using GameCore;
 using Microsoft.Xna.Framework;
 
 namespace MonoGameProject
@@ -8,7 +9,7 @@ namespace MonoGameProject
         public Game1() : base(new GeneratedContent()) { }
 
         public ScreenFader ScreenFader;
-        
+
         protected override void OnStart()
         {
             Camera.Clear();
@@ -16,25 +17,109 @@ namespace MonoGameProject
             Camera.Zoom =
                  0.1f;
 
+            MainScreen();
 
+            //StartGame();
+        }
+
+        int selectedLine = 0;
+        int inputCooldown = 0;
+        private void MainScreen()
+        {
+            line = 0;
+            var MainManeu = new Thing();
+            MainManeu.X = (int)((MapModule.CELL_SIZE* MapModule.CELL_NUMBER)/2.4f);
+            MainManeu.Y = (int)((MapModule.CELL_SIZE * MapModule.CELL_NUMBER)/2.2f);
+
+            MainManeu.AddUpdate(() =>
+            {
+                
+
+                if (inputCooldown > 0)
+                    inputCooldown--;
+
+                if (inputCooldown > 0)
+                    return;
+
+                var keyboard = Microsoft.Xna.Framework.Input.Keyboard.GetState();
+
+                if (keyboard.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Down))
+                {
+                    inputCooldown = 10;
+                    selectedLine++;
+                }
+                if (keyboard.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Up))
+                {
+                    inputCooldown = 10;
+                    selectedLine--;
+                }
+                if (keyboard.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Enter))
+                {
+                    MainManeu.Destroy();
+                    StartGame();
+                }
+
+                if (selectedLine > 2)
+                    selectedLine = 0;
+                if (selectedLine < 0)
+                    selectedLine = 2;
+            });
+
+            //MainManeu.AddAnimation(GeneratedContent.Create_knight_head_face(-2000,-2000,8000,8000));
+            //MainManeu.AddAnimation(GeneratedContent.Create_knight_head_eyes(-2000,-2000,8000,8000));
+            //MainManeu.AddAnimation(GeneratedContent.Create_knight_head_hair(-2000,-2000,8000,8000));
+
+            //play sound... lower going down
+
+            NewMethod(MainManeu, "New Game");
+            NewMethod(MainManeu, "Continue");
+            NewMethod(MainManeu, "Options");
+            AddThing(MainManeu);
+        }
+
+        int line = 0;
+        private void NewMethod(Thing start, string text)
+        {
+            var thisLine = line;
+            for (int i = 0; i < text.Length; i++)
+            {
+                if (text[i] == ' ')
+                    continue;
+
+                var animation = GeneratedContent.Create_knight_number0(
+                        i * MapModule.CELL_SIZE,
+                        (int)((line * 1.25f) * MapModule.CELL_SIZE),
+                        MapModule.CELL_SIZE,
+                        MapModule.CELL_SIZE
+                );
+
+                animation.ColorGetter = () => selectedLine == thisLine ? Color.Red : Color.White;
+
+                start.AddAnimation(animation);
+            }
+
+            line++;
+        }
+
+        private void StartGame()
+        {
             var camerawall = new Thing();
-            camerawall.AddCollider(new SolidCollider(MapModule.CELL_SIZE, MapModule.CELL_SIZE * 14) { OffsetX= -MapModule.CELL_SIZE / 2 });
-            camerawall.AddCollider(new SolidCollider(MapModule.CELL_SIZE, MapModule.CELL_SIZE * 14) { OffsetX= (int)(MapModule.CELL_SIZE *19.5f)});
+            camerawall.AddCollider(new SolidCollider(MapModule.CELL_SIZE, MapModule.CELL_SIZE * 14) { OffsetX = -MapModule.CELL_SIZE / 2 });
+            camerawall.AddCollider(new SolidCollider(MapModule.CELL_SIZE, MapModule.CELL_SIZE * 14) { OffsetX = (int)(MapModule.CELL_SIZE * 19.5f) });
             AddThing(camerawall);
-
 
             GameState.Load();
 
             ScreenFader = new ScreenFader();
             AddToWorld(ScreenFader);
 
-            AddThing(new Enemy(AddToWorld) { X=4000,Y=4000});
+            AddThing(new Enemy(AddToWorld) { X = 4000, Y = 4000 });
 
             var player = new Player(this, 0, AddThing);
             player.X = 1000;
             AddThing(player);
 
-            var player2 = new Player(this,1, AddThing);
+            var player2 = new Player(this, 1, AddThing);
             player2.X = 3000;
             AddThing(player2);
 
@@ -47,15 +132,15 @@ namespace MonoGameProject
 
             player2.Y = player.Y;
 
-           //for (var i = 1; i < 7; i++)
-           //{
-           //    var player2 = new Player(this, 0, AddThing);
-           //    player2.X = player.X + 200 * i;
-           //    player2.Y = player.Y;
-           //    AddThing(player2);
-           //}
+            //for (var i = 1; i < 7; i++)
+            //{
+            //    var player2 = new Player(this, 0, AddThing);
+            //    player2.X = player.X + 200 * i;
+            //    player2.Y = player.Y;
+            //    AddThing(player2);
+            //}
 
-           var WorldMover = new WorldMover(Camera, player, player2);
+            var WorldMover = new WorldMover(Camera, player, player2);
             AddThing(WorldMover);
             AddThing(new PlatformCreator(WorldMover, AddThing, this));
 
@@ -74,7 +159,6 @@ namespace MonoGameProject
                 AddThing(new ParalaxBackgroundCreator(WorldMover, AddThing, this, (x, y, width, height) => GeneratedContent.Create_knight_dead_tree(x, y), 2, 0.90f));
                 AddThing(new ParalaxBackgroundCreator(WorldMover, AddThing, this, (x, y, width, height) => GeneratedContent.Create_knight_dead_tree(x, y, 500, 400), 1, 0.01f));
             }
-
         }
     }
 
