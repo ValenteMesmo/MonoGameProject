@@ -102,9 +102,11 @@ namespace MonoGameProject
     public class FireBall : BaseFireBall
     {
         public const int SPEED = 150;
+        public readonly Thing Owner;
 
-        public FireBall(int speedX, int speedY, Action<Thing> AddToWorld) : base(AddToWorld)
+        public FireBall(Thing Owner, int speedX, int speedY, Action<Thing> AddToWorld) : base(AddToWorld)
         {
+            this.Owner = Owner;
             var animation = GeneratedContent.Create_knight_block(
             0
             , 0

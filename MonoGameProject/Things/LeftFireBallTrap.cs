@@ -14,7 +14,7 @@ namespace MonoGameProject
                 cooldown--;
                 if (cooldown <= 0)
                 {
-                    AddToWorld(new FireBall(FireBall.SPEED, 0, AddToWorld) { X = X + 100, Y = Y + 50 });
+                    AddToWorld(new FireBall(this,FireBall.SPEED, 0, AddToWorld) { X = X + 100, Y = Y + 50 });
                     cooldown = 200;
                 }
             });

@@ -313,7 +313,8 @@ namespace MonoGameProject
                             {
                                 Game1.AddToWorld(
                                     new FireBall(
-                                        hspeed
+                                        this
+                                        , hspeed
                                         , vspeed
                                         , Game1.AddToWorld
                                     )

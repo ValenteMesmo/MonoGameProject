@@ -28,6 +28,12 @@ namespace MonoGameProject
         {
             if (target.Parent is BaseFireBall)
             {
+                if (target.Parent is FireBall)
+                {
+                    if ((target.Parent as FireBall).Owner is Player)
+                        return;
+                }
+
                 DefaultDamageHandler(source, target);
 
                 target.Disabled = true;

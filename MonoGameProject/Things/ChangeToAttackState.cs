@@ -34,15 +34,15 @@ namespace MonoGameProject
                 {
                     if (Humanoid.weaponType == 3)
                     {
-                        int speed = -100;
+                        int speed = -FireBall.SPEED;
                         var x = Humanoid.AttackLeftCollider.X;
                         if (Humanoid.FacingRight)
                         {
-                            speed = 100;
+                            speed = FireBall.SPEED;
                             x = Humanoid.AttackRightCollider.X;
                         }
 
-                        AddToWorld(new FireBall(speed, 0, AddToWorld)
+                        AddToWorld(new FireBall(Humanoid, speed, 0, AddToWorld)
                         {
                             X = x,
                             Y = Humanoid.AttackRightCollider.Y
