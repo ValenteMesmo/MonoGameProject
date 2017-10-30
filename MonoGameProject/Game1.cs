@@ -11,9 +11,19 @@ namespace MonoGameProject
         public Game1() : base(new GeneratedContent()) { }
 
         public ScreenFader ScreenFader;
+        public bool loaded;
 
         protected override void OnStart()
         {
+            //gambiarra
+            if (loaded == false)
+            {
+                StartGame();
+                loaded = true;
+                Restart();
+                return;
+            }
+            
             Camera.Clear();
             Camera.Pos = new Vector2(5000f, 4500f);
             Camera.Zoom =
@@ -21,7 +31,6 @@ namespace MonoGameProject
 
             MainScreen();
 
-            //StartGame();
         }
 
         public List<Player> Players = new List<Player>();
