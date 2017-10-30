@@ -67,10 +67,7 @@ namespace MonoGameProject
             {
                 if (Parent.HitPoints <= 0)
                 {
-                    if (Parent is Player)
-                        Game1.Restart();
-                    else
-                        Parent.Destroy();
+                    Parent.Destroy();
                 }
             }
         }

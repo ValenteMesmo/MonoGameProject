@@ -1,10 +1,12 @@
 ﻿using GameCore;
 using System;
+using System.Collections.Generic;
 
 namespace MonoGameProject
 {
     public class WorldMover : Thing
     {
+        private readonly Game1 Game1;
         public readonly Camera2d Camera;
         public static int WorldHorizontalSpeed;
         public static int WorldVerticalSpeed;
@@ -13,7 +15,6 @@ namespace MonoGameProject
         private const int VELOCITY = 6;
         private const int FRICTION = 8;
         internal Thing camlocker;
-        private readonly Player[] Players;
         private bool AllGoingBot;
         private bool AllGoingTop;
         private bool AllGoingLeft;
@@ -24,10 +25,10 @@ namespace MonoGameProject
         private Collider BotCollider;
         private Collider TopCollider;
 
-        public WorldMover(Camera2d Camera, params Player[] Players)
+        public WorldMover(Game1 Game1)
         {
-            this.Players = Players;
-            this.Camera = Camera;
+            this.Game1 = Game1;
+            this.Camera = Game1.Camera;
 
             X = (int)Camera.Pos.X;
             Y = (int)Camera.Pos.Y;
@@ -149,7 +150,7 @@ namespace MonoGameProject
 
                 AllGoingRight = false;
                 var horizontalSpeed = 0;
-                foreach (var player in Players)
+                foreach (var player in Game1.Players)
                 {
                     if (rightCollider.CollidingWith.Contains(player.MainCollider))
                     {
@@ -195,7 +196,7 @@ namespace MonoGameProject
 
                 AllGoingLeft = false;
                 var horizontalSpeed = 0;
-                foreach (var player in Players)
+                foreach (var player in Game1.Players)
                 {
                     if (leftCollider.CollidingWith.Contains(player.MainCollider))
                     {
@@ -241,7 +242,7 @@ namespace MonoGameProject
 
                 AllGoingBot = false;
                 var verticalSpeed = 0;
-                foreach (var player in Players)
+                foreach (var player in Game1.Players)
                 {
                     if (BotCollider.CollidingWith.Contains(player.MainCollider))
                     {
@@ -287,7 +288,7 @@ namespace MonoGameProject
 
                 AllGoingTop = false;
                 var verticalSpeed = 0;
-                foreach (var player in Players)
+                foreach (var player in Game1.Players)
                 {
                     if (TopCollider.CollidingWith.Contains(player.MainCollider))
                     {

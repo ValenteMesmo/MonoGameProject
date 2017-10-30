@@ -1,6 +1,8 @@
 ﻿using System;
 using GameCore;
 using Microsoft.Xna.Framework;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace MonoGameProject
 {
@@ -22,19 +24,18 @@ namespace MonoGameProject
             //StartGame();
         }
 
+        public List<Player> Players = new List<Player>();
         int selectedLine = 0;
         int inputCooldown = 0;
         private void MainScreen()
         {
             line = 0;
             var MainManeu = new Thing();
-            MainManeu.X = (int)((MapModule.CELL_SIZE* MapModule.CELL_NUMBER)/2.4f);
-            MainManeu.Y = (int)((MapModule.CELL_SIZE * MapModule.CELL_NUMBER)/2.2f);
+            MainManeu.X = (int)((MapModule.CELL_SIZE * MapModule.CELL_NUMBER) / 2.4f);
+            MainManeu.Y = (int)((MapModule.CELL_SIZE * MapModule.CELL_NUMBER) / 2.2f);
 
             MainManeu.AddUpdate(() =>
             {
-                
-
                 if (inputCooldown > 0)
                     inputCooldown--;
 
@@ -139,8 +140,10 @@ namespace MonoGameProject
             //    player2.Y = player.Y;
             //    AddThing(player2);
             //}
-
-            var WorldMover = new WorldMover(Camera, player, player2);
+            Players.Clear();
+            Players.Add(player);
+            Players.Add(player2);
+            var WorldMover = new WorldMover(this);
             AddThing(WorldMover);
             AddThing(new PlatformCreator(WorldMover, AddThing, this));
 

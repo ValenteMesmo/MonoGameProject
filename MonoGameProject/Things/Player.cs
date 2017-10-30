@@ -8,7 +8,8 @@ namespace MonoGameProject
     public class Player : Humanoid
     {
         //planning: 
-        //kill player if it gets crushed by walls
+        //kill player if gets auto of camera (to remedy bugs)
+
         //Main Screen
         //  new game, continue, options
         //Char Select Screen
@@ -21,8 +22,6 @@ namespace MonoGameProject
         //  background 1 enabled
         //  background 2 enabled
         //  background 3 enabled
-
-
 
 
         // mover a cabeça com analogico esquerdo
@@ -237,6 +236,7 @@ namespace MonoGameProject
         //fireballs vertical lenta...
         private const int width = 1000;
         private const int height = 900;
+        private readonly Game1 Game1;
 
         public Player(Game1 Game1, int index, Action<Thing> AddToWorld) : base(
             new GameInputs(
@@ -248,7 +248,7 @@ namespace MonoGameProject
             , Game1.VibrationCenter
             , AddToWorld)
         {
-
+            this.Game1 = Game1;
             HitPoints = 2;
             PlayerIndex = index;
 
@@ -259,9 +259,13 @@ namespace MonoGameProject
                 else
                     Inputs.Disabled = false;
 
-
+                if (leftWallChecker.Colliding<BlockHorizontalMovement>()
+                    && rightWallChecker.Colliding<BlockHorizontalMovement>())
+                {
+                    Destroy();
+                }
             });
-
+            
             AddUpdate(new TakesDamage(this, Game1, AddToWorld));
 
             Action<Collider, Collider> PickupArmor = (s, t) =>
@@ -286,11 +290,24 @@ namespace MonoGameProject
             MainCollider.AddBotCollisionHandler(StopsWhenHitting.Bot<BlockVerticalMovement>());
             MainCollider.AddLeftCollisionHandler(StopsWhenHitting.Left<BlockHorizontalMovement>());
             MainCollider.AddRightCollisionHandler(StopsWhenHitting.Right<BlockHorizontalMovement>());
-            MainCollider.AddLeftCollisionHandler(HandleLeftBossLock);
+            MainCollider.AddLeftCollisionHandler(HandleLeftBossLock);            
             MainCollider.AddTopCollisionHandler(StopsWhenHitting.Top<BlockVerticalMovement>());
 
             new HumanoidAnimatorFactory()
                 .CreateAnimator(this, index);
+        }
+
+        public override void OnDestroy()
+        {
+            base.OnDestroy();
+
+            if (Game1.Players.Count > 1)
+            {
+                Game1.Players.Remove(this);
+                return;
+            }
+
+            Game1.Restart();
         }
 
         private void HandleLeftBossLock(Collider source, Collider target)
