@@ -105,8 +105,8 @@ namespace MonoGameProject
         private void StartGame()
         {
             var camerawall = new Thing();
-            camerawall.AddCollider(new SolidCollider(MapModule.CELL_SIZE, MapModule.CELL_SIZE * 14) { OffsetX = -MapModule.CELL_SIZE / 2 });
-            camerawall.AddCollider(new SolidCollider(MapModule.CELL_SIZE, MapModule.CELL_SIZE * 14) { OffsetX = (int)(MapModule.CELL_SIZE * 19.5f) });
+            camerawall.AddCollider(new SolidCollider(MapModule.CELL_SIZE, MapModule.HEIGHT * 2) { OffsetX = -MapModule.CELL_SIZE / 2 });
+            camerawall.AddCollider(new SolidCollider(MapModule.CELL_SIZE, MapModule.HEIGHT * 2) { OffsetX = (int)(MapModule.CELL_SIZE * 19.5f) });
             AddThing(camerawall);
 
             GameState.Load();
