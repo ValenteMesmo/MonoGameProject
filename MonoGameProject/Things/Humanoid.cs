@@ -99,6 +99,9 @@ namespace MonoGameProject
         private Color SkinColor = new Color(223, 168, 137);
         private Color HairColor = new Color(186, 120, 168);
         private Color EyeColor = new Color(74, 156, 74);
+        private int whipWidth;
+        private int swordWidth;
+        private int wandWidth;
 
         public Color GetSkinColor()
         {
@@ -141,7 +144,7 @@ namespace MonoGameProject
             AddUpdate(new ChangeToWallJumping(this));
             AddUpdate(new ChangeToHeadBumpState(this, Camera, VibrationCenter));
             AddUpdate(new ChangeToCrouchState(this, Camera, VibrationCenter));
-            AddUpdate(new ChangeToAttackState(this));
+            AddUpdate(new ChangeToAttackState(this, AddToWorld));
 
             AddUpdate(new DestroyIfLeftBehind(this));
             AddUpdate(new PreventPlayerFromAccicentlyFalling(this));
@@ -166,6 +169,14 @@ namespace MonoGameProject
 
             AddUpdate(() =>
         {
+            var keyboard = Microsoft.Xna.Framework.Input.Keyboard.GetState();
+            if (keyboard.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.D1))
+                ChangeToSword();
+            if (keyboard.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.D2))
+                ChangeToWhip();
+            if (keyboard.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.D3))
+                ChangeToWand();
+
             if (HitPoints == 1)
             {
                 if (DamageDuration == 100)
@@ -186,6 +197,31 @@ namespace MonoGameProject
 
             }
         });
+        }
+
+        public int weaponType = 2;
+        public void ChangeToWhip()
+        {
+            AttackLeftCollider.Width = whipWidth;
+            AttackRightCollider.Width = whipWidth;
+            AttackLeftCollider.OffsetX = MainCollider.OffsetX - AttackLeftCollider.Width - 1;
+            weaponType = 2;
+        }
+
+        public void ChangeToSword()
+        {
+            AttackLeftCollider.Width = swordWidth;
+            AttackRightCollider.Width = swordWidth;
+            AttackLeftCollider.OffsetX = MainCollider.OffsetX - AttackLeftCollider.Width - 1;
+            weaponType = 1;
+        }
+
+        public void ChangeToWand()
+        {
+            AttackLeftCollider.Width = wandWidth;
+            AttackRightCollider.Width = wandWidth;
+            AttackLeftCollider.OffsetX = MainCollider.OffsetX - AttackLeftCollider.Width - 1;
+            weaponType = 3;
         }
 
         private void NewMethod(float z, int bonus, Action<Thing> AddToWorld)
@@ -258,7 +294,9 @@ namespace MonoGameProject
             };
             AddCollider(roofChecker);
 
-            var whipWidth = (int)(width * 1.5f);
+            whipWidth = (int)(width * 2.0f);
+            swordWidth = (int)(width * 1.0f);
+            wandWidth = (int)(width * 0.5f);
             AttackRightCollider = new AttackCollider
             {
                 Width = whipWidth,

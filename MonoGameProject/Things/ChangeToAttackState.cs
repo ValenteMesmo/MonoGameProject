@@ -1,15 +1,18 @@
 ﻿using GameCore;
+using System;
 
 namespace MonoGameProject
 {
     public class ChangeToAttackState : UpdateHandler
     {
         private readonly Humanoid Humanoid;
+        private readonly Action<Thing> AddToWorld;
         private int AttackDuration = 0;
 
-        public ChangeToAttackState(Humanoid Humanoid)
+        public ChangeToAttackState(Humanoid Humanoid, Action<Thing> AddToWorld)
         {
             this.Humanoid = Humanoid;
+            this.AddToWorld = AddToWorld;
         }
 
         public void Update()
@@ -29,6 +32,22 @@ namespace MonoGameProject
                 AttackDuration--;
                 if (AttackDuration <= 0)
                 {
+                    if (Humanoid.weaponType == 3)
+                    {
+                        int speed = -100;
+                        var x = Humanoid.AttackLeftCollider.X;
+                        if (Humanoid.FacingRight)
+                        {
+                            speed = 100;
+                            x = Humanoid.AttackRightCollider.X;
+                        }
+
+                        AddToWorld(new FireBall(speed, 0, AddToWorld)
+                        {
+                            X = x,
+                            Y = Humanoid.AttackRightCollider.Y
+                        });
+                    }
                     ChangeToNotAttackMode();
                 }
             }
@@ -53,7 +72,7 @@ namespace MonoGameProject
         {
             var enableDuration = 15;
 
-            if (AttackDuration < enableDuration)
+            if (AttackDuration < enableDuration && Humanoid.weaponType != 3)
             {
                 Humanoid.AttackLeftCollider.Disabled = Humanoid.FacingRight;
                 Humanoid.AttackRightCollider.Disabled = !Humanoid.FacingRight;

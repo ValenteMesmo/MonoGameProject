@@ -137,8 +137,6 @@ namespace MonoGameProject
 
         //pennywise dance
 
-        //permitir que outros players transpassem a porta do boss (de fora para dentro)
-
         //remake head/eye animation
         //-----para evitar que 1 dos 4 olhos suma
 
@@ -169,6 +167,7 @@ namespace MonoGameProject
         //eyes: crystal
         //background: pizza... fish
 
+        //simons quest...   moving single cell platforms (up and down)
         /* criar um modulo assim (obrigar a usar walljump)
               __________
               __        |
@@ -204,8 +203,8 @@ namespace MonoGameProject
         //Se move quando o player se move (no chão) (sempre na direção dele) 
         //se move para longe do jogador
 
-        //cara 
-        //  de lobo, techugo, preguiça, de urso, de boi, de cavalo, de porco, de aranha, de leão, de dragao, de caveira, cthulu, bills
+        //head 
+        //  cara  de lobo, bulldog, tengu, preguiça, de urso, de boi, de cavalo, de porco, de aranha, de leão, de dragao, de caveira, cthulu, bills
         //testa
         //  chifre de boi, chifre de unicornio, coroa
         //pescoço
