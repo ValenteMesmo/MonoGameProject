@@ -247,6 +247,9 @@ namespace MonoGameProject
                     && (t.Parent as FireBall).Owner is Player)
                 )
             {
+                if (t.Parent is FireBall)
+                    t.Parent.Destroy();
+
                 if (damageCooldown > 0)
                     return;
 
