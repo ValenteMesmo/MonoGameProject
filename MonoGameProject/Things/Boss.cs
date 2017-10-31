@@ -193,14 +193,16 @@ namespace MonoGameProject
 
         private void FindPlayer(Collider s, Collider t)
         {
-            if (s.Parent is Player)
-            {
-                player = s.Parent as Player;
-            }
-            if (t.Parent is Player)
-            {
-                player = t.Parent as Player;
-            }
+            //if (s.Parent is Player)
+            //{
+            //    player = s.Parent as Player;
+            //}
+
+            //if (t.Parent is Player)
+            //{
+            //    player = t.Parent as Player;
+            //}
+            player = GetPlayerFromCollider(t);
         }
 
         private void CheckIfGrounded()
@@ -234,14 +236,23 @@ namespace MonoGameProject
 
         private void HandlePlayerAttack(Collider s, Collider t)
         {
-            if (t is AttackCollider
-                && t.Parent is Player)
+            if (
+                (
+                    t is AttackCollider
+                    && t.Parent is Player
+                )
+                ||
+                (
+                    t.Parent is FireBall
+                    && (t.Parent as FireBall).Owner is Player)
+                )
             {
                 if (damageCooldown > 0)
                     return;
 
-                var playerIndex = (t.Parent as Player).PlayerIndex;
-                Game1.VibrationCenter.Vibrate(playerIndex, 10);
+                Player player = GetPlayerFromCollider(t);
+
+                Game1.VibrationCenter.Vibrate(player.PlayerIndex, 10);
 
                 damageCooldown = 20;
                 BodyColor = Color.Lerp(BodyColor, Color.Red, 0.05f);
@@ -249,12 +260,11 @@ namespace MonoGameProject
                 Game1.Sleep();
                 Game1.Camera.ShakeUp(20);
 
-                var player = t.Parent as Player;
                 if (player.FacingRight)
                     Game1.AddToWorld(new HitEffect(0.04f)
                     {
-                        X = player.AttackRightCollider.Right(),
-                        Y = player.AttackRightCollider.Y,
+                        X = t.Right(),
+                        Y = t.Y,
                         Color = BodyColor,
                         HorizontalSpeed = HorizontalSpeed,
                         VerticalSpeed = VerticalSpeed
@@ -262,8 +272,8 @@ namespace MonoGameProject
                 else
                     Game1.AddToWorld(new HitEffect(0.04f)
                     {
-                        X = player.AttackLeftCollider.Left(),
-                        Y = player.AttackLeftCollider.Y,
+                        X = t.Left(),
+                        Y = t.Y,
                         Color = BodyColor,
                         HorizontalSpeed = HorizontalSpeed,
                         VerticalSpeed = VerticalSpeed
@@ -276,6 +286,16 @@ namespace MonoGameProject
                 GameState.State.BossMode = false;
                 Destroy();
             }
+        }
+
+        private Player GetPlayerFromCollider(Collider t)
+        {
+            Player player = this.player;
+            if (t.Parent is Player)
+                player = t.Parent as Player;
+            else if(t.Parent is FireBall && (t.Parent as FireBall).Owner is Player)
+                player = (t.Parent as FireBall).Owner as Player;
+            return player;
         }
 
         private void CreateEyeAnimator(int random, float z, Game1 Game1)
@@ -428,7 +448,6 @@ namespace MonoGameProject
                                 spikeBall.HorizontalSpeed = 0;
                             }
                         });
-
 
                         //spikeBall.AddUpdate(new AfectedByGravity(spikeBall));
                         spikeBall.AddAfterUpdate(new MoveHorizontallyWithTheWorld(spikeBall));
