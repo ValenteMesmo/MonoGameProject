@@ -8,6 +8,7 @@ namespace MonoGameProject
     public class Player : Humanoid
     {
         //planning: 
+        //prevent sliding into spikes
 
         //Main Screen
         //  new game, continue, options
