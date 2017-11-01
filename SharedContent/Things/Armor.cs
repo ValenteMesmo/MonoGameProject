@@ -26,4 +26,26 @@ namespace MonoGameProject
             AddUpdate(new DestroyIfLeftBehind(this));
         }
     }
+
+    public class Weapon : Thing
+    {
+        public Color Color;
+        public Weapon()
+        {
+            var collider = new Collider();
+            collider.Width = MapModule.CELL_SIZE;
+            collider.Height = MapModule.CELL_SIZE;
+            AddCollider(collider);
+
+            var animation = GeneratedContent.Create_knight_head_face(-400, -200);
+            animation.RenderingLayer = 0.49f;
+            animation.ScaleX = animation.ScaleY = 5;
+            Color = GameState.GetComplimentColor2();
+            animation.ColorGetter = () => Color;
+            AddAnimation(animation);
+
+            AddAfterUpdate(new MoveHorizontallyWithTheWorld(this));
+            AddUpdate(new DestroyIfLeftBehind(this));
+        }
+    }
 }

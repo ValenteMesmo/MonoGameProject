@@ -193,6 +193,15 @@ namespace MonoGameProject
                         });
                         CreateBackground(i, j);
                     }
+                    if (type == 'w')
+                    {
+                        Game1.AddToWorld(new Weapon()
+                        {
+                            X = X + j * CELL_SIZE,
+                            Y = Y + i * CELL_SIZE
+                        });
+                        CreateBackground(i, j);
+                    }
                 }
             }
         }

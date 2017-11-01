@@ -169,13 +169,13 @@ namespace MonoGameProject
 
             AddUpdate(() =>
         {
-            var keyboard = Microsoft.Xna.Framework.Input.Keyboard.GetState();
-            if (keyboard.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.D1))
-                ChangeToSword();
-            if (keyboard.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.D2))
-                ChangeToWhip();
-            if (keyboard.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.D3))
-                ChangeToWand();
+            //var keyboard = Microsoft.Xna.Framework.Input.Keyboard.GetState();
+            //if (keyboard.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.D1))
+            //    ChangeToSword();
+            //if (keyboard.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.D2))
+            //    ChangeToWhip();
+            //if (keyboard.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.D3))
+            //    ChangeToWand();
 
             if (HitPoints == 1)
             {

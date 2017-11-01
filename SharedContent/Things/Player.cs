@@ -275,7 +275,18 @@ namespace MonoGameProject
                     var armorColor = (t.Parent as Armor).Color;
                     HitPoints = 2;
                     SetArmorColor(armorColor);
+                    t.Disabled = true;
                     t.Parent.Destroy();
+                    Game1.ScreenFader.Flash(armorColor.R, armorColor.G, armorColor.B, X, Y);
+                    Game1.VibrationCenter.Vibrate(PlayerIndex, 5);
+                    Game1.MusicController.Queue("tumtum");
+                }
+                else if (t.Parent is Weapon)
+                {
+                    var armorColor = (t.Parent as Weapon).Color;
+                    ChangeToWand();
+                    t.Parent.Destroy();
+                    t.Disabled = true;
                     Game1.ScreenFader.Flash(armorColor.R, armorColor.G, armorColor.B, X, Y);
                     Game1.VibrationCenter.Vibrate(PlayerIndex, 5);
                     Game1.MusicController.Queue("tumtum");
