@@ -322,7 +322,7 @@ namespace MonoGameProject
 
         private void DestroyFireball(Collider arg1, Collider arg2)
         {
-            if (arg2.Parent is FireBall)
+            if (arg2.Parent is FireBall && !((arg2.Parent as FireBall).Owner is Player))
                 arg2.Parent.Destroy();
         }
 
