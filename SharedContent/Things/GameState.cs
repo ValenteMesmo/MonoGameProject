@@ -175,8 +175,12 @@ namespace MonoGameProject
 
         public static void Save()
         {
+            var saveFile =
+               Path.Combine(
+                   System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal)
+                   , "main.save");
             PreSavedData.BossMode = false;
-            File.WriteAllText("main.save", JsonConvert.SerializeObject(PreSavedData));
+            File.WriteAllText(saveFile, JsonConvert.SerializeObject(PreSavedData));
         }
 
         public static void PreSave()
