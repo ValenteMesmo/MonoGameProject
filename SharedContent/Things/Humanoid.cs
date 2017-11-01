@@ -199,13 +199,13 @@ namespace MonoGameProject
         });
         }
 
-        public int weaponType = 2;
+        public WeaponType weaponType = WeaponType.Whip;
         public void ChangeToWhip()
         {
             AttackLeftCollider.Width = whipWidth;
             AttackRightCollider.Width = whipWidth;
             AttackLeftCollider.OffsetX = MainCollider.OffsetX - AttackLeftCollider.Width - 1;
-            weaponType = 2;
+            weaponType = WeaponType.Whip;
         }
 
         public void ChangeToSword()
@@ -213,7 +213,7 @@ namespace MonoGameProject
             AttackLeftCollider.Width = swordWidth;
             AttackRightCollider.Width = swordWidth;
             AttackLeftCollider.OffsetX = MainCollider.OffsetX - AttackLeftCollider.Width - 1;
-            weaponType = 1;
+            weaponType = WeaponType.Sword;
         }
 
         public void ChangeToWand()
@@ -221,7 +221,7 @@ namespace MonoGameProject
             AttackLeftCollider.Width = wandWidth;
             AttackRightCollider.Width = wandWidth;
             AttackLeftCollider.OffsetX = MainCollider.OffsetX - AttackLeftCollider.Width - 1;
-            weaponType = 3;
+            weaponType = WeaponType.Wand;
         }
 
         private void NewMethod(float z, int bonus, Action<Thing> AddToWorld)
@@ -320,19 +320,11 @@ namespace MonoGameProject
             AddCollider(AttackLeftCollider);
         }
 
-        private void DestroyFireball(Collider arg1, Collider arg2)
+        private void DestroyFireball(Collider s, Collider t)
         {
-            if (arg2.Parent is FireBall && !((arg2.Parent as FireBall).Owner is Player))
-                arg2.Parent.Destroy();
+            if (t.Parent is FireBall && !((t.Parent as FireBall).Owner is Player))
+                t.Parent.Destroy();
         }
-
-
-
-
-
-
-
-
 
 
 

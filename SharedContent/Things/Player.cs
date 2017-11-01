@@ -264,7 +264,7 @@ namespace MonoGameProject
                     Destroy();
                 }
             });
-            
+
             AddUpdate(new TakesDamage(this, Game1, AddToWorld));
             AddUpdate(new DestroyIfLeftBehind(this));
 
@@ -283,11 +283,18 @@ namespace MonoGameProject
                 }
                 else if (t.Parent is Weapon)
                 {
-                    var armorColor = (t.Parent as Weapon).Color;
-                    ChangeToWand();
+                    var weapon = t.Parent as Weapon;
+
+                    if (weapon.Type == WeaponType.Sword)
+                        ChangeToSword();
+                    else if (weapon.Type == WeaponType.Whip)
+                        ChangeToWhip();
+                    else if (weapon.Type == WeaponType.Wand)
+                        ChangeToWand();
+
                     t.Parent.Destroy();
                     t.Disabled = true;
-                    Game1.ScreenFader.Flash(armorColor.R, armorColor.G, armorColor.B, X, Y);
+                    Game1.ScreenFader.Flash(weapon.Color.R, weapon.Color.G, weapon.Color.B, X, Y);
                     Game1.VibrationCenter.Vibrate(PlayerIndex, 5);
                     Game1.MusicController.Queue("tumtum");
                 }
@@ -301,7 +308,7 @@ namespace MonoGameProject
             MainCollider.AddBotCollisionHandler(StopsWhenHitting.Bot<BlockVerticalMovement>());
             MainCollider.AddLeftCollisionHandler(StopsWhenHitting.Left<BlockHorizontalMovement>());
             MainCollider.AddRightCollisionHandler(StopsWhenHitting.Right<BlockHorizontalMovement>());
-            MainCollider.AddLeftCollisionHandler(HandleLeftBossLock);            
+            MainCollider.AddLeftCollisionHandler(HandleLeftBossLock);
             MainCollider.AddTopCollisionHandler(StopsWhenHitting.Top<BlockVerticalMovement>());
 
             new HumanoidAnimatorFactory()

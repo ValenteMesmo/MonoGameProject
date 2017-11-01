@@ -152,7 +152,7 @@ public class BaseGame : OriginalGameClass
         Graphics.PreferredBackBufferHeight = 480;
         Graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
         Graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
-        Graphics.IsFullScreen = true;
+        Graphics.IsFullScreen = false;
 #endif
 
         Graphics.ApplyChanges();

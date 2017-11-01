@@ -32,7 +32,7 @@ namespace MonoGameProject
                 AttackDuration--;
                 if (AttackDuration <= 0)
                 {
-                    if (Humanoid.weaponType == 3)
+                    if (Humanoid.weaponType == WeaponType.Wand)
                     {
                         int speed = -FireBall.SPEED;
                         var x = Humanoid.AttackLeftCollider.X;
@@ -72,7 +72,7 @@ namespace MonoGameProject
         {
             var enableDuration = 15;
 
-            if (AttackDuration < enableDuration && Humanoid.weaponType != 3)
+            if (AttackDuration < enableDuration && Humanoid.weaponType != WeaponType.Wand)
             {
                 Humanoid.AttackLeftCollider.Disabled = Humanoid.FacingRight;
                 Humanoid.AttackRightCollider.Disabled = !Humanoid.FacingRight;

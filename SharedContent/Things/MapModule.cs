@@ -186,16 +186,7 @@ namespace MonoGameProject
                     }
                     if (type == 'a')
                     {
-                        Game1.AddToWorld(new Armor()
-                        {
-                            X = X + j * CELL_SIZE,
-                            Y = Y + i * CELL_SIZE
-                        });
-                        CreateBackground(i, j);
-                    }
-                    if (type == 'w')
-                    {
-                        Game1.AddToWorld(new Weapon()
+                        Game1.AddToWorld(new ItemChest(Game1.AddToWorld)
                         {
                             X = X + j * CELL_SIZE,
                             Y = Y + i * CELL_SIZE
