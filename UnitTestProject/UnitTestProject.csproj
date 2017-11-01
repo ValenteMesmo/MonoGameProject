@@ -66,6 +66,10 @@
       <Project>{315551f1-e546-4a36-9ea7-56949e8da7fd}</Project>
       <Name>MonoGameProject</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SharedContent\SharedContent.csproj">
+      <Project>{dab90031-1667-45c8-8240-1569460a2ccf}</Project>
+      <Name>SharedContent</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

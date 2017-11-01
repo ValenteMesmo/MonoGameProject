@@ -42,62 +42,8 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="GeneratedContent.cs" />
-    <Compile Include="Things\Armor.cs" />
-    <Compile Include="Things\Boss.cs" />
-    <Compile Include="Things\BossAnimationsFactory.cs" />
-    <Compile Include="Things\BossBattleTrigger.cs" />
-    <Compile Include="Things\BossBody\DelayedAction.cs" />
-    <Compile Include="Things\ChangeToAttackState.cs" />
-    <Compile Include="Things\DestroyIfLeftBehind.cs" />
-    <Compile Include="Things\Enemy.cs" />
-    <Compile Include="Things\FireBall.cs" />
-    <Compile Include="Things\GameState.cs" />
-    <Compile Include="Things\HitEffect.cs" />
-    <Compile Include="Things\Humanoid.cs" />
-    <Compile Include="Things\HumanoidAnimatorFactory.cs" />
-    <Compile Include="Things\BossBody\HumanoidBossBody.cs" />
-    <Compile Include="Things\LeafShieldCell.cs" />
-    <Compile Include="Things\LeftFireBallTrap.cs" />
-    <Compile Include="Things\MapModule.cs" />
-    <Compile Include="Things\MapModuleInfo.cs" />
-    <Compile Include="Things\MyRandom.cs" />
-    <Compile Include="Things\ParalaxBackgroundCreator.cs" />
-    <Compile Include="Things\ParallaxBackGround.cs" />
-    <Compile Include="Things\PatrolAiInputs.cs" />
-    <Compile Include="Things\PlayerState.cs" />
-    <Compile Include="Things\PreventPlayerFromAccicentlyFalling.cs" />
-    <Compile Include="Things\ReduceSizeWhenCrouching.cs" />
-    <Compile Include="Things\RightFireBallTrap.cs" />
-    <Compile Include="Things\BossBody\SpiderBossBody.cs" />
-    <Compile Include="Things\Spikes.cs" />
-    <Compile Include="Things\TakesDamage.cs" />
-    <Compile Include="Things\BossBody\WolfBossBody.cs" />
-    <Compile Include="Things\WorldHelper.cs" />
-    <Compile Include="Updates\AfectedByGravity.cs" />
-    <Compile Include="Things\BackBlocker.cs" />
-    <Compile Include="Updates\ChangeToWallJumping.cs" />
-    <Compile Include="Updates\PlayerStates\ChangeToCrouchState.cs" />
-    <Compile Include="Updates\PlayerStates\ChangeToHeadBumpState.cs" />
-    <Compile Include="Updates\PlayerStates\ChangeToFallingState.cs" />
-    <Compile Include="Updates\PlayerStates\ChangeToSlidingState.cs" />
-    <Compile Include="Updates\PlayerStates\ChangeToStandingState.cs" />
-    <Compile Include="Updates\PlayerStates\ChangeToWalkingState.cs" />
-    <Compile Include="Updates\CheckIfCollidingWith.cs" />
-    <Compile Include="ContentLoader.cs" />
-    <Compile Include="Game1.cs" />
-    <Compile Include="Updates\HorizontalFriction.cs" />
-    <Compile Include="Updates\Jump.cs" />
-    <Compile Include="Updates\MoveLeftOrRight.cs" />
-    <Compile Include="Things\IBlockPlayerMovement.cs" />
-    <Compile Include="Things\PlatformCreator.cs" />
-    <Compile Include="Things\Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Updates\ReduceSpeedWhileSlidingWall.cs" />
-    <Compile Include="Updates\StopWhenHitsTHeGround.cs" />
-    <Compile Include="Things\WorldMover.cs" />
-    <Compile Include="Updates\WallJump.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
@@ -168,6 +114,10 @@
     <ProjectReference Include="..\GameCore\GameCore.csproj">
       <Project>{95c0995f-f5ce-4b41-9ea2-e5c0d29ea3a0}</Project>
       <Name>GameCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SharedContent\SharedContent.csproj">
+      <Project>{dab90031-1667-45c8-8240-1569460a2ccf}</Project>
+      <Name>SharedContent</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

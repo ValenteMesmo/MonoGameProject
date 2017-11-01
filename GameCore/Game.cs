@@ -61,7 +61,7 @@ public abstract class Game : IDisposable
     public static string LOG = "NO logs";
 #endif
     public FrameCounter FrameCounter = new FrameCounter();
-    private readonly BaseGame BaseGame;
+    public readonly BaseGame BaseGame;
     public Camera2d Camera { get { return BaseGame.Camera; } }
     public bool FullScreen { get { return BaseGame.Graphics.IsFullScreen; } set { BaseGame.Graphics.IsFullScreen = value; } }
     public void Sleep() { BaseGame.World.Sleep(); }

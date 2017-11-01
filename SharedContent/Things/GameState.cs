@@ -159,11 +159,16 @@ namespace MonoGameProject
         {
             State = new GameStateData();
 
-            if (File.Exists("main.save") == false)
+            var saveFile =
+                Path.Combine(
+                    System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal)
+                    , "main.save");
+
+            if (File.Exists(saveFile) == false)
             {
-                File.WriteAllText("main.save", JsonConvert.SerializeObject(State));
+                File.WriteAllText(saveFile, JsonConvert.SerializeObject(State));
             }
-            var savedContent = File.ReadAllText("main.save");
+            var savedContent = File.ReadAllText(saveFile);
             var loadedState = JsonConvert.DeserializeObject<GameStateData>(savedContent);
             State = loadedState;
         }

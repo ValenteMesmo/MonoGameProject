@@ -86,7 +86,7 @@ public class MusicController
     }
 }
 
-internal class BaseGame : OriginalGameClass
+public class BaseGame : OriginalGameClass
 {
     internal GraphicsDeviceManager Graphics;
     private SpriteBatch SpriteBatch;
@@ -96,7 +96,7 @@ internal class BaseGame : OriginalGameClass
     private Dictionary<string, Texture2D> Textures;
     private readonly Game Parent;
     SpriteFont SpriteFont;
-    public World World { get; }
+    internal World World { get; }
 
     //Effect effect;
 
