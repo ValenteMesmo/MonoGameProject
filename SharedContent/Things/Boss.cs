@@ -87,7 +87,7 @@ namespace MonoGameProject
             };
             AddCollider(attackCollider);
 
-            mainCollider = new Collider(width, height);
+            mainCollider = new Collider(width, height+600) { OffsetY=-600 };
 
             mainCollider.AddBotCollisionHandler(StopsWhenHitting.Bot<GroundCollider>());
             mainCollider.AddTopCollisionHandler(StopsWhenHitting.Top<GroundCollider>());
