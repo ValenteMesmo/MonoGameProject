@@ -169,28 +169,20 @@ namespace MonoGameProject
 
             AddUpdate(() =>
         {
-            //var keyboard = Microsoft.Xna.Framework.Input.Keyboard.GetState();
-            //if (keyboard.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.D1))
-            //    ChangeToSword();
-            //if (keyboard.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.D2))
-            //    ChangeToWhip();
-            //if (keyboard.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.D3))
-            //    ChangeToWand();
-
             if (HitPoints == 1)
             {
-                if (DamageDuration == 100)
-                    NewMethod(
+                if (DamageDuration == GetDurationInstantByPercentage(HELMET_PERCENTAGE))
+                    CreateBreakEffect(
                         HumanoidAnimatorFactory.HEAD_Z - 0.001f,
                         HumanoidAnimatorFactory.feet_y * 2,
                         AddToWorld);
-                else if (DamageDuration == 51)
-                    NewMethod(
+                else if (DamageDuration == GetDurationInstantByPercentage(BREAST_PERCENTAGE))
+                    CreateBreakEffect(
                         HumanoidAnimatorFactory.HEAD_Z - 0.001f,
                         HumanoidAnimatorFactory.feet_y,
                         AddToWorld);
-                else if (DamageDuration == 2)
-                    NewMethod(
+                else if (DamageDuration == GetDurationInstantByPercentage(SHOE_PERCENTAGE))
+                    CreateBreakEffect(
                         HumanoidAnimatorFactory.HEAD_Z - 0.001f,
                         0,
                         AddToWorld);
@@ -224,7 +216,7 @@ namespace MonoGameProject
             weaponType = WeaponType.Wand;
         }
 
-        private void NewMethod(float z, int bonus, Action<Thing> AddToWorld)
+        private void CreateBreakEffect(float z, int bonus, Action<Thing> AddToWorld)
         {
             var hitEffect = new ArmorBreaking(this, bonus);
             AddToWorld(hitEffect);
@@ -413,11 +405,17 @@ namespace MonoGameProject
                    );
         }
 
-
-        private bool ArmorPartIsDestroyed(int indexToDestroy)
+        private bool ArmorPartIsDestroyed(float percentageOfTime)
         {
+            var durationInstantThatBreaks = GetDurationInstantByPercentage(percentageOfTime);
+            
             return HitPoints <= 1
-                && DamageDuration <= TakesDamage.DAMAGE_DURATION - indexToDestroy;
+                && DamageDuration <= durationInstantThatBreaks;
+        }
+
+        private int GetDurationInstantByPercentage(float percentage)
+        {
+            return (int)((TakesDamage.DAMAGE_DURATION * percentage));
         }
 
         public bool IsUsingHelmet()
@@ -435,19 +433,23 @@ namespace MonoGameProject
             return !IsNotUsingPlateShoe();
         }
 
+        private const float HELMET_PERCENTAGE = 0.90f;
+        private const float BREAST_PERCENTAGE = 0.60f;
+        private const float SHOE_PERCENTAGE = 0.30f;
+
         public bool IsNotUsingHelmet()
         {
-            return ArmorPartIsDestroyed(5);
+            return ArmorPartIsDestroyed(HELMET_PERCENTAGE);
         }
 
         public bool IsNotUsingBreastPlate()
         {
-            return ArmorPartIsDestroyed(TakesDamage.DAMAGE_DURATION / 2);
+            return ArmorPartIsDestroyed(BREAST_PERCENTAGE);
         }
 
         public bool IsNotUsingPlateShoe()
         {
-            return ArmorPartIsDestroyed(TakesDamage.DAMAGE_DURATION);
+            return ArmorPartIsDestroyed(SHOE_PERCENTAGE);
         }
 
     }
