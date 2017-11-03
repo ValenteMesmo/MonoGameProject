@@ -235,7 +235,7 @@ namespace MonoGameProject
                 OffsetX = -6000,
                 OffsetY = 2000,
                 Width = 12000,
-                Height = MapModule.CELL_SIZE * 2
+                Height = MapModule.CELL_SIZE * 4
             };
 
             BotCollider.AddHandler(StoreTheBotMovementCause);

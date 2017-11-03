@@ -133,8 +133,7 @@ namespace MonoGameProject
             this.Inputs = Inputs;
 
             CreateColliders();
-
-            AddUpdate(this.Inputs);
+            
             AddUpdate(new ChangeDirectionOnInput(this));
 
             AddUpdate(new ChangeToStandingState(this));

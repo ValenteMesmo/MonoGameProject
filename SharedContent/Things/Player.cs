@@ -8,6 +8,16 @@ namespace MonoGameProject
     public class Player : Humanoid
     {
         //planning: 
+        //  char select. choose which controller use (the one who presses start)
+        // no menu screen...  
+
+        //flyibg boss pattern: left and right... dive when above player.
+        //hurt faces for bosses?
+
+        //z2 enemy with shield
+        //move boss initial position to the right
+        //players death animation
+        //move sonicboom origin down (to match new collider offset)
 
         //Main Screen
         //  new game, continue, options
@@ -204,7 +214,7 @@ namespace MonoGameProject
         //se move para longe do jogador
 
         //head 
-        //  cara  de lobo, bulldog, tengu, preguiça, de urso, de boi, de cavalo, de porco, de aranha, de leão, de dragao, de caveira, cthulu, bills
+        //  cara  de lobo, Mosca (mão tbm), bulldog, tengu, preguiça, de urso, de boi, de cavalo, de porco, de aranha, de leão, de dragao, de caveira, cthulu, bills
         //testa
         //  chifre de boi, chifre de unicornio, coroa
         //pescoço
@@ -236,15 +246,16 @@ namespace MonoGameProject
         private const int height = 900;
         private readonly Game1 Game1;
 
-        public Player(Game1 Game1, int index, Action<Thing> AddToWorld) : base(
-            new GameInputs(
-                new InputCheckerAggregation(
-                        new GamePadChecker(index)
-                    , new KeyboardChecker(index))
-            )
-            , Game1.Camera
-            , Game1.VibrationCenter
-            , AddToWorld)
+        public Player(
+            Game1 Game1
+            , int index
+            , GameInputs GameInputs
+            , Action<Thing> AddToWorld
+            ) : base(
+                GameInputs
+                , Game1.Camera
+                , Game1.VibrationCenter
+                , AddToWorld)
         {
             this.Game1 = Game1;
             HitPoints = 2;

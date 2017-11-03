@@ -23,93 +23,94 @@ namespace MonoGameProject
                 Restart();
                 return;
             }
-            
+
             Camera.Clear();
             Camera.Pos = new Vector2(5000f, 4500f);
             Camera.Zoom =
                  0.1f;
 
-            MainScreen();
+            //MainScreen();
+            StartGame();
 
         }
 
         public List<Player> Players = new List<Player>();
-        int selectedLine = 0;
-        int inputCooldown = 0;
-        private void MainScreen()
-        {
-            line = 0;
-            var MainManeu = new Thing();
-            MainManeu.X = (int)((MapModule.CELL_SIZE * MapModule.CELL_NUMBER) / 2.4f);
-            MainManeu.Y = (int)((MapModule.CELL_SIZE * MapModule.CELL_NUMBER) / 2.2f);
+        //int selectedLine = 0;
+        //int inputCooldown = 0;
+        //private void MainScreen()
+        //{
+        //    line = 0;
+        //    var MainManeu = new Thing();
+        //    MainManeu.X = (int)((MapModule.CELL_SIZE * MapModule.CELL_NUMBER) / 2.4f);
+        //    MainManeu.Y = (int)((MapModule.CELL_SIZE * MapModule.CELL_NUMBER) / 2.2f);
 
-            MainManeu.AddUpdate(() =>
-            {
-                if (inputCooldown > 0)
-                    inputCooldown--;
+        //    MainManeu.AddUpdate(() =>
+        //    {
+        //        if (inputCooldown > 0)
+        //            inputCooldown--;
 
-                if (inputCooldown > 0)
-                    return;
+        //        if (inputCooldown > 0)
+        //            return;
 
-                var keyboard = Microsoft.Xna.Framework.Input.Keyboard.GetState();
+        //        var keyboard = Microsoft.Xna.Framework.Input.Keyboard.GetState();
 
-                if (keyboard.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Down))
-                {
-                    inputCooldown = 10;
-                    selectedLine++;
-                }
-                if (keyboard.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Up))
-                {
-                    inputCooldown = 10;
-                    selectedLine--;
-                }
-                if (keyboard.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Enter))
-                {
-                    MainManeu.Destroy();
-                    StartGame();
-                }
+        //        if (keyboard.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Down))
+        //        {
+        //            inputCooldown = 10;
+        //            selectedLine++;
+        //        }
+        //        if (keyboard.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Up))
+        //        {
+        //            inputCooldown = 10;
+        //            selectedLine--;
+        //        }
+        //        if (keyboard.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Enter))
+        //        {
+        //            MainManeu.Destroy();
+        //            StartGame();
+        //        }
 
-                if (selectedLine > 2)
-                    selectedLine = 0;
-                if (selectedLine < 0)
-                    selectedLine = 2;
-            });
+        //        if (selectedLine > 2)
+        //            selectedLine = 0;
+        //        if (selectedLine < 0)
+        //            selectedLine = 2;
+        //    });
 
-            //MainManeu.AddAnimation(GeneratedContent.Create_knight_head_face(-2000,-2000,8000,8000));
-            //MainManeu.AddAnimation(GeneratedContent.Create_knight_head_eyes(-2000,-2000,8000,8000));
-            //MainManeu.AddAnimation(GeneratedContent.Create_knight_head_hair(-2000,-2000,8000,8000));
+        //    //MainManeu.AddAnimation(GeneratedContent.Create_knight_head_face(-2000,-2000,8000,8000));
+        //    //MainManeu.AddAnimation(GeneratedContent.Create_knight_head_eyes(-2000,-2000,8000,8000));
+        //    //MainManeu.AddAnimation(GeneratedContent.Create_knight_head_hair(-2000,-2000,8000,8000));
 
-            //play sound... lower going down
+        //    //play sound... lower going down
 
-            NewMethod(MainManeu, "New Game");
-            NewMethod(MainManeu, "Continue");
-            NewMethod(MainManeu, "Options");
-            AddThing(MainManeu);
-        }
+        //    NewMethod(MainManeu, "New Game");
+        //    NewMethod(MainManeu, "Continue");
+        //    NewMethod(MainManeu, "Options");
+        //    AddThing(MainManeu);
+        //}
 
-        int line = 0;
-        private void NewMethod(Thing start, string text)
-        {
-            var thisLine = line;
-            for (int i = 0; i < text.Length; i++)
-            {
-                if (text[i] == ' ')
-                    continue;
+        //int line = 0;
+        //private void NewMethod(Thing start, string text)
+        //{
+        //    var thisLine = line;
+        //    for (int i = 0; i < text.Length; i++)
+        //    {
+        //        if (text[i] == ' ')
+        //            continue;
 
-                var animation = GeneratedContent.Create_knight_number0(
-                        i * MapModule.CELL_SIZE,
-                        (int)((line * 1.25f) * MapModule.CELL_SIZE),
-                        MapModule.CELL_SIZE,
-                        MapModule.CELL_SIZE
-                );
+        //        var animation = GeneratedContent.Create_knight_number0(
+        //                i * MapModule.CELL_SIZE,
+        //                (int)((line * 1.25f) * MapModule.CELL_SIZE),
+        //                MapModule.CELL_SIZE,
+        //                MapModule.CELL_SIZE
+        //        );
 
-                animation.ColorGetter = () => selectedLine == thisLine ? Color.Red : Color.White;
+        //        animation.ColorGetter = () => selectedLine == thisLine ? Color.Red : Color.White;
 
-                start.AddAnimation(animation);
-            }
+        //        start.AddAnimation(animation);
+        //    }
 
-            line++;
-        }
+        //    line++;
+        //}
 
         private void StartGame()
         {
@@ -125,33 +126,71 @@ namespace MonoGameProject
 
             AddThing(new Enemy(AddToWorld) { X = 4000, Y = 4000 });
 
-            var player = new Player(this, 0, AddThing);
-            player.X = 1000;
-            AddThing(player);
+            //var player = new Player(this, 0, AddThing);
+            //player.X = 1000;
+            //AddThing(player);
 
-            var player2 = new Player(this, 1, AddThing);
-            player2.X = 3000;
-            AddThing(player2);
+            //var player2 = new Player(this, 1, AddThing);
+            //player2.X = 3000;
+            //AddThing(player2);
 
-            if (GameState.State.BotExit)
-                player.Y = (14 * MapModule.CELL_SIZE) + 1000;
-            else if (GameState.State.MidExit)
-                player.Y = (8 * MapModule.CELL_SIZE) + 1000;
-            else
-                player.Y = 2 * MapModule.CELL_SIZE + 1000;
+            //if (GameState.State.BotExit)
+            //    player.Y = (14 * MapModule.CELL_SIZE) + 1000;
+            //else if (GameState.State.MidExit)
+            //    player.Y = (8 * MapModule.CELL_SIZE) + 1000;
+            //else
+            //    player.Y = 2 * MapModule.CELL_SIZE + 1000;
 
-            player2.Y = player.Y;
+            //player2.Y = player.Y;
 
-            //for (var i = 1; i < 7; i++)
-            //{
-            //    var player2 = new Player(this, 0, AddThing);
-            //    player2.X = player.X + 200 * i;
-            //    player2.Y = player.Y;
-            //    AddThing(player2);
-            //}
+            ////for (var i = 1; i < 7; i++)
+            ////{
+            ////    var player2 = new Player(this, 0, AddThing);
+            ////    player2.X = player.X + 200 * i;
+            ////    player2.Y = player.Y;
+            ////    AddThing(player2);
+            ////}
             Players.Clear();
-            Players.Add(player);
-            Players.Add(player2);
+
+            var Keyboard_PlayerInputs = new GameInputs(new KeyboardChecker(0));
+            //var TouchControler_PlayerInputs = new GameInputs(new KeyboardChecker(0));
+            var Controller1_PlayerInputs = new GameInputs(new GamePadChecker(0));
+            var Controller2_PlayerInputs = new GameInputs(new GamePadChecker(1));
+            var Controller3_PlayerInputs = new GameInputs(new GamePadChecker(2));
+            var Controller4_PlayerInputs = new GameInputs(new GamePadChecker(3));
+
+            var inputUpdater = new Thing();
+            inputUpdater.AddUpdate(Keyboard_PlayerInputs);
+            AddThing(inputUpdater);
+
+
+            var PlayerStatue = new Thing();
+            PlayerStatue.AddUpdate(() =>
+            {
+                if (Keyboard_PlayerInputs.ClickedAction1)
+                {
+                    var player = new Player(this, 0, Keyboard_PlayerInputs, AddThing);
+                    if (GameState.State.BotExit)
+                        player.Y = (14 * MapModule.CELL_SIZE) + 1000;
+                    else if (GameState.State.MidExit)
+                        player.Y = (8 * MapModule.CELL_SIZE) + 1000;
+                    else
+                        player.Y = 2 * MapModule.CELL_SIZE + 1000;
+
+                    player.X = 500;
+
+                    AddThing(player);
+                    Players.Add(player);
+                    PlayerStatue.Destroy();
+                }
+            });
+            AddThing(PlayerStatue);
+
+
+            //Players.Add(player);
+            //Players.Add(player2);
+
+
             var WorldMover = new WorldMover(this);
             AddThing(WorldMover);
             AddThing(new PlatformCreator(WorldMover, AddThing, this));
