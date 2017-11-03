@@ -8,7 +8,6 @@ namespace MonoGameProject
     public class Player : Humanoid
     {
         //planning: 
-        //prevent sliding into spikes
 
         //Main Screen
         //  new game, continue, options
@@ -266,7 +265,6 @@ namespace MonoGameProject
             });
 
             AddUpdate(new TakesDamage(this, Game1, AddToWorld));
-            AddUpdate(new DestroyIfLeftBehind(this));
 
             Action<Collider, Collider> PickupArmor = (s, t) =>
             {

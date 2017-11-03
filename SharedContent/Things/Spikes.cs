@@ -8,9 +8,9 @@ namespace MonoGameProject
         public Spikes(Color Color, int width, int height)
         {
             var collider = new GroundCollider();
-            collider.OffsetY = 100;
+            collider.OffsetY = MapModule.CELL_SIZE / 2;
             collider.Width = width * MapModule.CELL_SIZE;
-            collider.Height = height * MapModule.CELL_SIZE;
+            collider.Height = height * MapModule.CELL_SIZE/2;
             AddCollider(collider);
 
             for (int i = 0; i < width; i++)
@@ -27,7 +27,6 @@ namespace MonoGameProject
                     AddAnimation(animation);
                 }
             }
-
 
             AddAfterUpdate(new MoveHorizontallyWithTheWorld(this));
             AddUpdate(new DestroyIfLeftBehind(this));
