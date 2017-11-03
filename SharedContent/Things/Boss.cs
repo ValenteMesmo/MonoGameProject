@@ -87,7 +87,7 @@ namespace MonoGameProject
             };
             AddCollider(attackCollider);
 
-            mainCollider = new Collider(width, height+600) { OffsetY=-600 };
+            mainCollider = new Collider(width, height + 600) { OffsetY = -600 };
 
             mainCollider.AddBotCollisionHandler(StopsWhenHitting.Bot<GroundCollider>());
             mainCollider.AddTopCollisionHandler(StopsWhenHitting.Top<GroundCollider>());
@@ -263,24 +263,14 @@ namespace MonoGameProject
                 Game1.Sleep();
                 Game1.Camera.ShakeUp(20);
 
-                if (player.FacingRight)
-                    Game1.AddToWorld(new HitEffect(0.04f)
-                    {
-                        X = t.Right(),
-                        Y = t.Y,
-                        Color = BodyColor,
-                        HorizontalSpeed = HorizontalSpeed,
-                        VerticalSpeed = VerticalSpeed
-                    });
-                else
-                    Game1.AddToWorld(new HitEffect(0.04f)
-                    {
-                        X = t.Left(),
-                        Y = t.Y,
-                        Color = BodyColor,
-                        HorizontalSpeed = HorizontalSpeed,
-                        VerticalSpeed = VerticalSpeed
-                    });
+                Game1.AddToWorld(new HitEffect(0.04f)
+                {
+                    X = (int)mainCollider.CenterX(),
+                    Y = t.Y,
+                    Color = BodyColor,
+                    HorizontalSpeed = HorizontalSpeed,
+                    VerticalSpeed = VerticalSpeed
+                });
 
                 if (Dead() == false)
                     return;
@@ -296,7 +286,7 @@ namespace MonoGameProject
             Player player = this.player;
             if (t.Parent is Player)
                 player = t.Parent as Player;
-            else if(t.Parent is FireBall && (t.Parent as FireBall).Owner is Player)
+            else if (t.Parent is FireBall && (t.Parent as FireBall).Owner is Player)
                 player = (t.Parent as FireBall).Owner as Player;
             return player;
         }
