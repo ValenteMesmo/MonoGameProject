@@ -126,6 +126,15 @@ namespace MonoGameProject
             VerticalSpeed = speedY;
             AddUpdate(new DestroyIfLeftBehind(this));
             AddAfterUpdate(new MoveHorizontallyWithTheWorld(this));
+            AddUpdate(DestroyAfterDuration);
+        }
+
+        int duration = 50;
+        private void DestroyAfterDuration()
+        {
+            duration--;
+            if (duration <= 0)
+                Destroy();
         }
     }
 
