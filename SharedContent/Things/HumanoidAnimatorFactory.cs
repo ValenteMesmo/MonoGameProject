@@ -201,10 +201,10 @@ namespace MonoGameProject
             var backWall = CreateFlippableAnimation(thing, Create_knight_Leg_wall_back, ArmorColor, backLegIndex, feet_y, true, false, 255, 5);
             var backLegFall = CreateFlippableAnimation(thing, Create_knight_Leg_Fall_back, ArmorColor, backLegIndex, feet_y, true, false, 255, 5);
             var backLegRoof_bang = CreateFlippableAnimation(thing, Create_knight_Leg_Roof_bang, ArmorColor, backLegIndex, feet_y, true, false, 255, 5);
-            var backLegIdle = CreateFlippableAnimation(thing, Create_knight_Leg_Idle, ArmorColor, backLegIndex, feet_y, true, false, 255, 5);
+            var backLegIdle = CreateFlippableAnimation(thing, Create_knight_Leg_Idle, ArmorColor, backLegIndex, feet_y, true, true, 255, 5);
             var backLegIdleEdge = CreateFlippableAnimation(thing, Create_knight_Leg_Idle, ArmorColor, backLegIndex, feet_y, true, false, 255, 5);
-            var backLegIdleBackOnTheEdge = CreateFlippableAnimation(thing, Create_knight_Leg_Idle, ArmorColor, backLegIndex, feet_y, true, false, 255, 0);
-            var backLegCrouchBackOnTheEdge = CreateFlippableAnimation(thing, Create_knight_Leg_Crouching, ArmorColor, backLegIndex, crouch_y);
+            var backLegIdleBackOnTheEdge = CreateFlippableAnimation(thing, Create_knight_Leg_Idle, ArmorColor, backLegIndex, feet_y, true, true, 255, 0);
+            var backLegCrouchBackOnTheEdge = CreateFlippableAnimation(thing, Create_knight_Leg_Crouching, ArmorColor, backLegIndex, crouch_y, true, false, 255, 0);
             var backLegCrouchEdge = CreateFlippableAnimation(thing, Create_knight_Leg_Crouching_edge, ArmorColor, backLegIndex, crouch_y, true, false, 255, 5);
             var backLegCrouch = CreateFlippableAnimation(thing, Create_knight_Leg_Crouching, ArmorColor, backLegIndex, crouch_y, true, false, 255, 5);
             var backSweetDreams = CreateFlippableAnimation(thing, Create_knight_Leg_SweetDreams_back, ArmorColor, backLegIndex, crouch_y, true, false, 255, 5);
