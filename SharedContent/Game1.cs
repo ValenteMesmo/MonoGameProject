@@ -11,18 +11,18 @@ namespace MonoGameProject
         public Game1() : base(new GeneratedContent()) { }
 
         public ScreenFader ScreenFader;
-        public bool loaded;
+        //public bool loaded;
 
         protected override void OnStart()
         {
             //gambiarra
-            if (loaded == false)
-            {
-                StartGame();
-                loaded = true;
-                Restart();
-                return;
-            }
+            //if (loaded == false)
+            //{
+            //    StartGame();
+            //    loaded = true;
+            //    Restart();
+            //    return;
+            //}
 
             Camera.Clear();
             Camera.Pos = new Vector2(5000f, 4500f);
@@ -31,7 +31,6 @@ namespace MonoGameProject
 
             //MainScreen();
             StartGame();
-
         }
 
         public List<Player> Players = new List<Player>();
@@ -126,30 +125,6 @@ namespace MonoGameProject
 
             AddThing(new Enemy(AddToWorld) { X = 4000, Y = 4000 });
 
-            //var player = new Player(this, 0, AddThing);
-            //player.X = 1000;
-            //AddThing(player);
-
-            //var player2 = new Player(this, 1, AddThing);
-            //player2.X = 3000;
-            //AddThing(player2);
-
-            //if (GameState.State.BotExit)
-            //    player.Y = (14 * MapModule.CELL_SIZE) + 1000;
-            //else if (GameState.State.MidExit)
-            //    player.Y = (8 * MapModule.CELL_SIZE) + 1000;
-            //else
-            //    player.Y = 2 * MapModule.CELL_SIZE + 1000;
-
-            //player2.Y = player.Y;
-
-            ////for (var i = 1; i < 7; i++)
-            ////{
-            ////    var player2 = new Player(this, 0, AddThing);
-            ////    player2.X = player.X + 200 * i;
-            ////    player2.Y = player.Y;
-            ////    AddThing(player2);
-            ////}
             Players.Clear();
 
             var Keyboard_PlayerInputs = new GameInputs(new KeyboardChecker(0));
@@ -162,22 +137,16 @@ namespace MonoGameProject
             var inputUpdater = new Thing();
             inputUpdater.AddUpdate(Keyboard_PlayerInputs);
             AddThing(inputUpdater);
-
-
+            
             var PlayerStatue = new Thing();
             PlayerStatue.AddUpdate(() =>
             {
                 if (Keyboard_PlayerInputs.ClickedAction1)
                 {
                     var player = new Player(this, 0, Keyboard_PlayerInputs, AddThing);
-                    if (GameState.State.BotExit)
-                        player.Y = (14 * MapModule.CELL_SIZE) + 1000;
-                    else if (GameState.State.MidExit)
-                        player.Y = (8 * MapModule.CELL_SIZE) + 1000;
-                    else
-                        player.Y = 2 * MapModule.CELL_SIZE + 1000;
 
-                    player.X = 500;
+                    player.Y = (8 * MapModule.CELL_SIZE) + Humanoid.height + 200;
+                    player.X = 0;
 
                     AddThing(player);
                     Players.Add(player);
@@ -185,11 +154,6 @@ namespace MonoGameProject
                 }
             });
             AddThing(PlayerStatue);
-
-
-            //Players.Add(player);
-            //Players.Add(player2);
-
 
             var WorldMover = new WorldMover(this);
             AddThing(WorldMover);

@@ -77,7 +77,7 @@ namespace MonoGameProject
         public int PlayerIndex { get; set; }
 
         private const int width = 1000;
-        private const int height = 900;
+        public const int height = 900;
 
         public AttackCollider AttackRightCollider { get; private set; }
         public AttackCollider AttackLeftCollider { get; private set; }
