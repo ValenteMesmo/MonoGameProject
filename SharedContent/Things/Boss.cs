@@ -226,7 +226,7 @@ namespace MonoGameProject
             attackCollider.Disabled = !AttackingWithTheHand;
         }
 
-        public const int HEALTH = 5;
+        public const int HEALTH = 20;
         internal bool AttackingWithTheHand;
 
         public bool Dead()
