@@ -13,24 +13,27 @@ namespace ConvertJsonToCSharp
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public static void Main(string[] args)
         {
-            var SharedContentDirectoryPath = Path.GetFullPath(
+            var MainProjectDirectoryPath = Path.GetFullPath(
                 Path.Combine(
                     AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\MonoGameProject"));
+            var SharedContentDirectoryPath = Path.GetFullPath(
+                Path.Combine(
+                    AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\SharedContent"));
 
-            var imageFiles = new DirectoryInfo(SharedContentDirectoryPath)
+            var imageFiles = new DirectoryInfo(MainProjectDirectoryPath)
                 .GetFiles("*.*", SearchOption.AllDirectories)
                 .Where(f =>
                     (f.Extension == ".png"
                     || f.Extension == ".bmp")                    
                 );
 
-            var jsonFiles = new DirectoryInfo(SharedContentDirectoryPath)
+            var jsonFiles = new DirectoryInfo(MainProjectDirectoryPath)
                 .GetFiles("*.*", SearchOption.AllDirectories)
                 .Where(f =>
                     f.Extension == ".json"
                 );
 
-            var wavFiles = new DirectoryInfo(SharedContentDirectoryPath)
+            var wavFiles = new DirectoryInfo(MainProjectDirectoryPath)
               .GetFiles("*.*", SearchOption.AllDirectories)
               .Where(f =>
                   f.Extension == ".wav"

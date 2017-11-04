@@ -6,8 +6,8 @@ namespace MonoGameProject
 {
     public class HumanoidAnimatorFactory
     {
-        private int x = -160;
-        private int flippedx = -140;
+        private const int x = -160;
+        private const int flippedx = -140;
         public const int feet_y = -300;
         public const int crouch_y = 0;
         public const int scale = 5;
@@ -134,13 +134,10 @@ namespace MonoGameProject
         {
             var backLegIndex = TorsoZ + 0.002f;
 
-            var backLegWalking = CreateFlippableAnimation(thing, Create_knight_Arm_Idle, ArmorColor, feet_y, backLegIndex, 200, 5, true);
-
-            var backLegCrouch = CreateFlippableAnimation(thing, Create_knight_Arm_Idle, ArmorColor, crouch_y, backLegIndex, 200, 5, true);
-
-            var backLegWalkingAttack = CreateFlippableAnimation(thing, Create_knight_Arm_Attack, ArmorColor, feet_y, backLegIndex, 200, 5, true, false);
-
-            var backLegCrouchAttack = CreateFlippableAnimation(thing, Create_knight_Arm_Attack, ArmorColor, crouch_y, backLegIndex, 200, 5, true, false);
+            var backLegWalking = CreateFlippableAnimation(thing, Create_knight_Arm_Idle, ArmorColor, backLegIndex, feet_y, true, true, 200, 5);
+            var backLegCrouch = CreateFlippableAnimation(thing, Create_knight_Arm_Idle, ArmorColor, backLegIndex, crouch_y, true, true, 200, 5);
+            var backLegWalkingAttack = CreateFlippableAnimation(thing, Create_knight_Arm_Attack, ArmorColor, backLegIndex, feet_y, false, true, 200, 5);
+            var backLegCrouchAttack = CreateFlippableAnimation(thing, Create_knight_Arm_Attack, ArmorColor, backLegIndex, crouch_y, false, true, 200, 5);
 
             Func<bool> walkIdle = () => !thing.IsCrouchingOrSweetDreaming() && !thing.IsAttacking();
             Func<bool> crouchIdle = () => thing.IsCrouchingOrSweetDreaming() && !thing.IsAttacking();
@@ -163,13 +160,10 @@ namespace MonoGameProject
         {
             var frontLegIndex = TorsoZ - 0.002f;
 
-            var frontLegWalking = CreateFlippableAnimation(thing, Create_knight_Arm_Idle, ArmorColor, feet_y, frontLegIndex);
-
-            var frontLegCrouch = CreateFlippableAnimation(thing, Create_knight_Arm_Idle, ArmorColor, crouch_y, frontLegIndex);
-
-            var frontLegWalkingAttack = CreateFlippableAnimation(thing, Create_knight_Arm_Attack, ArmorColor, feet_y, frontLegIndex, 0, 0, false, false);
-
-            var frontLegCrouchAttack = CreateFlippableAnimation(thing, Create_knight_Arm_Attack, ArmorColor, crouch_y, frontLegIndex, 0, 0, false, false);
+            var frontLegWalking = CreateFlippableAnimation(thing, Create_knight_Arm_Idle, ArmorColor, frontLegIndex, feet_y);
+            var frontLegCrouch = CreateFlippableAnimation(thing, Create_knight_Arm_Idle, ArmorColor, frontLegIndex, crouch_y);
+            var frontLegWalkingAttack = CreateFlippableAnimation(thing, Create_knight_Arm_Attack, ArmorColor, frontLegIndex, feet_y, false, false);
+            var frontLegCrouchAttack = CreateFlippableAnimation(thing, Create_knight_Arm_Attack, ArmorColor, frontLegIndex, crouch_y, false, false);
 
             Func<bool> walkIdle = () => !thing.IsCrouchingOrSweetDreaming() && !thing.IsAttacking();
             Func<bool> crouchIdle = () => thing.IsCrouchingOrSweetDreaming() && !thing.IsAttacking();
@@ -201,27 +195,19 @@ namespace MonoGameProject
             //remove back prefix
             var backLegIndex = TorsoZ + 0.001f;
 
-            var backLegWalking = CreateFlippableAnimation(thing, Create_knight_Leg_Walking, ArmorColor, feet_y, backLegIndex, 225, 5);
+            //true em todos os loops
 
-            var backWall = CreateFlippableAnimation(thing, Create_knight_Leg_wall_back, ArmorColor, feet_y, backLegIndex, 225, 5);
-
-            var backLegFall = CreateFlippableAnimation(thing, Create_knight_Leg_Fall_back, ArmorColor, feet_y, backLegIndex, 225, 5);
-
-            var backLegRoof_bang = CreateFlippableAnimation(thing, Create_knight_Leg_Roof_bang, ArmorColor, feet_y, backLegIndex, 225, 5);
-
-            var backLegIdle = CreateFlippableAnimation(thing, Create_knight_Leg_Idle, ArmorColor, feet_y, backLegIndex, 225, 5, true);
-
-            var backLegIdleEdge = CreateFlippableAnimation(thing, Create_knight_Leg_Idle, ArmorColor, feet_y, backLegIndex, 225, 5);
-
-            var backLegIdleBackOnTheEdge = CreateFlippableAnimation(thing, Create_knight_Leg_Idle, ArmorColor, feet_y, backLegIndex, 255, 0, true);
-
-            var backLegCrouchBackOnTheEdge = CreateFlippableAnimation(thing, Create_knight_Leg_Crouching, ArmorColor, crouch_y, backLegIndex, 255, 0);
-
-            var backLegCrouchEdge = CreateFlippableAnimation(thing, Create_knight_Leg_Crouching_edge, ArmorColor, crouch_y, backLegIndex, 225, 5);
-
-            var backLegCrouch = CreateFlippableAnimation(thing, Create_knight_Leg_Crouching, ArmorColor, crouch_y, backLegIndex, 225, 5);
-
-            var backSweetDreams = CreateFlippableAnimation(thing, Create_knight_Leg_SweetDreams_back, ArmorColor, crouch_y, backLegIndex, 225, 5);
+            var backLegWalking = CreateFlippableAnimation(thing, Create_knight_Leg_Walking, ArmorColor, backLegIndex, feet_y, true, false, 255, 5);
+            var backWall = CreateFlippableAnimation(thing, Create_knight_Leg_wall_back, ArmorColor, backLegIndex, feet_y, true, false, 255, 5);
+            var backLegFall = CreateFlippableAnimation(thing, Create_knight_Leg_Fall_back, ArmorColor, backLegIndex, feet_y, true, false, 255, 5);
+            var backLegRoof_bang = CreateFlippableAnimation(thing, Create_knight_Leg_Roof_bang, ArmorColor, backLegIndex, feet_y, true, false, 255, 5);
+            var backLegIdle = CreateFlippableAnimation(thing, Create_knight_Leg_Idle, ArmorColor, backLegIndex, feet_y, true, false, 255, 5);
+            var backLegIdleEdge = CreateFlippableAnimation(thing, Create_knight_Leg_Idle, ArmorColor, backLegIndex, feet_y, true, false, 255, 5);
+            var backLegIdleBackOnTheEdge = CreateFlippableAnimation(thing, Create_knight_Leg_Idle, ArmorColor, backLegIndex, feet_y, true, false, 255, 0);
+            var backLegCrouchBackOnTheEdge = CreateFlippableAnimation(thing, Create_knight_Leg_Crouching, ArmorColor, backLegIndex, crouch_y);
+            var backLegCrouchEdge = CreateFlippableAnimation(thing, Create_knight_Leg_Crouching_edge, ArmorColor, backLegIndex, crouch_y, true, false, 255, 5);
+            var backLegCrouch = CreateFlippableAnimation(thing, Create_knight_Leg_Crouching, ArmorColor, backLegIndex, crouch_y, true, false, 255, 5);
+            var backSweetDreams = CreateFlippableAnimation(thing, Create_knight_Leg_SweetDreams_back, ArmorColor, backLegIndex, crouch_y, true, false, 255, 5);
 
             return
                 new Animator(
@@ -254,27 +240,17 @@ namespace MonoGameProject
         {
             var frontLegIndex = TorsoZ - 0.001f;
 
-            var frontLegWalking = CreateFlippableAnimation(thing, Create_knight_Leg_Walking, ArmorColor, feet_y, frontLegIndex);
-
-            var frontWall = CreateFlippableAnimation(thing, Create_knight_Leg_wall_front, ArmorColor, feet_y, frontLegIndex);
-
-            var frontLegFall = CreateFlippableAnimation(thing, Create_knight_Leg_Fall_front, ArmorColor, feet_y, frontLegIndex);
-
-            var frontLegRoof_bang = CreateFlippableAnimation(thing, Create_knight_Leg_Roof_bang, ArmorColor, feet_y, frontLegIndex);
-
-            var frontLegIdle = CreateFlippableAnimation(thing, Create_knight_Leg_Idle, ArmorColor, feet_y, frontLegIndex);
-
-            var frontLegIdleEdge = CreateFlippableAnimation(thing, Create_knight_Leg_Idle, ArmorColor, feet_y, frontLegIndex);
-
-            var frontLegIdleBackOnTheEdge = CreateFlippableAnimation(thing, Create_knight_Leg_SweetDreams_front, ArmorColor, feet_y, frontLegIndex);
-
-            var frontLegCrouchBackOnTheEdge = CreateFlippableAnimation(thing, Create_knight_Leg_Fall_back, ArmorColor, crouch_y, frontLegIndex);
-
-            var frontLegCrouchEdge = CreateFlippableAnimation(thing, Create_knight_Leg_Crouching_edge, ArmorColor, crouch_y, frontLegIndex);
-
-            var frontLegCrouch = CreateFlippableAnimation(thing, Create_knight_Leg_Crouching, ArmorColor, crouch_y, frontLegIndex);
-
-            var frontSweetDreams = CreateFlippableAnimation(thing, Create_knight_Leg_SweetDreams_front, ArmorColor, crouch_y, frontLegIndex);
+            var frontLegWalking = CreateFlippableAnimation(thing, Create_knight_Leg_Walking, ArmorColor, frontLegIndex, feet_y);
+            var frontWall = CreateFlippableAnimation(thing, Create_knight_Leg_wall_front, ArmorColor, frontLegIndex, feet_y);
+            var frontLegFall = CreateFlippableAnimation(thing, Create_knight_Leg_Fall_front, ArmorColor, frontLegIndex, feet_y);
+            var frontLegRoof_bang = CreateFlippableAnimation(thing, Create_knight_Leg_Roof_bang, ArmorColor, frontLegIndex, feet_y);
+            var frontLegIdle = CreateFlippableAnimation(thing, Create_knight_Leg_Idle, ArmorColor, frontLegIndex, feet_y);
+            var frontLegIdleEdge = CreateFlippableAnimation(thing, Create_knight_Leg_Idle, ArmorColor, frontLegIndex, feet_y);
+            var frontLegIdleBackOnTheEdge = CreateFlippableAnimation(thing, Create_knight_Leg_SweetDreams_front, ArmorColor, frontLegIndex, feet_y);
+            var frontLegCrouchBackOnTheEdge = CreateFlippableAnimation(thing, Create_knight_Leg_Fall_back, ArmorColor, frontLegIndex, crouch_y);
+            var frontLegCrouchEdge = CreateFlippableAnimation(thing, Create_knight_Leg_Crouching_edge, ArmorColor, frontLegIndex, crouch_y);
+            var frontLegCrouch = CreateFlippableAnimation(thing, Create_knight_Leg_Crouching, ArmorColor, frontLegIndex, crouch_y);
+            var frontSweetDreams = CreateFlippableAnimation(thing, Create_knight_Leg_SweetDreams_front, ArmorColor, frontLegIndex, crouch_y);
 
             return
                 new Animator(
@@ -296,19 +272,21 @@ namespace MonoGameProject
             Humanoid thing
             , Func<int, int, int?, int?, bool, Animation> createAnimation
             , Func<Color> ColorGetter
-            , int y
             , float z
-            , int bonus = 0
-            , int startingFrame = 0
-            , bool reverse = false
+            , int y
+            //, int x_notFlipped = x
+            //, int x_flipped = flippedx
             , bool loop = true
+            , bool reverse = false
+            , int reverseBonusX = 0
+            , int startingFrame = 0
             )
         {
             if (reverse)
-                bonus *= -1;
+                reverseBonusX *= -1;
 
             var flipped = createAnimation(
-                                flippedx + bonus
+                                flippedx + reverseBonusX
                                 , y
                                 , null
                                 , null
@@ -323,7 +301,7 @@ namespace MonoGameProject
             flipped.ColorGetter = ColorGetter;
 
             var notFlipped = createAnimation(
-                   x - bonus
+                   x - reverseBonusX
                    , y
                    , null
                    , null
@@ -369,7 +347,7 @@ namespace MonoGameProject
         }
 
         Animation EmptyAnimation = new Animation();
-        
+
         private Animator ShowOnlyWhen(IHandleAnimation animation, Func<bool> condition)
         {
             return new Animator(
@@ -391,25 +369,12 @@ namespace MonoGameProject
                                 && thing.HeadState == HeadState.Bump;
 
             {
-                var hair_standing = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_hair, thing.GetHairColor
-                   , feet_y
-                   , HeadZ - 0.002f);
-                var eye_standing = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_eyes, thing.GetEyeColor
-                    , feet_y
-                    , HeadZ - 0.001f);
-                var face_standing = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_face, thing.GetSkinColor
-                    , feet_y
-                    , HeadZ);
-
-                var hair_crouching = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_hair, thing.GetHairColor
-                   , crouch_y
-                   , HeadZ - 0.002f);
-                var eye_crouching = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_eyes, thing.GetEyeColor
-                    , crouch_y
-                    , HeadZ - 0.001f);
-                var face_crouching = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_face, thing.GetSkinColor
-                    , crouch_y
-                    , HeadZ);
+                var hair_standing = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_hair, thing.GetHairColor, HeadZ - 0.002f, feet_y);
+                var eye_standing = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_eyes, thing.GetEyeColor, HeadZ - 0.001f, feet_y);
+                var face_standing = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_face, thing.GetSkinColor, HeadZ, feet_y);
+                var hair_crouching = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_hair, thing.GetHairColor, HeadZ - 0.002f, crouch_y);
+                var eye_crouching = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_eyes, thing.GetEyeColor, HeadZ - 0.001f, crouch_y);
+                var face_crouching = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_face, thing.GetSkinColor, HeadZ, crouch_y);
 
                 thing.AddAnimation(ShowOnlyWhen(CreateCrouchAnimator(thing, hair_standing, hair_crouching), NakedHead));
                 thing.AddAnimation(ShowOnlyWhen(CreateCrouchAnimator(thing, eye_standing, eye_crouching), NakedHead));
@@ -417,36 +382,22 @@ namespace MonoGameProject
             }
 
             {
-                var hair_standing = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_bang_hair, thing.GetHairColor
-                   , feet_y
-                   , HeadZ - 0.002f);
-                var eye_standing = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_bang_eye, thing.GetEyeColor
-                    , feet_y
-                    , HeadZ - 0.001f);
-                var face_standing = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_bang_face, thing.GetSkinColor
-                    , feet_y
-                    , HeadZ);
-
+                var hair_standing = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_bang_hair, thing.GetHairColor, HeadZ - 0.002f, feet_y);
+                var eye_standing = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_bang_eye, thing.GetEyeColor, HeadZ - 0.001f, feet_y);
+                var face_standing = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_bang_face, thing.GetSkinColor, HeadZ, feet_y);
                 thing.AddAnimation(ShowOnlyWhen(hair_standing, NakedHeadBump));
                 thing.AddAnimation(ShowOnlyWhen(eye_standing, NakedHeadBump));
                 thing.AddAnimation(ShowOnlyWhen(face_standing, NakedHeadBump));
             }
 
             {
-
-                var helm_standing = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_armor1, thing.GetArmorColor
-                 , feet_y
-                 , HeadZ);
-
-                var helm_crouching = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_armor1, thing.GetArmorColor
-                 , crouch_y
-                 , HeadZ);
+                var helm_standing = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_armor1, thing.GetArmorColor, HeadZ, feet_y);
+                var helm_crouching = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_armor1, thing.GetArmorColor, HeadZ, crouch_y);
 
                 var normalHelm = CreateCrouchAnimator(
                 thing
                 , helm_standing
-                , helm_crouching
-            );
+                , helm_crouching);
 
                 thing.AddAnimation(
                     ShowOnlyWhen(normalHelm, ArmoredHead)
@@ -454,9 +405,7 @@ namespace MonoGameProject
             }
 
             {
-                var slamedHelm = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_armor_bang1, thing.GetArmorColor
-                 , feet_y
-                 , HeadZ); ;
+                var slamedHelm = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_armor_bang1, thing.GetArmorColor, HeadZ, feet_y);
 
                 thing.AddAnimation(
                     ShowOnlyWhen(slamedHelm, ArmoredHeadBump)
@@ -547,12 +496,26 @@ namespace MonoGameProject
             crouch_right_armored.RenderingLayer = TorsoZ;
             crouch_right_armored.ColorGetter = thing.GetArmorColor;
 
-            Animator whipAnimator = CreateWhipAnimator(thing);
-            Animator whipAnimatorArmored = CreateWhipAnimator(thing);
+            Animator whipAnimator = CreateWeaponAnimator(
+                thing
+                , GeneratedContent.Create_knight_whip_idle
+                , GeneratedContent.Create_knight_whip_attack);
+
+            Animator swordAnimator = CreateWeaponAnimator(
+                thing
+                , GeneratedContent.Create_knight_whip_idle
+                , GeneratedContent.Create_knight_sword_attack);
+
+            Animator WandAnimator = CreateWeaponAnimator(
+                thing
+                , GeneratedContent.Create_knight_whip_idle
+                , GeneratedContent.Create_knight_sword_attack);
+
             thing.AddAnimation(
                 new Animator(
-                    new AnimationTransitionOnCondition(whipAnimatorArmored, () => thing.HitPoints > 1)
-                    , new AnimationTransitionOnCondition(whipAnimator, () => thing.HitPoints <= 1 && thing.DamageDuration == TakesDamage.DAMAGE_DURATION / 2)
+                    new AnimationTransitionOnCondition(whipAnimator, () => thing.weaponType == WeaponType.Whip)
+                    , new AnimationTransitionOnCondition(swordAnimator, () => thing.weaponType == WeaponType.Sword)
+                    , new AnimationTransitionOnCondition(WandAnimator, () => thing.weaponType == WeaponType.Wand)
                 )
             );
 
@@ -651,49 +614,65 @@ namespace MonoGameProject
             );
         }
 
-        private Animator CreateWhipAnimator(Humanoid thing)
+        private Animator CreateWeaponAnimator(Humanoid thing, Func<int, int, int?, int?, bool, Animation> WeaponIdleAnimation, Func<int, int, int?, int?, bool, Animation> WeaponAttackAnimation)
         {
-            var whip_left = GeneratedContent.Create_knight_whip_attack(-1500, feet_y);
+            Animator whipAnimator = CreateWhipAnimator(thing, WeaponIdleAnimation, WeaponAttackAnimation);
+            Animator whipAnimatorArmored = CreateWhipAnimator(thing, WeaponIdleAnimation, WeaponAttackAnimation);
+
+            var animator = new Animator(
+                    new AnimationTransitionOnCondition(whipAnimatorArmored, () => thing.HitPoints > 1)
+                    , new AnimationTransitionOnCondition(whipAnimator, () => thing.HitPoints <= 1 && thing.DamageDuration == TakesDamage.DAMAGE_DURATION / 2)
+                );
+            return animator;
+        }
+
+        private Animator CreateWhipAnimator(Humanoid thing, Func<int, int, int?, int?, bool, Animation> WeaponIdleAnimation, Func<int, int, int?, int?, bool, Animation> WeaponAttackAnimation)
+        {
+            var whipZ = HEAD_Z - 0.005f;
+
+            var left_x = -1500;
+
+            var whip_left = WeaponAttackAnimation(left_x, feet_y, null, null, false);
             whip_left.ScaleX = scale;
             whip_left.ScaleY = scale;
             whip_left.LoopDisabled = true;
-            whip_left.RenderingLayer = TorsoZ - 0.01f;
-            var whip_left_crouch = GeneratedContent.Create_knight_whip_attack(-1500, crouch_y);
+            whip_left.RenderingLayer = whipZ;
+            var whip_left_crouch = WeaponAttackAnimation(left_x, crouch_y, null, null, false);
             whip_left_crouch.ScaleX = scale;
             whip_left_crouch.ScaleY = scale;
             whip_left_crouch.LoopDisabled = true;
-            whip_left_crouch.RenderingLayer = TorsoZ - 0.01f;
-            var whip_right = GeneratedContent.Create_knight_whip_attack(-1400, feet_y, null, null, true);
+            whip_left_crouch.RenderingLayer = whipZ;
+            var whip_right = WeaponAttackAnimation(-1400, feet_y, null, null, true);
             whip_right.ScaleX = scale;
             whip_right.ScaleY = scale;
             whip_right.LoopDisabled = true;
-            whip_right.RenderingLayer = TorsoZ - 0.01f;
-            var whip_right_crouch = GeneratedContent.Create_knight_whip_attack(-1400, crouch_y, null, null, true);
+            whip_right.RenderingLayer = whipZ;
+            var whip_right_crouch = WeaponAttackAnimation(-1400, crouch_y, null, null, true);
             whip_right_crouch.ScaleX = scale;
             whip_right_crouch.ScaleY = scale;
             whip_right_crouch.LoopDisabled = true;
-            whip_right_crouch.RenderingLayer = TorsoZ - 0.01f;
+            whip_right_crouch.RenderingLayer = whipZ;
 
-            var whipi_left = GeneratedContent.Create_knight_whip_idle(-1500, feet_y);
+            var whipi_left = WeaponIdleAnimation(left_x, feet_y, null, null, false);
             whipi_left.ScaleX = scale;
             whipi_left.ScaleY = scale;
             whipi_left.FrameDuration = 2;
-            whipi_left.RenderingLayer = TorsoZ - 0.01f;
-            var whipi_left_crouch = GeneratedContent.Create_knight_whip_idle(-1500, crouch_y);
+            whipi_left.RenderingLayer = whipZ;
+            var whipi_left_crouch = WeaponIdleAnimation(left_x, crouch_y, null, null, false);
             whipi_left_crouch.ScaleX = scale;
             whipi_left_crouch.ScaleY = scale;
             //whipi_left_crouch.FrameDuration = 2;
-            whipi_left_crouch.RenderingLayer = TorsoZ - 0.01f;
-            var whipi_right = GeneratedContent.Create_knight_whip_idle(-1400, feet_y, null, null, true);
+            whipi_left_crouch.RenderingLayer = whipZ;
+            var whipi_right = WeaponIdleAnimation(-1400, feet_y, null, null, true);
             whipi_right.ScaleX = scale;
             whipi_right.ScaleY = scale;
             whipi_right.FrameDuration = 2;
-            whipi_right.RenderingLayer = TorsoZ - 0.01f;
-            var whipi_right_crouch = GeneratedContent.Create_knight_whip_idle(-1400, crouch_y, null, null, true);
+            whipi_right.RenderingLayer = whipZ;
+            var whipi_right_crouch = WeaponIdleAnimation(-1400, crouch_y, null, null, true);
             whipi_right_crouch.ScaleX = scale;
             whipi_right_crouch.ScaleY = scale;
             //whipi_right_crouch.FrameDuration = 2;
-            whipi_right_crouch.RenderingLayer = TorsoZ - 0.01f;
+            whipi_right_crouch.RenderingLayer = whipZ;
             var whipAnimator = new Animator(
                 new AnimationTransitionOnCondition(whipi_left, () => thing.TorsoState == TorsoState.Standing && !thing.FacingRight)
                 , new AnimationTransitionOnCondition(whipi_right, () => thing.TorsoState == TorsoState.Standing && thing.FacingRight)
