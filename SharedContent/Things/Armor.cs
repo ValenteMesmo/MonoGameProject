@@ -7,12 +7,11 @@ namespace MonoGameProject
 {
     public class ItemChest : Thing
     {
-        private int hitPoints = 5;
         private readonly Action<Thing> AddToWOrld;
 
-        public ItemChest(Action<Thing> AddToWOrld)
+        public ItemChest(Game1 Game1)
         {
-            this.AddToWOrld = AddToWOrld;
+            this.AddToWOrld = Game1.AddToWorld;
             var collider = new Collider();
             collider.Width = MapModule.CELL_SIZE;
             collider.Height = MapModule.CELL_SIZE;
@@ -27,92 +26,67 @@ namespace MonoGameProject
 
             AddAfterUpdate(new MoveHorizontallyWithTheWorld(this));
             AddUpdate(new DestroyIfLeftBehind(this));
-            collider.AddHandler(HandleDamage);
 
-            AddUpdate(UpdateDamageCooldown);
-        }
+            var PlayerDamageHandler = new PlayerDamageHandler(
+                Game1
+                , _ => { }
+                , Hit
+            );
+            collider.AddHandler(PlayerDamageHandler.CollisionHandler);
 
-        private void HandleDamage(Collider s, Collider t)
-        {
-            if (t is AttackCollider && t.Parent is Player)
-            {
-                Hit(t.Parent as Player);
-            }
-            else if (t.Parent is FireBall && (t.Parent as FireBall).Owner is Player)
-            {
-                Hit((t.Parent as FireBall).Owner as Player);
-                t.Parent.Destroy();
-            }
-        }
-
-        int damageCooldown = 0;
-        private void UpdateDamageCooldown()
-        {
-            if (damageCooldown > 0)
-                damageCooldown--;
+            AddUpdate(PlayerDamageHandler.Update);
         }
 
         private void Hit(Humanoid player)
         {
-            if (damageCooldown > 0)
-                return;
+            Thing item = null;
 
-            damageCooldown = 25;
-
-            hitPoints--;
-
-            AddToWOrld(new HitEffect() { X = X, Y = Y });
-
-            if (hitPoints <= 0)
+            if (player.IsNotUsingHelmet())
             {
-                Thing item = null;
-
-                if (player.IsNotUsingHelmet())
-                {
-                    item = new Armor();
-                }
-                else
-                {
-                    var index = GameState.RandomTresure.Next(0, 1);
-                    if (index == 0)
-                    {
-                        if (player.weaponType == WeaponType.Sword)
-                        {
-                            item = new Weapon(WeaponType.Whip);
-                        }
-                        else if (player.weaponType == WeaponType.Whip)
-                        {
-                            item = new Weapon(WeaponType.Wand);
-                        }
-                        else
-                        {
-                            item = new Weapon(WeaponType.Sword);
-                        }
-                    }
-                    else if (index == 1)
-                    {
-                        if (player.weaponType == WeaponType.Sword)
-                        {
-                            item = new Weapon(WeaponType.Wand);
-                        }
-                        else if (player.weaponType == WeaponType.Whip)
-                        {
-                            item = new Weapon(WeaponType.Sword);
-                        }
-                        else
-                        {
-                            item = new Weapon(WeaponType.Whip);
-                        }
-                    }
-
-                }
-
-                item.X = X;
-                item.Y = Y;
-
-                AddToWOrld(item);
-                Destroy();
+                item = new Armor();
             }
+            else
+            {
+                var index = GameState.RandomTresure.Next(0, 1);
+                if (index == 0)
+                {
+                    if (player.weaponType == WeaponType.Sword)
+                    {
+                        item = new Weapon(WeaponType.Whip);
+                    }
+                    else if (player.weaponType == WeaponType.Whip)
+                    {
+                        item = new Weapon(WeaponType.Wand);
+                    }
+                    else
+                    {
+                        item = new Weapon(WeaponType.Sword);
+                    }
+                }
+                else if (index == 1)
+                {
+                    if (player.weaponType == WeaponType.Sword)
+                    {
+                        item = new Weapon(WeaponType.Wand);
+                    }
+                    else if (player.weaponType == WeaponType.Whip)
+                    {
+                        item = new Weapon(WeaponType.Sword);
+                    }
+                    else
+                    {
+                        item = new Weapon(WeaponType.Whip);
+                    }
+                }
+
+            }
+
+            item.X = X;
+            item.Y = Y;
+
+            AddToWOrld(item);
+            Destroy();
+
         }
     }
 

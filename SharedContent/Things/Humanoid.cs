@@ -352,11 +352,13 @@ namespace MonoGameProject
                   (
                       FacingRight
                       && !LeftGroundAcidentChecker.Colliding<GroundCollider>()
+                      && RightGroundAcidentChecker.Colliding<GroundCollider>()
                   )
                   ||
                   (
                       !FacingRight
                       && !RightGroundAcidentChecker.Colliding<GroundCollider>()
+                      && LeftGroundAcidentChecker.Colliding<GroundCollider>()
                   );
         }
 
@@ -386,8 +388,18 @@ namespace MonoGameProject
         {
             return
                   LegState == LegState.Standing
-                  && RightGroundAcidentChecker.Colliding<GroundCollider>()
-                  && LeftGroundAcidentChecker.Colliding<GroundCollider>();
+                  &&
+                  (
+                      (
+                          RightGroundAcidentChecker.Colliding<GroundCollider>()
+                          && LeftGroundAcidentChecker.Colliding<GroundCollider>()
+                      )
+                      ||
+                      (
+                          !RightGroundAcidentChecker.Colliding<GroundCollider>()
+                          && !LeftGroundAcidentChecker.Colliding<GroundCollider>()
+                      )
+                  );
         }
 
         private bool IsOnTheEdge()
@@ -396,11 +408,13 @@ namespace MonoGameProject
                    (
                        !FacingRight
                        && !LeftGroundAcidentChecker.Colliding<GroundCollider>()
+                       && RightGroundAcidentChecker.Colliding<GroundCollider>()
                    )
                    ||
                    (
                        FacingRight
                        && !RightGroundAcidentChecker.Colliding<GroundCollider>()
+                       && LeftGroundAcidentChecker.Colliding<GroundCollider>()
                    );
         }
 

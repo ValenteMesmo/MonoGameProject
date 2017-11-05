@@ -8,8 +8,6 @@ namespace MonoGameProject
     {
         const int VELOCITY = 25;
         const int size = 800;
-        private int Health = 2;
-        private int DamageCooldown = 0;
         private AttackCollider AttackCollider;
         private bool attacking;
         private int attackDuration;
@@ -31,7 +29,7 @@ namespace MonoGameProject
                 )
             );
 
-            var PlayerDamageHandler = new PlayerDamageHandler(Game1,()=> { },()=> { });
+            var PlayerDamageHandler = new PlayerDamageHandler(Game1,_=> { },_=> { });
             AddUpdate(PlayerDamageHandler.Update);
 
             var MainCollider = new Collider(size, size / 2);
@@ -79,12 +77,7 @@ namespace MonoGameProject
             });
 
             AddAfterUpdate(new MoveHorizontallyWithTheWorld(this));
-            AddUpdate(new AfectedByGravity(this));
-            AddUpdate(() =>
-            {
-                if (DamageCooldown > 0)
-                    DamageCooldown--;
-            });
+            AddUpdate(new AfectedByGravity(this));            
         }
 
         private void AttackNearPlayer(Collider arg1, Collider arg2)

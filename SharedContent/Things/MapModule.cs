@@ -186,7 +186,7 @@ namespace MonoGameProject
                     }
                     if (type == 'a')
                     {
-                        Game1.AddToWorld(new ItemChest(Game1.AddToWorld)
+                        Game1.AddToWorld(new ItemChest(Game1)
                         {
                             X = X + j * CELL_SIZE,
                             Y = Y + i * CELL_SIZE

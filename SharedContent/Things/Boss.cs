@@ -24,12 +24,12 @@ namespace MonoGameProject
     {
         private int damageCooldown;
         private readonly Game1 Game1;
-        private readonly Action OnHit;
-        private readonly Action OnKill;
+        private readonly Action<Player> OnHit;
+        private readonly Action<Player> OnKill;
         public int damageTaken = 0;
-        public int HEALTH = 3;
+        public int HEALTH = 4;
 
-        public PlayerDamageHandler(Game1 Game1, Action OnHit, Action OnKill)
+        public PlayerDamageHandler(Game1 Game1, Action<Player> OnHit, Action<Player> OnKill)
         {
             this.Game1 = Game1;
             this.OnHit = OnHit;
@@ -61,7 +61,14 @@ namespace MonoGameProject
 
                 damageCooldown = 20;
                 //BodyColor = Color.Lerp(BodyColor, Color.Red, 0.05f);
-                damageTaken++;
+
+                if (player.weaponType == WeaponType.Sword)
+                    damageTaken += 4;
+                else if (player.weaponType == WeaponType.Whip)
+                    damageTaken += 2;
+                else if (player.weaponType == WeaponType.Wand)
+                    damageTaken += 1;
+
                 Game1.Sleep();
                 Game1.Camera.ShakeUp(20);
 
@@ -76,12 +83,12 @@ namespace MonoGameProject
 
                 if (Dead())
                 {
-                    OnKill();
+                    OnKill(player);
                     source.Parent.Destroy();
                 }
                 else
                 {
-                    OnHit();
+                    OnHit(player);
                 }
             }
 
@@ -194,13 +201,15 @@ namespace MonoGameProject
 
             PlayerDamageHandler = new PlayerDamageHandler(
                 Game1
-                , () => { }
-                , () =>
+                , _ => { }
+                , _ =>
                     {
                         GameState.Save();
                         GameState.State.BossMode = false;
                     }
             );
+            PlayerDamageHandler.HEALTH = 20;
+
             mainCollider.AddHandler(PlayerDamageHandler.CollisionHandler);
             AddUpdate(PlayerDamageHandler.Update);
 
