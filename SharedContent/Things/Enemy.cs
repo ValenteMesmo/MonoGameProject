@@ -8,16 +8,14 @@ namespace MonoGameProject
     {
         const int VELOCITY = 25;
         const int size = 800;
-        private readonly Action<Thing> AddToWorld;
         private int Health = 2;
         private int DamageCooldown = 0;
         private AttackCollider AttackCollider;
         private bool attacking;
         private int attackDuration;
 
-        public Enemy(Action<Thing> AddToWorld)
+        public Enemy(Game1 Game1)
         {
-            this.AddToWorld = AddToWorld;
             HorizontalSpeed = VELOCITY;
 
             var idleAniamtion_left = GeneratedContent.Create_knight_Slime(-size / 2, -size, size * 2, size * 2);
@@ -33,6 +31,9 @@ namespace MonoGameProject
                 )
             );
 
+            var PlayerDamageHandler = new PlayerDamageHandler(Game1,()=> { },()=> { });
+            AddUpdate(PlayerDamageHandler.Update);
+
             var MainCollider = new Collider(size, size / 2);
             MainCollider.OffsetY = size / 2;
             MainCollider.AddBotCollisionHandler(StopsWhenHitting.Bot<GroundCollider>());
@@ -41,7 +42,7 @@ namespace MonoGameProject
             MainCollider.AddTopCollisionHandler(StopsWhenHitting.Top<GroundCollider>());
             MainCollider.AddLeftCollisionHandler(left);
             MainCollider.AddRightCollisionHandler(right);
-            MainCollider.AddHandler(HandleDamageFromPlayer);
+            MainCollider.AddHandler(PlayerDamageHandler.CollisionHandler);
             AddCollider(MainCollider);
 
             var playerFinder = new Collider(size, size / 2);
@@ -95,22 +96,22 @@ namespace MonoGameProject
             }
         }
 
-        private void HandleDamageFromPlayer(Collider arg1, Collider arg2)
-        {
-            if (arg2 is AttackCollider && arg2.Parent is Player)
-            {
-                if (DamageCooldown > 0)
-                {
-                    return;
-                }
-                DamageCooldown = 25;
+        //private void HandleDamageFromPlayer(Collider arg1, Collider arg2)
+        //{
+        //    if (arg2 is AttackCollider && arg2.Parent is Player)
+        //    {
+        //        if (DamageCooldown > 0)
+        //        {
+        //            return;
+        //        }
+        //        DamageCooldown = 25;
 
-                AddToWorld(new HitEffect(0.01f, 0, 0, size * 2, size * 2) { X = X, Y = Y });
-                Health--;
-                if (Health == 0)
-                    Destroy();
-            }
-        }
+        //        AddToWorld(new HitEffect(0.01f, 0, 0, size * 2, size * 2) { X = X, Y = Y });
+        //        Health--;
+        //        if (Health == 0)
+        //            Destroy();
+        //    }
+        //}
 
         private void right(Collider arg1, Collider arg2)
         {

@@ -123,7 +123,7 @@ namespace MonoGameProject
             ScreenFader = new ScreenFader();
             AddToWorld(ScreenFader);
 
-            AddThing(new Enemy(AddToWorld) { X = 4000, Y = 4000 });
+            AddThing(new Enemy(this) { X = 4000, Y = 4000 });
 
             Players.Clear();
 

@@ -98,10 +98,7 @@ namespace MonoGameProject
 
             if (state1Duration > 0)
                 state1Duration--;
-
-            if (boss.damageCooldown >= 0)
-                boss.damageCooldown--;
-
+            
             if (IdleCooldown % 500 == 0)
             {
                 fireballStacks++;
@@ -129,9 +126,9 @@ namespace MonoGameProject
                 var stage2 = Boss.HEALTH / 2;
 
                 var speed = 0;
-                if (boss.damageTaken < stage1)
+                if (boss.PlayerDamageHandler.damageTaken < stage1)
                     speed = 50;
-                else if (boss.damageTaken < stage2)
+                else if (boss.PlayerDamageHandler.damageTaken < stage2)
                     speed = 80;
                 else
                     speed = 100;

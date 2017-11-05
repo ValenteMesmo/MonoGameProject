@@ -20,6 +20,95 @@ namespace MonoGameProject
         , Shoot
     }
 
+    public class PlayerDamageHandler : UpdateHandler
+    {
+        private int damageCooldown;
+        private readonly Game1 Game1;
+        private readonly Action OnHit;
+        private readonly Action OnKill;
+        public int damageTaken = 0;
+        public int HEALTH = 3;
+
+        public PlayerDamageHandler(Game1 Game1, Action OnHit, Action OnKill)
+        {
+            this.Game1 = Game1;
+            this.OnHit = OnHit;
+            this.OnKill = OnKill;
+        }
+
+        public void CollisionHandler(Collider source, Collider t)
+        {
+            if (
+                (
+                    t is AttackCollider
+                    && t.Parent is Player
+                )
+                ||
+                (
+                    t.Parent is FireBall
+                    && (t.Parent as FireBall).Owner is Player)
+                )
+            {
+                if (t.Parent is FireBall)
+                    t.Parent.Destroy();
+
+                if (damageCooldown > 0)
+                    return;
+
+                Player player = GetPlayerFromCollider(t);
+
+                Game1.VibrationCenter.Vibrate(player.PlayerIndex, 10);
+
+                damageCooldown = 20;
+                //BodyColor = Color.Lerp(BodyColor, Color.Red, 0.05f);
+                damageTaken++;
+                Game1.Sleep();
+                Game1.Camera.ShakeUp(20);
+
+                Game1.AddToWorld(new HitEffect(0.04f)
+                {
+                    X = (int)source.CenterX(),
+                    Y = t.Y,
+                    //Color = BodyColor,
+                    HorizontalSpeed = source.Parent.HorizontalSpeed,
+                    VerticalSpeed = source.Parent.VerticalSpeed
+                });
+
+                if (Dead())
+                {
+                    OnKill();
+                    source.Parent.Destroy();
+                }
+                else
+                {
+                    OnHit();
+                }
+            }
+
+        }
+
+        public bool Dead()
+        {
+            return damageTaken >= HEALTH;
+        }
+
+        private Player GetPlayerFromCollider(Collider t)
+        {
+            if (t.Parent is Player)
+                return t.Parent as Player;
+            else if (t.Parent is FireBall && (t.Parent as FireBall).Owner is Player)
+                return (t.Parent as FireBall).Owner as Player;
+            return null;
+        }
+
+        public void Update()
+        {
+            if (damageCooldown > 0)
+                damageCooldown--;
+        }
+    }
+
+
     public class Boss : Thing
     {
         public const float RIGHT_ARM_Z = 0.100f;
@@ -38,8 +127,6 @@ namespace MonoGameProject
         private Action StateChanged = () => { };
         public BossMouthState MouthState;
         public bool facingRight = false;
-        public int damageTaken = 0;
-        public int damageCooldown;
         public bool grounded;
 
         private const int width = 1500;
@@ -105,7 +192,17 @@ namespace MonoGameProject
             playerFinder.AddHandler(FindPlayer);
             AddCollider(playerFinder);
 
-            mainCollider.AddHandler(HandlePlayerAttack);
+            PlayerDamageHandler = new PlayerDamageHandler(
+                Game1
+                , () => { }
+                , () =>
+                    {
+                        GameState.Save();
+                        GameState.State.BossMode = false;
+                    }
+            );
+            mainCollider.AddHandler(PlayerDamageHandler.CollisionHandler);
+            AddUpdate(PlayerDamageHandler.Update);
 
             AddCollider(mainCollider);
 
@@ -228,58 +325,7 @@ namespace MonoGameProject
 
         public const int HEALTH = 20;
         internal bool AttackingWithTheHand;
-
-        public bool Dead()
-        {
-            return damageTaken >= HEALTH;
-        }
-
-        private void HandlePlayerAttack(Collider s, Collider t)
-        {
-            if (
-                (
-                    t is AttackCollider
-                    && t.Parent is Player
-                )
-                ||
-                (
-                    t.Parent is FireBall
-                    && (t.Parent as FireBall).Owner is Player)
-                )
-            {
-                if (t.Parent is FireBall)
-                    t.Parent.Destroy();
-
-                if (damageCooldown > 0)
-                    return;
-
-                Player player = GetPlayerFromCollider(t);
-
-                Game1.VibrationCenter.Vibrate(player.PlayerIndex, 10);
-
-                damageCooldown = 20;
-                BodyColor = Color.Lerp(BodyColor, Color.Red, 0.05f);
-                damageTaken++;
-                Game1.Sleep();
-                Game1.Camera.ShakeUp(20);
-
-                Game1.AddToWorld(new HitEffect(0.04f)
-                {
-                    X = (int)mainCollider.CenterX(),
-                    Y = t.Y,
-                    Color = BodyColor,
-                    HorizontalSpeed = HorizontalSpeed,
-                    VerticalSpeed = VerticalSpeed
-                });
-
-                if (Dead() == false)
-                    return;
-
-                GameState.Save();
-                GameState.State.BossMode = false;
-                Destroy();
-            }
-        }
+        public readonly PlayerDamageHandler PlayerDamageHandler;
 
         private Player GetPlayerFromCollider(Collider t)
         {
@@ -361,7 +407,7 @@ namespace MonoGameProject
                             }
 
                             duration--;
-                            if (duration == 0 || Dead())
+                            if (duration == 0 || PlayerDamageHandler.Dead())
                             {
                                 newThing.Destroy();
                             }

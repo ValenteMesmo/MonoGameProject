@@ -72,9 +72,6 @@ namespace MonoGameProject
                     eyeSpellStacks = 2;
             }
 
-            if (boss.damageCooldown >= 0)
-                boss.damageCooldown--;
-
             if (boss.player != null
                 && boss.state != BossState.Idle
                 && boss.state != BossState.EyeAttack)

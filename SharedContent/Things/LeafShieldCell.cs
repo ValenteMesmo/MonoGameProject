@@ -56,7 +56,7 @@ namespace MonoGameProject
                 horizontalSpeed += velocityHorizontal;
                 verticalSpeed += velocityVertical;
 
-                if (boss.Dead() == false)
+                if (boss.PlayerDamageHandler.Dead() == false)
                 {
                     X = horizontalSpeed + boss.X;
                     Y = verticalSpeed + boss.Y-250;
