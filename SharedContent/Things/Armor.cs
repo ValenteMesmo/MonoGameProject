@@ -12,12 +12,16 @@ namespace MonoGameProject
         public ItemChest(Game1 Game1)
         {
             this.AddToWOrld = Game1.AddToWorld;
+            var offset = (int)(-MapModule.CELL_SIZE * 0.5f);
+            var size = (int)(MapModule.CELL_SIZE * 1.5f);
             var collider = new Collider();
-            collider.Width = MapModule.CELL_SIZE;
-            collider.Height = MapModule.CELL_SIZE;
+            collider.OffsetX = offset;
+            collider.OffsetY = offset;
+            collider.Width = size;
+            collider.Height = size;
             AddCollider(collider);
 
-            var animation = GeneratedContent.Create_knight_head_armor1(-400, -200);
+            var animation = GeneratedContent.Create_knight_head_armor1(offset, offset);
             animation.RenderingLayer = 0.49f;
             animation.ScaleX = animation.ScaleY = 5;
 
