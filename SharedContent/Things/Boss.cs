@@ -22,12 +22,12 @@ namespace MonoGameProject
 
     public class PlayerDamageHandler : UpdateHandler
     {
-        private int damageCooldown;
+        public int damageCooldown;
         private readonly Game1 Game1;
         private readonly Action<Player> OnHit;
         private readonly Action<Player> OnKill;
         public int damageTaken = 0;
-        public int HEALTH = 4;
+        public int HEALTH = 3;
 
         public PlayerDamageHandler(Game1 Game1, Action<Player> OnHit, Action<Player> OnKill)
         {
@@ -212,6 +212,12 @@ namespace MonoGameProject
 
             mainCollider.AddHandler(PlayerDamageHandler.CollisionHandler);
             AddUpdate(PlayerDamageHandler.Update);
+            AddUpdate(() =>
+            {
+                //prevent player from killing boss without entering the arena
+                if (!GameState.State.BossMode)
+                    PlayerDamageHandler.damageTaken = 2;
+            });
 
             AddCollider(mainCollider);
 

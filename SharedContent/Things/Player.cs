@@ -12,7 +12,7 @@ namespace MonoGameProject
         //agora já tem a logica de matar o player esmagando... que tal deixar o boss sólido?
         //boss no tema de gelo fazem 3 blocos assim "/" que vão na direção do player e podem esmaga-lo
         //priorizar movimento para direita? arrastando os outros players?
-
+        
         //must increase dificult with level
         //  boss speed, boss health
 
