@@ -48,7 +48,7 @@ namespace MonoGameProject
         float trail_z = Boss.EYE_Z - 0.002f;
         private void NewMethod()
         {
-            AddToWorld(new HitEffect(trail_z, 0, 0, MapModule.CELL_SIZE*2, MapModule.CELL_SIZE * 2)
+            AddToWorld(new HitEffect(trail_z, 0, 0, MapModule.CELL_SIZE * 2, MapModule.CELL_SIZE * 2)
             {
                 X = X,
                 Y = Y,
@@ -122,6 +122,12 @@ namespace MonoGameProject
             collider.OffsetY = (MapModule.CELL_SIZE / 2) - 125;
             collider.Width = 250;
             collider.Height = 250;
+
+            collider.AddHandler((s, t) =>
+            {
+                if (t is GroundCollider)
+                    Destroy();
+            });
 
             HorizontalSpeed = speedX;
             VerticalSpeed = speedY;
