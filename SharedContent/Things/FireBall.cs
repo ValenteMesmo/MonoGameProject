@@ -103,6 +103,7 @@ namespace MonoGameProject
     {
         public const int SPEED = 150;
         public readonly Thing Owner;
+        public int duration = 200;
 
         public FireBall(Thing Owner, int speedX, int speedY, Action<Thing> AddToWorld) : base(AddToWorld)
         {
@@ -129,7 +130,6 @@ namespace MonoGameProject
             AddUpdate(DestroyAfterDuration);
         }
 
-        int duration = 50;
         private void DestroyAfterDuration()
         {
             duration--;

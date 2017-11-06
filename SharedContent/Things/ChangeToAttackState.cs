@@ -42,11 +42,13 @@ namespace MonoGameProject
                             x = Humanoid.AttackRightCollider.X;
                         }
 
-                        AddToWorld(new FireBall(Humanoid, speed, 0, AddToWorld)
+                        var fireball = new FireBall(Humanoid, speed, 0, AddToWorld)
                         {
                             X = x,
                             Y = Humanoid.AttackRightCollider.Y
-                        });
+                        };
+                        fireball.duration = 80;
+                        AddToWorld(fireball);
                     }
                     ChangeToNotAttackMode();
                 }
