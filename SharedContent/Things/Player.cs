@@ -322,8 +322,8 @@ namespace MonoGameProject
             MainCollider.AddBotCollisionHandler(StopsWhenHitting.Bot<BlockVerticalMovement>());
             MainCollider.AddLeftCollisionHandler(StopsWhenHitting.Left<BlockHorizontalMovement>());
             MainCollider.AddRightCollisionHandler(StopsWhenHitting.Right<BlockHorizontalMovement>());
-            MainCollider.AddLeftCollisionHandler(HandleLeftBossLock);
             MainCollider.AddTopCollisionHandler(StopsWhenHitting.Top<BlockVerticalMovement>());
+            MainCollider.AddLeftCollisionHandler(HandleLeftBossLock);
 
             new HumanoidAnimatorFactory()
                 .CreateAnimator(this, index);

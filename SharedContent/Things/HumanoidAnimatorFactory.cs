@@ -13,8 +13,8 @@ namespace MonoGameProject
         public const int scale = 5;
 
         public const float HEAD_Z = 0.120f;
-        public const float TORSO_Z = 0.121f;
-        public const float LEG_Z = 0.122f;
+        public const float TORSO_Z = 0.122f;
+        public const float LEG_Z = 0.123f;
 
         private float HeadZ = HEAD_Z;
         private float TorsoZ = TORSO_Z;
