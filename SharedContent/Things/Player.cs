@@ -14,13 +14,12 @@ namespace MonoGameProject
         //priorizar movimento para direita? arrastando os outros players?
         
         //must increase dificult with level
-        //  boss speed, boss health
+        //  boss speed, boss health?
 
         //flyibg boss pattern: left and right... dive when above player.
         //hurt faces for bosses?
 
-        //z2 enemy with shield
-        //move boss initial position to the right
+        //z2 enemy with shield        
         //players death animation
         //move sonicboom origin down (to match new collider offset)
 
