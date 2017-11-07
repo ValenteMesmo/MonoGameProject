@@ -133,7 +133,7 @@ namespace MonoGameProject
             this.Inputs = Inputs;
 
             CreateColliders();
-            
+
             AddUpdate(new ChangeDirectionOnInput(this));
 
             AddUpdate(new ChangeToStandingState(this));
@@ -172,7 +172,7 @@ namespace MonoGameProject
             {
                 if (DamageDuration == GetDurationInstantByPercentage(HELMET_PERCENTAGE))
                     CreateBreakEffect(
-                        HumanoidAnimatorFactory.FACE_Z - PlayerIndex/100f,
+                        HumanoidAnimatorFactory.FACE_Z - PlayerIndex / 100f,
                         HumanoidAnimatorFactory.feet_y * 2,
                         AddToWorld);
                 else if (DamageDuration == GetDurationInstantByPercentage(BREAST_PERCENTAGE))
@@ -325,25 +325,25 @@ namespace MonoGameProject
         public bool IsAttacking()
         {
             return TorsoState == TorsoState.Attack
-            || TorsoState == TorsoState.AttackCrouching;
+                || TorsoState == TorsoState.AttackCrouching;
         }
 
         public bool IsCrouchingOrSweetDreaming()
         {
             return LegState == LegState.Crouching
-           || LegState == LegState.SweetDreams;
+                || LegState == LegState.SweetDreams;
         }
 
         public bool IsCrouchingOnTheEdgeFacingBack()
         {
             return LegState == LegState.Crouching
-                            && IsOnTheEdgeFacingBack();
+                && IsOnTheEdgeFacingBack();
         }
 
         public bool IsIdleOnTheEdgeFacingBack()
         {
             return LegState == LegState.Standing
-                            && IsOnTheEdgeFacingBack();
+                && IsOnTheEdgeFacingBack();
         }
 
         private bool IsOnTheEdgeFacingBack()
@@ -373,8 +373,18 @@ namespace MonoGameProject
         {
             return
                   LegState == LegState.Crouching
-                  && RightGroundAcidentChecker.Colliding<GroundCollider>()
-                  && LeftGroundAcidentChecker.Colliding<GroundCollider>();
+                  &&
+                  (
+                    (
+                        RightGroundAcidentChecker.Colliding<GroundCollider>()
+                        && LeftGroundAcidentChecker.Colliding<GroundCollider>()
+                    )
+                    ||
+                    (
+                        !RightGroundAcidentChecker.Colliding<GroundCollider>()
+                        && !LeftGroundAcidentChecker.Colliding<GroundCollider>()
+                    )
+                  );
         }
 
         public bool IsIdleOnTheEdge()
@@ -421,7 +431,7 @@ namespace MonoGameProject
         private bool ArmorPartIsDestroyed(float percentageOfTime)
         {
             var durationInstantThatBreaks = GetDurationInstantByPercentage(percentageOfTime);
-            
+
             return HitPoints <= 1
                 && DamageDuration <= durationInstantThatBreaks;
         }
