@@ -10,6 +10,7 @@ namespace MonoGameProject
         //planning: 
         //z2 enemy with shield
         //handle damage even when on cooldown...(if last damage < current damage... )
+        //BUG: crouch on top of single cell platform 
 
         //  char select. choose which controller use (the one who presses start)
         //agora já tem a logica de matar o player esmagando... que tal deixar o boss sólido?

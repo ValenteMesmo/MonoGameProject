@@ -44,7 +44,7 @@ namespace MonoGameProject
             animation.LoopDisabled = true;
             animation.ColorGetter = player.GetArmorColor;
             //animation.FrameDuration = 2;
-            animation.RenderingLayer = HumanoidAnimatorFactory.HEAD_Z - 0.01f;
+            animation.RenderingLayer = HumanoidAnimatorFactory.FACE_Z - player.PlayerIndex / 100f;
             AddAnimation(animation);
 
             var duration = 100;

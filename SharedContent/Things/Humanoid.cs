@@ -172,17 +172,17 @@ namespace MonoGameProject
             {
                 if (DamageDuration == GetDurationInstantByPercentage(HELMET_PERCENTAGE))
                     CreateBreakEffect(
-                        HumanoidAnimatorFactory.HEAD_Z - 0.001f,
+                        HumanoidAnimatorFactory.FACE_Z - PlayerIndex/100f,
                         HumanoidAnimatorFactory.feet_y * 2,
                         AddToWorld);
                 else if (DamageDuration == GetDurationInstantByPercentage(BREAST_PERCENTAGE))
                     CreateBreakEffect(
-                        HumanoidAnimatorFactory.HEAD_Z - 0.001f,
+                        HumanoidAnimatorFactory.FACE_Z - PlayerIndex / 100f,
                         HumanoidAnimatorFactory.feet_y,
                         AddToWorld);
                 else if (DamageDuration == GetDurationInstantByPercentage(SHOE_PERCENTAGE))
                     CreateBreakEffect(
-                        HumanoidAnimatorFactory.HEAD_Z - 0.001f,
+                        HumanoidAnimatorFactory.FACE_Z - PlayerIndex / 100f,
                         0,
                         AddToWorld);
 
