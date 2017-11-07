@@ -11,6 +11,8 @@ namespace MonoGameProject
         //z2 enemy with shield
         //handle damage even when on cooldown...(if last damage < current damage... )
 
+        //janemba stage
+
         //  char select. choose which controller use (the one who presses start)
         //agora já tem a logica de matar o player esmagando... que tal deixar o boss sólido?
         //boss no tema de gelo fazem 3 blocos assim "/" que vão na direção do player e podem esmaga-lo
@@ -220,7 +222,7 @@ namespace MonoGameProject
         //se move para longe do jogador
 
         //head 
-        //  cara  de lobo, Mosca (mão tbm), bulldog, tengu, preguiça, de urso, de boi, de cavalo, de porco, de aranha, de leão, de dragao, de caveira, cthulu, bills
+        //  cara  de lobo, Mosca (mão tbm), bulldog, tengu, creeper, slender, preguiça, de urso, de boi, de cavalo, de porco, de aranha, de leão, de dragao, de caveira, cthulu, bills
         //testa
         //  chifre de boi, chifre de unicornio, coroa
         //pescoço

@@ -150,10 +150,10 @@ namespace MonoGameProject
             , Func<int, int, int?, int?, bool, Animation> Create_knight_Arm_Idle
             , Func<int, int, int?, int?, bool, Animation> Create_knight_Arm_Attack)
         {
-            var backLegWalking = CreateFlippableAnimation(thing, Create_knight_Arm_Idle, ArmorColor, Back_leg_z, feet_y, true, true, 200, 5);
-            var backLegCrouch = CreateFlippableAnimation(thing, Create_knight_Arm_Idle, ArmorColor, Back_leg_z, crouch_y, true, true, 200, 5);
-            var backLegWalkingAttack = CreateFlippableAnimation(thing, Create_knight_Arm_Attack, ArmorColor, Back_leg_z, feet_y, false, true, 200, 5);
-            var backLegCrouchAttack = CreateFlippableAnimation(thing, Create_knight_Arm_Attack, ArmorColor, Back_leg_z, crouch_y, false, true, 200, 5);
+            var backLegWalking = CreateFlippableAnimation(thing, Create_knight_Arm_Idle, ArmorColor, Back_arm_z, feet_y, true, true, 200, 5);
+            var backLegCrouch = CreateFlippableAnimation(thing, Create_knight_Arm_Idle, ArmorColor, Back_arm_z, crouch_y, true, true, 200, 5);
+            var backLegWalkingAttack = CreateFlippableAnimation(thing, Create_knight_Arm_Attack, ArmorColor, Back_arm_z, feet_y, false, true, 200, 5);
+            var backLegCrouchAttack = CreateFlippableAnimation(thing, Create_knight_Arm_Attack, ArmorColor, Back_arm_z, crouch_y, false, true, 200, 5);
 
             Func<bool> walkIdle = () => !thing.IsCrouchingOrSweetDreaming() && !thing.IsAttacking();
             Func<bool> crouchIdle = () => thing.IsCrouchingOrSweetDreaming() && !thing.IsAttacking();
@@ -244,8 +244,7 @@ namespace MonoGameProject
            , Func<int, int, int?, int?, bool, Animation> Create_knight_Leg_Fall_back
            , Func<int, int, int?, int?, bool, Animation> Create_knight_Leg_Crouching_edge
            , Func<int, int, int?, int?, bool, Animation> Create_knight_Leg_Crouching
-
-            )
+        )
         {
             var frontLegWalking = CreateFlippableAnimation(thing, Create_knight_Leg_Walking, ArmorColor, Front_leg_z, feet_y);
             var frontWall = CreateFlippableAnimation(thing, Create_knight_Leg_wall_front, ArmorColor, Front_leg_z, feet_y);
@@ -327,7 +326,7 @@ namespace MonoGameProject
                 , new AnimationTransitionOnCondition(notFlipped, () => thing.FacingRight == false)
             );
         }
-        
+
         private Animator CreateCrouchAnimator(Humanoid thing, IHandleAnimation stand, IHandleAnimation crouch)
         {
             return new Animator(
@@ -493,12 +492,12 @@ namespace MonoGameProject
 
             Animator swordAnimator = CreateWeaponAnimator(
                 thing
-                , GeneratedContent.Create_knight_whip_idle
+                , GeneratedContent.Create_knight_sword_idle
                 , GeneratedContent.Create_knight_sword_attack);
 
             Animator WandAnimator = CreateWeaponAnimator(
                 thing
-                , GeneratedContent.Create_knight_whip_idle
+                , GeneratedContent.Create_knight_sword_idle
                 , GeneratedContent.Create_knight_sword_attack);
 
             thing.AddAnimation(
