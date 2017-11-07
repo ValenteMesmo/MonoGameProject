@@ -497,8 +497,8 @@ namespace MonoGameProject
 
             Animator WandAnimator = CreateWeaponAnimator(
                 thing
-                , GeneratedContent.Create_knight_sword_idle
-                , GeneratedContent.Create_knight_sword_attack);
+                , GeneratedContent.Create_knight_wand_idle
+                , GeneratedContent.Create_knight_wand_attack);
 
             thing.AddAnimation(
                 new Animator(
@@ -617,7 +617,8 @@ namespace MonoGameProject
 
         private Animator CreateWhipAnimator(Humanoid thing, Func<int, int, int?, int?, bool, Animation> WeaponIdleAnimation, Func<int, int, int?, int?, bool, Animation> WeaponAttackAnimation)
         {
-            var left_x = -1500;
+            var left_x = -1450;
+            var right_x = -1450;
 
             var whip_left = WeaponAttackAnimation(left_x, feet_y, null, null, false);
             whip_left.ScaleX = scale;
@@ -629,12 +630,12 @@ namespace MonoGameProject
             whip_left_crouch.ScaleY = scale;
             whip_left_crouch.LoopDisabled = true;
             whip_left_crouch.RenderingLayer = Weapon_z;
-            var whip_right = WeaponAttackAnimation(-1400, feet_y, null, null, true);
+            var whip_right = WeaponAttackAnimation(right_x , feet_y, null, null, true);
             whip_right.ScaleX = scale;
             whip_right.ScaleY = scale;
             whip_right.LoopDisabled = true;
             whip_right.RenderingLayer = Weapon_z;
-            var whip_right_crouch = WeaponAttackAnimation(-1400, crouch_y, null, null, true);
+            var whip_right_crouch = WeaponAttackAnimation(right_x , crouch_y, null, null, true);
             whip_right_crouch.ScaleX = scale;
             whip_right_crouch.ScaleY = scale;
             whip_right_crouch.LoopDisabled = true;
@@ -650,12 +651,12 @@ namespace MonoGameProject
             whipi_left_crouch.ScaleY = scale;
             //whipi_left_crouch.FrameDuration = 2;
             whipi_left_crouch.RenderingLayer = Weapon_z;
-            var whipi_right = WeaponIdleAnimation(-1400, feet_y, null, null, true);
+            var whipi_right = WeaponIdleAnimation(right_x , feet_y, null, null, true);
             whipi_right.ScaleX = scale;
             whipi_right.ScaleY = scale;
             whipi_right.FrameDuration = 2;
             whipi_right.RenderingLayer = Weapon_z;
-            var whipi_right_crouch = WeaponIdleAnimation(-1400, crouch_y, null, null, true);
+            var whipi_right_crouch = WeaponIdleAnimation(right_x , crouch_y, null, null, true);
             whipi_right_crouch.ScaleX = scale;
             whipi_right_crouch.ScaleY = scale;
             //whipi_right_crouch.FrameDuration = 2;
