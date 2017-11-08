@@ -58,7 +58,7 @@ namespace MonoGameProject
 
                 Game1.Camera.ShakeUp(40);
                 Game1.Sleep();
-                Game1.VibrationCenter.Vibrate(Parent.PlayerIndex, 20);
+                Game1.VibrationCenter.Vibrate(Parent.Inputs, 20);
                 //TODO: if hascolor... flash color
                 Game1.ScreenFader.Flash((int)Parent.MainCollider.CenterX(), (int)Parent.MainCollider.CenterY());
             }

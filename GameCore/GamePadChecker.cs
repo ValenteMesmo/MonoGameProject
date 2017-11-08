@@ -3,23 +3,24 @@
 namespace GameCore
 {
     public class GamePadChecker : InputChecker
-    {
-        private readonly int index;
+    {   
         public bool Left { get; private set; }
         public bool Right { get; private set; }
         public bool Up { get; private set; }
         public bool Down { get; private set; }
         public bool Action { get; private set; }
         public bool Jump { get; private set; }
+        public int ControllerIndex { get; private set; }
+        
 
-        public GamePadChecker(int index)
+        public GamePadChecker(int ControllerIndex)
         {
-            this.index = index;
+            this.ControllerIndex = ControllerIndex;
         }
 
         public void Update()
         {
-            var controller = GamePad.GetState(index);
+            var controller = GamePad.GetState(ControllerIndex);
 
             Left = controller.DPad.Left == ButtonState.Pressed
                 || controller.ThumbSticks.Left.X < -0.5f;

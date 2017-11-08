@@ -4,6 +4,8 @@
     {
         private readonly InputChecker InputChecker;
 
+        public int ControllerIndex { get { return InputChecker.ControllerIndex; } }
+
         public bool ClickedLeft { get; private set; }
         public bool ClickedRight { get; private set; }
         public bool ClickedUp { get; private set; }

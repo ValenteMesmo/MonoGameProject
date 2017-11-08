@@ -8,6 +8,8 @@
         bool Down { get; }
         bool Action { get; }
         bool Jump { get; }
+
+        int ControllerIndex { get; }
     }
 }
 

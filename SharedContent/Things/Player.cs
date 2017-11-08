@@ -295,7 +295,7 @@ namespace MonoGameProject
                     t.Disabled = true;
                     t.Parent.Destroy();
                     Game1.ScreenFader.Flash(armorColor.R, armorColor.G, armorColor.B, X, Y);
-                    Game1.VibrationCenter.Vibrate(PlayerIndex, 5);
+                    Game1.VibrationCenter.Vibrate(Inputs, 5);
                     Game1.MusicController.Queue("tumtum");
                 }
                 else if (t.Parent is Weapon)
@@ -312,7 +312,7 @@ namespace MonoGameProject
                     t.Parent.Destroy();
                     t.Disabled = true;
                     Game1.ScreenFader.Flash(weapon.Color.R, weapon.Color.G, weapon.Color.B, X, Y);
-                    Game1.VibrationCenter.Vibrate(PlayerIndex, 5);
+                    Game1.VibrationCenter.Vibrate(Inputs, 5);
                     Game1.MusicController.Queue("tumtum");
                 }
             };

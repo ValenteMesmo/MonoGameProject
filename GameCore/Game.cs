@@ -36,15 +36,15 @@ public class VibrationCenter
         }
     }
 
-    public void Vibrate(int index, int duration)
+    public void Vibrate(GameInputs inputs, int duration)
     {
-        if (Vibrations.ContainsKey(index))
+        if (Vibrations.ContainsKey(inputs.ControllerIndex))
         {
-            Vibrations.Remove(index);
+            Vibrations.Remove(inputs.ControllerIndex);
         }
 
         Vibrations.Add(
-           index, new VibrationStatus
+           inputs.ControllerIndex, new VibrationStatus
            {
                Duration = duration,
                Origin = duration

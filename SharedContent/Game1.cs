@@ -136,23 +136,49 @@ namespace MonoGameProject
 
             var inputUpdater = new Thing();
             inputUpdater.AddUpdate(Keyboard_PlayerInputs);
+            inputUpdater.AddUpdate(Controller1_PlayerInputs);
+            inputUpdater.AddUpdate(Controller2_PlayerInputs);
+            inputUpdater.AddUpdate(Controller3_PlayerInputs);
+            inputUpdater.AddUpdate(Controller4_PlayerInputs);
             AddThing(inputUpdater);
-            
+
             var PlayerStatue = new Thing();
+            var playerIndex = 0;
+
+            var allControllers = new List<GameInputs> {
+                Keyboard_PlayerInputs
+                , Controller1_PlayerInputs
+                , Controller2_PlayerInputs
+                , Controller3_PlayerInputs
+                , Controller4_PlayerInputs
+            };
+
             PlayerStatue.AddUpdate(() =>
             {
-                if (Keyboard_PlayerInputs.ClickedAction1)
+                if (playerIndex > 3)
                 {
-                    var player = new Player(this, 0, Keyboard_PlayerInputs, AddThing);
-
-                    player.Y = (8 * MapModule.CELL_SIZE) + Humanoid.height + 200;
-                    player.X = 0;
-
-                    AddThing(player);
-                    Players.Add(player);
                     PlayerStatue.Destroy();
+                    return;
+                }
+                
+                foreach (var input in allControllers.ToArray())
+                {
+                    if (input.ClickedAction1)
+                    {
+                        var player = new Player(this, playerIndex, input, AddThing);
+
+                        player.Y = (8 * MapModule.CELL_SIZE) + Humanoid.height + 200;
+                        player.X = 0;
+
+                        AddThing(player);
+                        Players.Add(player);
+
+                        allControllers.Remove(input);
+                        playerIndex++;
+                    }
                 }
             });
+
             AddThing(PlayerStatue);
 
             var WorldMover = new WorldMover(this);

@@ -33,7 +33,7 @@ namespace MonoGameProject.Updates.PlayerStates
                 }
                 else if (Player.LegState == LegState.Falling)
                 {
-                    VibrationCenter.Vibrate(Player.PlayerIndex, 7);
+                    VibrationCenter.Vibrate(Player.Inputs, 7);
                     Camera.ShakeUp(7);
 
                     Player.LegState = LegState.SweetDreams;

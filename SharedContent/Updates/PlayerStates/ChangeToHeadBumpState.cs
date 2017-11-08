@@ -58,7 +58,7 @@ namespace MonoGameProject
 
                     if (Player is Player)
                     {
-                        VibrationCenter.Vibrate(Player.PlayerIndex, 7);
+                        VibrationCenter.Vibrate(Player.Inputs, 7);
                         Camera.ShakeUp(-Player.VerticalSpeed / 8);
                     }
                 }
