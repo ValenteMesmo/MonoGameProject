@@ -11,6 +11,10 @@ namespace MonoGameProject
         //z2 enemy with shield
         //handle damage even when on cooldown...(if last damage < current damage... )
 
+        //flash sky when raining
+        //white screen fade transition between menu and game (white game over too?)
+
+
         //janemba stage
 
         //  char select. choose which controller use (the one who presses start)

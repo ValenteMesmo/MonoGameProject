@@ -1,5 +1,23 @@
-﻿namespace GameCore
+﻿using System;
+
+namespace GameCore
 {
+    public class EmptyChecker : InputChecker
+    {
+        public int ControllerIndex { get { return 0; } }
+        public bool Left { get; private set; }
+        public bool Right { get; private set; }
+        public bool Up { get; private set; }
+        public bool Down { get; private set; }
+        public bool Action { get; private set; }
+        public bool JumpDown { get; private set; }
+        public bool Jump { get; private set; }
+
+        public void Update()
+        {
+        }
+    }
+
     public class GameInputs : UpdateHandler
     {
         private readonly InputChecker InputChecker;
