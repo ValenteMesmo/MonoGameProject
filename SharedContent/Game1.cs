@@ -10,7 +10,8 @@ namespace MonoGameProject
     {
         public Game1() : base(new GeneratedContent()) { }
 
-        public ScreenFader ScreenFader;
+        public ScreenFlasher ScreenFader;
+        public ScreenFader2 ScreenFader2;
         public List<Player> Players = new List<Player>();
         private List<GameInputs> allControllers;
 
@@ -18,8 +19,12 @@ namespace MonoGameProject
         {
             Camera.Clear();
             Camera.Pos = new Vector2(5000f, 4500f);
-            Camera.Zoom =
-                 0.1f;
+
+            ScreenFader = new ScreenFlasher();
+            AddToWorld(ScreenFader);
+
+            ScreenFader2 = new ScreenFader2();
+            AddToWorld(ScreenFader2);
 
             CreateGameInputs();
 
@@ -141,9 +146,6 @@ namespace MonoGameProject
 
             GameState.Load();
 
-            ScreenFader = new ScreenFader();
-            AddToWorld(ScreenFader);
-
             AddThing(new Enemy(this) { X = 4000, Y = 4000 });
 
             Players.Clear();
@@ -205,6 +207,8 @@ namespace MonoGameProject
                 AddThing(new ParalaxBackgroundCreator(WorldMover, AddThing, this, (x, y, width, height) => GeneratedContent.Create_knight_dead_tree(x, y), 2, 0.90f));
                 AddThing(new ParalaxBackgroundCreator(WorldMover, AddThing, this, (x, y, width, height) => GeneratedContent.Create_knight_dead_tree(x, y, 500, 400), 1, 0.01f));
             }
+
+            ScreenFader2.FadeOut(() => { });
         }
 
         private void MainMenu()
@@ -235,15 +239,20 @@ namespace MonoGameProject
             CreateAnimationPart(thing, GeneratedContent.Create_knight_Leg_Fall_back_armored, HumanoidAnimatorFactory.BACK_LEG_Z, -750);
             CreateAnimationPart(thing, GeneratedContent.Create_knight_head_armor1, HumanoidAnimatorFactory.FRONT_ARM_Z, 800, 1900);
 
+            var waitingInput = true;
             thing.AddUpdate(() =>
             {
                 foreach (var input in allControllers)
                 {
-                    if (input.ClickedAction1)
+                    if (waitingInput && input.ClickedAction1)
                     {
-                        StartGame(input);
-                        //TODO: fadein fadeout
-                        thing.Destroy();
+                        waitingInput = false;
+                        ScreenFader2.FadeIn(() =>
+                        {
+                            StartGame(input);
+                            thing.Destroy();
+                        });
+
                         break;
                     }
                 }
@@ -268,7 +277,62 @@ namespace MonoGameProject
         }
     }
 
-    public class ScreenFader : Thing
+    public class ScreenFader2 : Thing
+    {
+        private int Value;
+        private int FadinMode = 0;
+        private Action Callback;
+
+        public ScreenFader2()
+        {
+            var fadeAnimation = new Animation(new AnimationFrame("pixel", 0, 0, 15000, 15000));
+            fadeAnimation.ColorGetter = () => new Color(Value, Value, Value, Value);
+            fadeAnimation.RenderingLayer = 0f;
+            AddAnimation(fadeAnimation);
+
+            AddUpdate(() =>
+            {
+                if (FadinMode == 1)
+                {
+                    if (Value < 255)
+                        Value += 5;
+                    else
+                    {
+                        FadinMode = 0;
+                        Callback();
+                    }
+
+                }
+                else if (FadinMode == 2)
+                {
+                    if (Value > 0)
+                        Value -= 5;
+                    else
+                    {
+                        FadinMode = 0;
+                        Callback();
+                    }
+                }
+            });
+        }
+
+
+        public void FadeIn(Action Callback)
+        {
+            this.Callback = Callback;
+            FadinMode = 1;
+            Value = 0;
+        }
+
+        public void FadeOut(Action Callback)
+        {
+            this.Callback = Callback;
+            FadinMode = 2;
+            Value = 255;
+        }
+    }
+
+    public class ScreenFlasher : Thing
     {
         private int Red;
         private int Green;
@@ -277,12 +341,12 @@ namespace MonoGameProject
         private const int Speed = 100;
         private int duration;
 
-        public ScreenFader()
+        public ScreenFlasher()
         {
-            var faderAnimation = GeneratedContent.Create_knight_Flash(-20000, -20000, 40000, 40000);
-            faderAnimation.ColorGetter = () => new Color(Red, Green, Blue, Alpha);
-            faderAnimation.RenderingLayer = 0f;
-            AddAnimation(faderAnimation);
+            var flashAnimation = GeneratedContent.Create_knight_Flash(-20000, -20000, 40000, 40000);
+            flashAnimation.ColorGetter = () => new Color(Red, Green, Blue, Alpha);
+            flashAnimation.RenderingLayer = 0f;
+            AddAnimation(flashAnimation);
 
             AddUpdate(() =>
             {
