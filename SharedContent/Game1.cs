@@ -176,6 +176,11 @@ namespace MonoGameProject
 
                         player.Y = player1.Y;
                         player.X = player1.X;
+                        player.VerticalSpeed = player1.VerticalSpeed;
+                        player.HorizontalSpeed = player1.HorizontalSpeed;
+                        player.HeadState = player1.HeadState;
+                        player.TorsoState = player1.TorsoState;
+                        player.LegState = player1.LegState;
 
                         AddThing(player);
                         Players.Add(player);
