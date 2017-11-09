@@ -105,7 +105,7 @@ namespace MonoGameProject
 
             PlayerStatue.AddUpdate(() =>
             {
-                var mainSlot = PlayersSlots.FirstOrDefault(f=> f.Player != null);
+                var mainSlot = PlayersSlots.FirstOrDefault(f => f.Player != null);
 
                 foreach (var slot in PlayersSlots)
                 {

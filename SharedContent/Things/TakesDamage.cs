@@ -61,6 +61,11 @@ namespace MonoGameProject
                 Game1.VibrationCenter.Vibrate(Parent.Inputs, 20);
                 //TODO: if hascolor... flash color
                 Game1.ScreenFader.Flash((int)Parent.MainCollider.CenterX(), (int)Parent.MainCollider.CenterY());
+
+                if (Parent.HitPoints <= 0)
+                {
+                    Parent.Destroy();
+                }
             }
         }
 
@@ -68,14 +73,6 @@ namespace MonoGameProject
         {
             if (Parent.DamageDuration > 0)
                 Parent.DamageDuration--;
-
-            if (Parent.DamageDuration == 1)
-            {
-                if (Parent.HitPoints <= 0)
-                {
-                    Parent.Destroy();
-                }
-            }
         }
     }
 }
