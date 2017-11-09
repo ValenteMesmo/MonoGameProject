@@ -3,16 +3,34 @@ using GameCore;
 using Microsoft.Xna.Framework;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MonoGameProject
 {
+    public class PlayerSlot
+    {
+        public PlayerSlot(int Index, Player Player, GameInputs AssociatedInput)
+        {
+            this.Index = Index;
+            this.Player = Player;
+            this.AssociatedInput = AssociatedInput;
+        }
+
+        public int Index { get; set; }
+        public Player Player { get; set; }
+        public int DeathCooldown { get; set; }
+        public GameInputs AssociatedInput { get; set; }
+    }
+
     public class Game1 : Game
     {
         public Game1(bool RuningOnAndroid = false) : base(new GeneratedContent(), RuningOnAndroid) { }
 
         public ScreenFlasher ScreenFader;
         public ScreenFader2 ScreenFader2;
-        public List<Player> Players = new List<Player>();
+        public List<PlayerSlot> PlayersSlots = new List<PlayerSlot>();
+        public IEnumerable<Player> Players { get { return PlayersSlots.Where(f => f.Player != null).Select(f => f.Player); } }
+
         private List<GameInputs> allControllers;
 
         protected override void OnStart()
@@ -71,47 +89,49 @@ namespace MonoGameProject
 
             AddThing(new Enemy(this) { X = 4000, Y = 4000 });
 
-            Players.Clear();
+            PlayersSlots.Clear();
 
             var PlayerStatue = new Thing();
-            var playerIndex = 0;
 
-            var player1 = new Player(this, playerIndex, player1Inputs, AddThing);
+            var player1 = new Player(this, 0, player1Inputs, AddThing);
             player1.Y = (8 * MapModule.CELL_SIZE) + Humanoid.height + 200;
             player1.X = 100;
             player1.FacingRight = true;
-            Players.Add(player1);
+            PlayersSlots.Add(new PlayerSlot(0, player1, player1Inputs));
+            PlayersSlots.Add(new PlayerSlot(1, null, null));
+            PlayersSlots.Add(new PlayerSlot(2, null, null));
+            PlayersSlots.Add(new PlayerSlot(3, null, null));
             AddThing(player1);
-            playerIndex++;
 
             PlayerStatue.AddUpdate(() =>
             {
-                if (playerIndex > 3)
-                {
-                    PlayerStatue.Destroy();
-                    return;
-                }
+                var mainSlot = PlayersSlots.FirstOrDefault(f=> f.Player != null);
 
-                foreach (var input in allControllers.ToArray())
+                foreach (var slot in PlayersSlots)
                 {
-                    if (input.ClickedAction1)
+                    if (slot.DeathCooldown > 0)
+                        slot.DeathCooldown--;
+
+                    if (slot.Player != null || slot.DeathCooldown > 0)
+                        continue;
+
+                    if (slot.AssociatedInput == null)
                     {
-                        var player = new Player(this, playerIndex, input, AddThing);
+                        foreach (var input in allControllers.ToList())
+                        {
+                            if (input.ClickedAction1)
+                            {
+                                slot.AssociatedInput = input;
 
-                        player.Y = player1.Y;
-                        player.X = player1.X;
-                        player.VerticalSpeed = player1.VerticalSpeed;
-                        player.HorizontalSpeed = player1.HorizontalSpeed;
-                        player.HeadState = player1.HeadState;
-                        player.TorsoState = player1.TorsoState;
-                        player.LegState = player1.LegState;
-                        player.FacingRight = player1.FacingRight;
+                                allControllers.Remove(input);
 
-                        AddThing(player);
-                        Players.Add(player);
-
-                        allControllers.Remove(input);
-                        playerIndex++;
+                                AddPlayer(mainSlot.Player, slot);
+                            }
+                        }
+                    }
+                    else if (slot.AssociatedInput.ClickedAction1)
+                    {
+                        AddPlayer(mainSlot.Player, slot);
                     }
                 }
             });
@@ -141,6 +161,23 @@ namespace MonoGameProject
             ScreenFader2.FadeOut(() => { });
         }
 
+        private void AddPlayer(Player player1, PlayerSlot slot)
+        {
+            var player = new Player(this, slot.Index, slot.AssociatedInput, AddThing);
+
+            player.Y = player1.Y;
+            player.X = player1.X;
+            player.VerticalSpeed = player1.VerticalSpeed;
+            player.HorizontalSpeed = player1.HorizontalSpeed;
+            player.HeadState = player1.HeadState;
+            player.TorsoState = player1.TorsoState;
+            player.LegState = player1.LegState;
+            player.FacingRight = player1.FacingRight;
+
+            AddThing(player);
+            slot.Player = player;
+        }
+
         private void MainMenu()
         {
             ScreenFader2.FadeOut(() => { });
@@ -155,12 +192,12 @@ namespace MonoGameProject
 
             var pressAlpha = 0;
             var pressSpeed = 5;
-            
+
             var pressToStart = GeneratedContent.Create_knight_PressToStart(1000, 6000);
             pressToStart.RenderingLayer = 0.001f;
             pressToStart.ScaleX = 6;
             pressToStart.ScaleY = 6;
-            pressToStart.ColorGetter = () =>new Color(pressAlpha, pressAlpha, pressAlpha, pressAlpha);
+            pressToStart.ColorGetter = () => new Color(pressAlpha, pressAlpha, pressAlpha, pressAlpha);
             thing.AddAnimation(pressToStart);
 
             thing.AddUpdate(() =>

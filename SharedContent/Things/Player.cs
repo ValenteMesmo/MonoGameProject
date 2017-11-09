@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Audio;
 using MonoGameProject.Things;
 using System;
+using System.Linq;
 
 namespace MonoGameProject
 {
@@ -14,6 +15,9 @@ namespace MonoGameProject
         //flash sky when raining
         //white screen fade transition between menu and game (white game over too?)
 
+        //inimigos invulneráveis patrulhando pequenas plataformas
+
+
 
         //janemba stage
 
@@ -24,6 +28,7 @@ namespace MonoGameProject
 
         //must increase dificult with level
         //  boss speed, boss health?
+        // boss solta bomba que explode (tem que se esconder do outro lado do mapa)
 
         //flyibg boss pattern: left and right... dive when above player.
         //hurt faces for bosses?
@@ -275,10 +280,10 @@ namespace MonoGameProject
 
             AddUpdate(() =>
             {
-                if (HitPoints == 0)
-                    Inputs.Disabled = true;
-                else
-                    Inputs.Disabled = false;
+                //if (HitPoints == 0)
+                //    Inputs.Disabled = true;
+                //else
+                //    Inputs.Disabled = false;
 
                 if (leftWallChecker.Colliding<BlockHorizontalMovement>()
                     && rightWallChecker.Colliding<BlockHorizontalMovement>())
@@ -340,9 +345,17 @@ namespace MonoGameProject
         {
             base.OnDestroy();
 
-            if (Game1.Players.Count > 1)
+            if (Game1.Players.Count() > 1)
             {
-                Game1.Players.Remove(this);
+                foreach (var slot in Game1.PlayersSlots)
+                {
+                    if (slot.Player == this)
+                    {
+                        slot.Player = null;
+                        slot.DeathCooldown = 500;
+                    }
+                }
+                
                 return;
             }
 
