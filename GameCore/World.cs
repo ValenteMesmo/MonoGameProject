@@ -1,4 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Input.Touch;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -55,6 +57,31 @@ namespace GameCore
             //aaa++;
         }
 
+        private IEnumerable<Vector2> GetTouches()
+        {
+            var touchCollection = TouchPanel.GetState();
+
+            var touches = new List<Vector2>();
+            foreach (TouchLocation tl in touchCollection)
+            {
+                if ((tl.State == TouchLocationState.Pressed)
+                    || (tl.State == TouchLocationState.Moved))
+                {
+                    touches.Add(
+                        Camera2d.ToWorldLocation(tl.Position));
+                }
+            }
+
+            var mouseState = Mouse.GetState();
+            if (mouseState.LeftButton == ButtonState.Pressed)
+            {
+                touches.Add(
+                      Camera2d.ToWorldLocation(mouseState.Position.ToVector2()));
+            }
+
+            return touches;
+        }
+
         private void NewMethod()
         {
             if (Stopped)
@@ -75,10 +102,33 @@ namespace GameCore
                 thing.Updates.ForEach(update =>
                     update()));
 
+            var touches = GetTouches();
+
             var passiveColliders = new List<Collider>();
             var activeColliders = new List<Collider>();
             Things.ForEach(thing =>
             {
+                thing.TouchAreas.ForEach(area =>
+                {
+                    //var touching = false;
+                    Vector2? selectedTouch = null;
+
+                    foreach (var touch in touches)
+                    {
+                        if (area.Left() <= touch.X
+                            && area.Right() >= touch.X
+                            && area.Top() <= touch.Y
+                            && area.Bottom() >= touch.Y)
+                        {
+                            //touching = true;
+                            selectedTouch = touch;
+                            break;
+                        }
+                    }
+                    
+                    area.SetTouch(selectedTouch);
+                });
+
                 thing.Colliders.ForEach(collider =>
                 {
                     collider.CollidingWith.Clear();
@@ -128,7 +178,7 @@ namespace GameCore
                 passiveColliders.ForEach(target =>
                 {
                     //if (active != passive)
-                        ColliderExtensions.HandleVerticalCollision(source, target);
+                    ColliderExtensions.HandleVerticalCollision(source, target);
                 });
             });
 

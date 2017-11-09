@@ -51,9 +51,8 @@ namespace MonoGameProject
 
         private void CreateGameInputs()
         {
-            var Keyboard_PlayerInputs = new GameInputs(new KeyboardChecker(0));
-            //var TouchControler_PlayerInputs = new GameInputs(new KeyboardChecker(0));
-            //  remember to update this inputs too
+            var Keyboard_PlayerInputs = new GameInputs(new KeyboardChecker());
+            var TouchControler_PlayerInputs = new GameInputs(new TouchScreenChecker(AddToWorld));
             var Controller1_PlayerInputs = new GameInputs(new GamePadChecker(0));
             var Controller2_PlayerInputs = new GameInputs(new GamePadChecker(1));
             var Controller3_PlayerInputs = new GameInputs(new GamePadChecker(2));
@@ -61,6 +60,7 @@ namespace MonoGameProject
 
             var inputUpdater = new Thing();
             inputUpdater.AddUpdate(Keyboard_PlayerInputs);
+            inputUpdater.AddUpdate(TouchControler_PlayerInputs);
             inputUpdater.AddUpdate(Controller1_PlayerInputs);
             inputUpdater.AddUpdate(Controller2_PlayerInputs);
             inputUpdater.AddUpdate(Controller3_PlayerInputs);
@@ -69,6 +69,7 @@ namespace MonoGameProject
 
             allControllers = new List<GameInputs> {
                 Keyboard_PlayerInputs
+                , TouchControler_PlayerInputs
                 , Controller1_PlayerInputs
                 , Controller2_PlayerInputs
                 , Controller3_PlayerInputs

@@ -12,19 +12,34 @@ namespace MonoGameProject
         //z2 enemy with shield
         //handle damage even when on cooldown...(if last damage < current damage... )
 
+            //animação de inicio do boss... começa na cor da parede... acende os olhos e depois o resto
+
         //flash sky when raining
         //white screen fade transition between menu and game (white game over too?)
 
         //inimigos invulneráveis patrulhando pequenas plataformas
 
+        //ventania carregando folhas das arvores:
+        //https://youtu.be/K-JlevnccDk?t=48
 
+        //baixar mais a tela! (pra melhorar jogabilidade mobile)
+        //matar player que ficar parado muito tempo
+
+        //stagios organigos, com olhos e bocas
+        //  quando voce bate neles todo o estagio se contrai
+
+        //add ground collider to the itemchest
+        //  make stage with stacked itemchests
 
         //janemba stage
 
-        //  char select. choose which controller use (the one who presses start)
-        //agora já tem a logica de matar o player esmagando... que tal deixar o boss sólido?
         //boss no tema de gelo fazem 3 blocos assim "/" que vão na direção do player e podem esmaga-lo
         //priorizar movimento para direita? arrastando os outros players?
+        //boss dispara na direção do player! um lazer... que tal?
+        //boss dispara para cima na direção do player... quando chega mais ou menos no x do player... começa a cair devagar
+        //adicionar pequeno cooldown no ataque melee do boss... para dar tempo de esquivar e atravessar
+        //boss cria bolas de fogo que não se movem... igual os gremilins do castlevania
+        //boss manda uma shockwave no chao
 
         //must increase dificult with level
         //  boss speed, boss health?
@@ -96,6 +111,7 @@ namespace MonoGameProject
 
         //staff
         //wand
+        //lampada
 
         //pause game
 
@@ -231,7 +247,7 @@ namespace MonoGameProject
         //se move para longe do jogador
 
         //head 
-        //  cara  de lobo, Mosca (mão tbm), bulldog, tengu, creeper, slender, preguiça, de urso, de boi, de cavalo, de porco, de aranha, de leão, de dragao, de caveira, cthulu, bills
+        //  cara  de lobo, Mosca (mão tbm), bulldog, tengu, dolly grn, creeper, slender, preguiça, de urso, de boi, de cavalo, de porco, de aranha, de leão, de dragao, de caveira, cthulu, bills
         //testa
         //  chifre de boi, chifre de unicornio, coroa
         //pescoço
@@ -355,7 +371,7 @@ namespace MonoGameProject
                         slot.DeathCooldown = 500;
                     }
                 }
-                
+
                 return;
             }
 

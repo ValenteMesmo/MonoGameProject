@@ -1,11 +1,35 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 
 namespace GameCore
 {
-    public abstract class IHandleTouchInputs : Collider
+    public class TouchAreas : BaseRectangle
     {
-        public abstract void TouchEnded();
-        public abstract void TouchBegin();
-        public abstract void TouchContinue();
+        private Vector2? WasTouching;
+        //public Action TouchContinue = () => { };
+        //public Action TouchBegin = () => { };
+        //public Action TouchEnded = () => { };
+
+        public bool IsPressed()
+        {
+            return WasTouching != null;
+        }
+
+        public Vector2? GetTouchPoint()
+        {
+            return WasTouching;
+        }
+
+        internal void SetTouch(Vector2? IsTouching)
+        {
+            //if (WasTouching && !IsTouching)
+            //    TouchEnded();
+            //else if (!WasTouching && IsTouching)
+            //    TouchBegin();
+            //else if (WasTouching && IsTouching)
+            //    TouchContinue();
+
+            WasTouching = IsTouching;
+        }
     }
 }

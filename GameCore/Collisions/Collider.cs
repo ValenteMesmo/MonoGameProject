@@ -3,19 +3,8 @@ using System.Collections.Generic;
 
 namespace GameCore
 {
-    public class Collider
+    public abstract class BaseRectangle
     {
-        public Collider()
-        {
-
-        }
-
-        public Collider(int Width, int Height)
-        {
-            this.Width = Width;
-            this.Height = Height;
-        }
-
         public Thing Parent { get; internal set; }
 
         public int X { get { return Parent.X + OffsetX; } }
@@ -26,6 +15,21 @@ namespace GameCore
 
         public int Width { get; set; }
         public int Height { get; set; }
+    }
+
+
+    public class Collider: BaseRectangle
+    {
+        public Collider()
+        {
+
+        }
+
+        public Collider(int Width, int Height)
+        {
+            this.Width = Width;
+            this.Height = Height;
+        }       
 
         public bool Disabled { get; set; }
 

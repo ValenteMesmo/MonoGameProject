@@ -10,12 +10,7 @@ namespace GameCore
         public bool Down { get; private set; }
         public bool Action { get; private set; }
         public bool Jump { get; private set; }
-        public int ControllerIndex { get; private set; }
-
-        public KeyboardChecker(int ControllerIndex)
-        {
-            this.ControllerIndex = ControllerIndex; 
-        }
+        public int ControllerIndex { get; }
 
         public void Update()
         {

@@ -14,13 +14,13 @@ namespace GameCore
         internal List<IHandleAnimation> Animations = new List<IHandleAnimation>();
         internal List<Collider> Colliders = new List<Collider>();
         internal List<Action> Updates = new List<Action>();
-        internal List<Action> AfterUpdates = new List<Action>();        
-        internal List<IHandleTouchInputs> Touchables = new List<IHandleTouchInputs>();
-        
-        public void AddTouchHandler(IHandleTouchInputs touchHandler)
+        internal List<Action> AfterUpdates = new List<Action>();
+        internal List<TouchAreas> TouchAreas = new List<TouchAreas>();
+
+        public void AddTouchArea(TouchAreas touchHandler)
         {
             touchHandler.Parent = this;
-            Touchables.Add(touchHandler);
+            TouchAreas.Add(touchHandler);
         }
 
         public void AddCollider(Collider collider)
@@ -48,7 +48,7 @@ namespace GameCore
         {
             Animations.Add(Animation);
         }
-        
+
         internal Action<Thing> OnDestroyInternal = t => { };
 
         public void Destroy()

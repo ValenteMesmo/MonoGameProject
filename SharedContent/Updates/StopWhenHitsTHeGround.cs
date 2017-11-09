@@ -8,12 +8,12 @@ namespace MonoGameProject
     {
         public const int KNOCKBACK = 1;
         //TODO: moveback if your speed is highier
-        public static Action<Collider, Collider> Top<T>()
+        public static Action<BaseRectangle, BaseRectangle> Top<T>()
         {
             return TopHandler<T>;
         }
 
-        private static void TopHandler<T>(Collider Parent, Collider other)
+        private static void TopHandler<T>(BaseRectangle Parent, BaseRectangle other)
         {
             if (other is T)
             {
@@ -22,12 +22,12 @@ namespace MonoGameProject
             }
         }
 
-        public static Action<Collider, Collider> Bot<T>()
+        public static Action<BaseRectangle, BaseRectangle> Bot<T>()
         {
             return BotHandler<T>;
         }
 
-        private static void BotHandler<T>(Collider Parent, Collider other)
+        private static void BotHandler<T>(BaseRectangle Parent, BaseRectangle other)
         {
             if (other is T)
             {
@@ -36,12 +36,12 @@ namespace MonoGameProject
             }
         }
 
-        public static Action<Collider, Collider> Left<T>()
+        public static Action<BaseRectangle, BaseRectangle> Left<T>()
         {
             return LeftHandler<T>;
         }
 
-        private static void LeftHandler<T>(Collider Parent, Collider other)
+        private static void LeftHandler<T>(BaseRectangle Parent, BaseRectangle other)
         {
             if (other is T)
             {
@@ -51,12 +51,12 @@ namespace MonoGameProject
             }
         }
 
-        public static Action<Collider, Collider> Right<T>()
+        public static Action<BaseRectangle, BaseRectangle> Right<T>()
         {
             return RightHandler<T>;
         }
 
-        public static void RightHandler<T>(Collider Parent, Collider other)
+        public static void RightHandler<T>(BaseRectangle Parent, BaseRectangle other)
         {
             if (other is T)
             {

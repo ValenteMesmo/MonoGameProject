@@ -344,7 +344,7 @@ public class BaseGame : OriginalGameClass
                 )
             );
 #endif
-        thing.Touchables.ForEach(touchable =>
+        thing.TouchAreas.ForEach(touchable =>
             DrawBorder(
                 new Rectangle(
                     thing.X + touchable.OffsetX,
