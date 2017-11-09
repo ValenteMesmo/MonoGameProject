@@ -53,24 +53,24 @@ public class VibrationCenter
 }
 
 public abstract class Game : IDisposable
-{    
+{
     public VibrationCenter VibrationCenter { get { return BaseGame.VibrationCenter; } }
-    
+
 
 #if DEBUG
     public static string LOG = "NO logs";
 #endif
     public FrameCounter FrameCounter = new FrameCounter();
     public readonly BaseGame BaseGame;
-    public Camera2d Camera { get { return BaseGame.Camera; } }
-    public bool FullScreen { get { return BaseGame.Graphics.IsFullScreen; } set { BaseGame.Graphics.IsFullScreen = value; } }
+    public Camera2d Camera { get { return BaseGame.Camera; } } 
     public void Sleep() { BaseGame.World.Sleep(); }
 
     public MusicController MusicController { get { return BaseGame.MusicController; } }
 
-    public Game(ILoadContents ContentLoader)
+    public Game(ILoadContents ContentLoader, bool RuningOnAndroid)
     {
-        BaseGame = new BaseGame(ContentLoader, this);
+        BaseGame = new BaseGame(ContentLoader, this, RuningOnAndroid);
+        BaseGame.Graphics.IsFullScreen = true;
     }
 
     public void AddToWorld(Thing thing)
@@ -91,6 +91,7 @@ public abstract class Game : IDisposable
     }
 
     public Action<long> AndroidVibrate = f => { };
+    private readonly bool RuningOnAndroid;
 
     protected void AddThing(Thing thing)
     {

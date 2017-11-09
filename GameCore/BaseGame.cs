@@ -104,24 +104,14 @@ public class BaseGame : OriginalGameClass
     private bool DisplayColliders;
 #endif
 
-    public bool FullScreen
-    {
-        get
-        {
-            return Graphics.IsFullScreen;
-        }
-        set
-        {
-            Graphics.IsFullScreen = value;
-        }
-    }
-
     public VibrationCenter VibrationCenter { get; set; }
     public readonly MusicController MusicController;
+    private readonly bool RuningOnAndroid;
 
-    public BaseGame(ILoadContents ContentLoader, Game Parent)
+    public BaseGame(ILoadContents ContentLoader, Game Parent, bool RuningOnAndroid)
     {
-        MusicController = new MusicController(n=> Sounds[n]);
+        this.RuningOnAndroid = RuningOnAndroid;
+        MusicController = new MusicController(n => Sounds[n]);
         this.VibrationCenter = new VibrationCenter();
         this.Parent = Parent;
         this.ContentLoader = ContentLoader;
@@ -144,7 +134,7 @@ public class BaseGame : OriginalGameClass
     {
         //TODO: fullscreen on alt+enter
 #if RELEASE
-        //Graphics.IsFullScreen = true;
+        Graphics.IsFullScreen = true;
         Graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
         Graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
 #else
@@ -154,6 +144,8 @@ public class BaseGame : OriginalGameClass
         Graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
         Graphics.IsFullScreen = false;
 #endif
+        if (RuningOnAndroid)
+            Graphics.IsFullScreen = true;
 
         Graphics.ApplyChanges();
 

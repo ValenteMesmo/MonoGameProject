@@ -8,7 +8,7 @@ namespace MonoGameProject
 {
     public class Game1 : Game
     {
-        public Game1() : base(new GeneratedContent()) { }
+        public Game1(bool RuningOnAndroid = false) : base(new GeneratedContent(), RuningOnAndroid) { }
 
         public ScreenFlasher ScreenFader;
         public ScreenFader2 ScreenFader2;
@@ -35,6 +35,7 @@ namespace MonoGameProject
         {
             var Keyboard_PlayerInputs = new GameInputs(new KeyboardChecker(0));
             //var TouchControler_PlayerInputs = new GameInputs(new KeyboardChecker(0));
+            //  remember to update this inputs too
             var Controller1_PlayerInputs = new GameInputs(new GamePadChecker(0));
             var Controller2_PlayerInputs = new GameInputs(new GamePadChecker(1));
             var Controller3_PlayerInputs = new GameInputs(new GamePadChecker(2));
@@ -57,84 +58,6 @@ namespace MonoGameProject
             };
         }
 
-
-        //int selectedLine = 0;
-        //int inputCooldown = 0;
-        //private void MainScreen()
-        //{
-        //    line = 0;
-        //    var MainManeu = new Thing();
-        //    MainManeu.X = (int)((MapModule.CELL_SIZE * MapModule.CELL_NUMBER) / 2.4f);
-        //    MainManeu.Y = (int)((MapModule.CELL_SIZE * MapModule.CELL_NUMBER) / 2.2f);
-
-        //    MainManeu.AddUpdate(() =>
-        //    {
-        //        if (inputCooldown > 0)
-        //            inputCooldown--;
-
-        //        if (inputCooldown > 0)
-        //            return;
-
-        //        var keyboard = Microsoft.Xna.Framework.Input.Keyboard.GetState();
-
-        //        if (keyboard.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Down))
-        //        {
-        //            inputCooldown = 10;
-        //            selectedLine++;
-        //        }
-        //        if (keyboard.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Up))
-        //        {
-        //            inputCooldown = 10;
-        //            selectedLine--;
-        //        }
-        //        if (keyboard.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Enter))
-        //        {
-        //            MainManeu.Destroy();
-        //            StartGame();
-        //        }
-
-        //        if (selectedLine > 2)
-        //            selectedLine = 0;
-        //        if (selectedLine < 0)
-        //            selectedLine = 2;
-        //    });
-
-        //    //MainManeu.AddAnimation(GeneratedContent.Create_knight_head_face(-2000,-2000,8000,8000));
-        //    //MainManeu.AddAnimation(GeneratedContent.Create_knight_head_eyes(-2000,-2000,8000,8000));
-        //    //MainManeu.AddAnimation(GeneratedContent.Create_knight_head_hair(-2000,-2000,8000,8000));
-
-        //    //play sound... lower going down
-
-        //    NewMethod(MainManeu, "New Game");
-        //    NewMethod(MainManeu, "Continue");
-        //    NewMethod(MainManeu, "Options");
-        //    AddThing(MainManeu);
-        //}
-
-        //int line = 0;
-        //private void NewMethod(Thing start, string text)
-        //{
-        //    var thisLine = line;
-        //    for (int i = 0; i < text.Length; i++)
-        //    {
-        //        if (text[i] == ' ')
-        //            continue;
-
-        //        var animation = GeneratedContent.Create_knight_number0(
-        //                i * MapModule.CELL_SIZE,
-        //                (int)((line * 1.25f) * MapModule.CELL_SIZE),
-        //                MapModule.CELL_SIZE,
-        //                MapModule.CELL_SIZE
-        //        );
-
-        //        animation.ColorGetter = () => selectedLine == thisLine ? Color.Red : Color.White;
-
-        //        start.AddAnimation(animation);
-        //    }
-
-        //    line++;
-        //}
-
         private void StartGame(GameInputs player1Inputs)
         {
             allControllers.Remove(player1Inputs);
@@ -155,7 +78,8 @@ namespace MonoGameProject
 
             var player1 = new Player(this, playerIndex, player1Inputs, AddThing);
             player1.Y = (8 * MapModule.CELL_SIZE) + Humanoid.height + 200;
-            player1.X = 0;
+            player1.X = 100;
+            player1.FacingRight = true;
             Players.Add(player1);
             AddThing(player1);
             playerIndex++;
@@ -181,6 +105,7 @@ namespace MonoGameProject
                         player.HeadState = player1.HeadState;
                         player.TorsoState = player1.TorsoState;
                         player.LegState = player1.LegState;
+                        player.FacingRight = player1.FacingRight;
 
                         AddThing(player);
                         Players.Add(player);
@@ -218,12 +143,40 @@ namespace MonoGameProject
 
         private void MainMenu()
         {
+            ScreenFader2.FadeOut(() => { });
+
             var thing = new Thing();
-            var aaa = GeneratedContent.Create_knight_KnightMary(700, 2200);
-            aaa.RenderingLayer = 0;
-            aaa.ScaleX = 10;
-            aaa.ScaleY = 10;
-            thing.AddAnimation(aaa);
+
+            var knightMary = GeneratedContent.Create_knight_KnightMary(700, 2200);
+            knightMary.RenderingLayer = 0.001f;
+            knightMary.ScaleX = 10;
+            knightMary.ScaleY = 10;
+            thing.AddAnimation(knightMary);
+
+            var pressAlpha = 0;
+            var pressSpeed = 5;
+            
+            var pressToStart = GeneratedContent.Create_knight_PressToStart(1000, 6000);
+            pressToStart.RenderingLayer = 0.001f;
+            pressToStart.ScaleX = 6;
+            pressToStart.ScaleY = 6;
+            pressToStart.ColorGetter = () =>new Color(pressAlpha, pressAlpha, pressAlpha, pressAlpha);
+            thing.AddAnimation(pressToStart);
+
+            thing.AddUpdate(() =>
+            {
+                pressAlpha += pressSpeed;
+                if (pressAlpha >= 255)
+                {
+                    pressAlpha = 255;
+                    pressSpeed = -2;
+                }
+                if (pressAlpha <= 0)
+                {
+                    pressAlpha = 0;
+                    pressSpeed = 5;
+                }
+            });
 
             AddThing(thing);
 
@@ -322,16 +275,16 @@ namespace MonoGameProject
         }
 
 
-        public void FadeIn(Action Callback)
+        public void FadeIn(Action Callback = null)
         {
-            this.Callback = Callback;
+            this.Callback = Callback ?? (() => { });
             FadinMode = 1;
             Value = 0;
         }
 
-        public void FadeOut(Action Callback)
+        public void FadeOut(Action Callback = null)
         {
-            this.Callback = Callback;
+            this.Callback = Callback ?? (() => { });
             FadinMode = 2;
             Value = 255;
         }

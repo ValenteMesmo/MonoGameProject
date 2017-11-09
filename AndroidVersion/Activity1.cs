@@ -21,7 +21,7 @@ namespace AndroidVersion
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
-            game = new Game1();            
+            game = new Game1(true);            
             SetViewFullScreen();
             game.Run();
         }
