@@ -17,7 +17,10 @@ namespace GameCore
         public bool Jump { get; private set; }
         public int ControllerIndex { get; private set; }
 
-        public TouchScreenChecker(Action<Thing> AddToWorld)
+        public TouchScreenChecker(
+            Action<Thing> AddToWorld
+            , Func<int,int,int,int, Animation> CreateDpadAnimation
+            , Func<int, int, int, int, Animation> CreateActionAnimation)
         {
             var touchController = new Thing();
 
@@ -27,6 +30,9 @@ namespace GameCore
             btn.Width = 2500;
             btn.Height = 2500;
             touchController.AddTouchArea(btn);
+            var animationn = CreateDpadAnimation(btn.OffsetX, btn.OffsetY, btn.Width, btn.Height);
+            animationn.RenderingLayer = 0.001f;
+            touchController.AddAnimation(animationn);
 
             btn2 = new TouchAreas();
             btn2.OffsetX = 7050;
@@ -34,6 +40,9 @@ namespace GameCore
             btn2.Width = 2500;
             btn2.Height = 2500;
             touchController.AddTouchArea(btn2);
+            var animationn2 = CreateActionAnimation(btn2.OffsetX, btn2.OffsetY, btn2.Width, btn2.Height);
+            animationn2.RenderingLayer = 0.001f;
+            touchController.AddAnimation(animationn2);
 
             AddToWorld(touchController);
         }

@@ -332,6 +332,7 @@ public class BaseGame : OriginalGameClass
     {
 #if DEBUG
         if (DisplayColliders)
+        {
             thing.Colliders.ForEach(collider =>
                 DrawBorder(
                     new Rectangle(
@@ -343,18 +344,20 @@ public class BaseGame : OriginalGameClass
                     collider.Disabled ? Color.Red : Color.Green
                 )
             );
+
+            thing.TouchAreas.ForEach(touchable =>
+                DrawBorder(
+                    new Rectangle(
+                        thing.X + touchable.OffsetX,
+                        thing.Y + touchable.OffsetY,
+                        touchable.Width,
+                        touchable.Height),
+                    30,
+                    Color.Blue
+                )
+            );
+        }
 #endif
-        thing.TouchAreas.ForEach(touchable =>
-            DrawBorder(
-                new Rectangle(
-                    thing.X + touchable.OffsetX,
-                    thing.Y + touchable.OffsetY,
-                    touchable.Width,
-                    touchable.Height),
-                30,
-                Color.Blue
-            )
-        );
 
         thing.Animations.ForEach(animation =>
         {

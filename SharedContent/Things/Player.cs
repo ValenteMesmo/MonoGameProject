@@ -12,7 +12,9 @@ namespace MonoGameProject
         //z2 enemy with shield
         //handle damage even when on cooldown...(if last damage < current damage... )
 
-            //animação de inicio do boss... começa na cor da parede... acende os olhos e depois o resto
+        //long sleep on player/boss death
+
+        //animação de inicio do boss... começa na cor da parede... acende os olhos e depois o resto
 
         //flash sky when raining
         //white screen fade transition between menu and game (white game over too?)
@@ -40,6 +42,7 @@ namespace MonoGameProject
         //adicionar pequeno cooldown no ataque melee do boss... para dar tempo de esquivar e atravessar
         //boss cria bolas de fogo que não se movem... igual os gremilins do castlevania
         //boss manda uma shockwave no chao
+        //boss fireball top mid bot.... (skull head.... moves far from normal point)
 
         //must increase dificult with level
         //  boss speed, boss health?
