@@ -56,7 +56,6 @@ public abstract class Game : IDisposable
 {
     public VibrationCenter VibrationCenter { get { return BaseGame.VibrationCenter; } }
 
-
 #if DEBUG
     public static string LOG = "NO logs";
 #endif

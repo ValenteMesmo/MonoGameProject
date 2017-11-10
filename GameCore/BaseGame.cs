@@ -97,13 +97,9 @@ public class BaseGame : OriginalGameClass
     private readonly Game Parent;
     SpriteFont SpriteFont;
     internal World World { get; }
-
-    //Effect effect;
-
 #if DEBUG
     private bool DisplayColliders;
 #endif
-
     public VibrationCenter VibrationCenter { get; set; }
     public readonly MusicController MusicController;
     private readonly bool RuningOnAndroid;
@@ -133,16 +129,16 @@ public class BaseGame : OriginalGameClass
     protected override void Initialize()
     {
         //TODO: fullscreen on alt+enter
-#if RELEASE
-        Graphics.IsFullScreen = true;
-        Graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
-        Graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
-#else
+#if DEBUG
         Graphics.PreferredBackBufferWidth = 640;
         Graphics.PreferredBackBufferHeight = 480;
         //Graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
         //Graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
         Graphics.IsFullScreen = false;
+#else
+        Graphics.IsFullScreen = false;
+        Graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
+        Graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
 #endif
         if (RuningOnAndroid)
             Graphics.IsFullScreen = true;
@@ -196,6 +192,8 @@ public class BaseGame : OriginalGameClass
 
         if (state.IsKeyDown(Keys.Escape))
             Parent.Restart();
+#else
+        Camera.Zoom = 0.15f;
 #endif
         World.Update();
 
@@ -294,10 +292,10 @@ public class BaseGame : OriginalGameClass
         //}
 
         Parent.FrameCounter.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
-#if DEBUG
+
 
         World.Things.ForEach(RenderThing);
-
+#if DEBUG
         var fps = string.Format("FPS: {0}", Parent.FrameCounter.AverageFramesPerSecond);
 
         SpriteBatch.DrawString(
