@@ -9,6 +9,9 @@ namespace MonoGameProject
     public class Player : Humanoid
     {
         //planning: 
+        //simular touch com o mouse só em DEBUG
+        //mapear start para enter
+        //usar start para iniciar o jogo tbm
         //z2 enemy with shield
         //handle damage even when on cooldown...(if last damage < current damage... )
 
@@ -45,7 +48,7 @@ namespace MonoGameProject
         //boss fireball top mid bot.... (skull head.... moves far from normal point)
 
         //must increase dificult with level
-        //  boss speed, boss health?
+        //  boss speed, boss health? boss stage harder? (sem chão nas beradas?)
         // boss solta bomba que explode (tem que se esconder do outro lado do mapa)
 
         //flyibg boss pattern: left and right... dive when above player.

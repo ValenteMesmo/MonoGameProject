@@ -4,50 +4,72 @@ using Microsoft.Xna.Framework;
 
 namespace GameCore
 {
-    public class TouchScreenChecker : InputChecker
+    interface TouchController
+    {
+        void Update();
+        void Destroy();
+    }
+
+    public class SimpleTouchInput : Thing, TouchController
+    {
+        private readonly TouchAreas btn;
+        private readonly Action Callback;
+
+        public SimpleTouchInput(Action Callback)
+        {
+            this.Callback = Callback;
+            btn = new TouchAreas();
+            btn.OffsetX = 450;
+            btn.OffsetY = 4550;
+            btn.Width = 2500;
+            btn.Height = 2500;
+            AddTouchArea(btn);
+        }
+
+        public void Update()
+        {
+            var touch = btn.GetTouchPoint();
+            if (touch.HasValue)
+            {
+                Callback();
+            }
+        }
+    }
+    public class InGameTouchInput : Thing, TouchController
     {
         private readonly TouchAreas btn;
         private readonly TouchAreas btn2;
+        Vector2 lastTouch;
+        private readonly TouchScreenChecker Parent;
 
-        public bool Left { get; private set; }
-        public bool Right { get; private set; }
-        public bool Up { get; private set; }
-        public bool Down { get; private set; }
-        public bool Action { get; private set; }
-        public bool Jump { get; private set; }
-        public int ControllerIndex { get; private set; }
-
-        public TouchScreenChecker(
-            Action<Thing> AddToWorld
-            , Func<int,int,int,int, Animation> CreateDpadAnimation
+        public InGameTouchInput(
+            TouchScreenChecker Parent
+            , Func<int, int, int, int, Animation> CreateDpadAnimation
             , Func<int, int, int, int, Animation> CreateActionAnimation)
         {
-            var touchController = new Thing();
+            this.Parent = Parent;
 
             btn = new TouchAreas();
             btn.OffsetX = 450;
             btn.OffsetY = 4550;
             btn.Width = 2500;
             btn.Height = 2500;
-            touchController.AddTouchArea(btn);
+            AddTouchArea(btn);
             var animationn = CreateDpadAnimation(btn.OffsetX, btn.OffsetY, btn.Width, btn.Height);
             animationn.RenderingLayer = 0.001f;
-            touchController.AddAnimation(animationn);
+            AddAnimation(animationn);
 
             btn2 = new TouchAreas();
             btn2.OffsetX = 7050;
             btn2.OffsetY = 4550;
             btn2.Width = 2500;
             btn2.Height = 2500;
-            touchController.AddTouchArea(btn2);
+            AddTouchArea(btn2);
             var animationn2 = CreateActionAnimation(btn2.OffsetX, btn2.OffsetY, btn2.Width, btn2.Height);
             animationn2.RenderingLayer = 0.001f;
-            touchController.AddAnimation(animationn2);
-
-            AddToWorld(touchController);
+            AddAnimation(animationn2);
         }
 
-        Vector2 lastTouch;
         public void Update()
         {
             HandleMovement();
@@ -59,13 +81,13 @@ namespace GameCore
             var touch = btn2.GetTouchPoint();
             if (touch.HasValue == false)
             {
-                Jump = false;
-                Action = false;
+                Parent.Jump = false;
+                Parent.Action = false;
                 return;
             }
 
-            Jump = touch.Value.X > btn2.CenterX() - 100;
-            Action = touch.Value.X < btn2.CenterX() + 100;
+            Parent.Jump = touch.Value.X > btn2.CenterX() - 100;
+            Parent.Action = touch.Value.X < btn2.CenterX() + 100;
         }
 
         private void HandleMovement()
@@ -81,10 +103,10 @@ namespace GameCore
             }
             else
             {
-                Left = false;
-                Right = false;
-                Down = false;
-                Up = false;
+                Parent.Left = false;
+                Parent.Right = false;
+                Parent.Down = false;
+                Parent.Up = false;
             }
         }
 
@@ -101,27 +123,65 @@ namespace GameCore
         {
             if (touch.X >= btn.CenterX() + distance)
             {
-                Right = true;
-                Left = false;
+                Parent.Right = true;
+                Parent.Left = false;
             }
             else if (touch.X <= btn.CenterX() - distance)
             {
-                Left = true;
-                Right = false;
+                Parent.Left = true;
+                Parent.Right = false;
             }
 
             if (touch.Y >= btn.CenterY() + distance)
             {
-                Up = false;
-                Down = true;
+                Parent.Up = false;
+                Parent.Down = true;
             }
             else if (touch.Y <= btn.CenterY() - distance)
             {
-                Up = true;
-                Down = false;
+                Parent.Up = true;
+                Parent.Down = false;
             }
 
             lastTouch = touch;
+        }
+    }
+
+    public class TouchScreenChecker : InputChecker
+    {
+        public bool Left { get; set; }
+        public bool Right { get; set; }
+        public bool Up { get; set; }
+        public bool Down { get; set; }
+        public bool Action { get; set; }
+        public bool Jump { get; set; }
+        public int ControllerIndex { get; set; }
+
+        TouchController controller;
+
+        public TouchScreenChecker(
+            Action<Thing> AddToWorld
+            , Func<int, int, int, int, Animation> CreateDpadAnimation
+            , Func<int, int, int, int, Animation> CreateActionAnimation)
+        {
+            controller = new SimpleTouchInput(() => OnTouchControllerSelected(AddToWorld, CreateDpadAnimation, CreateActionAnimation));
+            AddToWorld(controller as Thing);
+        }
+
+        private void OnTouchControllerSelected(
+            Action<Thing> AddToWorld
+            ,Func<int, int, int, int, Animation> CreateDpadAnimation
+            , Func<int, int, int, int, Animation> CreateActionAnimation)
+        {
+            controller.Destroy();
+            controller = new InGameTouchInput(this, CreateDpadAnimation, CreateActionAnimation);
+            AddToWorld(controller as Thing);
+            Action = true;
+        }
+
+        public void Update()
+        {
+            controller.Update();
         }
     }
 
