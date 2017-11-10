@@ -38,7 +38,7 @@ namespace GameCore
             AddToWorld(touchController);
         }
 
-        Vector2? lastTouch;
+        Vector2 lastTouch;
         public void Update()
         {
             HandleMovement();
@@ -64,44 +64,52 @@ namespace GameCore
             var distance = 250;
 
             var touch = btn.GetTouchPoint();
-            if (touch.HasValue == false)
+
+            if (touch.HasValue)
+            {
+                touch = ChangeTouchIfSimilarToTheLast(touch.Value);
+                HandleMovementTouch(distance, touch.Value);
+            }
+            else
             {
                 Left = false;
                 Right = false;
                 Down = false;
                 Up = false;
-                return;
             }
+        }
 
-            if (touch.Value.X >= btn.CenterX() + distance)
+        private Vector2 ChangeTouchIfSimilarToTheLast(Vector2 touch)
+        {
+            var distance = Vector2.Distance(touch, lastTouch);
+            if (distance > 200)
+                return touch;
+            else
+                return lastTouch;
+        }
+
+        private void HandleMovementTouch(int distance, Vector2 touch)
+        {
+            if (touch.X >= btn.CenterX() + distance)
             {
                 Right = true;
                 Left = false;
             }
-            else if (touch.Value.X <= btn.CenterX() - distance)
+            else if (touch.X <= btn.CenterX() - distance)
             {
                 Left = true;
                 Right = false;
             }
 
-            if (touch.Value.Y >= btn.CenterY() + distance)
+            if (touch.Y >= btn.CenterY() + distance)
             {
                 Up = false;
                 Down = true;
             }
-            else if (touch.Value.Y <= btn.CenterY() - distance)
+            else if (touch.Y <= btn.CenterY() - distance)
             {
                 Up = true;
                 Down = false;
-            }
-
-            if (lastTouch.HasValue)
-            {
-
-            }
-            else
-            {
-
             }
 
             lastTouch = touch;
