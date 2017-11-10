@@ -140,8 +140,8 @@ public class BaseGame : OriginalGameClass
 #else
         Graphics.PreferredBackBufferWidth = 640;
         Graphics.PreferredBackBufferHeight = 480;
-        Graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
-        Graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
+        //Graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
+        //Graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
         Graphics.IsFullScreen = false;
 #endif
         if (RuningOnAndroid)

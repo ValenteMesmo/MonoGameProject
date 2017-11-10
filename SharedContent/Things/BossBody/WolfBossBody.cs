@@ -44,10 +44,7 @@ namespace MonoGameProject
 
             //CreateBodyAnimator(Boss.TORSO_Z);
 
-            boss.AddUpdate(UpdateBasedOnState);
-
-            boss.AddUpdate(() => Game.LOG += $@"
-{boss.MouthState}");
+            boss.AddUpdate(UpdateBasedOnState);            
         }
 
         private void ChangeState()

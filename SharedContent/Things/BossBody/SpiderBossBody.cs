@@ -127,8 +127,6 @@ namespace MonoGameProject
                     ChangeState();
                 }
             }
-
-            Game1.LOG += boss.state;
         }
 
         private void ChangeState()

@@ -92,14 +92,13 @@ namespace GameCore
 
         private void HandleMovement()
         {
-            var distance = 250;
-
             var touch = btn.GetTouchPoint();
 
             if (touch.HasValue)
             {
-                touch = ChangeTouchIfSimilarToTheLast(touch.Value);
-                HandleMovementTouch(distance, touch.Value);
+                //touch = ChangeTouchIfSimilarToTheLast(touch.Value);
+
+                HandleMovementTouch(touch.Value);
             }
             else
             {
@@ -110,34 +109,68 @@ namespace GameCore
             }
         }
 
-        private Vector2 ChangeTouchIfSimilarToTheLast(Vector2 touch)
+        //private Vector2 ChangeTouchIfSimilarToTheLast(Vector2 touch)
+        //{
+        //    var distanceX = Math.Abs(touch.X - lastTouch.X);
+        //    var distanceY = Math.Abs(touch.Y - lastTouch.Y);
+
+        //    var newPosition = lastTouch;
+
+        //    if (distanceX > 200)
+        //        newPosition.X = touch.X;
+
+        //    if (distanceY > 200)
+        //        newPosition.Y = touch.Y;
+
+        //    return newPosition;
+        //}
+        bool previousRightValue;
+        bool previousLeftValue;
+
+        private void HandleMovementTouch(Vector2 touch)
         {
-            var distance = Vector2.Distance(touch, lastTouch);
-            if (distance > 200)
-                return touch;
+            var distanceX = touch.X - lastTouch.X;
+            var distanceY = touch.Y - lastTouch.Y;
+
+            var bonusX = 0;
+            var bonusY = btn.Width / 3;
+
+            var isOnLeftArea = touch.X <= btn.CenterX();
+            var isOnRightArea = touch.X >= btn.CenterX();
+
+            var isTryingToGoLeft = distanceX < -250;
+            var isTryingToGoRight = distanceX > 250;
+
+            var isNotTryingToChange = !isTryingToGoLeft && !isTryingToGoRight;
+
+            if (isNotTryingToChange)
+            {
+                Parent.Left = previousLeftValue;
+                Parent.Right = previousRightValue;
+            }
             else
-                return lastTouch;
-        }
-
-        private void HandleMovementTouch(int distance, Vector2 touch)
-        {
-            if (touch.X >= btn.CenterX() + distance)
             {
-                Parent.Right = true;
-                Parent.Left = false;
-            }
-            else if (touch.X <= btn.CenterX() - distance)
-            {
-                Parent.Left = true;
-                Parent.Right = false;
+                if (isTryingToGoRight)
+                {
+                    Parent.Right = true;
+                    Parent.Left = false;
+                }
+                if (isTryingToGoLeft)
+                {
+                    Parent.Right = false;
+                    Parent.Left = true;
+                }
             }
 
-            if (touch.Y >= btn.CenterY() + distance)
+            previousLeftValue = Parent.Left;
+            previousRightValue = Parent.Right;
+
+            if (touch.Y >= btn.CenterY() + bonusY)
             {
                 Parent.Up = false;
                 Parent.Down = true;
             }
-            else if (touch.Y <= btn.CenterY() - distance)
+            else if (touch.Y <= btn.CenterY() - bonusY)
             {
                 Parent.Up = true;
                 Parent.Down = false;
@@ -170,7 +203,7 @@ namespace GameCore
 
         private void OnTouchControllerSelected(
             Action<Thing> AddToWorld
-            ,Func<int, int, int, int, Animation> CreateDpadAnimation
+            , Func<int, int, int, int, Animation> CreateDpadAnimation
             , Func<int, int, int, int, Animation> CreateActionAnimation)
         {
             controller.Destroy();
