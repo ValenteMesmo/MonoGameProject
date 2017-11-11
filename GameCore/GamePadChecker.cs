@@ -13,10 +13,15 @@ namespace GameCore
     public class SimpleTouchInput : Thing, TouchController
     {
         private readonly TouchAreas btn;
+        private readonly TouchScreenChecker Parent;
+        private readonly Func<bool> GameStarted;
         private readonly Action Callback;
+        private bool choosen;
 
-        public SimpleTouchInput(Action Callback)
+        public SimpleTouchInput(TouchScreenChecker Parent ,Func<bool> GameStarted, Action Callback)
         {
+            this.Parent = Parent;
+            this.GameStarted = GameStarted;
             this.Callback = Callback;
             btn = new TouchAreas();
             btn.OffsetX = 450;
@@ -30,6 +35,11 @@ namespace GameCore
         {
             var touch = btn.GetTouchPoint();
             if (touch.HasValue)
+            {
+                choosen = true;
+            }
+            Parent.Action = touch.HasValue;
+            if (GameStarted() && choosen)
             {
                 Callback();
             }
@@ -195,9 +205,14 @@ namespace GameCore
         public TouchScreenChecker(
             Action<Thing> AddToWorld
             , Func<int, int, int, int, Animation> CreateDpadAnimation
-            , Func<int, int, int, int, Animation> CreateActionAnimation)
+            , Func<int, int, int, int, Animation> CreateActionAnimation
+            , Func<bool> GameStarted
+            )
         {
-            controller = new SimpleTouchInput(() => OnTouchControllerSelected(AddToWorld, CreateDpadAnimation, CreateActionAnimation));
+            controller = new SimpleTouchInput(
+                this
+                ,GameStarted
+                , () => OnTouchControllerSelected(AddToWorld, CreateDpadAnimation, CreateActionAnimation));
             AddToWorld(controller as Thing);
         }
 
@@ -209,7 +224,6 @@ namespace GameCore
             controller.Destroy();
             controller = new InGameTouchInput(this, CreateDpadAnimation, CreateActionAnimation);
             AddToWorld(controller as Thing);
-            Action = true;
         }
 
         public void Update()

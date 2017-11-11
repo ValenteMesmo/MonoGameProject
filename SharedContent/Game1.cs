@@ -33,6 +33,7 @@ namespace MonoGameProject
 
         private List<GameInputs> allControllers;
 
+        public bool GameStarted = false;
         protected override void OnStart()
         {
             Camera.Clear();
@@ -52,7 +53,7 @@ namespace MonoGameProject
         private void CreateGameInputs()
         {
             var Keyboard_PlayerInputs = new GameInputs(new KeyboardChecker());
-            var TouchControler_PlayerInputs = new GameInputs(new TouchScreenChecker(AddToWorld, (x, y, w, h) => GeneratedContent.Create_knight_movementInput(x, y, w, h), (x, y, w, h) => GeneratedContent.Create_knight_actionsInput(x, y, w, h)));
+            var TouchControler_PlayerInputs = new GameInputs(new TouchScreenChecker(AddToWorld, (x, y, w, h) => GeneratedContent.Create_knight_movementInput(x, y, w, h), (x, y, w, h) => GeneratedContent.Create_knight_actionsInput(x, y, w, h), () => GameStarted));
             var Controller1_PlayerInputs = new GameInputs(new GamePadChecker(0));
             var Controller2_PlayerInputs = new GameInputs(new GamePadChecker(1));
             var Controller3_PlayerInputs = new GameInputs(new GamePadChecker(2));
@@ -79,6 +80,7 @@ namespace MonoGameProject
 
         private void StartGame(GameInputs player1Inputs)
         {
+            GameStarted = true;
             allControllers.Remove(player1Inputs);
 
             var camerawall = new Thing();
@@ -181,6 +183,7 @@ namespace MonoGameProject
 
         private void MainMenu()
         {
+            GameStarted = false;
             ScreenFader2.FadeOut(() => { });
 
             var thing = new Thing();

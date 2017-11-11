@@ -9,6 +9,7 @@ namespace MonoGameProject
     public class Player : Humanoid
     {
         //planning: 
+        //diminuir o tamanho do boss? para ficar claro que da para pular sobre..
         //simular touch com o mouse só em DEBUG
         //mapear start para enter
         //usar start para iniciar o jogo tbm
