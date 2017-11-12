@@ -95,7 +95,7 @@ namespace MonoGameProject
                 , GeneratedContent.Create_knight_Leg_Fall_front_armored
                 , GeneratedContent.Create_knight_Leg_Roof_bang_armored
                 , GeneratedContent.Create_knight_Leg_SweetDreams_front_armored
-                , GeneratedContent.Create_knight_Leg_Fall_back_armored
+                , GeneratedContent.Create_knight_Leg_wall_back_armored
                 , GeneratedContent.Create_knight_Leg_Crouching_edge_armored
                 , GeneratedContent.Create_knight_Leg_Crouching_armored
             );
@@ -122,7 +122,7 @@ namespace MonoGameProject
                 , GeneratedContent.Create_knight_Leg_Fall_front
                 , GeneratedContent.Create_knight_Leg_Roof_bang
                 , GeneratedContent.Create_knight_Leg_SweetDreams_front
-                , GeneratedContent.Create_knight_Leg_Fall_back
+                , GeneratedContent.Create_knight_Leg_wall_back
                 , GeneratedContent.Create_knight_Leg_Crouching_edge
                 , GeneratedContent.Create_knight_Leg_Crouching
             );
@@ -241,7 +241,7 @@ namespace MonoGameProject
            , Func<int, int, int?, int?, bool, Animation> Create_knight_Leg_Fall_front
            , Func<int, int, int?, int?, bool, Animation> Create_knight_Leg_Roof_bang
            , Func<int, int, int?, int?, bool, Animation> Create_knight_Leg_SweetDreams_front
-           , Func<int, int, int?, int?, bool, Animation> Create_knight_Leg_Fall_back
+           , Func<int, int, int?, int?, bool, Animation> Create_knight_Leg_wall_back
            , Func<int, int, int?, int?, bool, Animation> Create_knight_Leg_Crouching_edge
            , Func<int, int, int?, int?, bool, Animation> Create_knight_Leg_Crouching
         )
@@ -253,7 +253,7 @@ namespace MonoGameProject
             var frontLegIdle = CreateFlippableAnimation(thing, Create_knight_Leg_Idle, ArmorColor, Front_leg_z, feet_y);
             var frontLegIdleEdge = CreateFlippableAnimation(thing, Create_knight_Leg_Idle, ArmorColor, Front_leg_z, feet_y);
             var frontLegIdleBackOnTheEdge = CreateFlippableAnimation(thing, Create_knight_Leg_SweetDreams_front, ArmorColor, Front_leg_z, feet_y);
-            var frontLegCrouchBackOnTheEdge = CreateFlippableAnimation(thing, Create_knight_Leg_Fall_back, ArmorColor, Front_leg_z, crouch_y);
+            var frontLegCrouchBackOnTheEdge = CreateFlippableAnimation(thing, Create_knight_Leg_wall_back, ArmorColor, Front_leg_z, crouch_y);
             var frontLegCrouchEdge = CreateFlippableAnimation(thing, Create_knight_Leg_Crouching_edge, ArmorColor, Front_leg_z, crouch_y);
             var frontLegCrouch = CreateFlippableAnimation(thing, Create_knight_Leg_Crouching, ArmorColor, Front_leg_z, crouch_y);
             var frontSweetDreams = CreateFlippableAnimation(thing, Create_knight_Leg_SweetDreams_front, ArmorColor, Front_leg_z, crouch_y);
