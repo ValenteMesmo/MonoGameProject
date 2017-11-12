@@ -186,34 +186,44 @@ namespace GameCore
         public int ControllerIndex { get; set; }
 
         TouchController controller;
+        private readonly Game Game;
 
         public TouchScreenChecker(
-            Action<Thing> AddToWorld
+            Game Game
             , Func<int, int, int, int, Animation> CreateDpadAnimation
             , Func<int, int, int, int, Animation> CreateActionAnimation
             , Func<bool> GameStarted
             )
         {
+            this.Game = Game;
             controller = new SimpleTouchInput(
                 this
                 , GameStarted
-                , () => OnTouchControllerSelected(AddToWorld, CreateDpadAnimation, CreateActionAnimation));
-            AddToWorld(controller as Thing);
+                , () => OnTouchControllerSelected( CreateDpadAnimation, CreateActionAnimation));
+
+            Game.AddToWorld(controller as Thing);
         }
 
         private void OnTouchControllerSelected(
-            Action<Thing> AddToWorld
-            , Func<int, int, int, int, Animation> CreateDpadAnimation
+             Func<int, int, int, int, Animation> CreateDpadAnimation
             , Func<int, int, int, int, Animation> CreateActionAnimation)
         {
             controller.Destroy();
             controller = new InGameTouchInput(this, CreateDpadAnimation, CreateActionAnimation);
-            AddToWorld(controller as Thing);
+            Game.AddToWorld(controller as Thing);
         }
 
         public void Update()
         {
             controller.Update();
+        }
+
+        public void HandleVibrations(VibrationInfo info)
+        {
+            //TODO:
+            Game.AndroidVibrate(
+                10//(long)(info.PowerPercentage)
+                );
         }
     }
 
@@ -254,6 +264,14 @@ namespace GameCore
             Up = controller.DPad.Up == ButtonState.Pressed
                     || controller.ThumbSticks.Right.Y < -0.5f
                     || controller.ThumbSticks.Right.Y > 0.5f;
+        }
+
+        public void HandleVibrations(VibrationInfo info)
+        {
+            GamePad.SetVibration(
+                  ControllerIndex
+                  , info.PowerPercentage
+                  , info.PowerPercentage);
         }
     }
 }

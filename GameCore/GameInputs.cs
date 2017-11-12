@@ -13,6 +13,10 @@ namespace GameCore
         public bool JumpDown { get; private set; }
         public bool Jump { get; private set; }
 
+        public void HandleVibrations(VibrationInfo info)
+        {
+        }
+
         public void Update()
         {
         }
@@ -23,6 +27,11 @@ namespace GameCore
         private readonly InputChecker InputChecker;
 
         public int ControllerIndex { get { return InputChecker.ControllerIndex; } }
+
+        internal void Vibrate(VibrationInfo vibrationInfo)
+        {
+            InputChecker.HandleVibrations(vibrationInfo);
+        }
 
         public bool ClickedLeft { get; private set; }
         public bool ClickedRight { get; private set; }

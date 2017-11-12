@@ -23,12 +23,15 @@ namespace AndroidVersion
             base.OnCreate(bundle);
             game = new Game1(true);            
             SetViewFullScreen();
+
+            Vibrator vibrator = (Vibrator)GetSystemService(VibratorService);
+            game.AndroidVibrate = f => vibrator.Vibrate(f);
+
             game.Run();
         }
 
         private void SetViewFullScreen()
         {
-
             var view = (View)game.BaseGame.Services.GetService(typeof(View));
             view.SystemUiVisibility = (StatusBarVisibility)
                 (SystemUiFlags.LayoutStable

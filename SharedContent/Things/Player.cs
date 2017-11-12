@@ -9,7 +9,7 @@ namespace MonoGameProject
     public class Player : Humanoid
     {
         //planning: 
-        //android vibration        
+        //Use vibrationPower on touch vibration...
         //BUG: weapon drop random is broken.... break, pick,break, pick,break, pick,break, pick... to see
         //diminuir o tamanho do boss? para ficar claro que da para pular sobre..
         //simular touch com o mouse só em DEBUG
@@ -329,7 +329,7 @@ namespace MonoGameProject
                     t.Disabled = true;
                     t.Parent.Destroy();
                     Game1.ScreenFader.Flash(armorColor.R, armorColor.G, armorColor.B, X, Y);
-                    Game1.VibrationCenter.Vibrate(Inputs, 5);
+                    Game1.VibrationCenter.Vibrate(Inputs, 5, 0.25f);
                     Game1.MusicController.Queue("tumtum");
                 }
                 else if (t.Parent is Weapon)
@@ -346,7 +346,7 @@ namespace MonoGameProject
                     t.Parent.Destroy();
                     t.Disabled = true;
                     Game1.ScreenFader.Flash(weapon.Color.R, weapon.Color.G, weapon.Color.B, X, Y);
-                    Game1.VibrationCenter.Vibrate(Inputs, 5);
+                    Game1.VibrationCenter.Vibrate(Inputs, 5, 0.5f);
                     Game1.MusicController.Queue("tumtum");
                 }
             };

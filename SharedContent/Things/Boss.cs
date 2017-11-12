@@ -57,7 +57,7 @@ namespace MonoGameProject
 
                 Player player = GetPlayerFromCollider(t);
 
-                Game1.VibrationCenter.Vibrate(player.Inputs, 10);
+                Game1.VibrationCenter.Vibrate(player.Inputs, 10, 0.25f);
 
                 damageCooldown = 20;
                 //BodyColor = Color.Lerp(BodyColor, Color.Red, 0.05f);

@@ -1,4 +1,6 @@
-﻿namespace GameCore
+﻿using System;
+
+namespace GameCore
 {
     public interface InputChecker : UpdateHandler
     {
@@ -10,6 +12,8 @@
         bool Jump { get; }
 
         int ControllerIndex { get; }
+
+        void HandleVibrations(VibrationInfo info);
     }
 }
 

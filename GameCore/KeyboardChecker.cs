@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Input;
+﻿using System;
+using Microsoft.Xna.Framework.Input;
 
 namespace GameCore
 {
@@ -11,6 +12,10 @@ namespace GameCore
         public bool Action { get; private set; }
         public bool Jump { get; private set; }
         public int ControllerIndex { get; }
+
+        public void HandleVibrations(VibrationInfo info)
+        {
+        }
 
         public void Update()
         {
@@ -51,6 +56,10 @@ namespace GameCore
         public bool Action { get; private set; }
         public bool Jump { get; private set; }
         public int ControllerIndex { get; private set; }
+
+        public void HandleVibrations(VibrationInfo info)
+        {
+        }
 
         public void Update()
         {

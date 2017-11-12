@@ -5,49 +5,50 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 
-public class VibrationStatus
+public class VibrationInfo
 {
     public int Duration { get; set; }
-    public int Origin { get; set; }
+    public float PowerPercentage { get; set; }
 }
 
 public class VibrationCenter
 {
-    public Dictionary<int, VibrationStatus> Vibrations = new Dictionary<int, VibrationStatus>();
+    public Dictionary<GameInputs, VibrationInfo> Vibrations = new Dictionary<GameInputs, VibrationInfo>();
 
     public void Update()
     {
         foreach (var index in Vibrations.Keys)
         {
             var vibration_duration = Vibrations[index].Duration;
-            var vibration_original = Vibrations[index].Origin;
+            var vibration_power = Vibrations[index].PowerPercentage;
 
             if (vibration_duration > 0)
             {
                 vibration_duration--;
-                GamePad.SetVibration(
-                    index
-                    , vibration_duration / vibration_original
-                    , vibration_duration);
+                index.Vibrate(Vibrations[index]);
             }
 
             Vibrations[index].Duration--;
-            Vibrations[index].Origin--;
         }
     }
 
-    public void Vibrate(GameInputs inputs, int duration)
+    public void Vibrate(GameInputs inputs, int duration, float powerPercentage)
     {
-        if (Vibrations.ContainsKey(inputs.ControllerIndex))
+        if (powerPercentage > 1f)
+            powerPercentage = 1f;
+        if (powerPercentage < 0)
+            powerPercentage = 0;
+
+        if (Vibrations.ContainsKey(inputs))
         {
-            Vibrations.Remove(inputs.ControllerIndex);
+            Vibrations.Remove(inputs);
         }
 
         Vibrations.Add(
-           inputs.ControllerIndex, new VibrationStatus
+           inputs, new VibrationInfo
            {
                Duration = duration,
-               Origin = duration
+               PowerPercentage = powerPercentage
            });
     }
 }
@@ -61,7 +62,7 @@ public abstract class Game : IDisposable
 #endif
     public FrameCounter FrameCounter = new FrameCounter();
     public readonly BaseGame BaseGame;
-    public Camera2d Camera { get { return BaseGame.Camera; } } 
+    public Camera2d Camera { get { return BaseGame.Camera; } }
     public void Sleep() { BaseGame.World.Sleep(); }
 
     public MusicController MusicController { get { return BaseGame.MusicController; } }
@@ -90,7 +91,6 @@ public abstract class Game : IDisposable
     }
 
     public Action<long> AndroidVibrate = f => { };
-    private readonly bool RuningOnAndroid;
 
     protected void AddThing(Thing thing)
     {
