@@ -298,7 +298,7 @@ namespace MonoGameProject
                 , AddToWorld)
         {
             this.Game1 = Game1;
-            HitPoints = 2;
+            HitPoints = 20;
             PlayerIndex = index;
 
             AddUpdate(() =>

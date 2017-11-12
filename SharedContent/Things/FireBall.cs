@@ -1,5 +1,6 @@
 ﻿using GameCore;
 using Microsoft.Xna.Framework;
+using MonoGameProject.Things;
 using System;
 
 namespace MonoGameProject
@@ -196,6 +197,11 @@ namespace MonoGameProject
 
             AddUpdate(new DestroyIfLeftBehind(this));
             AddAfterUpdate(new MoveHorizontallyWithTheWorld(this));
+
+            collider.AddBotCollisionHandler(StopsWhenHitting.Bot<BlockVerticalMovement>());
+            collider.AddLeftCollisionHandler(StopsWhenHitting.Left<BlockHorizontalMovement>());
+            collider.AddRightCollisionHandler(StopsWhenHitting.Right<BlockHorizontalMovement>());
+            collider.AddTopCollisionHandler(StopsWhenHitting.Top<BlockVerticalMovement>());
 
             AddUpdate(() =>
             {

@@ -132,8 +132,8 @@ public class BaseGame : OriginalGameClass
 #if DEBUG
         Graphics.PreferredBackBufferWidth = 640;
         Graphics.PreferredBackBufferHeight = 480;
-        //Graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
-        //Graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
+        Graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
+        Graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
         Graphics.IsFullScreen = false;
 #else
         Graphics.IsFullScreen = false;
@@ -141,7 +141,11 @@ public class BaseGame : OriginalGameClass
         Graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
 #endif
         if (RuningOnAndroid)
+        {
             Graphics.IsFullScreen = true;
+            Graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
+            Graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
+        }
 
         Graphics.ApplyChanges();
 
