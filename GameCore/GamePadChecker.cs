@@ -24,10 +24,8 @@ namespace GameCore
             this.GameStarted = GameStarted;
             this.Callback = Callback;
             btn = new TouchAreas();
-            btn.OffsetX = 450;
-            btn.OffsetY = 4550;
-            btn.Width = 2500;
-            btn.Height = 2500;
+            btn.Width = 10000;
+            btn.Height = 8000;
             AddTouchArea(btn);
         }
 
@@ -46,21 +44,20 @@ namespace GameCore
         }
     }
 
-
-    //então...
-    /*
-     vou deixar um range certo para a esquerda 
-         um range certo para esquerda
-         e entre eles um range morto...
-
-         ao clicar no range morto, vou verificar se estava tentando trocar de lado.
-          */
     public class InGameTouchInput : Thing, TouchController
     {
         private readonly TouchAreas btn;
         private readonly TouchAreas btn2;
         Vector2 lastTouch;
         private readonly TouchScreenChecker Parent;
+
+        bool wasGoingLeft;
+        bool wasGoingRight;
+        private readonly int smallPart;
+        private readonly float rightArea;
+        private readonly float leftArea;
+        private readonly float downArea;
+        private readonly float upArea;
 
         public InGameTouchInput(
             TouchScreenChecker Parent
@@ -90,6 +87,12 @@ namespace GameCore
             AddAnimation(animationn2);
 
             lastTouch = new Vector2(btn.CenterX(), btn.CenterY());
+
+            smallPart = btn.Width / 6;
+            rightArea = btn.CenterX() + smallPart;
+            leftArea = btn.CenterX() - smallPart;
+            downArea = btn.CenterY() + smallPart;
+            upArea = btn.CenterY() - smallPart;
         }
 
         public void Update()
@@ -118,8 +121,6 @@ namespace GameCore
 
             if (touch.HasValue)
             {
-                //touch = ChangeTouchIfSimilarToTheLast(touch.Value);
-
                 HandleMovementTouch(touch.Value);
             }
             else
@@ -131,113 +132,44 @@ namespace GameCore
             }
         }
 
-        //private Vector2 ChangeTouchIfSimilarToTheLast(Vector2 touch)
-        //{
-        //    var distanceX = Math.Abs(touch.X - lastTouch.X);
-        //    var distanceY = Math.Abs(touch.Y - lastTouch.Y);
-
-        //    var newPosition = lastTouch;
-
-        //    if (distanceX > 200)
-        //        newPosition.X = touch.X;
-
-        //    if (distanceY > 200)
-        //        newPosition.Y = touch.Y;
-
-        //    return newPosition;
-        //}
-
-        bool wasGoingLeft;
-        bool wasGoingRight;
-
         private void HandleMovementTouch(Vector2 touch)
         {
-            //obs: add math.abs
             var distanceX = touch.X - lastTouch.X;
             var distanceY = touch.Y - lastTouch.Y;
+            var distanceXAbs = Math.Abs(distanceX);
+            var distanceYAbs = Math.Abs(distanceY);
 
-            var smallPart = btn.Width / 6;
-            var rightArea = btn.CenterX() + smallPart;
-            var leftArea = btn.CenterX() - smallPart;
+            var isGoingRight = touch.X >= rightArea;
+            var isGoingLeft = touch.X <= leftArea;
+            var isGoingDown = touch.Y >= downArea;
+            var isGoingUp = touch.Y <= upArea;
 
-            Parent.Right = touch.X >= rightArea;
-            Parent.Left = touch.X <= leftArea;
-
-            //obs nao estou considerando o Y aqui... isso torna impossivel olhar para cima sem andar, por exemplo
-            if (!Parent.Right && !Parent.Left)
+            if (!isGoingRight && !isGoingLeft && distanceYAbs < smallPart)
             {
-                if (distanceX > smallPart)
+                if (wasGoingLeft)
                 {
-                    Parent.Right = false;
-                    Parent.Left = true;
+                    var shouldGoRight = distanceX > smallPart;
+
+                    Parent.Right = shouldGoRight;
+                    Parent.Left = !shouldGoRight;
+                }
+                if (wasGoingRight)
+                {
+                    var shoudGoLeft = distanceX < -smallPart;
+                    Parent.Right = !shoudGoLeft;
+                    Parent.Left = shoudGoLeft;
                 }
             }
+            else
+            {
+                Parent.Left = isGoingLeft;
+                Parent.Right = isGoingRight;
+            }
+            Parent.Up = isGoingUp;
+            Parent.Down = isGoingDown;
 
-
-
-
-
-
-
-            //var magicValueX = 600;
-            //var isOnLeftArea = touch.X <= btn.CenterX();
-            //var isOnRightArea = touch.X >= btn.CenterX();
-            //var isTryingToGoLeft = distanceX < -magicValueX;
-            //var isTryingToGoRight = distanceX > magicValueX;
-            //var isNotTryingToChange = !isTryingToGoLeft && !isTryingToGoRight;
-
-            //if (isNotTryingToChange)
-            //{
-            //    Parent.Left = previousLeftValue;
-            //    Parent.Right = previousRightValue;
-            //}
-            //else
-            //{
-            //    if (isTryingToGoRight)
-            //    {
-            //        Parent.Right = true;
-            //        Parent.Left = false;
-            //    }
-            //    if (isTryingToGoLeft)
-            //    {
-            //        Parent.Right = false;
-            //        Parent.Left = true;
-            //    }
-            //}
-
-            //previousLeftValue = Parent.Left;
-            //previousRightValue = Parent.Right;
-
-
-            //var magicValueY = 500;
-            //var isOnUpArea = touch.Y <= btn.CenterY();
-            //var isOnDownArea = touch.Y >= btn.CenterY();
-            //var isTryingToGoUp = distanceY < -magicValueY;
-            //var isTryingToGoDown = distanceY > magicValueY;
-            //var isNotTryingToChangeVertical = !isTryingToGoUp && !isTryingToGoDown;
-
-            //if (isNotTryingToChangeVertical)
-            //{
-            //    Parent.Up = previousUpValue;
-            //    Parent.Down = previousDownValue;
-            //}
-            //else
-            //{
-            //    if (isTryingToGoDown && isNotTryingToChange)
-            //    {
-            //        Parent.Down = true;
-            //        Parent.Up = false;
-            //    }
-            //    if (isTryingToGoUp && isNotTryingToChange)
-            //    {
-            //        Parent.Down = false;
-            //        Parent.Up = true;
-            //    }
-            //}
-
-            //previousDownValue = Parent.Down;
-            //previousUpValue = Parent.Up;
-
+            wasGoingRight = Parent.Right;
+            wasGoingLeft = Parent.Left;
 
             lastTouch = touch;
         }
