@@ -35,6 +35,7 @@ namespace GameCore
             if (touch.HasValue)
             {
                 choosen = true;
+                Parent.HandleVibrations(new VibrationInfo { PowerPercentage = 0.2f });
             }
             Parent.Action = touch.HasValue;
             if (GameStarted() && choosen)
@@ -165,6 +166,7 @@ namespace GameCore
                 Parent.Left = isGoingLeft;
                 Parent.Right = isGoingRight;
             }
+
             Parent.Up = isGoingUp;
             Parent.Down = isGoingDown;
 
@@ -177,12 +179,93 @@ namespace GameCore
 
     public class TouchScreenChecker : InputChecker
     {
-        public bool Left { get; set; }
-        public bool Right { get; set; }
-        public bool Up { get; set; }
-        public bool Down { get; set; }
-        public bool Action { get; set; }
-        public bool Jump { get; set; }
+        VibrationInfo VibrationInfo = new VibrationInfo { PowerPercentage = 0.2f };
+        private bool _Left;
+        private bool _Right;
+        private bool _Up;
+        private bool _Down;
+        private bool _Action;
+        private bool _Jump;
+
+        private void VibrateOnChange(bool oldValue, bool newValue)
+        {
+            if ((!oldValue && newValue) || (oldValue && !newValue))
+                HandleVibrations(VibrationInfo);
+        }
+
+        public bool Left
+        {
+            get
+            {
+                return _Left;
+            }
+            set
+            {
+                VibrateOnChange(_Left, value);
+                _Left = value;
+            }
+        }
+
+        public bool Right
+        {
+            get
+            {
+                return _Right;
+            }
+            set
+            {
+                VibrateOnChange(_Right, value);
+                _Right = value;
+            }
+        }
+        public bool Up
+        {
+            get
+            {
+                return _Up;
+            }
+            set
+            {
+                VibrateOnChange(_Up, value);
+                _Up = value;
+            }
+        }
+        public bool Down
+        {
+            get
+            {
+                return _Down;
+            }
+            set
+            {
+                VibrateOnChange(_Down, value);
+                _Down = value;
+            }
+        }
+        public bool Action
+        {
+            get
+            {
+                return _Action;
+            }
+            set
+            {
+                VibrateOnChange(_Action, value);
+                _Action = value;
+            }
+        }
+        public bool Jump
+        {
+            get
+            {
+                return _Jump;
+            }
+            set
+            {
+                VibrateOnChange(_Jump, value);
+                _Jump = value;
+            }
+        }
         public int ControllerIndex { get; set; }
 
         TouchController controller;
@@ -199,7 +282,7 @@ namespace GameCore
             controller = new SimpleTouchInput(
                 this
                 , GameStarted
-                , () => OnTouchControllerSelected( CreateDpadAnimation, CreateActionAnimation));
+                , () => OnTouchControllerSelected(CreateDpadAnimation, CreateActionAnimation));
 
             Game.AddToWorld(controller as Thing);
         }
@@ -222,7 +305,7 @@ namespace GameCore
         {
             //TODO:
             Game.AndroidVibrate(
-                10//(long)(info.PowerPercentage)
+                (long)(60f * info.PowerPercentage)
                 );
         }
     }

@@ -10,9 +10,11 @@ namespace MonoGameProject
         private readonly Action<Thing> AddToWorld;
         public readonly Collider collider;
         public Func<Color> ColorGetter = () => Color.White;
+        public readonly Thing Owner;
 
-        public BaseFireBall(Action<Thing> AddToWorld)
+        public BaseFireBall(Thing Owner,Action<Thing> AddToWorld)
         {
+            this.Owner = Owner;
             this.AddToWorld = AddToWorld;
 
             var size = 400;
@@ -64,7 +66,7 @@ namespace MonoGameProject
         public const int SPEED = 100;
         public const int VELOCITY = 8;
 
-        public WavedFireBall(bool facingRight, Action<Thing> AddToWorld) : base(AddToWorld)
+        public WavedFireBall(Thing Owner, bool facingRight, Action<Thing> AddToWorld) : base(Owner,AddToWorld)
         {
             var animation = GeneratedContent.Create_knight_block(
             0
@@ -103,12 +105,11 @@ namespace MonoGameProject
     public class FireBall : BaseFireBall
     {
         public const int SPEED = 150;
-        public readonly Thing Owner;
+ 
         public int duration = 200;
 
-        public FireBall(Thing Owner, int speedX, int speedY, Action<Thing> AddToWorld) : base(AddToWorld)
+        public FireBall(Thing Owner, int speedX, int speedY, Action<Thing> AddToWorld) : base(Owner, AddToWorld)
         {
-            this.Owner = Owner;
             var animation = GeneratedContent.Create_knight_block(
             0
             , 0
@@ -130,6 +131,18 @@ namespace MonoGameProject
                     Destroy();
             });
 
+            if (Owner is Player)
+            {
+                collider.AddHandler((s, t) =>
+                {
+                    if (t.Parent is BaseFireBall && !((t.Parent as BaseFireBall).Owner is Player))
+                    {
+                        Destroy();
+                        t.Parent.Destroy();
+                    }
+                });
+            }
+
             HorizontalSpeed = speedX;
             VerticalSpeed = speedY;
             AddUpdate(new DestroyIfLeftBehind(this));
@@ -147,7 +160,7 @@ namespace MonoGameProject
 
     public class SonicBoom : BaseFireBall
     {
-        public SonicBoom(int speedX, int speedY, Action<Thing> AddToWorld) : base(AddToWorld)
+        public SonicBoom(Thing Owner, int speedX, int speedY, Action<Thing> AddToWorld) : base(Owner,AddToWorld)
         {
             var animation = GeneratedContent.Create_knight_SoniicBoom(
             0
@@ -178,7 +191,7 @@ namespace MonoGameProject
         public const int MAX_SPEED = 50;
         public int duration = 300;
 
-        public SeekerFireBall(Boss boss, Action<Thing> AddToWorld) : base(AddToWorld)
+        public SeekerFireBall(Boss boss, Action<Thing> AddToWorld) : base(boss,AddToWorld)
         {
             var target = boss.player;
 

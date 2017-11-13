@@ -34,6 +34,11 @@ namespace MonoGameProject
                         return;
                 }
 
+                if (Parent.DamageDuration > 0)
+                {
+                    Game1.Camera.ShakeUp(40);
+                }
+
                 DefaultDamageHandler(source, target);
 
                 target.Disabled = true;
@@ -56,9 +61,10 @@ namespace MonoGameProject
                 Parent.HitPoints--;
                 Parent.DamageDuration = DAMAGE_DURATION;
 
+                //duplicated
                 Game1.Camera.ShakeUp(40);
                 Game1.Sleep();
-                Game1.VibrationCenter.Vibrate(Parent.Inputs, 20, 0.5f);
+                Game1.VibrationCenter.Vibrate(Parent.Inputs, 20, 0.3f);
                 //TODO: if hascolor... flash color
                 Game1.ScreenFader.Flash((int)Parent.MainCollider.CenterX(), (int)Parent.MainCollider.CenterY());
 

@@ -208,7 +208,7 @@ namespace MonoGameProject
                         GameState.State.BossMode = false;
                     }
             );
-            PlayerDamageHandler.HEALTH = 20;
+            PlayerDamageHandler.HEALTH = 30;
 
             mainCollider.AddHandler(PlayerDamageHandler.CollisionHandler);
             AddUpdate(PlayerDamageHandler.Update);
@@ -576,7 +576,7 @@ namespace MonoGameProject
             if (headType == 1)
                 return boss =>
             {
-                Game1.AddToWorld(new WavedFireBall(boss.facingRight, Game1.AddToWorld) { X = boss.attackCollider.X, Y = boss.attackCollider.Y });
+                Game1.AddToWorld(new WavedFireBall(boss, boss.facingRight, Game1.AddToWorld) { X = boss.attackCollider.X, Y = boss.attackCollider.Y });
             };
 
             if (headType == 2)
@@ -587,7 +587,8 @@ namespace MonoGameProject
                     speed = -speed;
 
                 var fireball = new SonicBoom(
-                        speed
+                        boss
+                        ,speed
                         , 0
                         , Game1.AddToWorld
                     );
