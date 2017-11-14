@@ -151,7 +151,7 @@ namespace MonoGameProject
         private Game1 Game1;
 
         public readonly AttackCollider attackCollider;
-        public readonly GroundCollider mainCollider;
+        public readonly SolidCollider mainCollider;
         public readonly CollisionChecker groundDetector;
         public readonly Collider playerFinder;
 
@@ -183,7 +183,7 @@ namespace MonoGameProject
             };
             AddCollider(attackCollider);
 
-            mainCollider = new GroundCollider(width, height ) { };
+            mainCollider = new SolidCollider(width, height ) { };
 
             mainCollider.AddBotCollisionHandler(StopsWhenHitting.Bot<GroundCollider>());
             mainCollider.AddTopCollisionHandler(StopsWhenHitting.Top<GroundCollider>());

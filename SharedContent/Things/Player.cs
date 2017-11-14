@@ -9,8 +9,11 @@ namespace MonoGameProject
     public class Player : Humanoid
     {
         //planning: 
+        //usar mesma logica de dano em todas as fireballs... tem umas que não vibram a tela...
+        //      todas devem ter o mesmo life 3
+        //ter boss em ceu aberto... if esperto no teto e no background
+
         //BUG: weapon drop random is broken.... break, pick,break, pick,break, pick,break, pick... to see
-        //diminuir o tamanho do boss? para ficar claro que da para pular sobre..
         //simular touch com o mouse só em DEBUG
         //mapear start para enter
         //usar start para iniciar o jogo tbm
