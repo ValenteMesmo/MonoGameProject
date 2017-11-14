@@ -54,6 +54,8 @@
     <Compile Include="Things\BossBody\HumanoidBossBody.cs" />
     <Compile Include="Things\BossBody\SpiderBossBody.cs" />
     <Compile Include="Things\BossBody\WolfBossBody.cs" />
+    <Compile Include="Things\BossSkills\BulletStorm.cs" />
+    <Compile Include="Things\BossSkills\SpikeBall.cs" />
     <Compile Include="Things\ChangeToAttackState.cs" />
     <Compile Include="Things\DestroyIfLeftBehind.cs" />
     <Compile Include="Things\Enemy.cs" />

@@ -185,7 +185,6 @@ namespace MonoGameProject
                         HumanoidAnimatorFactory.FACE_Z - PlayerIndex / 100f,
                         0,
                         AddToWorld);
-
             }
         });
         }

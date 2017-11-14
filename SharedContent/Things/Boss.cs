@@ -1,6 +1,8 @@
 ﻿using GameCore;
 using Microsoft.Xna.Framework;
 using MonoGameProject.Things;
+using SharedContent;
+using SharedContent.Things.BossSkills;
 using System;
 
 namespace MonoGameProject
@@ -129,9 +131,7 @@ namespace MonoGameProject
 
         public Player player;
 
-        private BossState _state;
-        public BossState state { get { return _state; } set { _state = value; StateChanged(); } }
-        private Action StateChanged = () => { };
+        public BossState state;
         public BossMouthState MouthState;
         public bool facingRight = false;
         public bool grounded;
@@ -222,9 +222,10 @@ namespace MonoGameProject
             AddCollider(mainCollider);
 
             var headType = MyRandom.Next(1, 3);
+            var eyeType = MyRandom.Next(1, 3);
             CreateHeadAnimator(headType, HEAD_Z);
-            CreateEyeAnimator(MyRandom.Next(1, 3), EYE_Z, Game1);
-            CreateBody(MyRandom.Next(1, 3), Game1, headType);
+            CreateEyeAnimator(eyeType, EYE_Z, Game1);
+            CreateBody(MyRandom.Next(1, 3), Game1, headType, eyeType);
 
             AddAfterUpdate(new MoveHorizontallyWithTheWorld(this));
             AddUpdate(new AfectedByGravity(this));
@@ -354,171 +355,6 @@ namespace MonoGameProject
 
         private void CreateEyeAnimator(int random, float z, Game1 Game1)
         {
-            if (random == 1)
-            {
-                StateChanged = () =>
-                {
-                    if (state == BossState.EyeAttack)
-                    {
-                        Game1.AddToWorld(new LeafShieldCell(this));
-                    }
-                };
-            }
-            else if (random == 2)
-            {
-                StateChanged = () =>
-                {
-                    if (state == BossState.EyeAttack)
-                    {
-                        var newThing = new Thing();
-                        var duration = 50;
-
-                        var MAX = 50;
-                        var MIN = 4;
-
-                        var hspeed = 0;
-                        var vspeed = MAX;
-                        var hvelocity = MIN;
-                        var vvelocity = -MIN;
-
-                        newThing.AddUpdate(() =>
-                        {
-                            if (duration % 3 == 0)
-                            {
-                                Game1.AddToWorld(
-                                    new FireBall(
-                                        this
-                                        , hspeed
-                                        , vspeed
-                                        , Game1.AddToWorld
-                                    )
-                                    {
-                                        X = X + (facingRight ? 600 : 0),
-                                        Y = Y - 600,
-                                        ColorGetter = GameState.GetColor
-                                    }
-                                );
-                            }
-
-                            vspeed += vvelocity;
-                            hspeed += hvelocity;
-
-                            if (vspeed >= MAX)
-                            {
-                                vvelocity = -MIN;
-                            }
-                            if (vspeed <= -MAX)
-                            {
-                                vvelocity = MIN;
-                            }
-
-                            if (hspeed >= MAX)
-                            {
-                                hvelocity = -MIN;
-                            }
-                            if (hspeed <= -MAX)
-                            {
-                                hvelocity = MIN;
-                            }
-
-                            duration--;
-                            if (duration == 0 || PlayerDamageHandler.Dead())
-                            {
-                                newThing.Destroy();
-                            }
-                        });
-
-                        Game1.AddToWorld(newThing);
-                    }
-                };
-            }
-            else
-            {
-                StateChanged = () =>
-                {
-                    if (state == BossState.EyeAttack)
-                    {
-                        var size = 1500;
-                        var spikeBall = new Thing();
-                        var collider = new AttackCollider
-                        {
-                            Width = size / 2 - (size / 3) / 2
-                            ,
-                            Height = size / 3 - (size / 6)
-                            ,
-                            OffsetY = size / 3 + (size / 6)
-                            ,
-                            OffsetX = (size / 3) / 4
-                        };
-                        spikeBall.AddCollider(collider);
-                        var anim = GeneratedContent.Create_knight_spike_dropped(
-                            -size / 4
-                            , -size / 6,
-                            size,
-                            size);
-                        anim.RenderingLayer = Boss.RIGHT_ARM_Z - 0.001f;
-                        anim.ColorGetter = GameState.GetColor;
-                        spikeBall.AddAnimation(anim);
-                        spikeBall.X = facingRight ? X + 1000 : X - 200;
-                        spikeBall.Y = Y - 1200;
-                        collider.AddBotCollisionHandler(StopsWhenHitting.Bot<GroundCollider>());
-                        collider.AddTopCollisionHandler(StopsWhenHitting.Top<GroundCollider>());
-                        collider.AddLeftCollisionHandler(StopsWhenHitting.Left<GroundCollider>());
-                        collider.AddRightCollisionHandler(StopsWhenHitting.Right<GroundCollider>());
-                        var speed = 40;
-
-                        var mod = facingRight ? -1 : 1;
-                        spikeBall.VerticalSpeed = speed;
-
-                        collider.AddBotCollisionHandler((s, t) =>
-                        {
-                            if (t is GroundCollider)
-                            {
-                                spikeBall.VerticalSpeed = 0;
-                                spikeBall.HorizontalSpeed = speed * mod;
-                            }
-                        });
-                        collider.AddRightCollisionHandler((s, t) =>
-                        {
-                            if (t is GroundCollider)
-                            {
-                                spikeBall.VerticalSpeed = -speed * mod;
-                                spikeBall.HorizontalSpeed = 0;
-                            }
-                        });
-                        collider.AddTopCollisionHandler((s, t) =>
-                        {
-                            if (t is GroundCollider)
-                            {
-                                spikeBall.VerticalSpeed = 0;
-                                spikeBall.HorizontalSpeed = -speed * mod;
-                            }
-                        });
-                        collider.AddLeftCollisionHandler((s, t) =>
-                        {
-                            if (t is GroundCollider)
-                            {
-                                spikeBall.VerticalSpeed = speed * mod;
-                                spikeBall.HorizontalSpeed = 0;
-                            }
-                        });
-
-                        //spikeBall.AddUpdate(new AfectedByGravity(spikeBall));
-                        spikeBall.AddAfterUpdate(new MoveHorizontallyWithTheWorld(spikeBall));
-                        var duration = 1000;
-                        spikeBall.AddUpdate(() =>
-                        {
-                            duration--;
-                            if (duration <= 0)
-                            {
-                                spikeBall.Destroy();
-                            }
-                        });
-                        Game1.AddToWorld(spikeBall);
-                    }
-                };
-            }
-
             var standing_left = NewMethod(random, z, false, GameState.GetColor, BossAnimationsFactory.EyeAnimation);
             var standing_right = NewMethod(random, z, true, GameState.GetColor, BossAnimationsFactory.EyeAnimation);
             var attack_left = NewMethod(random, z, false, GameState.GetColor, BossAnimationsFactory.EyeAnimation);
@@ -551,23 +387,40 @@ namespace MonoGameProject
             AddAnimation(animation);
         }
 
-        private void CreateBody(int bodyType, Game1 Game1, int headType)
+        private void CreateBody(int bodyType, Game1 Game1, int headType, int eyeType)
         {
             Action<Boss> CreateFireBall = CreateFileBallAction(Game1, headType);
+            Action UseEyeSkill = CreateEyeSkill(Game1, headType);
 
-            Action ShakeCamera = () => Game1.Camera.ShakeUp(10);
-            if (bodyType == 1)
+            //Action ShakeCamera = () => Game1.Camera.ShakeUp(10);
+            //if (bodyType == 1)
+            //{
+            //    new SpiderBossBody(this, Game1.AddToWorld, CreateFireBall);
+            //}
+            //else if (bodyType == 2)
+            //{
+
+            new WolfBossBody(this, Game1.AddToWorld, CreateFireBall, UseEyeSkill);
+            //}
+            //else
+            //{
+            //    new HumanoidBossBody(this, Game1.AddToWorld, CreateFireBall);
+            //}
+        }
+
+        private Action CreateEyeSkill(Game1 Game1, int eyeType)
+        {
+            if (eyeType == 1)
             {
-                new SpiderBossBody(this, Game1.AddToWorld, CreateFireBall);
+                return () => Game1.AddToWorld(new LeafShieldCell(this));
             }
-            else if (bodyType == 2)
+            else if (eyeType == 2)
             {
-
-                new WolfBossBody(this, Game1.AddToWorld, CreateFireBall);
+                return () => Game1.AddToWorld(new BulletStorm(Game1, this));
             }
             else
             {
-                new HumanoidBossBody(this, Game1.AddToWorld, CreateFireBall);
+                return () => Game1.AddToWorld(new SpikeBall(this));
             }
         }
 
@@ -588,7 +441,7 @@ namespace MonoGameProject
 
                 var fireball = new SonicBoom(
                         boss
-                        ,speed
+                        , speed
                         , 0
                         , Game1.AddToWorld
                     );
