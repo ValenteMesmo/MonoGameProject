@@ -72,15 +72,15 @@ namespace MonoGameProject
 
                 boss.state = BossState.HeadAttack1;
                 boss.MouthState = BossMouthState.Shoot;
-                state1Duration = 100;
+                state1Duration = 50;
             }
             else
             {
                 boss.state = BossState.BodyAttack1;
                 boss.MouthState = BossMouthState.BiteOpen;
 
-                if (boss.MyRandom.Next(0, 100) > 50)
-                    boss.VerticalSpeed = -150;
+                //if (boss.MyRandom.Next(0, 100) > 50)
+                //    boss.VerticalSpeed = -150;
 
                 state1Duration = 100;
             }
@@ -120,16 +120,7 @@ namespace MonoGameProject
                     }
                 }
 
-                var stage1 = Boss.HEALTH / 4;
-                var stage2 = Boss.HEALTH / 2;
-
-                var speed = 0;
-                if (boss.PlayerDamageHandler.damageTaken < stage1)
-                    speed = 50;
-                else if (boss.PlayerDamageHandler.damageTaken < stage2)
-                    speed = 80;
-                else
-                    speed = 100;
+                var speed = 60;
 
                 if (boss.facingRight)
                     boss.HorizontalSpeed = speed;
@@ -150,7 +141,7 @@ namespace MonoGameProject
             {
                 boss.HorizontalSpeed = 0;
 
-                if (state1Duration == 75)
+                if (state1Duration == 40)
                 {
                     UseEyeSpell();
                 }
@@ -167,7 +158,7 @@ namespace MonoGameProject
             {
                 boss.HorizontalSpeed = 0;
 
-                if (state1Duration == 75)
+                if (state1Duration == 40)
                 {
                     CreateFireBall(boss);
                 }

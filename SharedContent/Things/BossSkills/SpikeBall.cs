@@ -11,8 +11,12 @@ namespace SharedContent.Things.BossSkills
 {
     public class SpikeBall : Thing
     {
-        public SpikeBall(Boss Boss)
+        public SpikeBall(Game1 Game1, Boss Boss)
         {
+            X = Boss.facingRight ? Boss.X + 1000 : Boss.X - 200;
+            Y = Boss.Y - 1200;
+
+
             var size = 1500;
             var collider = new AttackCollider
             {
@@ -26,6 +30,15 @@ namespace SharedContent.Things.BossSkills
             };
             AddCollider(collider);
 
+            var PlayerDamageHandler = new PlayerDamageHandler(
+                Game1
+                , _ => { }
+                , _ => { }
+            );
+            PlayerDamageHandler.HEALTH = 3;
+            collider.AddHandler(PlayerDamageHandler.CollisionHandler);
+            AddUpdate(PlayerDamageHandler.Update);
+
             var anim = GeneratedContent.Create_knight_spike_dropped(
                 -size / 4
                 , -size / 6,
@@ -34,21 +47,22 @@ namespace SharedContent.Things.BossSkills
             anim.RenderingLayer = Boss.RIGHT_ARM_Z - 0.001f;
             anim.ColorGetter = GameState.GetColor;
             AddAnimation(anim);
-            X = Boss.facingRight ? X + 1000 : X - 200;
-            Y = Y - 1200;
 
-            collider.AddBotCollisionHandler(StopsWhenHitting.Bot<BlockVerticalMovement>());
-            collider.AddLeftCollisionHandler(StopsWhenHitting.Left<BlockHorizontalMovement>());
-            collider.AddRightCollisionHandler(StopsWhenHitting.Right<BlockHorizontalMovement>());
-            collider.AddTopCollisionHandler(StopsWhenHitting.Top<BlockVerticalMovement>());
             var speed = 40;
 
             var mod = Boss.facingRight ? -1 : 1;
             VerticalSpeed = speed;
 
+
+            collider.AddBotCollisionHandler(StopsWhenHitting.Bot<SomeKindOfGround>());
+            collider.AddLeftCollisionHandler(StopsWhenHitting.Left<SomeKindOfGround>());
+            collider.AddRightCollisionHandler(StopsWhenHitting.Right<SomeKindOfGround>());
+            collider.AddTopCollisionHandler(StopsWhenHitting.Top<SomeKindOfGround>());
+
+
             collider.AddBotCollisionHandler((s, t) =>
             {
-                if (t is GroundCollider)
+                if (t is SomeKindOfGround)
                 {
                     VerticalSpeed = 0;
                     HorizontalSpeed = speed * mod;
@@ -56,7 +70,7 @@ namespace SharedContent.Things.BossSkills
             });
             collider.AddRightCollisionHandler((s, t) =>
             {
-                if (t is GroundCollider)
+                if (t is SomeKindOfGround)
                 {
                     VerticalSpeed = -speed * mod;
                     HorizontalSpeed = 0;
@@ -64,7 +78,7 @@ namespace SharedContent.Things.BossSkills
             });
             collider.AddTopCollisionHandler((s, t) =>
             {
-                if (t is GroundCollider)
+                if (t is SomeKindOfGround)
                 {
                     VerticalSpeed = 0;
                     HorizontalSpeed = -speed * mod;
@@ -72,15 +86,16 @@ namespace SharedContent.Things.BossSkills
             });
             collider.AddLeftCollisionHandler((s, t) =>
             {
-                if (t is GroundCollider)
+                if (t is SomeKindOfGround)
                 {
                     VerticalSpeed = speed * mod;
                     HorizontalSpeed = 0;
                 }
             });
 
+            
             AddAfterUpdate(new MoveHorizontallyWithTheWorld(this));
-            var duration = 1000;
+            var duration = 800;
             AddUpdate(() =>
             {
                 duration--;

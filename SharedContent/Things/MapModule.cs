@@ -39,8 +39,8 @@ namespace MonoGameProject
             {
                 AddCollider(new GroundCollider
                 {
-                    OffsetX = (tile.X - 1) * CELL_SIZE + 1,
-                    OffsetY = (tile.Y - 1) * CELL_SIZE + 1,
+                    OffsetX = (tile.X - 1) * CELL_SIZE ,
+                    OffsetY = (tile.Y - 1) * CELL_SIZE ,
                     Width = tile.Width * CELL_SIZE,
                     Height = tile.Height * CELL_SIZE
                 });
@@ -52,8 +52,8 @@ namespace MonoGameProject
                     tile.Width,
                     tile.Height)
                 {
-                    X = X + ((tile.X - 1) * CELL_SIZE + 1),
-                    Y = Y + ((tile.Y - 1) * CELL_SIZE + 1)
+                    X = X + ((tile.X - 1) * CELL_SIZE),
+                    Y = Y + ((tile.Y - 1) * CELL_SIZE)
                 });
             }
             {
@@ -153,8 +153,9 @@ namespace MonoGameProject
                             collider = new GroundFromLeftToRightCollider();
                         }
 
-                        collider.OffsetX = 1;
-                        collider.OffsetY = 1;
+
+                        collider.OffsetX = 0;
+                        collider.OffsetY = 0;
                         collider.Width = CELL_SIZE;
                         collider.Height = CELL_SIZE * 2;
 

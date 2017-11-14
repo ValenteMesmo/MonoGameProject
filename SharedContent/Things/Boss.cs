@@ -420,7 +420,7 @@ namespace MonoGameProject
             }
             else
             {
-                return () => Game1.AddToWorld(new SpikeBall(this));
+                return () => Game1.AddToWorld(new SpikeBall(Game1, this));
             }
         }
 
