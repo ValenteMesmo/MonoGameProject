@@ -16,7 +16,6 @@ namespace SharedContent.Things.BossSkills
             X = Boss.facingRight ? Boss.X + 1000 : Boss.X - 200;
             Y = Boss.Y - 1200;
 
-
             var size = 1500;
             var collider = new AttackCollider
             {

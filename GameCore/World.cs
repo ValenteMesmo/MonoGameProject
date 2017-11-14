@@ -182,6 +182,21 @@ namespace GameCore
                 });
             });
 
+            //gambiarra
+            //  player pisando no boss ativava colisão horizontal em vez da vertical
+            //  isso no update o boss entrava na terra (gravidade) e nas colisões ele saia...
+            //  no fim do ciclo, o player acabava ficando dentro do boss
+            //  prar resolver isso nas coxas, verifico se tem mais alguma colisão vertical entre os
+            //  colliders ativos
+            activeColliders.ForEach(source =>
+            {
+                activeColliders.ForEach(target =>
+                {
+                    if (source != target)
+                        ColliderExtensions.HandleVerticalCollision(source, target);
+                });
+            });
+
             Things.ToList().ForEach(thing =>
                 thing.AfterUpdates.ForEach(update =>
                     update()));

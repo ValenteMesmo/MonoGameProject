@@ -12,10 +12,6 @@ namespace MonoGameProject
         private readonly Action<Thing> AddToWorld;
         private readonly Boss boss;
         private int state1Duration;
-        private int IdleCooldown = 500;
-
-        //int fireballStacks = 3;
-        //int eyeSpellStacks = 3;
 
         public WolfBossBody(Boss boss, Action<Thing> AddToWorld, Action<Boss> CreateFireBall, Action UseEyeSpell)
         {
@@ -43,33 +39,21 @@ namespace MonoGameProject
                 }
             });
 
-            //CreateBodyAnimator(Boss.TORSO_Z);
-
             boss.AddUpdate(UpdateBasedOnState);
         }
 
         private void ChangeState()
         {
             var rnd = boss.MyRandom.Next(1, 3);
-            if (IdleCooldown == 0)
+            
+            if (rnd == 1)
             {
-                boss.state = BossState.Idle;
-                boss.MouthState = BossMouthState.Idle;
-                state1Duration = 250;
-                IdleCooldown = 500 + state1Duration;
-            }
-            else if (rnd == 1)
-            {
-                //eyeSpellStacks--;
-
                 boss.state = BossState.EyeAttack;
                 boss.MouthState = BossMouthState.Idle;
-                state1Duration = 50;
+                state1Duration = 80;
             }
             else if (rnd == 2)
             {
-                //fireballStacks--;
-
                 boss.state = BossState.HeadAttack1;
                 boss.MouthState = BossMouthState.Shoot;
                 state1Duration = 50;
@@ -78,11 +62,6 @@ namespace MonoGameProject
             {
                 boss.state = BossState.BodyAttack1;
                 boss.MouthState = BossMouthState.BiteOpen;
-
-                //if (boss.MyRandom.Next(0, 100) > 50)
-                //    boss.VerticalSpeed = -150;
-
-                state1Duration = 100;
             }
         }
 
@@ -90,23 +69,9 @@ namespace MonoGameProject
         {
             if (boss.player == null)
                 return;
-
-            if (IdleCooldown > 0)
-                IdleCooldown--;
-
+            
             if (state1Duration > 0)
                 state1Duration--;
-
-            //if (IdleCooldown % 500 == 0)
-            //{
-            //    fireballStacks++;
-            //    if (fireballStacks > 3)
-            //        fireballStacks = 3;
-
-            //    eyeSpellStacks++;
-            //    if (eyeSpellStacks > 2)
-            //        eyeSpellStacks = 2;
-            //}
 
             boss.AttackingWithTheHand = false;
             if (boss.state == BossState.BodyAttack1)
@@ -136,12 +101,12 @@ namespace MonoGameProject
                     ChangeState();
                 }
             }
-
+            
             if (boss.state == BossState.EyeAttack)
             {
                 boss.HorizontalSpeed = 0;
 
-                if (state1Duration == 40)
+                if (state1Duration == 70)
                 {
                     UseEyeSpell();
                 }
@@ -174,60 +139,5 @@ namespace MonoGameProject
                 }
             }
         }
-
-        //private void CreateBodyAnimator(float z)
-        //{
-        //    var width = 1500;
-        //    var height = 1500;
-
-        //    var standing_left = GeneratedContent.Create_knight_wolf_body(
-        //                        -width / 2
-        //                        , -height
-        //                        , width * 2
-        //                        , height * 2
-        //                        , false
-        //                    );
-        //    standing_left.RenderingLayer = z;
-        //    standing_left.ColorGetter = () => boss.BodyColor;
-
-        //    var standing_right = GeneratedContent.Create_knight_wolf_body(
-        //            -width / 2
-        //            , -height
-        //            , width * 2
-        //            , height * 2
-        //            , true
-        //    );
-        //    standing_right.RenderingLayer = z;
-        //    standing_right.ColorGetter = () => boss.BodyColor;
-
-        //    var jump_left = GeneratedContent.Create_knight_wolf_body_jump(
-        //                        -width / 2
-        //                        , -height
-        //                        , width * 2
-        //                        , height * 2
-        //                        , false
-        //                    );
-        //    jump_left.RenderingLayer = z;
-        //    jump_left.ColorGetter = () => boss.BodyColor;
-
-        //    var jump_right = GeneratedContent.Create_knight_wolf_body_jump(
-        //            -width / 2
-        //            , -height
-        //            , width * 2
-        //            , height * 2
-        //            , true
-        //    );
-        //    jump_right.RenderingLayer = z;
-        //    jump_right.ColorGetter = () => boss.BodyColor;
-
-        //    var animation =
-        //        new Animator(
-        //            new AnimationTransitionOnCondition(standing_left, () => !boss.facingRight && boss.grounded)
-        //            , new AnimationTransitionOnCondition(standing_right, () => boss.facingRight && boss.grounded)
-        //            , new AnimationTransitionOnCondition(jump_left, () => !boss.facingRight && !boss.grounded)
-        //            , new AnimationTransitionOnCondition(jump_right, () => boss.facingRight && !boss.grounded)
-        //    );
-        //    boss.AddAnimation(animation);
-        //}
     }
 }

@@ -33,6 +33,8 @@ namespace MonoGameProject
             {
                 Parent.Parent.VerticalSpeed = 0;
                 Parent.Parent.Y = other.Top() - Parent.Height - Parent.OffsetY - KNOCKBACK;
+
+                Parent.Parent.X += other.Parent.HorizontalSpeed;
             }
         }
 
@@ -46,7 +48,6 @@ namespace MonoGameProject
             if (other is T)
             {
                 Parent.Parent.HorizontalSpeed = 0;
-                //other.Parent.HorizontalSpeed = 0;
                 Parent.Parent.X = other.Right() - Parent.OffsetX + KNOCKBACK;
             }
         }
@@ -61,7 +62,6 @@ namespace MonoGameProject
             if (other is T)
             {
                 Parent.Parent.HorizontalSpeed = 0;
-                //other.Parent.HorizontalSpeed = 0;
                 Parent.Parent.X = other.Left() - Parent.Width - Parent.OffsetX - KNOCKBACK;
             }
         }

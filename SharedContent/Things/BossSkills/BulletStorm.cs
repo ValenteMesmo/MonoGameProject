@@ -29,8 +29,8 @@ namespace SharedContent
                             , Game1.AddToWorld
                         )
                         {
-                            X = X + (Boss.facingRight ? 600 : 0),
-                            Y = Y - 600,
+                            X = Boss.X + (Boss.facingRight ? 600 : 0),
+                            Y = Boss.Y - 600,
                             ColorGetter = GameState.GetColor
                         }
                     );

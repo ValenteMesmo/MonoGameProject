@@ -130,8 +130,8 @@ public class BaseGame : OriginalGameClass
     {
         //TODO: fullscreen on alt+enter
 #if DEBUG
-        Graphics.PreferredBackBufferWidth = 640;
-        Graphics.PreferredBackBufferHeight = 480;
+        Graphics.PreferredBackBufferWidth = 800;
+        Graphics.PreferredBackBufferHeight = 600;
         //Graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
         //Graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
         Graphics.IsFullScreen = false;

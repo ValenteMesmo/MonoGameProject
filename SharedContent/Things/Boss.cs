@@ -151,7 +151,7 @@ namespace MonoGameProject
         private Game1 Game1;
 
         public readonly AttackCollider attackCollider;
-        public readonly Collider mainCollider;
+        public readonly GroundCollider mainCollider;
         public readonly CollisionChecker groundDetector;
         public readonly Collider playerFinder;
 
@@ -160,6 +160,8 @@ namespace MonoGameProject
             this.Game1 = Game1;
             var width = 1500;
             var height = 1500;
+
+            //AddCollider(new GroundCollider(1000, 1000) {OffsetX=-2000 });
 
             BodyColor = GameState.GetComplimentColor();
 
@@ -181,7 +183,7 @@ namespace MonoGameProject
             };
             AddCollider(attackCollider);
 
-            mainCollider = new Collider(width, height + 600) { OffsetY = -600 };
+            mainCollider = new GroundCollider(width, height ) { };
 
             mainCollider.AddBotCollisionHandler(StopsWhenHitting.Bot<GroundCollider>());
             mainCollider.AddTopCollisionHandler(StopsWhenHitting.Top<GroundCollider>());
