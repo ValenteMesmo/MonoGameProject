@@ -45,7 +45,7 @@ namespace MonoGameProject
                         var fireball = new FireBall(Humanoid, speed, 0, Game1)
                         {
                             X = x,
-                            Y = Humanoid.AttackRightCollider.Y
+                            Y = Humanoid.AttackRightCollider.Y-50
                         };
                         fireball.duration = 80;
                         Game1.AddToWorld(fireball);

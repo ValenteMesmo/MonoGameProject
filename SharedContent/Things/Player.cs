@@ -10,7 +10,6 @@ namespace MonoGameProject
     {
         //planning:         
         //ter boss em ceu aberto... if esperto no teto e no background
-        //aumentar collider da fireball criar pelo player
         
             //animacao de fireball sem borda... para criar um trail maneiro
 

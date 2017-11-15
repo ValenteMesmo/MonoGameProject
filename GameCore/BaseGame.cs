@@ -187,10 +187,10 @@ public class BaseGame : OriginalGameClass
         var state = Keyboard.GetState();
 #if DEBUG
         //if (!state.NumLock)
-        if (state.CapsLock)
-            Camera.Zoom = 0.06f;
-        else
-            Camera.Zoom = 0.15f;
+        //if (state.CapsLock)
+        //    Camera.Zoom = 0.06f;
+        //else
+        Camera.Zoom = 0.15f;
 
         DisplayColliders = state.CapsLock;
 

@@ -129,10 +129,15 @@ namespace MonoGameProject
             animation.ColorGetter = () => ColorGetter();
             AddAnimation(animation);
 
-            collider.OffsetX = (MapModule.CELL_SIZE / 2) - 125;
-            collider.OffsetY = (MapModule.CELL_SIZE / 2) - 125;
-            collider.Width = 250;
-            collider.Height = 250;
+            var bonus = 0;
+            if (Owner is Player)
+            {
+                bonus = 150;
+            }
+            collider.OffsetX = (MapModule.CELL_SIZE / 2) - 125 - (bonus/2);
+            collider.OffsetY = (MapModule.CELL_SIZE / 2) - 125 - (bonus / 2);
+            collider.Width = 250 + bonus;
+            collider.Height = 250 + bonus;
 
             collider.AddHandler((s, t) =>
             {
