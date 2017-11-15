@@ -176,10 +176,10 @@ namespace MonoGameProject
         public SonicBoom(Thing Owner, int speedX, int speedY, Game1 Game1) : base(Owner, Game1)
         {
             var animation = GeneratedContent.Create_knight_SoniicBoom(
-            0
-            , 0
-            , (int)(MapModule.CELL_SIZE * 4f)
-            , (int)(MapModule.CELL_SIZE * 4f)
+            500
+            , 500
+            , (int)(MapModule.CELL_SIZE * 3f)
+            , (int)(MapModule.CELL_SIZE * 3f)
             , speedX > 0
             );
             animation.ColorGetter = () => ColorGetter();
