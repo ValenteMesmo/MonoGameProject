@@ -8,10 +8,11 @@ namespace MonoGameProject
 {
     public class Player : Humanoid
     {
-        //planning: 
-        //usar mesma logica de dano em todas as fireballs... tem umas que não vibram a tela...
-        //      todas devem ter o mesmo life 3
+        //planning:         
         //ter boss em ceu aberto... if esperto no teto e no background
+        //aumentar collider da fireball criar pelo player
+        
+            //animacao de fireball sem borda... para criar um trail maneiro
 
         //BUG: weapon drop random is broken.... break, pick,break, pick,break, pick,break, pick... to see
         //simular touch com o mouse só em DEBUG
@@ -297,9 +298,7 @@ namespace MonoGameProject
             , Action<Thing> AddToWorld
             ) : base(
                 GameInputs
-                , Game1.Camera
-                , Game1.VibrationCenter
-                , AddToWorld)
+                , Game1)
         {
             this.Game1 = Game1;
             HitPoints = 2;

@@ -40,16 +40,25 @@ namespace MonoGameProject
 
         public void CollisionHandler(Collider source, Collider t)
         {
+            var sourceIsNotPlayerFireball =
+                    (
+                        (source.Parent is FireBall) == false
+                        || ((source.Parent as FireBall).Owner is Player) == false
+                    );
+
             if (
                 (
                     t is AttackCollider
                     && t.Parent is Player
+                    && sourceIsNotPlayerFireball
                 )
                 ||
                 (
                     t.Parent is FireBall
-                    && (t.Parent as FireBall).Owner is Player)
+                    && (t.Parent as FireBall).Owner is Player
+                    && sourceIsNotPlayerFireball
                 )
+            )
             {
                 if (t.Parent is FireBall)
                     t.Parent.Destroy();
@@ -183,7 +192,7 @@ namespace MonoGameProject
             };
             AddCollider(attackCollider);
 
-            mainCollider = new SolidCollider(width, height ) { };
+            mainCollider = new SolidCollider(width, height) { };
 
             mainCollider.AddBotCollisionHandler(StopsWhenHitting.Bot<GroundCollider>());
             mainCollider.AddTopCollisionHandler(StopsWhenHitting.Top<GroundCollider>());
@@ -431,7 +440,7 @@ namespace MonoGameProject
             if (headType == 1)
                 return boss =>
             {
-                Game1.AddToWorld(new WavedFireBall(boss, boss.facingRight, Game1.AddToWorld) { X = boss.attackCollider.X, Y = boss.attackCollider.Y });
+                Game1.AddToWorld(new WavedFireBall(boss, boss.facingRight, Game1) { X = boss.attackCollider.X, Y = boss.attackCollider.Y });
             };
 
             if (headType == 2)
@@ -445,7 +454,7 @@ namespace MonoGameProject
                         boss
                         , speed
                         , 0
-                        , Game1.AddToWorld
+                        , Game1
                     );
                 fireball.ColorGetter = GameState.GetColor;
                 fireball.X = boss.mainCollider.X + speed * 10;
@@ -456,7 +465,7 @@ namespace MonoGameProject
 
             return boss =>
             {
-                Game1.AddToWorld(new SeekerFireBall(boss, Game1.AddToWorld) { X = boss.attackCollider.X, Y = boss.attackCollider.Y });
+                Game1.AddToWorld(new SeekerFireBall(boss, Game1) { X = boss.attackCollider.X, Y = boss.attackCollider.Y });
             };
         }
 

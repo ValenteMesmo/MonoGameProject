@@ -6,7 +6,7 @@ namespace MonoGameProject
 {
     public class RightFireBallTrap : Thing
     {
-        public RightFireBallTrap(Action<Thing> AddToWorld, int startAfter)
+        public RightFireBallTrap(Game1 Game1, int startAfter)
         {
             var cooldown = startAfter;
             AddUpdate(() =>
@@ -14,7 +14,7 @@ namespace MonoGameProject
                 cooldown--;
                 if (cooldown <= 0)
                 {
-                    AddToWorld(new FireBall(this,-FireBall.SPEED, 0, AddToWorld) { X = X - 50, Y = Y + 50 });
+                    Game1.AddToWorld(new FireBall(this,-FireBall.SPEED, 0, Game1) { X = X - 50, Y = Y + 50 });
                     cooldown = 200;
                 }
             });

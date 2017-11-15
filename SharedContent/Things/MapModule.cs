@@ -89,7 +89,7 @@ namespace MonoGameProject
 
                     if (type == 'r')
                     {
-                        Game1.AddToWorld(new LeftFireBallTrap(Game1.AddToWorld, i % 2 == 0 ? 50 : 0)
+                        Game1.AddToWorld(new LeftFireBallTrap(Game1, i % 2 == 0 ? 50 : 0)
                         {
                             X = X + j * CELL_SIZE,
                             Y = Y + i * CELL_SIZE
@@ -169,7 +169,7 @@ namespace MonoGameProject
                     }
                     if (type == 'l')
                     {
-                        Game1.AddToWorld(new RightFireBallTrap(Game1.AddToWorld, i % 2 == 0 ? 50 : 0)
+                        Game1.AddToWorld(new RightFireBallTrap(Game1, i % 2 == 0 ? 50 : 0)
                         {
                             X = X + j * CELL_SIZE,
                             Y = Y + i * CELL_SIZE

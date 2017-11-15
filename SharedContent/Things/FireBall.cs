@@ -7,15 +7,15 @@ namespace MonoGameProject
 {
     public abstract class BaseFireBall : Thing
     {
-        private readonly Action<Thing> AddToWorld;
+        private readonly Game1 Game1;
         public readonly Collider collider;
         public Func<Color> ColorGetter = () => Color.White;
         public readonly Thing Owner;
 
-        public BaseFireBall(Thing Owner,Action<Thing> AddToWorld)
+        public BaseFireBall(Thing Owner, Game1 Game1)
         {
             this.Owner = Owner;
-            this.AddToWorld = AddToWorld;
+            this.Game1 = Game1;
 
             var size = 400;
             var bonus = size / 3;
@@ -29,16 +29,26 @@ namespace MonoGameProject
             };
             AddCollider(collider);
 
-            var aaa = 0;
+            var timeToCreateTrail = 0;
             AddUpdate(() =>
             {
-                aaa++;
-                if (aaa == 3)
+                timeToCreateTrail++;
+                if (timeToCreateTrail == 3)
                 {
-                    aaa = 0;
+                    timeToCreateTrail = 0;
                     NewMethod();
                 }
             });
+
+
+            var PlayerDamageHandler = new PlayerDamageHandler(
+              Game1
+              , _ => { }
+              , _ => { }
+            );
+            PlayerDamageHandler.HEALTH = 3;
+            collider.AddHandler(PlayerDamageHandler.CollisionHandler);
+            AddUpdate(PlayerDamageHandler.Update);
         }
 
         //TODO: remove? ...
@@ -51,7 +61,7 @@ namespace MonoGameProject
         float trail_z = Boss.EYE_Z - 0.002f;
         private void NewMethod()
         {
-            AddToWorld(new HitEffect(trail_z, 0, 0, MapModule.CELL_SIZE * 2, MapModule.CELL_SIZE * 2)
+            Game1.AddToWorld(new HitEffect(trail_z, 0, 0, MapModule.CELL_SIZE * 2, MapModule.CELL_SIZE * 2)
             {
                 X = X,
                 Y = Y,
@@ -66,7 +76,7 @@ namespace MonoGameProject
         public const int SPEED = 100;
         public const int VELOCITY = 8;
 
-        public WavedFireBall(Thing Owner, bool facingRight, Action<Thing> AddToWorld) : base(Owner,AddToWorld)
+        public WavedFireBall(Thing Owner, bool facingRight, Game1 Game1) : base(Owner, Game1)
         {
             var animation = GeneratedContent.Create_knight_block(
             0
@@ -98,17 +108,16 @@ namespace MonoGameProject
                 //HorizontalSpeed += hvelocity;
                 VerticalSpeed += vvelocity;
             });
-
         }
     }
 
     public class FireBall : BaseFireBall
     {
         public const int SPEED = 150;
- 
+
         public int duration = 200;
 
-        public FireBall(Thing Owner, int speedX, int speedY, Action<Thing> AddToWorld) : base(Owner, AddToWorld)
+        public FireBall(Thing Owner, int speedX, int speedY, Game1 Game1) : base(Owner, Game1)
         {
             var animation = GeneratedContent.Create_knight_block(
             0
@@ -131,18 +140,6 @@ namespace MonoGameProject
                     Destroy();
             });
 
-            if (Owner is Player)
-            {
-                collider.AddHandler((s, t) =>
-                {
-                    if (t.Parent is BaseFireBall && !((t.Parent as BaseFireBall).Owner is Player))
-                    {
-                        Destroy();
-                        t.Parent.Destroy();
-                    }
-                });
-            }
-
             HorizontalSpeed = speedX;
             VerticalSpeed = speedY;
             AddUpdate(new DestroyIfLeftBehind(this));
@@ -160,7 +157,7 @@ namespace MonoGameProject
 
     public class SonicBoom : BaseFireBall
     {
-        public SonicBoom(Thing Owner, int speedX, int speedY, Action<Thing> AddToWorld) : base(Owner,AddToWorld)
+        public SonicBoom(Thing Owner, int speedX, int speedY, Game1 Game1) : base(Owner, Game1)
         {
             var animation = GeneratedContent.Create_knight_SoniicBoom(
             0
@@ -191,7 +188,7 @@ namespace MonoGameProject
         public const int MAX_SPEED = 50;
         public int duration = 300;
 
-        public SeekerFireBall(Boss boss, Action<Thing> AddToWorld) : base(boss,AddToWorld)
+        public SeekerFireBall(Boss boss, Game1 Game1) : base(boss, Game1)
         {
             var target = boss.player;
 

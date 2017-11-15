@@ -6,13 +6,13 @@ namespace MonoGameProject
     public class ChangeToAttackState : UpdateHandler
     {
         private readonly Humanoid Humanoid;
-        private readonly Action<Thing> AddToWorld;
+        private readonly Game1 Game1;
         private int AttackDuration = 0;
 
-        public ChangeToAttackState(Humanoid Humanoid, Action<Thing> AddToWorld)
+        public ChangeToAttackState(Humanoid Humanoid, Game1 Game1)
         {
             this.Humanoid = Humanoid;
-            this.AddToWorld = AddToWorld;
+            this.Game1 = Game1;
         }
 
         public void Update()
@@ -42,13 +42,13 @@ namespace MonoGameProject
                             x = Humanoid.AttackRightCollider.X;
                         }
 
-                        var fireball = new FireBall(Humanoid, speed, 0, AddToWorld)
+                        var fireball = new FireBall(Humanoid, speed, 0, Game1)
                         {
                             X = x,
                             Y = Humanoid.AttackRightCollider.Y
                         };
                         fireball.duration = 80;
-                        AddToWorld(fireball);
+                        Game1.AddToWorld(fireball);
                     }
                     ChangeToNotAttackMode();
                 }

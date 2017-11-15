@@ -31,7 +31,7 @@ namespace MonoGameProject
         }
     }
 
-    public class SolidCollider : Collider, BlockHorizontalMovement, BlockVerticalMovement
+    public class SolidCollider : Collider, BlockHorizontalMovement, BlockVerticalMovement, SlidableWall
     {
         public SolidCollider()
         {
@@ -45,7 +45,7 @@ namespace MonoGameProject
         }
     }
 
-    public class GroundCollider : Collider, SomeKindOfGround, BlockVerticalMovement, BlockHorizontalMovement
+    public class GroundCollider : Collider, SomeKindOfGround, BlockVerticalMovement, BlockHorizontalMovement, SlidableWall
     {
         public GroundCollider()
         {
@@ -126,9 +126,7 @@ namespace MonoGameProject
 
         public Humanoid(
             GameInputs Inputs
-            , Camera2d Camera
-            , VibrationCenter VibrationCenter
-            , Action<Thing> AddToWorld)
+            , Game1 Game1)
         {
             this.Inputs = Inputs;
 
@@ -141,9 +139,9 @@ namespace MonoGameProject
             AddUpdate(new ChangeToFallingState(this));
             AddUpdate(new ChangeToSlidingState(this));
             AddUpdate(new ChangeToWallJumping(this));
-            AddUpdate(new ChangeToHeadBumpState(this, Camera, VibrationCenter));
-            AddUpdate(new ChangeToCrouchState(this, Camera, VibrationCenter));
-            AddUpdate(new ChangeToAttackState(this, AddToWorld));
+            AddUpdate(new ChangeToHeadBumpState(this, Game1.Camera, Game1.VibrationCenter));
+            AddUpdate(new ChangeToCrouchState(this, Game1.Camera, Game1.VibrationCenter));
+            AddUpdate(new ChangeToAttackState(this, Game1));
 
             AddUpdate(new DestroyIfLeftBehind(this));
             AddUpdate(new PreventPlayerFromAccicentlyFalling(this));
@@ -174,17 +172,17 @@ namespace MonoGameProject
                     CreateBreakEffect(
                         HumanoidAnimatorFactory.FACE_Z - PlayerIndex / 100f,
                         HumanoidAnimatorFactory.feet_y * 2,
-                        AddToWorld);
+                         Game1.AddToWorld);
                 else if (DamageDuration == GetDurationInstantByPercentage(BREAST_PERCENTAGE))
                     CreateBreakEffect(
                         HumanoidAnimatorFactory.FACE_Z - PlayerIndex / 100f,
                         HumanoidAnimatorFactory.feet_y,
-                        AddToWorld);
+                         Game1.AddToWorld);
                 else if (DamageDuration == GetDurationInstantByPercentage(SHOE_PERCENTAGE))
                     CreateBreakEffect(
                         HumanoidAnimatorFactory.FACE_Z - PlayerIndex / 100f,
                         0,
-                        AddToWorld);
+                         Game1.AddToWorld);
             }
         });
         }
@@ -295,7 +293,6 @@ namespace MonoGameProject
                 OffsetY = 0,
                 Disabled = true
             };
-            AttackRightCollider.AddHandler(DestroyFireball);
             AddCollider(AttackRightCollider);
 
             AttackLeftCollider = new AttackCollider
@@ -306,14 +303,7 @@ namespace MonoGameProject
                 OffsetY = 0,
                 Disabled = true
             };
-            AttackLeftCollider.AddHandler(DestroyFireball);
             AddCollider(AttackLeftCollider);
-        }
-
-        private void DestroyFireball(Collider s, Collider t)
-        {
-            if (t.Parent is BaseFireBall && !((t.Parent as BaseFireBall).Owner is Player))
-                t.Parent.Destroy();
         }
 
         //Helpers------------------------------------------

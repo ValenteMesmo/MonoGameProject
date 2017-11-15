@@ -26,7 +26,7 @@ namespace SharedContent
                             this
                             , hspeed
                             , vspeed
-                            , Game1.AddToWorld
+                            , Game1
                         )
                         {
                             X = Boss.X + (Boss.facingRight ? 600 : 0),
