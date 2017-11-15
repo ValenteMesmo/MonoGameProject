@@ -33,13 +33,12 @@ namespace MonoGameProject
             AddUpdate(() =>
             {
                 timeToCreateTrail++;
-                if (timeToCreateTrail == 3)
+                if (timeToCreateTrail == 2)
                 {
                     timeToCreateTrail = 0;
                     NewMethod();
                 }
             });
-
 
             var PlayerDamageHandler = new PlayerDamageHandler(
               Game1
@@ -58,16 +57,9 @@ namespace MonoGameProject
             base.OnDestroy();
         }
 
-        float trail_z = Boss.EYE_Z - 0.002f;
         private void NewMethod()
         {
-            Game1.AddToWorld(new HitEffect(trail_z, 0, 0, MapModule.CELL_SIZE * 2, MapModule.CELL_SIZE * 2)
-            {
-                X = X,
-                Y = Y,
-                Color = ColorGetter()
-            });
-            trail_z -= 0.0001f;
+            Game1.AddToWorld(new FireballTrail(ColorGetter()) { X=X,Y=Y});
         }
     }
 
@@ -78,14 +70,12 @@ namespace MonoGameProject
 
         public WavedFireBall(Thing Owner, bool facingRight, Game1 Game1) : base(Owner, Game1)
         {
-            var animation = GeneratedContent.Create_knight_block(
-            0
-            , 0
-            , MapModule.CELL_SIZE
-            , MapModule.CELL_SIZE
-            );
-            animation.RenderingLayer = 0f;
+            Animation animation = FireBall.CreateFireBallAnimation(Color.Pink);
             AddAnimation(animation);
+
+            Animation animationBorder = FireBall.CreateFireballBorderAnimation();
+            AddAnimation(animationBorder);
+
 
             AddUpdate(new DestroyIfLeftBehind(this));
             AddAfterUpdate(new MoveHorizontallyWithTheWorld(this));
@@ -104,8 +94,7 @@ namespace MonoGameProject
                 {
                     vvelocity = VELOCITY;
                 }
-
-                //HorizontalSpeed += hvelocity;
+                
                 VerticalSpeed += vvelocity;
             });
         }
@@ -119,22 +108,18 @@ namespace MonoGameProject
 
         public FireBall(Thing Owner, int speedX, int speedY, Game1 Game1) : base(Owner, Game1)
         {
-            var animation = GeneratedContent.Create_knight_block(
-            0
-            , 0
-            , MapModule.CELL_SIZE
-            , MapModule.CELL_SIZE
-            );
-            animation.RenderingLayer = Boss.RIGHT_ARM_Z - 0.001f;
-            animation.ColorGetter = () => ColorGetter();
+            Animation animation = CreateFireBallAnimation(Color.Orange);
             AddAnimation(animation);
+
+            Animation animationBorder = CreateFireballBorderAnimation();
+            AddAnimation(animationBorder);
 
             var bonus = 0;
             if (Owner is Player)
             {
                 bonus = 150;
             }
-            collider.OffsetX = (MapModule.CELL_SIZE / 2) - 125 - (bonus/2);
+            collider.OffsetX = (MapModule.CELL_SIZE / 2) - 125 - (bonus / 2);
             collider.OffsetY = (MapModule.CELL_SIZE / 2) - 125 - (bonus / 2);
             collider.Width = 250 + bonus;
             collider.Height = 250 + bonus;
@@ -150,6 +135,33 @@ namespace MonoGameProject
             AddUpdate(new DestroyIfLeftBehind(this));
             AddAfterUpdate(new MoveHorizontallyWithTheWorld(this));
             AddUpdate(DestroyAfterDuration);
+        }
+
+        public static Animation CreateFireballBorderAnimation()
+        {
+            var borderSize = 30;
+            var animationBorder = GeneratedContent.Create_knight_fireball(
+             -borderSize / 2
+            , -borderSize / 2
+            , MapModule.CELL_SIZE + borderSize
+            , MapModule.CELL_SIZE + borderSize
+            );
+            animationBorder.RenderingLayer = GlobalSettigns.FIREBALL_BORDER_Z;
+            animationBorder.ColorGetter = () => Color.Black;
+            return animationBorder;
+        }
+
+        public static Animation CreateFireBallAnimation(Color color)
+        {
+            var animation = GeneratedContent.Create_knight_fireball(
+                        0
+                        , 0
+                        , MapModule.CELL_SIZE
+                        , MapModule.CELL_SIZE
+                        );
+            animation.RenderingLayer = GlobalSettigns.FIREBALL_Z;
+            animation.ColorGetter = () => color;
+            return animation;
         }
 
         private void DestroyAfterDuration()
@@ -173,7 +185,7 @@ namespace MonoGameProject
             );
             animation.ColorGetter = () => ColorGetter();
             animation.LoopDisabled = true;
-            animation.RenderingLayer = Boss.EYE_Z;
+            animation.RenderingLayer = GlobalSettigns.FIREBALL_Z;
             AddAnimation(animation);
 
             collider.OffsetX *= 5;

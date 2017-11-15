@@ -3,15 +3,75 @@ using Microsoft.Xna.Framework;
 
 namespace MonoGameProject
 {
+    public static class GlobalSettigns
+    {
+        public const float FIREBALL_Z = Boss.RIGHT_ARM_Z - 0.005f;
+        public const float FIREBALL_BORDER_Z = FIREBALL_Z + 0.001f;
+        public const float FIREBALL_TRAIL_Z = FIREBALL_Z + 0.002f;
+        public const float FIREBALL_TRAIL_BORDER_Z = FIREBALL_Z + 0.003f;
+    }
+
+    public class DestroyAfterTime : UpdateHandler
+    {
+        private readonly Thing Parent;
+        private int duration;
+
+        public DestroyAfterTime(Thing Parent, int duration)
+        {
+            this.Parent = Parent;
+            this.duration = duration;
+        }
+
+        public void Update()
+        {
+            if (duration > 0)
+                duration--;
+            else
+                Parent.Destroy();
+        }
+    }
+
+    public class FireballTrail : Thing
+    {
+        public FireballTrail(Color color)
+        {
+            var animation = GeneratedContent.Create_knight_fireball_trail(
+            0
+            , 0
+            , MapModule.CELL_SIZE
+            , MapModule.CELL_SIZE
+            );
+            animation.RenderingLayer = GlobalSettigns.FIREBALL_TRAIL_Z;
+            animation.ColorGetter = () => color;
+            animation.LoopDisabled = true;
+            AddAnimation(animation);
+
+            var borderSize = 30;
+            var animationBorder = GeneratedContent.Create_knight_fireball_trail(
+             -(borderSize / 2)
+            , -(borderSize / 2)
+            , MapModule.CELL_SIZE + borderSize
+            , MapModule.CELL_SIZE + borderSize
+            );
+            animationBorder.RenderingLayer = GlobalSettigns.FIREBALL_TRAIL_BORDER_Z;
+            animationBorder.ColorGetter = () => Color.Black;
+            animationBorder.LoopDisabled = true;
+            AddAnimation(animationBorder);
+
+            AddUpdate(new DestroyAfterTime(this, 30));
+            AddAfterUpdate(new MoveHorizontallyWithTheWorld(this));
+        }
+    }
+
     public class HitEffect : Thing
     {
         public Color Color = Color.White;
-        public HitEffect(float z = 0.001f, int offsetX = -1000, int offsetY=-500, int width=2000, int height=2000)
+        public HitEffect(float z = 0.001f, int offsetX = -1000, int offsetY = -500, int width = 2000, int height = 2000)
         {
             var random = new System.Random();
 
             var animation = GeneratedContent.Create_knight_hit_effect(
-                offsetX- random.Next(0, 500)
+                offsetX - random.Next(0, 500)
                 , offsetY - random.Next(0, 500)
                 , width
                 , height

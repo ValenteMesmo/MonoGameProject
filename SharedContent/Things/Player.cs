@@ -10,7 +10,8 @@ namespace MonoGameProject
     {
         //planning:         
         //ter boss em ceu aberto... if esperto no teto e no background
-        
+        //touch input... inprove two other buttons
+
             //animacao de fireball sem borda... para criar um trail maneiro
 
         //BUG: weapon drop random is broken.... break, pick,break, pick,break, pick,break, pick... to see
@@ -25,7 +26,6 @@ namespace MonoGameProject
         //animação de inicio do boss... começa na cor da parede... acende os olhos e depois o resto
 
         //flash sky when raining
-        //white screen fade transition between menu and game (white game over too?)
 
         //inimigos invulneráveis patrulhando pequenas plataformas
 
