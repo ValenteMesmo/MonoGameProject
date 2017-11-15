@@ -12,6 +12,10 @@ namespace MonoGameProject
         //ter boss em ceu aberto... if esperto no teto e no background
         //touch input... inprove two other buttons
 
+            //fireballtypes
+            //  moves only if target is moving
+            //  moves only if player facing back
+
             //animacao de fireball sem borda... para criar um trail maneiro
 
         //BUG: weapon drop random is broken.... break, pick,break, pick,break, pick,break, pick... to see

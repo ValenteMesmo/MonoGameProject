@@ -29,14 +29,18 @@ namespace MonoGameProject
             };
             AddCollider(collider);
 
+
+
             var timeToCreateTrail = 0;
             AddUpdate(() =>
             {
                 timeToCreateTrail++;
-                if (timeToCreateTrail == 2)
+                var xFactor = (Math.Abs(HorizontalSpeed) + Math.Abs(VerticalSpeed));
+                if (timeToCreateTrail == 350 / xFactor)
                 {
                     timeToCreateTrail = 0;
-                    NewMethod();
+                    
+                    Game1.AddToWorld(new FireballTrail(ColorGetter()) { X = X, Y = Y });
                 }
             });
 
@@ -53,13 +57,8 @@ namespace MonoGameProject
         //TODO: remove? ...
         public override void OnDestroy()
         {
-            NewMethod();
+            Game1.AddToWorld(new HitEffect() { X = X, Y = Y });
             base.OnDestroy();
-        }
-
-        private void NewMethod()
-        {
-            Game1.AddToWorld(new FireballTrail(ColorGetter()) { X=X,Y=Y});
         }
     }
 
@@ -70,7 +69,7 @@ namespace MonoGameProject
 
         public WavedFireBall(Thing Owner, bool facingRight, Game1 Game1) : base(Owner, Game1)
         {
-            Animation animation = FireBall.CreateFireBallAnimation(Color.Pink);
+            Animation animation = FireBall.CreateFireBallAnimation(this);
             AddAnimation(animation);
 
             Animation animationBorder = FireBall.CreateFireballBorderAnimation();
@@ -94,7 +93,7 @@ namespace MonoGameProject
                 {
                     vvelocity = VELOCITY;
                 }
-                
+
                 VerticalSpeed += vvelocity;
             });
         }
@@ -108,7 +107,7 @@ namespace MonoGameProject
 
         public FireBall(Thing Owner, int speedX, int speedY, Game1 Game1) : base(Owner, Game1)
         {
-            Animation animation = CreateFireBallAnimation(Color.Orange);
+            Animation animation = CreateFireBallAnimation(this);
             AddAnimation(animation);
 
             Animation animationBorder = CreateFireballBorderAnimation();
@@ -146,12 +145,12 @@ namespace MonoGameProject
             , MapModule.CELL_SIZE + borderSize
             , MapModule.CELL_SIZE + borderSize
             );
-            animationBorder.RenderingLayer = GlobalSettigns.FIREBALL_BORDER_Z;
+            animationBorder.RenderingLayer = GlobalSettigns.FIREBALL_TRAIL_BORDER_Z;// GlobalSettigns.FIREBALL_BORDER_Z;
             animationBorder.ColorGetter = () => Color.Black;
             return animationBorder;
         }
 
-        public static Animation CreateFireBallAnimation(Color color)
+        public static Animation CreateFireBallAnimation(BaseFireBall parent)
         {
             var animation = GeneratedContent.Create_knight_fireball(
                         0
@@ -160,7 +159,7 @@ namespace MonoGameProject
                         , MapModule.CELL_SIZE
                         );
             animation.RenderingLayer = GlobalSettigns.FIREBALL_Z;
-            animation.ColorGetter = () => color;
+            animation.ColorGetter = () => parent.ColorGetter();
             return animation;
         }
 
@@ -209,15 +208,8 @@ namespace MonoGameProject
         {
             var target = boss.player;
 
-            var animation = GeneratedContent.Create_knight_block(
-            0
-            , 0
-            , MapModule.CELL_SIZE
-            , MapModule.CELL_SIZE
-            );
-
-            animation.RenderingLayer = 0f;
-            AddAnimation(animation);
+            AddAnimation(FireBall.CreateFireBallAnimation(this));
+            AddAnimation(FireBall.CreateFireballBorderAnimation());
 
             HorizontalSpeed = 0;
             VerticalSpeed = 0;
@@ -225,10 +217,10 @@ namespace MonoGameProject
             AddUpdate(new DestroyIfLeftBehind(this));
             AddAfterUpdate(new MoveHorizontallyWithTheWorld(this));
 
-            collider.AddBotCollisionHandler(StopsWhenHitting.Bot<BlockVerticalMovement>());
-            collider.AddLeftCollisionHandler(StopsWhenHitting.Left<BlockHorizontalMovement>());
-            collider.AddRightCollisionHandler(StopsWhenHitting.Right<BlockHorizontalMovement>());
-            collider.AddTopCollisionHandler(StopsWhenHitting.Top<BlockVerticalMovement>());
+            collider.AddBotCollisionHandler(StopsWhenHitting.Bot<SomeKindOfGround>());
+            collider.AddLeftCollisionHandler(StopsWhenHitting.Left<SomeKindOfGround>());
+            collider.AddRightCollisionHandler(StopsWhenHitting.Right<SomeKindOfGround>());
+            collider.AddTopCollisionHandler(StopsWhenHitting.Top<SomeKindOfGround>());
 
             AddUpdate(() =>
             {
