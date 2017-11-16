@@ -453,12 +453,15 @@ namespace MonoGameProject
                 var fireball = new SonicBoom(
                         boss
                         , speed
-                        , 0
                         , Game1
                     );
                 fireball.ColorGetter = GameState.GetColor;
-                fireball.X = boss.mainCollider.X + speed * 10;
-                fireball.Y = boss.mainCollider.Y - fireball.collider.Height + 200;
+                if(boss.facingRight)
+                    fireball.X = boss.mainCollider.Right() + 700;
+                else                                         
+                    fireball.X = boss.mainCollider.Left() -  700;
+
+                fireball.Y = boss.mainCollider.Y - 600;
                 Game1.AddToWorld(fireball);
 
             };

@@ -1,5 +1,6 @@
 ﻿using GameCore;
 using Microsoft.Xna.Framework;
+using System;
 
 namespace MonoGameProject
 {
@@ -33,13 +34,14 @@ namespace MonoGameProject
 
     public class FireballTrail : Thing
     {
-        public FireballTrail(Color color)
+        public FireballTrail(int x, int y, int width, int height, Color color, Func<int, int, int?, int?, bool, Animation> Animation, bool flipped =false)
         {
-            var animation = GeneratedContent.Create_knight_fireball_trail(
-            0
-            , 0
-            , MapModule.CELL_SIZE
-            , MapModule.CELL_SIZE
+            var animation = Animation(
+            x
+            , y
+            , width
+            , height
+            , flipped
             );
             animation.RenderingLayer = GlobalSettigns.FIREBALL_TRAIL_Z;
             animation.ColorGetter = () => color;
@@ -47,11 +49,12 @@ namespace MonoGameProject
             AddAnimation(animation);
 
             var borderSize = 30;
-            var animationBorder = GeneratedContent.Create_knight_fireball_trail(
-             -(borderSize / 2)
-            , -(borderSize / 2)
-            , MapModule.CELL_SIZE + borderSize
-            , MapModule.CELL_SIZE + borderSize
+            var animationBorder = Animation(
+             x - (borderSize / 2)
+            , y - (borderSize / 2)
+            , width + borderSize
+            , width + borderSize
+            , flipped
             );
             animationBorder.RenderingLayer = GlobalSettigns.FIREBALL_TRAIL_BORDER_Z;
             animationBorder.ColorGetter = () => Color.Black;

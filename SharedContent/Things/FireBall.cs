@@ -5,6 +5,59 @@ using System;
 
 namespace MonoGameProject
 {
+    public class LeaveasTrail : UpdateHandler
+    {
+        int timeToCreateTrail = 0;
+        private readonly Thing Parent;
+        private readonly Game1 Game1;
+        private readonly int width;
+        private readonly Func<int, int, int?, int?, bool, Animation> Animation;
+        private readonly Func<Color> color;
+        private readonly int height;
+        private readonly int x;
+        private readonly int y;
+        private readonly bool flipped;
+
+        public LeaveasTrail(
+            Thing Parent
+            , Game1 Game1
+            , int width
+            , int height
+            , Func<Color> color
+            , Func<int, int, int?, int?, bool, Animation> Animation
+            , int x=0
+            , int y=0
+            , bool flipped = false
+            )
+        {
+            this.Game1 = Game1;
+            this.Parent = Parent;
+            this.width = width;
+            this.height = height;
+            this.color = color;
+            this.Animation = Animation;
+            this.x = x;
+            this.y = y;
+            this.flipped = flipped;
+        }
+
+        public void Update()
+        {
+            timeToCreateTrail++;
+            var xFactor = (Math.Abs(Parent.HorizontalSpeed) + Math.Abs(Parent.VerticalSpeed));
+            if (timeToCreateTrail == 350 / xFactor)
+            {
+                timeToCreateTrail = 0;
+
+                Game1.AddToWorld(new FireballTrail(x,y,width, height, color(), Animation, flipped)
+                {
+                    X = Parent.X,
+                    Y = Parent.Y
+                });
+            }
+        }
+    }
+
     public abstract class BaseFireBall : Thing
     {
         private readonly Game1 Game1;
@@ -28,21 +81,17 @@ namespace MonoGameProject
                 Height = size - bonus
             };
             AddCollider(collider);
-
-
-
-            var timeToCreateTrail = 0;
-            AddUpdate(() =>
-            {
-                timeToCreateTrail++;
-                var xFactor = (Math.Abs(HorizontalSpeed) + Math.Abs(VerticalSpeed));
-                if (timeToCreateTrail == 350 / xFactor)
-                {
-                    timeToCreateTrail = 0;
-                    
-                    Game1.AddToWorld(new FireballTrail(ColorGetter()) { X = X, Y = Y });
-                }
-            });
+                        
+            AddUpdate(
+                new LeaveasTrail(
+                    this
+                    , Game1
+                    , MapModule.CELL_SIZE
+                    , MapModule.CELL_SIZE
+                    , ()=>ColorGetter()
+                    , GeneratedContent.Create_knight_fireball_trail
+                )
+            );
 
             var PlayerDamageHandler = new PlayerDamageHandler(
               Game1
@@ -171,29 +220,45 @@ namespace MonoGameProject
         }
     }
 
-    public class SonicBoom : BaseFireBall
+    public class SonicBoom : Thing
     {
-        public SonicBoom(Thing Owner, int speedX, int speedY, Game1 Game1) : base(Owner, Game1)
+        public Func<Color> ColorGetter = () => Color.White;
+        public readonly AttackCollider collider;
+
+        public SonicBoom(Thing Owner, int speedX, Game1 Game1)
         {
             var animation = GeneratedContent.Create_knight_SoniicBoom(
-            500
-            , 500
+            speedX > 0 ? -800 : -400
+            , 0
             , (int)(MapModule.CELL_SIZE * 3f)
             , (int)(MapModule.CELL_SIZE * 3f)
             , speedX > 0
             );
-            animation.ColorGetter = () => ColorGetter();
+            animation.ColorGetter = GameState.GetColor;
             animation.LoopDisabled = true;
             animation.RenderingLayer = GlobalSettigns.FIREBALL_Z;
             AddAnimation(animation);
 
-            collider.OffsetX *= 5;
-            collider.OffsetY *= 5;
-            collider.Width *= 2;
-            collider.Height *= 5;
+            AddUpdate(
+                new LeaveasTrail(
+                    this
+                    , Game1
+                    , (int)(MapModule.CELL_SIZE * 3f)
+                    , (int)(MapModule.CELL_SIZE * 3f)
+                    , GameState.GetColor
+                    , GeneratedContent.Create_knight_SoniicBoom
+                    , speedX > 0 ? -800 : -400
+                    ,0
+                    , speedX > 0
+                )
+            );
+
+            collider = new AttackCollider { Width = 400, Height = 1500 };
+
+            AddCollider(collider);
 
             HorizontalSpeed = speedX;
-            VerticalSpeed = speedY;
+            VerticalSpeed = 0;
             AddUpdate(new DestroyIfLeftBehind(this));
             AddAfterUpdate(new MoveHorizontallyWithTheWorld(this));
         }
