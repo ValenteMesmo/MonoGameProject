@@ -8,7 +8,7 @@ namespace MonoGameProject
 {
     public class Player : Humanoid
     {
-        //planning:         
+        //planning:
         //ter boss em ceu aberto... if esperto no teto e no background
         //touch input... inprove two other buttons
 
@@ -290,7 +290,6 @@ namespace MonoGameProject
         //fire balls (vertical)
         //fireballs vertical lenta...
         private const int width = 1000;
-        private const int height = 900;
         private readonly Game1 Game1;
 
         public Player(

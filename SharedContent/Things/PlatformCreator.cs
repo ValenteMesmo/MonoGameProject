@@ -7,7 +7,7 @@ namespace MonoGameProject
 {
     public class PlatformCreator : Thing
     {
-        private const int STAGE_LENGTH = 3;
+        private const int STAGE_LENGTH = 8;
         int stageCount = STAGE_LENGTH;
         private MapModule lastModule;
         private WorldMover WorldMover;
@@ -707,6 +707,11 @@ namespace MonoGameProject
 
             while (true)
             {
+                if (stageCount == 5)
+                {
+                    GameState.State.CaveMode = true;
+                }
+
                 if (stageCount == 2)
                 {
                     if (GameState.State.TopExit == newMap.TopEntry

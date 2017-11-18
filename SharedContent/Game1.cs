@@ -162,6 +162,30 @@ namespace MonoGameProject
             }
 
             ScreenFader2.FadeOut(() => { });
+
+#if DEBUG
+            var cheats = new Thing();
+            cheats.AddUpdate(()=> {
+                var kb = Microsoft.Xna.Framework.Input.Keyboard.GetState();
+                if (kb.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.F1))
+                {
+                    player1.HitPoints++;
+                }
+                if (kb.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.F5))
+                {
+                    player1.ChangeToSword();
+                }
+                if (kb.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.F6))
+                {
+                    player1.ChangeToWhip();
+                }
+                if (kb.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.F7))
+                {
+                    player1.ChangeToWand();
+                }
+            });
+            AddThing(cheats);
+#endif
         }
 
         private void AddPlayer(Player player1, PlayerSlot slot)

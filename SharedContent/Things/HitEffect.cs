@@ -32,40 +32,6 @@ namespace MonoGameProject
         }
     }
 
-    public class FireballTrail : Thing
-    {
-        public FireballTrail(int x, int y, int width, int height, Color color, Func<int, int, int?, int?, bool, Animation> Animation, bool flipped =false)
-        {
-            var animation = Animation(
-            x
-            , y
-            , width
-            , height
-            , flipped
-            );
-            animation.RenderingLayer = GlobalSettigns.FIREBALL_TRAIL_Z;
-            animation.ColorGetter = () => color;
-            animation.LoopDisabled = true;
-            AddAnimation(animation);
-
-            var borderSize = 30;
-            var animationBorder = Animation(
-             x - (borderSize / 2)
-            , y - (borderSize / 2)
-            , width + borderSize
-            , width + borderSize
-            , flipped
-            );
-            animationBorder.RenderingLayer = GlobalSettigns.FIREBALL_TRAIL_BORDER_Z;
-            animationBorder.ColorGetter = () => Color.Black;
-            animationBorder.LoopDisabled = true;
-            AddAnimation(animationBorder);
-
-            AddUpdate(new DestroyAfterTime(this, 30));
-            AddAfterUpdate(new MoveHorizontallyWithTheWorld(this));
-        }
-    }
-
     public class HitEffect : Thing
     {
         public Color Color = Color.White;
