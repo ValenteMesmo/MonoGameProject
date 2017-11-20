@@ -5,17 +5,115 @@ using System;
 
 namespace MonoGameProject
 {
+    public class SmokeTrail : Thing
+    {
+        public SmokeTrail(Thing Parent, MyRandom random, Color Color)
+        {
+            var xValue = Math.Abs(Parent.VerticalSpeed);
+            var yValue = Math.Abs(Parent.HorizontalSpeed);
+
+            var speedSum = xValue + yValue;
+            var xFactor = 62f / speedSum;
+
+            xValue = (int)(xValue * xFactor);
+            yValue = (int)(yValue * xFactor);
+
+            var x = random.Next(-xValue, xValue);
+            var y = random.Next(-yValue, yValue);
+
+            var sizeBonus = -100;
+            var offSetBonus = -sizeBonus / 2;
+
+            var aasdads = 150 / speedSum;
+            var animationFrameDuration = aasdads;
+
+            var smokeAnimation = GeneratedContent.Create_knight_fireball_trail(
+                x + FireBall.FIREBALL_OFFSET + offSetBonus
+                , y + FireBall.FIREBALL_OFFSET + offSetBonus
+                , FireBall.FIREBALL_SIZE + sizeBonus
+                , FireBall.FIREBALL_SIZE + sizeBonus);
+            smokeAnimation.LoopDisabled = true;
+            smokeAnimation.FrameDuration = animationFrameDuration;
+            smokeAnimation.RenderingLayer = GlobalSettigns.FIREBALL_TRAIL_Z;
+            smokeAnimation.ColorGetter = () => Color;
+
+            var smokeAnimationBorder = GeneratedContent.Create_knight_fireball_trail(
+                x + FireBall.FIREBALL_BORDER_OFFSET + offSetBonus
+                , y + FireBall.FIREBALL_BORDER_OFFSET + offSetBonus
+                , FireBall.FIREBALL_BORDER_SIZE + sizeBonus
+                , FireBall.FIREBALL_BORDER_SIZE + sizeBonus);
+            smokeAnimationBorder.LoopDisabled = true;
+            smokeAnimationBorder.FrameDuration = animationFrameDuration;
+            smokeAnimationBorder.ColorGetter = () => Color.Black;
+            smokeAnimationBorder.RenderingLayer = GlobalSettigns.FIREBALL_TRAIL_BORDER_Z;
+
+            AddAnimation(smokeAnimation);
+            AddAnimation(smokeAnimationBorder);
+            X = Parent.X;
+            Y = Parent.Y;
+
+            var duration = 100;
+            AddAfterUpdate(new MoveHorizontallyWithTheWorld(this));
+
+            var colorSpeed = (5 * speedSum) / 50;
+
+            AddUpdate(() =>
+            {
+                Color = new Color(Color.R + colorSpeed, Color.G + colorSpeed, Color.B + colorSpeed);
+                duration--;
+                if (duration == 0)
+                    Destroy();
+            });
+        }
+    }
+
+    public class CreatesSmokeTrail : UpdateHandler
+    {
+        private readonly Thing Parent;
+        private readonly Game1 Game1;
+        private readonly MyRandom random;
+        private readonly Color Color;
+
+        public CreatesSmokeTrail(Thing Parent, Game1 Game1, Color Color)
+        {
+            this.Parent = Parent;
+            this.Game1 = Game1;
+            random = new MyRandom(999);
+            this.Color = Color;
+
+            var speed = Math.Abs( Parent.HorizontalSpeed) + Math.Abs(Parent.VerticalSpeed);
+            Duration = (50 * speed) / 5;
+
+        }
+
+        int cooldown = 0;
+        private readonly int Duration;
+
+        public void Update()
+        {
+            if (cooldown > 0)
+            {
+                cooldown--;
+                return;
+            }
+            cooldown = Duration;
+
+            Game1.AddToWorld(new SmokeTrail(Parent, random, Color));
+        }
+    }
+
     public abstract class BaseFireBall : Thing
     {
         private readonly Game1 Game1;
+        public readonly Color Color;
         public readonly Collider collider;
-        public Func<Color> ColorGetter = () => Color.White;
         public readonly Thing Owner;
 
-        public BaseFireBall(Thing Owner, Game1 Game1)
+        public BaseFireBall(Thing Owner, Game1 Game1, Color Color)
         {
             this.Owner = Owner;
             this.Game1 = Game1;
+            this.Color = Color;
 
             var size = 400;
             var bonus = size / 3;
@@ -28,7 +126,7 @@ namespace MonoGameProject
                 Height = size - bonus
             };
             AddCollider(collider);
-            
+
             var PlayerDamageHandler = new PlayerDamageHandler(
               Game1
               , _ => { }
@@ -37,6 +135,8 @@ namespace MonoGameProject
             PlayerDamageHandler.HEALTH = 3;
             collider.AddHandler(PlayerDamageHandler.CollisionHandler);
             AddUpdate(PlayerDamageHandler.Update);
+
+            AddUpdate(new CreatesSmokeTrail(this, Game1, Color));
         }
 
         //TODO: remove? ...
@@ -52,7 +152,7 @@ namespace MonoGameProject
         public const int SPEED = 100;
         public const int VELOCITY = 8;
 
-        public WavedFireBall(Thing Owner, bool facingRight, Game1 Game1) : base(Owner, Game1)
+        public WavedFireBall(Thing Owner, bool facingRight, Game1 Game1, Color Color) : base(Owner, Game1, Color)
         {
             Animation animation = FireBall.CreateFireBallAnimation(this);
             AddAnimation(animation);
@@ -90,7 +190,7 @@ namespace MonoGameProject
 
         public int duration = 200;
 
-        public FireBall(Thing Owner, int speedX, int speedY, Game1 Game1) : base(Owner, Game1)
+        public FireBall(Thing Owner, int speedX, int speedY, Game1 Game1, Color Color) : base(Owner, Game1, Color)
         {
             Animation animation = CreateFireBallAnimation(this);
             AddAnimation(animation);
@@ -121,16 +221,21 @@ namespace MonoGameProject
             AddUpdate(DestroyAfterDuration);
         }
 
+
+        public const int FIREBALL_OFFSET = 0;
+        public const int FIREBALL_SIZE = MapModule.CELL_SIZE;
+        public const int FIREBALL_BORDER_OFFSET = -30 / 2;
+        public const int FIREBALL_BORDER_SIZE = MapModule.CELL_SIZE + 30;
+
         public static Animation CreateFireballBorderAnimation()
         {
-            var borderSize = 30;
             var animationBorder = GeneratedContent.Create_knight_fireball(
-             -borderSize / 2
-            , -borderSize / 2
-            , MapModule.CELL_SIZE + borderSize
-            , MapModule.CELL_SIZE + borderSize
+             FIREBALL_BORDER_OFFSET
+            , FIREBALL_BORDER_OFFSET
+            , FIREBALL_BORDER_SIZE
+            , FIREBALL_BORDER_SIZE
             );
-            animationBorder.RenderingLayer = GlobalSettigns.FIREBALL_TRAIL_BORDER_Z;// GlobalSettigns.FIREBALL_BORDER_Z;
+            animationBorder.RenderingLayer = GlobalSettigns.FIREBALL_BORDER_Z;
             animationBorder.ColorGetter = () => Color.Black;
             return animationBorder;
         }
@@ -138,13 +243,13 @@ namespace MonoGameProject
         public static Animation CreateFireBallAnimation(BaseFireBall parent)
         {
             var animation = GeneratedContent.Create_knight_fireball(
-                        0
-                        , 0
-                        , MapModule.CELL_SIZE
-                        , MapModule.CELL_SIZE
+                        FIREBALL_OFFSET
+                        , FIREBALL_OFFSET
+                        , FIREBALL_SIZE
+                        , FIREBALL_SIZE
                         );
             animation.RenderingLayer = GlobalSettigns.FIREBALL_Z;
-            animation.ColorGetter = () => parent.ColorGetter();
+            animation.ColorGetter = () => parent.Color;
             return animation;
         }
 
@@ -191,7 +296,7 @@ namespace MonoGameProject
         public const int MAX_SPEED = 50;
         public int duration = 300;
 
-        public SeekerFireBall(Boss boss, Game1 Game1) : base(boss, Game1)
+        public SeekerFireBall(Boss boss, Game1 Game1, Color Color) : base(boss, Game1, Color)
         {
             var target = boss.player;
 

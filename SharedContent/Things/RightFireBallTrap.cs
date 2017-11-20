@@ -14,7 +14,17 @@ namespace MonoGameProject
                 cooldown--;
                 if (cooldown <= 0)
                 {
-                    Game1.AddToWorld(new FireBall(this,-FireBall.SPEED, 0, Game1) { X = X - 50, Y = Y + 50 });
+                    Game1.AddToWorld(
+                        new FireBall(
+                            this
+                            , -FireBall.SPEED
+                            , 0
+                            , Game1
+                            , GameState.GetColor())
+                        {
+                            X = X - 50,
+                            Y = Y + 50
+                        });
                     cooldown = 200;
                 }
             });

@@ -11,6 +11,7 @@ namespace MonoGameProject
         //planning:
         //ter boss em ceu aberto... if esperto no teto e no background
         //touch input... inprove two other buttons
+        //substituir sonicboom por fireball que se divide em 3
 
         //fireballtypes
         //  moves only if target is moving
@@ -283,6 +284,7 @@ namespace MonoGameProject
         //quebrar misc stuff afeta o random dos baús (gera um novo)
 
         //spawn de zumbis
+
 
         //plataforma "barco"... igual mario....
         //breakable blocks

@@ -440,7 +440,16 @@ namespace MonoGameProject
             if (headType == 1)
                 return boss =>
             {
-                Game1.AddToWorld(new WavedFireBall(boss, boss.facingRight, Game1) { X = boss.attackCollider.X, Y = boss.attackCollider.Y });
+                Game1.AddToWorld(
+                    new WavedFireBall(
+                        boss
+                        , boss.facingRight
+                        , Game1
+                        , GameState.GetColor())
+                    {
+                        X = boss.attackCollider.X,
+                        Y = boss.attackCollider.Y
+                    });
             };
 
             if (headType == 2)
@@ -456,10 +465,10 @@ namespace MonoGameProject
                         , Game1
                     );
                 fireball.ColorGetter = GameState.GetColor;
-                if(boss.facingRight)
+                if (boss.facingRight)
                     fireball.X = boss.mainCollider.Right() + 700;
-                else                                         
-                    fireball.X = boss.mainCollider.Left() -  700;
+                else
+                    fireball.X = boss.mainCollider.Left() - 700;
 
                 fireball.Y = boss.mainCollider.Y - 600;
                 Game1.AddToWorld(fireball);
@@ -468,7 +477,12 @@ namespace MonoGameProject
 
             return boss =>
             {
-                Game1.AddToWorld(new SeekerFireBall(boss, Game1) { X = boss.attackCollider.X, Y = boss.attackCollider.Y });
+                Game1.AddToWorld(
+                    new SeekerFireBall(boss, Game1, GameState.GetColor())
+                    {
+                        X = boss.attackCollider.X,
+                        Y = boss.attackCollider.Y
+                    });
             };
         }
 

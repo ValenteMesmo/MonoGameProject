@@ -27,11 +27,11 @@ namespace SharedContent
                             , hspeed
                             , vspeed
                             , Game1
+                            , GameState.GetColor()
                         )
                         {
                             X = Boss.X + (Boss.facingRight ? 600 : 0),
-                            Y = Boss.Y - 600,
-                            ColorGetter = GameState.GetColor
+                            Y = Boss.Y - 600
                         }
                     );
                 }

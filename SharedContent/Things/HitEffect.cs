@@ -6,10 +6,10 @@ namespace MonoGameProject
 {
     public static class GlobalSettigns
     {
-        public const float FIREBALL_Z = Boss.RIGHT_ARM_Z - 0.005f;
-        public const float FIREBALL_BORDER_Z = FIREBALL_Z + 0.001f;
-        public const float FIREBALL_TRAIL_Z = FIREBALL_Z + 0.002f;
-        public const float FIREBALL_TRAIL_BORDER_Z = FIREBALL_Z + 0.003f;
+        public const float FIREBALL_Z = Boss.RIGHT_ARM_Z - 0.004f;
+        public const float FIREBALL_BORDER_Z = Boss.RIGHT_ARM_Z - 0.003f;
+        public const float FIREBALL_TRAIL_Z = Boss.RIGHT_ARM_Z - 0.002f;
+        public const float FIREBALL_TRAIL_BORDER_Z = Boss.RIGHT_ARM_Z - 0.001f;
     }
 
     public class DestroyAfterTime : UpdateHandler
