@@ -206,17 +206,18 @@ namespace MonoGameProject
             , Func<int, int, int?, int?, bool, Animation> Create_knight_Leg_SweetDreams_back
             )
         {
-            var backLegWalking = CreateFlippableAnimation(thing, Create_knight_Leg_Walking, ArmorColor, Back_leg_z, feet_y, true, false, 255, 5);
-            var backWall = CreateFlippableAnimation(thing, Create_knight_Leg_wall_back, ArmorColor, Back_leg_z, feet_y, true, false, 255, 5);
-            var backLegFall = CreateFlippableAnimation(thing, Create_knight_Leg_Fall_back, ArmorColor, Back_leg_z, feet_y, true, false, 255, 5);
-            var backLegRoof_bang = CreateFlippableAnimation(thing, Create_knight_Leg_Roof_bang, ArmorColor, Back_leg_z, feet_y, true, false, 255, 5);
-            var backLegIdle = CreateFlippableAnimation(thing, Create_knight_Leg_Idle, ArmorColor, Back_leg_z, feet_y, true, true, 255, 5);
-            var backLegIdleEdge = CreateFlippableAnimation(thing, Create_knight_Leg_Idle, ArmorColor, Back_leg_z, feet_y, true, false, 255, 5);
-            var backLegIdleBackOnTheEdge = CreateFlippableAnimation(thing, Create_knight_Leg_Idle, ArmorColor, Back_leg_z, feet_y, true, true, 255, 0);
-            var backLegCrouchBackOnTheEdge = CreateFlippableAnimation(thing, Create_knight_Leg_Crouching, ArmorColor, Back_leg_z, crouch_y, true, false, 255, 0);
-            var backLegCrouchEdge = CreateFlippableAnimation(thing, Create_knight_Leg_Crouching_edge, ArmorColor, Back_leg_z, crouch_y, true, false, 255, 5);
-            var backLegCrouch = CreateFlippableAnimation(thing, Create_knight_Leg_Crouching, ArmorColor, Back_leg_z, crouch_y, true, false, 255, 5);
-            var backSweetDreams = CreateFlippableAnimation(thing, Create_knight_Leg_SweetDreams_back, ArmorColor, Back_leg_z, crouch_y, true, false, 255, 5);
+            var hmm = 255;
+            var backLegWalking = CreateFlippableAnimation(thing, Create_knight_Leg_Walking, ArmorColor, Back_leg_z, feet_y, true, false, hmm, 5);
+            var backWall = CreateFlippableAnimation(thing, Create_knight_Leg_wall_back, ArmorColor, Back_leg_z, feet_y, true, false, hmm, 5);
+            var backLegFall = CreateFlippableAnimation(thing, Create_knight_Leg_Fall_back, ArmorColor, Back_leg_z, feet_y, true, false, hmm, 5);
+            var backLegRoof_bang = CreateFlippableAnimation(thing, Create_knight_Leg_Roof_bang, ArmorColor, Back_leg_z, feet_y, true, false, hmm, 5);
+            var backLegIdle = CreateFlippableAnimation(thing, Create_knight_Leg_Idle, ArmorColor, Back_leg_z, feet_y, true, true, 200, 5);
+            var backLegIdleEdge = CreateFlippableAnimation(thing, Create_knight_Leg_Idle, ArmorColor, Back_leg_z, feet_y, true, false, hmm, 5);
+            var backLegIdleBackOnTheEdge = CreateFlippableAnimation(thing, Create_knight_Leg_Idle, ArmorColor, Back_leg_z, feet_y, true, true, hmm, 0);
+            var backLegCrouchBackOnTheEdge = CreateFlippableAnimation(thing, Create_knight_Leg_Crouching, ArmorColor, Back_leg_z, crouch_y, true, false, hmm, 0);
+            var backLegCrouchEdge = CreateFlippableAnimation(thing, Create_knight_Leg_Crouching_edge, ArmorColor, Back_leg_z, crouch_y, true, false, hmm, 5);
+            var backLegCrouch = CreateFlippableAnimation(thing, Create_knight_Leg_Crouching, ArmorColor, Back_leg_z, crouch_y, true, false, hmm, 5);
+            var backSweetDreams = CreateFlippableAnimation(thing, Create_knight_Leg_SweetDreams_back, ArmorColor, Back_leg_z, crouch_y, true, false, hmm, 5);
 
             return
                 new Animator(
@@ -286,6 +287,7 @@ namespace MonoGameProject
             , bool reverse = false
             , int reverseBonusX = 0
             , int startingFrame = 0
+            , bool reverseFrames = false
             )
         {
             if (reverse)
@@ -303,6 +305,8 @@ namespace MonoGameProject
             flipped.FrameDuration = 2;
             flipped.StartingFrame = startingFrame;
             flipped.LoopDisabled = !loop;
+            if (reverseFrames)
+                flipped.AddReverseFrames();
 
             flipped.ColorGetter = ColorGetter;
 
@@ -358,10 +362,10 @@ namespace MonoGameProject
                                 && thing.HeadState == HeadState.Bump;
 
             {
-                var hair_standing = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_hair, thing.GetHairColor, Hair_z, feet_y);
+                var hair_standing = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_hair, thing.GetHairColor, Hair_z, feet_y, true, false, 0, 0, true);
                 var eye_standing = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_eyes, thing.GetEyeColor, Eye_z, feet_y);
                 var face_standing = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_face, thing.GetSkinColor, Face_z, feet_y);
-                var hair_crouching = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_hair, thing.GetHairColor, Hair_z, crouch_y);
+                var hair_crouching = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_hair, thing.GetHairColor, Hair_z, crouch_y, true, false, 0, 0, true);
                 var eye_crouching = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_eyes, thing.GetEyeColor, Eye_z, crouch_y);
                 var face_crouching = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_face, thing.GetSkinColor, Face_z, crouch_y);
 
@@ -630,12 +634,12 @@ namespace MonoGameProject
             whip_left_crouch.ScaleY = scale;
             whip_left_crouch.LoopDisabled = true;
             whip_left_crouch.RenderingLayer = Weapon_z;
-            var whip_right = WeaponAttackAnimation(right_x , feet_y, null, null, true);
+            var whip_right = WeaponAttackAnimation(right_x, feet_y, null, null, true);
             whip_right.ScaleX = scale;
             whip_right.ScaleY = scale;
             whip_right.LoopDisabled = true;
             whip_right.RenderingLayer = Weapon_z;
-            var whip_right_crouch = WeaponAttackAnimation(right_x , crouch_y, null, null, true);
+            var whip_right_crouch = WeaponAttackAnimation(right_x, crouch_y, null, null, true);
             whip_right_crouch.ScaleX = scale;
             whip_right_crouch.ScaleY = scale;
             whip_right_crouch.LoopDisabled = true;
@@ -651,12 +655,12 @@ namespace MonoGameProject
             whipi_left_crouch.ScaleY = scale;
             //whipi_left_crouch.FrameDuration = 2;
             whipi_left_crouch.RenderingLayer = Weapon_z;
-            var whipi_right = WeaponIdleAnimation(right_x , feet_y, null, null, true);
+            var whipi_right = WeaponIdleAnimation(right_x, feet_y, null, null, true);
             whipi_right.ScaleX = scale;
             whipi_right.ScaleY = scale;
             whipi_right.FrameDuration = 2;
             whipi_right.RenderingLayer = Weapon_z;
-            var whipi_right_crouch = WeaponIdleAnimation(right_x , crouch_y, null, null, true);
+            var whipi_right_crouch = WeaponIdleAnimation(right_x, crouch_y, null, null, true);
             whipi_right_crouch.ScaleX = scale;
             whipi_right_crouch.ScaleY = scale;
             //whipi_right_crouch.FrameDuration = 2;

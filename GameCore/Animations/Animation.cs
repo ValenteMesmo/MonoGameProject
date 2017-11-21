@@ -88,6 +88,17 @@ namespace GameCore
                 yield return Frames[CurrentFrameIndex];
         }
 
+        public void AddReverseFrames()
+        {
+            var toAdd = new List<AnimationFrame>();
+            for (int i = Frames.Count - 2; i > 0; i--)
+            {
+                toAdd.Add(Frames[i]);
+            }
+
+            Frames.AddRange(toAdd);
+        }
+
         public void Restart()
         {
             CurrentFrameIndex = StartingFrame;
