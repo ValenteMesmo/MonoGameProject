@@ -9,6 +9,7 @@ namespace MonoGameProject
     public class Player : Humanoid
     {
         //planning:
+        //checkpoints... easy 2(10)... normal 1(100)... hard 0(1000)...
         //ter boss em ceu aberto... if esperto no teto e no background
         //touch input... inprove two other buttons
         //substituir sonicboom por fireball que se divide em 3

@@ -23,9 +23,10 @@ namespace MonoGameProject
 
             var sizeBonus = -100;
             var offSetBonus = -sizeBonus / 2;
-
-            var aasdads = 150 / speedSum;
-            var animationFrameDuration = aasdads;
+            
+            var animationFrameDuration = 
+                3//150 / speedSum
+                ;
 
             var smokeAnimation = GeneratedContent.Create_knight_fireball_trail(
                 x + FireBall.FIREBALL_OFFSET + offSetBonus
