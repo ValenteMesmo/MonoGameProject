@@ -367,8 +367,9 @@ namespace MonoGameProject
             MainCollider.AddTopCollisionHandler(StopsWhenHitting.Top<BlockVerticalMovement>());
             MainCollider.AddLeftCollisionHandler(HandleLeftBossLock);
 
-            new HumanoidAnimatorFactory()
-                .CreateAnimator(this, index);
+            var factory = new HumanoidAnimatorFactory();
+            factory.CreateAnimator(this, index);
+            factory.CreateHairBonus(this, AddToWorld);
         }
 
         public override void OnDestroy()

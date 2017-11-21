@@ -44,6 +44,11 @@ namespace GameCore
             AfterUpdates.Add(Update.Update);
         }
 
+        public void AddAfterUpdate(Action Update)
+        {
+            AfterUpdates.Add(Update);
+        }
+
         public void AddAnimation(IHandleAnimation Animation)
         {
             Animations.Add(Animation);

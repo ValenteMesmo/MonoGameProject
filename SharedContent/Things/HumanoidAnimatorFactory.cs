@@ -14,17 +14,19 @@ namespace MonoGameProject
 
         public const float WEAPON_Z = 0.120f;
         public const float FRONT_ARM_Z = 0.121f;
-        public const float HAIR_Z = 0.122f;
-        public const float EYE_Z = 0.123f;
-        public const float FACE_Z = 0.124f;
-        public const float FRONT_LEG_Z = 0.125f;
-        public const float TORSO_Z = 0.126f;
-        public const float BACK_LEG_Z = 0.127f;
-        public const float BACK_ARM_Z = 0.128f;
+        public const float HAIR_BONUS_Z = 0.122f;
+        public const float HAIR_Z = 0.123f;
+        public const float EYE_Z = 0.124f;
+        public const float FACE_Z = 0.125f;
+        public const float FRONT_LEG_Z = 0.126f;
+        public const float TORSO_Z = 0.127f;
+        public const float BACK_LEG_Z = 0.128f;
+        public const float BACK_ARM_Z = 0.129f;
 
         public float Weapon_z = WEAPON_Z;
         public float Front_arm_z = FRONT_ARM_Z;
         public float Hair_z = HAIR_Z;
+        public float Hair_bonus_z = HAIR_BONUS_Z;
         public float Eye_z = EYE_Z;
         public float Face_z = FACE_Z;
         public float Front_leg_z = FRONT_LEG_Z;
@@ -34,6 +36,69 @@ namespace MonoGameProject
 
         private const int bump_y = -50;
 
+        public void CreateHairBonus(Humanoid parent, Action<Thing> AddToTheWorld)
+        {
+            var thing = new Thing();
+            var hair_standing = CreateFlippableAnimation(parent, GeneratedContent.Create_knight_head_hair_bonus, parent.GetHairColor, Hair_bonus_z, feet_y, true, false, 0, 0, true);
+            var hair_crouching = CreateFlippableAnimation(parent, GeneratedContent.Create_knight_head_hair_bonus, parent.GetHairColor, Hair_bonus_z, crouch_y, true, false, 0, 0, true);
+
+            thing.AddAnimation(ShowOnlyWhen(CreateCrouchAnimator(parent, hair_standing, hair_crouching), CreateNakedHeadCondition(parent)));
+
+            var bonusX = 0;
+            var bonusY = 0;
+            var speed = 5;
+            thing.AddUpdate(() =>
+            {
+                if (parent.HorizontalSpeed > 10)
+                {
+                    bonusX -= speed;
+                    if (bonusX < -50)
+                        bonusX = -50;
+                }
+                else if (parent.HorizontalSpeed < -10)
+                {
+                    bonusX += speed;
+                    if (bonusX > 50)
+                        bonusX = 50;
+                }
+                else
+                {
+                    if (bonusX > 0)
+                        bonusX-= speed;
+                    else if (bonusX < 0)
+                        bonusX+= speed;
+                }
+
+
+                if (parent.VerticalSpeed > 10)
+                {
+                    bonusY -= speed;
+                    if (bonusY < -50)
+                        bonusY = -50;
+                }
+                else if (parent.VerticalSpeed < -10)
+                {
+                    bonusY += speed;
+                    if (bonusY > 50)
+                        bonusY = 50;
+                }
+                else
+                {
+                    if (bonusY > 0)
+                        bonusY -= speed;
+                    else if (bonusY < 0)
+                        bonusY += speed;
+                }
+            });
+            thing.AddAfterUpdate(() =>
+            {
+                thing.X = parent.X+bonusX;
+                thing.Y = parent.Y+ bonusY;
+            });
+            thing.AddAfterUpdate(new MoveHorizontallyWithTheWorld(thing));
+            AddToTheWorld(thing);
+        }
+
         public void CreateAnimator(Humanoid thing, int playerIndex)
         {
             //TODO: move to constructor... thing too
@@ -41,6 +106,7 @@ namespace MonoGameProject
             Weapon_z += playerIndex / 100f;
             Front_arm_z += playerIndex / 100f;
             Hair_z += playerIndex / 100f;
+            Hair_bonus_z += playerIndex / 100f;
             Eye_z += playerIndex / 100f;
             Face_z += playerIndex / 100f;
             Front_leg_z += playerIndex / 100f;
@@ -351,9 +417,7 @@ namespace MonoGameProject
 
         private void HeadAnimator(Humanoid thing)
         {
-
-            Func<bool> NakedHead = () => !thing.IsUsingHelmet()
-                                 && thing.HeadState != HeadState.Bump;
+            Func<bool> NakedHead = CreateNakedHeadCondition(thing);
             Func<bool> NakedHeadBump = () => !thing.IsUsingHelmet()
                                 && thing.HeadState == HeadState.Bump;
             Func<bool> ArmoredHead = () => thing.IsUsingHelmet()
@@ -404,6 +468,12 @@ namespace MonoGameProject
                     ShowOnlyWhen(slamedHelm, ArmoredHeadBump)
                 );
             }
+        }
+
+        private static Func<bool> CreateNakedHeadCondition(Humanoid thing)
+        {
+            return () => !thing.IsUsingHelmet()
+                                 && thing.HeadState != HeadState.Bump;
         }
 
         private void TorsoAnimator(Humanoid thing)
