@@ -253,6 +253,7 @@ namespace MonoGameProject
             thing.AddAnimation(backgorung);
 
             CreateAnimationPart(thing, GeneratedContent.Create_knight_head_hair, HumanoidAnimatorFactory.HAIR_Z);
+            CreateAnimationPart(thing, GeneratedContent.Create_knight_head_hair_bonus, HumanoidAnimatorFactory.HAIR_BONUS_Z);
             CreateAnimationPart(thing, GeneratedContent.Create_knight_head_eyes, HumanoidAnimatorFactory.EYE_Z);
             CreateAnimationPart(thing, GeneratedContent.Create_knight_head_face, HumanoidAnimatorFactory.FACE_Z);
             CreateAnimationPart(thing, GeneratedContent.Create_knight_torso_walking_armored, HumanoidAnimatorFactory.TORSO_Z);
@@ -295,7 +296,7 @@ namespace MonoGameProject
             bbb.ScaleX = 20;
             bbb.ScaleY = 20;
             bbb.ColorGetter = () => Color.White;
-
+            bbb.LoopDisabled = true;
             thing.AddAnimation(bbb);
         }
     }
