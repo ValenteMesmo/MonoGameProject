@@ -46,20 +46,23 @@ namespace MonoGameProject
 
             var bonusX = 0;
             var bonusY = 0;
+            var horizontalBonusLimit = 50;
+            var upBonusLimit = 35;
+            var downBonusLimit = 70;
             var speed = 5;
             thing.AddUpdate(() =>
             {
-                if (parent.HorizontalSpeed > 10)
+                if (parent.HorizontalSpeed > 50)
                 {
                     bonusX -= speed;
-                    if (bonusX < -50)
-                        bonusX = -50;
+                    if (bonusX < -horizontalBonusLimit)
+                        bonusX = -horizontalBonusLimit;
                 }
-                else if (parent.HorizontalSpeed < -10)
+                else if (parent.HorizontalSpeed < -50)
                 {
                     bonusX += speed;
-                    if (bonusX > 50)
-                        bonusX = 50;
+                    if (bonusX > horizontalBonusLimit)
+                        bonusX = horizontalBonusLimit;
                 }
                 else
                 {
@@ -70,17 +73,17 @@ namespace MonoGameProject
                 }
 
 
-                if (parent.VerticalSpeed > 10)
+                if (parent.VerticalSpeed > 50)
                 {
                     bonusY -= speed;
-                    if (bonusY < -50)
-                        bonusY = -50;
+                    if (bonusY < -upBonusLimit)
+                        bonusY = -upBonusLimit;
                 }
-                else if (parent.VerticalSpeed < -10)
+                else if (parent.VerticalSpeed < -50)
                 {
                     bonusY += speed;
-                    if (bonusY > 50)
-                        bonusY = 50;
+                    if (bonusY > downBonusLimit)
+                        bonusY = downBonusLimit;
                 }
                 else
                 {
