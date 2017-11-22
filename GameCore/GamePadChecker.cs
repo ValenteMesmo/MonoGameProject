@@ -50,15 +50,22 @@ namespace GameCore
         private readonly TouchAreas btn;
         private readonly TouchAreas btn2;
         Vector2 lastTouch;
+        Vector2 lastTouch2;
         private readonly TouchScreenChecker Parent;
 
         bool wasGoingLeft;
         bool wasGoingRight;
+        bool wasPressingJump;
+        bool wasPressingAction;
+
         private readonly int smallPart;
+
         private readonly float rightArea;
         private readonly float leftArea;
         private readonly float downArea;
         private readonly float upArea;
+        private readonly float attackArea;
+        private readonly float jumpArea;
 
         public InGameTouchInput(
             TouchScreenChecker Parent
@@ -88,12 +95,16 @@ namespace GameCore
             AddAnimation(animationn2);
 
             lastTouch = new Vector2(btn.CenterX(), btn.CenterY());
+            lastTouch2 = new Vector2(btn2.CenterX(), btn2.CenterY());
 
             smallPart = btn.Width / 6;
             rightArea = btn.CenterX() + smallPart;
             leftArea = btn.CenterX() - smallPart;
             downArea = btn.CenterY() + smallPart;
             upArea = btn.CenterY() - smallPart;
+
+            attackArea = btn2.CenterX() - smallPart;
+            jumpArea = btn2.CenterX() + smallPart;
         }
 
         public void Update()
@@ -105,15 +116,52 @@ namespace GameCore
         private void HandleJumpAndAttack()
         {
             var touch = btn2.GetTouchPoint();
-            if (touch.HasValue == false)
+
+            if (touch.HasValue)
+            {
+                HandleActionTouch(touch.Value);
+            }
+            else
             {
                 Parent.Jump = false;
                 Parent.Action = false;
-                return;
+            }
+        }
+
+        private void HandleActionTouch(Vector2 touch)
+        {
+            var distanceX = touch.X - lastTouch2.X;
+            var distanceXAbs = Math.Abs(distanceX);
+
+            var isPressingJump = touch.X >= jumpArea;
+            var isPressingAttack = touch.X <= attackArea;
+
+            if (!isPressingJump && !isPressingAttack)
+            {
+                if (wasPressingAction)
+                {
+                    var shouldGoRight = distanceX > smallPart;
+
+                    Parent.Jump = shouldGoRight;
+                    Parent.Action = !shouldGoRight;
+                }
+                if (wasPressingJump)
+                {
+                    var shoudGoLeft = distanceX < -smallPart;
+                    Parent.Jump = !shoudGoLeft;
+                    Parent.Action = shoudGoLeft;
+                }
+            }
+            else
+            {
+                Parent.Action = isPressingAttack;
+                Parent.Jump = isPressingJump;
             }
 
-            Parent.Jump = touch.Value.X > btn2.CenterX() - 100;
-            Parent.Action = touch.Value.X < btn2.CenterX() + 100;
+            wasPressingJump = Parent.Jump;
+            wasPressingAction = Parent.Action;
+
+            lastTouch2 = touch;
         }
 
         private void HandleMovement()
