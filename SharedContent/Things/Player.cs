@@ -10,7 +10,6 @@ namespace MonoGameProject
     {
         //planning:
         //checkpoints... easy 2(10)... normal 1(100)... hard 0(1000)...
-        //substituir sonicboom por fireball que se divide em 3
         // sleep e shake ao acertar uma fireball está travando o jogo demais... (principalmente nos bosses)
 
         //fireballtypes

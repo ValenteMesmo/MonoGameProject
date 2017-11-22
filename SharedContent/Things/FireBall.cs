@@ -23,8 +23,8 @@ namespace MonoGameProject
 
             var sizeBonus = -100;
             var offSetBonus = -sizeBonus / 2;
-            
-            var animationFrameDuration = 
+
+            var animationFrameDuration =
                 3//150 / speedSum
                 ;
 
@@ -82,7 +82,7 @@ namespace MonoGameProject
             random = new MyRandom(999);
             this.Color = Color;
 
-            var speed = Math.Abs( Parent.HorizontalSpeed) + Math.Abs(Parent.VerticalSpeed);
+            var speed = Math.Abs(Parent.HorizontalSpeed) + Math.Abs(Parent.VerticalSpeed);
             Duration = (50 * speed) / 5;
 
         }
@@ -262,33 +262,45 @@ namespace MonoGameProject
         }
     }
 
-    public class SonicBoom : Thing
+    public class SonicBoom
     {
         public Func<Color> ColorGetter = () => Color.White;
         public readonly AttackCollider collider;
 
-        public SonicBoom(Thing Owner, int speedX, Game1 Game1)
+        public SonicBoom(Thing Owner, Game1 Game1, int speedx, int x, int y)
         {
-            var animation = GeneratedContent.Create_knight_SoniicBoom(
-            speedX > 0 ? -800 : -400
-            , 0
-            , (int)(MapModule.CELL_SIZE * 3f)
-            , (int)(MapModule.CELL_SIZE * 3f)
-            , speedX > 0
-            );
-            animation.ColorGetter = GameState.GetColor;
-            animation.LoopDisabled = true;
-            animation.RenderingLayer = GlobalSettigns.FIREBALL_Z;
-            AddAnimation(animation);
+            var vspeed = 50;
+            var distanceLimit = 1000;
 
-            collider = new AttackCollider { Width = 400, Height = 1500 };
+            var fireball1 = new FireBall(Owner, speedx, -vspeed, Game1, GameState.GetColor())
+            {
+                X = x,
+                Y = y
+            };
+            fireball1.AddUpdate(() =>
+            {
+                if (fireball1.Y < y - distanceLimit)
+                    fireball1.VerticalSpeed = 0;
+            });
+            var fireball2 = new FireBall(Owner, speedx, 0, Game1, GameState.GetColor())
+            {
+                X = x,
+                Y = y
+            };
+            var fireball3 = new FireBall(Owner, speedx, vspeed, Game1, GameState.GetColor())
+            {
+                X = x,
+                Y = y
+            };
+            fireball3.AddUpdate(() =>
+            {
+                if (fireball3.Y > y + distanceLimit)
+                    fireball3.VerticalSpeed = 0;
+            });
 
-            AddCollider(collider);
-
-            HorizontalSpeed = speedX;
-            VerticalSpeed = 0;
-            AddUpdate(new DestroyIfLeftBehind(this));
-            AddAfterUpdate(new MoveHorizontallyWithTheWorld(this));
+            Game1.AddToWorld(fireball1);
+            Game1.AddToWorld(fireball2);
+            Game1.AddToWorld(fireball3);
         }
     }
 
