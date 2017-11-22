@@ -74,7 +74,7 @@ namespace MonoGameProject
         public TorsoState TorsoState { get; set; }
         public LegState LegState { get; set; }
         public bool FacingRight { get; set; }
-        public int PlayerIndex { get; set; }
+        public int PlayerIndex { get; }
 
         private const int width = 1000;
         public const int height = 900;
@@ -126,9 +126,30 @@ namespace MonoGameProject
 
         public Humanoid(
             GameInputs Inputs
-            , Game1 Game1)
+            , Game1 Game1
+            , int PlayerIndex = 0)
         {
             this.Inputs = Inputs;
+            this.PlayerIndex = PlayerIndex;
+
+            if (PlayerIndex == 1)
+            {
+                SkinColor = new Color(168, 137, 120);
+                HairColor = new Color(120, 186, 168);
+                EyeColor = new Color(180, 180, 74);
+            }
+            if (PlayerIndex == 2)
+            {
+                SkinColor = new Color(240, 210, 190);
+                HairColor = new Color(240, 240, 168);
+                EyeColor = new Color(180, 120, 120);
+            }
+            if (PlayerIndex == 0)
+            {
+                SkinColor = new Color(168, 223, 137);
+                HairColor = new Color(180, 160, 228);
+                EyeColor = new Color(228, 180, 228);
+            }
 
             CreateColliders();
 

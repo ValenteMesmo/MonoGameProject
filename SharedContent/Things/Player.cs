@@ -302,11 +302,11 @@ namespace MonoGameProject
             , Action<Thing> AddToWorld
             ) : base(
                 GameInputs
-                , Game1)
+                , Game1
+                , index)
         {
             this.Game1 = Game1;
             HitPoints = 2;
-            PlayerIndex = index;
 
             AddUpdate(() =>
             {
