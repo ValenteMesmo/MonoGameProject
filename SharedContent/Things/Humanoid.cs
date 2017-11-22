@@ -144,7 +144,7 @@ namespace MonoGameProject
                 HairColor = new Color(240, 240, 168);
                 EyeColor = new Color(180, 120, 120);
             }
-            if (PlayerIndex == 0)
+            if (PlayerIndex == 3)
             {
                 SkinColor = new Color(168, 223, 137);
                 HairColor = new Color(180, 160, 228);
