@@ -95,7 +95,7 @@ namespace MonoGameProject
                 boss.HorizontalSpeed = 80 * horizontalSpeedMod;
 
                 stateCooldown--;
-                boss.MouthState = BossMouthState.BiteOpen;
+                boss.MouthState = BossMouthState.Idle;
             }
 
             if (boss.state == BossState.Idle || boss.state == BossState.EyeAttack)

@@ -12,6 +12,8 @@ namespace MonoGameProject
         private readonly Action<Thing> AddToWorld;
         private readonly Boss boss;
         private int state1Duration;
+        private const int FULL_ENERGY = 10;
+        private int energy = FULL_ENERGY;
 
         public WolfBossBody(Boss boss, Action<Thing> AddToWorld, Action<Boss> CreateFireBall, Action UseEyeSpell)
         {
@@ -44,6 +46,17 @@ namespace MonoGameProject
 
         private void ChangeState()
         {
+            if (energy == 0)
+            {
+                boss.state = BossState.Idle;
+                boss.MouthState = BossMouthState.Tired;
+                state1Duration = 200;
+                energy = FULL_ENERGY;
+                return;
+            }
+
+            energy--;
+
             var rnd = boss.MyRandom.Next(1, 3);
             
             if (rnd == 1)
@@ -61,7 +74,7 @@ namespace MonoGameProject
             else
             {
                 boss.state = BossState.BodyAttack1;
-                boss.MouthState = BossMouthState.BiteOpen;
+                boss.MouthState = BossMouthState.Idle;
             }
         }
 

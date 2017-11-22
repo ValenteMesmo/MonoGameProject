@@ -18,8 +18,8 @@ namespace MonoGameProject
     public enum BossMouthState
     {
         Idle
-        , BiteOpen
         , Shoot
+        , Tired
     }
 
     public class PlayerDamageHandler : UpdateHandler
@@ -368,8 +368,8 @@ namespace MonoGameProject
         {
             var standing_left = NewMethod(random, z, false, GameState.GetColor, BossAnimationsFactory.EyeAnimation);
             var standing_right = NewMethod(random, z, true, GameState.GetColor, BossAnimationsFactory.EyeAnimation);
-            var attack_left = NewMethod(random, z, false, GameState.GetColor, BossAnimationsFactory.EyeAnimation);
-            var attack_right = NewMethod(random, z, true, GameState.GetColor, BossAnimationsFactory.EyeAnimation);
+            var attack_left = NewMethod(random, z, false, GameState.GetComplimentColor, BossAnimationsFactory.EyeAnimation);
+            var attack_right = NewMethod(random, z, true, GameState.GetComplimentColor, BossAnimationsFactory.EyeAnimation);
             var shoot_left = NewMethod(random, z, false, GameState.GetColor, BossAnimationsFactory.EyeAnimation);
             var shoot_right = NewMethod(random, z, true, GameState.GetColor, BossAnimationsFactory.EyeAnimation);
 
@@ -382,10 +382,10 @@ namespace MonoGameProject
                         MouthState == BossMouthState.Idle
                         && facingRight)
                     , new AnimationTransitionOnCondition(attack_left, () =>
-                        MouthState == BossMouthState.BiteOpen
+                        MouthState == BossMouthState.Tired
                         && !facingRight)
                     , new AnimationTransitionOnCondition(attack_right, () =>
-                        MouthState == BossMouthState.BiteOpen
+                        MouthState == BossMouthState.Tired
                         && facingRight)
                     , new AnimationTransitionOnCondition(shoot_left, () =>
                         MouthState == BossMouthState.Shoot
@@ -482,8 +482,8 @@ namespace MonoGameProject
         {
             var standing_left = NewMethod(random, z, false, () => BodyColor, BossAnimationsFactory.HeadAnimation);
             var standing_right = NewMethod(random, z, true, () => BodyColor, BossAnimationsFactory.HeadAnimation);
-            var attack_left = NewMethod(random, z, false, () => BodyColor, BossAnimationsFactory.HeadAttackAnimation);
-            var attack_right = NewMethod(random, z, true, () => BodyColor, BossAnimationsFactory.HeadAttackAnimation);
+            var attack_left = NewMethod(random, z, false, GameState.GetColor, BossAnimationsFactory.HeadAttackAnimation);
+            var attack_right = NewMethod(random, z, true, GameState.GetColor, BossAnimationsFactory.HeadAttackAnimation);
             var shoot_left = NewMethod(random, z, false, () => BodyColor, BossAnimationsFactory.HeadShootAnimation);
             var shoot_right = NewMethod(random, z, true, () => BodyColor, BossAnimationsFactory.HeadShootAnimation);
 
@@ -496,10 +496,10 @@ namespace MonoGameProject
                         MouthState == BossMouthState.Idle
                         && facingRight)
                     , new AnimationTransitionOnCondition(attack_left, () =>
-                        MouthState == BossMouthState.BiteOpen
+                        MouthState == BossMouthState.Tired
                         && !facingRight)
                     , new AnimationTransitionOnCondition(attack_right, () =>
-                        MouthState == BossMouthState.BiteOpen
+                        MouthState == BossMouthState.Tired
                         && facingRight)
                     , new AnimationTransitionOnCondition(shoot_left, () =>
                         MouthState == BossMouthState.Shoot

@@ -71,7 +71,7 @@ namespace MonoGameProject
                 else
                     boss.HorizontalSpeed = -25 - (boss.PlayerDamageHandler.damageTaken > 5 ? 15 : 0);
 
-                boss.MouthState = BossMouthState.BiteOpen;
+                boss.MouthState = BossMouthState.Idle;
             }
             else if (boss.state == BossState.Idle)
             {
