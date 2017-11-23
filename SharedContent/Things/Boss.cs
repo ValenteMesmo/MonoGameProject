@@ -401,7 +401,7 @@ namespace MonoGameProject
         private void CreateBody(int bodyType, Game1 Game1, int headType, int eyeType)
         {
             Action<Boss> CreateFireBall = CreateFileBallAction(Game1, headType);
-            Action UseEyeSkill = CreateEyeSkill(Game1, headType);
+            Action UseEyeSkill = CreateEyeSkill(Game1, eyeType);
 
             //Action ShakeCamera = () => Game1.Camera.ShakeUp(10);
             //if (bodyType == 1)
@@ -437,10 +437,38 @@ namespace MonoGameProject
 
         private Action<Boss> CreateFileBallAction(Game1 Game1, int headType)
         {
+            var random = new MyRandom(GameState.RandomMonster.Seed);
+
             if (headType == 1)
                 return boss =>
             {
-                Game1.AddToWorld(
+                var rnd = random.Next(1, 3);
+                if (rnd == 1)
+                    Game1.AddToWorld(
+                        new WavedFireBall(
+                            boss
+                            , boss.facingRight
+                            , Game1
+                            , GameState.GetColor())
+                        {
+                            X = boss.attackCollider.X,
+                            Y = boss.attackCollider.Y
+                        });
+                else if (rnd == 2)
+                    Game1.AddToWorld(
+                    new WavedFireBall(
+                        boss
+                        , boss.facingRight
+                        , Game1
+                        , GameState.GetColor()
+                        , true)
+                    {
+                        X = boss.attackCollider.X,
+                        Y = boss.attackCollider.Y
+                    });
+                else
+                {
+                    Game1.AddToWorld(
                     new WavedFireBall(
                         boss
                         , boss.facingRight
@@ -450,6 +478,18 @@ namespace MonoGameProject
                         X = boss.attackCollider.X,
                         Y = boss.attackCollider.Y
                     });
+                    Game1.AddToWorld(
+                   new WavedFireBall(
+                       boss
+                       , boss.facingRight
+                       , Game1
+                       , GameState.GetColor()
+                       , true)
+                   {
+                       X = boss.attackCollider.X,
+                       Y = boss.attackCollider.Y
+                   });
+                }
             };
 
             if (headType == 2)

@@ -151,9 +151,9 @@ namespace MonoGameProject
     public class WavedFireBall : BaseFireBall
     {
         public const int SPEED = 100;
-        public const int VELOCITY = 8;
+        public const int VELOCITY = 3;
 
-        public WavedFireBall(Thing Owner, bool facingRight, Game1 Game1, Color Color) : base(Owner, Game1, Color)
+        public WavedFireBall(Thing Owner, bool facingRight, Game1 Game1, Color Color, bool up = false) : base(Owner, Game1, Color)
         {
             Animation animation = FireBall.CreateFireBallAnimation(this);
             AddAnimation(animation);
@@ -161,12 +161,14 @@ namespace MonoGameProject
             Animation animationBorder = FireBall.CreateFireballBorderAnimation();
             AddAnimation(animationBorder);
 
-
             AddUpdate(new DestroyIfLeftBehind(this));
             AddAfterUpdate(new MoveHorizontallyWithTheWorld(this));
 
             HorizontalSpeed = facingRight ? 50 : -50;
             VerticalSpeed = -SPEED;
+            if (up)
+                VerticalSpeed *= -1;
+
             var vvelocity = VELOCITY;
 
             AddUpdate(() =>
