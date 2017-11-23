@@ -40,6 +40,7 @@ namespace MonoGameProject
 
             var PlayerDamageHandler = new PlayerDamageHandler(
                 Game1
+                , Color.Yellow
                 , _ => { }
                 , Hit
             );
@@ -52,7 +53,6 @@ namespace MonoGameProject
 
             AddUpdate(PlayerDamageHandler.Update);
 
-            //animation.ColorGetter = () => Color.Yellow;
             AddAnimation(new Animator(
                 new AnimationTransitionOnCondition(animation, () =>PlayerDamageHandler.damageTaken == 0 )
                 ,new AnimationTransitionOnCondition(animation2, () =>PlayerDamageHandler.damageTaken == 1)

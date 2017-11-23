@@ -1,4 +1,5 @@
 ﻿using GameCore;
+using Microsoft.Xna.Framework;
 using MonoGameProject.Things;
 using System;
 
@@ -29,7 +30,7 @@ namespace MonoGameProject
                 )
             );
 
-            var PlayerDamageHandler = new PlayerDamageHandler(Game1,_=> { },_=> { });
+            var PlayerDamageHandler = new PlayerDamageHandler(Game1,Color.White, _=> { },_=> { });
             AddUpdate(PlayerDamageHandler.Update);
 
             var MainCollider = new Collider(size, size / 2);

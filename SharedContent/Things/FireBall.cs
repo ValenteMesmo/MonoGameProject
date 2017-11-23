@@ -130,6 +130,7 @@ namespace MonoGameProject
 
             var PlayerDamageHandler = new PlayerDamageHandler(
               Game1
+              ,Color
               , _ => { }
               , _ => { }
             );
@@ -143,7 +144,7 @@ namespace MonoGameProject
         //TODO: remove? ...
         public override void OnDestroy()
         {
-            Game1.AddToWorld(new HitEffect() { X = X, Y = Y });
+            Game1.AddToWorld(new HitEffect() { X = X, Y = Y, Color = Color });
             base.OnDestroy();
         }
     }

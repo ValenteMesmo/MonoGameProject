@@ -9,6 +9,13 @@ namespace MonoGameProject
     public class Player : Humanoid
     {
         //planning:
+        //informar collision point parar os handlers ( para criar particulas de collisao no lugar certo)
+        //diminuir o collider findplayer do boss.... para ele não atacar quando pular muito por cima
+        //make leafshield destroy fireballs
+        //make boss attack to destroy fireballs
+        //add cooldown to meelee attack (boss)
+        //animação de mastigar depois de matar um player? no inimigo normal
+
         //checkpoints... easy 2(10)... normal 1(100)... hard 0(1000)...
         // sleep e shake ao acertar uma fireball está travando o jogo demais... (principalmente nos bosses)
 
@@ -18,7 +25,6 @@ namespace MonoGameProject
 
         //animacao de fireball sem borda... para criar um trail maneiro
 
-        //BUG: weapon drop random is broken.... break, pick,break, pick,break, pick,break, pick... to see
         //simular touch com o mouse só em DEBUG
         //mapear start para enter
         //usar start para iniciar o jogo tbm
@@ -51,7 +57,6 @@ namespace MonoGameProject
         //priorizar movimento para direita? arrastando os outros players?
         //boss dispara na direção do player! um lazer... que tal?
         //boss dispara para cima na direção do player... quando chega mais ou menos no x do player... começa a cair devagar
-        //adicionar pequeno cooldown no ataque melee do boss... para dar tempo de esquivar e atravessar
         //boss cria bolas de fogo que não se movem... igual os gremilins do castlevania
         //boss manda uma shockwave no chao
         //boss fireball top mid bot.... (skull head.... moves far from normal point)

@@ -30,9 +30,11 @@ namespace MonoGameProject
         private readonly Action<Player> OnKill;
         public int damageTaken = 0;
         public int HEALTH = 3;
+        private readonly Color DamageColor;
 
-        public PlayerDamageHandler(Game1 Game1, Action<Player> OnHit, Action<Player> OnKill)
+        public PlayerDamageHandler(Game1 Game1, Color DamageColor, Action<Player> OnHit, Action<Player> OnKill)
         {
+            this.DamageColor = DamageColor;
             this.Game1 = Game1;
             this.OnHit = OnHit;
             this.OnKill = OnKill;
@@ -87,7 +89,7 @@ namespace MonoGameProject
                 {
                     X = (int)source.CenterX(),
                     Y = t.Y,
-                    //Color = BodyColor,
+                    Color = DamageColor,
                     HorizontalSpeed = source.Parent.HorizontalSpeed,
                     VerticalSpeed = source.Parent.VerticalSpeed
                 });
@@ -216,6 +218,7 @@ namespace MonoGameProject
 
             PlayerDamageHandler = new PlayerDamageHandler(
                 Game1
+                , BodyColor
                 , _ => { }
                 , _ =>
                     {

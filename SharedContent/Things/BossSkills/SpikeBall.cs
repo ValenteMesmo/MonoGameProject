@@ -31,6 +31,7 @@ namespace SharedContent.Things.BossSkills
 
             var PlayerDamageHandler = new PlayerDamageHandler(
                 Game1
+                , GameState.GetColor()
                 , _ => { }
                 , _ => { }
             );
