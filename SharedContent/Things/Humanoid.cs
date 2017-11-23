@@ -358,14 +358,14 @@ namespace MonoGameProject
             return
                   (
                       FacingRight
-                      && !LeftGroundAcidentChecker.Colliding<GroundCollider>()
-                      && RightGroundAcidentChecker.Colliding<GroundCollider>()
+                      && !LeftGroundAcidentChecker.Colliding<SlidableWall>()
+                      && RightGroundAcidentChecker.Colliding<SlidableWall>()
                   )
                   ||
                   (
                       !FacingRight
-                      && !RightGroundAcidentChecker.Colliding<GroundCollider>()
-                      && LeftGroundAcidentChecker.Colliding<GroundCollider>()
+                      && !RightGroundAcidentChecker.Colliding<SlidableWall>()
+                      && LeftGroundAcidentChecker.Colliding<SlidableWall>()
                   );
         }
 
@@ -383,13 +383,13 @@ namespace MonoGameProject
                   &&
                   (
                     (
-                        RightGroundAcidentChecker.Colliding<GroundCollider>()
-                        && LeftGroundAcidentChecker.Colliding<GroundCollider>()
+                        RightGroundAcidentChecker.Colliding<SlidableWall>()
+                        && LeftGroundAcidentChecker.Colliding<SlidableWall>()
                     )
                     ||
                     (
-                        !RightGroundAcidentChecker.Colliding<GroundCollider>()
-                        && !LeftGroundAcidentChecker.Colliding<GroundCollider>()
+                        !RightGroundAcidentChecker.Colliding<SlidableWall>()
+                        && !LeftGroundAcidentChecker.Colliding<SlidableWall>()
                     )
                   );
         }
@@ -408,13 +408,13 @@ namespace MonoGameProject
                   &&
                   (
                       (
-                          RightGroundAcidentChecker.Colliding<GroundCollider>()
-                          && LeftGroundAcidentChecker.Colliding<GroundCollider>()
+                          RightGroundAcidentChecker.Colliding<SlidableWall>()
+                          && LeftGroundAcidentChecker.Colliding<SlidableWall>()
                       )
                       ||
                       (
-                          !RightGroundAcidentChecker.Colliding<GroundCollider>()
-                          && !LeftGroundAcidentChecker.Colliding<GroundCollider>()
+                          !RightGroundAcidentChecker.Colliding<SlidableWall>()
+                          && !LeftGroundAcidentChecker.Colliding<SlidableWall>()
                       )
                   );
         }
@@ -424,14 +424,14 @@ namespace MonoGameProject
             return
                    (
                        !FacingRight
-                       && !LeftGroundAcidentChecker.Colliding<GroundCollider>()
-                       && RightGroundAcidentChecker.Colliding<GroundCollider>()
+                       && !LeftGroundAcidentChecker.Colliding<SlidableWall>()
+                       && RightGroundAcidentChecker.Colliding<SlidableWall>()
                    )
                    ||
                    (
                        FacingRight
-                       && !RightGroundAcidentChecker.Colliding<GroundCollider>()
-                       && LeftGroundAcidentChecker.Colliding<GroundCollider>()
+                       && !RightGroundAcidentChecker.Colliding<SlidableWall>()
+                       && LeftGroundAcidentChecker.Colliding<SlidableWall>()
                    );
         }
 
