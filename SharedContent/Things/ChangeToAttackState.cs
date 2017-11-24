@@ -46,8 +46,13 @@ namespace MonoGameProject
                         var fireball = new FireBall(Humanoid, speed, 0, Game1, Color.LightBlue)
                         {
                             X = x,
-                            Y = Humanoid.AttackRightCollider.Y-50
+                            Y = Humanoid.AttackRightCollider.Y - 50
                         };
+                        fireball.collider.AddHandler((s, t) =>
+                        {
+                            if (t.Parent is Boss && t is AttackCollider)
+                                fireball.Destroy();
+                        });
                         fireball.duration = 80;
                         Game1.AddToWorld(fireball);
                     }

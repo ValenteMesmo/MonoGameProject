@@ -50,6 +50,7 @@ namespace MonoGameProject
             var upBonusLimit = 35;
             var downBonusLimit = 70;
             var speed = 5;
+
             thing.AddUpdate(() =>
             {
                 if (parent.HorizontalSpeed > 50 && parent.FacingRight)

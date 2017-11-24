@@ -12,8 +12,6 @@ namespace MonoGameProject
         //informar collision point parar os handlers ( para criar particulas de collisao no lugar certo)
         //diminuir o collider findplayer do boss.... para ele não atacar quando pular muito por cima
         //make leafshield destroy fireballs
-        //make boss attack to destroy fireballs
-        //add cooldown to meelee attack (boss)
         //animação de mastigar depois de matar um player? no inimigo normal
 
         //checkpoints... easy 2(10)... normal 1(100)... hard 0(1000)...

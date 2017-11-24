@@ -5,6 +5,35 @@ using System.Linq;
 
 namespace MonoGameProject
 {
+    public class BoolTrigger
+    {
+        int duration = 0;
+        int cooldown = 0;
+
+        public void Activate()
+        {
+            if (cooldown > 0)
+                return;
+
+            duration = 30;
+            cooldown = 90;
+        }
+
+        public void Update()
+        {
+            if (duration > 0)
+                duration--;
+
+            if (cooldown > 0)
+                cooldown--;
+        }
+
+        public bool IsActivated()
+        {
+            return duration > 0;
+        }
+    }
+
     class WolfBossBody
     {
         private readonly Action<Boss> CreateFireBall;
@@ -58,7 +87,7 @@ namespace MonoGameProject
             energy--;
 
             var rnd = boss.MyRandom.Next(1, 3);
-            
+
             if (rnd == 1)
             {
                 boss.state = BossState.EyeAttack;
@@ -78,26 +107,29 @@ namespace MonoGameProject
             }
         }
 
+        BoolTrigger handAttacking = new BoolTrigger();
+
         private void UpdateBasedOnState()
         {
             if (boss.player == null)
                 return;
-            
+
             if (state1Duration > 0)
                 state1Duration--;
 
-            boss.AttackingWithTheHand = false;
+            foreach (var collider in boss.playerFinder.CollidingWith)
+            {
+                if (IsAPlayerAttack(collider))
+                {
+                    handAttacking.Activate();
+                    break;
+                }
+            }
+            handAttacking.Update();
+            boss.AttackingWithTheHand = handAttacking.IsActivated();
+
             if (boss.state == BossState.BodyAttack1)
             {
-                foreach (var collider in boss.playerFinder.CollidingWith)
-                {
-                    if (collider.Parent is Player)
-                    {
-                        boss.AttackingWithTheHand = true;
-                        break;
-                    }
-                }
-
                 var speed = 60;
 
                 if (boss.facingRight)
@@ -105,7 +137,7 @@ namespace MonoGameProject
                 else
                     boss.HorizontalSpeed = -speed;
             }
-
+            
             if (boss.state == BossState.Idle)
             {
                 boss.HorizontalSpeed = 0;
@@ -114,7 +146,7 @@ namespace MonoGameProject
                     ChangeState();
                 }
             }
-            
+
             if (boss.state == BossState.EyeAttack)
             {
                 boss.HorizontalSpeed = 0;
@@ -151,6 +183,17 @@ namespace MonoGameProject
                     ChangeState();
                 }
             }
+        }
+
+        private static bool IsAPlayerAttack(Collider t)
+        {
+            if (t.Parent is Player)
+                return true;
+
+            if (t.Parent is FireBall && (t.Parent as FireBall).Owner is Player)
+                return true;
+
+            return false;
         }
     }
 }
