@@ -52,13 +52,13 @@ namespace MonoGameProject
             var speed = 5;
             thing.AddUpdate(() =>
             {
-                if (parent.HorizontalSpeed > 50)
+                if (parent.HorizontalSpeed > 50 && parent.FacingRight)
                 {
                     bonusX -= speed;
                     if (bonusX < -horizontalBonusLimit)
                         bonusX = -horizontalBonusLimit;
                 }
-                else if (parent.HorizontalSpeed < -50)
+                else if (parent.HorizontalSpeed < -50 && !parent.FacingRight)
                 {
                     bonusX += speed;
                     if (bonusX > horizontalBonusLimit)

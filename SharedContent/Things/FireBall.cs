@@ -273,7 +273,7 @@ namespace MonoGameProject
         public SonicBoom(Thing Owner, Game1 Game1, int speedx, int x, int y)
         {
             var vspeed = 50;
-            var distanceLimit = 1000;
+            var distanceLimit = 800;
 
             var fireball1 = new FireBall(Owner, speedx, -vspeed, Game1, GameState.GetColor())
             {
