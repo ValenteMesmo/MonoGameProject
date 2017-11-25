@@ -16,7 +16,7 @@ namespace MonoGameProject
                 return;
 
             duration = 30;
-            cooldown = 90;
+            cooldown = 60;
         }
 
         public void Update()
