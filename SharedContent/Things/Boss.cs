@@ -208,11 +208,10 @@ namespace MonoGameProject
 
             playerFinder = new Collider(
                 attackCollider.Width * 2
-                , height * 3
+                , height
             )
             {
-                OffsetX = -width,
-                OffsetY = -height
+                OffsetX = -width
             };
             playerFinder.AddHandler(FindPlayer);
             AddCollider(playerFinder);
@@ -434,7 +433,7 @@ namespace MonoGameProject
         {
             if (eyeType == 1)
             {
-                return () => Game1.AddToWorld(new LeafShieldCell(Game1,this));
+                return () => Game1.AddToWorld(new LeafShieldCell(Game1, this));
             }
             else if (eyeType == 2)
             {

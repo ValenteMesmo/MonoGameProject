@@ -10,8 +10,6 @@ namespace MonoGameProject
     {
         //planning:
         //informar collision point parar os handlers ( para criar particulas de collisao no lugar certo)
-        //diminuir o collider findplayer do boss.... para ele não atacar quando pular muito por cima
-        //make leafshield destroy fireballs
         //animação de mastigar depois de matar um player? no inimigo normal
         //FIREBALL: criar um collider menor para causar dano e um maior para sofrer dano
 
