@@ -13,6 +13,7 @@ namespace MonoGameProject
         //diminuir o collider findplayer do boss.... para ele não atacar quando pular muito por cima
         //make leafshield destroy fireballs
         //animação de mastigar depois de matar um player? no inimigo normal
+        //FIREBALL: criar um collider menor para causar dano e um maior para sofrer dano
 
         //checkpoints... easy 2(10)... normal 1(100)... hard 0(1000)...
         // sleep e shake ao acertar uma fireball está travando o jogo demais... (principalmente nos bosses)

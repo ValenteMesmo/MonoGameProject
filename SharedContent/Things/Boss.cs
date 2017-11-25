@@ -434,7 +434,7 @@ namespace MonoGameProject
         {
             if (eyeType == 1)
             {
-                return () => Game1.AddToWorld(new LeafShieldCell(this));
+                return () => Game1.AddToWorld(new LeafShieldCell(Game1,this));
             }
             else if (eyeType == 2)
             {
