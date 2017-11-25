@@ -70,6 +70,7 @@ namespace MonoGameProject
               , _ => { }
             );
             PlayerDamageHandler.HEALTH = 3;
+            PlayerDamageHandler.CausesSleep = false;
             collider.AddHandler(PlayerDamageHandler.CollisionHandler);
             AddUpdate(PlayerDamageHandler.Update);
         }

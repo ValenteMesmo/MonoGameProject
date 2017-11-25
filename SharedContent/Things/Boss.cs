@@ -31,6 +31,7 @@ namespace MonoGameProject
         public int damageTaken = 0;
         public int HEALTH = 3;
         private readonly Color DamageColor;
+        public bool CausesSleep = true;
 
         public PlayerDamageHandler(Game1 Game1, Color DamageColor, Action<Player> OnHit, Action<Player> OnKill)
         {
@@ -82,7 +83,8 @@ namespace MonoGameProject
                 else if (player.weaponType == WeaponType.Wand)
                     damageTaken += 1;
 
-                Game1.Sleep();
+                if (CausesSleep)
+                    Game1.Sleep();
                 Game1.Camera.ShakeUp(20);
 
                 Game1.AddToWorld(new HitEffect(0.04f)

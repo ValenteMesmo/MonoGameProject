@@ -12,9 +12,9 @@ namespace MonoGameProject
         //informar collision point parar os handlers ( para criar particulas de collisao no lugar certo)
         //animação de mastigar depois de matar um player? no inimigo normal
         //FIREBALL: criar um collider menor para causar dano e um maior para sofrer dano
+        //Ativar o collider de ataque meelee do boss com retardo
 
         //checkpoints... easy 2(10)... normal 1(100)... hard 0(1000)...
-        // sleep e shake ao acertar uma fireball está travando o jogo demais... (principalmente nos bosses)
 
         //fireballtypes
         //  moves only if target is moving
