@@ -95,21 +95,32 @@ namespace MonoGameProject
                 }
             });
 
+            var vspeed = -80;
+            var vel = 4;
             boss.AddUpdate(() =>
             {
-
                 if (boss.player == null)
                     return;
 
+                if (vspeed >= 80)
+                    vel = -4;
+                if (vspeed <= -80)
+                    vel = +2;
+
+                vspeed += vel;
+
                 if (boss.state == BossState.BodyAttack1)
                 {
-                    var speed = 60;
+                    var speed = 40;
 
                     if (boss.facingRight)
-                        boss.VerticalSpeed= boss.HorizontalSpeed = speed;
+                        boss.HorizontalSpeed = speed;
                     else
-                        boss.VerticalSpeed = boss.HorizontalSpeed = -speed;
+                        boss.HorizontalSpeed = -speed;
+
+                    boss.VerticalSpeed = vspeed;
                 }
+
             });
         }
 
