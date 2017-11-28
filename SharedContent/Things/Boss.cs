@@ -421,18 +421,18 @@ namespace MonoGameProject
 
             var stateController = new BossStateController(this, Game1.AddToWorld, CreateFireBall, UseEyeSkill);
             Action ShakeCamera = () => Game1.Camera.ShakeUp(10);
-            //if (bodyType == 1)
-            //{
-            //    BossMovementTypes.Wolf(this, stateController);
-            //}
-            //else if (bodyType == 2)
-            //{
+            if (bodyType == 1)
+            {
+                BossMovementTypes.Wolf(this, stateController);
+            }
+            else if (bodyType == 2)
+            {
                 BossMovementTypes.Bird(this, stateController);
-            //}
-            //else
-            //{
-            //    BossMovementTypes.Tree(this, stateController);
-            //}
+            }
+            else
+            {
+                BossMovementTypes.Tree(this, stateController);
+            }
         }
 
         private Action CreateEyeSkill(Game1 Game1, int eyeType)
