@@ -311,19 +311,7 @@ namespace MonoGameProject
             this.Game1 = Game1;
             HitPoints = 2;
 
-            AddUpdate(() =>
-            {
-                //if (HitPoints == 0)
-                //    Inputs.Disabled = true;
-                //else
-                //    Inputs.Disabled = false;
-
-                if (leftWallChecker.Colliding<BlockHorizontalMovement>()
-                    && rightWallChecker.Colliding<BlockHorizontalMovement>())
-                {
-                    Destroy();
-                }
-            });
+            new CrushedByCollision(this);
 
             AddUpdate(new TakesDamage(this, Game1, AddToWorld));
 
@@ -404,6 +392,74 @@ namespace MonoGameProject
                     HorizontalSpeed = 0;
 
                 X = target.Right() - source.OffsetX + StopsWhenHitting.KNOCKBACK;
+            }
+        }
+    }
+
+    class CrushedByCollision
+    {
+        private readonly Humanoid parent;
+        private bool TopCollison;
+        private bool BotCollison;
+        private bool LeftCollision;
+        private bool RightCollision;
+
+
+        public CrushedByCollision(Humanoid parent)
+        {
+            this.parent = parent;
+            parent.MainCollider.AddTopCollisionHandler(HandleTopCollision);
+            parent.MainCollider.AddBotCollisionHandler(HandleBotCollision);
+            parent.MainCollider.AddLeftCollisionHandler(HandleLeftCollision);
+            parent.MainCollider.AddRightCollisionHandler(HandleRightCollision);
+            parent.AddUpdate(Update);
+        }
+
+        private void HandleRightCollision(Collider source, Collider target)
+        {
+            if (target is BlockHorizontalMovement)
+            {
+                RightCollision = true;
+                if (LeftCollision)
+                    parent.Destroy();
+            }
+        }
+
+        private void HandleLeftCollision(Collider source, Collider target)
+        {
+            if (target is BlockHorizontalMovement)
+            {
+                LeftCollision = true;
+                if (RightCollision)
+                    parent.Destroy();
+            }
+        }
+
+        private void Update()
+        {
+            TopCollison = false;
+            BotCollison = false;
+            LeftCollision = false;
+            RightCollision = false;
+        }
+
+        private void HandleTopCollision(Collider source, Collider target)
+        {
+            if (target is BlockVerticalMovement)
+            {
+                TopCollison = true;
+                if (BotCollison)
+                    parent.Destroy();
+            }
+        }
+
+        private void HandleBotCollision(Collider source, Collider target)
+        {
+            if (target is BlockVerticalMovement)
+            {
+                BotCollison = true;
+                if (TopCollison)
+                    parent.Destroy();
             }
         }
     }
