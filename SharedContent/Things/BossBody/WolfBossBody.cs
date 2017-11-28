@@ -34,30 +34,17 @@ namespace MonoGameProject
         }
     }
 
-    class WolfBossBody
+
+    class BossMovementTypes
     {
-        private readonly Action<Boss> CreateFireBall;
-        private readonly Action UseEyeSpell;
-        private readonly Action<Thing> AddToWorld;
-        private readonly Boss boss;
-        private int state1Duration;
-        private const int FULL_ENERGY = 10;
-        private int energy = FULL_ENERGY;
-
-        public WolfBossBody(Boss boss, Action<Thing> AddToWorld, Action<Boss> CreateFireBall, Action UseEyeSpell)
+        public static void Wolf(Boss boss, BossStateController BossStateController)
         {
-            this.CreateFireBall = CreateFireBall;
-            this.UseEyeSpell = UseEyeSpell;
-            this.AddToWorld = AddToWorld;
-            this.boss = boss;
-            boss.state = BossState.BodyAttack1;
-
             boss.mainCollider.AddLeftCollisionHandler((s, t) =>
             {
                 if (t is BlockHorizontalMovement)
                 {
                     boss.facingRight = true;
-                    ChangeState();
+                    BossStateController.ChangeState();
                 }
             });
 
@@ -66,20 +53,112 @@ namespace MonoGameProject
                 if (t is BlockHorizontalMovement)
                 {
                     boss.facingRight = false;
-                    ChangeState();
+                    BossStateController.ChangeState();
                 }
             });
+
+            boss.AddUpdate(() =>
+            {
+
+                if (boss.player == null)
+                    return;
+
+                if (boss.state == BossState.BodyAttack1)
+                {
+                    var speed = 60;
+
+                    if (boss.facingRight)
+                        boss.HorizontalSpeed = speed;
+                    else
+                        boss.HorizontalSpeed = -speed;
+                }
+            });
+        }
+
+        public static void Bird(Boss boss, BossStateController BossStateController)
+        {
+            boss.mainCollider.AddLeftCollisionHandler((s, t) =>
+            {
+                if (t is BlockHorizontalMovement)
+                {
+                    boss.facingRight = true;
+                    BossStateController.ChangeState();
+                }
+            });
+
+            boss.mainCollider.AddRightCollisionHandler((s, t) =>
+            {
+                if (t is BlockHorizontalMovement)
+                {
+                    boss.facingRight = false;
+                    BossStateController.ChangeState();
+                }
+            });
+
+            boss.AddUpdate(() =>
+            {
+
+                if (boss.player == null)
+                    return;
+
+                if (boss.state == BossState.BodyAttack1)
+                {
+                    var speed = 60;
+
+                    if (boss.facingRight)
+                        boss.VerticalSpeed= boss.HorizontalSpeed = speed;
+                    else
+                        boss.VerticalSpeed = boss.HorizontalSpeed = -speed;
+                }
+            });
+        }
+
+        public static void Tree(Boss boss, BossStateController BossStateController)
+        {
+            boss.AddUpdate(() =>
+            {
+
+                if (boss.player == null)
+                    return;
+
+                if (boss.state == BossState.BodyAttack1)
+                {
+                    BossStateController.ChangeState();
+                }
+            });
+        }
+
+    }
+
+    class BossStateController
+    {
+        private readonly Action<Boss> CreateFireBall;
+        private readonly Action UseEyeSpell;
+        private readonly Action<Thing> AddToWorld;
+        private readonly Boss boss;
+        private int state1Duration;
+        private const int FULL_ENERGY = 10;
+        private int energy = FULL_ENERGY;
+        BoolTrigger handAttacking = new BoolTrigger();
+
+        public BossStateController(Boss boss, Action<Thing> AddToWorld, Action<Boss> CreateFireBall, Action UseEyeSpell)
+        {
+            this.CreateFireBall = CreateFireBall;
+            this.UseEyeSpell = UseEyeSpell;
+            this.AddToWorld = AddToWorld;
+            this.boss = boss;
+            boss.state = BossState.BodyAttack1;
 
             boss.AddUpdate(UpdateBasedOnState);
         }
 
-        private void ChangeState()
+        public void ChangeState()
         {
             if (energy == 0)
             {
                 boss.state = BossState.Idle;
                 boss.MouthState = BossMouthState.Tired;
-                state1Duration = 200;
+                state1Duration = 500;
                 energy = FULL_ENERGY;
                 return;
             }
@@ -107,8 +186,6 @@ namespace MonoGameProject
             }
         }
 
-        BoolTrigger handAttacking = new BoolTrigger();
-
         private void UpdateBasedOnState()
         {
             if (boss.player == null)
@@ -117,29 +194,30 @@ namespace MonoGameProject
             if (state1Duration > 0)
                 state1Duration--;
 
-            foreach (var collider in boss.playerFinder.CollidingWith)
-            {
-                if (IsAPlayerAttack(collider))
+            if (boss.state != BossState.Idle)
+                foreach (var collider in boss.playerFinder.CollidingWith)
                 {
-                    handAttacking.Activate();
-                    break;
+                    if (IsAPlayerAttack(collider))
+                    {
+                        handAttacking.Activate();
+                        break;
+                    }
                 }
-            }
             handAttacking.Update();
             boss.AttackingWithTheHand = handAttacking.IsActivated();
 
             if (boss.state == BossState.BodyAttack1)
             {
-                var speed = 60;
-
-                if (boss.facingRight)
-                    boss.HorizontalSpeed = speed;
-                else
-                    boss.HorizontalSpeed = -speed;
+                //each body implements an update... srry             
             }
-            
+
             if (boss.state == BossState.Idle)
             {
+                if (state1Duration < 100)
+                {
+                    boss.MouthState = BossMouthState.Idle;
+                }
+
                 boss.HorizontalSpeed = 0;
                 if (state1Duration <= 0)
                 {

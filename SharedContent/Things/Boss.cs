@@ -77,7 +77,7 @@ namespace MonoGameProject
                 //BodyColor = Color.Lerp(BodyColor, Color.Red, 0.05f);
 
                 if (player.weaponType == WeaponType.Sword)
-                    damageTaken += 4;
+                    damageTaken += 3;
                 else if (player.weaponType == WeaponType.Whip)
                     damageTaken += 2;
                 else if (player.weaponType == WeaponType.Wand)
@@ -215,7 +215,11 @@ namespace MonoGameProject
             {
                 OffsetX = -width
             };
+
             playerFinder.AddHandler(FindPlayer);
+            headCollider.AddHandler(FindPlayer);
+            mainCollider.AddHandler(FindPlayer);
+
             AddCollider(playerFinder);
 
             PlayerDamageHandler = new PlayerDamageHandler(
@@ -237,7 +241,7 @@ namespace MonoGameProject
             {
                 //prevent player from killing boss without entering the arena
                 if (!GameState.State.BossMode)
-                    PlayerDamageHandler.damageTaken = 2;
+                    PlayerDamageHandler.damageTaken = 0;
             });
 
             AddCollider(mainCollider);
@@ -415,20 +419,20 @@ namespace MonoGameProject
             Action<Boss> CreateFireBall = CreateFileBallAction(Game1, headType);
             Action UseEyeSkill = CreateEyeSkill(Game1, eyeType);
 
-            //Action ShakeCamera = () => Game1.Camera.ShakeUp(10);
-            //if (bodyType == 1)
-            //{
-            //    new SpiderBossBody(this, Game1.AddToWorld, CreateFireBall);
-            //}
-            //else if (bodyType == 2)
-            //{
-
-            new WolfBossBody(this, Game1.AddToWorld, CreateFireBall, UseEyeSkill);
-            //}
-            //else
-            //{
-            //    new HumanoidBossBody(this, Game1.AddToWorld, CreateFireBall);
-            //}
+            var stateController = new BossStateController(this, Game1.AddToWorld, CreateFireBall, UseEyeSkill);
+            Action ShakeCamera = () => Game1.Camera.ShakeUp(10);
+            if (bodyType == 1)
+            {
+                BossMovementTypes.Wolf(this, stateController);
+            }
+            else if (bodyType == 2)
+            {
+                BossMovementTypes.Bird(this, stateController);
+            }
+            else
+            {
+                BossMovementTypes.Tree(this, stateController);
+            }
         }
 
         private Action CreateEyeSkill(Game1 Game1, int eyeType)
