@@ -90,7 +90,7 @@ namespace MonoGameProject
 
             GameState.Load();
 
-            AddThing(new Enemy(this) { X = 4000, Y = 4000 });
+            //AddThing(new Enemy(this) { X = 4000, Y = 4000 });
 
             PlayersSlots.Clear();
 
@@ -98,7 +98,7 @@ namespace MonoGameProject
 
             var player1 = new Player(this, 0, player1Inputs, AddThing);
             player1.Y = (8 * MapModule.CELL_SIZE) + Humanoid.height + 200;
-            player1.X = 100;
+            player1.X = (4 * MapModule.CELL_SIZE);
             player1.FacingRight = true;
             PlayersSlots.Add(new PlayerSlot(0, player1, player1Inputs));
             PlayersSlots.Add(new PlayerSlot(1, null, null));

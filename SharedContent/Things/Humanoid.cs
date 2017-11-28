@@ -19,7 +19,7 @@ namespace MonoGameProject
         {
             if (Player.TorsoState == TorsoState.Attack
                 || Player.TorsoState == TorsoState.AttackCrouching
-                || Player.LegState == LegState.Falling
+                //|| Player.LegState == LegState.Falling
                 || Player.LegState == LegState.SlidingWall
                 || Player.LegState == LegState.WallJumping
                 || Player.LegState == LegState.HeadBump)

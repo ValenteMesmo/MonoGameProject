@@ -11,11 +11,12 @@ namespace MonoGameProject
         //planning:
         //fireball direcionada
         //fireball em espiral (ch boat)
+        //mudar leafshield para atingir player de chicote?
+
         //criar atalhos nas teclas de funções para desabilitar fundo paralax, paredes, fireball trails, etc
 
         //informar collision point parar os handlers ( para criar particulas de collisao no lugar certo)
         //animação de mastigar depois de matar um player? no inimigo normal
-        //FIREBALL: criar um collider menor para causar dano e um maior para sofrer dano
 
         //checkpoints... easy 2(10)... normal 1(100)... hard 0(1000)...
 

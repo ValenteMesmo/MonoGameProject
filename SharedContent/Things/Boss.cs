@@ -228,7 +228,6 @@ namespace MonoGameProject
                 , _ => { }
                 , _ =>
                     {
-                        GameState.Save();
                         GameState.State.BossMode = false;
                     }
             );

@@ -154,9 +154,11 @@ namespace MonoGameProject
         public static MyRandom RandomMonster = new MyRandom();
         public static MyRandom ParalaxRandomModule = new MyRandom();
         public static MyRandom PlatformRandomModule = new MyRandom();
+        public static bool PreSaved;
 
         public static void Load()
         {
+            PreSaved = false;
             State = new GameStateData();
 
             var saveFile =
@@ -175,6 +177,7 @@ namespace MonoGameProject
 
         public static void Save()
         {
+            PreSaved = false;
             var saveFile =
                Path.Combine(
                    System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal)
@@ -185,6 +188,8 @@ namespace MonoGameProject
 
         public static void PreSave()
         {
+            PreSaved = true;
+
             PreSavedData.BossMode = false;
             PreSavedData.TopExit = State.TopExit;
             PreSavedData.MidExit = State.MidExit;

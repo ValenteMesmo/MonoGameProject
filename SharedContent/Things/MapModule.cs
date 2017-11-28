@@ -39,8 +39,8 @@ namespace MonoGameProject
             {
                 AddCollider(new GroundCollider
                 {
-                    OffsetX = (tile.X - 1) * CELL_SIZE ,
-                    OffsetY = (tile.Y - 1) * CELL_SIZE ,
+                    OffsetX = (tile.X - 1) * CELL_SIZE,
+                    OffsetY = (tile.Y - 1) * CELL_SIZE,
                     Width = tile.Width * CELL_SIZE,
                     Height = tile.Height * CELL_SIZE
                 });
@@ -192,6 +192,34 @@ namespace MonoGameProject
                             X = X + j * CELL_SIZE,
                             Y = Y + i * CELL_SIZE
                         });
+                        CreateBackground(i, j);
+                    }
+                    if (type == '!')
+                    {
+                        var flag = new Thing
+                        {
+                            X = X + j * CELL_SIZE,
+                            Y = Y + i * CELL_SIZE
+                        };
+
+                        var animation = GeneratedContent.Create_knight_block(0, 0, CELL_SIZE, CELL_SIZE);
+                        animation.ColorGetter = () => Color.IndianRed;
+                        flag.AddAnimation(animation);
+
+                        var collider = new Collider(CELL_SIZE, CELL_SIZE);
+                        if (GameState.PreSaved)
+                            collider.AddHandler((s, t) =>
+                            {
+                                if (t.Parent is Player)
+                                {
+                                    GameState.Save();
+                                    flag.Destroy();
+                                }
+                            });
+                        flag.AddCollider(collider);
+
+                        flag.AddAfterUpdate(new MoveHorizontallyWithTheWorld(flag));
+                        Game1.AddToWorld(flag);
                         CreateBackground(i, j);
                     }
                 }

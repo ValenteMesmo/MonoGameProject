@@ -44,7 +44,7 @@ namespace MonoGameProject
         private MapModuleInfo BossStage2 = new MapModuleInfo(
                     true
                     , true
-                    , true
+                    , false
                     , false
                     , true
                     , false
@@ -57,12 +57,37 @@ namespace MonoGameProject
                     , "=========1111111"//
                     , "=========z======"//E
                     , "x==============="//E
-                    , "2222222222222222"//E
+                    , "2222222222222222"//
+                    , "1111111111111111"//
+                    , "1111111111111111"//
+                    , "1111111111111111"//
                     , "1111111111111111"//E
+                    , "1111111111111111"//E
+                    , "1111111111111111");
+
+
+        private MapModuleInfo CheckPoint = new MapModuleInfo(
+                    true
+                    , true
+                    , false
+                    , true
+                    , true
+                    , false
+                    , "0000000000000000"//
+                    , "0000000000000000"//E
+                    , "0000000000000000"//E
+                    , "0000000000000000"//
+                    , "0000000000000000"//
+                    , "0000000000000000"//
+                    , "0000000000000000"//
+                    , "00000000!0000000"//E
+                    , "0000000000000000"//E
+                    , "2222222222222222"//
                     , "1111111111111111"//
                     , "1111111111111111"//
                     , "1111111111111111"//
-                    , "1111111111111111"//
+                    , "1111111111111111"//E
+                    , "1111111111111111"//E
                     , "1111111111111111");
 
         public PlatformCreator(WorldMover WorldMover, Action<Thing> AddToWOrld, Game1 Game1)
@@ -707,12 +732,19 @@ namespace MonoGameProject
 
             while (true)
             {
+                
+
                 if (stageCount == 5)
                 {
                     GameState.State.CaveMode = true;
                 }
 
-                if (stageCount == 2)
+                if (stageCount == STAGE_LENGTH)
+                {
+                    newMap = CheckPoint;
+                    break;
+                }
+                else if (stageCount == 2)
                 {
                     if (GameState.State.TopExit == newMap.TopEntry
                     && GameState.State.MidExit == newMap.MidEntry
