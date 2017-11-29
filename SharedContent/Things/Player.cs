@@ -9,6 +9,10 @@ namespace MonoGameProject
     public class Player : Humanoid
     {
         //planning:
+        //reduzir vibração no touch up ou down
+        //animation for checkpoint
+        //animation for bird body
+        //animation for plant body(chair)
         //fireball direcionada
         //fireball em espiral (ch boat)
         //mudar leafshield para atingir player de chicote?
@@ -18,7 +22,6 @@ namespace MonoGameProject
         //informar collision point parar os handlers ( para criar particulas de collisao no lugar certo)
         //animação de mastigar depois de matar um player? no inimigo normal
 
-        //checkpoints... easy 2(10)... normal 1(100)... hard 0(1000)...
 
         //fireballtypes
         //  moves only if target is moving

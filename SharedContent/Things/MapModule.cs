@@ -196,31 +196,16 @@ namespace MonoGameProject
                     }
                     if (type == '!')
                     {
-                        var flag = new Thing
-                        {
-                            X = X + j * CELL_SIZE,
-                            Y = Y + i * CELL_SIZE
-                        };
-
-                        var animation = GeneratedContent.Create_knight_block(0, 0, CELL_SIZE, CELL_SIZE);
-                        animation.ColorGetter = () => Color.IndianRed;
-                        flag.AddAnimation(animation);
-
-                        var collider = new Collider(CELL_SIZE, CELL_SIZE);
+                        Thing flag;
                         if (GameState.PreSaved)
-                            collider.AddHandler((s, t) =>
-                            {
-                                if (t.Parent is Player)
-                                {
-                                    GameState.Save();
-                                    flag.Destroy();
-                                }
-                            });
-                        flag.AddCollider(collider);
+                            flag = new CheckPoint_Unchecked(Game1.AddToWorld);
+                        else
+                            flag = new CheckPoint_Checked(Color.White);
 
-                        flag.AddAfterUpdate(new MoveHorizontallyWithTheWorld(flag));
+                        flag.X = X + j * CELL_SIZE;
+                        flag.Y = Y + i * CELL_SIZE;
+
                         Game1.AddToWorld(flag);
-                        CreateBackground(i, j);
                     }
                 }
             }
@@ -324,28 +309,55 @@ namespace MonoGameProject
             );
             CreateBlock(i, j, 0.52f, color, GeneratedContent.Create_knight_ground, 0, new Color(80, 80, 80));
         }
+    }
 
-        //private void CreateSolid(int i, int j)
-        //{
-        //    var animation = GeneratedContent.Create_knight_block(
-        //        (j) * CELL_SIZE + 1
-        //        , i * CELL_SIZE + 1
-        //        , MapModule.CELL_SIZE
-        //        , MapModule.CELL_SIZE
-        //    );
-        //    animation.ScaleX = MapModule.SCALE;
-        //    animation.ScaleY = MapModule.SCALE;
-        //    animation.RenderingLayer = 0.5f;
-        //    animation.Color = Colors[ColorIndex];
-        //    AddAnimation(animation);
+    public class CheckPoint_Unchecked : Thing
+    {
+        public CheckPoint_Unchecked(Action<Thing> AddToWorld)
+        {
+            var animationPole = GeneratedContent.Create_knight_Checkpoint(150, -20);
+            animationPole.ScaleX = animationPole.ScaleY = 4;
+            animationPole.RenderingLayer = 0.01f;
+            animationPole.ColorGetter = () => Color.IndianRed;
+            AddAnimation(animationPole);
 
-        //    AddCollider(new GroundCollider()
-        //    {
-        //        OffsetX = (j) * CELL_SIZE + 1,
-        //        OffsetY = i * CELL_SIZE + 1,
-        //        Width = CELL_SIZE,
-        //        Height = CELL_SIZE
-        //    });
-        //}
+
+            var collider = new Collider(MapModule.CELL_SIZE, MapModule.CELL_SIZE);
+
+            collider.AddHandler((s, t) =>
+            {
+                if (t.Parent is Player)
+                {
+                    var player = t.Parent as Player;
+                    //add hit effect
+                    AddToWorld(new CheckPoint_Checked(player.GetHairColor()) { X = X, Y = Y });
+                    GameState.Save();
+                    Destroy();
+                }
+            });
+            AddCollider(collider);
+
+            AddAfterUpdate(new MoveHorizontallyWithTheWorld(this));
+        }
+    }
+
+    public class CheckPoint_Checked : Thing
+    {
+        public CheckPoint_Checked(Color Color)
+        {
+            var animationPole = GeneratedContent.Create_knight_Checkpoint(150, -20);
+            animationPole.ScaleX = animationPole.ScaleY = 4;
+            animationPole.RenderingLayer = 0.01f;
+            animationPole.ColorGetter = () => Color.IndianRed;
+            AddAnimation(animationPole);
+
+            var animation = GeneratedContent.Create_knight_CheckpointFlag(280, 100);
+            animation.ScaleX = animation.ScaleY = 4;
+            animation.RenderingLayer = 0.02f;
+            animation.ColorGetter = () => Color;
+            AddAnimation(animation);
+
+            AddAfterUpdate(new MoveHorizontallyWithTheWorld(this));
+        }
     }
 }
