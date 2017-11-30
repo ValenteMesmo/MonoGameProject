@@ -249,10 +249,11 @@ namespace MonoGameProject
 
             var headType = MyRandom.Next(1, 3);
             var eyeType = MyRandom.Next(1, 3);
+            var bodyType = MyRandom.Next(1, 3);
             CreateHeadAnimator(headType, HEAD_Z);
             CreateEyeAnimator(eyeType, EYE_Z, Game1);
-            CreateBody(MyRandom.Next(1, 3), Game1, headType, eyeType);
-
+            CreateBody(bodyType, Game1, headType, eyeType);
+                        
             AddAfterUpdate(new MoveHorizontallyWithTheWorld(this));
             AddUpdate(new AfectedByGravity(this));
             AddUpdate(MoveAttackCollider);
@@ -260,8 +261,11 @@ namespace MonoGameProject
 
             //AddAnimation(CreateFlippableAnimation(GameState.GetComplimentColor, BACK_Z, GeneratedContent.Create_knight_Torso_Humanoid_Shell_Back));            
             AddAnimation(CreateFlippableAnimation(GameState.GetComplimentColor2, TORSO_Z, GeneratedContent.Create_knight_Torso_Humanoid_Shell_Front));
-            AddAnimation(CreateFlippableAnimation2(() => BodyColor, RIGHT_WING_Z, GeneratedContent.Create_knight_Ice_Wing, 2000, 600, -1200, -1500, () => facingRight));
-            AddAnimation(CreateFlippableAnimation2(() => BodyColor, LEFT_WING_Z, GeneratedContent.Create_knight_Ice_Wing, 2000, 600, -1200, -1500, () => !facingRight));
+            if (bodyType == 2)
+            {
+                AddAnimation(CreateFlippableAnimation2(() => BodyColor, RIGHT_WING_Z, GeneratedContent.Create_knight_Ice_Wing, 2000, 600, -1200, -1500, () => facingRight));
+                AddAnimation(CreateFlippableAnimation2(() => BodyColor, LEFT_WING_Z, GeneratedContent.Create_knight_Ice_Wing, 2000, 600, -1200, -1500, () => !facingRight));
+            }
 
             var arm = CreateFlippableAnimation(() => BodyColor, RIGHT_ARM_Z, GeneratedContent.Create_knight_Torso_Humanoid_Shell_Arm);
             var arm_attack = CreateFlippableAnimation(() => BodyColor, RIGHT_ARM_Z, GeneratedContent.Create_knight_Torso_Humanoid_Shell_Arm_attack, false, false);
