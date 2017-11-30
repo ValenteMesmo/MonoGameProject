@@ -10,7 +10,6 @@ namespace MonoGameProject
     {
         //planning:
         //reduzir vibração no touch up ou down
-        //animation for checkpoint
         //animation for bird body
         //animation for plant body(chair)
         //fireball direcionada
