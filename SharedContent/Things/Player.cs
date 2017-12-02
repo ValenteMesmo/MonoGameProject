@@ -9,6 +9,10 @@ namespace MonoGameProject
     public class Player : Humanoid
     {
         //planning:
+        //SAVE CURRENT ARMOR COLOR
+        //SAVE CURRENT WEAPON
+        //add explosions when bos dies
+        //add explosions hen player dies
         //fazer o acesso ao disco remotamente... para evitar travadas
         //reduzir vibração no touch up ou down
         //animation for bird body

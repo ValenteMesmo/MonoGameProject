@@ -151,6 +151,7 @@ namespace MonoGameProject
         private const int FULL_ENERGY = 10;
         private int energy = FULL_ENERGY;
         BoolTrigger handAttacking = new BoolTrigger();
+        private int damageWhenIdleStarted = Boss.HEALTH;
 
         public BossStateController(Boss boss, Action<Thing> AddToWorld, Action<Boss> CreateFireBall, Action UseEyeSpell)
         {
@@ -168,6 +169,7 @@ namespace MonoGameProject
             if (energy == 0)
             {
                 boss.state = BossState.Idle;
+                damageWhenIdleStarted = boss.PlayerDamageHandler.damageTaken;
                 boss.MouthState = BossMouthState.Tired;
                 state1Duration = 500;
                 energy = FULL_ENERGY;
@@ -224,7 +226,11 @@ namespace MonoGameProject
 
             if (boss.state == BossState.Idle)
             {
-                if (state1Duration < 100)
+                if (state1Duration > 25
+                    && boss.PlayerDamageHandler.damageTaken - damageWhenIdleStarted >= 6)
+                    state1Duration = 25;
+
+                if (state1Duration < 25)
                 {
                     boss.MouthState = BossMouthState.Idle;
                 }
