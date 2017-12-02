@@ -99,8 +99,7 @@ namespace MonoGameProject
             var player1 = new Player(this, 0, player1Inputs, AddThing);
             player1.Y = (8 * MapModule.CELL_SIZE) + Humanoid.height + 200;
             player1.X = (4 * MapModule.CELL_SIZE);
-            player1.FacingRight = true;
-            player1.SetArmorColor(new Color(GameState.State.Player1_ArmorRed, GameState.State.Player1_ArmorGreen, GameState.State.Player1_ArmorBlue));
+            player1.FacingRight = true;            
             PlayersSlots.Add(new PlayerSlot(0, player1, player1Inputs));
             PlayersSlots.Add(new PlayerSlot(1, null, null));
             PlayersSlots.Add(new PlayerSlot(2, null, null));
@@ -174,15 +173,15 @@ namespace MonoGameProject
                 }
                 if (kb.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.F5))
                 {
-                    player1.ChangeToSword();
+                    player1.SetWeaponType(WeaponType.Sword);
                 }
                 if (kb.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.F6))
                 {
-                    player1.ChangeToWhip();
+                    player1.SetWeaponType(WeaponType.Whip);
                 }
                 if (kb.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.F7))
                 {
-                    player1.ChangeToWand();
+                    player1.SetWeaponType(WeaponType.Wand);
                 }
             });
             AddThing(cheats);

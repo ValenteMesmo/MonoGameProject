@@ -120,9 +120,20 @@ namespace MonoGameProject
         {
             return ArmorColor;
         }
+
         public void SetArmorColor(Color Value)
         {
             ArmorColor = Value;
+        }
+
+        public void SetWeaponType(WeaponType type)
+        {
+            if (type == WeaponType.Sword)
+                ChangeToSword();
+            else if (type == WeaponType.Whip)
+                ChangeToWhip();
+            else if (type == WeaponType.Wand)
+                ChangeToWand();
         }
 
         public Humanoid(
@@ -209,8 +220,8 @@ namespace MonoGameProject
         });
         }
 
-        public WeaponType weaponType = WeaponType.Whip;
-        public void ChangeToWhip()
+        public WeaponType weaponType { get; private set; }
+        private void ChangeToWhip()
         {
             AttackLeftCollider.Width = whipWidth;
             AttackRightCollider.Width = whipWidth;
@@ -218,7 +229,7 @@ namespace MonoGameProject
             weaponType = WeaponType.Whip;
         }
 
-        public void ChangeToSword()
+        private void ChangeToSword()
         {
             AttackLeftCollider.Width = swordWidth;
             AttackRightCollider.Width = swordWidth;
@@ -226,7 +237,7 @@ namespace MonoGameProject
             weaponType = WeaponType.Sword;
         }
 
-        public void ChangeToWand()
+        private void ChangeToWand()
         {
             AttackLeftCollider.Width = wandWidth;
             AttackRightCollider.Width = wandWidth;

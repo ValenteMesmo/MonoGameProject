@@ -118,7 +118,7 @@ namespace MonoGameProject
             Back_leg_z += playerIndex / 100f;
             Back_arm_z += playerIndex / 100f;
 
-            thing.SetArmorColor(Color.White);
+            //thing.SetArmorColor(Color.White);
             HeadAnimator(thing);
             TorsoAnimator(thing);
 

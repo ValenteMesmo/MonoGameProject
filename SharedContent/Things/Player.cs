@@ -1,4 +1,5 @@
 ﻿using GameCore;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using MonoGameProject.Things;
 using System;
@@ -9,7 +10,6 @@ namespace MonoGameProject
     public class Player : Humanoid
     {
         //planning:
-        //SAVE CURRENT ARMOR COLOR
         //SAVE CURRENT WEAPON
         //add explosions when bos dies
         //add explosions hen player dies
@@ -320,6 +320,39 @@ namespace MonoGameProject
             this.Game1 = Game1;
             HitPoints = 2;
 
+            if (PlayerIndex == 0)
+            {                
+                SetArmorColor(
+                    new Color(GameState.State.Player1_ArmorRed, GameState.State.Player1_ArmorGreen, GameState.State.Player1_ArmorBlue)
+                );
+
+                SetWeaponType(GameState.State.Player1_WeaponType);
+            }
+            else if (PlayerIndex == 1)
+            {
+                SetArmorColor(
+                    new Color(GameState.State.Player2_ArmorRed, GameState.State.Player2_ArmorGreen, GameState.State.Player2_ArmorBlue)
+                );
+
+                SetWeaponType(GameState.State.Player2_WeaponType);
+            }
+            else if (PlayerIndex == 2)
+            {
+                SetArmorColor(
+                    new Color(GameState.State.Player3_ArmorRed, GameState.State.Player3_ArmorGreen, GameState.State.Player3_ArmorBlue)
+                );
+
+                SetWeaponType(GameState.State.Player3_WeaponType);
+            }
+            else if (PlayerIndex == 3)
+            {
+                SetArmorColor(
+                    new Color(GameState.State.Player4_ArmorRed, GameState.State.Player4_ArmorGreen, GameState.State.Player4_ArmorBlue)
+                );
+
+                SetWeaponType(GameState.State.Player4_WeaponType);
+            }
+            
             new CrushedByCollision(this);
 
             AddUpdate(new TakesDamage(this, Game1, AddToWorld));
@@ -329,7 +362,7 @@ namespace MonoGameProject
                 if (t.Parent is Armor)
                 {
                     var armorColor = (t.Parent as Armor).Color;
-                    GameState.SetPlayer1ArmorColor(armorColor);
+                    GameState.SetPlayer1ArmorColor(armorColor,PlayerIndex);
 
                     HitPoints = 2;
                     SetArmorColor(armorColor);
@@ -343,12 +376,9 @@ namespace MonoGameProject
                 {
                     var weapon = t.Parent as Weapon;
 
-                    if (weapon.Type == WeaponType.Sword)
-                        ChangeToSword();
-                    else if (weapon.Type == WeaponType.Whip)
-                        ChangeToWhip();
-                    else if (weapon.Type == WeaponType.Wand)
-                        ChangeToWand();
+                    GameState.SetWeaponType(weapon.Type, PlayerIndex);
+                                        
+                    SetWeaponType(weapon.Type);
 
                     t.Parent.Destroy();
                     t.Disabled = true;

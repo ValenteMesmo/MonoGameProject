@@ -24,6 +24,20 @@ namespace MonoGameProject
         public int Player1_ArmorRed = 255;
         public int Player1_ArmorGreen = 255;
         public int Player1_ArmorBlue = 255;
+        public int Player2_ArmorRed = 255;
+        public int Player2_ArmorGreen = 255;
+        public int Player2_ArmorBlue = 255;
+        public int Player3_ArmorRed = 255;
+        public int Player3_ArmorGreen = 255;
+        public int Player3_ArmorBlue = 255;
+        public int Player4_ArmorRed = 255;
+        public int Player4_ArmorGreen = 255;
+        public int Player4_ArmorBlue = 255;
+
+        public WeaponType Player1_WeaponType = WeaponType.Whip;
+        public WeaponType Player2_WeaponType = WeaponType.Whip;
+        public WeaponType Player3_WeaponType = WeaponType.Whip;
+        public WeaponType Player4_WeaponType = WeaponType.Whip;
 
         public GameStateData()
         {
@@ -32,10 +46,10 @@ namespace MonoGameProject
             BotExit = true;
 
             ArmorColor = 666666666;
-            Tresure =    666999666;
-            Monster =    999666999;
-            Paralax =    999999999;
-            Platform =   666999999;
+            Tresure = 666999666;
+            Monster = 999666999;
+            Paralax = 999999999;
+            Platform = 666999999;
             ColorIndex = 0;
             CaveMode = false;
             TopExit = true;
@@ -213,13 +227,62 @@ namespace MonoGameProject
             PreSavedData.Player1_ArmorRed = State.Player1_ArmorRed;
             PreSavedData.Player1_ArmorGreen = State.Player1_ArmorGreen;
             PreSavedData.Player1_ArmorBlue = State.Player1_ArmorBlue;
+            PreSavedData.Player1_WeaponType = State.Player1_WeaponType;
+
+            PreSavedData.Player2_ArmorRed = State.Player2_ArmorRed;
+            PreSavedData.Player2_ArmorGreen = State.Player2_ArmorGreen;
+            PreSavedData.Player2_ArmorBlue = State.Player2_ArmorBlue;
+            PreSavedData.Player2_WeaponType = State.Player2_WeaponType;
+
+            PreSavedData.Player3_ArmorRed = State.Player3_ArmorRed;
+            PreSavedData.Player3_ArmorGreen = State.Player3_ArmorGreen;
+            PreSavedData.Player3_ArmorBlue = State.Player3_ArmorBlue;
+            PreSavedData.Player3_WeaponType = State.Player3_WeaponType;
+
+            PreSavedData.Player4_ArmorRed = State.Player4_ArmorRed;
+            PreSavedData.Player4_ArmorGreen = State.Player4_ArmorGreen;
+            PreSavedData.Player4_ArmorBlue = State.Player4_ArmorBlue;
+            PreSavedData.Player4_WeaponType = State.Player4_WeaponType;
         }
 
-        internal static void SetPlayer1ArmorColor(Color armorColor)
+        internal static void SetWeaponType(WeaponType type, int playerIndex)
         {
-            PreSavedData.Player1_ArmorRed = State.Player1_ArmorRed = armorColor.R;
-            PreSavedData.Player1_ArmorGreen = State.Player1_ArmorGreen = armorColor.G;
-            PreSavedData.Player1_ArmorBlue = State.Player1_ArmorBlue = armorColor.B;
+            if (playerIndex == 0)
+                PreSavedData.Player1_WeaponType = State.Player1_WeaponType = type;
+            else if (playerIndex == 1)
+                PreSavedData.Player2_WeaponType = State.Player2_WeaponType = type;
+            else if (playerIndex == 2)
+                PreSavedData.Player3_WeaponType = State.Player3_WeaponType = type;
+            else if (playerIndex == 3)
+                PreSavedData.Player4_WeaponType = State.Player4_WeaponType = type;
+        }
+
+        internal static void SetPlayer1ArmorColor(Color armorColor, int playerIndex )
+        {
+            if (playerIndex == 0)
+            {
+                PreSavedData.Player1_ArmorRed = State.Player1_ArmorRed = armorColor.R;
+                PreSavedData.Player1_ArmorGreen = State.Player1_ArmorGreen = armorColor.G;
+                PreSavedData.Player1_ArmorBlue = State.Player1_ArmorBlue = armorColor.B;
+            }
+            else if (playerIndex == 1)
+            {
+                PreSavedData.Player2_ArmorRed = State.Player2_ArmorRed = armorColor.R;
+                PreSavedData.Player2_ArmorGreen = State.Player2_ArmorGreen = armorColor.G;
+                PreSavedData.Player2_ArmorBlue = State.Player2_ArmorBlue = armorColor.B;
+            }
+            else if (playerIndex == 2)
+            {
+                PreSavedData.Player3_ArmorRed = State.Player3_ArmorRed = armorColor.R;
+                PreSavedData.Player3_ArmorGreen = State.Player3_ArmorGreen = armorColor.G;
+                PreSavedData.Player3_ArmorBlue = State.Player3_ArmorBlue = armorColor.B;
+            }
+            else if (playerIndex == 3)
+            {
+                PreSavedData.Player4_ArmorRed = State.Player4_ArmorRed = armorColor.R;
+                PreSavedData.Player4_ArmorGreen = State.Player4_ArmorGreen = armorColor.G;
+                PreSavedData.Player4_ArmorBlue = State.Player4_ArmorBlue = armorColor.B;
+            }
         }
     }
 }

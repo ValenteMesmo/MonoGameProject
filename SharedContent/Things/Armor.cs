@@ -137,8 +137,8 @@ namespace MonoGameProject
 
     public enum WeaponType
     {
-        Sword,
         Whip,
+        Sword,
         Wand
     }
     public class Weapon : Thing
