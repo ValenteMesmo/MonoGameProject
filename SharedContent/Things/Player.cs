@@ -10,13 +10,9 @@ namespace MonoGameProject
     public class Player : Humanoid
     {
         //planning:
-        //SAVE CURRENT WEAPON
-        //add explosions when bos dies
-        //add explosions hen player dies
-        //fazer o acesso ao disco remotamente... para evitar travadas
+        //add explosions when boss dies
+        //add explosions when player dies
         //reduzir vibração no touch up ou down
-        //animation for bird body
-        //animation for plant body(chair)
         //fireball direcionada
         //fireball em espiral (ch boat)
         //fireball go to the roof and to the floor.d

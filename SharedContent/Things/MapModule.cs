@@ -332,6 +332,7 @@ namespace MonoGameProject
                     //add hit effect
                     AddToWorld(new CheckPoint_Checked(player.GetHairColor()) { X = X, Y = Y });
                     GameState.Save();
+                    s.Disabled = true;
                     Destroy();
                 }
             });

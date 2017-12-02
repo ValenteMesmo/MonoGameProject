@@ -2,6 +2,8 @@
 using Newtonsoft.Json;
 using System.IO;
 using System;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace MonoGameProject
 {
@@ -197,12 +199,15 @@ namespace MonoGameProject
         public static void Save()
         {
             PreSaved = false;
-            var saveFile =
-               Path.Combine(
-                   Environment.GetFolderPath(Environment.SpecialFolder.Personal)
-                   , "main.save");
-            PreSavedData.BossMode = false;
-            File.WriteAllText(saveFile, JsonConvert.SerializeObject(PreSavedData));
+            new Thread(() =>
+            {
+                 var saveFile =
+                  Path.Combine(
+                      Environment.GetFolderPath(Environment.SpecialFolder.Personal)
+                      , "main.save");
+                 PreSavedData.BossMode = false;
+                 File.WriteAllText(saveFile, JsonConvert.SerializeObject(PreSavedData));
+            }).Start();
         }
 
         public static void PreSave()
@@ -257,7 +262,7 @@ namespace MonoGameProject
                 PreSavedData.Player4_WeaponType = State.Player4_WeaponType = type;
         }
 
-        internal static void SetPlayer1ArmorColor(Color armorColor, int playerIndex )
+        internal static void SetPlayer1ArmorColor(Color armorColor, int playerIndex)
         {
             if (playerIndex == 0)
             {
