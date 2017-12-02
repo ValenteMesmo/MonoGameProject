@@ -9,11 +9,13 @@ namespace MonoGameProject
     public class Player : Humanoid
     {
         //planning:
+        //fazer o acesso ao disco remotamente... para evitar travadas
         //reduzir vibração no touch up ou down
         //animation for bird body
         //animation for plant body(chair)
         //fireball direcionada
         //fireball em espiral (ch boat)
+        //fireball go to the roof and to the floor.d
         //mudar leafshield para atingir player de chicote?
 
         //criar atalhos nas teclas de funções para desabilitar fundo paralax, paredes, fireball trails, etc

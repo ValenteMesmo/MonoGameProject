@@ -137,6 +137,7 @@ namespace MonoGameProject
         public const float RIGHT_ARM_Z = 0.101f;
         public const float EYE_Z = 0.102f;
         public const float HEAD_Z = 0.103f;
+        public const float JAIL_Z = 0.1035f;
         public const float RIGHT_FEET_Z = 0.104f;
         public const float TORSO_Z = 0.105f;
         public const float BACK_Z = 0.106f;
@@ -253,18 +254,38 @@ namespace MonoGameProject
             CreateHeadAnimator(headType, HEAD_Z);
             CreateEyeAnimator(eyeType, EYE_Z, Game1);
             CreateBody(bodyType, Game1, headType, eyeType);
-                        
+
             AddAfterUpdate(new MoveHorizontallyWithTheWorld(this));
             AddUpdate(new AfectedByGravity(this));
             AddUpdate(MoveAttackCollider);
             AddUpdate(CheckIfGrounded);
 
-            //AddAnimation(CreateFlippableAnimation(GameState.GetComplimentColor, BACK_Z, GeneratedContent.Create_knight_Torso_Humanoid_Shell_Back));            
-            AddAnimation(CreateFlippableAnimation(GameState.GetComplimentColor2, TORSO_Z, GeneratedContent.Create_knight_Torso_Humanoid_Shell_Front));
+            if (bodyType == 1)
+            {
+                //AddAnimation(CreateFlippableAnimation(GameState.GetComplimentColor, BACK_Z, GeneratedContent.Create_knight_Torso_Humanoid_Shell_Back));
+                AddAnimation(CreateFlippableAnimation(GameState.GetComplimentColor2, TORSO_Z, GeneratedContent.Create_knight_Torso_Humanoid_Shell_Front));
+                AddAnimation(CreateFlippableAnimation(() => BodyColor, RIGHT_FEET_Z, GeneratedContent.Create_knight_Torso_Humanoid_turtle_feet));
+                AddAnimation(CreateFlippableAnimation(() => BodyColor, LEFT_FEET_Z, GeneratedContent.Create_knight_Torso_Humanoid_turtle_feet, true));
+            }
             if (bodyType == 2)
             {
+                //AddAnimation(CreateFlippableAnimation(GameState.GetComplimentColor, BACK_Z, GeneratedContent.Create_knight_Torso_Humanoid_Shell_Back));
+                AddAnimation(CreateFlippableAnimation(GameState.GetComplimentColor2, TORSO_Z, GeneratedContent.Create_knight_Torso_Humanoid_Shell_Front));
+                AddAnimation(CreateFlippableAnimation(() => BodyColor, RIGHT_FEET_Z, GeneratedContent.Create_knight_Torso_Humanoid_turtle_feet));
+                AddAnimation(CreateFlippableAnimation(() => BodyColor, LEFT_FEET_Z, GeneratedContent.Create_knight_Torso_Humanoid_turtle_feet, true));
+
                 AddAnimation(CreateFlippableAnimation2(() => BodyColor, RIGHT_WING_Z, GeneratedContent.Create_knight_Ice_Wing, 2000, 600, -1200, -1500, () => facingRight));
                 AddAnimation(CreateFlippableAnimation2(() => BodyColor, LEFT_WING_Z, GeneratedContent.Create_knight_Ice_Wing, 2000, 600, -1200, -1500, () => !facingRight));
+            }
+            if (bodyType == 3)
+            {
+                //TODO: RANDOM TO USE OTHER BODIES
+                //AddAnimation(CreateFlippableAnimation(GameState.GetComplimentColor, BACK_Z, GeneratedContent.Create_knight_Torso_Humanoid_Shell_Back));
+                AddAnimation(CreateFlippableAnimation(GameState.GetComplimentColor2, TORSO_Z, GeneratedContent.Create_knight_Torso_Humanoid_Shell_Front));
+                AddAnimation(CreateFlippableAnimation(() => BodyColor, RIGHT_FEET_Z, GeneratedContent.Create_knight_Torso_Humanoid_turtle_feet));
+                AddAnimation(CreateFlippableAnimation(() => BodyColor, LEFT_FEET_Z, GeneratedContent.Create_knight_Torso_Humanoid_turtle_feet, true));
+
+                AddAnimation(CreateFlippableAnimation(GameState.GetComplimentColor2, JAIL_Z, GeneratedContent.Create_knight_Torso_Treel_Front));
             }
 
             var arm = CreateFlippableAnimation(() => BodyColor, RIGHT_ARM_Z, GeneratedContent.Create_knight_Torso_Humanoid_Shell_Arm);
@@ -283,8 +304,8 @@ namespace MonoGameProject
                 )
             );
             AddAnimation(CreateFlippableAnimation(() => BodyColor, LEFT_ARM_Z, GeneratedContent.Create_knight_Torso_Humanoid_Shell_Arm, true));
-            AddAnimation(CreateFlippableAnimation(() => BodyColor, RIGHT_FEET_Z, GeneratedContent.Create_knight_Torso_Humanoid_turtle_feet));
-            AddAnimation(CreateFlippableAnimation(() => BodyColor, LEFT_FEET_Z, GeneratedContent.Create_knight_Torso_Humanoid_turtle_feet, true));
+
+
         }
 
         private Animator CreateFlippableAnimation2(
