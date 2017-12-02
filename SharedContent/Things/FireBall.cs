@@ -311,7 +311,7 @@ namespace MonoGameProject
     public class SeekerFireBall : BaseFireBall
     {
         public const int MAX_SPEED = 50;
-        public int duration = 200;
+        public int duration = 240;
 
         public SeekerFireBall(Boss boss, Game1 Game1, Color Color) : base(boss, Game1, Color)
         {
