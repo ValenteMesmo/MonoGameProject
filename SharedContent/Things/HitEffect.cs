@@ -6,6 +6,7 @@ namespace MonoGameProject
 {
     public static class GlobalSettigns
     {
+        public const int FIREBALL_HEALTH = 5;
         public const float FIREBALL_Z = Boss.RIGHT_ARM_Z - 0.004f;
         public const float FIREBALL_BORDER_Z = Boss.RIGHT_ARM_Z - 0.003f;
         public const float FIREBALL_TRAIL_Z = Boss.RIGHT_ARM_Z - 0.002f;

@@ -134,7 +134,7 @@ namespace MonoGameProject
               , _ => { }
               , _ => { }
             );
-            PlayerDamageHandler.HEALTH = 3;
+            PlayerDamageHandler.HEALTH = GlobalSettigns.FIREBALL_HEALTH;
             PlayerDamageHandler.CausesSleep = false;
             collider.AddHandler(PlayerDamageHandler.CollisionHandler);
             AddUpdate(PlayerDamageHandler.Update);
@@ -311,7 +311,7 @@ namespace MonoGameProject
     public class SeekerFireBall : BaseFireBall
     {
         public const int MAX_SPEED = 50;
-        public int duration = 300;
+        public int duration = 200;
 
         public SeekerFireBall(Boss boss, Game1 Game1, Color Color) : base(boss, Game1, Color)
         {

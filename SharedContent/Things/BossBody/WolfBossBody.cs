@@ -282,7 +282,7 @@ namespace MonoGameProject
 
         private static bool IsAPlayerAttack(Collider t)
         {
-            if (t.Parent is Player)
+            if (t.Parent is Player && t is AttackCollider == false)
                 return true;
 
             if (t.Parent is FireBall && (t.Parent as FireBall).Owner is Player)
