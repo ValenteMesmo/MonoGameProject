@@ -21,14 +21,6 @@ namespace MonoGameProject
         //criar atalhos nas teclas de funções para desabilitar fundo paralax, paredes, fireball trails, etc
 
         //informar collision point parar os handlers ( para criar particulas de collisao no lugar certo)
-        //animação de mastigar depois de matar um player? no inimigo normal
-
-
-        //fireballtypes
-        //  moves only if target is moving
-        //  moves only if player facing back
-
-        //animacao de fireball sem borda... para criar um trail maneiro
 
         //simular touch com o mouse só em DEBUG
         //mapear start para enter
@@ -47,7 +39,6 @@ namespace MonoGameProject
         //ventania carregando folhas das arvores:
         //https://youtu.be/K-JlevnccDk?t=48
 
-        //baixar mais a tela! (pra melhorar jogabilidade mobile)
         //matar player que ficar parado muito tempo
 
         //stagios organigos, com olhos e bocas
@@ -60,20 +51,9 @@ namespace MonoGameProject
 
         //boss no tema de gelo fazem 3 blocos assim "/" que vão na direção do player e podem esmaga-lo
         //priorizar movimento para direita? arrastando os outros players?
-        //boss dispara na direção do player! um lazer... que tal?
         //boss dispara para cima na direção do player... quando chega mais ou menos no x do player... começa a cair devagar
         //boss cria bolas de fogo que não se movem... igual os gremilins do castlevania
         //boss manda uma shockwave no chao
-        //boss fireball top mid bot.... (skull head.... moves far from normal point)
-
-        //must increase dificult with level
-        //  boss speed, boss health? boss stage harder? (sem chão nas beradas?)
-        // boss solta bomba que explode (tem que se esconder do outro lado do mapa)
-
-        //flyibg boss pattern: left and right... dive when above player.
-        //hurt faces for bosses?
-
-        //players death animation
 
         //Main Screen
         //  new game, continue, options
@@ -88,16 +68,6 @@ namespace MonoGameProject
         //  background 2 enabled
         //  background 3 enabled
 
-
-        // mover a cabeça com analogico esquerdo
-        // remove or add background according to map type
-        //  cooler dying animation (longer) boss
-        // dying animation player
-        //  reduce idle duration when damage taken
-        //permitir que o player desvie to attack melee abaixando (boss)
-
-        //nightelf color pattern
-
         //level themes,   change color patterns to fixed pairs
         //-lava
         //  chão que quebra
@@ -106,7 +76,6 @@ namespace MonoGameProject
         //-snow
         //  diminuir visibilidade?
         //  moving platforms horizontal... over spikes
-
 
         //"barra de life" ser o torso... casco quebrando... pelos caindo... ferida abrindo?
         //um boss que nao sai do lugar
@@ -117,17 +86,7 @@ namespace MonoGameProject
         //epic sax guy
         //dimitri hands
 
-        //boss voador +cara de coelho + 4 olhos, está muito fraco
-        //     O que fazer? mudar padrao de voo? fazer 
-
-        //HEALTH nos projéteis??? yes
-        //barulho de btn no touch
-
-        //LIGAR O BOSS MAIS CEDO. ta mto apelao, principalemtne o lobo
-
-        //shoulders and triggers to make sounds
-
-        //jogar contra 3 de super nintendo. inspiração platformer
+        //jogar CONTRA 3 de super nintendo. inspiração 
 
         //espada
         //foice
@@ -141,9 +100,7 @@ namespace MonoGameProject
 
         //pedras voando no estilo dbz
         //onda de lava passando... pra ter que pular
-        //musica em quanto houver fireball
 
-        //reduzir o playerfinder do wolfboss
         // "it" like gauthled II  (uma chapeu de burro? ou uma coroa? pomba! libelula, mosquito [fazendo barulho])
         //turn into a controllable ghost after death
         // comes back to life on checkpoint
@@ -158,19 +115,10 @@ namespace MonoGameProject
         //frog eyes?
         //star iris eye (cp hd)
         //leave breakable skulls when enemy killed
-        //reduce skull head border
-
-        //animar frames do braço parado
 
         //poeira de fall damage
 
         //abertura do trailer igual looneytoones ( https://www.youtube.com/watch?v=yqg9mloJk04 )
-
-        //eyebeam aumentar a distancia... puxar de baixo para cima
-
-        //edge crouch de costas
-
-        //make seeker fireball collide with each other
 
         //background igual o liadst
 
@@ -186,33 +134,13 @@ namespace MonoGameProject
 
         //GAMEOVER fechar que nem fim de cartoon circulo fechando.
 
-        //  floorr    
-        //chess 
-        //candy
-        //stone
-        //wood
-        //grass
-
-        //cowboy nas costas do boss?
-
         //mover o quadril na animacao 
         //voar sangue quando hittar o boss.. (c sotn)
-
-        //poo
-
-        //virar caveira gargalhando quando morrer?
-
-        //pennywise dance
-
-        //remake head/eye animation
-        //-----para evitar que 1 dos 4 olhos suma
 
         //add thunder effect on whip attack
 
         //usar a tecnica de borda para criar arvores randomicas...
         //  uma arvore sobre a outra, sem borda
-
-        //fireball trail (like dragron from ch)
 
         //State features
         //- os blocos aparecem quando player chega perto
@@ -258,17 +186,7 @@ namespace MonoGameProject
              |         ______
             _|    --      |
             ____^^^^^^^^^^|
-
-            dragao que dispara em 3 direcoes
-                /
-            D --
-             \
         */
-
-        //Se move quando o player se move
-        //se move da esquerda para direita sem parar
-        //Se move quando o player se move (no chão) (sempre na direção dele) 
-        //se move para longe do jogador
 
         //head 
         //  cara  de lobo, Mosca (mão tbm), bulldog, tengu, dolly grn, creeper, slender, preguiça, de urso, de boi, de cavalo, de porco, de aranha, de leão, de dragao, de caveira, cthulu, bills
@@ -288,16 +206,11 @@ namespace MonoGameProject
 
         //mudar/tocar musica quando um baú aparecer na tela
         //      Ele deve brilhar também
-        //animacao de beirada (quase caindo)
         //incluir misc stuff ... coisas que da para quebrar! caso voce erre um ataque, por exemplo.
         //quebrar misc stuff afeta o random dos baús (gera um novo)
 
-        //spawn de zumbis
-
-
         //plataforma "barco"... igual mario....
         //breakable blocks
-        //traps
         //fire balls (vertical)
         //fireballs vertical lenta...
         private const int width = 1000;
