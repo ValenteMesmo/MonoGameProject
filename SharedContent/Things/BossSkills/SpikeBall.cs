@@ -1,11 +1,6 @@
 ﻿using GameCore;
 using MonoGameProject;
 using MonoGameProject.Things;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SharedContent.Things.BossSkills
 {
@@ -19,12 +14,9 @@ namespace SharedContent.Things.BossSkills
             var size = 1500;
             var collider = new AttackCollider
             {
-                Width = size / 2 - (size / 3) / 2
-                ,
-                Height = size / 3 - (size / 6)
-                ,
-                OffsetY = size / 3 + (size / 6)
-                ,
+                Width = size / 2 - (size / 3) / 2,
+                Height = size / 3 - (size / 6),
+                OffsetY = size / 3 + (size / 6),
                 OffsetX = (size / 3) / 4
             };
             AddCollider(collider);
@@ -49,7 +41,7 @@ namespace SharedContent.Things.BossSkills
             anim.ColorGetter = GameState.GetColor;
             AddAnimation(anim);
 
-            var speed = 40;
+            var speed = 60;
 
             var mod = Boss.facingRight ? -1 : 1;
             VerticalSpeed = speed;
@@ -94,7 +86,7 @@ namespace SharedContent.Things.BossSkills
                 }
             });
 
-            
+
             AddAfterUpdate(new MoveHorizontallyWithTheWorld(this));
             var duration = 800;
             AddUpdate(() =>
