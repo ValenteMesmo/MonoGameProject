@@ -88,7 +88,7 @@ namespace MonoGameProject
             camerawall.AddCollider(new SolidCollider(MapModule.CELL_SIZE, MapModule.HEIGHT * 2) { OffsetX = (int)(MapModule.CELL_SIZE * 19.5f) });
             AddThing(camerawall);
 
-            GameState.Load();
+            //GameState.Load();
 
             //AddThing(new Enemy(this) { X = 4000, Y = 4000 });
 
@@ -100,6 +100,7 @@ namespace MonoGameProject
             player1.Y = (8 * MapModule.CELL_SIZE) + Humanoid.height + 200;
             player1.X = (4 * MapModule.CELL_SIZE);
             player1.FacingRight = true;
+            player1.SetArmorColor(new Color(GameState.State.Player1_ArmorRed, GameState.State.Player1_ArmorGreen, GameState.State.Player1_ArmorBlue));
             PlayersSlots.Add(new PlayerSlot(0, player1, player1Inputs));
             PlayersSlots.Add(new PlayerSlot(1, null, null));
             PlayersSlots.Add(new PlayerSlot(2, null, null));
@@ -209,6 +210,8 @@ namespace MonoGameProject
         {
             GameStarted = false;
             ScreenFader2.FadeOut(() => { });
+
+            GameState.Load();
 
             var thing = new Thing();
 

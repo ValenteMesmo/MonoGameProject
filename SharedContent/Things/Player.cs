@@ -329,6 +329,8 @@ namespace MonoGameProject
                 if (t.Parent is Armor)
                 {
                     var armorColor = (t.Parent as Armor).Color;
+                    GameState.SetPlayer1ArmorColor(armorColor);
+
                     HitPoints = 2;
                     SetArmorColor(armorColor);
                     t.Disabled = true;

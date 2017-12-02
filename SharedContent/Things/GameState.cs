@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
 using System.IO;
+using System;
 
 namespace MonoGameProject
 {
@@ -19,6 +20,10 @@ namespace MonoGameProject
         public bool BossMode;
         public long StageNumber;
         public bool ShowStageNumber;
+
+        public int Player1_ArmorRed = 255;
+        public int Player1_ArmorGreen = 255;
+        public int Player1_ArmorBlue = 255;
 
         public GameStateData()
         {
@@ -180,7 +185,7 @@ namespace MonoGameProject
             PreSaved = false;
             var saveFile =
                Path.Combine(
-                   System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal)
+                   Environment.GetFolderPath(Environment.SpecialFolder.Personal)
                    , "main.save");
             PreSavedData.BossMode = false;
             File.WriteAllText(saveFile, JsonConvert.SerializeObject(PreSavedData));
@@ -204,6 +209,17 @@ namespace MonoGameProject
             PreSavedData.Monster = RandomMonster.Seed;
             PreSavedData.Paralax = ParalaxRandomModule.Seed;
             PreSavedData.Platform = PlatformRandomModule.Seed;
+
+            PreSavedData.Player1_ArmorRed = State.Player1_ArmorRed;
+            PreSavedData.Player1_ArmorGreen = State.Player1_ArmorGreen;
+            PreSavedData.Player1_ArmorBlue = State.Player1_ArmorBlue;
+        }
+
+        internal static void SetPlayer1ArmorColor(Color armorColor)
+        {
+            PreSavedData.Player1_ArmorRed = State.Player1_ArmorRed = armorColor.R;
+            PreSavedData.Player1_ArmorGreen = State.Player1_ArmorGreen = armorColor.G;
+            PreSavedData.Player1_ArmorBlue = State.Player1_ArmorBlue = armorColor.B;
         }
     }
 }

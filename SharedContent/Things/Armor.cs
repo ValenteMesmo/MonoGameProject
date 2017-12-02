@@ -131,7 +131,7 @@ namespace MonoGameProject
             AddAnimation(animation);
 
             AddAfterUpdate(new MoveHorizontallyWithTheWorld(this));
-            AddUpdate(new DestroyIfLeftBehind(this));
+            AddUpdate(new DestroyIfLeftBehind(this));            
         }
     }
 
