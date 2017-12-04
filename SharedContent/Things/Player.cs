@@ -10,6 +10,9 @@ namespace MonoGameProject
     public class Player : Humanoid
     {
         //planning:
+        //moving plat... h and v
+        //prevent boss from having same appearance of previous
+        //insta kill on spikes
         //add explosions when boss dies
         //add explosions when player dies
         //reduzir vibração no touch up ou down
