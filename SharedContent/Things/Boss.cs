@@ -171,7 +171,6 @@ namespace MonoGameProject
         public readonly CollisionChecker groundDetector;
         public readonly Collider playerFinder;
 
-        //todo: add collider to the head... not solid
         public Boss(Game1 Game1)
         {
             this.Game1 = Game1;
@@ -262,28 +261,19 @@ namespace MonoGameProject
 
             if (bodyType == 1)
             {
-                //AddAnimation(CreateFlippableAnimation(GameState.GetComplimentColor, BACK_Z, GeneratedContent.Create_knight_Torso_Humanoid_Shell_Back));
-                AddAnimation(CreateFlippableAnimation(() => BodyColor, TORSO_Z, GeneratedContent.Create_knight_Torso_Snake_Front));
-                AddAnimation(CreateFlippableAnimation(() => BodyColor, RIGHT_FEET_Z, GeneratedContent.Create_knight_Torso_Humanoid_turtle_feet));
-                AddAnimation(CreateFlippableAnimation(() => BodyColor, LEFT_FEET_Z, GeneratedContent.Create_knight_Torso_Humanoid_turtle_feet, true));
+                CreateTorso();
+                CreateFeet();
             }
             if (bodyType == 2)
             {
-                //AddAnimation(CreateFlippableAnimation(GameState.GetComplimentColor, BACK_Z, GeneratedContent.Create_knight_Torso_Humanoid_Shell_Back));
-                AddAnimation(CreateFlippableAnimation(GameState.GetComplimentColor2, TORSO_Z, GeneratedContent.Create_knight_Torso_Humanoid_Shell_Front));
-                AddAnimation(CreateFlippableAnimation(() => BodyColor, RIGHT_FEET_Z, GeneratedContent.Create_knight_Torso_Humanoid_turtle_feet));
-                AddAnimation(CreateFlippableAnimation(() => BodyColor, LEFT_FEET_Z, GeneratedContent.Create_knight_Torso_Humanoid_turtle_feet, true));
-
-                AddAnimation(CreateFlippableAnimation2(() => BodyColor, RIGHT_WING_Z, GeneratedContent.Create_knight_Ice_Wing, 2000, 600, -1200, -1500, () => facingRight));
-                AddAnimation(CreateFlippableAnimation2(() => BodyColor, LEFT_WING_Z, GeneratedContent.Create_knight_Ice_Wing, 2000, 600, -1200, -1500, () => !facingRight));
+                CreateTorso();
+                CreateFeet();
+                CreateWings();
             }
             if (bodyType == 3)
             {
-                //TODO: RANDOM TO USE OTHER BODIES
-                //AddAnimation(CreateFlippableAnimation(GameState.GetComplimentColor, BACK_Z, GeneratedContent.Create_knight_Torso_Humanoid_Shell_Back));
-                AddAnimation(CreateFlippableAnimation(GameState.GetComplimentColor2, TORSO_Z, GeneratedContent.Create_knight_Torso_Humanoid_Shell_Front));
-                AddAnimation(CreateFlippableAnimation(() => BodyColor, RIGHT_FEET_Z, GeneratedContent.Create_knight_Torso_Humanoid_turtle_feet));
-                AddAnimation(CreateFlippableAnimation(() => BodyColor, LEFT_FEET_Z, GeneratedContent.Create_knight_Torso_Humanoid_turtle_feet, true));
+                CreateTorso();
+                CreateFeet();
 
                 AddAnimation(CreateFlippableAnimation(GameState.GetComplimentColor2, JAIL_Z, GeneratedContent.Create_knight_Torso_Treel_Front));
             }
@@ -306,6 +296,31 @@ namespace MonoGameProject
             AddAnimation(CreateFlippableAnimation(() => BodyColor, LEFT_ARM_Z, GeneratedContent.Create_knight_Torso_Humanoid_Shell_Arm, true));
 
 
+        }
+
+        private void CreateWings()
+        {
+            AddAnimation(CreateFlippableAnimation2(() => BodyColor, RIGHT_WING_Z, GeneratedContent.Create_knight_Ice_Wing, 2000, 600, -1200, -1500, () => facingRight));
+            AddAnimation(CreateFlippableAnimation2(() => BodyColor, LEFT_WING_Z, GeneratedContent.Create_knight_Ice_Wing, 2000, 600, -1200, -1500, () => !facingRight));
+        }
+
+        private void CreateTorso()
+        {
+            var type = MyRandom.Next(1, 4);
+            if (type == 1)
+                AddAnimation(CreateFlippableAnimation(() => BodyColor, TORSO_Z, GeneratedContent.Create_knight_Torso_Wolf_Front));
+            else if (type == 2)
+                AddAnimation(CreateFlippableAnimation(() => BodyColor, TORSO_Z, GeneratedContent.Create_knight_Torso_Snake_Front));
+            else if (type == 3)
+                AddAnimation(CreateFlippableAnimation(() => BodyColor, TORSO_Z, GeneratedContent.Create_knight_Torso_Humanoid_Shell_Front));
+            else if (type == 4)
+                AddAnimation(CreateFlippableAnimation(() => BodyColor, TORSO_Z, GeneratedContent.Create_knight_Torso_Strong_Front));
+        }
+
+        private void CreateFeet()
+        {
+            AddAnimation(CreateFlippableAnimation(() => BodyColor, RIGHT_FEET_Z, GeneratedContent.Create_knight_Torso_Humanoid_turtle_feet));
+            AddAnimation(CreateFlippableAnimation(() => BodyColor, LEFT_FEET_Z, GeneratedContent.Create_knight_Torso_Humanoid_turtle_feet, true));
         }
 
         private Animator CreateFlippableAnimation2(

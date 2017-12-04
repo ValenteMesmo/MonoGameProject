@@ -380,6 +380,7 @@ namespace MonoGameProject
 
             var speed = 30;
             var tick = 0;
+            AddAfterUpdate(new MoveHorizontallyWithTheWorld(this));
             AddUpdate(() =>
             {
                 tick++;
