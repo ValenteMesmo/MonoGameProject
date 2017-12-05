@@ -44,10 +44,19 @@ namespace MonoGameProject
                 target.Disabled = true;
                 target.Parent.Destroy();
             }
-            else if (target is AttackCollider
-                || target.Parent is Spikes)
+            else if (target is AttackCollider)
             {
                 DefaultDamageHandler(source, target);
+            }
+            else if (target.Parent is Spikes)
+            {
+                //duplicated
+                Game1.Camera.ShakeUp(40);
+                Game1.Sleep();
+                Game1.VibrationCenter.Vibrate(Parent.Inputs, 20, 0.3f);
+                //TODO: if hascolor... flash color
+                Game1.ScreenFader.Flash((int)Parent.MainCollider.CenterX(), (int)Parent.MainCollider.CenterY());
+                Parent.Destroy();
             }
         }
 
