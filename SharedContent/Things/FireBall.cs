@@ -92,6 +92,7 @@ namespace MonoGameProject
 
         public void Update()
         {
+            return;
             if (cooldown > 0)
             {
                 cooldown--;
