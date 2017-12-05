@@ -129,16 +129,14 @@ public class BaseGame : OriginalGameClass
     protected override void Initialize()
     {
         //TODO: fullscreen on alt+enter
+        Graphics.PreferredBackBufferWidth = 1366;
+        Graphics.PreferredBackBufferHeight = 768;
+        //Graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
+        //Graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
 #if DEBUG
-        Graphics.PreferredBackBufferWidth = 800;
-        Graphics.PreferredBackBufferHeight = 600;
-        Graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
-        Graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
         Graphics.IsFullScreen = false;
 #else
-        Graphics.IsFullScreen = false;
-        Graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
-        Graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
+        Graphics.IsFullScreen = true;
 #endif
         if (RuningOnAndroid)
         {
