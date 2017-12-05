@@ -96,6 +96,15 @@ namespace MonoGameProject
                         });
                     }
 
+                    if (type == 'k')
+                    {
+                        Game1.AddToWorld(new ElevatorPlatform()
+                        {
+                            X = X + j * CELL_SIZE,
+                            Y = Y + i * CELL_SIZE
+                        });
+                    }
+
                     if (type == 'r')
                     {
                         Game1.AddToWorld(new LeftFireBallTrap(Game1, i % 2 == 0 ? 50 : 0)
@@ -390,6 +399,29 @@ namespace MonoGameProject
                     speed *= -1;
                 }
                 HorizontalSpeed = speed;
+            });
+        }
+    }
+
+    public class ElevatorPlatform : Thing
+    {
+        public ElevatorPlatform()
+        {
+            var collider = new SolidCollider(MapModule.CELL_SIZE, MapModule.CELL_SIZE);
+            AddCollider(collider);
+
+            var speed = 30;
+            var tick = 0;
+            AddAfterUpdate(new MoveHorizontallyWithTheWorld(this));
+            AddUpdate(() =>
+            {
+                tick++;
+                if (tick == 50)
+                {
+                    tick = 0;
+                    speed *= -1;
+                }
+                VerticalSpeed = speed;
             });
         }
     }
