@@ -43,9 +43,8 @@ namespace SharedContent.Things.BossSkills
 
             var speed = 60;
 
-            var mod = Boss.facingRight ? -1 : 1;
+            var mod = !Boss.facingRight ? -1 : 1;
             VerticalSpeed = speed;
-
 
             collider.AddBotCollisionHandler(StopsWhenHitting.Bot<SomeKindOfGround>());
             collider.AddLeftCollisionHandler(StopsWhenHitting.Left<SomeKindOfGround>());
