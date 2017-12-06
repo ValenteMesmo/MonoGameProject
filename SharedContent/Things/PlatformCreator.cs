@@ -5,9 +5,315 @@ using System.Linq;
 
 namespace MonoGameProject
 {
+    public static class MapModuleSource
+    {
+        public static List<MapModuleInfo> GetAll()
+        {
+            var result = new List<MapModuleInfo>();
+            result.AddRange(Bot());
+            result.AddRange(Mid());
+            result.AddRange(Top());
+
+            result.AddRange(TransitionBotMid());
+            result.AddRange(TransitionMidBot());
+
+            result.AddRange(TransitionMidTop());
+            result.AddRange(TransitionTopMid());
+
+            result.AddRange(TransitionBotTop());
+            result.AddRange(TransitionTopBot());
+
+            return result;
+        }
+
+        private static List<MapModuleInfo> Bot()
+        {
+            return new List<MapModuleInfo> {
+                new MapModuleInfo(
+                     true
+                    , true
+                    , true
+                    , true
+                    , true
+                    , true
+                    , "0000000000000000"//
+                    , "0000000000000000"//E
+                    , "0000000000000000"//E
+                    , "0000000000000000"//
+                    , "0000000000000000"//
+                    , "0000000000000000"//
+                    , "0000000000000000"//
+                    , "0000000000000000"//E
+                    , "0000000000000000"//E
+                    , "0000000000000000"//
+                    , "0000000000000000"//
+                    , "0000000000000000"//
+                    , "0000000000000000"//
+                    , "0000000000000000"//E
+                    , "0000000000000000"//E
+                    , "1111111111111111")
+            };
+        }
+
+        private static List<MapModuleInfo> Mid()
+        {
+            return new List<MapModuleInfo> {
+                new MapModuleInfo(
+                     true
+                    , true
+                    , false
+                    , true
+                    , true
+                    , false
+                    , "0000000000000000"//
+                    , "0000000000000000"//E
+                    , "0000000000000000"//E
+                    , "0000000000000000"//
+                    , "0000000000000000"//
+                    , "0000000000000000"//
+                    , "0000000000000000"//
+                    , "0000000000000000"//E
+                    , "0000000000000000"//E
+                    , "1111111111111111"//
+                    , "1111111111111111"//
+                    , "1111111111111111"//
+                    , "1111111111111111"//
+                    , "1111111111111111"//E
+                    , "1111111111111111"//E
+                    , "1111111111111111")
+            };
+        }
+
+        private static List<MapModuleInfo> Top()
+        {
+            return new List<MapModuleInfo> {
+                new MapModuleInfo(
+                     true
+                    , false
+                    , false
+                    , true
+                    , false
+                    , false
+                    , "0000000000000000"//
+                    , "0000000000000000"//E
+                    , "0000000000000000"//E
+                    , "1111111111111111"//
+                    , "1111111111111111"//
+                    , "1111111111111111"//
+                    , "1111111111111111"//
+                    , "1111111111111111"//E
+                    , "1111111111111111"//E
+                    , "1111111111111111"//
+                    , "1111111111111111"//
+                    , "1111111111111111"//
+                    , "1111111111111111"//
+                    , "1111111111111111"//E
+                    , "1111111111111111"//E
+                    , "1111111111111111")
+            };
+        }
+
+        private static List<MapModuleInfo> TransitionBotMid()
+        {
+            return new List<MapModuleInfo> {
+                new MapModuleInfo(
+                     true
+                    , true
+                    , true
+                    , true
+                    , true
+                    , false
+                    , "0000000000000000"//
+                    , "0000000000000000"//E
+                    , "0000000000000000"//E
+                    , "0000000000000000"//
+                    , "0000000000000000"//
+                    , "0000000000000000"//
+                    , "0000000000000000"//
+                    , "0000000000000000"//E
+                    , "0000000000000000"//E
+                    , "0000000011111111"//
+                    , "0000000011111111"//
+                    , "0000000011111111"//
+                    , "0000111111111111"//
+                    , "0000111111111111"//E
+                    , "0000111111111111"//E
+                    , "1111111111111111")
+            };
+        }
+
+        private static List<MapModuleInfo> TransitionMidBot()
+        {
+            return new List<MapModuleInfo> {
+                new MapModuleInfo(
+                     true
+                    , true
+                    , false
+                    , true
+                    , true
+                    , true
+                    , "0000000000000000"//
+                    , "0000000000000000"//E
+                    , "0000000000000000"//E
+                    , "0000000000000000"//
+                    , "0000000000000000"//
+                    , "0000000000000000"//
+                    , "0000000000000000"//
+                    , "0000000000000000"//E
+                    , "0000000000000000"//E
+                    , "1111000000000000"//
+                    , "1111000000000000"//
+                    , "1111000000000000"//
+                    , "1111000000000000"//
+                    , "1111111111100000"//E
+                    , "1111111111100000"//E
+                    , "1111111111111111")
+            };
+        }
+
+        private static List<MapModuleInfo> TransitionMidTop()
+        {
+            return new List<MapModuleInfo> {
+                new MapModuleInfo(
+                     true
+                    , true
+                    , false
+                    , true
+                    , false
+                    , false
+                    , "0000000000000000"//
+                    , "0000000000000000"//E
+                    , "0000000000000000"//E
+                    , "0000000000111111"//
+                    , "0000000000111111"//
+                    , "0000000000111111"//
+                    , "0000111111111111"//
+                    , "0000111111111111"//E
+                    , "0000111111111111"//E
+                    , "1111111111111111"//
+                    , "1111111111111111"//
+                    , "1111111111111111"//
+                    , "1111111111111111"//
+                    , "1111111111111111"//E
+                    , "1111111111111111"//E
+                    , "1111111111111111")
+            };
+        }
+
+        private static List<MapModuleInfo> TransitionTopMid()
+        {
+            return new List<MapModuleInfo> {
+                new MapModuleInfo(
+                     true
+                    , false
+                    , false
+                    , true
+                    , true
+                    , false
+                    , "0000000000000000"//
+                    , "0000000000000000"//E
+                    , "0000000000000000"//E
+                    , "1111000000000000"//
+                    , "1111000000000000"//
+                    , "1111000000000000"//
+                    , "1111111111000000"//
+                    , "1111111111000000"//E
+                    , "1111111111000000"//E
+                    , "1111111111111111"//
+                    , "1111111111111111"//
+                    , "1111111111111111"//
+                    , "1111111111111111"//
+                    , "1111111111111111"//E
+                    , "1111111111111111"//E
+                    , "1111111111111111")
+            };
+        }
+
+        private static List<MapModuleInfo> TransitionBotTop()
+        {
+            return new List<MapModuleInfo> {
+                new MapModuleInfo(
+                     true
+                    , true
+                    , true
+                    , true
+                    , false
+                    , false
+                    , "0000000000000000"//
+                    , "0000000000000000"//E
+                    , "0000000000000000"//E
+                    , "0000000000000001"//
+                    , "0000000000000001"//
+                    , "0000000000000001"//
+                    , "0000000000001111"//
+                    , "0000000000001111"//E
+                    , "0000000000001111"//E
+                    , "0000000011111111"//
+                    , "0000000011111111"//
+                    , "0000000011111111"//
+                    , "0000111111111111"//
+                    , "0000111111111111"//E
+                    , "0000111111111111"//E
+                    , "1111111111111111")
+            };
+        }
+
+        private static List<MapModuleInfo> TransitionTopBot()
+        {
+            return new List<MapModuleInfo> {
+                new MapModuleInfo(
+                     true
+                    , false
+                    , false
+                    , true
+                    , true
+                    , true
+                    , "0000000000000000"//
+                    , "0000000000000000"//E
+                    , "0000000000000000"//E
+                    , "1000000000000000"//
+                    , "1000000000000000"//
+                    , "1000000000000000"//
+                    , "1111000000000000"//
+                    , "1111000000000000"//E
+                    , "1111000000000000"//E
+                    , "1111111100000000"//
+                    , "1111111100000000"//
+                    , "1111111100000000"//
+                    , "1111111111111000"//
+                    , "1111111111111000"//E
+                    , "1111111111111000"//E
+                    , "1111111111111111")
+                ,new MapModuleInfo(
+                     true
+                    , false
+                    , false
+                    , true
+                    , true
+                    , true
+                    , "0000000000000000"//
+                    , "0000000000000000"//E
+                    , "0000000000000000"//E
+                    , "1000000000000000"//
+                    , "1000000000000000"//
+                    , "1000000000000000"//
+                    , "1000000000000000"//
+                    , "1000000000000000"//E
+                    , "1000011000000000"//E
+                    , "1000000000000000"//
+                    , "1000000000011000"//
+                    , "1000000000000000"//
+                    , "1000000000000000"//
+                    , "10a0000000000000"//E
+                    , "1000000000000000"//E
+                    , "1111111111111111")
+            };
+        }
+    }
+
     public class PlatformCreator : Thing
     {
-        private const int STAGE_LENGTH = 18;
+        private const int STAGE_LENGTH = 189;
         int stageCount = STAGE_LENGTH;
         private MapModule lastModule;
         private WorldMover WorldMover;
@@ -105,7 +411,8 @@ namespace MonoGameProject
             this.WorldMover = WorldMover;
             this.AddToWOrld = AddToWOrld;
 
-            CreateModules();
+            //CreateModules();
+            Modules = MapModuleSource.GetAll();
             CreateCaveModules();
 
             CurrentModules =
@@ -732,7 +1039,7 @@ namespace MonoGameProject
 
             while (true)
             {
-                
+
 
                 if (stageCount == 5)
                 {
