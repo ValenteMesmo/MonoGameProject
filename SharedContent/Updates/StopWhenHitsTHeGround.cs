@@ -31,6 +31,8 @@ namespace MonoGameProject
         {
             if (other is T)
             {
+                Parent.Parent.VerticalSpeed = other.Parent.VerticalSpeed ;
+
                 Parent.Parent.Y = other.Top() - Parent.Height - Parent.OffsetY - KNOCKBACK;
 
                 Parent.Parent.X += other.Parent.HorizontalSpeed;
