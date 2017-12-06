@@ -186,7 +186,7 @@ public class BaseGame : OriginalGameClass
 #if DEBUG
         //if (!state.NumLock)
         //if (state.CapsLock)
-        //    Camera.Zoom = 0.06f;
+        //Camera.Zoom = 0.06f;
         //else
         Camera.Zoom = 0.15f;
 
@@ -205,7 +205,7 @@ public class BaseGame : OriginalGameClass
     protected override void Draw(GameTime gameTime)
     {
         //LOL darkblue affected performance... keep it black
-        GraphicsDevice.Clear(Color.Black);
+        GraphicsDevice.Clear(Color.White);
 
         SpriteBatch.Begin(SpriteSortMode.BackToFront,
                    BlendState.AlphaBlend,
@@ -366,22 +366,26 @@ public class BaseGame : OriginalGameClass
                 //var frame = animation.GetCurretFrame();
                 var x = thing.X + frame.X;
                 var width = frame.Width * (animation.ScaleX > 0 ? animation.ScaleX : 1);
-                if (x < 14000 && x + width > 0)
-
+                if (
+                    x < 10000
+                    && x + width > 0
+                   )
+                {
                     SpriteBatch.Draw(
-                            Textures[frame.Name]
-                            , new Rectangle(
-                                thing.X + frame.X,
-                                thing.Y + frame.Y,
-                                frame.Width * (animation.ScaleX > 0 ? animation.ScaleX : 1),
-                                frame.Height * (animation.ScaleY > 0 ? animation.ScaleY : 1))
-                            , frame.PositionOnSpriteSheet
-                            , animation.GetColor()
-                            , 0
-                            , Vector2.Zero
-                            , frame.Flipped ? SpriteEffects.FlipHorizontally : SpriteEffects.None
-                            , animation.RenderingLayer
+                        Textures[frame.Name]
+                        , new Rectangle(
+                            thing.X + frame.X,
+                            thing.Y + frame.Y,
+                            frame.Width * (animation.ScaleX > 0 ? animation.ScaleX : 1),
+                            frame.Height * (animation.ScaleY > 0 ? animation.ScaleY : 1))
+                        , frame.PositionOnSpriteSheet
+                        , animation.GetColor()
+                        , 0
+                        , Vector2.Zero
+                        , frame.Flipped ? SpriteEffects.FlipHorizontally : SpriteEffects.None
+                        , animation.RenderingLayer
                     );
+                }
             }
         });
     }
