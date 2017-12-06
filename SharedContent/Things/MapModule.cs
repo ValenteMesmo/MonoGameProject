@@ -56,17 +56,18 @@ namespace MonoGameProject
                     Y = Y + ((tile.Y - 1) * CELL_SIZE)
                 });
             }
-            {
-                var sky = new Animation(new AnimationFrame("pixel",
-                                  0
-                                 , 0
-                                 , CELL_SIZE * CELL_NUMBER
-                                 , (CELL_SIZE * CELL_NUMBER)));
 
-                var color = GameState.GetPreviousColor2();
-                sky.ColorGetter = () => color; //new Color(0.5f, 0.8f, 0.8f);//Color.Crimson;
-                sky.RenderingLayer = 1f;
-                AddAnimation(sky);
+            {
+                //var sky = new Animation(new AnimationFrame("pixel",
+                //                  0
+                //                 , 0
+                //                 , CELL_SIZE * CELL_NUMBER
+                //                 , (CELL_SIZE * CELL_NUMBER)));
+
+                //var color = GameState.GetPreviousColor2();
+                //sky.ColorGetter = () => color; //new Color(0.5f, 0.8f, 0.8f);//Color.Crimson;
+                //sky.RenderingLayer = 1f;
+                //AddAnimation(sky);
             }
 
             for (int i = 0; i < CELL_NUMBER; i++)
