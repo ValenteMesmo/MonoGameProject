@@ -62,8 +62,6 @@ namespace GameCore
             OnDestroyInternal(this);
         }
 
-        public virtual void OnDestroy()
-        {
-        }
+        public Action OnDestroy = () => { };
     }
 }

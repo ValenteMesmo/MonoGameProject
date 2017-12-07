@@ -6,7 +6,7 @@ namespace SharedContent.Things.BossSkills
 {
     public class SpikeBall : Thing
     {
-        public SpikeBall(Game1 Game1, Boss Boss)
+        public SpikeBall(Game1 Game1, Boss Boss, bool toTheRIght)
         {
             X = Boss.facingRight ? Boss.X + 1000 : Boss.X - 200;
             Y = Boss.Y - 1200;
@@ -43,7 +43,7 @@ namespace SharedContent.Things.BossSkills
 
             var speed = 60;
 
-            var mod = !Boss.facingRight ? -1 : 1;
+            var mod = toTheRIght ? -1 : 1;
             VerticalSpeed = speed;
 
             collider.AddBotCollisionHandler(StopsWhenHitting.Bot<SomeKindOfGround>());
@@ -87,7 +87,7 @@ namespace SharedContent.Things.BossSkills
 
 
             AddAfterUpdate(new MoveHorizontallyWithTheWorld(this));
-            var duration = 800;
+            var duration = 500;
             AddUpdate(() =>
             {
                 duration--;

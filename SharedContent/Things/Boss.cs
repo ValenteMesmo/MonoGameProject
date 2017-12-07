@@ -249,7 +249,7 @@ namespace MonoGameProject
 
             var headType = MyRandom.Next(1, 3);
             var eyeType = MyRandom.Next(1, 3);
-            var bodyType = MyRandom.Next(1, 3);
+            var bodyType = MyRandom.Next(1, 2);
             CreateHeadAnimator(headType, HEAD_Z);
             CreateEyeAnimator(eyeType, EYE_Z, Game1);
             CreateBody(bodyType, Game1, headType, eyeType);
@@ -269,13 +269,6 @@ namespace MonoGameProject
                 CreateTorso();
                 CreateFeet();
                 CreateWings();
-            }
-            if (bodyType == 3)
-            {
-                CreateTorso();
-                CreateFeet();
-
-                AddAnimation(CreateFlippableAnimation(GameState.GetComplimentColor2, JAIL_Z, GeneratedContent.Create_knight_Torso_Treel_Front));
             }
 
             var arm = CreateFlippableAnimation(() => BodyColor, RIGHT_ARM_Z, GeneratedContent.Create_knight_Torso_Humanoid_Shell_Arm);
@@ -487,10 +480,6 @@ namespace MonoGameProject
             {
                 BossMovementTypes.Bird(this, stateController);
             }
-            else
-            {
-                BossMovementTypes.Tree(this, stateController);
-            }
         }
 
         private Action CreateEyeSkill(Game1 Game1, int eyeType)
@@ -505,7 +494,11 @@ namespace MonoGameProject
             }
             else
             {
-                return () => Game1.AddToWorld(new SpikeBall(Game1, this));
+                return () =>
+                {
+                    Game1.AddToWorld(new SpikeBall(Game1, this, true));
+                    Game1.AddToWorld(new SpikeBall(Game1, this, false));
+                };
             }
         }
 

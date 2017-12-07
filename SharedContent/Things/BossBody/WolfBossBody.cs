@@ -16,7 +16,7 @@ namespace MonoGameProject
                 return;
 
             duration = 30;
-            cooldown = 60;
+            cooldown = 120;
         }
 
         public void Update()
@@ -123,22 +123,6 @@ namespace MonoGameProject
 
             });
         }
-
-        public static void Tree(Boss boss, BossStateController BossStateController)
-        {
-            boss.AddUpdate(() =>
-            {
-
-                if (boss.player == null)
-                    return;
-
-                if (boss.state == BossState.BodyAttack1)
-                {
-                    BossStateController.ChangeState();
-                }
-            });
-        }
-
     }
 
     class BossStateController
@@ -221,7 +205,7 @@ namespace MonoGameProject
 
             if (boss.state == BossState.BodyAttack1)
             {
-                //each body implements an update... srry             
+                //each body implements an update... srry
             }
 
             if (boss.state == BossState.Idle)

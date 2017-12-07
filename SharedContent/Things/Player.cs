@@ -10,6 +10,10 @@ namespace MonoGameProject
     public class Player : Humanoid
     {
         //planning:
+        //add animation to movingplat and to elevator plat
+        //change boss color on hit
+        //allow attack while wallsliding
+        //aumentar hp do boss de acordo com o numero de players
         //reduce wand range
         //prevent boss from having same appearance of previous
         //insta kill on spikes
@@ -314,27 +318,25 @@ namespace MonoGameProject
             var factory = new HumanoidAnimatorFactory();
             factory.CreateAnimator(this, index);
             factory.CreateHairBonus(this, AddToWorld);
-        }
 
-        public override void OnDestroy()
-        {
-            base.OnDestroy();
+            OnDestroy = () => {
 
-            if (Game1.Players.Count() > 1)
-            {
-                foreach (var slot in Game1.PlayersSlots)
+                if (Game1.Players.Count() > 1)
                 {
-                    if (slot.Player == this)
+                    foreach (var slot in Game1.PlayersSlots)
                     {
-                        slot.Player = null;
-                        slot.DeathCooldown = 500;
+                        if (slot.Player == this)
+                        {
+                            slot.Player = null;
+                            slot.DeathCooldown = 500;
+                        }
                     }
+
+                    return;
                 }
 
-                return;
-            }
-
-            Game1.Restart();
+                Game1.Restart();
+            };
         }
 
         private void HandleLeftBossLock(Collider source, Collider target)
@@ -356,7 +358,6 @@ namespace MonoGameProject
         private bool BotCollison;
         private bool LeftCollision;
         private bool RightCollision;
-
 
         public CrushedByCollision(Humanoid parent)
         {
