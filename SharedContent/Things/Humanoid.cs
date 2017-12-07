@@ -9,6 +9,7 @@ namespace MonoGameProject
     public class ChangeDirectionOnInput : UpdateHandler
     {
         private readonly Humanoid Player;
+        private int timeSinceLastPressOnAttackButton = 0;
 
         public ChangeDirectionOnInput(Humanoid Player)
         {
@@ -17,12 +18,18 @@ namespace MonoGameProject
 
         public void Update()
         {
+            if (Player.Inputs.Action)
+                timeSinceLastPressOnAttackButton = 0;
+            else
+                timeSinceLastPressOnAttackButton++;
+
             if (Player.TorsoState == TorsoState.Attack
                 || Player.TorsoState == TorsoState.AttackCrouching
                 //|| Player.LegState == LegState.Falling
                 || Player.LegState == LegState.SlidingWall
                 || Player.LegState == LegState.WallJumping
-                || Player.LegState == LegState.HeadBump)
+                || Player.LegState == LegState.HeadBump
+                || timeSinceLastPressOnAttackButton < 6)
                 return;
 
             if (Player.Inputs.Left && !Player.Inputs.Right)
