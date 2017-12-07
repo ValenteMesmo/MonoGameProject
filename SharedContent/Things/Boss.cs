@@ -182,7 +182,7 @@ namespace MonoGameProject
             groundDetector = new CollisionChecker();
             groundDetector.Width = width / 2;
             groundDetector.Height = height / 10;
-            groundDetector.OffsetY = height;
+            groundDetector.OffsetY = height + 50;
             groundDetector.OffsetX = width / 3;
 
             AddCollider(groundDetector);
@@ -254,10 +254,10 @@ namespace MonoGameProject
             CreateEyeAnimator(eyeType, EYE_Z, Game1);
             CreateBody(bodyType, Game1, headType, eyeType);
 
+            AddUpdate(CheckIfGrounded);
             AddAfterUpdate(new MoveHorizontallyWithTheWorld(this));
             AddUpdate(new AfectedByGravity(this));
             AddUpdate(MoveAttackCollider);
-            AddUpdate(CheckIfGrounded);
 
             if (bodyType == 1)
             {

@@ -228,6 +228,9 @@ namespace MonoGameProject
 
             if (boss.state == BossState.EyeAttack)
             {
+                if (boss.grounded == false)
+                    state1Duration++;
+
                 boss.HorizontalSpeed = 0;
 
                 if (state1Duration == 70)
@@ -245,6 +248,9 @@ namespace MonoGameProject
 
             if (boss.state == BossState.HeadAttack1)
             {
+                if (boss.grounded == false)
+                    state1Duration++;
+
                 boss.HorizontalSpeed = 0;
 
                 if (state1Duration == 40)

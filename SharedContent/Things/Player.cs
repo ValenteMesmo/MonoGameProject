@@ -10,7 +10,7 @@ namespace MonoGameProject
     public class Player : Humanoid
     {
         //planning:
-        //prevent flying boss from casting spells while in the air
+        //animação de braço cansado tbm
         //add animation to movingplat and to elevator plat
         //change boss color on hit
         //allow attack while wallsliding
