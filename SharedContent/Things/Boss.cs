@@ -74,7 +74,6 @@ namespace MonoGameProject
                 Game1.VibrationCenter.Vibrate(player.Inputs, 10, 0.25f);
 
                 damageCooldown = 20;
-                //BodyColor = Color.Lerp(BodyColor, Color.Red, 0.05f);
 
                 if (player.weaponType == WeaponType.Sword)
                     damageTaken += 3;
@@ -171,13 +170,21 @@ namespace MonoGameProject
         public readonly CollisionChecker groundDetector;
         public readonly Collider playerFinder;
 
+        public const int HEALTH = 20;
+        internal bool AttackingWithTheHand;
+        public readonly PlayerDamageHandler PlayerDamageHandler;
+        private readonly Color BodyColorTakingDamate;
+        private readonly Color BodyColorNormal;
+
         public Boss(Game1 Game1)
         {
             this.Game1 = Game1;
             var width = 1000;
             var height = 1300;
 
-            BodyColor = GameState.GetComplimentColor();
+            BodyColorTakingDamate = GameState.GetPreviousColor2();
+            BodyColorNormal = GameState.GetComplimentColor();
+            BodyColor = BodyColorNormal;
 
             groundDetector = new CollisionChecker();
             groundDetector.Width = width / 2;
@@ -243,6 +250,12 @@ namespace MonoGameProject
                 //prevent player from killing boss without entering the arena
                 if (!GameState.State.BossMode)
                     PlayerDamageHandler.damageTaken = 0;
+
+                BodyColor = Color.Lerp(
+                    BodyColor
+                    , PlayerDamageHandler.damageCooldown > 0 ? BodyColorTakingDamate : BodyColorNormal
+                    , 0.2f
+                );
             });
 
             AddCollider(mainCollider);
@@ -416,10 +429,6 @@ namespace MonoGameProject
 
             attackCollider.Disabled = !AttackingWithTheHand;
         }
-
-        public const int HEALTH = 20;
-        internal bool AttackingWithTheHand;
-        public readonly PlayerDamageHandler PlayerDamageHandler;
 
         private Player GetPlayerFromCollider(Collider t)
         {

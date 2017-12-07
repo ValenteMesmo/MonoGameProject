@@ -10,9 +10,8 @@ namespace MonoGameProject
     public class Player : Humanoid
     {
         //planning:
+        //wait a while after player death to restart the game
         //animação de braço cansado tbm
-        //add animation to movingplat and to elevator plat
-        //change boss color on hit
         //allow attack while wallsliding
         //aumentar hp do boss de acordo com o numero de players
         //reduce wand range
