@@ -287,7 +287,7 @@ namespace MonoGameProject
 
             //AddTrail(fireball1, 4);
             AddTrail2(fireball1, 4, speedx, GlobalSettigns.FIRERING_FRONT_Z);
-            AddTrail2(fireball1, 4, -speedx/2, GlobalSettigns.FIRERING_BACK_Z);
+            AddTrail2(fireball1, 4, -speedx / 2, GlobalSettigns.FIRERING_BACK_Z);
 
 
             fireball1.AddUpdate(() =>
@@ -313,23 +313,29 @@ namespace MonoGameProject
 
             //AddTrail(fireball3, 4);
             AddTrail2(fireball3, 4, speedx, GlobalSettigns.FIRERING_FRONT_Z);
-            AddTrail2(fireball3, 4, -speedx/2, GlobalSettigns.FIRERING_BACK_Z);
+            AddTrail2(fireball3, 4, -speedx / 2, GlobalSettigns.FIRERING_BACK_Z);
 
 
             Game1.AddToWorld(fireball1);
             //Game1.AddToWorld(fireball2);
             Game1.AddToWorld(fireball3);
         }
+
         private void AddTrail2(Thing fireball1, int count, int speedx, float z)
         {
             var chaing = new Thing();
             chaing.X = fireball1.X;
             chaing.Y = fireball1.Y;
 
-            var anim = GeneratedContent.Create_knight_fireball(0, 0, 500, 500);
+            var anim = GeneratedContent.Create_knight_fireball(FireBall.FIREBALL_OFFSET, FireBall.FIREBALL_OFFSET, FireBall.FIREBALL_SIZE, FireBall.FIREBALL_SIZE);
             anim.ColorGetter = GameState.GetColor;
             anim.RenderingLayer = z;
             chaing.AddAnimation(anim);
+            var animBorder = GeneratedContent.Create_knight_fireball(FireBall.FIREBALL_BORDER_OFFSET, FireBall.FIREBALL_BORDER_OFFSET, FireBall.FIREBALL_BORDER_SIZE, FireBall.FIREBALL_BORDER_SIZE);
+            animBorder.ColorGetter = () => Color.Black;
+            animBorder.RenderingLayer = z + 0.001f;
+            chaing.AddAnimation(animBorder);
+
             Game1.AddToWorld(chaing);
 
             fireball1.OnDestroy += () => chaing.Destroy();
@@ -349,7 +355,7 @@ namespace MonoGameProject
             });
 
             if (count > 0)
-                AddTrail2(chaing, --count, speedx,z);
+                AddTrail2(chaing, --count, speedx, z);
         }
     }
 
