@@ -10,7 +10,6 @@ namespace MonoGameProject
     public class Player : Humanoid
     {
         //planning:
-        //wait a while after player death to restart the game
         //animação de braço cansado tbm
         //aumentar hp do boss de acordo com o numero de players
         //reduce wand range
@@ -334,7 +333,7 @@ namespace MonoGameProject
                     return;
                 }
 
-                Game1.Restart();
+                Game1.GameOver();                
             };
         }
 

@@ -25,7 +25,7 @@ namespace MonoGameProject
     public class Game1 : Game
     {
         public Game1(bool RuningOnAndroid = false) : base(new GeneratedContent(), RuningOnAndroid) { }
-        
+
         public ScreenFlasher ScreenFader;
         public ScreenFader2 ScreenFader2;
         public List<PlayerSlot> PlayersSlots = new List<PlayerSlot>();
@@ -99,7 +99,7 @@ namespace MonoGameProject
             var player1 = new Player(this, 0, player1Inputs, AddThing);
             player1.Y = (8 * MapModule.CELL_SIZE) + Humanoid.height + 200;
             player1.X = (4 * MapModule.CELL_SIZE);
-            player1.FacingRight = true;            
+            player1.FacingRight = true;
             PlayersSlots.Add(new PlayerSlot(0, player1, player1Inputs));
             PlayersSlots.Add(new PlayerSlot(1, null, null));
             PlayersSlots.Add(new PlayerSlot(2, null, null));
@@ -165,7 +165,8 @@ namespace MonoGameProject
 
 #if DEBUG
             var cheats = new Thing();
-            cheats.AddUpdate(()=> {
+            cheats.AddUpdate(() =>
+            {
                 var kb = Microsoft.Xna.Framework.Input.Keyboard.GetState();
                 if (kb.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.F1))
                 {
@@ -300,6 +301,11 @@ namespace MonoGameProject
             bbb.ColorGetter = () => Color.White;
             bbb.LoopDisabled = true;
             thing.AddAnimation(bbb);
+        }
+
+        internal void GameOver()
+        {
+            ScreenFader2.FadeIn(Restart);
         }
     }
 
