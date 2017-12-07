@@ -12,7 +12,6 @@ namespace MonoGameProject
         //planning:
         //wait a while after player death to restart the game
         //animação de braço cansado tbm
-        //allow attack while wallsliding
         //aumentar hp do boss de acordo com o numero de players
         //reduce wand range
         //prevent boss from having same appearance of previous

@@ -16,8 +16,7 @@ namespace MonoGameProject
 
         public void Update()
         {
-            if (Player.HeadState == HeadState.Bump
-                || Player.TorsoState == TorsoState.Attack)
+            if (Player.HeadState == HeadState.Bump)
                 return;
 
             if (Player.groundChecker.Colliding<SlidableWall>() == false
