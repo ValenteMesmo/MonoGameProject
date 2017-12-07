@@ -53,7 +53,7 @@ namespace MonoGameProject
                             if (t.Parent is Boss && t is AttackCollider)
                                 fireball.Destroy();
                         });
-                        fireball.duration = 80;
+                        fireball.duration = 50;
                         Game1.AddToWorld(fireball);
                     }
                     ChangeToNotAttackMode();

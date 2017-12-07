@@ -12,7 +12,6 @@ namespace MonoGameProject
         //planning:
         //animação de braço cansado tbm
         //aumentar hp do boss de acordo com o numero de players
-        //reduce wand range
         //prevent boss from having same appearance of previous
         //insta kill on spikes
         //add explosions when boss dies
