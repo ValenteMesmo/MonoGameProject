@@ -14,7 +14,7 @@ namespace MonoGameProject
                 cooldown--;
                 if (cooldown <= 0)
                 {
-                    Game1.AddToWorld(new FireballDefault(this,FireBall.SPEED, 0, Game1, GameState.GetColor()) { X = X + 100, Y = Y + 50 });
+                    Game1.AddToWorld(new FireballCloud(this,FireBall.SPEED, 0, Game1, GameState.GetColor()) { X = X + 100, Y = Y + 50 });
                     cooldown = 200;
                 }
             });

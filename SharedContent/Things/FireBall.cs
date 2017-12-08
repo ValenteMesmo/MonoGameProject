@@ -194,6 +194,21 @@ namespace MonoGameProject
     {
         public FireballDefault(Thing Owner, int speedX, int speedY, Game1 Game1, Color Color) : base(Owner, speedX, speedY, Game1, Color)
         {
+            int offset = 0;
+            if (speedX > 0)
+                offset = -FIREBALL_SIZE;
+
+            var animation = GeneratedContent.Create_knight_fireball3(offset, 0, FIREBALL_SIZE * 2, FIREBALL_SIZE, speedX < 0);
+            animation.ColorGetter = () => Color;
+            AddAnimation(animation);
+
+        }
+    }
+
+    public class FireballCloud : FireBall
+    {
+        public FireballCloud(Thing Owner, int speedX, int speedY, Game1 Game1, Color Color) : base(Owner, speedX, speedY, Game1, Color)
+        {
             Animation animation = CreateFireBallAnimation(this);
             AddAnimation(animation);
 
@@ -256,14 +271,15 @@ namespace MonoGameProject
             AddAfterUpdate(new MoveHorizontallyWithTheWorld(this));
             AddUpdate(DestroyAfterDuration);
 
-            OnDestroy += () => Game1.AddToWorld( new SmokeHitEffect {
+            OnDestroy += () => Game1.AddToWorld(new SmokeHitEffect
+            {
                 X = X,
                 Y = Y,
                 Color = Color
             });
         }
 
-        
+
         public static Animation CreateFireballBorderAnimation()
         {
             var animationBorder = GeneratedContent.Create_knight_fireball(
@@ -309,7 +325,7 @@ namespace MonoGameProject
             var vspeed = 50;
             var distanceLimit = 800;
 
-            var fireball1 = new FireballDefault(Owner, speedx, -vspeed, Game1, GameState.GetColor())
+            var fireball1 = new FireballCloud(Owner, speedx, -vspeed, Game1, GameState.GetColor())
             {
                 X = x,
                 Y = y
@@ -331,7 +347,7 @@ namespace MonoGameProject
             //    X = x,
             //    Y = y
             //};
-            var fireball3 = new FireballDefault(Owner, speedx, vspeed, Game1, GameState.GetColor())
+            var fireball3 = new FireballCloud(Owner, speedx, vspeed, Game1, GameState.GetColor())
             {
                 X = x,
                 Y = y
