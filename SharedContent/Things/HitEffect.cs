@@ -51,11 +51,34 @@ namespace MonoGameProject
                 , size
             );
 
-            AddCollider(new Collider(size,size));
-
             animation.LoopDisabled = true;
             animation.ColorGetter = () => Color;
             animation.FrameDuration = 1;
+            animation.RenderingLayer = 0f;
+            AddAnimation(animation);
+
+        }
+    }
+
+    public class SmokeHitEffect : HitEffect
+    {
+        public SmokeHitEffect()
+        {
+            //var random = new System.Random();
+
+
+            var offset = -250;
+            var size = 1000;
+            var animation = GeneratedContent.Create_knight_hit_effect(
+                offset
+                , offset
+                , size
+                , size
+            );
+
+            animation.LoopDisabled = true;
+            animation.ColorGetter = () => Color;
+            //animation.FrameDuration = 1;
             animation.RenderingLayer = 0f;
             AddAnimation(animation);
 

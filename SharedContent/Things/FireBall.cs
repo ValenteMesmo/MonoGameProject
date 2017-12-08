@@ -225,6 +225,12 @@ namespace MonoGameProject
             AddUpdate(new DestroyIfLeftBehind(this));
             AddAfterUpdate(new MoveHorizontallyWithTheWorld(this));
             AddUpdate(DestroyAfterDuration);
+
+            OnDestroy += () => Game1.AddToWorld( new SmokeHitEffect {
+                X = X,
+                Y = Y,
+                Color = Color
+            });
         }
 
         public const int FIREBALL_OFFSET = 0;
