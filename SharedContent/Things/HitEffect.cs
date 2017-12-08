@@ -64,9 +64,6 @@ namespace MonoGameProject
     {
         public SmokeHitEffect()
         {
-            //var random = new System.Random();
-
-
             var offset = -250;
             var size = 1000;
             var animation = GeneratedContent.Create_knight_hit_effect(
@@ -78,7 +75,6 @@ namespace MonoGameProject
 
             animation.LoopDisabled = true;
             animation.ColorGetter = () => Color;
-            //animation.FrameDuration = 1;
             animation.RenderingLayer = 0f;
             AddAnimation(animation);
 
@@ -88,25 +84,8 @@ namespace MonoGameProject
     public abstract class HitEffect : Thing
     {
         public Color Color = Color.White;
-        public HitEffect(
-            //float z = 0.001f, int offsetX = -1000, int offsetY = -500, int width = 2000, int height = 2000
-            )
+        public HitEffect()
         {
-            //var random = new System.Random();
-
-            //var animation = GeneratedContent.Create_knight_blood(
-            //    offsetX - random.Next(0, 500)
-            //    , offsetY - random.Next(0, 500)
-            //    , width
-            //    , height
-            //);
-
-            //animation.LoopDisabled = true;
-            //animation.ColorGetter = () => Color;
-            //animation.FrameDuration = 1;
-            //animation.RenderingLayer = z;
-            //AddAnimation(animation);
-
             var duration = 100;
             AddUpdate(() =>
             {

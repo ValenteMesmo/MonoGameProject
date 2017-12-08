@@ -127,8 +127,13 @@ namespace MonoGameProject
                 Width = size - bonus,
                 Height = size - bonus
             };
-            AddCollider(collider);
+            AddCollider(collider);            
 
+            AddUpdate(new CreatesSmokeTrail(this, Game1, Color));
+        }
+
+        public void ActivateDamageHanlder()
+        {
             var PlayerDamageHandler = new PlayerDamageHandler(
               Game1
               , Color
@@ -139,8 +144,6 @@ namespace MonoGameProject
             PlayerDamageHandler.CausesSleep = false;
             collider.AddHandler(PlayerDamageHandler.CollisionHandler);
             AddUpdate(PlayerDamageHandler.Update);
-
-            AddUpdate(new CreatesSmokeTrail(this, Game1, Color));
         }
 
         ////TODO: remove? ...
@@ -325,29 +328,24 @@ namespace MonoGameProject
             var vspeed = 50;
             var distanceLimit = 800;
 
-            var fireball1 = new FireballCloud(Owner, speedx, -vspeed, Game1, GameState.GetColor())
+            var color = GameState.GetColor();
+            var darkerColor = new Color(color.R-20, color.G - 20, color.B - 20) ;
+            var fireball1 = new FireballCloud(Owner, speedx, -vspeed, Game1, color)
             {
                 X = x,
                 Y = y
             };
 
-
-            //AddTrail(fireball1, 4);
-            AddTrail2(fireball1, 4, speedx, GlobalSettigns.FIRERING_FRONT_Z);
-            AddTrail2(fireball1, 4, -speedx / 2, GlobalSettigns.FIRERING_BACK_Z);
-
+            AddTrail2(fireball1, 4, speedx, GlobalSettigns.FIRERING_FRONT_Z, ()=>color);
+            AddTrail2(fireball1, 4, -speedx / 2, GlobalSettigns.FIRERING_BACK_Z, ()=>darkerColor);
 
             fireball1.AddUpdate(() =>
             {
                 if (fireball1.Y < y - distanceLimit)
                     fireball1.VerticalSpeed = 0;
             });
-            //var fireball2 = new FireBall(Owner, speedx, 0, Game1, GameState.GetColor())
-            //{
-            //    X = x,
-            //    Y = y
-            //};
-            var fireball3 = new FireballCloud(Owner, speedx, vspeed, Game1, GameState.GetColor())
+
+            var fireball3 = new FireballCloud(Owner, speedx, vspeed, Game1, color)
             {
                 X = x,
                 Y = y
@@ -359,8 +357,8 @@ namespace MonoGameProject
             });
 
             //AddTrail(fireball3, 4);
-            AddTrail2(fireball3, 4, speedx, GlobalSettigns.FIRERING_FRONT_Z);
-            AddTrail2(fireball3, 4, -speedx / 2, GlobalSettigns.FIRERING_BACK_Z);
+            AddTrail2(fireball3, 4, speedx, GlobalSettigns.FIRERING_FRONT_Z, ()=>color);
+            AddTrail2(fireball3, 4, -speedx / 2, GlobalSettigns.FIRERING_BACK_Z, () => darkerColor);
 
 
             Game1.AddToWorld(fireball1);
@@ -368,14 +366,14 @@ namespace MonoGameProject
             Game1.AddToWorld(fireball3);
         }
 
-        private void AddTrail2(Thing fireball1, int count, int speedx, float z)
+        private void AddTrail2(Thing fireball1, int count, int speedx, float z, Func<Color> color)
         {
             var chaing = new Thing();
             chaing.X = fireball1.X;
             chaing.Y = fireball1.Y;
 
             var anim = GeneratedContent.Create_knight_fireball(FireBall.FIREBALL_OFFSET, FireBall.FIREBALL_OFFSET, FireBall.FIREBALL_SIZE, FireBall.FIREBALL_SIZE);
-            anim.ColorGetter = GameState.GetColor;
+            anim.ColorGetter = color;
             anim.RenderingLayer = z;
             chaing.AddAnimation(anim);
             var animBorder = GeneratedContent.Create_knight_fireball(FireBall.FIREBALL_BORDER_OFFSET, FireBall.FIREBALL_BORDER_OFFSET, FireBall.FIREBALL_BORDER_SIZE, FireBall.FIREBALL_BORDER_SIZE);
@@ -402,7 +400,7 @@ namespace MonoGameProject
             });
 
             if (count > 0)
-                AddTrail2(chaing, --count, speedx, z);
+                AddTrail2(chaing, --count, speedx, z, color);
         }
     }
 
