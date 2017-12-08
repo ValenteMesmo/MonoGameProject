@@ -240,7 +240,7 @@ namespace MonoGameProject
                     {
                         X = (int)(s.CenterX() + t.CenterX()) / 2,
                         Y = t.Y,
-                        Color = BodyColorTakingDamate
+                        Color = BodyColorNormal
                     });
                 }
                 , (p, s, t) =>
