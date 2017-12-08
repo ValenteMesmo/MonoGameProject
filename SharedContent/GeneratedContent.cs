@@ -761,6 +761,7 @@ public class GeneratedContent : ILoadContents
     {
         var animation = new Animation(
             
+            new AnimationFrame("knight", X, Y, Width ?? 261, Height ?? 261, new Rectangle(1570, 620, 261, 261)){ Flipped = Flipped },
             new AnimationFrame("knight", X, Y, Width ?? 261, Height ?? 261, new Rectangle(1570, 620, 261, 261)){ Flipped = Flipped }
         );
 

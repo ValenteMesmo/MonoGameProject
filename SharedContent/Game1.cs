@@ -172,6 +172,10 @@ namespace MonoGameProject
                 {
                     player1.HitPoints++;
                 }
+                if (kb.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.F2))
+                {
+                    player1.HitPoints=1;
+                }
                 if (kb.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.F5))
                 {
                     player1.SetWeaponType(WeaponType.Sword);

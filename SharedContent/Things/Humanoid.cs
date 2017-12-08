@@ -29,7 +29,7 @@ namespace MonoGameProject
                 || Player.LegState == LegState.SlidingWall
                 || Player.LegState == LegState.WallJumping
                 || Player.LegState == LegState.HeadBump
-                || timeSinceLastPressOnAttackButton < 6)
+                || timeSinceLastPressOnAttackButton < 8)
                 return;
 
             if (Player.Inputs.Left && !Player.Inputs.Right)
