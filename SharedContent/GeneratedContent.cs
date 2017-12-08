@@ -659,6 +659,19 @@ public class GeneratedContent : ILoadContents
         return animation;
     }
 
+    public static Animation Create_knight_fireball3(int X, int Y, int? Width = null, int? Height = null, bool Flipped = false)
+    {
+        var animation = new Animation(
+            
+            new AnimationFrame("knight", X, Y, Width ?? 56, Height ?? 56, new Rectangle(3967, 3576, 56, 56)){ Flipped = Flipped },
+            new AnimationFrame("knight", X, Y, Width ?? 56, Height ?? 56, new Rectangle(4023, 3576, 56, 56)){ Flipped = Flipped },
+            new AnimationFrame("knight", X, Y, Width ?? 56, Height ?? 56, new Rectangle(0, 3921, 56, 56)){ Flipped = Flipped },
+            new AnimationFrame("knight", X, Y, Width ?? 56, Height ?? 56, new Rectangle(56, 3921, 56, 56)){ Flipped = Flipped }
+        );
+
+        return animation;
+    }
+
     public static Animation Create_knight_fireball_trail(int X, int Y, int? Width = null, int? Height = null, bool Flipped = false)
     {
         var animation = new Animation(

@@ -262,7 +262,7 @@ namespace MonoGameProject
                 BodyColor = Color.Lerp(
                     BodyColor
                     , PlayerDamageHandler.damageCooldown > 0 ? BodyColorTakingDamate : BodyColorNormal
-                    , 0.2f
+                    , 0.15f
                 );
             });
 

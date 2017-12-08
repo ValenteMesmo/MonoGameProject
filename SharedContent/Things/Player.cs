@@ -10,6 +10,7 @@ namespace MonoGameProject
     public class Player : Humanoid
     {
         //planning:
+        //remove animations that are not being used
         //remover o takes damage do sonicboom... 
         //em cada parte do sonicboom, ondestroy smoke
         //fireball atingir fireball... não! melhor se atravessarem
