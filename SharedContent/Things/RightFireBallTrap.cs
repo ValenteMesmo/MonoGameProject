@@ -15,7 +15,7 @@ namespace MonoGameProject
                 if (cooldown <= 0)
                 {
                     Game1.AddToWorld(
-                        new FireBall(
+                        new FireballDefault(
                             this
                             , -FireBall.SPEED
                             , 0

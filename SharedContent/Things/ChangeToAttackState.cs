@@ -43,7 +43,7 @@ namespace MonoGameProject
                             x = Humanoid.AttackRightCollider.X;
                         }
 
-                        var fireball = new FireBall(Humanoid, speed, 0, Game1, Color.LightBlue)
+                        var fireball = new FireballDefault(Humanoid, speed, 0, Game1, Color.LightBlue)
                         {
                             X = x,
                             Y = Humanoid.AttackRightCollider.Y - 50

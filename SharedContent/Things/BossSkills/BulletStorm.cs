@@ -22,7 +22,7 @@ namespace SharedContent
                 if (duration % 3 == 0)
                 {
                     Game1.AddToWorld(
-                        new FireBall(
+                        new FireballSpinner(
                             this
                             , hspeed
                             , vspeed

@@ -190,19 +190,49 @@ namespace MonoGameProject
         }
     }
 
-    public class FireBall : BaseFireBall
+    public class FireballDefault : FireBall
     {
-        public const int SPEED = 150;
-
-        public int duration = 200;
-
-        public FireBall(Thing Owner, int speedX, int speedY, Game1 Game1, Color Color) : base(Owner, Game1, Color)
+        public FireballDefault(Thing Owner, int speedX, int speedY, Game1 Game1, Color Color) : base(Owner, speedX, speedY, Game1, Color)
         {
             Animation animation = CreateFireBallAnimation(this);
             AddAnimation(animation);
 
             Animation animationBorder = CreateFireballBorderAnimation();
             AddAnimation(animationBorder);
+
+        }
+    }
+
+    public class FireballSpinner : FireBall
+    {
+        public FireballSpinner(Thing Owner, int speedX, int speedY, Game1 Game1, Color Color) : base(Owner, speedX, speedY, Game1, Color)
+        {
+            var animation = GeneratedContent.Create_knight_fireball2(FIREBALL_OFFSET, FIREBALL_OFFSET, FIREBALL_SIZE, FIREBALL_SIZE);
+            animation.ColorGetter = () => Color;
+            AddAnimation(animation);
+        }
+    }
+
+    public abstract class FireBall : BaseFireBall
+    {
+        public const int SPEED = 150;
+        public const int FIREBALL_OFFSET = 0;
+        public const int FIREBALL_SIZE = MapModule.CELL_SIZE;
+        public const int FIREBALL_BORDER_OFFSET = -30 / 2;
+        public const int FIREBALL_BORDER_SIZE = MapModule.CELL_SIZE + 30;
+
+
+        public int duration = 200;
+
+
+
+        public FireBall(Thing Owner, int speedX, int speedY, Game1 Game1, Color Color) : base(Owner, Game1, Color)
+        {
+            //Animation animation = CreateFireBallAnimation(this);
+            //AddAnimation(animation);
+
+            //Animation animationBorder = CreateFireballBorderAnimation();
+            //AddAnimation(animationBorder);
 
             var bonus = 0;
             if (Owner is Player)
@@ -233,14 +263,10 @@ namespace MonoGameProject
             });
         }
 
-        public const int FIREBALL_OFFSET = 0;
-        public const int FIREBALL_SIZE = MapModule.CELL_SIZE;
-        public const int FIREBALL_BORDER_OFFSET = -30 / 2;
-        public const int FIREBALL_BORDER_SIZE = MapModule.CELL_SIZE + 30;
-
+        
         public static Animation CreateFireballBorderAnimation()
         {
-            var animationBorder = GeneratedContent.Create_knight_fireball2(
+            var animationBorder = GeneratedContent.Create_knight_fireball(
              FIREBALL_BORDER_OFFSET
             , FIREBALL_BORDER_OFFSET
             , FIREBALL_BORDER_SIZE
@@ -253,7 +279,7 @@ namespace MonoGameProject
 
         public static Animation CreateFireBallAnimation(BaseFireBall parent)
         {
-            var animation = GeneratedContent.Create_knight_fireball2(
+            var animation = GeneratedContent.Create_knight_fireball(
                         FIREBALL_OFFSET
                         , FIREBALL_OFFSET
                         , FIREBALL_SIZE
@@ -283,7 +309,7 @@ namespace MonoGameProject
             var vspeed = 50;
             var distanceLimit = 800;
 
-            var fireball1 = new FireBall(Owner, speedx, -vspeed, Game1, GameState.GetColor())
+            var fireball1 = new FireballDefault(Owner, speedx, -vspeed, Game1, GameState.GetColor())
             {
                 X = x,
                 Y = y
@@ -305,7 +331,7 @@ namespace MonoGameProject
             //    X = x,
             //    Y = y
             //};
-            var fireball3 = new FireBall(Owner, speedx, vspeed, Game1, GameState.GetColor())
+            var fireball3 = new FireballDefault(Owner, speedx, vspeed, Game1, GameState.GetColor())
             {
                 X = x,
                 Y = y

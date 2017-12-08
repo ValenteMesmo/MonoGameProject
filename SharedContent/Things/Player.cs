@@ -10,6 +10,9 @@ namespace MonoGameProject
     public class Player : Humanoid
     {
         //planning:
+        //remover o takes damage do sonicboom... 
+        //em cada parte do sonicboom, ondestroy smoke
+        //fireball atingir fireball... não! melhor se atravessarem
         //animação de braço cansado tbm
         //aumentar hp do boss de acordo com o numero de players
         //prevent boss from having same appearance of previous
@@ -317,7 +320,7 @@ namespace MonoGameProject
             factory.CreateAnimator(this, index);
             factory.CreateHairBonus(this, AddToWorld);
 
-            OnDestroy = () => {
+            OnDestroy += () => {
 
                 if (Game1.Players.Count() > 1)
                 {
