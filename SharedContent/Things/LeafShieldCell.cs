@@ -66,8 +66,8 @@ namespace MonoGameProject
             var PlayerDamageHandler = new PlayerDamageHandler(
               Game1
               , GameState.GetColor()
-              , _ => { }
-              , _ => { }
+              , (p, s, t) => { }
+              , (p, s, t) => { }
             );
             PlayerDamageHandler.HEALTH = GlobalSettigns.FIREBALL_HEALTH;
             PlayerDamageHandler.CausesSleep = false;

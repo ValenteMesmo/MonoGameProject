@@ -6,7 +6,7 @@ namespace MonoGameProject
 {
     public static class GlobalSettigns
     {
-        public const int FIREBALL_HEALTH = 3;        
+        public const int FIREBALL_HEALTH = 3;
         public const float FIREBALL_Z = Boss.RIGHT_ARM_Z - 0.004f;
         public const float FIREBALL_BORDER_Z = Boss.RIGHT_ARM_Z - 0.003f;
         public const float FIREBALL_TRAIL_Z = Boss.RIGHT_ARM_Z - 0.002f;
@@ -35,25 +35,54 @@ namespace MonoGameProject
         }
     }
 
-    public class HitEffect : Thing
+    public class BloodHitEffect : HitEffect
     {
-        public Color Color = Color.White;
-        public HitEffect(float z = 0.001f, int offsetX = -1000, int offsetY = -500, int width = 2000, int height = 2000)
+        public BloodHitEffect()
         {
-            var random = new System.Random();
+            //var random = new System.Random();
 
-            var animation = GeneratedContent.Create_knight_hit_effect(
-                offsetX - random.Next(0, 500)
-                , offsetY - random.Next(0, 500)
-                , width
-                , height
+
+            var offset = -1000;
+            var size = 2000;
+            var animation = GeneratedContent.Create_knight_blood(
+                offset
+                , offset
+                , size
+                , size
             );
+
+            AddCollider(new Collider(size,size));
 
             animation.LoopDisabled = true;
             animation.ColorGetter = () => Color;
-            animation.FrameDuration = 2;
-            animation.RenderingLayer = z;
+            animation.FrameDuration = 1;
+            animation.RenderingLayer = 0f;
             AddAnimation(animation);
+
+        }
+    }
+
+    public abstract class HitEffect : Thing
+    {
+        public Color Color = Color.White;
+        public HitEffect(
+            //float z = 0.001f, int offsetX = -1000, int offsetY = -500, int width = 2000, int height = 2000
+            )
+        {
+            //var random = new System.Random();
+
+            //var animation = GeneratedContent.Create_knight_blood(
+            //    offsetX - random.Next(0, 500)
+            //    , offsetY - random.Next(0, 500)
+            //    , width
+            //    , height
+            //);
+
+            //animation.LoopDisabled = true;
+            //animation.ColorGetter = () => Color;
+            //animation.FrameDuration = 1;
+            //animation.RenderingLayer = z;
+            //AddAnimation(animation);
 
             var duration = 100;
             AddUpdate(() =>

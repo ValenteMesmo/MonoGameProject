@@ -33,7 +33,7 @@ namespace MonoGameProject
             animation3.RenderingLayer = 0.49f;
             animation3.ScaleX = animation3.ScaleY = 5;
 
-            
+
 
             AddAfterUpdate(new MoveHorizontallyWithTheWorld(this));
             AddUpdate(new DestroyIfLeftBehind(this));
@@ -41,11 +41,11 @@ namespace MonoGameProject
             var PlayerDamageHandler = new PlayerDamageHandler(
                 Game1
                 , Color.Yellow
-                , _ => { }
+                , (p, s, t) => { }
                 , Hit
             );
             collider.AddHandler(PlayerDamageHandler.CollisionHandler);
-            
+
             collider.AddBotCollisionHandler(StopsWhenHitting.Bot<GroundCollider>());
             collider.AddLeftCollisionHandler(StopsWhenHitting.Left<GroundCollider>());
             collider.AddRightCollisionHandler(StopsWhenHitting.Right<GroundCollider>());
@@ -54,13 +54,13 @@ namespace MonoGameProject
             AddUpdate(PlayerDamageHandler.Update);
 
             AddAnimation(new Animator(
-                new AnimationTransitionOnCondition(animation, () =>PlayerDamageHandler.damageTaken == 0 )
-                ,new AnimationTransitionOnCondition(animation2, () =>PlayerDamageHandler.damageTaken == 1)
-                ,new AnimationTransitionOnCondition(animation3, () => PlayerDamageHandler.damageTaken > 1)
+                new AnimationTransitionOnCondition(animation, () => PlayerDamageHandler.damageTaken == 0)
+                , new AnimationTransitionOnCondition(animation2, () => PlayerDamageHandler.damageTaken == 1)
+                , new AnimationTransitionOnCondition(animation3, () => PlayerDamageHandler.damageTaken > 1)
             ));
         }
 
-        private void Hit(Humanoid player)
+        private void Hit(Humanoid player, Collider s, Collider t)
         {
             Thing item = null;
 
@@ -131,7 +131,7 @@ namespace MonoGameProject
             AddAnimation(animation);
 
             AddAfterUpdate(new MoveHorizontallyWithTheWorld(this));
-            AddUpdate(new DestroyIfLeftBehind(this));            
+            AddUpdate(new DestroyIfLeftBehind(this));
         }
     }
 

@@ -132,8 +132,8 @@ namespace MonoGameProject
             var PlayerDamageHandler = new PlayerDamageHandler(
               Game1
               , Color
-              , _ => { }
-              , _ => { }
+              , (p, s, t) => { }
+              , (p, s, t) => { }
             );
             PlayerDamageHandler.HEALTH = GlobalSettigns.FIREBALL_HEALTH;
             PlayerDamageHandler.CausesSleep = false;
@@ -227,7 +227,6 @@ namespace MonoGameProject
             AddUpdate(DestroyAfterDuration);
         }
 
-
         public const int FIREBALL_OFFSET = 0;
         public const int FIREBALL_SIZE = MapModule.CELL_SIZE;
         public const int FIREBALL_BORDER_OFFSET = -30 / 2;
@@ -235,7 +234,7 @@ namespace MonoGameProject
 
         public static Animation CreateFireballBorderAnimation()
         {
-            var animationBorder = GeneratedContent.Create_knight_fireball(
+            var animationBorder = GeneratedContent.Create_knight_fireball2(
              FIREBALL_BORDER_OFFSET
             , FIREBALL_BORDER_OFFSET
             , FIREBALL_BORDER_SIZE
@@ -248,7 +247,7 @@ namespace MonoGameProject
 
         public static Animation CreateFireBallAnimation(BaseFireBall parent)
         {
-            var animation = GeneratedContent.Create_knight_fireball(
+            var animation = GeneratedContent.Create_knight_fireball2(
                         FIREBALL_OFFSET
                         , FIREBALL_OFFSET
                         , FIREBALL_SIZE

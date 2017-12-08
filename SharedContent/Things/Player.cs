@@ -17,6 +17,7 @@ namespace MonoGameProject
         //add explosions when boss dies
         //add explosions when player dies
         //reduzir vibração no touch up ou down
+        //fireball bouncing
         //fireball direcionada
         //fireball em espiral (ch boat)
         //fireball go to the roof and to the floor.d

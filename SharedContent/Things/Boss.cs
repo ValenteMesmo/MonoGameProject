@@ -26,14 +26,14 @@ namespace MonoGameProject
     {
         public int damageCooldown;
         private readonly Game1 Game1;
-        private readonly Action<Player> OnHit;
-        private readonly Action<Player> OnKill;
+        private readonly Action<Player, Collider, Collider> OnHit;
+        private readonly Action<Player, Collider, Collider> OnKill;
         public int damageTaken = 0;
         public int HEALTH = 3;
         private readonly Color DamageColor;
         public bool CausesSleep = true;
 
-        public PlayerDamageHandler(Game1 Game1, Color DamageColor, Action<Player> OnHit, Action<Player> OnKill)
+        public PlayerDamageHandler(Game1 Game1, Color DamageColor, Action<Player, Collider, Collider> OnHit, Action<Player, Collider, Collider> OnKill)
         {
             this.DamageColor = DamageColor;
             this.Game1 = Game1;
@@ -86,23 +86,23 @@ namespace MonoGameProject
                     Game1.Sleep();
                 Game1.Camera.ShakeUp(20);
 
-                Game1.AddToWorld(new HitEffect(0.04f)
-                {
-                    X = (int)source.CenterX(),
-                    Y = t.Y,
-                    Color = DamageColor,
-                    HorizontalSpeed = source.Parent.HorizontalSpeed,
-                    VerticalSpeed = source.Parent.VerticalSpeed
-                });
+                //Game1.AddToWorld(new HitEffect(0.04f)
+                //{
+                //    X = (int)source.CenterX(),
+                //    Y = t.Y,
+                //    Color = DamageColor,
+                //    HorizontalSpeed = source.Parent.HorizontalSpeed,
+                //    VerticalSpeed = source.Parent.VerticalSpeed
+                //});
 
                 if (Dead())
                 {
-                    OnKill(player);
+                    OnKill(player, source, t);
                     source.Parent.Destroy();
                 }
                 else
                 {
-                    OnHit(player);
+                    OnHit(player, source, t);
                 }
             }
 
@@ -234,8 +234,16 @@ namespace MonoGameProject
             PlayerDamageHandler = new PlayerDamageHandler(
                 Game1
                 , BodyColor
-                , _ => { }
-                , _ =>
+                , (p, s, t) =>
+                {
+                    Game1.AddToWorld(new BloodHitEffect
+                    {
+                        X = (int)(s.CenterX() + t.CenterX()) / 2,
+                        Y = t.Y,
+                        Color = BodyColorTakingDamate
+                    });
+                }
+                , (p, s, t) =>
                 {
                     GameState.State.BossMode = false;
                 }

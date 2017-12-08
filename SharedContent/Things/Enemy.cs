@@ -30,7 +30,7 @@ namespace MonoGameProject
                 )
             );
 
-            var PlayerDamageHandler = new PlayerDamageHandler(Game1,Color.White, _=> { },_=> { });
+            var PlayerDamageHandler = new PlayerDamageHandler(Game1,Color.White, (p, s, t) => { }, (p, s, t) => { });
             AddUpdate(PlayerDamageHandler.Update);
 
             var MainCollider = new Collider(size, size / 2);
