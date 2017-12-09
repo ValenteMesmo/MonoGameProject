@@ -56,8 +56,13 @@ namespace GameCore
 
         internal Action<Thing> OnDestroyInternal = t => { };
 
+        bool destroyed = false;
         public void Destroy()
         {
+            if (destroyed)
+                return;
+
+            destroyed = true;
             OnDestroy();
             OnDestroyInternal(this);
         }
