@@ -10,8 +10,7 @@ namespace MonoGameProject
     public class Player : Humanoid
     {
         //planning:
-        //sonicboom... as partes devem ser destruidas só se o top e bot quebrarem
-        //em cada parte do sonicboom, ondestroy smoke
+        //corrigir zindex dos effects
         //reduce fireballdefault border (redraw animation)
         //increase hiteffect border (redraw animation)
         //cooldown diferente para cara spell do boss...?

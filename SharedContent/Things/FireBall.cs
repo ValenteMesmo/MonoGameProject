@@ -82,8 +82,8 @@ namespace MonoGameProject
             random = new MyRandom(999);
             this.Color = Color;
 
-            var speed = Math.Abs(Parent.HorizontalSpeed) + Math.Abs(Parent.VerticalSpeed);
-            Duration = (50 * speed) / 5;
+            //var speed = Math.Abs(Parent.HorizontalSpeed) + Math.Abs(Parent.VerticalSpeed);
+            Duration = 2;//(50 * speed) / 5;
 
         }
 
@@ -92,7 +92,6 @@ namespace MonoGameProject
 
         public void Update()
         {
-            return;
             if (cooldown > 0)
             {
                 cooldown--;
@@ -127,9 +126,7 @@ namespace MonoGameProject
                 Width = size - bonus,
                 Height = size - bonus
             };
-            AddCollider(collider);
-
-            AddUpdate(new CreatesSmokeTrail(this, Game1, Color));
+            AddCollider(collider);            
 
             var DamageHandler = new PlayerDamageHandler(
                 Game1
@@ -159,6 +156,7 @@ namespace MonoGameProject
 
             AddUpdate(new DestroyIfLeftBehind(this));
             AddAfterUpdate(new MoveHorizontallyWithTheWorld(this));
+            AddUpdate(new CreatesSmokeTrail(this, Game1, Color));
 
             HorizontalSpeed = facingRight ? 50 : -50;
             VerticalSpeed = -SPEED;
