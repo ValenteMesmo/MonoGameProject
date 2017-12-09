@@ -127,31 +127,21 @@ namespace MonoGameProject
                 Width = size - bonus,
                 Height = size - bonus
             };
-            AddCollider(collider);            
+            AddCollider(collider);
 
             AddUpdate(new CreatesSmokeTrail(this, Game1, Color));
-        }
 
-        public void ActivateDamageHanlder()
-        {
-            var PlayerDamageHandler = new PlayerDamageHandler(
-              Game1
-              , Color
-              , (p, s, t) => { }
-              , (p, s, t) => { }
+            var DamageHandler = new PlayerDamageHandler(
+                Game1
+                , Color
+                , (p, s, t) => { }
+                , (p, s, t) => { }
             );
-            PlayerDamageHandler.HEALTH = GlobalSettigns.FIREBALL_HEALTH;
-            PlayerDamageHandler.CausesSleep = false;
-            collider.AddHandler(PlayerDamageHandler.CollisionHandler);
-            AddUpdate(PlayerDamageHandler.Update);
+            DamageHandler.HEALTH = GlobalSettigns.FIREBALL_HEALTH;
+            DamageHandler.CausesSleep = false;
+            collider.AddHandler(DamageHandler.CollisionHandler);
+            AddUpdate(DamageHandler.Update);
         }
-
-        ////TODO: remove? ...
-        //public override void OnDestroy()
-        //{
-        //    Game1.AddToWorld(new HitEffect() { X = X, Y = Y, Color = Color });
-        //    base.OnDestroy();
-        //}
     }
 
     public class WavedFireBall : BaseFireBall
@@ -204,7 +194,6 @@ namespace MonoGameProject
             var animation = GeneratedContent.Create_knight_fireball3(offset, 0, FIREBALL_SIZE * 2, FIREBALL_SIZE, speedX < 0);
             animation.ColorGetter = () => Color;
             AddAnimation(animation);
-
         }
     }
 
@@ -329,15 +318,15 @@ namespace MonoGameProject
             var distanceLimit = 800;
 
             var color = GameState.GetColor();
-            var darkerColor = new Color(color.R-20, color.G - 20, color.B - 20) ;
+            var darkerColor = new Color(color.R - 20, color.G - 20, color.B - 20);
             var fireball1 = new FireballCloud(Owner, speedx, -vspeed, Game1, color)
             {
                 X = x,
                 Y = y
             };
 
-            AddTrail2(fireball1, 4, speedx, GlobalSettigns.FIRERING_FRONT_Z, ()=>color);
-            AddTrail2(fireball1, 4, -speedx / 2, GlobalSettigns.FIRERING_BACK_Z, ()=>darkerColor);
+            AddTrail2(fireball1, 4, speedx, GlobalSettigns.FIRERING_FRONT_Z, () => color);
+            AddTrail2(fireball1, 4, -speedx / 2, GlobalSettigns.FIRERING_BACK_Z, () => darkerColor);
 
             fireball1.AddUpdate(() =>
             {
@@ -350,6 +339,7 @@ namespace MonoGameProject
                 X = x,
                 Y = y
             };
+
             fireball3.AddUpdate(() =>
             {
                 if (fireball3.Y > y + distanceLimit)
@@ -357,50 +347,59 @@ namespace MonoGameProject
             });
 
             //AddTrail(fireball3, 4);
-            AddTrail2(fireball3, 4, speedx, GlobalSettigns.FIRERING_FRONT_Z, ()=>color);
+            AddTrail2(fireball3, 4, speedx, GlobalSettigns.FIRERING_FRONT_Z, () => color);
             AddTrail2(fireball3, 4, -speedx / 2, GlobalSettigns.FIRERING_BACK_Z, () => darkerColor);
 
 
             Game1.AddToWorld(fireball1);
             //Game1.AddToWorld(fireball2);
             Game1.AddToWorld(fireball3);
+
+            fireball1.OnDestroy += () => fireball3.Destroy();
+            fireball3.OnDestroy += () => fireball1.Destroy();
         }
 
-        private void AddTrail2(Thing fireball1, int count, int speedx, float z, Func<Color> color)
+        private void AddTrail2(Thing parent, int count, int speedx, float z, Func<Color> color)
         {
-            var chaing = new Thing();
-            chaing.X = fireball1.X;
-            chaing.Y = fireball1.Y;
+            var chain = new Thing();
+            chain.X = parent.X;
+            chain.Y = parent.Y;
 
             var anim = GeneratedContent.Create_knight_fireball(FireBall.FIREBALL_OFFSET, FireBall.FIREBALL_OFFSET, FireBall.FIREBALL_SIZE, FireBall.FIREBALL_SIZE);
             anim.ColorGetter = color;
             anim.RenderingLayer = z;
-            chaing.AddAnimation(anim);
+            chain.AddAnimation(anim);
             var animBorder = GeneratedContent.Create_knight_fireball(FireBall.FIREBALL_BORDER_OFFSET, FireBall.FIREBALL_BORDER_OFFSET, FireBall.FIREBALL_BORDER_SIZE, FireBall.FIREBALL_BORDER_SIZE);
             animBorder.ColorGetter = () => Color.Black;
             animBorder.RenderingLayer = z + 0.001f;
-            chaing.AddAnimation(animBorder);
+            chain.AddAnimation(animBorder);
 
-            Game1.AddToWorld(chaing);
+            Game1.AddToWorld(chain);
 
-            fireball1.OnDestroy += () => chaing.Destroy();
+            parent.OnDestroy += () => chain.Destroy();
+            chain.OnDestroy += () => Game1.AddToWorld(new SmokeHitEffect
+            {
+                X = chain.X,
+                Y = chain.Y,
+                Color = color()
+            });
 
             var magicNumber = 200;
-            fireball1.AddUpdate(() =>
+            parent.AddUpdate(() =>
             {
-                chaing.X = fireball1.X + speedx * count;
-                if (chaing.Y > fireball1.Y + magicNumber)
+                chain.X = parent.X + speedx * count;
+                if (chain.Y > parent.Y + magicNumber)
                 {
-                    chaing.Y = fireball1.Y + magicNumber;
+                    chain.Y = parent.Y + magicNumber;
                 }
-                else if (chaing.Y < fireball1.Y - magicNumber)
+                else if (chain.Y < parent.Y - magicNumber)
                 {
-                    chaing.Y = fireball1.Y - magicNumber;
+                    chain.Y = parent.Y - magicNumber;
                 }
             });
 
             if (count > 0)
-                AddTrail2(chaing, --count, speedx, z, color);
+                AddTrail2(chain, --count, speedx, z, color);
         }
     }
 
