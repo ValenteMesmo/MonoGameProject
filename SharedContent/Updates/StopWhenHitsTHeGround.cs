@@ -51,7 +51,25 @@ namespace MonoGameProject
         {
             if (other is T)
             {
-                Parent.Parent.HorizontalSpeed = 0;
+                var parentVSpeed = Parent.Parent.VerticalSpeed;
+                var otherVSpeed = other.Parent.VerticalSpeed;
+                if (otherVSpeed != 0 && parentVSpeed > 0)
+                {
+                    if (otherVSpeed > 0 && parentVSpeed < otherVSpeed)
+                        Parent.Parent.VerticalSpeed = otherVSpeed + AfectedByGravity.FORCE;
+                }
+                
+                var parentHSpeed = Parent.Parent.HorizontalSpeed;
+                var otherHSpeed = other.Parent.HorizontalSpeed;
+                if (
+                    (parentHSpeed > 0 && otherHSpeed > 0)
+                    ||
+                    (parentHSpeed < 0 && otherHSpeed < 0)
+                    )
+                    Parent.Parent.HorizontalSpeed = other.Parent.HorizontalSpeed;
+                else
+                    Parent.Parent.HorizontalSpeed = 0;
+
                 Parent.Parent.X = other.Right() - Parent.OffsetX + KNOCKBACK;
             }
         }
@@ -65,7 +83,25 @@ namespace MonoGameProject
         {
             if (other is T)
             {
-                Parent.Parent.HorizontalSpeed = 0;
+                var parentVSpeed = Parent.Parent.VerticalSpeed;
+                var otherVSpeed = other.Parent.VerticalSpeed;
+                if (otherVSpeed != 0 && parentVSpeed > 0)
+                {
+                    if (otherVSpeed > 0 && parentVSpeed < otherVSpeed)
+                        Parent.Parent.VerticalSpeed = otherVSpeed + AfectedByGravity.FORCE;
+                }
+
+                var parentHSpeed = Parent.Parent.HorizontalSpeed;
+                var otherHSpeed = other.Parent.HorizontalSpeed;
+                if (
+                    (parentHSpeed > 0 && otherHSpeed > 0)
+                    ||
+                    (parentHSpeed < 0 && otherHSpeed < 0)
+                    )
+                    Parent.Parent.HorizontalSpeed = other.Parent.HorizontalSpeed;
+                else
+                    Parent.Parent.HorizontalSpeed = 0;
+
                 Parent.Parent.X = other.Left() - Parent.Width - Parent.OffsetX - KNOCKBACK;
             }
         }
