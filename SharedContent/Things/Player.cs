@@ -10,21 +10,22 @@ namespace MonoGameProject
     public class Player : Humanoid
     {
         //planning:
-        //reduce fireballdefault border (redraw animation)
-        //increase hiteffect border (redraw animation)
-        //remove animations that are not being used
-        //animação de braço cansado tbm
-        //aumentar hp do boss de acordo com o numero de players
-        //prevent boss from having same appearance of previous
-        //insta kill on spikes
-        //add explosions when boss dies
-        //add explosions when player dies
-        //reduzir vibração no touch up ou down
+        //fireball genkidama
         //fireball bouncing
         //fireball direcionada
         //fireball em espiral (ch boat)
         //fireball go to the roof and to the floor.d
         //mudar leafshield para atingir player de chicote?
+        //add explosions when boss dies
+        //add explosions when player dies
+        //aumentar hp do boss de acordo com o numero de players
+        //prevent boss from having same appearance of previous
+        //reduzir vibração no touch up ou down
+        //insta kill on spikes
+        //remove animations that are not being used
+        //reduce fireballdefault border (redraw animation)
+        //increase hiteffect border (redraw animation)
+        //animação de braço cansado tbm
 
         //criar atalhos nas teclas de funções para desabilitar fundo paralax, paredes, fireball trails, etc
 
