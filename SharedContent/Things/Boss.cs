@@ -513,8 +513,8 @@ namespace MonoGameProject
             {
                 return () =>
                 {
-                    Game1.AddToWorld(new SpikeBall(Game1, this, true));
-                    Game1.AddToWorld(new SpikeBall(Game1, this, false));
+                    Game1.AddToWorld(new SpikeBall(Game1, this, GameState.GetColor(), true));
+                    Game1.AddToWorld(new SpikeBall(Game1, this, GameState.GetColor(), false));
                 };
             }
         }

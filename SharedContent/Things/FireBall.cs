@@ -127,7 +127,7 @@ namespace MonoGameProject
                 Width = size - bonus,
                 Height = size - bonus
             };
-            AddCollider(collider);            
+            AddCollider(collider);
 
             DamageHandler = new PlayerDamageHandler(
                 Game1
@@ -139,6 +139,11 @@ namespace MonoGameProject
             DamageHandler.CausesSleep = false;
             collider.AddHandler(DamageHandler.CollisionHandler);
             AddUpdate(DamageHandler.Update);
+
+            OnDestroy += () =>
+            {
+                Game1.AddToWorld(new SmokeHitEffect { X = X, Y = Y, Color = Color });
+            };
         }
     }
 

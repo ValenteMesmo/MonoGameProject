@@ -1,36 +1,22 @@
 ﻿using GameCore;
+using Microsoft.Xna.Framework;
 using MonoGameProject;
 using MonoGameProject.Things;
 
 namespace SharedContent.Things.BossSkills
 {
-    public class SpikeBall : Thing
+    public class SpikeBall : BaseFireBall
     {
-        public SpikeBall(Game1 Game1, Boss Boss, bool toTheRIght)
+        public SpikeBall(Game1 Game1, Boss Boss, Color Color, bool toTheRIght) : base(Boss, Game1, Color)
         {
             X = Boss.facingRight ? Boss.X + 1000 : Boss.X - 200;
             Y = Boss.Y - 1200;
 
             var size = 1500;
-            var collider = new AttackCollider
-            {
-                Width = size / 2 - (size / 3) / 2,
-                Height = size / 3 - (size / 6),
-                OffsetY = size / 3 + (size / 6),
-                OffsetX = (size / 3) / 4
-            };
-            AddCollider(collider);
-
-            var PlayerDamageHandler = new PlayerDamageHandler(
-                Game1
-                , GameState.GetColor()
-                , (p, s, t) => { }
-                , (p, s, t) => { }
-            );
-            PlayerDamageHandler.HEALTH = GlobalSettigns.FIREBALL_HEALTH;
-            PlayerDamageHandler.CausesSleep = false;
-            collider.AddHandler(PlayerDamageHandler.CollisionHandler);
-            AddUpdate(PlayerDamageHandler.Update);
+            collider.Width = size / 2 - (size / 3) / 2;
+            collider.Height = size / 3 - (size / 6);
+            collider.OffsetY = size / 3 + (size / 6);
+            collider.OffsetX = (size / 3) / 4;
 
             var anim = GeneratedContent.Create_knight_spike_dropped(
                 -size / 4
@@ -38,7 +24,7 @@ namespace SharedContent.Things.BossSkills
                 size,
                 size);
             anim.RenderingLayer = Boss.RIGHT_ARM_Z - 0.001f;
-            anim.ColorGetter = GameState.GetColor;
+            anim.ColorGetter = ()=> Color;
             AddAnimation(anim);
 
             var speed = 60;

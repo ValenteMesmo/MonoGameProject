@@ -24,20 +24,7 @@ namespace MonoGameProject
             Parent.MainCollider.AddLeftCollisionHandler(Handle);
             Parent.MainCollider.AddRightCollisionHandler(Handle);
         }
-
-        private void CreateHitEffect(Color Color, Collider s, Collider t)
-        {
-            AddToTheWorld(
-            new SmokeHitEffect()
-            {
-                X = (int)(s.CenterX() + t.CenterX()) / 2,
-                Y = (int)(s.CenterY() + t.CenterY()) / 2,
-                Color = Color,
-                HorizontalSpeed = t.Parent.HorizontalSpeed / 2,
-                VerticalSpeed = t.Parent.VerticalSpeed / 2
-            });
-        }
-
+        
         public void Handle(Collider source, Collider target)
         {
 
@@ -54,9 +41,9 @@ namespace MonoGameProject
                     Game1.Camera.ShakeUp(40);
                 }
 
-                DefaultDamageHandler(source, target, true);
-                //target.Disabled = true;
-                //target.Parent.Destroy();
+                DefaultDamageHandler(source, target);
+                target.Disabled = true;
+                target.Parent.Destroy();
             }
             else if (target is AttackCollider)
             {
@@ -74,7 +61,7 @@ namespace MonoGameProject
             }
         }
 
-        private void DefaultDamageHandler(Collider source, Collider target, bool fireball = false)
+        private void DefaultDamageHandler(Collider source, Collider target)
         {
             if (target.Parent is Player && source.Parent is Player)
                 return;
@@ -95,9 +82,6 @@ namespace MonoGameProject
                 {
                     Parent.Destroy();
                 }
-
-                if (fireball)
-                    CreateHitEffect((target.Parent as BaseFireBall).Color, source, target);
             }
         }
 
