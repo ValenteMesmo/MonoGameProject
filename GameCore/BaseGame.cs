@@ -184,10 +184,8 @@ public class BaseGame : OriginalGameClass
 
         var state = Keyboard.GetState();
 #if DEBUG
-        //if (!state.NumLock)
-        //if (state.CapsLock)
+
         //Camera.Zoom = 0.06f;
-        //else
         Camera.Zoom = 0.15f;
 
         DisplayColliders = state.CapsLock;
@@ -303,7 +301,7 @@ public class BaseGame : OriginalGameClass
         SpriteBatch.DrawString(
             SpriteFont
             , fps
-            , new Vector2(300, 1800)
+            , new Vector2(500, 2000)
                 , Color.Black
                 , 0
                 , Vector2.Zero
@@ -314,7 +312,7 @@ public class BaseGame : OriginalGameClass
         SpriteBatch.DrawString(
             SpriteFont
             , Game.LOG
-            , new Vector2(300, 2800)
+            , new Vector2(500, 3000)
             , Color.Black
             , 0
             , Vector2.Zero
@@ -367,8 +365,8 @@ public class BaseGame : OriginalGameClass
                 var x = thing.X + frame.X;
                 var width = frame.Width * (animation.ScaleX > 0 ? animation.ScaleX : 1);
                 if (
-                    x < 10000
-                    && x + width > 0
+                    x < 9500
+                    && x + width > 500
                    )
                 {
                     SpriteBatch.Draw(
