@@ -127,8 +127,8 @@ namespace MonoGameProject
 
     class BossStateController
     {
-        private readonly Action<Boss> CreateFireBall;
-        private readonly Action UseEyeSpell;
+        private readonly Func<Boss,int> CreateFireBall;
+        private readonly Func<int> UseEyeSpell;
         private readonly Action<Thing> AddToWorld;
         private readonly Boss boss;
         private int state1Duration;
@@ -137,7 +137,7 @@ namespace MonoGameProject
         BoolTrigger handAttacking = new BoolTrigger();
         private int damageWhenIdleStarted = Boss.HEALTH;
 
-        public BossStateController(Boss boss, Action<Thing> AddToWorld, Action<Boss> CreateFireBall, Action UseEyeSpell)
+        public BossStateController(Boss boss, Action<Thing> AddToWorld, Func<Boss,int> CreateFireBall, Func<int> UseEyeSpell)
         {
             this.CreateFireBall = CreateFireBall;
             this.UseEyeSpell = UseEyeSpell;
@@ -235,7 +235,7 @@ namespace MonoGameProject
 
                 if (state1Duration == 70)
                 {
-                    UseEyeSpell();
+                    state1Duration = UseEyeSpell();
                 }
 
                 boss.MouthState = BossMouthState.Idle;
@@ -255,7 +255,7 @@ namespace MonoGameProject
 
                 if (state1Duration == 40)
                 {
-                    CreateFireBall(boss);
+                    state1Duration = CreateFireBall(boss);
                 }
 
                 if (state1Duration == 15)

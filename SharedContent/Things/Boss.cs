@@ -484,8 +484,8 @@ namespace MonoGameProject
 
         private void CreateBody(int bodyType, Game1 Game1, int headType, int eyeType)
         {
-            Action<Boss> CreateFireBall = CreateFileBallAction(Game1, headType);
-            Action UseEyeSkill = CreateEyeSkill(Game1, eyeType);
+            Func<Boss, int> CreateFireBall = CreateFileBallActionAndReturnCooldown(Game1, headType);
+            Func<int> UseEyeSkill = CreateEyeSkillAndReturnCooldown(Game1, eyeType);
 
             var stateController = new BossStateController(this, Game1.AddToWorld, CreateFireBall, UseEyeSkill);
             Action ShakeCamera = () => Game1.Camera.ShakeUp(10);
@@ -499,15 +499,23 @@ namespace MonoGameProject
             }
         }
 
-        private Action CreateEyeSkill(Game1 Game1, int eyeType)
+        private Func<int> CreateEyeSkillAndReturnCooldown(Game1 Game1, int eyeType)
         {
             if (eyeType == 1)
             {
-                return () => Game1.AddToWorld(new LeafShieldCell(Game1, this));
+                return () =>
+                {
+                    Game1.AddToWorld(new LeafShieldCell(Game1, this));
+                    return 70;
+                };
             }
             else if (eyeType == 2)
             {
-                return () => Game1.AddToWorld(new BulletStorm(Game1, this));
+                return () =>
+                {
+                    Game1.AddToWorld(new BulletStorm(Game1, this));
+                    return 70;
+                };
             }
             else
             {
@@ -515,11 +523,12 @@ namespace MonoGameProject
                 {
                     Game1.AddToWorld(new SpikeBall(Game1, this, GameState.GetColor(), true));
                     Game1.AddToWorld(new SpikeBall(Game1, this, GameState.GetColor(), false));
+                    return 70;
                 };
             }
         }
 
-        private Action<Boss> CreateFileBallAction(Game1 Game1, int headType)
+        private Func<Boss, int> CreateFileBallActionAndReturnCooldown(Game1 Game1, int headType)
         {
             var random = new MyRandom(GameState.RandomMonster.Seed);
 
@@ -574,6 +583,8 @@ namespace MonoGameProject
                        Y = boss.attackCollider.Y
                    });
                 }
+
+                return 40;
             };
 
             if (headType == 2)
@@ -589,6 +600,8 @@ namespace MonoGameProject
                     , speed
                     , boss.facingRight ? boss.mainCollider.Right() + 700 : boss.mainCollider.Left() - 700
                     , boss.mainCollider.Y - 600);
+
+                return 40;
             };
 
             return boss =>
@@ -599,6 +612,8 @@ namespace MonoGameProject
                         X = boss.attackCollider.X,
                         Y = boss.attackCollider.Y
                     });
+
+                return 40;
             };
         }
 

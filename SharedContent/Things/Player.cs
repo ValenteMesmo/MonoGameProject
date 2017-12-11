@@ -12,7 +12,6 @@ namespace MonoGameProject
         //planning:
         //reduce fireballdefault border (redraw animation)
         //increase hiteffect border (redraw animation)
-        //cooldown diferente para cara spell do boss...?
         //remove animations that are not being used
         //animação de braço cansado tbm
         //aumentar hp do boss de acordo com o numero de players
