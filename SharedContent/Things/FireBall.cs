@@ -109,6 +109,7 @@ namespace MonoGameProject
         public readonly Color Color;
         public readonly Collider collider;
         public readonly Thing Owner;
+        public readonly PlayerDamageHandler DamageHandler;
 
         public BaseFireBall(Thing Owner, Game1 Game1, Color Color)
         {
@@ -128,7 +129,7 @@ namespace MonoGameProject
             };
             AddCollider(collider);            
 
-            var DamageHandler = new PlayerDamageHandler(
+            DamageHandler = new PlayerDamageHandler(
                 Game1
                 , Color
                 , (p, s, t) => { }
@@ -415,6 +416,7 @@ namespace MonoGameProject
 
             HorizontalSpeed = 0;
             VerticalSpeed = 0;
+            DamageHandler.HEALTH = 5;
 
             AddUpdate(new DestroyIfLeftBehind(this));
             AddAfterUpdate(new MoveHorizontallyWithTheWorld(this));
