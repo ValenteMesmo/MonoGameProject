@@ -10,12 +10,10 @@ namespace MonoGameProject
     public class Player : Humanoid
     {
         //planning:
-        //corrigir zindex dos effects
         //reduce fireballdefault border (redraw animation)
         //increase hiteffect border (redraw animation)
         //cooldown diferente para cara spell do boss...?
         //remove animations that are not being used
-        //fireball atingir fireball... não! melhor se atravessarem
         //animação de braço cansado tbm
         //aumentar hp do boss de acordo com o numero de players
         //prevent boss from having same appearance of previous

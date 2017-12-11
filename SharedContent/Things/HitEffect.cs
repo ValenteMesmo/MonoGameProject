@@ -54,7 +54,7 @@ namespace MonoGameProject
             animation.LoopDisabled = true;
             animation.ColorGetter = () => Color;
             animation.FrameDuration = 1;
-            animation.RenderingLayer = 0f;
+            animation.RenderingLayer = GlobalSettigns.FIREBALL_BORDER_Z;
             AddAnimation(animation);
 
         }
@@ -75,7 +75,7 @@ namespace MonoGameProject
 
             animation.LoopDisabled = true;
             animation.ColorGetter = () => Color;
-            animation.RenderingLayer = 0f;
+            animation.RenderingLayer = GlobalSettigns.FIREBALL_Z;
             AddAnimation(animation);
 
         }
