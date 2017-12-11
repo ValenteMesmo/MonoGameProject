@@ -3,5 +3,9 @@
   <style name="Theme.Splash" parent="android:Theme">
     <item name="android:windowBackground">@drawable/splash</item>
     <item name="android:windowNoTitle">true</item>
+    
+    <item name="android:colorPrimary">#ba78a8</item>
+    <item name="android:colorPrimaryDark">#ba78a8</item>
+    <item name="android:colorAccent">#ba78a8</item>
   </style>
 </resources>

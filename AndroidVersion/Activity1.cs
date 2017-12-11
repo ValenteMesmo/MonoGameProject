@@ -1,12 +1,13 @@
 using Android.App;
 using Android.Content.PM;
+using Android.Graphics.Drawables;
 using Android.OS;
 using Android.Views;
 using MonoGameProject;
 
 namespace AndroidVersion
 {
-    [Activity(Label = "AndroidVersion"
+    [Activity(Label = "Knight Mary"
         , MainLauncher = true
         , Icon = "@drawable/icon"
         , Theme = "@style/Theme.Splash"
@@ -17,17 +18,20 @@ namespace AndroidVersion
     public class Activity1 : Microsoft.Xna.Framework.AndroidGameActivity
     {
         private Game1 game;
-        
+
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
-            game = new Game1(true);            
+            game = new Game1(true);
             SetViewFullScreen();
 
             Vibrator vibrator = (Vibrator)GetSystemService(VibratorService);
             game.AndroidVibrate = f => vibrator.Vibrate(f);
 
             game.Run();
+
+            //Window.AddFlags( WindowManagerFlags.DrawsSystemBarBackgrounds);
+            //Window.SetStatusBarColor(new Android.Graphics.Color(255,0,0));
         }
 
         private void SetViewFullScreen()
