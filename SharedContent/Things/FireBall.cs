@@ -340,7 +340,7 @@ namespace MonoGameProject
 
             fireball1.AddUpdate(() =>
             {
-                if (fireball1.Y < y - distanceLimit)
+                if (fireball1.Y < y - distanceLimit - 200)
                     fireball1.VerticalSpeed = 0;
             });
 
