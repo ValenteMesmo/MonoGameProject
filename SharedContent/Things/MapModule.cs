@@ -378,7 +378,8 @@ namespace MonoGameProject
 
         private void CreateBackground(int i, int j)
         {
-            var oColor = GameState.GetColor();
+            var oColor = new Color(200, 150, 102);
+            //var oColor = GameState.GetColor();
             var color = new Color(
                   oColor.R - 60
                 , oColor.G - 60
