@@ -77,10 +77,19 @@ namespace MonoGameProject
                     var type = Info.Tiles[i][j];
                     if (type == '1' || type == '2')
                     {
+                        var z = GameState.State.CaveMode ? 0.22f : 0.21f;
+
                         var color = GameState.GetColor();
                         if (type == '2')
-                            CreateBlockTop(i, j, 0.21f, GameState.GetComplimentColor2(), GeneratedContent.Create_knight_ground_top);
-                        CreateBlock(i, j, 0.22f, new Color(color.R - 30, color.G - 30, color.B - 30), GeneratedContent.Create_knight_ground_2);
+                            CreateBlockTop(i, j, z-0.01f, GameState.GetComplimentColor2(), GeneratedContent.Create_knight_ground_top);
+
+                        CreateBlock(
+                            i
+                            , j
+                            ,z
+                            ,
+                            new Color(color.R - 30, color.G - 30, color.B - 30)
+                            , GetGroundAnimation());
                     }
 
                     if (type == '=')
@@ -230,6 +239,16 @@ namespace MonoGameProject
             }
         }
 
+        private static Func<int, int, int?, int?, bool, Animation> GetGroundAnimation()
+        {
+            Func<int, int, int?, int?, bool, Animation> animation = null;
+            if (GameState.State.CaveMode)
+                animation = GeneratedContent.Create_knight_ground_2;
+            else
+                animation = GeneratedContent.Create_knight_ground_1;
+            return animation;
+        }
+
         MyRandom MyRandom = new MyRandom();
         private void CreateBlock(int i, int j, float z, Color color, Func<int, int, int?, int?, bool, Animation> CreateAnimation, Color? borderColor = null)
         {
@@ -260,8 +279,8 @@ namespace MonoGameProject
             var animation_ground_border = CreateAnimation(
                 offsetx - bonusx
                 , offsety - bonusy
-                , width + bonusx*2
-                , height + bonusy*2,
+                , width + bonusx * 2
+                , height + bonusy * 2,
                 flipped);
             animation_ground_border.RenderingLayer = z + 0.001f;
             animation_ground_border.ColorGetter = () => borderColor.Value;
@@ -279,7 +298,7 @@ namespace MonoGameProject
             var offsetx = j * CELL_SIZE - bonusx;
             var offsety = i * CELL_SIZE - bonusy;
             var width = CELL_SIZE + bonusx * 2;
-            var height = CELL_SIZE/2 + bonusy * 2;
+            var height = CELL_SIZE / 2 + bonusy * 2;
 
             var flipped = false;//MyRandom.Next(0, 1).ToBool();
 
@@ -366,7 +385,7 @@ namespace MonoGameProject
                 , oColor.B - 60
                 , oColor.A
             );
-            CreateBlock(i, j, 0.52f, color, GeneratedContent.Create_knight_ground_2, new Color(80, 80, 80));
+            CreateBlock(i, j, 0.52f, color, GetGroundAnimation(), new Color(80, 80, 80));
         }
     }
 

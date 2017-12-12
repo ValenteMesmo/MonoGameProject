@@ -677,11 +677,21 @@ public class GeneratedContent : ILoadContents
         return animation;
     }
 
+    public static Animation Create_knight_ground_1(int X, int Y, int? Width = null, int? Height = null, bool Flipped = false)
+    {
+        var animation = new Animation(
+            
+            new AnimationFrame("knight", X, Y, Width ?? 38, Height ?? 38, new Rectangle(2180, 3921, 38, 38)){ Flipped = Flipped }
+        );
+
+        return animation;
+    }
+
     public static Animation Create_knight_ground_2(int X, int Y, int? Width = null, int? Height = null, bool Flipped = false)
     {
         var animation = new Animation(
             
-            new AnimationFrame("knight", X, Y, Width ?? 39, Height ?? 39, new Rectangle(2180, 3921, 39, 39)){ Flipped = Flipped }
+            new AnimationFrame("knight", X, Y, Width ?? 39, Height ?? 39, new Rectangle(2218, 3921, 39, 39)){ Flipped = Flipped }
         );
 
         return animation;
@@ -691,7 +701,7 @@ public class GeneratedContent : ILoadContents
     {
         var animation = new Animation(
             
-            new AnimationFrame("knight", X, Y, Width ?? 40, Height ?? 27, new Rectangle(2219, 3921, 40, 27)){ Flipped = Flipped }
+            new AnimationFrame("knight", X, Y, Width ?? 40, Height ?? 27, new Rectangle(2257, 3921, 40, 27)){ Flipped = Flipped }
         );
 
         return animation;
@@ -852,7 +862,7 @@ public class GeneratedContent : ILoadContents
     {
         var animation = new Animation(
             
-            new AnimationFrame("knight", X, Y, Width ?? 74, Height ?? 73, new Rectangle(2259, 3921, 74, 73)){ Flipped = Flipped }
+            new AnimationFrame("knight", X, Y, Width ?? 74, Height ?? 73, new Rectangle(2297, 3921, 74, 73)){ Flipped = Flipped }
         );
 
         return animation;
@@ -862,7 +872,7 @@ public class GeneratedContent : ILoadContents
     {
         var animation = new Animation(
             
-            new AnimationFrame("knight", X, Y, Width ?? 65, Height ?? 86, new Rectangle(2333, 3921, 65, 86)){ Flipped = Flipped }
+            new AnimationFrame("knight", X, Y, Width ?? 65, Height ?? 86, new Rectangle(2371, 3921, 65, 86)){ Flipped = Flipped }
         );
 
         return animation;
@@ -872,7 +882,7 @@ public class GeneratedContent : ILoadContents
     {
         var animation = new Animation(
             
-            new AnimationFrame("knight", X, Y, Width ?? 46, Height ?? 90, new Rectangle(2398, 3921, 46, 90)){ Flipped = Flipped }
+            new AnimationFrame("knight", X, Y, Width ?? 46, Height ?? 90, new Rectangle(2436, 3921, 46, 90)){ Flipped = Flipped }
         );
 
         return animation;
@@ -882,7 +892,7 @@ public class GeneratedContent : ILoadContents
     {
         var animation = new Animation(
             
-            new AnimationFrame("knight", X, Y, Width ?? 70, Height ?? 76, new Rectangle(2444, 3921, 70, 76)){ Flipped = Flipped }
+            new AnimationFrame("knight", X, Y, Width ?? 70, Height ?? 76, new Rectangle(2482, 3921, 70, 76)){ Flipped = Flipped }
         );
 
         return animation;
@@ -892,7 +902,7 @@ public class GeneratedContent : ILoadContents
     {
         var animation = new Animation(
             
-            new AnimationFrame("knight", X, Y, Width ?? 68, Height ?? 78, new Rectangle(2514, 3921, 68, 78)){ Flipped = Flipped }
+            new AnimationFrame("knight", X, Y, Width ?? 68, Height ?? 78, new Rectangle(2552, 3921, 68, 78)){ Flipped = Flipped }
         );
 
         return animation;
@@ -902,7 +912,7 @@ public class GeneratedContent : ILoadContents
     {
         var animation = new Animation(
             
-            new AnimationFrame("knight", X, Y, Width ?? 62, Height ?? 89, new Rectangle(2582, 3921, 62, 89)){ Flipped = Flipped }
+            new AnimationFrame("knight", X, Y, Width ?? 62, Height ?? 89, new Rectangle(2620, 3921, 62, 89)){ Flipped = Flipped }
         );
 
         return animation;
@@ -912,7 +922,7 @@ public class GeneratedContent : ILoadContents
     {
         var animation = new Animation(
             
-            new AnimationFrame("knight", X, Y, Width ?? 70, Height ?? 88, new Rectangle(2644, 3921, 70, 88)){ Flipped = Flipped }
+            new AnimationFrame("knight", X, Y, Width ?? 70, Height ?? 88, new Rectangle(2682, 3921, 70, 88)){ Flipped = Flipped }
         );
 
         return animation;
@@ -922,7 +932,7 @@ public class GeneratedContent : ILoadContents
     {
         var animation = new Animation(
             
-            new AnimationFrame("knight", X, Y, Width ?? 59, Height ?? 84, new Rectangle(2714, 3921, 59, 84)){ Flipped = Flipped }
+            new AnimationFrame("knight", X, Y, Width ?? 59, Height ?? 84, new Rectangle(2752, 3921, 59, 84)){ Flipped = Flipped }
         );
 
         return animation;
@@ -932,7 +942,7 @@ public class GeneratedContent : ILoadContents
     {
         var animation = new Animation(
             
-            new AnimationFrame("knight", X, Y, Width ?? 63, Height ?? 85, new Rectangle(2773, 3921, 63, 85)){ Flipped = Flipped }
+            new AnimationFrame("knight", X, Y, Width ?? 63, Height ?? 85, new Rectangle(2811, 3921, 63, 85)){ Flipped = Flipped }
         );
 
         return animation;
@@ -942,7 +952,7 @@ public class GeneratedContent : ILoadContents
     {
         var animation = new Animation(
             
-            new AnimationFrame("knight", X, Y, Width ?? 54, Height ?? 85, new Rectangle(2836, 3921, 54, 85)){ Flipped = Flipped }
+            new AnimationFrame("knight", X, Y, Width ?? 54, Height ?? 85, new Rectangle(2874, 3921, 54, 85)){ Flipped = Flipped }
         );
 
         return animation;
@@ -952,7 +962,7 @@ public class GeneratedContent : ILoadContents
     {
         var animation = new Animation(
             
-            new AnimationFrame("knight", X, Y, Width ?? 56, Height ?? 91, new Rectangle(2890, 3921, 56, 91)){ Flipped = Flipped }
+            new AnimationFrame("knight", X, Y, Width ?? 56, Height ?? 91, new Rectangle(2928, 3921, 56, 91)){ Flipped = Flipped }
         );
 
         return animation;
@@ -1089,7 +1099,7 @@ public class GeneratedContent : ILoadContents
     {
         var animation = new Animation(
             
-            new AnimationFrame("knight", X, Y, Width ?? 100, Height ?? 104, new Rectangle(2946, 3921, 100, 104)){ Flipped = Flipped }
+            new AnimationFrame("knight", X, Y, Width ?? 100, Height ?? 104, new Rectangle(2984, 3921, 100, 104)){ Flipped = Flipped }
         );
 
         return animation;
