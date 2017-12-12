@@ -79,7 +79,7 @@ namespace MonoGameProject
                     {
                         var color = GameState.GetColor();
                         if (type == '2')
-                            CreateBlock(i, j, 0.21f, GameState.GetComplimentColor2(), GeneratedContent.Create_knight_ground_top, 100);
+                            CreateBlockTop(i, j, 0.21f, GameState.GetComplimentColor2(), GeneratedContent.Create_knight_ground_top);
                         CreateBlock(i, j, 0.22f, new Color(color.R - 30, color.G - 30, color.B - 30), GeneratedContent.Create_knight_ground_2);
                     }
 
@@ -139,7 +139,7 @@ namespace MonoGameProject
                         locker.X = X + j * CELL_SIZE;
                         locker.Y = (Y + i * CELL_SIZE);
 
-                        var animation = GeneratedContent.Create_knight_block(
+                        var animation = GeneratedContent.Create_knight_ground_2(
                                 -5
                                , -5
                                , MapModule.CELL_SIZE + 10
@@ -149,7 +149,7 @@ namespace MonoGameProject
                         animation.ColorGetter = () => color;
                         locker.AddAnimation(animation);
 
-                        var animationborder = GeneratedContent.Create_knight_block(
+                        var animationborder = GeneratedContent.Create_knight_ground_2(
                                -25
                                , -25
                                , MapModule.CELL_SIZE + 50
@@ -231,38 +231,78 @@ namespace MonoGameProject
         }
 
         MyRandom MyRandom = new MyRandom();
-        private void CreateBlock(int i, int j, float z, Color color, Func<int, int, int?, int?, bool, Animation> CreateAnimation, int bugBonus = 0, Color? borderColor = null)
+        private void CreateBlock(int i, int j, float z, Color color, Func<int, int, int?, int?, bool, Animation> CreateAnimation, Color? borderColor = null)
         {
             if (borderColor == null)
                 borderColor = Color.Black;
 
-            var offsetx = j * CELL_SIZE - 80;
-            var offsety = i * CELL_SIZE - 80;
-            var width = MapModule.CELL_SIZE + 160;
-            var height = MapModule.CELL_SIZE + 160;
+            var bonusx = 25;
+            var bonusy = 20;
 
-            var flipped = MyRandom.Next(0, 1).ToBool();
+            var offsetx = j * CELL_SIZE - bonusx;
+            var offsety = i * CELL_SIZE - bonusy;
+            var width = CELL_SIZE + bonusx * 2;
+            var height = CELL_SIZE + bonusy * 2;
 
-            var animation_ground_top = CreateAnimation(
+            var flipped = false;//MyRandom.Next(0, 1).ToBool();
+
+            var animation_ground = CreateAnimation(
                 offsetx
                 , offsety
                 , width
                 , height
                 , flipped);
-            animation_ground_top.RenderingLayer = z;//+ 0.001f;
+            animation_ground.RenderingLayer = z;//+ 0.001f;
             //var groundcolor = GameState.GetComplimentColor2();
-            animation_ground_top.ColorGetter = () => color;
-            AddAnimation(animation_ground_top);
+            animation_ground.ColorGetter = () => color;
+            AddAnimation(animation_ground);
 
-            var animation_ground_top_border = CreateAnimation(
-                offsetx - 25
-                , offsety - 25
-                , width + 50
-                , height + 50 + bugBonus,
+            var animation_ground_border = CreateAnimation(
+                offsetx - bonusx
+                , offsety - bonusy
+                , width + bonusx*2
+                , height + bonusy*2,
                 flipped);
-            animation_ground_top_border.RenderingLayer = z + 0.001f;
-            animation_ground_top_border.ColorGetter = () => borderColor.Value;
-            AddAnimation(animation_ground_top_border);
+            animation_ground_border.RenderingLayer = z + 0.001f;
+            animation_ground_border.ColorGetter = () => borderColor.Value;
+            AddAnimation(animation_ground_border);
+        }
+
+        private void CreateBlockTop(int i, int j, float z, Color color, Func<int, int, int?, int?, bool, Animation> CreateAnimation, Color? borderColor = null)
+        {
+            if (borderColor == null)
+                borderColor = Color.Black;
+
+            var bonusx = 16;
+            var bonusy = 20;
+
+            var offsetx = j * CELL_SIZE - bonusx;
+            var offsety = i * CELL_SIZE - bonusy;
+            var width = CELL_SIZE + bonusx * 2;
+            var height = CELL_SIZE/2 + bonusy * 2;
+
+            var flipped = false;//MyRandom.Next(0, 1).ToBool();
+
+            var animation_ground = CreateAnimation(
+                offsetx
+                , offsety
+                , width
+                , height
+                , flipped);
+            animation_ground.RenderingLayer = z;//+ 0.001f;
+            //var groundcolor = GameState.GetComplimentColor2();
+            animation_ground.ColorGetter = () => color;
+            AddAnimation(animation_ground);
+
+            var animation_ground_border = CreateAnimation(
+                offsetx - bonusx
+                , offsety - bonusy
+                , width + bonusx * 2
+                , height + bonusy * 2,
+                flipped);
+            animation_ground_border.RenderingLayer = z + 0.001f;
+            animation_ground_border.ColorGetter = () => borderColor.Value;
+            AddAnimation(animation_ground_border);
         }
 
         private void AddStageNumber()
@@ -326,7 +366,7 @@ namespace MonoGameProject
                 , oColor.B - 60
                 , oColor.A
             );
-            CreateBlock(i, j, 0.52f, color, GeneratedContent.Create_knight_ground, 0, new Color(80, 80, 80));
+            CreateBlock(i, j, 0.52f, color, GeneratedContent.Create_knight_ground_2, new Color(80, 80, 80));
         }
     }
 
@@ -385,7 +425,7 @@ namespace MonoGameProject
     {
         public MovingPlatform()
         {
-            var animation = GeneratedContent.Create_knight_block(
+            var animation = GeneratedContent.Create_knight_ground_2(
                              -5
                             , -5
                             , MapModule.CELL_SIZE + 10
@@ -395,7 +435,7 @@ namespace MonoGameProject
             animation.ColorGetter = () => color;
             AddAnimation(animation);
 
-            var animationborder = GeneratedContent.Create_knight_block(
+            var animationborder = GeneratedContent.Create_knight_ground_2(
                    -25
                    , -25
                    , MapModule.CELL_SIZE + 50
@@ -427,21 +467,21 @@ namespace MonoGameProject
     {
         public ElevatorPlatform()
         {
-            var animation = GeneratedContent.Create_knight_block(
+            var animation = GeneratedContent.Create_knight_ground_2(
                                -5
                               , -5
                               , MapModule.CELL_SIZE + 10
-                              , (MapModule.CELL_SIZE + 10) );
+                              , (MapModule.CELL_SIZE + 10));
             animation.RenderingLayer = 0.5f;
             var color = GameState.GetColor();
             animation.ColorGetter = () => color;
             AddAnimation(animation);
 
-            var animationborder = GeneratedContent.Create_knight_block(
+            var animationborder = GeneratedContent.Create_knight_ground_2(
                    -25
                    , -25
                    , MapModule.CELL_SIZE + 50
-                   , (MapModule.CELL_SIZE + 50) );
+                   , (MapModule.CELL_SIZE + 50));
             animationborder.RenderingLayer = 0.51f;
             animationborder.ColorGetter = () => Color.Black;//Colors[ColorIndex];
             AddAnimation(animationborder);
