@@ -69,6 +69,7 @@
     <Compile Include="Things\LeftFireBallTrap.cs" />
     <Compile Include="Things\MapModule.cs" />
     <Compile Include="Things\MapModuleInfo.cs" />
+    <Compile Include="Things\MapModuleSource.cs" />
     <Compile Include="Things\MyRandom.cs" />
     <Compile Include="Things\ParalaxBackgroundCreator.cs" />
     <Compile Include="Things\ParallaxBackGround.cs" />
