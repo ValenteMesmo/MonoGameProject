@@ -219,8 +219,14 @@ namespace MonoGameProject
         public FireballSpinner(Thing Owner, int speedX, int speedY, Game1 Game1, Color Color) : base(Owner, speedX, speedY, Game1, Color)
         {
             var animation = GeneratedContent.Create_knight_fireball2(FIREBALL_OFFSET, FIREBALL_OFFSET, FIREBALL_SIZE, FIREBALL_SIZE);
+            animation.RenderingLayer = GlobalSettigns.FIREBALL_Z;
             animation.ColorGetter = () => Color;
             AddAnimation(animation);
+
+            var animationBorder = GeneratedContent.Create_knight_fireball2(FIREBALL_BORDER_OFFSET, FIREBALL_BORDER_OFFSET, FIREBALL_BORDER_SIZE, FIREBALL_BORDER_SIZE);
+            animationBorder.RenderingLayer = GlobalSettigns.FIREBALL_BORDER_Z;
+            animationBorder.ColorGetter = () => Color.Black;
+            AddAnimation(animationBorder);
         }
     }
 

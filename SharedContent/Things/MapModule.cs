@@ -81,14 +81,14 @@ namespace MonoGameProject
 
                         var color = GameState.GetColor();
                         if (type == '2')
-                            CreateBlockTop(i, j, z-0.01f, GameState.GetComplimentColor2(), GeneratedContent.Create_knight_ground_top);
+                            CreateBlockTop(i, j, z - 0.01f, new Color(128, 190, 31), GeneratedContent.Create_knight_ground_top);
 
                         CreateBlock(
                             i
                             , j
-                            ,z
+                            , z
                             ,
-                            new Color(color.R - 30, color.G - 30, color.B - 30)
+                            new Color(200, 150, 102)
                             , GetGroundAnimation());
                     }
 
