@@ -88,7 +88,8 @@ namespace MonoGameProject
                             , j
                             , z
                             ,
-                            new Color(200, 150, 102)
+                             /*gray*/ new Color(188, 204, 205)
+                            // /*brown*/new Color(200, 150, 102)
                             , GetGroundAnimation());
                     }
 
@@ -220,7 +221,7 @@ namespace MonoGameProject
                             X = X + j * CELL_SIZE,
                             Y = Y + i * CELL_SIZE
                         });
-                        CreateBackground(i, j);
+                        //CreateBackground(i, j);
                     }
                     if (type == '!')
                     {
