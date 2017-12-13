@@ -57,6 +57,7 @@
     <Compile Include="Things\BossSkills\BulletStorm.cs" />
     <Compile Include="Things\BossSkills\SpikeBall.cs" />
     <Compile Include="Things\ChangeToAttackState.cs" />
+    <Compile Include="Things\ColorsOfTheStage.cs" />
     <Compile Include="Things\DestroyIfLeftBehind.cs" />
     <Compile Include="Things\Enemy.cs" />
     <Compile Include="Things\FireBall.cs" />

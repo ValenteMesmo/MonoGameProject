@@ -1,5 +1,6 @@
 ﻿using GameCore;
 using Microsoft.Xna.Framework;
+using SharedContent.Things;
 using System;
 using System.Linq;
 
@@ -58,16 +59,16 @@ namespace MonoGameProject
             }
 
             {
-                //var sky = new Animation(new AnimationFrame("pixel",
-                //                  0
-                //                 , 0
-                //                 , CELL_SIZE * CELL_NUMBER
-                //                 , (CELL_SIZE * CELL_NUMBER)));
+                var sky = new Animation(new AnimationFrame("pixel",
+                                  0
+                                 , 0
+                                 , CELL_SIZE * CELL_NUMBER
+                                 , (CELL_SIZE * CELL_NUMBER)));
 
-                //var color = GameState.GetPreviousColor2();
-                //sky.ColorGetter = () => color; //new Color(0.5f, 0.8f, 0.8f);//Color.Crimson;
-                //sky.RenderingLayer = 1f;
-                //AddAnimation(sky);
+                var color = ColorsOfTheStage.Sky();
+                sky.ColorGetter = () => color;
+                sky.RenderingLayer = 1f;
+                AddAnimation(sky);
             }
 
             for (int i = 0; i < CELL_NUMBER; i++)
@@ -81,15 +82,14 @@ namespace MonoGameProject
 
                         var color = GameState.GetColor();
                         if (type == '2')
-                            CreateBlockTop(i, j, z - 0.01f, new Color(128, 190, 31), GeneratedContent.Create_knight_ground_top);
+                            CreateBlockTop(i, j, z - 0.01f, ColorsOfTheStage.Sub(), GeneratedContent.Create_knight_ground_top);
 
                         CreateBlock(
                             i
                             , j
                             , z
                             ,
-                             /*gray*/ new Color(188, 204, 205)
-                            // /*brown*/new Color(200, 150, 102)
+                           ColorsOfTheStage.Main()
                             , GetGroundAnimation());
                     }
 
@@ -132,6 +132,8 @@ namespace MonoGameProject
                             X = X + j * CELL_SIZE,
                             Y = Y + i * CELL_SIZE
                         });
+
+                        CreateBackground(i, j);
                     }
                     if (type == 'x')
                     {
@@ -142,6 +144,8 @@ namespace MonoGameProject
                         Game1.AddToWorld(camlocker);
                         Blocker
                             .WorldMover.camlocker = camlocker;
+
+                        CreateBackground(i, j);
                     }
                     if (type == 'y' || type == 'z')
                     {
@@ -195,6 +199,8 @@ namespace MonoGameProject
                             collider.Disabled = !GameState.State.BossMode;
                         });
 
+
+                        CreateBackground(i, j);
                     }
                     if (type == 'l')
                     {
@@ -229,7 +235,7 @@ namespace MonoGameProject
                         if (GameState.PreSaved)
                             flag = new CheckPoint_Unchecked(Game1.AddToWorld);
                         else
-                            flag = new CheckPoint_Checked(Color.White);
+                            flag = new CheckPoint_Checked(new Color(186, 120, 168));
 
                         flag.X = X + j * CELL_SIZE;
                         flag.Y = Y + i * CELL_SIZE;
@@ -379,15 +385,7 @@ namespace MonoGameProject
 
         private void CreateBackground(int i, int j)
         {
-            var oColor = new Color(200, 150, 102);
-            //var oColor = GameState.GetColor();
-            var color = new Color(
-                  oColor.R - 60
-                , oColor.G - 60
-                , oColor.B - 60
-                , oColor.A
-            );
-            CreateBlock(i, j, 0.52f, color, GetGroundAnimation(), new Color(80, 80, 80));
+            CreateBlock(i, j, 0.52f, ColorsOfTheStage.Background(), GetGroundAnimation(), new Color(80, 80, 80));
         }
     }
 
@@ -398,7 +396,7 @@ namespace MonoGameProject
             var animationPole = GeneratedContent.Create_knight_Checkpoint(150, -20);
             animationPole.ScaleX = animationPole.ScaleY = 4;
             animationPole.RenderingLayer = 0.01f;
-            animationPole.ColorGetter = () => Color.IndianRed;
+            animationPole.ColorGetter = () => new Color(238, 204, 0);
             AddAnimation(animationPole);
 
 
@@ -429,7 +427,7 @@ namespace MonoGameProject
             var animationPole = GeneratedContent.Create_knight_Checkpoint(150, -20);
             animationPole.ScaleX = animationPole.ScaleY = 4;
             animationPole.RenderingLayer = 0.01f;
-            animationPole.ColorGetter = () => Color.IndianRed;
+            animationPole.ColorGetter = () => new Color(238, 204, 0);
             AddAnimation(animationPole);
 
             var animation = GeneratedContent.Create_knight_CheckpointFlag(280, 100);

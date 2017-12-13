@@ -10,6 +10,11 @@ namespace MonoGameProject
     public class Player : Humanoid
     {
         //planning:
+        //hue br boss
+        //every thing should have a mouth? fireball singing / yelling
+        //  other monster yelling hey! hey! yoooo
+        //  player attacking yells: laaa! lãaaa! laaa!
+        //  other fireballs iaiaiaiaiaia!
         //fireball genkidama
         //fireball bouncing
         //fireball direcionada
