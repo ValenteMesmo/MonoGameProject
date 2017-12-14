@@ -33,6 +33,8 @@ namespace MonoGameProject
                 AttackDuration--;
                 if (AttackDuration <= 0)
                 {
+                    if (Game1.MusicController.Queue("pata") == false)
+                        Game1.MusicController.Force("pom");
                     if (Humanoid.weaponType == WeaponType.Wand)
                     {
                         int speed = -FireBall.SPEED;

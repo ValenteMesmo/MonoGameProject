@@ -7,7 +7,7 @@ using System.Collections.Generic;
 public class GeneratedContent : ILoadContents
 {  
     private string[] spriteNames = new string[] { "knight" };
-    private string[] soundNames = new string[] { "beat", "clap", "pata", "pom", "tumtum" };
+    private string[] soundNames = new string[] { "beat", "beat1", "beat2", "beat3", "clap", "pata", "pom", "tumtum" };
 
     public IEnumerable<string> GetTextureNames()
     {

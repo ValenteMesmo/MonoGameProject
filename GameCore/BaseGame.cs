@@ -16,55 +16,97 @@ public class MusicController
         this.Sounds = Sounds;
     }
 
-    int duration = 0;
+    //int duration = 0;
+
+    //const int interval = 15;
+
+    const float bpm = 120;
+    const float crotchet = 60 / bpm;
+    float beatTime = 0;
+    int currentBeat = 1;
+    private bool canPlay = false;
+
+    private const int one = 4 * (4 * 1);
+    private const int two = 4 * (4 * 2);
+    private const int three = 4 * (4 * 3);
+    private const int four = 4 * (4 * 4);
+
+    public void Update()
+    {
+        beatTime += crotchet;
+
+        canPlay = false;
+
+        if ((beatTime % 1) == 0)
+        {
+            beatTime = 0;
+            currentBeat++;
+            if (currentBeat > four)
+                currentBeat = 1;
+
+            canPlay = true;
+        }
+    }
+
+    public void Force(string v)
+    {
+        Playe(v);
+    }
+
+    //mudar o queue para play logo!
+    //verifica se ta no timing certo da play e flagga para evitar outros
+    //retorna bool para saber se faz a animação ou nao
+    //retorna bool para tocar som alternativo... mais baixo...
+
+    //OPA! canplay deve ser true sempre que "duration % interval == 0" ????
+    //verificar se está proximo do interval na hora da queue? está restritiva demais
     internal void Play()
     {
-        return;
-
-        duration++;
-
-        var interval = 15;
-        var zzz = true;
-        if (duration % interval == 0)
+        //return;
+        //var zzz = true;
+        if (canPlay)//(duration % interval == 0)
         {
             if (queued != "")
             {
                 Sounds(queued).CreateInstance().Play();
                 queued = "";
-                zzz = false;
+                //zzz = false;
             }
             else //if(player)
             {
                 //Sounds("clap").CreateInstance().Play();
             }
-        }
-        if (zzz)
-        {
 
-            if (duration == interval * 2)
+            if( currentBeat % 16==0)
             {
-                Playe("beat");
+                
+                Playe("beat2");
             }
-            if (duration == interval * 3)
-            {
-                //Playe("pom");
-            }
-            if (duration == interval * 4)
-            {
-                //Playe("pata");
-            }
-            //if (duration == interval * 6)
-            //{
-            //    Playe("pata");
-            //}
-            //if (duration == interval * 8)
-            //{
-            //    Playe("pom");
-            //}
-        }
 
-        if (duration == interval * 8)
-            duration = 0;
+            if (currentBeat % 16 == 0)
+                Playe("beat1");
+        }
+        //if (zzz)
+        //{
+     
+        //if (duration == interval * 3)//nao
+        //{
+        //    //Playe("pom");
+        //}
+        //if (duration == interval * 4)//sim
+        //{
+        //    Playe("pata");
+        //}
+        //if (duration == interval * 6)//nao
+        //{
+        //    Playe("pata");
+        //}
+        //if (duration == interval * 8)//sim
+        //{
+        //    Playe("pom");
+        //}
+        //}
+
     }
 
     private void Playe(string soundName)
@@ -80,9 +122,12 @@ public class MusicController
 
     string queued = "";
 
-    public void Queue(string v)
+    public bool Queue(string v)
     {
-        queued = v;
+        if (canPlay)
+            queued = v;
+
+        return canPlay;
     }
 }
 
@@ -179,8 +224,7 @@ public class BaseGame : OriginalGameClass
     protected override void Update(GameTime gameTime)
     {
         Camera.Update();
-        VibrationCenter.Update();
-        MusicController.Play();
+        MusicController.Update();
 
         var state = Keyboard.GetState();
 #if DEBUG
@@ -196,6 +240,8 @@ public class BaseGame : OriginalGameClass
         Camera.Zoom = 0.15f;
 #endif
         World.Update();
+        MusicController.Play();
+        VibrationCenter.Update();
 
         base.Update(gameTime);
     }
