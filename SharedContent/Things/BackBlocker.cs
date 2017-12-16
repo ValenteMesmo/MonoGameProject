@@ -47,7 +47,7 @@ namespace MonoGameProject
             AddCollider(new Collider(8000, 4000)
             {
                 OffsetX = 4000,
-                OffsetY = 9500 + MapModule.CELL_SIZE*2
+                OffsetY = 9800 + MapModule.CELL_SIZE*2
             });
         }
     }

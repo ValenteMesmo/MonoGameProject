@@ -18,10 +18,15 @@ namespace MonoGameProject
 
         public void Update()
         {
+//            Game.LOG += @"
+//Attack cd: "+ AttackDuration;
             if (Humanoid.Inputs.ClickedAction1
                 && AttackDuration <= 0)
             {
-                AttackDuration = 20;
+                AttackDuration = 10;
+                if (Game1.MusicController.Queue("beat1") == false)
+                    Game1.MusicController.Force("beat2");
+                //Game1.MusicController.Queue("beat2");
             }
 
             Humanoid.AttackLeftCollider.Disabled = true;
@@ -33,8 +38,8 @@ namespace MonoGameProject
                 AttackDuration--;
                 if (AttackDuration <= 0)
                 {
-                    if (Game1.MusicController.Queue("pata") == false)
-                        Game1.MusicController.Force("pom");
+                
+
                     if (Humanoid.weaponType == WeaponType.Wand)
                     {
                         int speed = -FireBall.SPEED;

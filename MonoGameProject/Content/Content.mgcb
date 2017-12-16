@@ -86,3 +86,15 @@
 /processorParam:Quality=Best
 /build:beat3.wav
 
+#begin beat146.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:beat146.wav
+
+#begin beat147.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:beat147.wav
+

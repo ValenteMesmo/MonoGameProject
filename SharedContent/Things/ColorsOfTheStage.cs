@@ -18,6 +18,19 @@ namespace SharedContent.Things
 
     public static class ColorsOfTheStage
     {
+        private static ColorPattern CandyStage = new ColorPattern
+        {
+            Main = new Color(145, 112, 82),
+            Sub = new Color(255, 204, 255),
+            Background = new Color(145 - 60, 112 - 60, 82 - 60),
+
+            Sky = new Color(255, 236, 255),
+
+            CaveMain = new Color(255, 204, 255),
+            CaveSub = new Color(255, 204, 255),
+            CaveBackground = new Color(255 - 60, 204 - 60, 255 - 60)
+        };
+
         private static ColorPattern SnowStage = new ColorPattern
         {
             Main = new Color(188, 204, 205),
@@ -96,7 +109,7 @@ namespace SharedContent.Things
             if (index % 7 == 0)
                 return YellowGrass;
             if (index % 6 == 0)
-                return GrassStage;
+                return CandyStage;
             if (index % 5 == 0)
                 return DarkBlueGrass;
             if (index % 4 == 0)

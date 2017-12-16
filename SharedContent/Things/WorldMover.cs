@@ -105,22 +105,26 @@ namespace MonoGameProject
                     }
 
                     {
-                        if (playersOnTheTop == 0 && playersOnTheBot > 0)
+                        if (playersOnTheBot > 0 && playersOnTheTop == 0 )
                         {
                             if (botSpeed > 0)
                                 WorldVerticalSpeed = botSpeed;
                             else
-                                WorldVerticalSpeed = EasyTo(WorldVerticalSpeed, 1, 50);
+                                WorldVerticalSpeed = 0;// EasyTo(WorldVerticalSpeed, 1, 0);
                         }
-                        else if (playersOnTheTop > 0 && playersOnTheBot == 0)
+                        else if (playersOnTheTop > 0 && playersOnTheBot == 0 )
                         {
                             if (topSpeed < 0)
                                 WorldVerticalSpeed = topSpeed;
                             else
-                                WorldVerticalSpeed = EasyTo(WorldVerticalSpeed, 1, -50);
+                                WorldVerticalSpeed = 0;//EasyTo(WorldVerticalSpeed, 1, 0);
                         }
+                        else if(WorldVerticalSpeed > 0)
+                            WorldVerticalSpeed = EasyTo(WorldVerticalSpeed, 1, 25);
+                        else if (WorldVerticalSpeed < 0)
+                            WorldVerticalSpeed = EasyTo(WorldVerticalSpeed, 1, -25);
                         else
-                            WorldVerticalSpeed = EasyTo(WorldVerticalSpeed, 10, 0);
+                            WorldVerticalSpeed = EasyTo(WorldVerticalSpeed, 1, 0);
 
                         if (WorldVerticalSpeed < 0 && UpBlocking)
                             WorldVerticalSpeed = 0;
@@ -233,9 +237,9 @@ namespace MonoGameProject
             BotCollider = new Collider
             {
                 OffsetX = -6000,
-                OffsetY = 2000,
+                OffsetY = 1600,
                 Width = 12000,
-                Height = MapModule.CELL_SIZE * 4
+                Height = (MapModule.CELL_SIZE * 4)+ 500
             };
 
             BotCollider.AddHandler(StoreTheBotMovementCause);
