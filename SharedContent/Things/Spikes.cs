@@ -5,7 +5,7 @@ namespace MonoGameProject
 {
     public class Spikes : Thing
     {
-        public Spikes(Color Color, int width, int height)
+        public Spikes(Game1 Game1, Color Color, int width, int height)
         {
             var collider = new GroundCollider();
             collider.OffsetY = MapModule.CELL_SIZE / 2;
@@ -17,14 +17,14 @@ namespace MonoGameProject
             {
                 for (int j = 0; j < height; j++)
                 {
-                    var animation = GeneratedContent.Create_knight_spikes(
+                    var animation = GeneratedContent.Create_knight_spikes2(
                         i * MapModule.CELL_SIZE
                         , j * MapModule.CELL_SIZE
                         , MapModule.CELL_SIZE
                         , MapModule.CELL_SIZE);
                     animation.RenderingLayer = 0.49f;
                     animation.ColorGetter = () => Color;
-                    AddAnimation(animation);
+                    AddAnimation(animation.AsMusical(Game1.MusicController));
                 }
             }
 

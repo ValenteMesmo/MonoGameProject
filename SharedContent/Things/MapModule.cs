@@ -49,7 +49,8 @@ namespace MonoGameProject
             foreach (var tile in tiles.Where(f => f.Type == '^'))
             {
                 Game1.AddToWorld(new Spikes(
-                    Color.Red,
+                    Game1
+                    , Color.Red,
                     tile.Width,
                     tile.Height)
                 {

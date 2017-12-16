@@ -19,7 +19,7 @@ public class MusicController
     private const float bpm = 120;
     private const float crotchet = 60 / bpm;
     private float beatTime = 0;
-    private int currentBeat = 1;
+    public int currentBeat = 1;
     private bool canPlay = false;
 
     private const int one = 4 * (4 * 1);
@@ -54,62 +54,83 @@ public class MusicController
         Playe(v);
     }
 
-    private bool RightTiming()
+
+    //todo: inverter a logica...nao bater no prato... bater no kick
+    private bool Timing64()
     {
         return
-             currentBeat == 57
+             currentBeat == 52
+            || currentBeat == 53
+            || currentBeat == 54
+            || currentBeat == 55
+            || currentBeat == 56
+            || currentBeat == 57
             || currentBeat == 58
             || currentBeat == 59
             || currentBeat == 60
             || currentBeat == 61
             || currentBeat == 62
             || currentBeat == 63
-            || currentBeat == 64;
+            //|| currentBeat == 64
+            //|| currentBeat == 4
+            //|| currentBeat == 5
+            //|| currentBeat == 6
+            ;
     }
 
-    private bool RightTiming2()
+    private bool Timing32()
     {
         return
-             currentBeat == 25
+            currentBeat == 20
+            || currentBeat == 21
+            || currentBeat == 22
+            || currentBeat == 23
+            || currentBeat == 24
+            || currentBeat == 25
             || currentBeat == 26
             || currentBeat == 27
             || currentBeat == 28
             || currentBeat == 29
             || currentBeat == 30
             || currentBeat == 31
-            || currentBeat == 32;
+            //|| currentBeat == 32
+            ;
     }
 
-    private bool RightTiming3()
+    private bool Timing16()
     {
         return
-             currentBeat == 9
-            || currentBeat == 10
+             currentBeat == 10
             || currentBeat == 11
             || currentBeat == 12
             || currentBeat == 13
             || currentBeat == 14
             || currentBeat == 15
-            || currentBeat == 16;
+            || currentBeat == 16
+            || currentBeat == 17
+            || currentBeat == 18
+            ;
     }
 
-    private bool RightTiming4()
+    private bool Timing48()
     {
         return
-             currentBeat == 41
-            || currentBeat == 42
+             currentBeat == 42
             || currentBeat == 43
             || currentBeat == 44
             || currentBeat == 45
             || currentBeat == 46
             || currentBeat == 47
-            || currentBeat == 48;
+            || currentBeat == 48
+            || currentBeat == 49
+            || currentBeat == 50
+            ;
     }
 
     internal void Play()
     {
         Game.LOG += $@"
-{(RightTiming() || RightTiming2() || RightTiming3() || RightTiming4() ? 1 : 0)} - {currentBeat}
+{(mainTime() ? 1 : 0)} - {currentBeat}
 " ;
 
         if (canPlay)
@@ -145,9 +166,19 @@ public class MusicController
 
     string queued = "";
 
+    private bool mainTime()
+    {
+        return
+         !Timing64()
+        && !Timing32()
+        //|| Timing16()
+        //|| Timing48()
+        ;
+    }
+
     public bool Queue(string v)
     {
-        var result = RightTiming() || RightTiming2() || RightTiming3() || RightTiming4()
+        var result = mainTime()
             //&& GetBeatNameCallsCount != 3
             ;
 

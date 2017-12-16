@@ -23,9 +23,9 @@ namespace MonoGameProject
             if (Humanoid.Inputs.ClickedAction1
                 && AttackDuration <= 0)
             {
-                AttackDuration = 10;
-                if (Game1.MusicController.Queue("beat1") == false)
-                    Game1.MusicController.Force("beat2");
+                AttackDuration = 16;
+                if (Game1.MusicController.Queue("beat2") == false)
+                    Game1.MusicController.Force("beat1");
                 //Game1.MusicController.Queue("beat2");
             }
 
@@ -38,8 +38,6 @@ namespace MonoGameProject
                 AttackDuration--;
                 if (AttackDuration <= 0)
                 {
-                
-
                     if (Humanoid.weaponType == WeaponType.Wand)
                     {
                         int speed = -FireBall.SPEED;

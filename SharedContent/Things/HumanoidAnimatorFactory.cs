@@ -36,6 +36,12 @@ namespace MonoGameProject
 
         private const int bump_y = -50;
 
+        public HumanoidAnimatorFactory(Game1 Game1)
+        {
+            this.Game1 = Game1;
+        }
+
+
         public void CreateHairBonus(Humanoid parent, Action<Thing> AddToTheWorld)
         {
             var thing = new Thing();
@@ -410,6 +416,7 @@ namespace MonoGameProject
         }
 
         Animation EmptyAnimation = new Animation();
+        private readonly Game1 Game1;
 
         private Animator ShowOnlyWhen(IHandleAnimation animation, Func<bool> condition)
         {

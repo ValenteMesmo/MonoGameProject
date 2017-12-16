@@ -22,6 +22,54 @@ namespace GameCore
         void Restart();
     }
 
+    class MusicalAnimation : IHandleAnimation
+    {
+        public int ScaleX { get; set; }
+
+        public int ScaleY { get; set; }
+
+        public float RenderingLayer { get; set; }
+
+        public Func<Color> ColorGetter = () => Color.White;
+        private readonly MusicController MusicController;
+        private readonly List<AnimationFrame> Frames;
+
+        public MusicalAnimation(MusicController MusicController, params AnimationFrame[] Frames)
+        {
+            this.MusicController = MusicController;
+            this.Frames = Frames.ToList();
+        }
+
+        public Color GetColor()
+        {
+            return ColorGetter();
+        }
+
+        //receber o frameindex do beat pelo ctor
+        public IEnumerable<AnimationFrame> GetCurretFrame()
+        {
+            var index = 0;
+            if (Frames.Count > 1)
+            {
+                int currentBeat = MusicController.currentBeat;
+                while (currentBeat > 32)
+                    currentBeat -= 32;
+                index = (currentBeat * (Frames.Count - 1)) / 32;
+            }
+
+            if (Frames.Any())
+                yield return Frames[index];
+        }
+
+        public void Restart()
+        {
+        }
+
+        public void Update()
+        {
+        }
+    }
+
     public class Animation : IHandleAnimation
     {
         public float RenderingLayer { get; set; }
@@ -33,6 +81,17 @@ namespace GameCore
         public int ScaleX { get; set; }
         public int ScaleY { get; set; }
         public Func<Color> ColorGetter = () => Color.White;
+
+        public IHandleAnimation AsMusical(MusicController controller)
+        {
+            return new MusicalAnimation(controller, Frames.ToArray())
+            {
+                ScaleX = ScaleX,
+                ScaleY = ScaleY,
+                RenderingLayer = RenderingLayer,
+                ColorGetter = ColorGetter
+            };
+        }
 
         public int StartingFrame
         {

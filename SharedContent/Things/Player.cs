@@ -323,7 +323,7 @@ namespace MonoGameProject
             MainCollider.AddTopCollisionHandler(StopsWhenHitting.Top<BlockVerticalMovement>());
             MainCollider.AddLeftCollisionHandler(HandleLeftBossLock);
 
-            var factory = new HumanoidAnimatorFactory();
+            var factory = new HumanoidAnimatorFactory(Game1);
             factory.CreateAnimator(this, index);
             factory.CreateHairBonus(this, AddToWorld);
 
