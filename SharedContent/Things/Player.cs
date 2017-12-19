@@ -10,7 +10,8 @@ namespace MonoGameProject
     public class Player : Humanoid
     {
         //planning:
-        //mudar o movimento vertical da camera para parar de se mover somente quando bater no limite oposto?
+        //simplificar ritmo da batida... tudum dutum tudum dutum
+        //  ações do player nao trigga musica, só as ameaças e o fim delas
         //hue br boss
         //every thing should have a mouth? fireball singing / yelling
         //  other monster yelling hey! hey! yoooo

@@ -43,9 +43,9 @@ namespace MonoGameProject
 
         public GameStateData()
         {
-            TopExit = true;
+            TopExit = false;
             MidExit = true;
-            BotExit = true;
+            BotExit = false;
 
             ArmorColor = 666666666;
             Tresure = 666999666;
@@ -54,9 +54,9 @@ namespace MonoGameProject
             Platform = 666999999;
             ColorIndex = 0;
             CaveMode = false;
-            TopExit = true;
+            TopExit = false;
             MidExit = true;
-            BotExit = true;
+            BotExit = false;
             BossMode = false;
             StageNumber = 1;
             ShowStageNumber = true;
