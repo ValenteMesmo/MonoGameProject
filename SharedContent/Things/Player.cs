@@ -10,6 +10,8 @@ namespace MonoGameProject
     public class Player : Humanoid
     {
         //planning:
+        // melhorar as plataformas moveis.. permitir varios tamanhos?
+        //jump and land smoke effect.... dbfz
         //simplificar ritmo da batida... tudum dutum tudum dutum
         //  ações do player nao trigga musica, só as ameaças e o fim delas
         //hue br boss

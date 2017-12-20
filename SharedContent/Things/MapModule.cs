@@ -307,7 +307,7 @@ namespace MonoGameProject
             var offsety = i * CELL_SIZE - bonusy;
             var width = CELL_SIZE + bonusx * 2;
             var height = CELL_SIZE / 2 + bonusy * 2;
-
+                
             var flipped = false;//MyRandom.Next(0, 1).ToBool();
 
             var animation_ground = CreateAnimation(
@@ -445,24 +445,7 @@ namespace MonoGameProject
     {
         public MovingPlatform()
         {
-            var animation = GeneratedContent.Create_knight_ground_2(
-                             -5
-                            , -5
-                            , MapModule.CELL_SIZE + 10
-                            , (MapModule.CELL_SIZE + 10));
-            animation.RenderingLayer = 0.5f;
-            var color = GameState.GetColor();
-            animation.ColorGetter = () => color;
-            AddAnimation(animation);
-
-            var animationborder = GeneratedContent.Create_knight_ground_2(
-                   -25
-                   , -25
-                   , MapModule.CELL_SIZE + 50
-                   , (MapModule.CELL_SIZE + 50));
-            animationborder.RenderingLayer = 0.51f;
-            animationborder.ColorGetter = () => Color.Black;//Colors[ColorIndex];
-            AddAnimation(animationborder);
+            BlockAnimationHelper.AddAnimation(this);
 
             var collider = new SolidCollider(MapModule.CELL_SIZE, MapModule.CELL_SIZE);
             AddCollider(collider);
@@ -487,24 +470,7 @@ namespace MonoGameProject
     {
         public ElevatorPlatform()
         {
-            var animation = GeneratedContent.Create_knight_ground_2(
-                               -5
-                              , -5
-                              , MapModule.CELL_SIZE + 10
-                              , (MapModule.CELL_SIZE + 10));
-            animation.RenderingLayer = 0.5f;
-            var color = GameState.GetColor();
-            animation.ColorGetter = () => color;
-            AddAnimation(animation);
-
-            var animationborder = GeneratedContent.Create_knight_ground_2(
-                   -25
-                   , -25
-                   , MapModule.CELL_SIZE + 50
-                   , (MapModule.CELL_SIZE + 50));
-            animationborder.RenderingLayer = 0.51f;
-            animationborder.ColorGetter = () => Color.Black;//Colors[ColorIndex];
-            AddAnimation(animationborder);
+            BlockAnimationHelper.AddAnimation(this);
 
             var collider = new SolidCollider(MapModule.CELL_SIZE, MapModule.CELL_SIZE);
             AddCollider(collider);
