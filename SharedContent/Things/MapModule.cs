@@ -91,7 +91,7 @@ namespace MonoGameProject
 
                 var color = ColorsOfTheStage.Sky();
                 sky.ColorGetter = () => color;
-                sky.RenderingLayer = 1f;
+                sky.RenderingLayer = GameState.State.CaveMode ? 0.999f : 0.998f;
                 AddAnimation(sky);
             }
 
@@ -475,9 +475,9 @@ namespace MonoGameProject
     {
         public ElevatorPlatform(int widthInTileNumber, int heightInTileNumber)
         {
-            BlockAnimationHelper.AddAnimation(this, widthInTileNumber,heightInTileNumber);
+            BlockAnimationHelper.AddAnimation(this, widthInTileNumber, heightInTileNumber);
 
-            var collider = new SolidCollider(widthInTileNumber * MapModule.CELL_SIZE, heightInTileNumber*MapModule.CELL_SIZE);
+            var collider = new SolidCollider(widthInTileNumber * MapModule.CELL_SIZE, heightInTileNumber * MapModule.CELL_SIZE);
             AddCollider(collider);
 
             var speed = 30;
