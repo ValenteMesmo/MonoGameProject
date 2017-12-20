@@ -150,7 +150,7 @@ namespace MonoGameProject
 
             var roof = new Thing();
             roof.AddAfterUpdate(new MoveHorizontallyWithTheWorld(roof, 1, true));
-            roof.AddCollider(new SolidCollider
+            roof.AddCollider(new GroundCollider
             {
                 OffsetY = -MapModule.CELL_SIZE,
                 Height = 4 * MapModule.CELL_SIZE,

@@ -10,7 +10,6 @@ namespace MonoGameProject
     public class Player : Humanoid
     {
         //planning:
-        //Definir como limitar movimento do elevador e da platform
         //fazer a fireball explodir nos elevadores/plataformas 
         //jump and land smoke effect.... dbfz
         //simplificar ritmo da batida... tudum dutum tudum dutum

@@ -452,22 +452,36 @@ namespace MonoGameProject
         {
             BlockAnimationHelper.AddAnimation(this, widthInCellNumber, heightInCellNumber);
 
-            var collider = new SolidCollider(widthInCellNumber * MapModule.CELL_SIZE, heightInCellNumber * MapModule.CELL_SIZE);
+            var collider = new GroundCollider(widthInCellNumber * MapModule.CELL_SIZE, heightInCellNumber * MapModule.CELL_SIZE);
             AddCollider(collider);
 
-            var speed = 30;
-            var tick = 0;
-            AddAfterUpdate(new MoveHorizontallyWithTheWorld(this));
-            AddUpdate(() =>
+            var collisionChecker = new Collider
             {
-                tick++;
-                if (tick == 50)
-                {
-                    tick = 0;
-                    speed *= -1;
-                }
-                HorizontalSpeed = speed;
-            });
+                OffsetX = -MapModule.CELL_SIZE,
+                OffsetY = 0,
+                Width = widthInCellNumber * MapModule.CELL_SIZE + MapModule.CELL_SIZE * 2,
+                Height = heightInCellNumber * MapModule.CELL_SIZE 
+            };
+            collisionChecker.AddLeftCollisionHandler(LeftCollisionHandler);
+            collisionChecker.AddRightCollisionHandler(RightCollisionHandler);
+            AddCollider(collisionChecker);
+
+
+            HorizontalSpeed = 30;
+
+            AddAfterUpdate(new MoveHorizontallyWithTheWorld(this));
+        }
+
+        private void RightCollisionHandler(Collider source, Collider target)
+        {
+            if (target is GroundCollider && target.Parent != this)
+                HorizontalSpeed = -30;
+        }
+
+        private void LeftCollisionHandler(Collider source, Collider target)
+        {
+            if (target is GroundCollider && target.Parent != this)
+                HorizontalSpeed = 30;
         }
     }
 
@@ -477,22 +491,35 @@ namespace MonoGameProject
         {
             BlockAnimationHelper.AddAnimation(this, widthInTileNumber, heightInTileNumber);
 
-            var collider = new SolidCollider(widthInTileNumber * MapModule.CELL_SIZE, heightInTileNumber * MapModule.CELL_SIZE);
+            var collider = new GroundCollider(widthInTileNumber * MapModule.CELL_SIZE, heightInTileNumber * MapModule.CELL_SIZE);
             AddCollider(collider);
 
             var speed = 30;
-            var tick = 0;
+            VerticalSpeed = speed;
             AddAfterUpdate(new MoveHorizontallyWithTheWorld(this));
-            AddUpdate(() =>
+
+            var collisionChecker = new Collider
             {
-                tick++;
-                if (tick == 50)
-                {
-                    tick = 0;
-                    speed *= -1;
-                }
-                VerticalSpeed = speed;
-            });
+                OffsetX = 0,
+                OffsetY = -MapModule.CELL_SIZE * 2,
+                Width = widthInTileNumber * MapModule.CELL_SIZE ,
+                Height = heightInTileNumber * MapModule.CELL_SIZE + MapModule.CELL_SIZE * 4
+            };
+            collisionChecker.AddTopCollisionHandler(TopCollisionHandler);
+            collisionChecker.AddBotCollisionHandler(BotCollisionHandler);
+            AddCollider(collisionChecker);
+        }
+
+        private void BotCollisionHandler(Collider source, Collider target)
+        {
+            if (target is GroundCollider && target.Parent != this)
+                VerticalSpeed = -30;
+        }
+
+        private void TopCollisionHandler(Collider source, Collider target)
+        {
+            if (target is GroundCollider && target.Parent != this)
+                VerticalSpeed = 30;
         }
     }
 }
