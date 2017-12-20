@@ -36,34 +36,57 @@ namespace MonoGameProject
             });
 
             var tiles = new TilesFromStrings().Create(Info.Tiles);
-            foreach (var tile in tiles.Where(f => f.Type == '1' || f.Type == '2'))
+            foreach (var tile in tiles)
             {
-                AddCollider(new GroundCollider
-                {
-                    OffsetX = (tile.X - 1) * CELL_SIZE,
-                    OffsetY = (tile.Y - 1) * CELL_SIZE,
-                    Width = tile.Width * CELL_SIZE,
-                    Height = tile.Height * CELL_SIZE
-                });
-            }
-            foreach (var tile in tiles.Where(f => f.Type == '^'))
-            {
-                Game1.AddToWorld(new Spikes(
+                var offsetX = (tile.X - 1) * CELL_SIZE;
+                var offsetY = (tile.Y - 1) * CELL_SIZE;
+                var width = tile.Width * CELL_SIZE;
+                var height = tile.Height * CELL_SIZE;
+
+                if (tile.Type == '1' || tile.Type == '2')
+                    AddCollider(new GroundCollider
+                    {
+                        OffsetX = offsetX,
+                        OffsetY = offsetY,
+                        Width = width,
+                        Height = height
+                    });
+
+                if (tile.Type == '^')
+                    Game1.AddToWorld(new Spikes(
                     Game1
                     , Color.Red,
                     tile.Width,
                     tile.Height)
+                    {
+                        X = X + offsetX,
+                        Y = Y + offsetY
+                    });
+
+                if (tile.Type == 'j')
                 {
-                    X = X + ((tile.X - 1) * CELL_SIZE),
-                    Y = Y + ((tile.Y - 1) * CELL_SIZE)
-                });
+                    Game1.AddToWorld(new MovingPlatform(tile.Width, tile.Height)
+                    {
+                        X = X + offsetX,
+                        Y = Y + offsetY
+                    });
+                }
+
+                if (tile.Type == 'k')
+                {
+                    Game1.AddToWorld(new ElevatorPlatform(tile.Width, tile.Height)
+                    {
+                        X = X + offsetX,
+                        Y = Y + offsetY
+                    });
+                }
             }
 
             {
                 var sky = new Animation(new AnimationFrame("pixel",
                                   0
                                  , 0
-                                 , CELL_SIZE * CELL_NUMBER
+                                 , (CELL_SIZE * CELL_NUMBER) + 250
                                  , (CELL_SIZE * CELL_NUMBER)));
 
                 var color = ColorsOfTheStage.Sky();
@@ -97,24 +120,6 @@ namespace MonoGameProject
                     if (type == '=')
                     {
                         CreateBackground(i, j);
-                    }
-
-                    if (type == 'j')
-                    {
-                        Game1.AddToWorld(new MovingPlatform()
-                        {
-                            X = X + j * CELL_SIZE,
-                            Y = Y + i * CELL_SIZE
-                        });
-                    }
-
-                    if (type == 'k')
-                    {
-                        Game1.AddToWorld(new ElevatorPlatform()
-                        {
-                            X = X + j * CELL_SIZE,
-                            Y = Y + i * CELL_SIZE
-                        });
                     }
 
                     if (type == 'r')
@@ -307,7 +312,7 @@ namespace MonoGameProject
             var offsety = i * CELL_SIZE - bonusy;
             var width = CELL_SIZE + bonusx * 2;
             var height = CELL_SIZE / 2 + bonusy * 2;
-                
+
             var flipped = false;//MyRandom.Next(0, 1).ToBool();
 
             var animation_ground = CreateAnimation(
@@ -443,11 +448,11 @@ namespace MonoGameProject
 
     public class MovingPlatform : Thing
     {
-        public MovingPlatform()
+        public MovingPlatform(int widthInCellNumber, int heightInCellNumber)
         {
-            BlockAnimationHelper.AddAnimation(this);
+            BlockAnimationHelper.AddAnimation(this, widthInCellNumber, heightInCellNumber);
 
-            var collider = new SolidCollider(MapModule.CELL_SIZE, MapModule.CELL_SIZE);
+            var collider = new SolidCollider(widthInCellNumber * MapModule.CELL_SIZE, heightInCellNumber * MapModule.CELL_SIZE);
             AddCollider(collider);
 
             var speed = 30;
@@ -468,11 +473,11 @@ namespace MonoGameProject
 
     public class ElevatorPlatform : Thing
     {
-        public ElevatorPlatform()
+        public ElevatorPlatform(int widthInTileNumber, int heightInTileNumber)
         {
-            BlockAnimationHelper.AddAnimation(this);
+            BlockAnimationHelper.AddAnimation(this, widthInTileNumber,heightInTileNumber);
 
-            var collider = new SolidCollider(MapModule.CELL_SIZE, MapModule.CELL_SIZE);
+            var collider = new SolidCollider(widthInTileNumber * MapModule.CELL_SIZE, heightInTileNumber*MapModule.CELL_SIZE);
             AddCollider(collider);
 
             var speed = 30;
