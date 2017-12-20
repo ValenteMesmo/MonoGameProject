@@ -24,7 +24,10 @@ namespace MonoGameProject
 
     public class Game1 : Game
     {
-        public Game1(bool RuningOnAndroid = false) : base(new GeneratedContent(), RuningOnAndroid) { }
+        public Game1(bool RuningOnAndroid = false) : base(new GeneratedContent(), RuningOnAndroid)
+        {
+            BaseGame.Window.Title = "Knight Mary";
+        }
 
         public ScreenFlasher ScreenFader;
         public ScreenFader2 ScreenFader2;
@@ -174,7 +177,7 @@ namespace MonoGameProject
                 }
                 if (kb.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.F2))
                 {
-                    player1.HitPoints=1;
+                    player1.HitPoints = 1;
                 }
                 if (kb.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.F5))
                 {
