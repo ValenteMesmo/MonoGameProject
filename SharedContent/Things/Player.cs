@@ -11,6 +11,7 @@ namespace MonoGameProject
     {
         //planning:
         //Definir como limitar movimento do elevador e da platform
+        //fazer a fireball explodir nos elevadores/plataformas 
         //jump and land smoke effect.... dbfz
         //simplificar ritmo da batida... tudum dutum tudum dutum
         //  ações do player nao trigga musica, só as ameaças e o fim delas

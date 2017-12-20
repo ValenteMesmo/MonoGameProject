@@ -62,7 +62,7 @@ namespace MonoGameProject
 
     public class SmokeHitEffect : HitEffect
     {
-        public SmokeHitEffect()
+        public SmokeHitEffect(float z)
         {
             var offset = -250;
             var size = 1000;
@@ -75,7 +75,7 @@ namespace MonoGameProject
 
             animation.LoopDisabled = true;
             animation.ColorGetter = () => Color;
-            animation.RenderingLayer = GlobalSettigns.FIREBALL_Z;
+            animation.RenderingLayer = z;
             AddAnimation(animation);
 
         }

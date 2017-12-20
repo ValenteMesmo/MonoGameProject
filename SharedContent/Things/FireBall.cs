@@ -139,10 +139,9 @@ namespace MonoGameProject
             DamageHandler.CausesSleep = false;
             collider.AddHandler(DamageHandler.CollisionHandler);
             AddUpdate(DamageHandler.Update);
-
             OnDestroy += () =>
             {
-                Game1.AddToWorld(new SmokeHitEffect { X = X, Y = Y, Color = Color });
+                Game1.AddToWorld(new SmokeHitEffect(GlobalSettigns.FIREBALL_Z) { X = X, Y = Y, Color = Color });
             };
         }
     }
@@ -238,10 +237,7 @@ namespace MonoGameProject
         public const int FIREBALL_BORDER_OFFSET = -30 / 2;
         public const int FIREBALL_BORDER_SIZE = MapModule.CELL_SIZE + 30;
 
-
         public int duration = 200;
-
-
 
         public FireBall(Thing Owner, int speedX, int speedY, Game1 Game1, Color Color) : base(Owner, Game1, Color)
         {
@@ -272,13 +268,6 @@ namespace MonoGameProject
             AddUpdate(new DestroyIfLeftBehind(this));
             AddAfterUpdate(new MoveHorizontallyWithTheWorld(this));
             AddUpdate(DestroyAfterDuration);
-
-            OnDestroy += () => Game1.AddToWorld(new SmokeHitEffect
-            {
-                X = X,
-                Y = Y,
-                Color = Color
-            });
         }
 
 
@@ -387,7 +376,7 @@ namespace MonoGameProject
             Game1.AddToWorld(chain);
 
             parent.OnDestroy += () => chain.Destroy();
-            chain.OnDestroy += () => Game1.AddToWorld(new SmokeHitEffect
+            chain.OnDestroy += () => Game1.AddToWorld(new SmokeHitEffect(z)
             {
                 X = chain.X,
                 Y = chain.Y,
