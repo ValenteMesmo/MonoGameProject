@@ -7,7 +7,7 @@ namespace MonoGameProject
 {
     public class PlatformCreator : Thing
     {
-        private const int STAGE_LENGTH = 14;
+        private const int STAGE_LENGTH = 4;
         int stageCount = STAGE_LENGTH;
         private MapModule lastModule;
         private WorldMover WorldMover;
@@ -75,10 +75,10 @@ namespace MonoGameProject
                     , false
                     , "0000000000000000"//
                     , "0000000000000000"//E
-                    , "00000000000kkk00"//E
-                    , "000jjj00000kkk00"//
-                    , "000jjj0000000000"//
-                    , "000jjj0000000000"//
+                    , "0000000000000000"//E
+                    , "0000000000000000"//
+                    , "0000000000000000"//
+                    , "0000000000000000"//
                     , "0000000000000000"//
                     , "0a0a0000!000a000"//E
                     , "0000000000000000"//E

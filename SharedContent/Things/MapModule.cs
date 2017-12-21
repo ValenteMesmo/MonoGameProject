@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework;
 using SharedContent.Things;
 using System;
-using System.Linq;
 
 namespace MonoGameProject
 {
@@ -455,17 +454,8 @@ namespace MonoGameProject
             var collider = new GroundCollider(widthInCellNumber * MapModule.CELL_SIZE, heightInCellNumber * MapModule.CELL_SIZE);
             AddCollider(collider);
 
-            var collisionChecker = new Collider
-            {
-                OffsetX = -MapModule.CELL_SIZE,
-                OffsetY = 0,
-                Width = widthInCellNumber * MapModule.CELL_SIZE + MapModule.CELL_SIZE * 2,
-                Height = heightInCellNumber * MapModule.CELL_SIZE 
-            };
-            collisionChecker.AddLeftCollisionHandler(LeftCollisionHandler);
-            collisionChecker.AddRightCollisionHandler(RightCollisionHandler);
-            AddCollider(collisionChecker);
-
+            collider.AddLeftCollisionHandler(LeftCollisionHandler);
+            collider.AddRightCollisionHandler(RightCollisionHandler);
 
             HorizontalSpeed = 30;
 
@@ -491,23 +481,16 @@ namespace MonoGameProject
         {
             BlockAnimationHelper.AddAnimation(this, widthInTileNumber, heightInTileNumber);
 
-            var collider = new GroundCollider(widthInTileNumber * MapModule.CELL_SIZE, heightInTileNumber * MapModule.CELL_SIZE);
+            var collider = new GroundCollider(widthInTileNumber * MapModule.CELL_SIZE-10, heightInTileNumber * MapModule.CELL_SIZE);
+            collider.OffsetX = 5;
             AddCollider(collider);
 
             var speed = 30;
             VerticalSpeed = speed;
             AddAfterUpdate(new MoveHorizontallyWithTheWorld(this));
 
-            var collisionChecker = new Collider
-            {
-                OffsetX = 0,
-                OffsetY = -MapModule.CELL_SIZE * 2,
-                Width = widthInTileNumber * MapModule.CELL_SIZE ,
-                Height = heightInTileNumber * MapModule.CELL_SIZE + MapModule.CELL_SIZE * 4
-            };
-            collisionChecker.AddTopCollisionHandler(TopCollisionHandler);
-            collisionChecker.AddBotCollisionHandler(BotCollisionHandler);
-            AddCollider(collisionChecker);
+            collider.AddTopCollisionHandler(TopCollisionHandler);
+            collider.AddBotCollisionHandler(BotCollisionHandler);
         }
 
         private void BotCollisionHandler(Collider source, Collider target)

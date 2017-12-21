@@ -10,7 +10,6 @@ namespace MonoGameProject
     public class Player : Humanoid
     {
         //planning:
-        //fazer a fireball explodir nos elevadores/plataformas 
         //jump and land smoke effect.... dbfz
         //simplificar ritmo da batida... tudum dutum tudum dutum
         //  ações do player nao trigga musica, só as ameaças e o fim delas
@@ -319,6 +318,17 @@ namespace MonoGameProject
             MainCollider.AddTopCollisionHandler(PickupArmor);
             MainCollider.AddLeftCollisionHandler(PickupArmor);
             MainCollider.AddRightCollisionHandler(PickupArmor);
+
+            AddUpdate(()=> {//make player move with platform
+                if (groundChecker.Colliding<BlockVerticalMovement>())
+                {
+                    foreach (var ground in groundChecker.CollidingWith.OfType<BlockVerticalMovement>())
+                    {
+                        X += (ground as Collider).Parent.HorizontalSpeed;
+                        break;
+                    }
+                }
+            });
 
             MainCollider.AddBotCollisionHandler(StopsWhenHitting.Bot<BlockVerticalMovement>());
             MainCollider.AddLeftCollisionHandler(StopsWhenHitting.Left<BlockHorizontalMovement>());
