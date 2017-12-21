@@ -154,7 +154,7 @@ namespace MonoGameProject
         private const int width = 1500;
         private const int height = 1500;
         private const int offsetY = -height - height / 2;
-        private const int offsetX = -width / 4;
+        private const int offsetX = (-width / 4);
         private const int offsetX_flipped = (-width / 2 - width / 4) - 200;
 
         public MyRandom MyRandom = new MyRandom()
@@ -375,9 +375,9 @@ namespace MonoGameProject
             if (pair)
                 x += x / 2;
 
-            var flippedx = (-size / 4 + size / 8) - 100;
+            var flippedx = (-size / 4 + size / 8) - 250;
             if (pair)
-                flippedx -= (flippedx + 100) * 3;
+                flippedx -= (flippedx ) * 2 + 200;
 
             var y = (-size + size / 10) + 100;
             var width = size * 2;

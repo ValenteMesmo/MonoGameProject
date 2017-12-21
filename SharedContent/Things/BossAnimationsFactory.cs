@@ -8,12 +8,10 @@ namespace MonoGameProject
 
         public static int GetHeadBonusX(bool flipped)
         {
-            var bonus = 250;
-
             if (flipped)
-                return bonus;
+                return 150;
             else
-                return -bonus;
+                return -450;
         }
 
         public static Animation HeadAnimation(int random, int X, int Y, int? Width = null, int? Height = null, bool Flipped = false)
