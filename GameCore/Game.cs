@@ -57,9 +57,7 @@ public abstract class Game : IDisposable
 {
     public VibrationCenter VibrationCenter { get { return BaseGame.VibrationCenter; } }
 
-#if DEBUG
     public static string LOG = "NO logs";
-#endif
     public FrameCounter FrameCounter = new FrameCounter();
     public readonly BaseGame BaseGame;
     public Camera2d Camera { get { return BaseGame.Camera; } }
