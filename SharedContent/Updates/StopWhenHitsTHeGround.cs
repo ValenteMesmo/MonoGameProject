@@ -31,17 +31,7 @@ namespace MonoGameProject
         private static void BotHandler<T>(BaseRectangle Parent, BaseRectangle other)
         {
             if (other is T)
-            {
-                if (other.Parent is MapModule && Parent.Parent.VerticalSpeed > 20)
-                {
-                    Game1.Instance.AddToWorld(new SmokeHitEffect(GlobalSettigns.FIREBALL_Z)
-                    {
-                        Y= other.Top(),
-                        X = (int)Parent.CenterX(),
-                        Color = (other.Parent as MapModule).Sub
-                    });
-                }
-                
+            {                
                 if (other.Parent.VerticalSpeed > 0)
                     Parent.Parent.VerticalSpeed = other.Parent.VerticalSpeed;
                 else

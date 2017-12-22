@@ -73,6 +73,14 @@ namespace MonoGameProject
                     });
                 }
 
+                if (tile.Type == 'i')
+                {
+                    Game1.AddToWorld(new ElevatorBlocker()
+                    {
+                        X = X + offsetX,
+                        Y = Y + offsetY
+                    });
+                }
                 if (tile.Type == 'k')
                 {
                     Game1.AddToWorld(new ElevatorPlatform(tile.Width, tile.Height)
@@ -131,6 +139,14 @@ namespace MonoGameProject
                             Y = Y + i * CELL_SIZE
                         });
                         CreateBackground(i, j);
+                    }
+                    if (type == 'e')
+                    {
+                        Game1.AddToWorld(new Enemy(Game1)
+                        {
+                            X = X + j * CELL_SIZE,
+                            Y = Y + i * CELL_SIZE
+                        });
                     }
                     if (type == '@')
                     {
@@ -477,6 +493,19 @@ namespace MonoGameProject
         }
     }
 
+    public class ElevatorBlocker : Thing
+    {
+        public ElevatorBlocker()
+        {
+            var collider = new Collider(MapModule.CELL_SIZE - 10,MapModule.CELL_SIZE);
+
+            collider.OffsetX = 5;
+            AddCollider(collider);
+
+            AddAfterUpdate(new MoveHorizontallyWithTheWorld(this));
+        }
+    }
+
     public class ElevatorPlatform : Thing
     {
         public ElevatorPlatform(int widthInTileNumber, int heightInTileNumber)
@@ -497,13 +526,13 @@ namespace MonoGameProject
 
         private void BotCollisionHandler(Collider source, Collider target)
         {
-            if (target is GroundCollider && target.Parent != this)
+            if ((target is GroundCollider || target.Parent is ElevatorBlocker)  && target.Parent != this)
                 VerticalSpeed = -30;
         }
 
         private void TopCollisionHandler(Collider source, Collider target)
         {
-            if (target is GroundCollider && target.Parent != this)
+            if ((target is GroundCollider || target.Parent is ElevatorBlocker) && target.Parent != this)
                 VerticalSpeed = 30;
         }
     }
