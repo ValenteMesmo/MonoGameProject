@@ -1,5 +1,6 @@
 ﻿using GameCore;
 using MonoGameProject.Things;
+using SharedContent.Things;
 using System;
 
 namespace MonoGameProject
@@ -31,6 +32,16 @@ namespace MonoGameProject
         {
             if (other is T)
             {
+                if (other.Parent is MapModule && Parent.Parent.VerticalSpeed > 20)
+                {
+                    Game1.Instance.AddToWorld(new SmokeHitEffect(GlobalSettigns.FIREBALL_Z)
+                    {
+                        Y= other.Top(),
+                        X = (int)Parent.CenterX(),
+                        Color = (other.Parent as MapModule).Sub
+                    });
+                }
+                
                 if (other.Parent.VerticalSpeed > 0)
                     Parent.Parent.VerticalSpeed = other.Parent.VerticalSpeed;
                 else
@@ -56,7 +67,7 @@ namespace MonoGameProject
                     if (otherVSpeed > 0 && parentVSpeed < otherVSpeed)
                         Parent.Parent.VerticalSpeed = otherVSpeed + AfectedByGravity.FORCE;
                 }
-                
+
                 var parentHSpeed = Parent.Parent.HorizontalSpeed;
                 var otherHSpeed = other.Parent.HorizontalSpeed;
                 if (

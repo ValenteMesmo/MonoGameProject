@@ -24,7 +24,18 @@ namespace MonoGameProject
 
     public class Game1 : Game
     {
-        public Game1(bool RuningOnAndroid = false) : base(new GeneratedContent(), RuningOnAndroid)
+        private static Game1 _instance;
+        public static Game1 Instance
+        {
+            get
+            {
+                if (_instance == null)
+                    _instance = new Game1();
+                return _instance;
+            }
+        }
+
+        private Game1() : base(new GeneratedContent())
         {
             BaseGame.Window.Title = "Knight Mary";
         }

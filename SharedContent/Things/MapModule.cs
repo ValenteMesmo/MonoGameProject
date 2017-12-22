@@ -12,11 +12,13 @@ namespace MonoGameProject
         public const int CELL_NUMBER = 16;
         public const int WIDTH = CELL_SIZE * CELL_NUMBER;
         public const int HEIGHT = CELL_SIZE * CELL_NUMBER;
+        public Color Sub;
 
         public readonly MapModuleInfo Info;
 
         public MapModule(int X, int Y, BackBlocker Blocker, MapModuleInfo Info, Game1 Game1)
         {
+            Sub = ColorsOfTheStage.Sub();
             this.X = X;
             this.Y = Y;
             this.Info = Info;

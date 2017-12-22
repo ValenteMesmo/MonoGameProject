@@ -13,7 +13,7 @@ namespace MonoGameProject
         [STAThread]
         static void Main()
         {
-            using (var game = new Game1())
+            using (var game = Game1.Instance)
                 game.Run();
         }
     }

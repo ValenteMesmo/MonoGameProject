@@ -22,7 +22,8 @@ namespace AndroidVersion
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
-            game = new Game1(true);
+            game = Game1.Instance;
+            Game1.Instance.BaseGame.RuningOnAndroid = true;
             SetViewFullScreen();
 
             Vibrator vibrator = (Vibrator)GetSystemService(VibratorService);

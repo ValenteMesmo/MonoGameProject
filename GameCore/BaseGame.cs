@@ -205,11 +205,10 @@ public class BaseGame : OriginalGameClass
 #endif
     public VibrationCenter VibrationCenter { get; set; }
     public readonly MusicController MusicController;
-    private readonly bool RuningOnAndroid;
+    public bool RuningOnAndroid;
 
-    public BaseGame(ILoadContents ContentLoader, Game Parent, bool RuningOnAndroid)
+    public BaseGame(ILoadContents ContentLoader, Game Parent)
     {
-        this.RuningOnAndroid = RuningOnAndroid;
         MusicController = new MusicController(n => Sounds[n]);
         this.VibrationCenter = new VibrationCenter();
         this.Parent = Parent;

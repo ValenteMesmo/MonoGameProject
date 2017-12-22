@@ -67,9 +67,9 @@ public abstract class Game : IDisposable
 
     public MusicController MusicController { get { return BaseGame.MusicController; } }
 
-    public Game(ILoadContents ContentLoader, bool RuningOnAndroid)
+    public Game(ILoadContents ContentLoader)
     {
-        BaseGame = new BaseGame(ContentLoader, this, RuningOnAndroid);
+        BaseGame = new BaseGame(ContentLoader, this);
         BaseGame.Graphics.IsFullScreen = true;
     }
 
