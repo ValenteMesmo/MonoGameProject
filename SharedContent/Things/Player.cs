@@ -10,6 +10,8 @@ namespace MonoGameProject
     public class Player : Humanoid
     {
         //planning:
+        //improve touch inputs...... not good
+        //fix cavemode condition? its just the modulecount per level... 
         //jump and land smoke effect.... dbfz
         //simplificar ritmo da batida... tudum dutum tudum dutum
         //  ações do player nao trigga musica, só as ameaças e o fim delas
