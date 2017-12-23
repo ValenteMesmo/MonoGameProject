@@ -53,7 +53,8 @@ namespace MonoGameProject
                         Height = height
                     });
 
-                if (tile.Type == '^')
+                if (tile.Type == 'u' || tile.Type == 'U')
+                {
                     Game1.AddToWorld(new Spikes(
                     Game1
                     , Color.Red,
@@ -63,6 +64,7 @@ namespace MonoGameProject
                         X = X + offsetX,
                         Y = Y + offsetY
                     });
+                }
 
                 if (tile.Type == 'j')
                 {
@@ -126,7 +128,7 @@ namespace MonoGameProject
                             , GetGroundAnimation());
                     }
 
-                    if (type == '=')
+                    if (type == '='  || type == 'U' || type == 'A')
                     {
                         CreateBackground(i, j);
                     }
@@ -243,14 +245,13 @@ namespace MonoGameProject
                         });
                         CreateBackground(i, j);
                     }
-                    if (type == 'a')
+                    if (type == 'a' || type == 'A')
                     {
                         Game1.AddToWorld(new ItemChest(Game1)
                         {
                             X = X + j * CELL_SIZE,
                             Y = Y + i * CELL_SIZE
                         });
-                        //CreateBackground(i, j);
                     }
                     if (type == '!')
                     {
@@ -497,7 +498,7 @@ namespace MonoGameProject
     {
         public ElevatorBlocker()
         {
-            var collider = new Collider(MapModule.CELL_SIZE - 10,MapModule.CELL_SIZE);
+            var collider = new Collider(MapModule.CELL_SIZE - 10, MapModule.CELL_SIZE);
 
             collider.OffsetX = 5;
             AddCollider(collider);
@@ -512,7 +513,7 @@ namespace MonoGameProject
         {
             BlockAnimationHelper.AddAnimation(this, widthInTileNumber, heightInTileNumber);
 
-            var collider = new GroundCollider(widthInTileNumber * MapModule.CELL_SIZE-10, heightInTileNumber * MapModule.CELL_SIZE);
+            var collider = new GroundCollider(widthInTileNumber * MapModule.CELL_SIZE - 10, heightInTileNumber * MapModule.CELL_SIZE);
             collider.OffsetX = 5;
             AddCollider(collider);
 
@@ -526,7 +527,7 @@ namespace MonoGameProject
 
         private void BotCollisionHandler(Collider source, Collider target)
         {
-            if ((target is GroundCollider || target.Parent is ElevatorBlocker)  && target.Parent != this)
+            if ((target is GroundCollider || target.Parent is ElevatorBlocker) && target.Parent != this)
                 VerticalSpeed = -30;
         }
 
