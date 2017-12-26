@@ -323,7 +323,7 @@ namespace MonoGameProject
             AddCollider(roofChecker);
 
             whipWidth = (int)(width * 2.0f);
-            swordWidth = (int)(width * 1.0f);
+            swordWidth = (int)(width * 1.2f);
             wandWidth = (int)(width * 0.5f);
             AttackRightCollider = new AttackCollider
             {

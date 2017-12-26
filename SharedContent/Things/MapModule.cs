@@ -66,7 +66,7 @@ namespace MonoGameProject
                     });
                 }
 
-                if (tile.Type == 'j')
+                if (tile.Type == 'j' || tile.Type == 'J')
                 {
                     Game1.AddToWorld(new MovingPlatform(tile.Width, tile.Height)
                     {
@@ -75,7 +75,7 @@ namespace MonoGameProject
                     });
                 }
 
-                if (tile.Type == 'i')
+                if (tile.Type == 'i' || tile.Type == 'I')
                 {
                     Game1.AddToWorld(new ElevatorBlocker()
                     {
@@ -83,7 +83,7 @@ namespace MonoGameProject
                         Y = Y + offsetY
                     });
                 }
-                if (tile.Type == 'k')
+                if (tile.Type == 'k' || tile.Type == 'K')
                 {
                     Game1.AddToWorld(new ElevatorPlatform(tile.Width, tile.Height)
                     {
@@ -128,7 +128,12 @@ namespace MonoGameProject
                             , GetGroundAnimation());
                     }
 
-                    if (type == '='  || type == 'U' || type == 'A')
+                    if (type == '='  
+                        || type == 'U' 
+                        || type == 'A'
+                        || type == 'I'
+                        || type == 'K'
+                        || type == 'J')
                     {
                         CreateBackground(i, j);
                     }
@@ -511,7 +516,7 @@ namespace MonoGameProject
     {
         public ElevatorPlatform(int widthInTileNumber, int heightInTileNumber)
         {
-            BlockAnimationHelper.AddAnimation(this, widthInTileNumber, heightInTileNumber);
+            BlockAnimationHelper.AddAnimation(this, widthInTileNumber, heightInTileNumber,0.51f);
 
             var collider = new GroundCollider(widthInTileNumber * MapModule.CELL_SIZE - 10, heightInTileNumber * MapModule.CELL_SIZE);
             collider.OffsetX = 5;

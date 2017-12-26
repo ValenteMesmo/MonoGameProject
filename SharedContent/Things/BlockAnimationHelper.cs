@@ -14,7 +14,7 @@ namespace SharedContent.Things
                 return GeneratedContent.Create_knight_ground_1(X, Y, Width, Height, Flipped);
         }
 
-        public static void AddAnimation(Thing thing, int widthInCellNumber, int heightCellNumber)
+        public static void AddAnimation(Thing thing, int widthInCellNumber, int heightCellNumber, float zIndex = 0.52f)
         {
             var bonusx = 25;
             var bonusy = 20;
@@ -36,8 +36,7 @@ namespace SharedContent.Things
                         , width
                         , height
                         , flipped);
-                    animation_ground.RenderingLayer = 0.52f;//+ 0.001f;
-                                                            //var groundcolor = GameState.GetComplimentColor2();
+                    animation_ground.RenderingLayer =zIndex;
                     animation_ground.ColorGetter = ColorsOfTheStage.Main;
                     thing.AddAnimation(animation_ground);
 
@@ -47,7 +46,7 @@ namespace SharedContent.Things
                         , width + bonusx * 2
                         , height + bonusy * 2,
                         flipped);
-                    animation_ground_border.RenderingLayer = 0.52f + 0.001f;
+                    animation_ground_border.RenderingLayer = zIndex + 0.001f;
                     animation_ground_border.ColorGetter = () => Color.Black;
                     thing.AddAnimation(animation_ground_border);
                 }
