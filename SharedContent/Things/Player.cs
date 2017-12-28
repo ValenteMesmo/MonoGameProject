@@ -237,6 +237,7 @@ namespace MonoGameProject
         //fireballs vertical lenta...
         private const int width = 1000;
         private readonly Game1 Game1;
+        public readonly CrushedByCollision CrushedByCollision;
 
         public Player(
             Game1 Game1
@@ -283,8 +284,8 @@ namespace MonoGameProject
 
                 SetWeaponType(GameState.State.Player4_WeaponType);
             }
-            
-            new CrushedByCollision(this);
+
+            CrushedByCollision = new CrushedByCollision(this);
 
             AddUpdate(new TakesDamage(this, Game1, AddToWorld));
 
@@ -389,13 +390,13 @@ namespace MonoGameProject
         }
     }
 
-    class CrushedByCollision
+    public class CrushedByCollision
     {
         private readonly Humanoid parent;
-        private bool TopCollison;
-        private bool BotCollison;
-        private bool LeftCollision;
-        private bool RightCollision;
+        public bool TopCollison;
+        public bool BotCollison;
+        public bool LeftCollision;
+        public bool RightCollision;
 
         public CrushedByCollision(Humanoid parent)
         {
@@ -405,6 +406,17 @@ namespace MonoGameProject
             parent.MainCollider.AddLeftCollisionHandler(HandleLeftCollision);
             parent.MainCollider.AddRightCollisionHandler(HandleRightCollision);
             parent.AddUpdate(Update);
+            parent.AddAfterUpdate(AfterUpdate);
+        }
+
+        private void AfterUpdate()
+        {
+
+            if (LeftCollision && RightCollision)
+                parent.Destroy();
+
+            if (TopCollison && BotCollison)
+                parent.Destroy();
         }
 
         private void HandleRightCollision(Collider source, Collider target)
@@ -412,8 +424,6 @@ namespace MonoGameProject
             if (target is BlockHorizontalMovement)
             {
                 RightCollision = true;
-                if (LeftCollision)
-                    parent.Destroy();
             }
         }
 
@@ -422,8 +432,6 @@ namespace MonoGameProject
             if (target is BlockHorizontalMovement)
             {
                 LeftCollision = true;
-                if (RightCollision)
-                    parent.Destroy();
             }
         }
 
@@ -440,8 +448,6 @@ namespace MonoGameProject
             if (target is BlockVerticalMovement)
             {
                 TopCollison = true;
-                if (BotCollison)
-                    parent.Destroy();
             }
         }
 
@@ -450,8 +456,6 @@ namespace MonoGameProject
             if (target is BlockVerticalMovement)
             {
                 BotCollison = true;
-                if (TopCollison)
-                    parent.Destroy();
             }
         }
     }

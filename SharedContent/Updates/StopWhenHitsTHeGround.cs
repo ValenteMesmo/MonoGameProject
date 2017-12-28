@@ -19,8 +19,28 @@ namespace MonoGameProject
             if (other is T)
             {
                 //Parent.Parent.VerticalSpeed = 0;
-                Parent.Parent.Y = other.Bottom() - Parent.OffsetY + KNOCKBACK;
+                SetBelow(Parent, other);
             }
+        }
+
+        public static void SetBelow(BaseRectangle source, BaseRectangle target)
+        {
+            source.Parent.Y = target.Bottom() - source.OffsetY + KNOCKBACK;
+        }
+
+        public static void SetOnTop(BaseRectangle source, BaseRectangle target)
+        {
+            source.Parent.Y = target.Top() - source.Height - source.OffsetY - KNOCKBACK;
+        }
+        
+        public static void SetOnTheRight(BaseRectangle source, BaseRectangle target)
+        {
+            source.Parent.X = target.Right() - source.OffsetX + KNOCKBACK;
+        }
+
+        public static void SetOnTheLeft(BaseRectangle source, BaseRectangle target)
+        {
+            source.Parent.X = target.Left() - source.Width - source.OffsetX - KNOCKBACK;
         }
 
         public static Action<BaseRectangle, BaseRectangle> Bot<T>()
@@ -31,13 +51,13 @@ namespace MonoGameProject
         private static void BotHandler<T>(BaseRectangle Parent, BaseRectangle other)
         {
             if (other is T)
-            {                
+            {
                 if (other.Parent.VerticalSpeed > 0)
                     Parent.Parent.VerticalSpeed = other.Parent.VerticalSpeed;
                 else
                     Parent.Parent.VerticalSpeed = 0;
 
-                Parent.Parent.Y = other.Top() - Parent.Height - Parent.OffsetY - KNOCKBACK;
+                SetOnTop(Parent, other);
             }
         }
 
@@ -69,7 +89,7 @@ namespace MonoGameProject
                 else
                     Parent.Parent.HorizontalSpeed = 0;
 
-                Parent.Parent.X = other.Right() - Parent.OffsetX + KNOCKBACK;
+                SetOnTheRight(Parent, other);
             }
         }
 
@@ -101,7 +121,7 @@ namespace MonoGameProject
                 else
                     Parent.Parent.HorizontalSpeed = 0;
 
-                Parent.Parent.X = other.Left() - Parent.Width - Parent.OffsetX - KNOCKBACK;
+                SetOnTheLeft(Parent, other);
             }
         }
     }

@@ -490,12 +490,34 @@ namespace MonoGameProject
         {
             if (target is GroundCollider && target.Parent != this)
                 HorizontalSpeed = -30;
+
+            if (target.Parent is Player)
+            {
+                var player = target.Parent as Player;
+                if (target == player.MainCollider && player.CrushedByCollision.LeftCollision)
+                {
+                    HorizontalSpeed = -30;
+                    StopsWhenHitting.SetOnTheLeft(source, target);
+                    player.CrushedByCollision.RightCollision = false;
+                }
+            }
         }
 
         private void LeftCollisionHandler(Collider source, Collider target)
         {
             if (target is GroundCollider && target.Parent != this)
                 HorizontalSpeed = 30;
+
+            if (target.Parent is Player)
+            {
+                var player = target.Parent as Player;
+                if (target == player.MainCollider && player.CrushedByCollision.RightCollision)
+                {
+                    HorizontalSpeed = 30;
+                    StopsWhenHitting.SetOnTheRight(source, target);
+                    player.CrushedByCollision.LeftCollision = false;
+                }
+            }
         }
     }
 
@@ -534,12 +556,34 @@ namespace MonoGameProject
         {
             if ((target is GroundCollider || target.Parent is ElevatorBlocker) && target.Parent != this)
                 VerticalSpeed = -30;
+
+            if (target.Parent is Player)
+            {
+                var player = target.Parent as Player;
+                if (target == player.MainCollider && player.CrushedByCollision.BotCollison)
+                {
+                    VerticalSpeed = -30;
+                    StopsWhenHitting.SetOnTop(source, target);
+                    player.CrushedByCollision.TopCollison = false;
+                }
+            }
         }
 
         private void TopCollisionHandler(Collider source, Collider target)
         {
             if ((target is GroundCollider || target.Parent is ElevatorBlocker) && target.Parent != this)
                 VerticalSpeed = 30;
+
+            if (target.Parent is Player)
+            {
+                var player = target.Parent as Player;
+                if (target == player.MainCollider && player.CrushedByCollision.TopCollison)
+                {
+                    VerticalSpeed = 30;
+                    StopsWhenHitting.SetBelow(source, target);
+                    player.CrushedByCollision.BotCollison = false;
+                }
+            }
         }
     }
 }
