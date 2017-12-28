@@ -10,6 +10,8 @@ namespace MonoGameProject
     public class Player : Humanoid
     {
         //planning:
+        //mover camera quando player estiver subindo elevador
+        //batida do cns?
         //simplificar braços, pernas e rostos se inspirando em advtm?
         //impedir que o elevador esmague o player... utilizando ele para mudar de direção.
         //improve touch inputs...... not good... em vez de tentar adivinhar o input, mover os btns de acordo com o touch
@@ -31,7 +33,6 @@ namespace MonoGameProject
         //mudar leafshield para atingir player de chicote?
         //add explosions when boss dies
         //add explosions when player dies
-        //aumentar hp do boss de acordo com o numero de players
         //prevent boss from having same appearance of previous
         //reduzir vibração no touch up ou down
         //insta kill on spikes
@@ -253,7 +254,7 @@ namespace MonoGameProject
             HitPoints = 2;
 
             if (PlayerIndex == 0)
-            {                
+            {
                 SetArmorColor(
                     new Color(GameState.State.Player1_ArmorRed, GameState.State.Player1_ArmorGreen, GameState.State.Player1_ArmorBlue)
                 );
@@ -294,7 +295,7 @@ namespace MonoGameProject
                 if (t.Parent is Armor)
                 {
                     var armorColor = (t.Parent as Armor).Color;
-                    GameState.SetPlayer1ArmorColor(armorColor,PlayerIndex);
+                    GameState.SetPlayer1ArmorColor(armorColor, PlayerIndex);
 
                     HitPoints = 2;
                     SetArmorColor(armorColor);
@@ -309,7 +310,7 @@ namespace MonoGameProject
                     var weapon = t.Parent as Weapon;
 
                     GameState.SetWeaponType(weapon.Type, PlayerIndex);
-                                        
+
                     SetWeaponType(weapon.Type);
 
                     t.Parent.Destroy();
@@ -325,7 +326,8 @@ namespace MonoGameProject
             MainCollider.AddLeftCollisionHandler(PickupArmor);
             MainCollider.AddRightCollisionHandler(PickupArmor);
 
-            AddUpdate(()=> {//make player move with platform
+            AddUpdate(() =>
+            {//make player move with platform
                 if (groundChecker.Colliding<BlockVerticalMovement>())
                 {
                     foreach (var ground in groundChecker.CollidingWith.OfType<BlockVerticalMovement>())
@@ -342,7 +344,7 @@ namespace MonoGameProject
                 {
                     Game1.Instance.AddToWorld(new SmokeHitEffect(GlobalSettigns.FIREBALL_Z)
                     {
-                        Y = other.Top() -300,
+                        Y = other.Top() - 300,
                         X = Parent.X,
                         Color = (other.Parent as MapModule).Sub
                     });
@@ -358,7 +360,8 @@ namespace MonoGameProject
             factory.CreateAnimator(this, index);
             factory.CreateHairBonus(this, AddToWorld);
 
-            OnDestroy += () => {
+            OnDestroy += () =>
+            {
 
                 if (Game1.Players.Count() > 1)
                 {
@@ -374,7 +377,7 @@ namespace MonoGameProject
                     return;
                 }
 
-                Game1.GameOver();                
+                Game1.GameOver();
             };
         }
 

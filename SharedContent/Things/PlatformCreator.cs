@@ -7,7 +7,7 @@ namespace MonoGameProject
 {
     public class PlatformCreator : Thing
     {
-        private const int STAGE_LENGTH = 140;
+        private const int STAGE_LENGTH = 14;
         int stageCount = STAGE_LENGTH;
         private MapModule lastModule;
         private WorldMover WorldMover;
@@ -128,7 +128,7 @@ namespace MonoGameProject
 
         private void CreateGroundOnTheRight()
         {
-            //if (stageCount == 5)
+            if (stageCount == 5)
             {
                 GameState.State.CaveMode = true;
             }

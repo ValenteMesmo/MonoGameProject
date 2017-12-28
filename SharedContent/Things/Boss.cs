@@ -4,6 +4,7 @@ using MonoGameProject.Things;
 using SharedContent;
 using SharedContent.Things.BossSkills;
 using System;
+using System.Linq;
 
 namespace MonoGameProject
 {
@@ -170,7 +171,7 @@ namespace MonoGameProject
         public readonly CollisionChecker groundDetector;
         public readonly Collider playerFinder;
 
-        public const int HEALTH = 20;
+        public const int HEALTH = 25;
         internal bool AttackingWithTheHand;
         public readonly PlayerDamageHandler PlayerDamageHandler;
         private readonly Color BodyColorTakingDamate;
@@ -248,7 +249,7 @@ namespace MonoGameProject
                     GameState.State.BossMode = false;
                 }
             );
-            PlayerDamageHandler.HEALTH = 30;
+            PlayerDamageHandler.HEALTH = HEALTH + 5*Game1.PlayersSlots.Count(f => f.AssociatedInput != null);
 
             mainCollider.AddHandler(PlayerDamageHandler.CollisionHandler);
             headCollider.AddHandler(PlayerDamageHandler.CollisionHandler);
