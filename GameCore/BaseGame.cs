@@ -131,7 +131,7 @@ public class MusicController
     {
         Game.LOG += $@"
 {(mainTime() ? 1 : 0)} - {currentBeat}
-" ;
+";
 
         if (canPlay)
         {
@@ -296,6 +296,7 @@ public class BaseGame : OriginalGameClass
 #else
         Camera.Zoom = 0.15f;
 #endif
+        InputWrapper.Update();
         MusicController.Update();
         World.Update();
         MusicController.Play();
@@ -399,7 +400,7 @@ public class BaseGame : OriginalGameClass
 
 
         World.Things.ForEach(RenderThing);
-#if DEBUG
+#if DEBUG      
         var fps = string.Format("FPS: {0}", Parent.FrameCounter.AverageFramesPerSecond);
 
         SpriteBatch.DrawString(

@@ -10,37 +10,34 @@ namespace MonoGameProject
     public class Player : Humanoid
     {
         //planning:
+        //criar atalhos nas teclas de funções para desabilitar fundo paralax, paredes, fireball trails, etc
+
         //batida do cns?
-        //simplificar braços, pernas e rostos se inspirando em advtm?
-        //impedir que o elevador esmague o player... utilizando ele para mudar de direção.
-        //improve touch inputs...... not good... em vez de tentar adivinhar o input, mover os btns de acordo com o touch
-        //      cada btn tem um ponto certo.. mover o controle para que o ultimo touch fique no ponto certo
-        //fix cavemode condition? its just the modulecount per level... 
-        //jump and land smoke effect.... dbfz
+        //mudar leafshield para atingir player de chicote?
         //simplificar ritmo da batida... tudum dutum tudum dutum
         //  ações do player nao trigga musica, só as ameaças e o fim delas
-        //hue br boss
-        //every thing should have a mouth? fireball singing / yelling
         //  other monster yelling hey! hey! yoooo!   oh! tum tum!
-        //  player attacking yells: laaa! lãaaa! laaa!
         //  other fireballs iaiaiaiaiaia!
+        //every thing should have a mouth? fireball singing / yelling
+        //simplificar braços, pernas e rostos se inspirando em advtm?
+        //improve touch inputs...... not good... em vez de tentar adivinhar o input, mover os btns de acordo com o touch
+        //      cada btn tem um ponto certo.. mover o controle para que o ultimo touch fique no ponto certo
+        //jump and land smoke effect.... dbfz
+        //hue br boss
         //fireball genkidama
         //fireball bouncing
         //fireball direcionada
         //fireball em espiral (ch boat)
         //fireball go to the roof and to the floor.d
-        //mudar leafshield para atingir player de chicote?
         //add explosions when boss dies
         //add explosions when player dies
         //prevent boss from having same appearance of previous
         //reduzir vibração no touch up ou down
-        //insta kill on spikes
         //remove animations that are not being used
         //reduce fireballdefault border (redraw animation)
         //increase hiteffect border (redraw animation)
         //animação de braço cansado tbm
 
-        //criar atalhos nas teclas de funções para desabilitar fundo paralax, paredes, fireball trails, etc
 
         //informar collision point parar os handlers ( para criar particulas de collisao no lugar certo)
 

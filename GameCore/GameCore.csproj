@@ -60,6 +60,7 @@
     <Compile Include="ILoadContents.cs" />
     <Compile Include="InputChecker.cs" />
     <Compile Include="InputCheckerAggregation.cs" />
+    <Compile Include="InputWrapper.cs" />
     <Compile Include="KeyboardChecker.cs" />
     <Compile Include="UpdateHandler.cs" />
     <Compile Include="TouchInputHandler.cs" />
