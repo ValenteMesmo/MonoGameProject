@@ -536,6 +536,7 @@ namespace MonoGameProject
 
     public class ElevatorPlatform : Thing
     {
+        public const int speed = 30;
         public ElevatorPlatform(int widthInTileNumber, int heightInTileNumber)
         {
             BlockAnimationHelper.AddAnimation(this, widthInTileNumber, heightInTileNumber,0.51f);
@@ -544,7 +545,7 @@ namespace MonoGameProject
             collider.OffsetX = 5;
             AddCollider(collider);
 
-            var speed = 30;
+         
             VerticalSpeed = speed;
             AddAfterUpdate(new MoveHorizontallyWithTheWorld(this));
 

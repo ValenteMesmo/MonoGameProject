@@ -10,7 +10,6 @@ namespace MonoGameProject
     public class Player : Humanoid
     {
         //planning:
-        //mover camera quando player estiver subindo elevador
         //batida do cns?
         //simplificar braços, pernas e rostos se inspirando em advtm?
         //impedir que o elevador esmague o player... utilizando ele para mudar de direção.

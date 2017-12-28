@@ -1,6 +1,7 @@
 ﻿using GameCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MonoGameProject
 {
@@ -67,12 +68,34 @@ namespace MonoGameProject
                         {
                             if (player.VerticalSpeed > botSpeed)
                                 botSpeed = player.VerticalSpeed;
+
+                            if (player.groundChecker.CollidingWith.Any(f => 
+                                        f.Parent is ElevatorPlatform 
+                                        && f.Parent.VerticalSpeed > 0
+                                    )
+                                )
+                            {
+                                botSpeed = ElevatorPlatform.speed;
+                            }
+
                             playersOnTheBot++;
                         }
                         else if (TopCollider.CollidingWith.Contains(player.MainCollider))
                         {
                             if (player.VerticalSpeed < topSpeed)
                                 topSpeed = player.VerticalSpeed;
+
+                            if (
+                                botSpeed > -ElevatorPlatform.speed
+                                && player.groundChecker.CollidingWith.Any(f =>
+                                        f.Parent is ElevatorPlatform
+                                        && f.Parent.VerticalSpeed < 0
+                                    )
+                                )
+                            {
+                                topSpeed = -ElevatorPlatform.speed;
+                            }
+
                             playersOnTheTop++;
                         }
                     }
