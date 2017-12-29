@@ -19,14 +19,18 @@ public class MusicController
     private const float bpm = 120;
     private const float crotchet = 60 / bpm;
     private float beatTime = 0;
-    public int currentBeat = 1;
+    public int currentBeat = START;
     private bool canPlay = false;
 
     private const int one = 4 * (4 * 1);
     private const int two = 4 * (4 * 2);
     private const int three = 4 * (4 * 3);
     private const int four = 4 * (4 * 4);
-    private bool odd = true;
+    //private bool odd = true;
+    private int soundSlot = 1;
+
+    private const int START = 1;
+    private const int END = 16;
 
     public void Update()
     {
@@ -34,15 +38,17 @@ public class MusicController
 
         canPlay = false;
 
-        if ((beatTime % 1) == 0)
+        if (beatTime == 1)
         {
-
             beatTime = 0;
             currentBeat++;
-            if (currentBeat > four)
+            if (currentBeat >= END)
             {
-                currentBeat = 4;
-                odd = !odd;
+                currentBeat = START;
+                //odd = !odd;
+                soundSlot++;
+                if (soundSlot > 8)
+                    soundSlot = 1;
             }
 
             canPlay = true;
@@ -52,79 +58,6 @@ public class MusicController
     public void Force(string v)
     {
         Playe(v);
-    }
-
-
-    //todo: inverter a logica...nao bater no prato... bater no kick
-    private bool Timing64()
-    {
-        return
-             currentBeat == 52
-            || currentBeat == 53
-            || currentBeat == 54
-            || currentBeat == 55
-            || currentBeat == 56
-            || currentBeat == 57
-            || currentBeat == 58
-            || currentBeat == 59
-            || currentBeat == 60
-            || currentBeat == 61
-            || currentBeat == 62
-            || currentBeat == 63
-            //|| currentBeat == 64
-            //|| currentBeat == 4
-            //|| currentBeat == 5
-            //|| currentBeat == 6
-            ;
-    }
-
-    private bool Timing32()
-    {
-        return
-            currentBeat == 20
-            || currentBeat == 21
-            || currentBeat == 22
-            || currentBeat == 23
-            || currentBeat == 24
-            || currentBeat == 25
-            || currentBeat == 26
-            || currentBeat == 27
-            || currentBeat == 28
-            || currentBeat == 29
-            || currentBeat == 30
-            || currentBeat == 31
-            //|| currentBeat == 32
-            ;
-    }
-
-    private bool Timing16()
-    {
-        return
-             currentBeat == 10
-            || currentBeat == 11
-            || currentBeat == 12
-            || currentBeat == 13
-            || currentBeat == 14
-            || currentBeat == 15
-            || currentBeat == 16
-            || currentBeat == 17
-            || currentBeat == 18
-            ;
-    }
-
-    private bool Timing48()
-    {
-        return
-             currentBeat == 42
-            || currentBeat == 43
-            || currentBeat == 44
-            || currentBeat == 45
-            || currentBeat == 46
-            || currentBeat == 47
-            || currentBeat == 48
-            || currentBeat == 49
-            || currentBeat == 50
-            ;
     }
 
     internal void Play()
@@ -141,8 +74,29 @@ public class MusicController
                 queued = "";
             }
 
-            if (currentBeat == 64)
-                Playe(GetBeatName());
+            //if (currentBeat == 64)
+            //    Playe(GetBeatName());
+            if (CanPlayBumbo())
+            {
+                Playe("beat1");
+            }
+
+            //if (currentBeat == 6)
+            //{
+            //    Playe("beat2");
+            //}
+
+            //if (currentBeat == 4)
+            //{
+            //    Playe("beat2");
+            //}
+
+            //if (currentBeat == 2)
+            //{
+            //    Playe("beat2");
+            //}
+
+
         }
     }
 
@@ -166,13 +120,23 @@ public class MusicController
 
     string queued = "";
 
+    public bool CanPlayTarol()
+    {
+        return false;
+    }
+
+    public bool CanPlayBumbo()
+    {
+        return currentBeat == START && soundSlot.In(1,3,5,6,7);
+    }
+
     private bool mainTime()
     {
-        return
-         !Timing64()
-        && !Timing32()
-        //|| Timing16()
-        //|| Timing48()
+        return false
+        // !Timing64()
+        //&& !Timing32()
+        ////|| Timing16()
+        ////|| Timing48()
         ;
     }
 

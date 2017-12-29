@@ -9,6 +9,17 @@ namespace GameCore
         {
             return value > 0;
         }
+
+        public static bool In(this int number, params int[] values)
+        {
+            foreach (var value in values)
+            {
+                if (number == value)
+                    return true;
+            }
+
+            return false;
+        }
     }
 
     public static class IListExtensions

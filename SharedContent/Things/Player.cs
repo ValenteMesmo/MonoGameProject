@@ -10,7 +10,7 @@ namespace MonoGameProject
     public class Player : Humanoid
     {
         //planning:
-        //batida do cns?
+        //vitas
         //mudar leafshield para atingir player de chicote?
         //simplificar ritmo da batida... tudum dutum tudum dutum
         //  ações do player nao trigga musica, só as ameaças e o fim delas
