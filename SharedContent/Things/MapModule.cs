@@ -103,7 +103,7 @@ namespace MonoGameProject
                 var color = ColorsOfTheStage.Sky();
                 sky.ColorGetter = () => color;
                 sky.RenderingLayer = GameState.State.CaveMode ? 0.999f : 0.998f;
-                AddAnimation(sky);
+                AddAnimation(sky.HideWhen(() => !Game1.ShowSky));
             }
 
             for (int i = 0; i < CELL_NUMBER; i++)
@@ -128,8 +128,8 @@ namespace MonoGameProject
                             , GetGroundAnimation());
                     }
 
-                    if (type == '='  
-                        || type == 'U' 
+                    if (type == '='
+                        || type == 'U'
                         || type == 'A'
                         || type == 'I'
                         || type == 'K'
@@ -286,7 +286,7 @@ namespace MonoGameProject
         }
 
         MyRandom MyRandom = new MyRandom();
-        private void CreateBlock(int i, int j, float z, Color color, Func<int, int, int?, int?, bool, Animation> CreateAnimation, Color? borderColor = null)
+        private void CreateBlock(int i, int j, float z, Color color, Func<int, int, int?, int?, bool, Animation> CreateAnimation, Color? borderColor = null, bool isBackground = false)
         {
             if (borderColor == null)
                 borderColor = Color.Black;
@@ -310,7 +310,11 @@ namespace MonoGameProject
             animation_ground.RenderingLayer = z;//+ 0.001f;
             //var groundcolor = GameState.GetComplimentColor2();
             animation_ground.ColorGetter = () => color;
-            AddAnimation(animation_ground);
+            if (isBackground)
+                AddAnimation(animation_ground.HideWhen(() => !Game1.ShowWalls));
+            else
+                AddAnimation(animation_ground);
+
 
             var animation_ground_border = CreateAnimation(
                 offsetx - bonusx
@@ -320,7 +324,10 @@ namespace MonoGameProject
                 flipped);
             animation_ground_border.RenderingLayer = z + 0.001f;
             animation_ground_border.ColorGetter = () => borderColor.Value;
-            AddAnimation(animation_ground_border);
+            if (isBackground)
+                AddAnimation(animation_ground_border.HideWhen(() => !Game1.ShowWalls));
+            else
+                AddAnimation(animation_ground_border);
         }
 
         private void CreateBlockTop(int i, int j, float z, Color color, Func<int, int, int?, int?, bool, Animation> CreateAnimation, Color? borderColor = null)
@@ -414,7 +421,7 @@ namespace MonoGameProject
 
         private void CreateBackground(int i, int j)
         {
-            CreateBlock(i, j, 0.52f, ColorsOfTheStage.Background(), GetGroundAnimation(), new Color(80, 80, 80));
+            CreateBlock(i, j, 0.52f, ColorsOfTheStage.Background(), GetGroundAnimation(), new Color(80, 80, 80), true);
         }
     }
 
@@ -539,13 +546,13 @@ namespace MonoGameProject
         public const int speed = 30;
         public ElevatorPlatform(int widthInTileNumber, int heightInTileNumber)
         {
-            BlockAnimationHelper.AddAnimation(this, widthInTileNumber, heightInTileNumber,0.51f);
+            BlockAnimationHelper.AddAnimation(this, widthInTileNumber, heightInTileNumber, 0.51f);
 
             var collider = new GroundCollider(widthInTileNumber * MapModule.CELL_SIZE - 10, heightInTileNumber * MapModule.CELL_SIZE);
             collider.OffsetX = 5;
             AddCollider(collider);
 
-         
+
             VerticalSpeed = speed;
             AddAfterUpdate(new MoveHorizontallyWithTheWorld(this));
 

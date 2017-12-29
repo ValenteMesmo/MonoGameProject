@@ -20,9 +20,10 @@ namespace MonoGameProject
             animation.RenderingLayer = zIndex;
             animation.ScaleX = 10;
             animation.ScaleY = 10;
+
             var color = GameState.GetComplimentColor2();
             animation.ColorGetter = () => color;
-            AddAnimation(animation);
+            AddAnimation(animation.HideWhen(() => !Game1.ShowParalax));
 
             AddAfterUpdate(new MoveHorizontallyWithTheWorld(this, parallax));
             AddUpdate(new DestroyIfLeftBehind(this));

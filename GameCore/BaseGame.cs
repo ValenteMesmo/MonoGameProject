@@ -201,7 +201,7 @@ public class BaseGame : OriginalGameClass
     SpriteFont SpriteFont;
     internal World World { get; }
 #if DEBUG
-    private bool DisplayColliders;
+    private static bool DisplayColliders;
 #endif
     public VibrationCenter VibrationCenter { get; set; }
     public readonly MusicController MusicController;
@@ -289,7 +289,8 @@ public class BaseGame : OriginalGameClass
         //Camera.Zoom = 0.06f;
         Camera.Zoom = 0.15f;
 
-        DisplayColliders = state.CapsLock;
+        if (InputWrapper.KeyBoard.F9.Tapped)
+            DisplayColliders = !DisplayColliders;
 
         if (state.IsKeyDown(Keys.Escape))
             Parent.Restart();

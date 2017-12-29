@@ -163,5 +163,15 @@ namespace GameCore
             CurrentFrameIndex = StartingFrame;
             Ended = false;
         }
+
+        public IHandleAnimation HideWhen(Func<bool> Condition)
+        {
+            return new Animator(
+              new AnimationTransitionOnCondition(this, () => !Condition())
+              , new AnimationTransitionOnCondition(Empty, Condition)
+            );
+        }
+
+        public readonly static Animation Empty = new Animation();
     }
 }

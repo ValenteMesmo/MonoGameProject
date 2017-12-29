@@ -24,6 +24,11 @@ namespace MonoGameProject
 
     public class Game1 : Game
     {
+        public static bool ShowParalax = true;
+        public static bool ShowSky = true;
+        public static bool ShowWalls = true;
+        
+
         private static Game1 _instance;
         public static Game1 Instance
         {
@@ -181,6 +186,15 @@ namespace MonoGameProject
             var cheats = new Thing();
             cheats.AddUpdate(() =>
             {
+                if (InputWrapper.KeyBoard.F10.Tapped)
+                    ShowParalax = !ShowParalax;
+
+                if (InputWrapper.KeyBoard.F11.Tapped)
+                    ShowWalls = !ShowWalls;
+
+                if (InputWrapper.KeyBoard.F12.Tapped)
+                    ShowSky = !ShowSky;
+
                 var kb = Microsoft.Xna.Framework.Input.Keyboard.GetState();
                 if (kb.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.F1))
                 {

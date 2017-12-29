@@ -46,6 +46,10 @@ namespace GameCore
             F6.SetPressed(kb.IsKeyDown(Keys.F6));
             F7.SetPressed(kb.IsKeyDown(Keys.F7));
             F8.SetPressed(kb.IsKeyDown(Keys.F8));
+            F9.SetPressed(kb.IsKeyDown(Keys.F9));
+            F10.SetPressed(kb.IsKeyDown(Keys.F10));
+            F11.SetPressed(kb.IsKeyDown(Keys.F11));
+            F12.SetPressed(kb.IsKeyDown(Keys.F12));
         }
     }
 

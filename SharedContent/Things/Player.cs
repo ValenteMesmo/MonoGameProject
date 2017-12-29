@@ -10,8 +10,6 @@ namespace MonoGameProject
     public class Player : Humanoid
     {
         //planning:
-        //criar atalhos nas teclas de funções para desabilitar fundo paralax, paredes, fireball trails, etc
-
         //batida do cns?
         //mudar leafshield para atingir player de chicote?
         //simplificar ritmo da batida... tudum dutum tudum dutum
