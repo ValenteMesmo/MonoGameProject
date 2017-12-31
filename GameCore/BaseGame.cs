@@ -63,7 +63,7 @@ public class MusicController
     internal void Play()
     {
         Game.LOG += $@"
-{(mainTime() ? 1 : 0)} - {currentBeat}
+{(CanPlayBumbo() ? 1 : 0)} - {currentBeat}
 ";
 
         if (canPlay)
@@ -73,29 +73,13 @@ public class MusicController
                 Sounds(queued).CreateInstance().Play();
                 queued = "";
             }
+            
 
-            //if (currentBeat == 64)
-            //    Playe(GetBeatName());
-            if (CanPlayBumbo())
-            {
-                Playe("beat1");
-            }
-
-            //if (currentBeat == 6)
+            //if (CanPlayBumbo())
             //{
-            //    Playe("beat2");
+            //    Playe("beat1");
             //}
-
-            //if (currentBeat == 4)
-            //{
-            //    Playe("beat2");
-            //}
-
-            //if (currentBeat == 2)
-            //{
-            //    Playe("beat2");
-            //}
-
+            
 
         }
     }
@@ -113,8 +97,10 @@ public class MusicController
             return "beat146";
     }
 
-    private void Playe(string soundName)
+    public void Playe(string soundName)
     {
+        //TODO: .Apply3D()
+        //if not possible, reduce volume when source is far away
         Sounds(soundName).CreateInstance().Play();
     }
 
@@ -127,30 +113,35 @@ public class MusicController
 
     public bool CanPlayBumbo()
     {
-        return currentBeat == START && soundSlot.In(1,3,5,6,7);
+        return beatTime==0 && currentBeat == START && soundSlot.In(1,3,5,6,7);
     }
 
-    private bool mainTime()
-    {
-        return false
-        // !Timing64()
-        //&& !Timing32()
-        ////|| Timing16()
-        ////|| Timing48()
-        ;
-    }
+    //public bool OneFrameBeforeBumbo()
+    //{
+    //    return currentBeat == END -1 && soundSlot.In(8, 2, 4, 5, 6);
+    //}
 
-    public bool Queue(string v)
-    {
-        var result = mainTime()
-            //&& GetBeatNameCallsCount != 3
-            ;
+    //private bool mainTime()
+    //{
+    //    return false
+    //    // !Timing64()
+    //    //&& !Timing32()
+    //    ////|| Timing16()
+    //    ////|| Timing48()
+    //    ;
+    //}
 
-        if (result)
-            queued = v;
+    //public bool Queue(string v)
+    //{
+    //    var result = mainTime()
+    //        //&& GetBeatNameCallsCount != 3
+    //        ;
 
-        return result;
-    }
+    //    if (result)
+    //        queued = v;
+
+    //    return result;
+    //}
 }
 
 public class BaseGame : OriginalGameClass

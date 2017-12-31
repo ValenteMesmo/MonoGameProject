@@ -11,6 +11,7 @@ namespace MonoGameProject
     {
         //planning:
         //vitas
+        //sincronizar marcha do boss com a batida
         //mudar leafshield para atingir player de chicote?
         //simplificar ritmo da batida... tudum dutum tudum dutum
         //  ações do player nao trigga musica, só as ameaças e o fim delas
@@ -297,7 +298,7 @@ namespace MonoGameProject
                     t.Parent.Destroy();
                     Game1.ScreenFader.Flash(armorColor.R, armorColor.G, armorColor.B, X, Y);
                     Game1.VibrationCenter.Vibrate(Inputs, 5, 0.25f);
-                    Game1.MusicController.Queue("tumtum");
+                    //Game1.MusicController.Queue("tumtum");
                 }
                 else if (t.Parent is Weapon)
                 {
@@ -311,7 +312,7 @@ namespace MonoGameProject
                     t.Disabled = true;
                     Game1.ScreenFader.Flash(weapon.Color.R, weapon.Color.G, weapon.Color.B, X, Y);
                     Game1.VibrationCenter.Vibrate(Inputs, 5, 0.25f);
-                    Game1.MusicController.Queue("tumtum");
+                    //Game1.MusicController.Queue("tumtum");
                 }
             };
 

@@ -30,6 +30,7 @@ namespace SharedContent.Things
                     var width = MapModule.CELL_SIZE + bonusx * 2;
                     var height = MapModule.CELL_SIZE + bonusy * 2;
 
+                    var color = ColorsOfTheStage.Main();
                     var animation_ground = GetGroundAnimation(
                         offsetx
                         , offsety
@@ -37,7 +38,7 @@ namespace SharedContent.Things
                         , height
                         , flipped);
                     animation_ground.RenderingLayer =zIndex;
-                    animation_ground.ColorGetter = ColorsOfTheStage.Main;
+                    animation_ground.ColorGetter = ()=> color;
                     thing.AddAnimation(animation_ground);
 
                     var animation_ground_border = GetGroundAnimation(

@@ -24,9 +24,9 @@ namespace MonoGameProject
                 && AttackDuration <= 0)
             {
                 AttackDuration = 16;
-                if (Game1.MusicController.Queue("beat2") == false)
-                    Game1.MusicController.Force("beat1");
-                //Game1.MusicController.Queue("beat2");
+                //if (Game1.MusicController.Queue("beat2") == false)
+                //    Game1.MusicController.Force("beat1");
+                ////Game1.MusicController.Queue("beat2");
             }
 
             Humanoid.AttackLeftCollider.Disabled = true;

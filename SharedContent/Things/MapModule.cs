@@ -147,6 +147,15 @@ namespace MonoGameProject
                         });
                         CreateBackground(i, j);
                     }
+                    if (type == 'l')
+                    {
+                        Game1.AddToWorld(new RightFireBallTrap(Game1, i % 2 == 0 ? 50 : 0)
+                        {
+                            X = X + j * CELL_SIZE,
+                            Y = Y + i * CELL_SIZE
+                        });
+                        CreateBackground(i, j);
+                    }
                     if (type == 'e')
                     {
                         Game1.AddToWorld(new Enemy(Game1)
@@ -231,16 +240,7 @@ namespace MonoGameProject
 
 
                         CreateBackground(i, j);
-                    }
-                    if (type == 'l')
-                    {
-                        Game1.AddToWorld(new RightFireBallTrap(Game1, i % 2 == 0 ? 50 : 0)
-                        {
-                            X = X + j * CELL_SIZE,
-                            Y = Y + i * CELL_SIZE
-                        });
-                        CreateBackground(i, j);
-                    }
+                    }                  
                     if (type == 'm')
                     {
                         Game1.AddToWorld(new Boss(Game1)
@@ -478,6 +478,8 @@ namespace MonoGameProject
 
     public class MovingPlatform : Thing
     {
+        public const int speed= 30;
+
         public MovingPlatform(int widthInCellNumber, int heightInCellNumber)
         {
             BlockAnimationHelper.AddAnimation(this, widthInCellNumber, heightInCellNumber);
@@ -488,7 +490,7 @@ namespace MonoGameProject
             collider.AddLeftCollisionHandler(LeftCollisionHandler);
             collider.AddRightCollisionHandler(RightCollisionHandler);
 
-            HorizontalSpeed = 30;
+            HorizontalSpeed = speed;
 
             AddAfterUpdate(new MoveHorizontallyWithTheWorld(this));
         }
