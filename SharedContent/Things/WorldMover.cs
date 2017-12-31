@@ -56,12 +56,32 @@ namespace MonoGameProject
                         {
                             if (player.HorizontalSpeed > rightSpeed)
                                 rightSpeed = player.HorizontalSpeed;
+
+
+                            if (player.groundChecker.CollidingWith.Any(f =>
+                                     f.Parent is MovingPlatform
+                                 )
+                             )
+                            {
+                                if (rightSpeed < MovingPlatform.speed)
+                                    rightSpeed = MovingPlatform.speed;
+                            }
+
                             playersOnTheRight++;
                         }
                         else if (leftCollider.CollidingWith.Contains(player.MainCollider))
                         {
                             if (player.HorizontalSpeed < leftSpeed)
                                 leftSpeed = player.HorizontalSpeed;
+
+                            if (player.groundChecker.CollidingWith.Any(f =>
+                                f.Parent is MovingPlatform)
+                            )
+                            {
+                                if (leftSpeed > -MovingPlatform.speed)
+                                    leftSpeed = -MovingPlatform.speed;
+                            }
+
                             playersOnTheLeft++;
                         }
 
