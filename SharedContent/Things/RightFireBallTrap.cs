@@ -11,6 +11,9 @@ namespace MonoGameProject
             var cooldown = startAfter;
 
             var shouldplay = startAfter == 0;
+
+            var sound = Game1.MusicController.GetSoundEffect("beat1", this);
+
             AddUpdate(() =>
             {
                 //cooldown--;
@@ -33,8 +36,7 @@ namespace MonoGameProject
                         //cooldown = 200;
                         shouldplay = false;
 
-                        Game1.MusicController.Playe("beat1");
-
+                        sound.Play();
                     }
                     else
                         shouldplay = true;

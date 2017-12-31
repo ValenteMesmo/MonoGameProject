@@ -7,6 +7,46 @@ using System;
 using System.Collections.Generic;
 using OriginalGameClass = Microsoft.Xna.Framework.Game;
 
+public class SoundWrapper
+{
+    private readonly SoundEffectInstance actual;
+    private readonly Thing parent;
+
+    public SoundWrapper(SoundEffectInstance actual, Thing parent)
+    {
+        this.actual = actual;
+        this.parent = parent;
+
+        parent.AddUpdate(Update);
+    }
+
+    private void Update()
+    {
+        var pan = parent.X / 100000f;
+        if (pan < -1f)
+            pan = -1f;
+        else if (pan > 1f)
+            pan = 1f;
+
+        var distance = Math.Abs(parent.X - 8000);
+
+        var volume = 1000f / distance;
+        if (volume < 0)
+            volume = 0;
+        else if (volume > 1f)
+            volume = 1f;
+
+        actual.Pan = pan;
+        actual.Volume = volume;
+    }
+
+    public void Play()
+    {
+        actual.Stop();
+        actual.Play();
+    }
+}
+
 public class MusicController
 {
     private readonly Func<string, SoundEffect> Sounds;
@@ -55,10 +95,10 @@ public class MusicController
         }
     }
 
-    public void Force(string v)
-    {
-        Playe(v);
-    }
+    //public void Force(string v)
+    //{
+    //    Playe(v);
+    //}
 
     internal void Play()
     {
@@ -73,36 +113,71 @@ public class MusicController
                 Sounds(queued).CreateInstance().Play();
                 queued = "";
             }
-            
+
 
             //if (CanPlayBumbo())
             //{
             //    Playe("beat1");
             //}
-            
+
 
         }
     }
 
-    int GetBeatNameCallsCount;
-    private string GetBeatName()
+    //int GetBeatNameCallsCount;
+    //private string GetBeatName()
+    //{
+    //    GetBeatNameCallsCount++;
+    //    if (GetBeatNameCallsCount == 4)
+    //    {
+    //        GetBeatNameCallsCount = 0;
+    //        return "beat147";
+    //    }
+    //    else
+    //        return "beat146";
+    //}
+
+    public SoundWrapper GetSoundEffect(string soundName, Thing parent)
     {
-        GetBeatNameCallsCount++;
-        if (GetBeatNameCallsCount == 4)
-        {
-            GetBeatNameCallsCount = 0;
-            return "beat147";
-        }
-        else
-            return "beat146";
+        return new SoundWrapper(Sounds(soundName).CreateInstance(), parent);
     }
 
-    public void Playe(string soundName)
-    {
-        //TODO: .Apply3D()
-        //if not possible, reduce volume when source is far away
-        Sounds(soundName).CreateInstance().Play();
-    }
+    //public void Playe(string soundName, int x)
+    //{
+    //    //-500 esquerda
+    //    //4664 meio
+    //    //7500 direita
+
+
+    //    var pan = x / 50000f;
+    //    if (pan < -1f)
+    //        pan = -1f;
+    //    else if (pan > 1f)
+    //        pan = 1f;
+
+
+    //    var distance = Math.Abs(x - 4000);
+
+    //    //4000           1f
+    //    //distance    result
+    //    //    result =;
+    //    var volume = 500f / distance;
+    //    if (volume < 0)
+    //        volume = 0;
+    //    else if (volume > 1f)
+    //        volume = 1f;
+
+    //    //PAREI AQUI
+    //    //criar uma classe que vai manter o sound instance com quem ta tocando
+    //    // para o dono poder controlar o pan e volume de pois do play
+
+    //    var instance = Sounds(soundName).CreateInstance();
+    //    instance.Pan = (float)Math.Round(pan, 2);
+    //    instance.Volume = volume;
+
+
+    //    instance.Play();
+    //}
 
     string queued = "";
 
@@ -113,7 +188,7 @@ public class MusicController
 
     public bool CanPlayBumbo()
     {
-        return beatTime==0 && currentBeat == START && soundSlot.In(1,3,5,6,7);
+        return beatTime == 0 && currentBeat == START && soundSlot.In(1, 3, 5, 6, 7);
     }
 
     //public bool OneFrameBeforeBumbo()
