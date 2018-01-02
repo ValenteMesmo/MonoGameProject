@@ -246,7 +246,7 @@ namespace MonoGameProject
                 , index)
         {
             this.Game1 = Game1;
-            HitPoints = 2;
+            HitPoints = 1;
 
             if (PlayerIndex == 0)
             {
