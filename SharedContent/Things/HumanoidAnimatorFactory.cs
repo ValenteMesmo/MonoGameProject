@@ -683,7 +683,7 @@ namespace MonoGameProject
             thing.AddAnimation(
                 new Animator(
                 new AnimationTransitionOnCondition(armored_torso, () => thing.HitPoints > 1)
-                , new AnimationTransitionOnCondition(naked_torso, () => thing.HitPoints <= 1 && thing.DamageDuration == TakesDamage.DAMAGE_DURATION / 2)
+                , new AnimationTransitionOnCondition(naked_torso, () => thing.HitPoints == 1 && (thing.DamageDuration == TakesDamage.DAMAGE_DURATION / 2 || thing.DamageDuration == 0))
                 )
             );
         }
