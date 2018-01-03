@@ -65,6 +65,16 @@ namespace MonoGameProject
 
     public static class GameState
     {
+        private static string filesDirectory = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.Personal)
+            , "knight_mary"
+        );
+
+        private static string saveFile = Path.Combine(
+             filesDirectory
+            , "main.save"
+        );
+
         private static Color[] Colors = new Color[] {
               new Color(0.6f,1.0f,0.6f)//GREEN
             , new Color(0.8f,1.0f,0.6f)
@@ -182,13 +192,13 @@ namespace MonoGameProject
             PreSaved = false;
             State = new GameStateData();
 
-            var saveFile =
-                Path.Combine(
-                    System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal)
-                    , "main.save");
-
             if (File.Exists(saveFile) == false)
             {
+                if (Directory.Exists(filesDirectory) == false)
+                {
+                    Directory.CreateDirectory(filesDirectory);
+                }
+
                 File.WriteAllText(saveFile, JsonConvert.SerializeObject(State));
             }
             var savedContent = File.ReadAllText(saveFile);
@@ -201,12 +211,13 @@ namespace MonoGameProject
             PreSaved = false;
             new Thread(() =>
             {
-                 var saveFile =
-                  Path.Combine(
-                      Environment.GetFolderPath(Environment.SpecialFolder.Personal)
-                      , "main.save");
-                 PreSavedData.BossMode = false;
-                 File.WriteAllText(saveFile, JsonConvert.SerializeObject(PreSavedData));
+                if (Directory.Exists(filesDirectory) == false)
+                {
+                    Directory.CreateDirectory(filesDirectory);
+                }
+
+                PreSavedData.BossMode = false;
+                File.WriteAllText(saveFile, JsonConvert.SerializeObject(PreSavedData));
             }).Start();
         }
 
