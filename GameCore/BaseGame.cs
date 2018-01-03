@@ -9,13 +9,15 @@ using OriginalGameClass = Microsoft.Xna.Framework.Game;
 
 public class SoundWrapper
 {
-    private readonly SoundEffectInstance actual;
+    private readonly SoundEffect actualSoundEffect;
+    private SoundEffectInstance currentSound;
     private readonly Thing parent;
 
-    public SoundWrapper(SoundEffectInstance actual, Thing parent)
+    public SoundWrapper(SoundEffect actualSoundEffect, Thing parent)
     {
-        this.actual = actual;
+        this.actualSoundEffect = actualSoundEffect;
         this.parent = parent;
+        currentSound = actualSoundEffect.CreateInstance();
 
         parent.AddUpdate(Update);
     }
@@ -36,14 +38,14 @@ public class SoundWrapper
         else if (volume > 1f)
             volume = 1f;
 
-        actual.Pan = pan;
-        actual.Volume = volume;
+        currentSound.Pan = pan;
+        currentSound.Volume = volume;
     }
 
     public void Play()
     {
-        actual.Stop();
-        actual.Play();
+        currentSound = actualSoundEffect.CreateInstance();
+        currentSound.Play();
     }
 }
 
@@ -60,13 +62,11 @@ public class MusicController
     private const float crotchet = 60 / bpm;
     private float beatTime = 0;
     public int currentBeat = START;
-    private bool canPlay = false;
 
     private const int one = 4 * (4 * 1);
     private const int two = 4 * (4 * 2);
     private const int three = 4 * (4 * 3);
     private const int four = 4 * (4 * 4);
-    //private bool odd = true;
     private int soundSlot = 1;
 
     private const int START = 1;
@@ -76,8 +76,6 @@ public class MusicController
     {
         beatTime += crotchet;
 
-        canPlay = false;
-
         if (beatTime == 1)
         {
             beatTime = 0;
@@ -85,101 +83,18 @@ public class MusicController
             if (currentBeat >= END)
             {
                 currentBeat = START;
-                //odd = !odd;
+
                 soundSlot++;
                 if (soundSlot > 8)
                     soundSlot = 1;
             }
-
-            canPlay = true;
         }
     }
-
-    //public void Force(string v)
-    //{
-    //    Playe(v);
-    //}
-
-    internal void Play()
-    {
-        Game.LOG += $@"
-{(CanPlayBumbo() ? 1 : 0)} - {currentBeat}
-";
-
-        if (canPlay)
-        {
-            if (queued != "")
-            {
-                Sounds(queued).CreateInstance().Play();
-                queued = "";
-            }
-
-
-            //if (CanPlayBumbo())
-            //{
-            //    Playe("beat1");
-            //}
-
-
-        }
-    }
-
-    //int GetBeatNameCallsCount;
-    //private string GetBeatName()
-    //{
-    //    GetBeatNameCallsCount++;
-    //    if (GetBeatNameCallsCount == 4)
-    //    {
-    //        GetBeatNameCallsCount = 0;
-    //        return "beat147";
-    //    }
-    //    else
-    //        return "beat146";
-    //}
 
     public SoundWrapper GetSoundEffect(string soundName, Thing parent)
     {
-        return new SoundWrapper(Sounds(soundName).CreateInstance(), parent);
+        return new SoundWrapper(Sounds(soundName), parent);
     }
-
-    //public void Playe(string soundName, int x)
-    //{
-    //    //-500 esquerda
-    //    //4664 meio
-    //    //7500 direita
-
-
-    //    var pan = x / 50000f;
-    //    if (pan < -1f)
-    //        pan = -1f;
-    //    else if (pan > 1f)
-    //        pan = 1f;
-
-
-    //    var distance = Math.Abs(x - 4000);
-
-    //    //4000           1f
-    //    //distance    result
-    //    //    result =;
-    //    var volume = 500f / distance;
-    //    if (volume < 0)
-    //        volume = 0;
-    //    else if (volume > 1f)
-    //        volume = 1f;
-
-    //    //PAREI AQUI
-    //    //criar uma classe que vai manter o sound instance com quem ta tocando
-    //    // para o dono poder controlar o pan e volume de pois do play
-
-    //    var instance = Sounds(soundName).CreateInstance();
-    //    instance.Pan = (float)Math.Round(pan, 2);
-    //    instance.Volume = volume;
-
-
-    //    instance.Play();
-    //}
-
-    string queued = "";
 
     public bool CanPlayTarol()
     {
@@ -190,33 +105,6 @@ public class MusicController
     {
         return beatTime == 0 && currentBeat == START && soundSlot.In(1, 3, 5, 6, 7);
     }
-
-    //public bool OneFrameBeforeBumbo()
-    //{
-    //    return currentBeat == END -1 && soundSlot.In(8, 2, 4, 5, 6);
-    //}
-
-    //private bool mainTime()
-    //{
-    //    return false
-    //    // !Timing64()
-    //    //&& !Timing32()
-    //    ////|| Timing16()
-    //    ////|| Timing48()
-    //    ;
-    //}
-
-    //public bool Queue(string v)
-    //{
-    //    var result = mainTime()
-    //        //&& GetBeatNameCallsCount != 3
-    //        ;
-
-    //    if (result)
-    //        queued = v;
-
-    //    return result;
-    //}
 }
 
 public class BaseGame : OriginalGameClass
@@ -277,6 +165,13 @@ public class BaseGame : OriginalGameClass
             Graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
         }
 
+        this.IsFixedTimeStep = true;//false;
+        //this.TargetElapsedTime = TimeSpan.FromSeconds(1d / 30d); //60);
+        Graphics.PreparingDeviceSettings += (sender, e) =>
+        {
+            e.GraphicsDeviceInformation.PresentationParameters.PresentationInterval = PresentInterval.Immediate;
+        };
+
         Graphics.ApplyChanges();
 
         base.Initialize();
@@ -330,7 +225,6 @@ public class BaseGame : OriginalGameClass
         InputWrapper.Update();
         MusicController.Update();
         World.Update();
-        MusicController.Play();
         VibrationCenter.Update();
 
         base.Update(gameTime);
