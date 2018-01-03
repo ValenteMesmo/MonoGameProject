@@ -249,7 +249,7 @@ namespace MonoGameProject
                     GameState.State.BossMode = false;
                 }
             );
-            PlayerDamageHandler.HEALTH = HEALTH + 5*Game1.PlayersSlots.Count(f => f.AssociatedInput != null);
+            PlayerDamageHandler.HEALTH = HEALTH + (5 * Game1.GetNumberOfActivePlayers());
 
             mainCollider.AddHandler(PlayerDamageHandler.CollisionHandler);
             headCollider.AddHandler(PlayerDamageHandler.CollisionHandler);
@@ -378,7 +378,7 @@ namespace MonoGameProject
 
             var flippedx = (-size / 4 + size / 8) - 250;
             if (pair)
-                flippedx -= (flippedx ) * 2 + 200;
+                flippedx -= (flippedx) * 2 + 200;
 
             var y = (-size + size / 10) + 100;
             var width = size * 2;

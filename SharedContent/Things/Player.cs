@@ -11,6 +11,7 @@ namespace MonoGameProject
     {
         //planning:
         //vitas
+        //elefante
         //sincronizar marcha do boss com a batida
         //mudar leafshield para atingir player de chicote?
         //simplificar ritmo da batida... tudum dutum tudum dutum

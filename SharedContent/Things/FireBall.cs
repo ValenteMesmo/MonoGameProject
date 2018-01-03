@@ -416,7 +416,7 @@ namespace MonoGameProject
 
             HorizontalSpeed = 0;
             VerticalSpeed = 0;
-            DamageHandler.HEALTH = 5;
+            DamageHandler.HEALTH = GlobalSettigns.FIREBALL_HEALTH + (1* Game1.GetNumberOfActivePlayers());
 
             AddUpdate(new DestroyIfLeftBehind(this));
             AddAfterUpdate(new MoveHorizontallyWithTheWorld(this));

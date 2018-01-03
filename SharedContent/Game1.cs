@@ -51,6 +51,11 @@ namespace MonoGameProject
         public IEnumerable<Player> Players { get { return PlayersSlots.Where(f => f.Player != null).Select(f => f.Player); } }
 
         private List<GameInputs> allControllers;
+        
+        public int GetNumberOfActivePlayers()
+        {
+            return PlayersSlots.Count(f => f.AssociatedInput != null);
+        }
 
         public bool GameStarted = false;
         protected override void OnStart()
