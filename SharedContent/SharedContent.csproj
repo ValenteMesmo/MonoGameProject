@@ -78,6 +78,7 @@
     <Compile Include="Things\PatrolAiInputs.cs" />
     <Compile Include="Things\PlatformCreator.cs" />
     <Compile Include="Things\Player.cs" />
+    <Compile Include="Things\PlayerDamageHandler.cs" />
     <Compile Include="Things\PlayerState.cs" />
     <Compile Include="Things\PreventPlayerFromAccicentlyFalling.cs" />
     <Compile Include="Things\ReduceSizeWhenCrouching.cs" />
