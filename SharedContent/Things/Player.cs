@@ -10,6 +10,11 @@ namespace MonoGameProject
     public class Player : Humanoid
     {
         //planning:
+        
+            //criar 3 spwaners... top mid e bot... situados fora da camera...
+        //  se nao estiverem colidindo, spawn!
+        //  se estiver proximo ao boss, disable until boss defeated
+
         //vitas
         //elefante
         //sincronizar marcha do boss com a batida
