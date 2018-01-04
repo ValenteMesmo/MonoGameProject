@@ -74,9 +74,9 @@ namespace MonoGameProject
                 else
                 {
                     if (bonusX > 0)
-                        bonusX-= speed;
+                        bonusX -= speed;
                     else if (bonusX < 0)
-                        bonusX+= speed;
+                        bonusX += speed;
                 }
 
 
@@ -102,9 +102,10 @@ namespace MonoGameProject
             });
             thing.AddAfterUpdate(() =>
             {
-                thing.X = parent.X+bonusX;
-                thing.Y = parent.Y+ bonusY;
+                thing.X = parent.X + bonusX;
+                thing.Y = parent.Y + bonusY;
             });
+            parent.OnDestroy += () => thing.Destroy();
             thing.AddAfterUpdate(new MoveHorizontallyWithTheWorld(thing));
             AddToTheWorld(thing);
         }
