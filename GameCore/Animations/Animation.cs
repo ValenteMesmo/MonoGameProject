@@ -51,7 +51,7 @@ namespace GameCore
             var index = 0;
             if (Frames.Count > 1)
             {
-                int currentBeat = MusicController.currentBeat;
+                int currentBeat = MusicController.beatCell;
                 while (currentBeat > 32)
                     currentBeat -= 32;
                 index = (currentBeat * (Frames.Count - 1)) / 32;

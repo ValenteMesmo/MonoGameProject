@@ -61,9 +61,9 @@ public class MusicController
     private const float bpm = 120;
     private const float crotchet = 60 / bpm;
     private float beatTime = 0;
-    public int currentBeat = START;
-    
-    private int soundSlot = 1;
+    public int beatCell = START;
+
+    private int beatBlock = 1;
 
     private const int START = 1;
     private const int END = 16;
@@ -75,14 +75,15 @@ public class MusicController
         if (beatTime == 1)
         {
             beatTime = 0;
-            currentBeat++;
-            if (currentBeat >= END)
+            beatCell++;
+            if (beatCell >= END)
             {
-                currentBeat = START;
+                beatCell = START;
 
-                soundSlot++;
-                if (soundSlot > 8)
-                    soundSlot = 1;
+                beatBlock++;
+                if (beatBlock > Musica.BlocksCount//8
+                    )
+                    beatBlock = 1;
             }
         }
         if (CanPlayTarol())
@@ -97,19 +98,148 @@ public class MusicController
     public bool CanPlayTarol()
     {
         if (beatTime == 0)
-        {
-            if (soundSlot.In(4, 8))
-                return currentBeat == (16 - 4) || currentBeat == (16 - 4 - 4);
-            if (soundSlot.In(5, 6))
-                return currentBeat == 16 - 4;
+            return Musica.Block(beatBlock).CellTarol(beatCell);
 
-        }
         return false;
     }
 
+    Musica Musica = new Musica(
+            new MusicBlock(
+                new MusicBlockCell(true, false)
+                , new MusicBlockCell(false, false)
+                , new MusicBlockCell(false, false)
+                , new MusicBlockCell(false, false)
+            )
+            , new MusicBlock(
+                new MusicBlockCell(false, false)
+                , new MusicBlockCell(false, false)
+                , new MusicBlockCell(false, false)
+                , new MusicBlockCell(false, false)
+            )
+             , new MusicBlock(
+                new MusicBlockCell(true, false)
+                , new MusicBlockCell(false, false)
+                , new MusicBlockCell(false, false)
+                , new MusicBlockCell(false, false)
+            )
+             , new MusicBlock(
+                new MusicBlockCell(false, false)
+                , new MusicBlockCell(false, false)
+                , new MusicBlockCell(false, true)
+                , new MusicBlockCell(false, true)
+            )
+          //----------------------------
+          , new MusicBlock(
+                new MusicBlockCell(true, false)
+                , new MusicBlockCell(false, false)
+                , new MusicBlockCell(false, false)
+                , new MusicBlockCell(false, true)
+            )
+        , new MusicBlock(
+                new MusicBlockCell(true, false)
+                , new MusicBlockCell(false, false)
+                , new MusicBlockCell(false, false)
+                , new MusicBlockCell(false, true)
+            )
+        , new MusicBlock(
+                new MusicBlockCell(true, false)
+                , new MusicBlockCell(false, false)
+                , new MusicBlockCell(false, false)
+                , new MusicBlockCell(false, false)
+            )
+        , new MusicBlock(
+                new MusicBlockCell(false, false)
+                , new MusicBlockCell(false, false)
+                , new MusicBlockCell(false, true)
+                , new MusicBlockCell(false, true)
+            )
+        );
+
     public bool CanPlayBumbo()
     {
-        return beatTime == 0 && currentBeat == START && soundSlot.In(1, 3, 5, 6, 7);
+        if (beatTime == 0)
+            return Musica.Block(beatBlock).CellBumbo(beatCell);
+
+        return false;
+    }
+}
+
+public class Musica
+{
+    private readonly MusicBlock[] blocks;
+
+    public int BlocksCount { get { return blocks.Length; } }
+
+    public Musica(params MusicBlock[] blocks)
+    {
+        this.blocks = blocks;
+    }
+
+    public MusicBlock Block(int number)
+    {
+        return blocks[number - 1];
+    }
+}
+
+public class MusicBlock
+{
+    private readonly MusicBlockCell one;
+    private readonly MusicBlockCell two;
+    private readonly MusicBlockCell three;
+    private readonly MusicBlockCell four;
+
+    public MusicBlock(MusicBlockCell one, MusicBlockCell two, MusicBlockCell three, MusicBlockCell four)
+    {
+        this.one = one;
+        this.two = two;
+        this.three = three;
+        this.four = four;
+    }
+
+    public bool CellBumbo(int cellNumber)
+    {
+        if (cellNumber == 1)
+            return one.Bumbo;
+
+        if (cellNumber == 4)
+            return two.Bumbo;
+
+        if (cellNumber == 8)
+            return three.Bumbo;
+
+        if (cellNumber == 12)
+            return four.Bumbo;
+
+        return false;
+    }
+
+    public bool CellTarol(int cellNumber)
+    {
+        if (cellNumber == 1)
+            return one.Tarol;
+
+        if (cellNumber == 4)
+            return two.Tarol;
+
+        if (cellNumber == 8)
+            return three.Tarol;
+
+        if (cellNumber == 12)
+            return four.Tarol;
+
+        return false;
+    }
+}
+
+public class MusicBlockCell
+{
+    public readonly bool Bumbo;
+    public readonly bool Tarol;
+
+    public MusicBlockCell(bool Bumbo, bool Tarol)
+    {
+        this.Bumbo = Bumbo;
+        this.Tarol = Tarol;
     }
 }
 
