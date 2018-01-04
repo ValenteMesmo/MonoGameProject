@@ -62,11 +62,7 @@ public class MusicController
     private const float crotchet = 60 / bpm;
     private float beatTime = 0;
     public int currentBeat = START;
-
-    private const int one = 4 * (4 * 1);
-    private const int two = 4 * (4 * 2);
-    private const int three = 4 * (4 * 3);
-    private const int four = 4 * (4 * 4);
+    
     private int soundSlot = 1;
 
     private const int START = 1;
@@ -89,6 +85,8 @@ public class MusicController
                     soundSlot = 1;
             }
         }
+        if (CanPlayTarol())
+            Sounds("beat2").CreateInstance().Play();
     }
 
     public SoundWrapper GetSoundEffect(string soundName, Thing parent)
@@ -98,6 +96,14 @@ public class MusicController
 
     public bool CanPlayTarol()
     {
+        if (beatTime == 0)
+        {
+            if (soundSlot.In(4, 8))
+                return currentBeat == (16 - 4) || currentBeat == (16 - 4 - 4);
+            if (soundSlot.In(5, 6))
+                return currentBeat == 16 - 4;
+
+        }
         return false;
     }
 
