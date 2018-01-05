@@ -12,11 +12,13 @@ public class SoundWrapper
     private readonly SoundEffect actualSoundEffect;
     private SoundEffectInstance currentSound;
     private readonly Thing parent;
+    private readonly Func<int> GetX;
 
-    public SoundWrapper(SoundEffect actualSoundEffect, Thing parent)
+    public SoundWrapper(SoundEffect actualSoundEffect, Thing parent, Func<int> GetX)
     {
         this.actualSoundEffect = actualSoundEffect;
         this.parent = parent;
+        this.GetX = GetX;
         currentSound = actualSoundEffect.CreateInstance();
 
         parent.AddUpdate(Update);
@@ -24,13 +26,13 @@ public class SoundWrapper
 
     private void Update()
     {
-        var pan = parent.X / 100000f;
+        var pan = GetX() / 100000f;
         if (pan < -1f)
             pan = -1f;
         else if (pan > 1f)
             pan = 1f;
 
-        var distance = Math.Abs(parent.X - 8000);
+        var distance = Math.Abs(GetX() - 8000);
 
         var volume = 1000f / distance;
         if (volume < 0)
@@ -57,11 +59,13 @@ public class MusicController
     {
         this.Sounds = Sounds;
     }
+    
+    //public int NextBumbo;
 
     private const float bpm = 120;
     private const float crotchet = 60 / bpm;
     private float beatTime = 0;
-    public int beatCell = START;
+    private int beatCell = START;
 
     private int beatBlock = 1;
 
@@ -81,26 +85,22 @@ public class MusicController
                 beatCell = START;
 
                 beatBlock++;
-                if (beatBlock > Musica.BlocksCount//8
-                    )
+                if (beatBlock > Musica.BlocksCount)
                     beatBlock = 1;
             }
         }
-        if (CanPlayTarol())
-            Sounds("beat2").CreateInstance().Play();
+        //if (CanPlayTarol())
+        //    Sounds("beat2").CreateInstance().Play();
+
+        //if (CanPlayBumbo())
+        {
+            //NextBumbo = Musica.GetNextBumbo(beatBlock, beatCell);
+        }
     }
 
-    public SoundWrapper GetSoundEffect(string soundName, Thing parent)
+    public SoundWrapper GetSoundEffect(string soundName, Thing parent, Func<int> GetX)
     {
-        return new SoundWrapper(Sounds(soundName), parent);
-    }
-
-    public bool CanPlayTarol()
-    {
-        if (beatTime == 0)
-            return Musica.Block(beatBlock).CellTarol(beatCell);
-
-        return false;
+        return new SoundWrapper(Sounds(soundName), parent, GetX);
     }
 
     Musica Musica = new Musica(
@@ -162,6 +162,14 @@ public class MusicController
 
         return false;
     }
+
+    public bool CanPlayTarol()
+    {
+        if (beatTime == 0)
+            return Musica.Block(beatBlock).CellTarol(beatCell);
+
+        return false;
+    }
 }
 
 public class Musica
@@ -179,6 +187,30 @@ public class Musica
     {
         return blocks[number - 1];
     }
+
+    //internal int GetNextBumbo(int beatBlock, int beatCell)
+    //{
+    //    var result = 0;
+    //    do
+    //    {
+    //        var currentBlock = Block(beatBlock);
+    //        for (int i = beatCell; i < 16; i++)
+    //        {
+    //            if (currentBlock.CellBumbo(i))
+    //            {
+    //                //if (result == 0)
+    //                //    return 1;
+    //                return result;
+    //            }
+    //            result++;
+    //        }
+    //        beatCell = 1;
+    //        beatBlock++;
+    //        if (beatBlock > blocks.Length - 1)
+    //            beatBlock = 1;
+    //    }
+    //    while (true);
+    //}
 }
 
 public class MusicBlock
