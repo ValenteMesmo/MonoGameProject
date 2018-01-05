@@ -170,6 +170,26 @@ public class MusicController
 
         return false;
     }
+
+    public bool PrepareTarol()
+    {
+        var nextcell = beatCell + 1;
+        var nextblock = beatBlock;
+
+        if (nextcell >= END)
+        {
+            nextcell = START;
+
+            nextblock++;
+            if (nextblock > Musica.BlocksCount)
+                nextblock = 1;
+        }
+
+        if (beatTime == 0)
+            return Musica.Block(nextblock).CellTarol(nextcell);
+
+        return false;
+    }
 }
 
 public class Musica
@@ -187,30 +207,6 @@ public class Musica
     {
         return blocks[number - 1];
     }
-
-    //internal int GetNextBumbo(int beatBlock, int beatCell)
-    //{
-    //    var result = 0;
-    //    do
-    //    {
-    //        var currentBlock = Block(beatBlock);
-    //        for (int i = beatCell; i < 16; i++)
-    //        {
-    //            if (currentBlock.CellBumbo(i))
-    //            {
-    //                //if (result == 0)
-    //                //    return 1;
-    //                return result;
-    //            }
-    //            result++;
-    //        }
-    //        beatCell = 1;
-    //        beatBlock++;
-    //        if (beatBlock > blocks.Length - 1)
-    //            beatBlock = 1;
-    //    }
-    //    while (true);
-    //}
 }
 
 public class MusicBlock

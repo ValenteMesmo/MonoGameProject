@@ -30,9 +30,11 @@ namespace MonoGameProject
                     var sound = Game1.MusicController.GetSoundEffect("beat2", this, () => (int)collider.CenterX());
                     AddUpdate(() =>
                     {
+                        if(Game1.MusicController.PrepareTarol())
+                            animation.Restart();
+
                         if (Game1.MusicController.CanPlayTarol())
                         {
-                            animation.Restart();                            
                             sound.Play();
                         }
                     });
