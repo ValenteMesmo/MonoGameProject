@@ -16,6 +16,76 @@ namespace GameCore
         void Restart();
     }
 
+    public class AnimationAutoRewindable : IHandleAnimation
+    {
+        private readonly List<AnimationFrame> Frames;
+        public AnimationAutoRewindable(params AnimationFrame[] Frames)
+        {
+            RenderingLayer = 0.5f;
+            UpdatesUntilNextFrame = FrameDuration;
+            this.Frames = Frames.ToList();
+        }
+
+        public int FrameDuration = 1;
+        int UpdatesUntilNextFrame = 3;
+        int CurrentFrameIndex;
+
+        public int ScaleX { get;  set; }
+
+        public int ScaleY { get;  set; }
+
+        public float RenderingLayer { get; set; }
+
+        public Func<Color> ColorGetter = () => Color.White;
+        public Color GetColor()
+        {
+            return ColorGetter();
+        }
+
+        public IEnumerable<AnimationFrame> GetCurretFrame()
+        {
+            if (Frames.Any())
+                yield return Frames[CurrentFrameIndex];
+        }
+
+        public void Restart()
+        {
+            rewinding = false;
+        }
+
+        bool rewinding = false;
+
+        public void Update()
+        {
+            if (UpdatesUntilNextFrame > 0)
+            {
+                UpdatesUntilNextFrame--;
+                return;
+            }
+
+            if (rewinding == false)
+            {
+                CurrentFrameIndex++;
+                if (CurrentFrameIndex > Frames.Count - 1)
+                {
+                    CurrentFrameIndex = Frames.Count - 1;
+                    rewinding = true;
+                }
+            }
+
+            if (rewinding)
+            {
+                CurrentFrameIndex--;
+                if (CurrentFrameIndex < 0)
+                {
+                    CurrentFrameIndex = 0;
+                }
+            }
+
+            UpdatesUntilNextFrame = FrameDuration;
+        }
+    }
+
     public class Animation : IHandleAnimation
     {
         public float RenderingLayer { get; set; }
@@ -105,6 +175,18 @@ namespace GameCore
               new AnimationTransitionOnCondition(this, () => !Condition())
               , new AnimationTransitionOnCondition(Empty, Condition)
             );
+        }
+
+        public AnimationAutoRewindable AsAutoRewindable()
+        {
+            return new AnimationAutoRewindable(Frames.ToArray())
+            {
+                ColorGetter = ColorGetter,
+                RenderingLayer = RenderingLayer,
+                FrameDuration = FrameDuration,
+                ScaleX = ScaleX,
+                ScaleY = ScaleY
+            };
         }
 
         public readonly static Animation Empty = new Animation();
