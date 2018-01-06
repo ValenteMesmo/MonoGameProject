@@ -26,6 +26,7 @@ public class SoundWrapper
 
     private void Update()
     {
+        //TODO: Y
         var pan = GetX() / 100000f;
         if (pan < -1f)
             pan = -1f;
@@ -39,10 +40,13 @@ public class SoundWrapper
             volume = 0;
         else if (volume > 1f)
             volume = 1f;
-
+        
         currentSound.Pan = pan;
+        currentSound.Pitch = (float)Random.NextDouble();
         currentSound.Volume = volume;
     }
+
+    Random Random = new Random();
 
     public void Play()
     {
