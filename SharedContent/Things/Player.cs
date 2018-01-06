@@ -10,8 +10,11 @@ namespace MonoGameProject
     public class Player : Humanoid
     {
         //planning:
-        
-            //criar 3 spwaners... top mid e bot... situados fora da camera...
+
+        //escurecer o ceu?
+        //um mapa no fundo do mar, inspirado no episodio de viagem astral do finn s6e?
+
+        //criar 3 spwaners... top mid e bot... situados fora da camera...
         //  se nao estiverem colidindo, spawn!
         //  se estiver proximo ao boss, disable until boss defeated
 

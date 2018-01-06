@@ -13,10 +13,14 @@ namespace MonoGameProject
             collider.Height = height * MapModule.CELL_SIZE / 2;
             AddCollider(collider);
 
+            var baseTrigger = true;
             for (int i = 0; i < width; i++)
             {
                 for (int j = 0; j < height; j++)
                 {
+                    var shouldTrigger = !baseTrigger;
+                    baseTrigger = shouldTrigger;
+
                     var animation = GeneratedContent.Create_knight_spikes2(
                         i * MapModule.CELL_SIZE
                         , j * MapModule.CELL_SIZE
@@ -30,12 +34,19 @@ namespace MonoGameProject
                     var sound = Game1.MusicController.GetSoundEffect("beat2", this, () => (int)collider.CenterX());
                     AddUpdate(() =>
                     {
-                        if(Game1.MusicController.PrepareTarol())
+                        if(Game1.MusicController.PrepareTarol() && shouldTrigger)
                             animation.Restart();
 
                         if (Game1.MusicController.CanPlayTarol())
                         {
+                            if (shouldTrigger == false)
+                            {
+                                shouldTrigger = true;
+                                return;
+                            }
                             sound.Play();
+                            shouldTrigger = false;
+
                         }
                     });
                 }
