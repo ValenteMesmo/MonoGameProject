@@ -111,7 +111,7 @@ namespace GameCore
             }
         }
         public int _startingFrame;
-        public int FrameDuration = 1;
+        public int FrameDuration = 3;
 
         public Animation(params AnimationFrame[] Frames)
         {
