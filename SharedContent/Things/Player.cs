@@ -11,6 +11,7 @@ namespace MonoGameProject
     {
         //planning:
 
+        //sleep is breaking the song (skiping notes)
         //escurecer o ceu?
         //um mapa no fundo do mar, inspirado no episodio de viagem astral do finn s6e?
 

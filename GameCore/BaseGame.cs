@@ -40,9 +40,20 @@ public class SoundWrapper
             volume = 0;
         else if (volume > 1f)
             volume = 1f;
-        
+
+        var maxPitch = 0.25f;
+        var pitch = (float)Random.NextDouble();
+        if (pitch > maxPitch)
+        {
+            pitch = maxPitch;
+        }
+        else if (pitch < -maxPitch)
+        {
+            pitch = -maxPitch;
+        }
+
         currentSound.Pan = pan;
-        currentSound.Pitch = (float)Random.NextDouble();
+        currentSound.Pitch = pitch;
         currentSound.Volume = volume;
     }
 
@@ -63,7 +74,7 @@ public class MusicController
     {
         this.Sounds = Sounds;
     }
-    
+
     //public int NextBumbo;
 
     private const float bpm = 120;
@@ -310,6 +321,7 @@ public class BaseGame : OriginalGameClass
 
         Graphics.ApplyChanges();
         Camera = new Camera2d();
+        Camera.Zoom = 0.15f;
 
         World = new World(Camera);
     }
@@ -379,17 +391,22 @@ public class BaseGame : OriginalGameClass
         var state = Keyboard.GetState();
 #if DEBUG
 
-        //Camera.Zoom = 0.06f;
-        Camera.Zoom = 0.15f;
+
+        if (InputWrapper.KeyBoard.F8.Tapped)
+        {
+            Camera.Zoom = 0.15f;
+        }
+        if (InputWrapper.KeyBoard.F7.Tapped)
+        {
+            Camera.Zoom = 0.06f;
+        }
 
         if (InputWrapper.KeyBoard.F9.Tapped)
             DisplayColliders = !DisplayColliders;
-
+#endif
         if (state.IsKeyDown(Keys.Escape))
             Parent.Restart();
-#else
-        Camera.Zoom = 0.15f;
-#endif
+
         InputWrapper.Update();
         MusicController.Update();
         World.Update();
