@@ -41,7 +41,7 @@ public class SoundWrapper
         else if (volume > 1f)
             volume = 1f;
 
-        var maxPitch = 0.25f;
+        var maxPitch = 0.2f;
         var pitch = (float)Random.NextDouble();
         if (pitch > maxPitch)
         {

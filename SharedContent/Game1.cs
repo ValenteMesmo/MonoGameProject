@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using MonoGameProject.Things;
 
 namespace MonoGameProject
 {
@@ -27,7 +28,7 @@ namespace MonoGameProject
         public static bool ShowParalax = true;
         public static bool ShowSky = true;
         public static bool ShowWalls = true;
-        
+
 
         private static Game1 _instance;
         public static Game1 Instance
@@ -51,7 +52,7 @@ namespace MonoGameProject
         public IEnumerable<Player> Players { get { return PlayersSlots.Where(f => f.Player != null).Select(f => f.Player); } }
 
         private List<GameInputs> allControllers;
-        
+
         public int GetNumberOfActivePlayers()
         {
             return PlayersSlots.Count(f => f.AssociatedInput != null);
@@ -111,10 +112,6 @@ namespace MonoGameProject
             camerawall.AddCollider(new SolidCollider(MapModule.CELL_SIZE, MapModule.HEIGHT * 2) { OffsetX = -MapModule.CELL_SIZE / 2 });
             camerawall.AddCollider(new SolidCollider(MapModule.CELL_SIZE, MapModule.HEIGHT * 2) { OffsetX = (int)(MapModule.CELL_SIZE * 19.5f) });
             AddThing(camerawall);
-
-            //GameState.Load();
-
-            //AddThing(new Enemy(this) { X = 4000, Y = 4000 });
 
             PlayersSlots.Clear();
 

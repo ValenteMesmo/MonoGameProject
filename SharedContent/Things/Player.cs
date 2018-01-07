@@ -10,6 +10,8 @@ namespace MonoGameProject
     public class Player : Humanoid
     {
         //planning:
+        //mover a perna de apoio para fora, na animacao de beirada
+        //MAKE player attack collider beging inside playes main collider
 
         //sleep is breaking the song (skiping notes)
         //escurecer o ceu?

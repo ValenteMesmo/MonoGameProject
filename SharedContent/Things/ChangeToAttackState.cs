@@ -9,6 +9,7 @@ namespace MonoGameProject
         private readonly Humanoid Humanoid;
         private readonly Game1 Game1;
         private int AttackDuration = 0;
+        private int AttackCooldown = 0;
 
         public ChangeToAttackState(Humanoid Humanoid, Game1 Game1)
         {
@@ -18,12 +19,28 @@ namespace MonoGameProject
 
         public void Update()
         {
-//            Game.LOG += @"
-//Attack cd: "+ AttackDuration;
+            //            Game.LOG += @"
+            //Attack cd: "+ AttackDuration;
             if (Humanoid.Inputs.ClickedAction1
-                && AttackDuration <= 0)
+                && AttackDuration <= 0
+                && AttackCooldown == 0)
             {
-                AttackDuration = 16;
+                if (Humanoid.weaponType == WeaponType.Sword)
+                {
+                    AttackDuration = 18;
+                    AttackCooldown = AttackDuration + 6;
+                }
+                else if (Humanoid.weaponType == WeaponType.Whip)
+                {
+                    AttackDuration = 18;
+                    AttackCooldown = AttackDuration + 3;
+                }
+                else
+                {                    
+                    AttackDuration = 16;
+                    AttackCooldown = AttackDuration + 0;
+                }
+
                 //if (Game1.MusicController.Queue("beat2") == false)
                 //    Game1.MusicController.Force("beat1");
                 ////Game1.MusicController.Queue("beat2");
@@ -31,6 +48,9 @@ namespace MonoGameProject
 
             Humanoid.AttackLeftCollider.Disabled = true;
             Humanoid.AttackRightCollider.Disabled = true;
+
+            if (AttackCooldown > 0)
+                AttackCooldown--;
 
             if (AttackDuration > 0)
             {
