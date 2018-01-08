@@ -158,7 +158,7 @@ namespace MonoGameProject
                     }
                     if (type == 'e')
                     {
-                        Game1.AddToWorld(new Enemy(Game1)
+                        Game1.AddToWorld(new SkullEnemy(Game1)
                         {
                             X = X + j * CELL_SIZE,
                             Y = Y + i * CELL_SIZE

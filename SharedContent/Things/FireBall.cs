@@ -200,6 +200,24 @@ namespace MonoGameProject
         }
     }
 
+    public class BoneFireball: FireBall
+    {
+        public BoneFireball(Thing Owner, bool facingRight,Color Color) : base(Owner,0, 0, Game1.Instance, Color)
+        {
+            //int offset = 0;
+            //if (speedX > 0)
+            //    offset = -FIREBALL_SIZE;
+            if (facingRight)
+                HorizontalSpeed = SPEED/2;
+            else
+                HorizontalSpeed = -SPEED/2;
+
+            var animation = GeneratedContent.Create_knight_Bone(0, 0, FIREBALL_SIZE , FIREBALL_SIZE,  facingRight);
+            animation.ColorGetter = () => Color;
+            AddAnimation(animation);
+        }
+    }
+
     public class FireballCloud : FireBall
     {
         public FireballCloud(Thing Owner, int speedX, int speedY, Game1 Game1, Color Color) : base(Owner, speedX, speedY, Game1, Color)

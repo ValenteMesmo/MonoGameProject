@@ -83,6 +83,7 @@
     <Compile Include="Things\PreventPlayerFromAccicentlyFalling.cs" />
     <Compile Include="Things\ReduceSizeWhenCrouching.cs" />
     <Compile Include="Things\RightFireBallTrap.cs" />
+    <Compile Include="Things\SkullEnemy.cs" />
     <Compile Include="Things\Spikes.cs" />
     <Compile Include="Things\TakesDamage.cs" />
     <Compile Include="Things\WorldHelper.cs" />

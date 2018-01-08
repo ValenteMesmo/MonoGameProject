@@ -80,9 +80,9 @@ namespace MonoGameProject
             {
                 groundleft = new CollisionChecker();
 
-                groundleft.Width = size/2;
+                groundleft.Width = size / 2;
                 groundleft.Height = size / 4;
-                groundleft.OffsetX = -size/2;
+                groundleft.OffsetX = -size / 2;
                 groundleft.OffsetY = size;
                 groundleft.AddHandler(AttackNearPlayer);
                 AddCollider(groundleft);
@@ -90,7 +90,7 @@ namespace MonoGameProject
             {
                 groundright = new CollisionChecker();
 
-                groundright.Width = size/2;
+                groundright.Width = size / 2;
                 groundright.Height = size / 4;
                 groundright.OffsetX = size;
                 groundright.OffsetY = size;
