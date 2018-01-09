@@ -103,7 +103,7 @@ namespace MonoGameProject
         }
     }
 
-    public abstract class BaseFireBall : Thing
+    public abstract class BaseFireBall : Thing, MagicProjectile
     {
         private readonly Game1 Game1;
         public readonly Color Color;
@@ -200,21 +200,68 @@ namespace MonoGameProject
         }
     }
 
-    public class BoneFireball: FireBall
+    public class BoneFireball : FireBall
     {
-        public BoneFireball(Thing Owner, bool facingRight,Color Color) : base(Owner,0, 0, Game1.Instance, Color)
+        public BoneFireball(Thing Owner, bool facingRight, Color Color) : base(Owner, 0, 0, Game1.Instance, Color)
         {
             //int offset = 0;
             //if (speedX > 0)
             //    offset = -FIREBALL_SIZE;
             if (facingRight)
-                HorizontalSpeed = SPEED/2;
+                HorizontalSpeed = SPEED / 2;
             else
-                HorizontalSpeed = -SPEED/2;
+                HorizontalSpeed = -SPEED / 2;
 
-            var animation = GeneratedContent.Create_knight_Bone(0, 0, FIREBALL_SIZE , FIREBALL_SIZE,  facingRight);
+            var animation = GeneratedContent.Create_knight_Bone(0, 0, FIREBALL_SIZE, FIREBALL_SIZE, facingRight);
             animation.ColorGetter = () => Color;
             AddAnimation(animation);
+        }
+    }
+
+    public interface MagicProjectile
+    {
+    }
+
+    public class SlimeRainDrop : Thing, MagicProjectile
+    {
+        public SlimeRainDrop(BaseEnemy Owner, int xSpeed )
+        {
+            X = (int)Owner.mainCollider.CenterX() - 300;
+            Y = Owner.mainCollider.Top();
+
+            var animationSize = FireBall.FIREBALL_SIZE;
+            var animation = GeneratedContent.Create_knight_Bone(0, 0, animationSize, animationSize);
+            animation.ColorGetter = () => Color.White;
+            animation.RenderingLayer = 0f;
+            AddAnimation(animation);
+            AddAfterUpdate(new MoveHorizontallyWithTheWorld(this));
+
+            VerticalSpeed = -100;
+            HorizontalSpeed = xSpeed;
+            var duration = 200;
+
+            var collider = new AttackCollider();
+            collider.Width = collider.Height = 100;
+            collider.OffsetX = 200;
+            collider.OffsetY = 200;
+            AddCollider(collider);
+
+            var DamageHandler = new PlayerDamageHandler(Game1.Instance,Color.White,(a,b,c)=> { }, (a,b,c)=> { });
+            DamageHandler.HEALTH = 2 + (1 * Game1.Instance.GetNumberOfActivePlayers());
+            collider.AddHandler(DamageHandler.CollisionHandler);
+            AddUpdate(DamageHandler.Update);
+            AddUpdate(() =>
+            {
+                VerticalSpeed +=2;
+                if (xSpeed > 0)
+                    xSpeed--;
+                if (xSpeed < 0)
+                    xSpeed++;
+
+                duration--;
+                if (duration == 0)
+                    Destroy();
+            });
         }
     }
 
@@ -434,7 +481,7 @@ namespace MonoGameProject
 
             HorizontalSpeed = 0;
             VerticalSpeed = 0;
-            DamageHandler.HEALTH = GlobalSettigns.FIREBALL_HEALTH + (1* Game1.GetNumberOfActivePlayers());
+            DamageHandler.HEALTH = GlobalSettigns.FIREBALL_HEALTH + (1 * Game1.GetNumberOfActivePlayers());
 
             AddUpdate(new DestroyIfLeftBehind(this));
             AddAfterUpdate(new MoveHorizontallyWithTheWorld(this));

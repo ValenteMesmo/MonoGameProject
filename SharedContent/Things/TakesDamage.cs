@@ -28,7 +28,7 @@ namespace MonoGameProject
         public void Handle(Collider source, Collider target)
         {
 
-            if (target.Parent is BaseFireBall)
+            if (target.Parent is MagicProjectile)
             {
                 if (target.Parent is FireBall)
                 {

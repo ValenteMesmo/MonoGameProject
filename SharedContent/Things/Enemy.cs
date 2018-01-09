@@ -18,10 +18,11 @@ namespace MonoGameProject
 
         public void CreateFireball(BaseEnemy Parent)
         {
-            Game1.Instance.AddToWorld(new BoneFireball(Parent, Parent.facingRight, Color.White) { X = Parent.X, Y = Parent.Y - 500 });
+            Game1.Instance.AddToWorld(new SlimeRainDrop(Parent, -20));
+            Game1.Instance.AddToWorld(new SlimeRainDrop(Parent, 0));
+            Game1.Instance.AddToWorld(new SlimeRainDrop(Parent, 20));
         }
     }
-
 
     public class SkullAttackImplementation : EnemyAttackImplementation
     {
@@ -88,12 +89,12 @@ namespace MonoGameProject
         private CollisionChecker groundleft;
         private CollisionChecker groundright;
         private bool skipThisOne;
-        protected SolidCollider mainCollider;
+        public SolidCollider mainCollider;
         private readonly EnemyAttackImplementation AttackImplementation;
 
         public BaseEnemy(EnemyAttackImplementation AttackImplementation)
         {
-            this.AttackImplementation= AttackImplementation;
+            this.AttackImplementation = AttackImplementation;
 
             HorizontalSpeed = VELOCITY;
 

@@ -45,7 +45,7 @@ namespace MonoGameProject
                 )
             )
             {
-                if (t.Parent is FireBall)
+                if (t.Parent is MagicProjectile)
                     t.Parent.Destroy();
 
                 if (damageCooldown > 0)
@@ -67,15 +67,6 @@ namespace MonoGameProject
                 if (CausesSleep)
                     Game1.Sleep();
                 Game1.Camera.ShakeUp(20);
-
-                //Game1.AddToWorld(new HitEffect(0.04f)
-                //{
-                //    X = (int)source.CenterX(),
-                //    Y = t.Y,
-                //    Color = DamageColor,
-                //    HorizontalSpeed = source.Parent.HorizontalSpeed,
-                //    VerticalSpeed = source.Parent.VerticalSpeed
-                //});
 
                 if (Dead())
                 {
