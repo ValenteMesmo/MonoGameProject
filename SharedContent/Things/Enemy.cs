@@ -1,25 +1,103 @@
 ﻿using GameCore;
 using Microsoft.Xna.Framework;
-using MonoGameProject.Things;
-using System;
 
 namespace MonoGameProject
 {
-    public class Enemy : Thing
+    public interface EnemyAttackImplementation
+    {
+        bool AttackCondition();
+        void CreateFireball(BaseEnemy Parent);
+    }
+
+    public class SlimeAttackImplementation : EnemyAttackImplementation
+    {
+        public bool AttackCondition()
+        {
+            return Game1.Instance.MusicController.PrepareTarol();
+        }
+
+        public void CreateFireball(BaseEnemy Parent)
+        {
+            Game1.Instance.AddToWorld(new BoneFireball(Parent, Parent.facingRight, Color.White) { X = Parent.X, Y = Parent.Y - 500 });
+        }
+    }
+
+
+    public class SkullAttackImplementation : EnemyAttackImplementation
+    {
+        public bool AttackCondition()
+        {
+            return Game1.Instance.MusicController.PrepareTarol();
+        }
+
+        public void CreateFireball(BaseEnemy Parent)
+        {
+            Game1.Instance.AddToWorld(new BoneFireball(Parent, Parent.facingRight, Color.White) { X = Parent.X, Y = Parent.Y - 500 });
+        }
+    }
+
+    public class SlimeEnemy : BaseEnemy
+    {
+        public SlimeEnemy() : base(new SlimeAttackImplementation())
+        {
+            mainCollider.Height = 500;
+            //mainCollider.OffsetY = 500;
+            Animations();
+        }
+
+        private void Animations()
+        {
+            var width = 800;
+            var height = 800;
+            var offsetX = -300;
+            var offsetY = -900;
+
+            var idleAniamtion_left = GeneratedContent.Create_knight_Slime(offsetX, offsetY, width, height);
+            idleAniamtion_left.RenderingLayer = Boss.HEAD_Z;
+
+            var idleAniamtion_right = GeneratedContent.Create_knight_Slime(offsetX, offsetY, width, height, true);
+            idleAniamtion_right.RenderingLayer = Boss.HEAD_Z;
+
+            var attackAniamtion_left = GeneratedContent.Create_knight_Slime_Attack(offsetX, offsetY, width, height);
+            attackAniamtion_left.LoopDisabled = true;
+            attackAniamtion_left.RenderingLayer = Boss.HEAD_Z;
+
+            var attackAniamtion_right = GeneratedContent.Create_knight_Slime_Attack(offsetX, offsetY, width, height, true);
+            attackAniamtion_right.LoopDisabled = true;
+            attackAniamtion_right.RenderingLayer = Boss.HEAD_Z;
+
+            AddAnimation(
+                new Animator(
+                    new AnimationTransitionOnCondition(idleAniamtion_left, () => !facingRight && !attacking),
+                    new AnimationTransitionOnCondition(idleAniamtion_right, () => facingRight && !attacking),
+                    new AnimationTransitionOnCondition(attackAniamtion_left, () => !facingRight && attacking),
+                    new AnimationTransitionOnCondition(attackAniamtion_right, () => facingRight && attacking)
+                )
+            );
+        }
+    }
+
+    public class BaseEnemy : Thing
     {
         const int VELOCITY = 25;
-        const int size = 800;
-        private AttackCollider AttackCollider;
-        private bool attacking;
+        const int WIDTH = 300;
+        const int HEIGHT = 600;
+        protected bool attacking;
         private int attackDuration;
+        public bool facingRight;
         private CollisionChecker groundleft;
         private CollisionChecker groundright;
+        private bool skipThisOne;
+        protected SolidCollider mainCollider;
+        private readonly EnemyAttackImplementation AttackImplementation;
 
-        public Enemy(Game1 Game1)
+        public BaseEnemy(EnemyAttackImplementation AttackImplementation)
         {
+            this.AttackImplementation= AttackImplementation;
+
             HorizontalSpeed = VELOCITY;
 
-            Animations();
+            //Animations();
             MainCollider();
             ExtraColliders();
 
@@ -29,72 +107,74 @@ namespace MonoGameProject
                     attackDuration--;
 
                 if (attackDuration == 0)
+                {
                     attacking = false;
+                    HorizontalSpeed = facingRight ? VELOCITY : -VELOCITY;
+                }
+                else if (attackDuration == 40)
+                {
+                    AttackImplementation.CreateFireball(this);
+                }
+
+                if (AttackImplementation.AttackCondition() && attackDuration == 0)
+                {
+                    if (skipThisOne)
+                    {
+                        skipThisOne = false;
+                    }
+                    else
+                    {
+                        skipThisOne = true;
+
+                        attacking = true;
+                        attackDuration = 50;
+                        HorizontalSpeed = 0;
+                    }
+                }
+
+                if (HorizontalSpeed > 0)
+                    facingRight = true;
+                else if (HorizontalSpeed < 0)
+                    facingRight = false;
             });
 
             AddAfterUpdate(new MoveHorizontallyWithTheWorld(this));
             AddUpdate(new AfectedByGravity(this));
             AddUpdate(ChangeDirectionIfAboutToFall);
+
         }
 
         private void ChangeDirectionIfAboutToFall()
         {
-            if (HorizontalSpeed > 0 && !groundright.Colliding<GroundCollider>())
+            if (facingRight && !groundright.Colliding<GroundCollider>())
             {
-                HorizontalSpeed = -HorizontalSpeed;
+                facingRight = false;
             }
-            else if (HorizontalSpeed < 0 && !groundleft.Colliding<GroundCollider>())
+            else if (!facingRight && !groundleft.Colliding<GroundCollider>())
             {
-                HorizontalSpeed = -HorizontalSpeed;
+                facingRight = true;
             }
         }
 
         private void ExtraColliders()
         {
-            var playerFinder = new Collider(size, size / 2);
-            playerFinder.OffsetY = size / 2;
-            playerFinder.AddHandler(AttackNearPlayer);
-            AddCollider(playerFinder);
-
-
-            AttackCollider = new AttackCollider();
-            AttackCollider.OffsetY = size / 2;
-            AttackCollider.Width = size / 2;
-            AttackCollider.Height = size / 2;
-            AddCollider(AttackCollider);
-
-            AddUpdate(() =>
-            {
-                if (HorizontalSpeed > 0)
-                {
-                    AttackCollider.OffsetX = size;
-                    playerFinder.OffsetX = size;
-                }
-                else
-                {
-                    AttackCollider.OffsetX = -size / 2;
-                    playerFinder.OffsetX = -size;
-                }
-            });
-
+            var size = 200;
             {
                 groundleft = new CollisionChecker();
 
-                groundleft.Width = size / 2;
-                groundleft.Height = size / 4;
-                groundleft.OffsetX = -size / 2;
-                groundleft.OffsetY = size;
-                groundleft.AddHandler(AttackNearPlayer);
+                groundleft.Width = size;
+                groundleft.Height = size / 2;
+                groundleft.OffsetX = -size - 10;
+                groundleft.OffsetY = mainCollider.Height + 10;
                 AddCollider(groundleft);
             }
             {
                 groundright = new CollisionChecker();
 
-                groundright.Width = size / 2;
-                groundright.Height = size / 4;
-                groundright.OffsetX = size;
-                groundright.OffsetY = size;
-                groundright.AddHandler(AttackNearPlayer);
+                groundright.Width = size;
+                groundright.Height = size / 2;
+                groundright.OffsetX = mainCollider.Width + 10;
+                groundright.OffsetY = mainCollider.Height + 10;
                 AddCollider(groundright);
             }
 
@@ -105,53 +185,36 @@ namespace MonoGameProject
             var PlayerDamageHandler = new PlayerDamageHandler(Game1.Instance, Color.White, (p, s, t) => { }, (p, s, t) => { });
             AddUpdate(PlayerDamageHandler.Update);
 
-            var MainCollider = new SolidCollider(size, size);
-            //MainCollider.OffsetY = size / 2;
-            MainCollider.AddBotCollisionHandler(StopsWhenHitting.Bot<GroundCollider>());
-            MainCollider.AddLeftCollisionHandler(StopsWhenHitting.Left<GroundCollider>());
-            MainCollider.AddRightCollisionHandler(StopsWhenHitting.Right<GroundCollider>());
-            MainCollider.AddTopCollisionHandler(StopsWhenHitting.Top<GroundCollider>());
-            MainCollider.AddLeftCollisionHandler(left);
-            MainCollider.AddRightCollisionHandler(right);
-            MainCollider.AddHandler(PlayerDamageHandler.CollisionHandler);
-            AddCollider(MainCollider);
-        }
-
-        private void Animations()
-        {
-            var idleAniamtion_left = GeneratedContent.Create_knight_Slime(-size / 2, -size, size * 2, size * 2);
-            var idleAniamtion_right = GeneratedContent.Create_knight_Slime(-size / 2, -size, size * 2, size * 2, true);
-            var attackAniamtion_left = GeneratedContent.Create_knight_Slime_attack(-size / 2, -size, size * 2, size * 2);
-            var attackAniamtion_right = GeneratedContent.Create_knight_Slime_attack(-size / 2, -size, size * 2, size * 2, true);
-            AddAnimation(
-                new Animator(
-                    new AnimationTransitionOnCondition(idleAniamtion_left, () => HorizontalSpeed < 0 && !attacking),
-                    new AnimationTransitionOnCondition(idleAniamtion_right, () => HorizontalSpeed > 0 && !attacking),
-                    new AnimationTransitionOnCondition(attackAniamtion_left, () => HorizontalSpeed < 0 && attacking),
-                    new AnimationTransitionOnCondition(attackAniamtion_right, () => HorizontalSpeed > 0 && attacking)
-                )
-            );
-        }
-
-        private void AttackNearPlayer(Collider arg1, Collider arg2)
-        {
-            if (arg2.Parent is Player)
-            {
-                attacking = true;
-                attackDuration = 50;
-            }
+            //var width = size / 2;
+            //var height = (size - 200) * 2;
+            mainCollider = new SolidCollider(WIDTH, HEIGHT);
+            mainCollider.OffsetY = -HEIGHT;
+            mainCollider.AddBotCollisionHandler(StopsWhenHitting.Bot<GroundCollider>());
+            mainCollider.AddLeftCollisionHandler(StopsWhenHitting.Left<GroundCollider>());
+            mainCollider.AddRightCollisionHandler(StopsWhenHitting.Right<GroundCollider>());
+            mainCollider.AddTopCollisionHandler(StopsWhenHitting.Top<GroundCollider>());
+            mainCollider.AddLeftCollisionHandler(left);
+            mainCollider.AddRightCollisionHandler(right);
+            mainCollider.AddHandler(PlayerDamageHandler.CollisionHandler);
+            AddCollider(mainCollider);
         }
 
         private void right(Collider arg1, Collider arg2)
         {
             if (arg2 is GroundCollider)
+            {
                 HorizontalSpeed = -VELOCITY;
+                facingRight = false;
+            }
         }
 
         private void left(Collider arg1, Collider arg2)
         {
             if (arg2 is GroundCollider)
+            {
                 HorizontalSpeed = VELOCITY;
+                facingRight = true;
+            }
         }
     }
 }

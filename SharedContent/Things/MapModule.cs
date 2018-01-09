@@ -158,7 +158,15 @@ namespace MonoGameProject
                     }
                     if (type == 'e')
                     {
-                        Game1.AddToWorld(new SkullEnemy(Game1)
+                        Game1.AddToWorld(new SkullEnemy()
+                        {
+                            X = X + j * CELL_SIZE,
+                            Y = Y + i * CELL_SIZE
+                        });
+                    }
+                    if (type == 's')
+                    {
+                        Game1.AddToWorld(new SlimeEnemy()
                         {
                             X = X + j * CELL_SIZE,
                             Y = Y + i * CELL_SIZE
