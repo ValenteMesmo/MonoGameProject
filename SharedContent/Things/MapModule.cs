@@ -172,6 +172,22 @@ namespace MonoGameProject
                             Y = Y + i * CELL_SIZE
                         });
                     }
+                    if (type == '(')
+                    {
+                        Game1.AddToWorld(new SpinnerEnemy()
+                        {
+                            X = X + j * CELL_SIZE,
+                            Y = Y + i * CELL_SIZE
+                        });
+                    }
+                    if (type == ')')
+                    {
+                        Game1.AddToWorld(new SpinnerEnemy(true)
+                        {
+                            X = X + j * CELL_SIZE,
+                            Y = Y + i * CELL_SIZE
+                        });
+                    }
                     if (type == '@')
                     {
                         Game1.AddToWorld(new BossBattleTrigger
@@ -248,7 +264,7 @@ namespace MonoGameProject
 
 
                         CreateBackground(i, j);
-                    }                  
+                    }
                     if (type == 'm')
                     {
                         Game1.AddToWorld(new Boss(Game1)
@@ -486,7 +502,7 @@ namespace MonoGameProject
 
     public class MovingPlatform : Thing
     {
-        public const int speed= 30;
+        public const int speed = 30;
 
         public MovingPlatform(int widthInCellNumber, int heightInCellNumber)
         {

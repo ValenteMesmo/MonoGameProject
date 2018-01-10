@@ -15,12 +15,17 @@ namespace MonoGameProject
         private readonly Color DamageColor;
         public bool CausesSleep = true;
 
-        public PlayerDamageHandler(Game1 Game1, Color DamageColor, Action<Player, Collider, Collider> OnHit, Action<Player, Collider, Collider> OnKill)
+        public PlayerDamageHandler(Game1 Game1, Color DamageColor, Action<Player, Collider, Collider> OnHit = null, Action<Player, Collider, Collider> OnKill=null)
         {
             this.DamageColor = DamageColor;
             this.Game1 = Game1;
             this.OnHit = OnHit;
             this.OnKill = OnKill;
+
+            if (this.OnHit == null)
+                this.OnHit = (a, b, c) => { };
+            if (this.OnKill == null)
+                this.OnKill = (a, b, c) => { };
         }
 
         public void CollisionHandler(Collider source, Collider t)

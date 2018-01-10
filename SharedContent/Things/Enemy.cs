@@ -1,4 +1,5 @@
-﻿using GameCore;
+﻿using System;
+using GameCore;
 using Microsoft.Xna.Framework;
 
 namespace MonoGameProject
@@ -75,6 +76,76 @@ namespace MonoGameProject
                     new AnimationTransitionOnCondition(attackAniamtion_right, () => facingRight && attacking)
                 )
             );
+        }
+    }
+
+    public class SpinnerEnemy : Thing, MagicProjectile
+    {
+        const int max = 50;
+        const int speed = 1;
+
+        int horizontalSpeed = max;
+        int verticalSpeed = 0;
+        int velocityVertical = speed;
+        int velocityHorizontal = -speed;
+
+        public SpinnerEnemy(bool reverse = false)
+        {
+            if (reverse)
+            {
+                horizontalSpeed = -max;
+                verticalSpeed = 0;
+            }
+            else
+            {
+                horizontalSpeed = max;
+                verticalSpeed = 0;
+            }
+
+            Animation();
+
+            AddAfterUpdate(new MoveHorizontallyWithTheWorld(this));
+            AddUpdate(RotationUpdate);
+
+            var damageHandler = new PlayerDamageHandler(Game1.Instance, Color.White);
+            AddUpdate( damageHandler.Update);
+            
+            var collider = new AttackCollider();
+            collider.Width = collider.Height = 100;
+            collider.OffsetX = 200;
+            collider.OffsetY = 200;
+            collider.AddHandler(damageHandler.CollisionHandler);
+
+            AddCollider(collider);
+        }
+
+        private void RotationUpdate()
+        {
+            if (horizontalSpeed < -max)
+                velocityHorizontal = speed;
+            if (horizontalSpeed > max)
+                velocityHorizontal = -speed;
+
+            if (verticalSpeed < -max)
+                velocityVertical = speed;
+            if (verticalSpeed > max)
+                velocityVertical = -speed;
+
+            horizontalSpeed += velocityHorizontal;
+            verticalSpeed += velocityVertical;
+
+            {
+                X = horizontalSpeed + X;
+                Y = verticalSpeed + Y;
+            }
+        }
+
+        private void Animation()
+        {
+            var animation = GeneratedContent.Create_knight_Bone(0, 0, 500, 500);
+            animation.ColorGetter = () => Color.Red;
+            animation.RenderingLayer = 0f;
+            AddAnimation(animation);
         }
     }
 
