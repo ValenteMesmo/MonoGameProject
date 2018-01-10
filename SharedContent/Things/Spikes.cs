@@ -31,7 +31,7 @@ namespace MonoGameProject
                     animation.FrameDuration = 2;
                     AddAnimation(animation);
 
-                    var sound = Game1.MusicController.GetSoundEffect("beat2", this, () => (int)collider.CenterX());
+                    var sound = Game1.MusicController.GetSoundEffect("beat2", this, () => (int)collider.CenterX(), () => (int)collider.CenterY());
                     AddUpdate(() =>
                     {
                         if(Game1.MusicController.PrepareTarol() && shouldTrigger)

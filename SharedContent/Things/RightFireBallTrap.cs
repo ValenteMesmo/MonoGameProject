@@ -12,7 +12,7 @@ namespace MonoGameProject
 
             var shouldplay = startAfter == 0;
 
-            var sound = Game1.MusicController.GetSoundEffect("beat1", this, ()=> X);
+            var sound = Game1.MusicController.GetSoundEffect("beat1", this, ()=> X, () => Y);
 
             AddUpdate(() =>
             {

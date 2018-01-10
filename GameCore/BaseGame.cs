@@ -11,20 +11,19 @@ public class SoundWrapper
 {
     private readonly SoundEffect actualSoundEffect;
     private SoundEffectInstance currentSound;
-    private readonly Thing parent;
     private readonly Func<int> GetX;
+    Random Random = new Random();
+    private readonly Func<int> GetY;
 
-    public SoundWrapper(SoundEffect actualSoundEffect, Thing parent, Func<int> GetX)
+    public SoundWrapper(SoundEffect actualSoundEffect, Func<int> GetX, Func<int> GetY)
     {
         this.actualSoundEffect = actualSoundEffect;
-        this.parent = parent;
         this.GetX = GetX;
+        this.GetY = GetY;
         currentSound = actualSoundEffect.CreateInstance();
-
-        parent.AddUpdate(Update);
     }
 
-    private void Update()
+    public void Update()
     {
         //TODO: Y
         var pan = GetX() / 100000f;
@@ -34,12 +33,28 @@ public class SoundWrapper
             pan = 1f;
 
         var distance = Math.Abs(GetX() - 8000);
+        var distance2 = Math.Abs(GetY() );
+        
+        
 
         var volume = 1000f / distance;
         if (volume < 0)
             volume = 0;
         else if (volume > 1f)
             volume = 1f;
+
+        var volume2 = 1f;
+        if(distance2 > 8000)
+            volume =  0.05f ;
+        else if (distance2 > 7000)
+            volume = 0.1f;
+        else if (distance2 > 6000)
+            volume = 0.2f;
+        else if (distance2 > 5000)
+            volume = 0.3f;
+
+        if (volume2 < volume)
+            volume = volume2;
 
         var maxPitch = 0.2f;
         var pitch = (float)Random.NextDouble();
@@ -56,8 +71,6 @@ public class SoundWrapper
         currentSound.Pitch = pitch;
         currentSound.Volume = volume;
     }
-
-    Random Random = new Random();
 
     public void Play()
     {
@@ -113,9 +126,11 @@ public class MusicController
         }
     }
 
-    public SoundWrapper GetSoundEffect(string soundName, Thing parent, Func<int> GetX)
+    public SoundWrapper GetSoundEffect(string soundName, Thing parent, Func<int> GetX, Func<int> GetY)
     {
-        return new SoundWrapper(Sounds(soundName), parent, GetX);
+        var result = new SoundWrapper(Sounds(soundName), GetX, GetY);
+        parent.AddUpdate(result.Update);
+        return result;
     }
 
     Musica Musica = new Musica(
