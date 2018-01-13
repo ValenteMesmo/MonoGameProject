@@ -11,6 +11,8 @@ namespace MonoGameProject
     {
         //planning:
         //mono all the audio
+        //chão baixa quando pisa
+        //checkpoint flag igual thou art dead?
 
         //mover a perna de apoio para fora, na animacao de beirada
         //MAKE player attack collider beging inside playes main collider
