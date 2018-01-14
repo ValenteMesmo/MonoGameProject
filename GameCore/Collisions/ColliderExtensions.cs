@@ -82,6 +82,35 @@ namespace GameCore
             a.Y += a.VerticalSpeed;
         }
 
+        public static void CalculateHorizontalMass(
+            this Collider a
+            , Collider b)
+        {
+            if (a.Disabled || b.Disabled)
+                return;
+
+            var collision = a.IsCollidingH(b);
+
+            if (collision == CollisionResult.Nope)
+                return;
+
+            a.CollidingWith.Add(b);
+            b.CollidingWith.Add(a);
+            if (collision == CollisionResult.Left)
+            {
+                a.CollectiveMass_Left += b.Mass;
+                b.CollectiveMass_Right += b.Mass;
+            }
+            else if (collision == CollisionResult.Right)
+            {
+                a.RightCollisionHandlers
+                     .ForEach(handler => handler(a, b));
+
+                //b.LeftCollisionHandlers
+                //    .ForEach(handler => handler(b, a));
+            }
+        }
+
         public static void HandleHorizontalCollision(
             this Collider a
             , Collider b)

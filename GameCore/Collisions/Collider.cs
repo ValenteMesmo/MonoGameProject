@@ -16,6 +16,11 @@ namespace GameCore
         public int Width { get; set; }
         public int Height { get; set; }
         public int Mass = 50;
+
+        //public int CollectiveMass_Top;
+        //public int CollectiveMass_Bot;
+        //public int CollectiveMass_Left;
+        //public int CollectiveMass_Right;
     }
 
 

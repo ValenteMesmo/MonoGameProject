@@ -125,7 +125,7 @@ namespace GameCore
                             break;
                         }
                     }
-                    
+
                     area.SetTouch(selectedTouch);
                 });
 
@@ -146,6 +146,11 @@ namespace GameCore
                     }
                     else
                         passiveColliders.Add(collider);
+
+                    collider.CollectiveMass_Bot = collider.Mass;
+                    collider.CollectiveMass_Left = collider.Mass;
+                    collider.CollectiveMass_Right = collider.Mass;
+                    collider.CollectiveMass_Top = collider.Mass;
                 });
             });
 
