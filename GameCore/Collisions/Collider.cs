@@ -15,7 +15,6 @@ namespace GameCore
 
         public int Width { get; set; }
         public int Height { get; set; }
-        public int Mass = 50;
     }
 
 

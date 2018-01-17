@@ -261,7 +261,6 @@ namespace MonoGameProject
             //var height = (size - 200) * 2;
             mainCollider = new SolidCollider(WIDTH, HEIGHT);
             mainCollider.OffsetY = -HEIGHT;
-            mainCollider.Mass = 5;
             mainCollider.AddBotCollisionHandler(StopsWhenHitting.Bot<GroundCollider>());
             mainCollider.AddLeftCollisionHandler(StopsWhenHitting.Left<GroundCollider>());
             mainCollider.AddRightCollisionHandler(StopsWhenHitting.Right<GroundCollider>());

@@ -57,10 +57,10 @@ namespace MonoGameProject
     {
         public GroundCollider()
         {
-            Mass = 999;
+
         }
 
-        public GroundCollider(int width, int height):this()
+        public GroundCollider(int width, int height)
         {
             Width = width;
             Height = height;
@@ -264,8 +264,7 @@ namespace MonoGameProject
             {
                 OffsetX = width / 3,
                 Width = width / 3,
-                Height = height - 10,
-                Mass = 10
+                Height = height - 10
             };
             AddCollider(MainCollider);
 
