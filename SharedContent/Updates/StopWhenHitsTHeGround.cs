@@ -18,7 +18,7 @@ namespace MonoGameProject
         {
             if (other is T)
             {
-                if (Parent.Mass > other.CollectiveMass_Bot)
+                if (Parent.Mass > other.Mass)
                     SetOnTop(other, Parent);
                 else
                     SetBelow(Parent, other);
@@ -35,7 +35,7 @@ namespace MonoGameProject
                 else
                     Parent.Parent.VerticalSpeed = 0;
 
-                if (Parent.Mass > other.CollectiveMass_Top)
+                if (Parent.Mass > other.Mass)
                     SetBelow(other, Parent);
                 else
                     SetOnTop(Parent, other);
@@ -68,7 +68,7 @@ namespace MonoGameProject
                         Parent.Parent.HorizontalSpeed = 0;
                 }
 
-                if (Parent.Mass > other.CollectiveMass_Right)
+                if (Parent.Mass > other.Mass)
                     SetOnTheLeft(other, Parent);
                 else
                     SetOnTheRight(Parent, other);
@@ -101,7 +101,7 @@ namespace MonoGameProject
                         Parent.Parent.HorizontalSpeed = 0;
                 }
 
-                if (Parent.Mass > other.CollectiveMass_Left)
+                if (Parent.Mass > other.Mass)
                     SetOnTheRight(other, Parent);
                 else
                     SetOnTheLeft(Parent, other);
