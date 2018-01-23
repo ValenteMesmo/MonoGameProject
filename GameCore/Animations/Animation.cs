@@ -50,7 +50,7 @@ namespace GameCore
 
         public void Restart()
         {
-            rewinding = false;
+            rewinding = !rewinding;
         }
 
         bool rewinding = false;
@@ -69,7 +69,7 @@ namespace GameCore
                 if (CurrentFrameIndex > Frames.Count - 1)
                 {
                     CurrentFrameIndex = Frames.Count - 1;
-                    rewinding = true;
+                    //rewinding = true;
                 }
             }
 

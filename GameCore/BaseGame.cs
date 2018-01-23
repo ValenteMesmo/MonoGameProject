@@ -220,6 +220,26 @@ public class MusicController
 
         return false;
     }
+
+    public bool AboutToPlayBumbo()
+    {
+        var nextcell = beatCell + 1;
+        var nextblock = beatBlock;
+
+        if (nextcell >= END)
+        {
+            nextcell = START;
+
+            nextblock++;
+            if (nextblock > Musica.BlocksCount)
+                nextblock = 1;
+        }
+
+        if (beatTime == 0)
+            return Musica.Block(nextblock).CellBumbo(nextcell);
+
+        return false;
+    }
 }
 
 public class Musica
