@@ -369,10 +369,17 @@ namespace MonoGameProject
         private void TorsoAnimator(Humanoid thing)
         {
             var stand = bodyAnimationHelper(thing, feet_y, GeneratedContent.Create_knight_torso_stand, true);
+            var jump = bodyAnimationHelper(thing, feet_y, GeneratedContent.Create_knight_torso_jump, false);
+            var headbump = bodyAnimationHelper(thing, feet_y, GeneratedContent.Create_knight_torso_headbump, false);
+            var fall = bodyAnimationHelper(thing, feet_y, GeneratedContent.Create_knight_torso_fall, false);
             var walk = bodyAnimationHelper(thing, feet_y, GeneratedContent.Create_knight_torso_walking);
             var crouch = bodyAnimationHelper(thing, crouch_y, GeneratedContent.Create_knight_torso_crouch, true);
+            var edgecrouch = bodyAnimationHelper(thing, crouch_y, GeneratedContent.Create_knight_torso_edgecrouch, true);
+            var edgecrouchback = bodyAnimationHelper(thing, crouch_y, GeneratedContent.Create_knight_torso_edgecrouchback, true);
             var sweetdreams = bodyAnimationHelper(thing, crouch_y, GeneratedContent.Create_knight_torso_sweetdreams, true);
             var edgeStand = bodyAnimationHelper(thing, feet_y, GeneratedContent.Create_knight_torso_edgestand, true);
+            var edgeStandBack = bodyAnimationHelper(thing, feet_y, GeneratedContent.Create_knight_torso_edgestandback, true);
+            var wallslide = bodyAnimationHelper(thing, feet_y, GeneratedContent.Create_knight_torso_wallslide, true);
 
             var stand_armored = bodyAnimationHelper(thing, feet_y, GeneratedContent.Create_knight_torso_stand, true);
             var walk_armored = bodyAnimationHelper(thing, feet_y, GeneratedContent.Create_knight_torso_walking);
@@ -401,18 +408,19 @@ namespace MonoGameProject
             );
 
 
-            var naked_torso = new Animator(new AnimationTransitionOnCondition(stand, thing.IsIdle)
+            var naked_torso = new Animator(
+                    new AnimationTransitionOnCondition(stand, thing.IsIdle)
                     , new AnimationTransitionOnCondition(edgeStand, thing.IsIdleOnTheEdge)
-                    //?????
-                    , new AnimationTransitionOnCondition(edgeStand, thing.IsIdleOnTheEdgeFacingBack)
-                    , new AnimationTransitionOnCondition(edgeStand, thing.IsCrouchingOnTheEdgeFacingBack)
-                    , new AnimationTransitionOnCondition(edgeStand, () => thing.LegState == LegState.SlidingWall)
+                    , new AnimationTransitionOnCondition(edgeStandBack, thing.IsIdleOnTheEdgeFacingBack)
+                    , new AnimationTransitionOnCondition(edgecrouchback, thing.IsCrouchingOnTheEdgeFacingBack)
+                    , new AnimationTransitionOnCondition(wallslide, () => thing.LegState == LegState.SlidingWall)
                     , new AnimationTransitionOnCondition(sweetdreams, () => thing.LegState == LegState.SweetDreams)
                     , new AnimationTransitionOnCondition(walk, () => thing.LegState == LegState.Walking)
-                    , new AnimationTransitionOnCondition(walk, () => thing.LegState == LegState.Falling)
-                    , new AnimationTransitionOnCondition(walk, () => thing.LegState == LegState.HeadBump)
+                    , new AnimationTransitionOnCondition(jump, () => thing.LegState == LegState.Falling && thing.VerticalSpeed <= 0)
+                    , new AnimationTransitionOnCondition(fall, () => thing.LegState == LegState.Falling && thing.VerticalSpeed > 0)
+                    , new AnimationTransitionOnCondition(headbump, () => thing.LegState == LegState.HeadBump)
                     , new AnimationTransitionOnCondition(crouch, thing.IsCrouching)
-                    , new AnimationTransitionOnCondition(crouch, thing.IsCrouchingOnTheEdge));
+                    , new AnimationTransitionOnCondition(edgecrouch, thing.IsCrouchingOnTheEdge));
             var armored_torso = new Animator(new AnimationTransitionOnCondition(stand, thing.IsIdle)
                     , new AnimationTransitionOnCondition(edgeStand, thing.IsIdleOnTheEdge)
                     //?????
