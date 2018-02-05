@@ -10,6 +10,7 @@ namespace MonoGameProject
     public class Player : Humanoid
     {
         //planning:
+        //BOSS INICIAR SOZINNHO !!!!important
         //mono all the audio
 
         //mover a perna de apoio para fora, na animacao de beirada
