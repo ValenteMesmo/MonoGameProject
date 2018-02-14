@@ -293,7 +293,7 @@ namespace MonoGameProject
             CreateAnimationPart(thing, GeneratedContent.Create_knight_head_hair_bonus, HumanoidAnimatorFactory.HAIR_BONUS_Z);
             CreateAnimationPart(thing, GeneratedContent.Create_knight_head_eyes, HumanoidAnimatorFactory.EYE_Z);
             CreateAnimationPart(thing, GeneratedContent.Create_knight_head_face, HumanoidAnimatorFactory.FACE_Z);
-            CreateAnimationPart(thing, GeneratedContent.Create_knight_torso_fall_armored, HumanoidAnimatorFactory.TORSO_Z);
+            CreateAnimationPart(thing, GeneratedContent.Create_knight_torso_stand_armor, HumanoidAnimatorFactory.TORSO_Z);
             CreateAnimationPart(thing, GeneratedContent.Create_knight_Arm_Idle_armored, HumanoidAnimatorFactory.WEAPON_Z);
             CreateAnimationPart(thing, GeneratedContent.Create_knight_Arm_Idle_armored, HumanoidAnimatorFactory.BACK_ARM_Z, 700, 0, true);
             //CreateAnimationPart(thing, GeneratedContent.Create_knight_Leg_wall_front_armored, HumanoidAnimatorFactory.FRONT_LEG_Z);

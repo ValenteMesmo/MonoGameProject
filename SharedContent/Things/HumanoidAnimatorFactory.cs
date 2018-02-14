@@ -334,7 +334,12 @@ namespace MonoGameProject
                                  && thing.HeadState != HeadState.Bump;
         }
 
-        private IHandleAnimation bodyAnimationHelper(Humanoid thing, int y, Func<int, int, int?, int?, bool, Animation> animation, bool autorewind = false)
+        private IHandleAnimation bodyAnimationHelper(
+            Humanoid thing, 
+            int y, 
+            Func<int, int, int?, int?, bool, Animation> animation, 
+            Func<Color> GetColor,
+            bool autorewind = false)
         {
             var stand_left = animation(
                 x
@@ -346,7 +351,7 @@ namespace MonoGameProject
             stand_left.ScaleY = scale;
             stand_left.RenderingLayer = Torso_z;
             stand_left.FrameDuration = 2;
-            stand_left.ColorGetter = thing.GetEyeColor;
+            stand_left.ColorGetter = GetColor;
 
             var stand_right = animation(
                 flippedx
@@ -358,7 +363,7 @@ namespace MonoGameProject
             stand_right.ScaleY = scale;
             stand_right.RenderingLayer = Torso_z;
             stand_right.FrameDuration = 2;
-            stand_right.ColorGetter = thing.GetEyeColor;
+            stand_right.ColorGetter = GetColor;
 
             return new Animator(
                 new AnimationTransitionOnCondition(autorewind ? (IHandleAnimation)stand_right.AsAutoRewindable() : stand_right, () => thing.FacingRight == true)
@@ -368,21 +373,23 @@ namespace MonoGameProject
 
         private void TorsoAnimator(Humanoid thing)
         {
-            var stand = bodyAnimationHelper(thing, feet_y, GeneratedContent.Create_knight_torso_stand, true);
-            var jump = bodyAnimationHelper(thing, feet_y, GeneratedContent.Create_knight_torso_jump, false);
-            var headbump = bodyAnimationHelper(thing, feet_y, GeneratedContent.Create_knight_torso_headbump, false);
-            var fall = bodyAnimationHelper(thing, feet_y, GeneratedContent.Create_knight_torso_fall, false);
-            var walk = bodyAnimationHelper(thing, feet_y, GeneratedContent.Create_knight_torso_walking);
-            var crouch = bodyAnimationHelper(thing, crouch_y, GeneratedContent.Create_knight_torso_crouch, true);
-            var edgecrouch = bodyAnimationHelper(thing, crouch_y, GeneratedContent.Create_knight_torso_edgecrouch, true);
-            var edgecrouchback = bodyAnimationHelper(thing, crouch_y, GeneratedContent.Create_knight_torso_edgecrouchback, true);
-            var sweetdreams = bodyAnimationHelper(thing, crouch_y, GeneratedContent.Create_knight_torso_sweetdreams, true);
-            var edgeStand = bodyAnimationHelper(thing, feet_y, GeneratedContent.Create_knight_torso_edgestand, true);
-            var edgeStandBack = bodyAnimationHelper(thing, feet_y, GeneratedContent.Create_knight_torso_edgestandback, true);
-            var wallslide = bodyAnimationHelper(thing, feet_y, GeneratedContent.Create_knight_torso_wallslide, true);
+            var stand = bodyAnimationHelper(thing, feet_y, GeneratedContent.Create_knight_torso_stand,thing.GetEyeColor, true);
+            var jump = bodyAnimationHelper(thing, feet_y, GeneratedContent.Create_knight_torso_jump, thing.GetEyeColor, false);
+            var headbump = bodyAnimationHelper(thing, feet_y, GeneratedContent.Create_knight_torso_headbump, thing.GetEyeColor, false);
+            var fall = bodyAnimationHelper(thing, feet_y, GeneratedContent.Create_knight_torso_fall, thing.GetEyeColor, false);
+            var walk = bodyAnimationHelper(thing, feet_y, GeneratedContent.Create_knight_torso_walking, thing.GetEyeColor);
+            var crouch = bodyAnimationHelper(thing, crouch_y, GeneratedContent.Create_knight_torso_crouch, thing.GetEyeColor, true);
+            var edgecrouch = bodyAnimationHelper(thing, crouch_y, GeneratedContent.Create_knight_torso_edgecrouch, thing.GetEyeColor, true);
+            var edgecrouchback = bodyAnimationHelper(thing, crouch_y, GeneratedContent.Create_knight_torso_edgecrouchback, thing.GetEyeColor, true);
+            var sweetdreams = bodyAnimationHelper(thing, crouch_y, GeneratedContent.Create_knight_torso_sweetdreams, thing.GetEyeColor, true);
+            var edgeStand = bodyAnimationHelper(thing, feet_y, GeneratedContent.Create_knight_torso_edgestand, thing.GetEyeColor, true);
+            var edgeStandBack = bodyAnimationHelper(thing, feet_y, GeneratedContent.Create_knight_torso_edgestandback, thing.GetEyeColor, true);
+            var wallslide = bodyAnimationHelper(thing, feet_y, GeneratedContent.Create_knight_torso_wallslide, thing.GetEyeColor, true);
 
-            var stand_armored = bodyAnimationHelper(thing, feet_y, GeneratedContent.Create_knight_torso_stand, true);
-            var walk_armored = bodyAnimationHelper(thing, feet_y, GeneratedContent.Create_knight_torso_walking);
+            var stand_armored = bodyAnimationHelper(thing, feet_y, GeneratedContent.Create_knight_torso_stand_armor, thing.GetArmorColor, true);
+            var walk_armored = bodyAnimationHelper(thing, feet_y, GeneratedContent.Create_knight_torso_walking_armor, thing.GetArmorColor);
+            var jump_armored = bodyAnimationHelper(thing, feet_y, GeneratedContent.Create_knight_torso_jump_armor, thing.GetArmorColor);
+            var fall_armored = bodyAnimationHelper(thing, feet_y, GeneratedContent.Create_knight_torso_fall_armor, thing.GetArmorColor);
 
             Animator whipAnimator = CreateWeaponAnimator(
                 thing
@@ -421,16 +428,17 @@ namespace MonoGameProject
                     , new AnimationTransitionOnCondition(headbump, () => thing.LegState == LegState.HeadBump)
                     , new AnimationTransitionOnCondition(crouch, thing.IsCrouching)
                     , new AnimationTransitionOnCondition(edgecrouch, thing.IsCrouchingOnTheEdge));
-            var armored_torso = new Animator(new AnimationTransitionOnCondition(stand, thing.IsIdle)
+            var armored_torso = new Animator(new AnimationTransitionOnCondition(stand_armored, thing.IsIdle)
                     , new AnimationTransitionOnCondition(edgeStand, thing.IsIdleOnTheEdge)
                     //?????
                     , new AnimationTransitionOnCondition(edgeStand, thing.IsIdleOnTheEdgeFacingBack)
                     , new AnimationTransitionOnCondition(edgeStand, thing.IsCrouchingOnTheEdgeFacingBack)
                     , new AnimationTransitionOnCondition(edgeStand, () => thing.LegState == LegState.SlidingWall)
                     , new AnimationTransitionOnCondition(sweetdreams, () => thing.LegState == LegState.SweetDreams)
-                    , new AnimationTransitionOnCondition(walk, () => thing.LegState == LegState.Walking)
-                    , new AnimationTransitionOnCondition(walk, () => thing.LegState == LegState.Falling)
-                    , new AnimationTransitionOnCondition(walk, () => thing.LegState == LegState.HeadBump)
+                    , new AnimationTransitionOnCondition(walk_armored, () => thing.LegState == LegState.Walking)
+                     , new AnimationTransitionOnCondition(jump_armored, () => thing.LegState == LegState.Falling && thing.VerticalSpeed <= 0)
+                    , new AnimationTransitionOnCondition(fall_armored, () => thing.LegState == LegState.Falling && thing.VerticalSpeed > 0)
+                    , new AnimationTransitionOnCondition(walk_armored, () => thing.LegState == LegState.HeadBump)
                     , new AnimationTransitionOnCondition(crouch, thing.IsCrouching)
                     , new AnimationTransitionOnCondition(crouch, thing.IsCrouchingOnTheEdge));
 
@@ -440,6 +448,7 @@ namespace MonoGameProject
                 if (Game1.MusicController.AboutToPlayBumbo())
                 {
                     stand.Restart();
+                    stand_armored.Restart();
                     crouch.Restart();
                     sweetdreams.Restart();
                 }
@@ -451,6 +460,14 @@ namespace MonoGameProject
                 , new AnimationTransitionOnCondition(naked_torso, () => thing.HitPoints == 1 && (thing.DamageDuration == TakesDamage.DAMAGE_DURATION / 2 || thing.DamageDuration == 0))
                 )
             );
+
+            //thing.AddAnimation(
+            //    armored_torso
+            //);
+
+            //thing.AddAnimation(
+            //    naked_torso
+            //);
         }
 
         private Animator CreateWeaponAnimator(Humanoid thing, Func<int, int, int?, int?, bool, Animation> WeaponIdleAnimation, Func<int, int, int?, int?, bool, Animation> WeaponAttackAnimation)
