@@ -24,7 +24,7 @@ namespace ConvertJsonToCSharp
                 .GetFiles("*.*", SearchOption.AllDirectories)
                 .Where(f =>
                     (f.Extension == ".png"
-                    || f.Extension == ".bmp")                    
+                    || f.Extension == ".bmp")
                 );
 
             var jsonFiles = new DirectoryInfo(MainProjectDirectoryPath)
@@ -61,7 +61,7 @@ namespace ConvertJsonToCSharp
             string path,
             IEnumerable<FileInfo> imageFiles,
             IEnumerable<FileInfo> jsonFiles,
-            IEnumerable<FileInfo>  wavFiles)
+            IEnumerable<FileInfo> wavFiles)
         {
             var fileNamesArray = GetFilesNamesAsStringfiedArray(imageFiles);
             var soundFileNamesArray = GetFilesNamesAsStringfiedArray(wavFiles);

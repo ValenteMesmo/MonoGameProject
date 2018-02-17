@@ -386,10 +386,18 @@ namespace MonoGameProject
             var edgeStandBack = bodyAnimationHelper(thing, feet_y, GeneratedContent.Create_knight_torso_edgestandback, thing.GetEyeColor, true);
             var wallslide = bodyAnimationHelper(thing, feet_y, GeneratedContent.Create_knight_torso_wallslide, thing.GetEyeColor, true);
 
-            var stand_armored = bodyAnimationHelper(thing, feet_y, GeneratedContent.Create_knight_torso_stand_armor, thing.GetArmorColor, true);
-            var walk_armored = bodyAnimationHelper(thing, feet_y, GeneratedContent.Create_knight_torso_walking_armor, thing.GetArmorColor);
-            var jump_armored = bodyAnimationHelper(thing, feet_y, GeneratedContent.Create_knight_torso_jump_armor, thing.GetArmorColor);
-            var fall_armored = bodyAnimationHelper(thing, feet_y, GeneratedContent.Create_knight_torso_fall_armor, thing.GetArmorColor);
+            var stand_armor = bodyAnimationHelper(thing, feet_y, GeneratedContent.Create_knight_torso_stand_armor, thing.GetArmorColor, true);
+            var jump_armor = bodyAnimationHelper(thing, feet_y, GeneratedContent.Create_knight_torso_jump_armor, thing.GetArmorColor, false);
+            var headbump_armor = bodyAnimationHelper(thing, feet_y, GeneratedContent.Create_knight_torso_headbump_armor, thing.GetArmorColor, false);
+            var fall_armor = bodyAnimationHelper(thing, feet_y, GeneratedContent.Create_knight_torso_fall_armor, thing.GetArmorColor, false);
+            var walk_armor = bodyAnimationHelper(thing, feet_y, GeneratedContent.Create_knight_torso_walking_armor, thing.GetArmorColor);
+            var crouch_armor = bodyAnimationHelper(thing, crouch_y, GeneratedContent.Create_knight_torso_crouch_armor, thing.GetArmorColor, true);
+            var edgecrouch_armor = bodyAnimationHelper(thing, crouch_y, GeneratedContent.Create_knight_torso_edgecrouch_armor, thing.GetArmorColor, true);
+            var edgecrouchback_armor = bodyAnimationHelper(thing, crouch_y, GeneratedContent.Create_knight_torso_edgecrouchback_armor, thing.GetArmorColor, true);
+            var sweetdreams_armor = bodyAnimationHelper(thing, crouch_y, GeneratedContent.Create_knight_torso_sweetdreams_armor, thing.GetArmorColor, true);
+            var edgeStand_armor = bodyAnimationHelper(thing, feet_y, GeneratedContent.Create_knight_torso_edgestand_armor, thing.GetArmorColor, true);
+            var edgeStandBack_armor = bodyAnimationHelper(thing, feet_y, GeneratedContent.Create_knight_torso_edgestandback_armor, thing.GetArmorColor, true);
+            var wallslide_armor = bodyAnimationHelper(thing, feet_y, GeneratedContent.Create_knight_torso_wallslide_armor, thing.GetArmorColor, true);
 
             Animator whipAnimator = CreateWeaponAnimator(
                 thing
@@ -428,19 +436,19 @@ namespace MonoGameProject
                     , new AnimationTransitionOnCondition(headbump, () => thing.LegState == LegState.HeadBump)
                     , new AnimationTransitionOnCondition(crouch, thing.IsCrouching)
                     , new AnimationTransitionOnCondition(edgecrouch, thing.IsCrouchingOnTheEdge));
-            var armored_torso = new Animator(new AnimationTransitionOnCondition(stand_armored, thing.IsIdle)
-                    , new AnimationTransitionOnCondition(edgeStand, thing.IsIdleOnTheEdge)
-                    //?????
-                    , new AnimationTransitionOnCondition(edgeStand, thing.IsIdleOnTheEdgeFacingBack)
-                    , new AnimationTransitionOnCondition(edgeStand, thing.IsCrouchingOnTheEdgeFacingBack)
-                    , new AnimationTransitionOnCondition(edgeStand, () => thing.LegState == LegState.SlidingWall)
-                    , new AnimationTransitionOnCondition(sweetdreams, () => thing.LegState == LegState.SweetDreams)
-                    , new AnimationTransitionOnCondition(walk_armored, () => thing.LegState == LegState.Walking)
-                     , new AnimationTransitionOnCondition(jump_armored, () => thing.LegState == LegState.Falling && thing.VerticalSpeed <= 0)
-                    , new AnimationTransitionOnCondition(fall_armored, () => thing.LegState == LegState.Falling && thing.VerticalSpeed > 0)
-                    , new AnimationTransitionOnCondition(walk_armored, () => thing.LegState == LegState.HeadBump)
-                    , new AnimationTransitionOnCondition(crouch, thing.IsCrouching)
-                    , new AnimationTransitionOnCondition(crouch, thing.IsCrouchingOnTheEdge));
+            var armored_torso = new Animator(
+                    new AnimationTransitionOnCondition(stand_armor, thing.IsIdle)
+                    , new AnimationTransitionOnCondition(edgeStand_armor, thing.IsIdleOnTheEdge)
+                    , new AnimationTransitionOnCondition(edgeStandBack_armor, thing.IsIdleOnTheEdgeFacingBack)
+                    , new AnimationTransitionOnCondition(edgecrouchback_armor, thing.IsCrouchingOnTheEdgeFacingBack)
+                    , new AnimationTransitionOnCondition(wallslide_armor, () => thing.LegState == LegState.SlidingWall)
+                    , new AnimationTransitionOnCondition(sweetdreams_armor, () => thing.LegState == LegState.SweetDreams)
+                    , new AnimationTransitionOnCondition(walk_armor, () => thing.LegState == LegState.Walking)
+                    , new AnimationTransitionOnCondition(jump_armor, () => thing.LegState == LegState.Falling && thing.VerticalSpeed <= 0)
+                    , new AnimationTransitionOnCondition(fall_armor, () => thing.LegState == LegState.Falling && thing.VerticalSpeed > 0)
+                    , new AnimationTransitionOnCondition(headbump_armor, () => thing.LegState == LegState.HeadBump)
+                    , new AnimationTransitionOnCondition(crouch_armor, thing.IsCrouching)
+                    , new AnimationTransitionOnCondition(edgecrouch_armor, thing.IsCrouchingOnTheEdge));
 
 
             thing.AddUpdate(() =>
@@ -448,9 +456,10 @@ namespace MonoGameProject
                 if (Game1.MusicController.AboutToPlayBumbo())
                 {
                     stand.Restart();
-                    stand_armored.Restart();
+                    stand_armor.Restart();
                     crouch.Restart();
                     sweetdreams.Restart();
+                    sweetdreams_armor.Restart();
                 }
             });
 
