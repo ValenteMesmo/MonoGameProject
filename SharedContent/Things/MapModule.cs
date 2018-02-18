@@ -188,16 +188,6 @@ namespace MonoGameProject
                             Y = Y + i * CELL_SIZE
                         });
                     }
-                    if (type == '@')
-                    {
-                        Game1.AddToWorld(new BossBattleTrigger
-                        {
-                            X = X + j * CELL_SIZE,
-                            Y = Y + i * CELL_SIZE
-                        });
-
-                        CreateBackground(i, j);
-                    }
                     if (type == 'x')
                     {
                         var camlocker = new Thing();
@@ -267,9 +257,15 @@ namespace MonoGameProject
                     }
                     if (type == 'm')
                     {
-                        Game1.AddToWorld(new Boss(Game1)
+                        var boss = new Boss(Game1)
                         {
                             X = X + j * CELL_SIZE,
+                            Y = Y + i * CELL_SIZE
+                        };
+                        Game1.AddToWorld(boss);
+                        Game1.AddToWorld(new BossBattleTrigger(boss)
+                        {
+                            X = (X + j * CELL_SIZE) - 16* CELL_SIZE,
                             Y = Y + i * CELL_SIZE
                         });
                         CreateBackground(i, j);

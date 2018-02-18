@@ -59,7 +59,6 @@ namespace MonoGameProject
 
             boss.AddUpdate(() =>
             {
-
                 if (boss.player == null)
                     return;
 
