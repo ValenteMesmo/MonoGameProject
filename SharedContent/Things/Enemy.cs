@@ -151,7 +151,7 @@ namespace MonoGameProject
 
     public class BaseEnemy : Thing
     {
-        const int VELOCITY = 25;
+        const int VELOCITY = 35;
         const int WIDTH = 300;
         const int HEIGHT = 600;
         protected bool attacking;
