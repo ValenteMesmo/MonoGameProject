@@ -11,6 +11,7 @@ namespace MonoGameProject
     {
         //planning:
         //mono all the audio
+        //desligar inimigos e traps, durante bossmode
 
         //mover a perna de apoio para fora, na animacao de beirada
         //MAKE player attack collider beging inside playes main collider
@@ -260,7 +261,7 @@ namespace MonoGameProject
                 , index)
         {
             this.Game1 = Game1;
-            HitPoints = 1;
+            HitPoints = 2;
 
             if (PlayerIndex == 0)
             {
