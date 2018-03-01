@@ -24,7 +24,7 @@ namespace SharedContent.Things.BossSkills
                 size,
                 size);
             anim.RenderingLayer = Boss.RIGHT_ARM_Z - 0.001f;
-            anim.ColorGetter = ()=> Color;
+            anim.ColorGetter = () => Color;
             AddAnimation(anim);
 
             var speed = 60;
@@ -53,6 +53,11 @@ namespace SharedContent.Things.BossSkills
                     VerticalSpeed = -speed * mod;
                     HorizontalSpeed = 0;
                 }
+                else if (AttackedByPlayer(t))
+                {
+                    VerticalSpeed = 0;
+                    HorizontalSpeed = -speed * mod;
+                }
             });
             collider.AddTopCollisionHandler((s, t) =>
             {
@@ -69,8 +74,12 @@ namespace SharedContent.Things.BossSkills
                     VerticalSpeed = speed * mod;
                     HorizontalSpeed = 0;
                 }
+                else if (AttackedByPlayer(t))
+                {
+                    VerticalSpeed = 0;
+                    HorizontalSpeed = -speed * mod;
+                }
             });
-
 
             AddAfterUpdate(new MoveHorizontallyWithTheWorld(this));
             var duration = 500;
@@ -82,6 +91,11 @@ namespace SharedContent.Things.BossSkills
                     Destroy();
                 }
             });
+        }
+
+        private static bool AttackedByPlayer(Collider t)
+        {
+            return (t.Parent is Player && t is AttackCollider);
         }
     }
 }
