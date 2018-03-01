@@ -107,7 +107,7 @@ namespace MonoGameProject
     {
         private readonly Game1 Game1;
         public readonly Color Color;
-        public readonly Collider collider;
+        public readonly AttackCollider collider;
         public readonly Thing Owner;
         public readonly PlayerDamageHandler DamageHandler;
 
@@ -120,7 +120,7 @@ namespace MonoGameProject
             var size = 400;
             var bonus = size / 3;
 
-            collider = new Collider
+            collider = new AttackCollider
             {
                 OffsetX = bonus,
                 OffsetY = bonus,
@@ -224,7 +224,7 @@ namespace MonoGameProject
 
     public class SlimeRainDrop : Thing, MagicProjectile
     {
-        public SlimeRainDrop(BaseEnemy Owner, int xSpeed )
+        public SlimeRainDrop(BaseEnemy Owner, int xSpeed)
         {
             X = (int)Owner.mainCollider.CenterX() - 300;
             Y = Owner.mainCollider.Top();
@@ -246,13 +246,13 @@ namespace MonoGameProject
             collider.OffsetY = 200;
             AddCollider(collider);
 
-            var DamageHandler = new PlayerDamageHandler(Game1.Instance,Color.White,(a,b,c)=> { }, (a,b,c)=> { });
+            var DamageHandler = new PlayerDamageHandler(Game1.Instance, Color.White, (a, b, c) => { }, (a, b, c) => { });
             DamageHandler.HEALTH = 2 + (1 * Game1.Instance.GetNumberOfActivePlayers());
             collider.AddHandler(DamageHandler.CollisionHandler);
             AddUpdate(DamageHandler.Update);
             AddUpdate(() =>
             {
-                VerticalSpeed +=2;
+                VerticalSpeed += 2;
                 if (xSpeed > 0)
                     xSpeed--;
                 if (xSpeed < 0)
@@ -475,6 +475,22 @@ namespace MonoGameProject
         public SeekerFireBall(Boss boss, Game1 Game1, Color Color) : base(boss, Game1, Color)
         {
             var target = boss.player;
+            var colliderToDeflect = new Collider {
+                OffsetX = -250,
+                OffsetY = -250,
+                Width = 1000,
+                Height = 1000
+            };
+            colliderToDeflect.AddHandler((s, t) =>
+            {
+                if (t is AttackCollider && t.Parent is Player)
+                {
+                    HorizontalSpeed = 0;
+                    VerticalSpeed = 0;
+                    DamageHandler.CollisionHandler(s, t);
+                }
+            });
+            AddCollider(colliderToDeflect);
 
             AddAnimation(FireBall.CreateFireBallAnimation(this));
             AddAnimation(FireBall.CreateFireballBorderAnimation());

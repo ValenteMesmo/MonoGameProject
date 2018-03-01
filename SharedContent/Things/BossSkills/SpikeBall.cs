@@ -37,6 +37,11 @@ namespace SharedContent.Things.BossSkills
             collider.AddRightCollisionHandler(StopsWhenHitting.Right<SomeKindOfGround>());
             collider.AddTopCollisionHandler(StopsWhenHitting.Top<SomeKindOfGround>());
 
+            DamageHandler.OnHit += (a, s, d) =>
+            {
+                VerticalSpeed = -VerticalSpeed;
+                HorizontalSpeed = -HorizontalSpeed;
+            };
 
             collider.AddBotCollisionHandler((s, t) =>
             {
@@ -46,6 +51,7 @@ namespace SharedContent.Things.BossSkills
                     HorizontalSpeed = speed * mod;
                 }
             });
+
             collider.AddRightCollisionHandler((s, t) =>
             {
                 if (t is SomeKindOfGround)
@@ -53,12 +59,8 @@ namespace SharedContent.Things.BossSkills
                     VerticalSpeed = -speed * mod;
                     HorizontalSpeed = 0;
                 }
-                else if (AttackedByPlayer(t))
-                {
-                    VerticalSpeed = 0;
-                    HorizontalSpeed = -speed * mod;
-                }
             });
+
             collider.AddTopCollisionHandler((s, t) =>
             {
                 if (t is SomeKindOfGround)
@@ -67,17 +69,13 @@ namespace SharedContent.Things.BossSkills
                     HorizontalSpeed = -speed * mod;
                 }
             });
+
             collider.AddLeftCollisionHandler((s, t) =>
             {
                 if (t is SomeKindOfGround)
                 {
                     VerticalSpeed = speed * mod;
                     HorizontalSpeed = 0;
-                }
-                else if (AttackedByPlayer(t))
-                {
-                    VerticalSpeed = 0;
-                    HorizontalSpeed = -speed * mod;
                 }
             });
 

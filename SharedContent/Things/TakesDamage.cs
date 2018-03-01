@@ -27,7 +27,9 @@ namespace MonoGameProject
         
         public void Handle(Collider source, Collider target)
         {
-
+            if (target is AttackCollider == false)
+                return;
+            
             if (target.Parent is MagicProjectile)
             {
                 if (target.Parent is FireBall)
@@ -45,10 +47,6 @@ namespace MonoGameProject
                 target.Disabled = true;
                 target.Parent.Destroy();
             }
-            else if (target is AttackCollider)
-            {
-                DefaultDamageHandler(source, target);
-            }
             else if (target.Parent is Spikes)
             {
                 //duplicated
@@ -58,6 +56,10 @@ namespace MonoGameProject
                 //TODO: if hascolor... flash color
                 Game1.ScreenFader.Flash((int)Parent.MainCollider.CenterX(), (int)Parent.MainCollider.CenterY());
                 Parent.Destroy();
+            }
+            else
+            {
+                DefaultDamageHandler(source, target);
             }
         }
 

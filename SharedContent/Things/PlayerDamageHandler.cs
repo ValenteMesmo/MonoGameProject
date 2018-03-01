@@ -8,8 +8,8 @@ namespace MonoGameProject
     {
         public int damageCooldown;
         private readonly Game1 Game1;
-        private readonly Action<Player, Collider, Collider> OnHit;
-        private readonly Action<Player, Collider, Collider> OnKill;
+        public Action<Player, Collider, Collider> OnHit;
+        public Action<Player, Collider, Collider> OnKill;
         public int damageTaken = 0;
         public int HEALTH = 3;
         private readonly Color DamageColor;
