@@ -172,6 +172,14 @@ namespace MonoGameProject
                             Y = Y + i * CELL_SIZE
                         });
                     }
+                    if (type == 'ó')
+                    {
+                        Game1.AddToWorld(new SneakySkullSpawner()
+                        {
+                            X = X + j * CELL_SIZE,
+                            Y = Y + i * CELL_SIZE
+                        });
+                    }
                     if (type == '(')
                     {
                         Game1.AddToWorld(new SpinnerEnemy()

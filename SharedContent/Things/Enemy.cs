@@ -38,6 +38,26 @@ namespace MonoGameProject
         }
     }
 
+    public class SneakySkullSpawner : Thing
+    {
+        public SneakySkullSpawner()
+        {
+            AddAfterUpdate(new MoveHorizontallyWithTheWorld(this));
+
+            AddUpdate(() =>
+            {
+                if (X < 100)
+                {
+                    var slime = new SkullEnemy() { X = X, Y = Y - 500 };
+                    slime.facingRight = true;
+                    Game1.Instance.AddToWorld(slime);
+                    Destroy();
+                }
+            });
+        }
+
+    }
+
     public class SlimeEnemy : BaseEnemy
     {
         public SlimeEnemy() : base(new SlimeAttackImplementation())
@@ -108,8 +128,8 @@ namespace MonoGameProject
             AddUpdate(RotationUpdate);
 
             var damageHandler = new PlayerDamageHandler(Game1.Instance, Color.White);
-            AddUpdate( damageHandler.Update);
-            
+            AddUpdate(damageHandler.Update);
+
             var collider = new AttackCollider();
             collider.Width = collider.Height = 100;
             collider.OffsetX = 200;
