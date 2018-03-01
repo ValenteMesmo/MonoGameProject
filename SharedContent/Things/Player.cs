@@ -12,6 +12,8 @@ namespace MonoGameProject
         //planning:
         //mono all the audio
         //desligar inimigos e traps, durante bossmode
+        //elevador matar esmagado
+        //mudar direcao do spikeball quando for atingido?
 
         //mover a perna de apoio para fora, na animacao de beirada
         //MAKE player attack collider beging inside playes main collider

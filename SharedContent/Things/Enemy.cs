@@ -58,6 +58,26 @@ namespace MonoGameProject
 
     }
 
+    public class SneakySlimeSpawner : Thing
+    {
+        public SneakySlimeSpawner()
+        {
+            AddAfterUpdate(new MoveHorizontallyWithTheWorld(this));
+
+            AddUpdate(() =>
+            {
+                if (X < 100)
+                {
+                    var slime = new SlimeEnemy() { X = X, Y = Y - 500 };
+                    slime.facingRight = true;
+                    Game1.Instance.AddToWorld(slime);
+                    Destroy();
+                }
+            });
+        }
+
+    }
+
     public class SlimeEnemy : BaseEnemy
     {
         public SlimeEnemy() : base(new SlimeAttackImplementation())

@@ -164,7 +164,15 @@ namespace MonoGameProject
                             Y = Y + i * CELL_SIZE
                         });
                     }
-                    if (type == 's')
+                    if (type == 'é')
+                    {
+                        Game1.AddToWorld(new SneakySkullSpawner()
+                        {
+                            X = X + j * CELL_SIZE,
+                            Y = Y + i * CELL_SIZE
+                        });
+                    }
+                    if (type == 'o')
                     {
                         Game1.AddToWorld(new SlimeEnemy()
                         {
@@ -174,7 +182,7 @@ namespace MonoGameProject
                     }
                     if (type == 'ó')
                     {
-                        Game1.AddToWorld(new SneakySkullSpawner()
+                        Game1.AddToWorld(new SneakySlimeSpawner()
                         {
                             X = X + j * CELL_SIZE,
                             Y = Y + i * CELL_SIZE
