@@ -14,16 +14,11 @@ namespace MonoGameProject
         //desligar inimigos e traps, durante bossmode
         //elevador matar esmagado
 
-        //mover a perna de apoio para fora, na animacao de beirada
         //MAKE player attack collider beging inside playes main collider
 
         //sleep is breaking the song (skiping notes)
         //escurecer o ceu?
         //um mapa no fundo do mar, inspirado no episodio de viagem astral do finn s6e?
-
-        //criar 3 spwaners... top mid e bot... situados fora da camera...
-        //  se nao estiverem colidindo, spawn!
-        //  se estiver proximo ao boss, disable until boss defeated
 
         //vitas
         //elefante
