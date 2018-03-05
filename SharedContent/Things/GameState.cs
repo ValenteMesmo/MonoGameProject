@@ -22,6 +22,9 @@ namespace MonoGameProject
         public bool BossMode;
         public long StageNumber;
         public bool ShowStageNumber;
+        public int PreviousBossHead;
+        public int PreviousBossEye;
+        public int PreviousBossBody;
 
         public int Player1_ArmorRed = 255;
         public int Player1_ArmorGreen = 255;
@@ -233,6 +236,9 @@ namespace MonoGameProject
             PreSavedData.ColorIndex = State.ColorIndex;
             PreSavedData.StageNumber = State.StageNumber;
             PreSavedData.ShowStageNumber = true;
+            PreSavedData.PreviousBossHead = State.PreviousBossHead;
+            PreSavedData.PreviousBossBody = State.PreviousBossBody;
+            PreSavedData.PreviousBossEye = State.PreviousBossEye;
 
             PreSavedData.ArmorColor = ArmorColor.Seed;
             PreSavedData.Tresure = RandomTresure.Seed;

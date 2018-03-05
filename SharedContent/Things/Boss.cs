@@ -162,8 +162,20 @@ namespace MonoGameProject
             AddCollider(mainCollider);
 
             var headType = MyRandom.Next(1, 3);
+            while (headType == GameState.State.PreviousBossHead)
+                headType = MyRandom.Next(1, 3);
+            GameState.State.PreviousBossHead = headType;
+
             var eyeType = MyRandom.Next(1, 3);
+            while (eyeType == GameState.State.PreviousBossEye)
+                eyeType = MyRandom.Next(1, 3);
+            GameState.State.PreviousBossEye = eyeType;
+
             var bodyType = MyRandom.Next(1, 2);
+            while (bodyType == GameState.State.PreviousBossBody)
+                bodyType = MyRandom.Next(1, 2);
+            GameState.State.PreviousBossBody = bodyType;
+
             CreateHeadAnimator(headType, HEAD_Z);
             CreateEyeAnimator(eyeType, EYE_Z, Game1);
             CreateBody(bodyType, Game1, headType, eyeType);
