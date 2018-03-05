@@ -10,7 +10,6 @@ namespace MonoGameProject
     public class Player : Humanoid
     {
         //planning:
-        //player spawn consumes other player armor? (roubar vida cuphead)
 
         //mono all the audio
         //desligar inimigos e traps, durante bossmode

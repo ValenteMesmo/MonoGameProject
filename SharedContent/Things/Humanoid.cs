@@ -205,26 +205,26 @@ namespace MonoGameProject
 #endif
 
             AddUpdate(() =>
-        {
-            if (HitPoints == 1)
             {
-                if (DamageDuration == GetDurationInstantByPercentage(HELMET_PERCENTAGE))
-                    CreateBreakEffect(
-                        HumanoidAnimatorFactory.FACE_Z - PlayerIndex / 100f,
-                        HumanoidAnimatorFactory.feet_y * 2,
-                         Game1.AddToWorld);
-                else if (DamageDuration == GetDurationInstantByPercentage(BREAST_PERCENTAGE))
-                    CreateBreakEffect(
-                        HumanoidAnimatorFactory.FACE_Z - PlayerIndex / 100f,
-                        HumanoidAnimatorFactory.feet_y,
-                         Game1.AddToWorld);
-                else if (DamageDuration == GetDurationInstantByPercentage(SHOE_PERCENTAGE))
-                    CreateBreakEffect(
-                        HumanoidAnimatorFactory.FACE_Z - PlayerIndex / 100f,
-                        0,
-                         Game1.AddToWorld);
-            }
-        });
+                if (HitPoints == 1)
+                {
+                    if (DamageDuration == GetDurationInstantByPercentage(HELMET_PERCENTAGE))
+                        CreateBreakEffect(
+                            HumanoidAnimatorFactory.FACE_Z - PlayerIndex / 100f,
+                            HumanoidAnimatorFactory.feet_y * 2,
+                             Game1.AddToWorld);
+                    else if (DamageDuration == GetDurationInstantByPercentage(BREAST_PERCENTAGE))
+                        CreateBreakEffect(
+                            HumanoidAnimatorFactory.FACE_Z - PlayerIndex / 100f,
+                            HumanoidAnimatorFactory.feet_y,
+                             Game1.AddToWorld);
+                    else if (DamageDuration == GetDurationInstantByPercentage(SHOE_PERCENTAGE))
+                        CreateBreakEffect(
+                            HumanoidAnimatorFactory.FACE_Z - PlayerIndex / 100f,
+                            0,
+                             Game1.AddToWorld);
+                }
+            });
         }
 
         public WeaponType weaponType { get; private set; }

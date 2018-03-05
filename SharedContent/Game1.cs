@@ -129,7 +129,10 @@ namespace MonoGameProject
 
             PlayerStatue.AddUpdate(() =>
             {
-                var mainSlot = PlayersSlots.FirstOrDefault(f => f.Player != null);
+                var mainSlot = PlayersSlots.FirstOrDefault(f => f.Player != null && f.Player.HitPoints > 1);
+
+                if (mainSlot == null)
+                    return;
 
                 foreach (var slot in PlayersSlots)
                 {
@@ -149,7 +152,10 @@ namespace MonoGameProject
 
                                 allControllers.Remove(input);
 
+                                mainSlot.Player.HitPoints = 1;
+                                mainSlot.Player.DamageDuration = TakesDamage.DAMAGE_DURATION;
                                 AddPlayer(mainSlot.Player, slot);
+                                break;
                             }
                         }
                     }
