@@ -10,6 +10,7 @@ namespace MonoGameProject
     public class Player : Humanoid
     {
         //planning:
+        //som do vento (massacration)
 
         //mono all the audio
         //desligar inimigos e traps, durante bossmode
