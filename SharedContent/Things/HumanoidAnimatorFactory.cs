@@ -47,8 +47,11 @@ namespace MonoGameProject
             var thing = new Thing();
             var hair_standing = CreateFlippableAnimation(parent, GeneratedContent.Create_knight_head_hair_bonus, parent.GetHairColor, Hair_bonus_z, feet_y, true, false, 0, 0, true);
             var hair_crouching = CreateFlippableAnimation(parent, GeneratedContent.Create_knight_head_hair_bonus, parent.GetHairColor, Hair_bonus_z, crouch_y, true, false, 0, 0, true);
+            var backhair_standing = CreateFlippableAnimation(parent, GeneratedContent.Create_knight_head_hair_bonus, parent.GetHairColor, Back_leg_z, feet_y, true, false, 400, 0, true);
+            var backhair_crouching = CreateFlippableAnimation(parent, GeneratedContent.Create_knight_head_hair_bonus, parent.GetHairColor, Back_leg_z, crouch_y, true, false, 400, 0, true);
 
             thing.AddAnimation(ShowOnlyWhen(CreateCrouchAnimator(parent, hair_standing, hair_crouching), CreateNakedHeadCondition(parent)));
+            thing.AddAnimation(ShowOnlyWhen(CreateCrouchAnimator(parent, backhair_standing, backhair_crouching), CreateNakedHeadCondition(parent)));
 
             var bonusX = 0;
             var bonusY = 0;
@@ -335,9 +338,9 @@ namespace MonoGameProject
         }
 
         private IHandleAnimation bodyAnimationHelper(
-            Humanoid thing, 
-            int y, 
-            Func<int, int, int?, int?, bool, Animation> animation, 
+            Humanoid thing,
+            int y,
+            Func<int, int, int?, int?, bool, Animation> animation,
             Func<Color> GetColor,
             bool autorewind = false)
         {
@@ -373,7 +376,7 @@ namespace MonoGameProject
 
         private void TorsoAnimator(Humanoid thing)
         {
-            var stand = bodyAnimationHelper(thing, feet_y, GeneratedContent.Create_knight_torso_stand,thing.GetEyeColor, true);
+            var stand = bodyAnimationHelper(thing, feet_y, GeneratedContent.Create_knight_torso_stand, thing.GetEyeColor, true);
             var jump = bodyAnimationHelper(thing, feet_y, GeneratedContent.Create_knight_torso_jump, thing.GetEyeColor, false);
             var headbump = bodyAnimationHelper(thing, feet_y, GeneratedContent.Create_knight_torso_headbump, thing.GetEyeColor, false);
             var fall = bodyAnimationHelper(thing, feet_y, GeneratedContent.Create_knight_torso_fall, thing.GetEyeColor, false);
