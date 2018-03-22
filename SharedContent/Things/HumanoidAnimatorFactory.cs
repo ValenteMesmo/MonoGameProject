@@ -55,7 +55,7 @@ namespace MonoGameProject
             var bonusX = 0;
             var bonusY = 0;
             var horizontalBonusLimit = 50;
-            Func<int> upBonusLimit = ()=> parent.HeadState==HeadState.Bump? -55:35;
+            Func<int> upBonusLimit = ()=> parent.HeadState==HeadState.Bump? -75:35;
             var downBonusLimit = 70;
             var speed = 5;
 
@@ -299,7 +299,7 @@ namespace MonoGameProject
             }
 
             {
-                var extraYpositionForBangAnimation = 110;
+                var extraYpositionForBangAnimation = 130;
                 var hair_standing = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_bang_hair, thing.GetHairColor, Hair_z, feet_y + extraYpositionForBangAnimation);
                 var eye_standing = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_eyes, thing.GetEyeColor, Eye_z, feet_y+ extraYpositionForBangAnimation);
                 var face_standing = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_face, thing.GetSkinColor, Face_z, feet_y+ extraYpositionForBangAnimation);
