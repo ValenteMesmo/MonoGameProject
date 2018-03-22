@@ -40,8 +40,7 @@ namespace MonoGameProject
         {
             this.Game1 = Game1;
         }
-
-
+        
         public void CreateHairBonus(Humanoid parent, Action<Thing> AddToTheWorld)
         {
             var thing = new Thing();
@@ -50,13 +49,13 @@ namespace MonoGameProject
             var backhair_standing = CreateFlippableAnimation(parent, GeneratedContent.Create_knight_head_hair_bonus, parent.GetHairColor, Back_leg_z, feet_y, true, false, 400, 0, true);
             var backhair_crouching = CreateFlippableAnimation(parent, GeneratedContent.Create_knight_head_hair_bonus, parent.GetHairColor, Back_leg_z, crouch_y, true, false, 400, 0, true);
 
-            thing.AddAnimation(ShowOnlyWhen(CreateCrouchAnimator(parent, hair_standing, hair_crouching), CreateNakedHeadCondition(parent)));
-            thing.AddAnimation(ShowOnlyWhen(CreateCrouchAnimator(parent, backhair_standing, backhair_crouching), CreateNakedHeadCondition(parent)));
+            thing.AddAnimation(ShowOnlyWhen(CreateCrouchAnimator(parent, hair_standing, hair_crouching), parent.IsNotUsingHelmet));
+            thing.AddAnimation(ShowOnlyWhen(CreateCrouchAnimator(parent, backhair_standing, backhair_crouching), parent.IsNotUsingHelmet));
 
             var bonusX = 0;
             var bonusY = 0;
             var horizontalBonusLimit = 50;
-            var upBonusLimit = 35;
+            Func<int> upBonusLimit = ()=> parent.HeadState==HeadState.Bump? -55:35;
             var downBonusLimit = 70;
             var speed = 5;
 
@@ -83,11 +82,11 @@ namespace MonoGameProject
                 }
 
 
-                if (parent.VerticalSpeed > 50)
+                if (parent.VerticalSpeed > 50 || parent.HeadState==HeadState.Bump)
                 {
                     bonusY -= speed;
-                    if (bonusY < -upBonusLimit)
-                        bonusY = -upBonusLimit;
+                    if (bonusY < -upBonusLimit())
+                        bonusY = -upBonusLimit();
                 }
                 else if (parent.VerticalSpeed < -50)
                 {
@@ -300,9 +299,10 @@ namespace MonoGameProject
             }
 
             {
-                var hair_standing = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_bang_hair, thing.GetHairColor, Hair_z, feet_y);
-                var eye_standing = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_bang_eye, thing.GetEyeColor, Eye_z, feet_y);
-                var face_standing = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_bang_face, thing.GetSkinColor, Face_z, feet_y);
+                var extraYpositionForBangAnimation = 110;
+                var hair_standing = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_bang_hair, thing.GetHairColor, Hair_z, feet_y + extraYpositionForBangAnimation);
+                var eye_standing = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_eyes, thing.GetEyeColor, Eye_z, feet_y+ extraYpositionForBangAnimation);
+                var face_standing = CreateFlippableAnimation(thing, GeneratedContent.Create_knight_head_face, thing.GetSkinColor, Face_z, feet_y+ extraYpositionForBangAnimation);
                 thing.AddAnimation(ShowOnlyWhen(hair_standing, NakedHeadBump));
                 thing.AddAnimation(ShowOnlyWhen(eye_standing, NakedHeadBump));
                 thing.AddAnimation(ShowOnlyWhen(face_standing, NakedHeadBump));
