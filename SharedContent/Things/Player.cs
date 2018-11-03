@@ -11,6 +11,8 @@ namespace MonoGameProject
     {
         //planning:
         //som do vento (massacration)
+        //plataforma que anda no sentido horario
+        //balancar coisas do background quando a camera tremer
 
         //mono all the audio
         //desligar inimigos e traps, durante bossmode
@@ -367,7 +369,7 @@ namespace MonoGameProject
             var factory = new HumanoidAnimatorFactory(Game1);
             factory.CreateAnimator(this, index);
             factory.CreateHairBonus(this, AddToWorld);
-
+            
             OnDestroy += () =>
             {
 

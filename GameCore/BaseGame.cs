@@ -74,8 +74,14 @@ public class SoundWrapper
 
     public void Play()
     {
-        currentSound = actualSoundEffect.CreateInstance();
-        currentSound.Play();
+        try
+        {
+            currentSound = actualSoundEffect.CreateInstance();
+            currentSound.Play();
+        }
+        catch 
+        {
+        }
     }
 }
 

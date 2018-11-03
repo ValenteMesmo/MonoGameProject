@@ -353,7 +353,7 @@ namespace GameCore
         {
             //TODO:
             Game.AndroidVibrate(
-                (long)(60f * info.PowerPercentage)
+                (int)(60f * info.PowerPercentage)
                 );
         }
     }

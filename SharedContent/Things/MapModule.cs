@@ -281,7 +281,7 @@ namespace MonoGameProject
                         Game1.AddToWorld(boss);
                         Game1.AddToWorld(new BossBattleTrigger(boss)
                         {
-                            X = (X + j * CELL_SIZE) - 16* CELL_SIZE,
+                            X = (X + j * CELL_SIZE) - 16 * CELL_SIZE,
                             Y = Y + i * CELL_SIZE
                         });
                         CreateBackground(i, j);

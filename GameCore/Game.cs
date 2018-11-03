@@ -88,7 +88,7 @@ public abstract class Game : IDisposable
         return (T)BaseGame.Services.GetService(typeof(T));
     }
 
-    public Action<long> AndroidVibrate = f => { };
+    public Action<int> AndroidVibrate = f => { };
 
     protected void AddThing(Thing thing)
     {
